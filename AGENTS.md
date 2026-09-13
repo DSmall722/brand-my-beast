@@ -1,0 +1,48 @@
+# BrandMyBeast — harness rules
+
+Any Cursor agent, pstack skill, or Grok session working this repo starts here, then reads `CAMPAIGN.md`.
+
+Updated: 2026-09-13
+
+## Read order
+
+1. `CAMPAIGN.md`
+2. `RULES.md`
+3. `ARCHITECTURE.md`
+4. `FEATURES.md` (backlog only — do not put it on the public site)
+
+If two files conflict, **CAMPAIGN.md wins**. Then stop and flag the conflict. Do not invent a third number.
+
+## Never emit
+
+- The operator’s legal name
+- The operator’s personal Gmail
+- The operator’s personal X handle
+- Employer, job title, home address
+- A VIN or reservation that does not exist
+- Impression counts or CPMs
+- A close date unless `CLOSE_AT` is set in code
+- The word **lease** in user-facing copy
+- Dual Motor / Premium as a fallback if $58,000 misses
+
+Allowed public strings: BrandMyBeast, @BrandMyBeast, hello@brandmybeast.com, brandmybeast.com, “the operator.”
+
+## Money that must match in every file and UI
+
+- Floor **$58,000** — order the Cyberbeast + wrap reserve. Miss = refund.
+- Goal / buyout **$120,000** — campaign buys the truck, etch unlocks.
+- $58,001–$119,999 — ordered + wrapped. No etch.
+- Deposit **20%** to list.
+- Twelve panels. Eight etchable **only at $120,000**.
+
+## Product that is not up for debate in a drive-by PR
+
+- Cyberbeast or refund. No cheaper trim.
+- Wrap = 12 months from install. Etch = until the steel is gone.
+- Clock = 30 days after P3. Not October 1.
+- One brand per trade.
+- Static `index.html` is a prototype. Production is Next.js + Postgres + Stripe SetupIntent.
+
+## What “done” means for a feature
+
+A feature is not done because the page renders. It is done when a Playwright check (or pstack skill) proves the rule above still holds: floor math, etch lock under $120k, increment, no banned identity strings in the HTML.
