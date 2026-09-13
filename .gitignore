@@ -1,0 +1,14 @@
+node_modules/
+.next/
+.env
+.env.*
+!.env.example
+.DS_Store
+*.log
+.vercel
+coverage/
+playwright-report/
+test-results/
+campaign/*.docx
+campaign/*.xlsx
+campaign/*.pptx

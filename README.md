@@ -10,11 +10,14 @@ Not affiliated with Tesla, Inc.
 
 | File | What it locks |
 |---|---|
-| [CAMPAIGN.md](./CAMPAIGN.md) | Money, identity, route, term |
+| [AGENTS.md](./AGENTS.md) | Stop rules for Cursor / pstack / Grok |
+| [CAMPAIGN.md](./CAMPAIGN.md) | Money, identity, route, term. Wins conflicts. |
 | [RULES.md](./RULES.md) | Panels, increments, etch, refunds |
 | [ARCHITECTURE.md](./ARCHITECTURE.md) | Stack and phases P0–P3 |
-| [AGENTS.md](./AGENTS.md) | Stop rules for Cursor / pstack / Grok |
+| [PROCESS.md](./PROCESS.md) | Cursor Projects dock + pstack loop |
 | [FEATURES.md](./FEATURES.md) | Ranked backlog. Not for the homepage |
+| [IDENTITY.md](./IDENTITY.md) | Public vs private surfaces |
+| [STALE.md](./STALE.md) | Killed ideas. Do not revive |
 
 If any file disagrees with `CAMPAIGN.md`, `CAMPAIGN.md` wins.
 
@@ -26,16 +29,15 @@ If any file disagrees with `CAMPAIGN.md`, `CAMPAIGN.md` wins.
 
 There is no lease product. There is no cheaper trim.
 
-## This folder
+## Layout
 
-Static prototype (`index.html` + `app.js` + `styles.css`). Bids are `localStorage`. That is not production. Production stack is in `ARCHITECTURE.md`.
+- Root markdown = harness dock. Pin these in Cursor Project Context.
+- `prototype/` = static HTML/JS/CSS look reference. Bids are `localStorage`. Not production.
+- `campaign/` = email and X SOPs. No personal inboxes in those files.
+- `.cursor/rules/` = always-on agent locks.
 
 ```bash
-npx serve .
+npx serve prototype
 ```
 
-Keep `assets/` next to `index.html`.
-
-## Deploy
-
-Do not deploy the prototype over brandmybeast.com until P1 (waitlist) exists. Domain is already on Vercel DNS. Mail to hello@ forwards via ImprovMX. Do not move nameservers.
+Do not deploy the prototype over brandmybeast.com. P1 is a Next.js waitlist. Domain is on Vercel DNS. hello@ forwards via ImprovMX. Do not move nameservers.
