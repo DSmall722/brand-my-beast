@@ -27,17 +27,25 @@ If any file disagrees with `CAMPAIGN.md`, `CAMPAIGN.md` wins.
 - **$58,000–$119,999**: order the Cyberbeast + wrap. Operator finances the rest. No etch.
 - **$120,000**: campaign buys the truck. Charger. Etch unlocks on eight steel faces.
 
-There is no lease product. There is no cheaper trim.
+There is no cheaper trim. Cyberbeast or refund.
 
 ## Layout
 
 - Root markdown = harness dock. Pin these in Cursor Project Context.
+- `src/` = Next.js App Router production app (P1 waitlist).
 - `prototype/` = static HTML/JS/CSS look reference. Bids are `localStorage`. Not production.
 - `campaign/` = email and X SOPs. No personal inboxes in those files.
-- `.cursor/rules/` = always-on agent locks.
+- `.cursor/rules/` = always-on agent locks. `.cursor/skills/` = vendored pstack.
+
+## App (P1)
 
 ```bash
-npx serve prototype
+cp .env.example .env.local
+npm install
+npm run dev
+npm test
 ```
 
-Do not deploy the prototype over brandmybeast.com. P1 is a Next.js waitlist. Domain is on Vercel DNS. hello@ forwards via ImprovMX. Do not move nameservers.
+Set `DATABASE_URL` (Neon / Vercel Postgres) and optional `RESEND_API_KEY` in Vercel before production traffic. Local Playwright sets `WAITLIST_MODE=memory`.
+
+Do not deploy the prototype over brandmybeast.com. Domain is on Vercel DNS. hello@ forwards via ImprovMX. Do not move nameservers.
