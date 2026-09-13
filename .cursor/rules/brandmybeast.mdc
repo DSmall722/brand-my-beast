@@ -1,0 +1,19 @@
+---
+description: BrandMyBeast product and identity lock. Always on.
+globs:
+alwaysApply: true
+---
+
+Read `AGENTS.md` then `CAMPAIGN.md` before writing code or copy.
+
+`CAMPAIGN.md` wins conflicts. Do not invent a third money number.
+
+Floor is $58,000 (order + wrap). Goal is $120,000 (buy + etch). There is no lease product. There is no cheaper trim.
+
+Never emit the operator’s legal name, personal Gmail, or personal X handle — including as a negative example. Public strings only: BrandMyBeast, @BrandMyBeast, hello@brandmybeast.com, brandmybeast.com, “the operator.”
+
+Do not set a close date. Do not start the 30-day clock. Do not take live cards on `localStorage`.
+
+Do not put `FEATURES.md` on the public homepage.
+
+Non-trivial engineering starts with `/poteto-mode` once pstack is available in `.cursor/skills`.
