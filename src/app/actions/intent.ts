@@ -56,6 +56,7 @@ export async function submitIntentBid(
   revalidatePath(`/panels/${panelId}`);
   revalidatePath("/operator");
   revalidatePath("/operator/approvals");
+  revalidatePath("/account");
   return {
     ok: true,
     message: `Intent listed at $${result.bid.standingUsd}. Deposit shown: $${result.bid.depositUsd} (not charged).`,

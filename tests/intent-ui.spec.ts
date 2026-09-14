@@ -1157,6 +1157,59 @@ test.describe("P2 panel intent + approvals", () => {
     expect(html.toLowerCase()).not.toContain("proof photo of the truck");
   });
 
+  test("slice 5.2: /account shows my intents only", async ({ browser }) => {
+    const alice = await browser.newPage();
+    await signIn(alice, "slice52-alice@example.com");
+    await alice.goto("/panels/hood");
+    await alice.getByTestId("intent-brand").fill("Alice Only Brand");
+    await alice.getByTestId("intent-trade").fill("alice only trade");
+    await alice.getByTestId("intent-standing").fill("2500");
+    await alice.getByTestId("intent-submit").click();
+    await expect(alice.getByTestId("intent-success")).toContainText(
+      "not charged",
+    );
+    await alice.close();
+
+    const bob = await browser.newPage();
+    await signIn(bob, "slice52-bob@example.com");
+    await bob.goto("/panels/tailgate");
+    await bob.getByTestId("intent-brand").fill("Bob Only Brand");
+    await bob.getByTestId("intent-trade").fill("bob only trade");
+    await bob.getByTestId("intent-standing").fill("2500");
+    await bob.getByTestId("intent-submit").click();
+    await expect(bob.getByTestId("intent-success")).toContainText(
+      "not charged",
+    );
+    await bob.goto("/account");
+    await expect(bob.getByTestId("account-intents-list")).toContainText(
+      "Bob Only Brand",
+    );
+    await expect(bob.getByTestId("account-intents-list")).not.toContainText(
+      "Alice Only Brand",
+    );
+    await expect(bob.getByTestId("account-page")).toContainText("$58,000");
+    await expect(bob.getByTestId("account-page")).toContainText("$120,000");
+    const bobHtml = await bob.content();
+    expect(bobHtml.toLowerCase()).not.toMatch(/\blease\b/);
+    expect(bobHtml).not.toContain("CLOSE_AT");
+    expect(bobHtml.toLowerCase()).not.toContain("dennard");
+    await bob.close();
+
+    const aliceAgain = await browser.newPage();
+    await signIn(aliceAgain, "slice52-alice@example.com");
+    await aliceAgain.goto("/account");
+    await expect(aliceAgain.getByTestId("account-intents-list")).toContainText(
+      "Alice Only Brand",
+    );
+    await expect(
+      aliceAgain.getByTestId("account-intents-list"),
+    ).not.toContainText("Bob Only Brand");
+    const aliceHtml = await aliceAgain.content();
+    expect(aliceHtml.toLowerCase()).not.toMatch(/\blease\b/);
+    expect(aliceHtml).not.toContain("CLOSE_AT");
+    await aliceAgain.close();
+  });
+
   test("slice 3.7: side/front/rear SVG hotspots; empty seats raw 30X", async ({
     page,
   }) => {

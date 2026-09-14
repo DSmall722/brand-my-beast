@@ -1040,6 +1040,34 @@ test.describe("artwork approval thread (no capture)", () => {
     expect(byUser.some((b) => b.status === "approved")).toBe(true);
   });
 
+  test("slice 5.2: listBidsForUser returns only that user's intents", async () => {
+    await resetIntentStoreForTests();
+    const mine = await placeIntentBid({
+      panelId: "hood",
+      userId: "user_mine_only",
+      brandLabel: "Mine Only Co",
+      tradeLabel: "mine only widgets",
+      standingUsd: 2500,
+    });
+    expect(mine.ok).toBe(true);
+    const theirs = await placeIntentBid({
+      panelId: "tailgate",
+      userId: "user_other_only",
+      brandLabel: "Other Only Co",
+      tradeLabel: "other only gadgets",
+      standingUsd: 2500,
+    });
+    expect(theirs.ok).toBe(true);
+
+    const listed = await listBidsForUser("user_mine_only");
+    expect(listed).toHaveLength(1);
+    expect(listed[0]?.brandLabel).toBe("Mine Only Co");
+    expect(listed.every((bid) => bid.userId === "user_mine_only")).toBe(true);
+    expect(listed.some((bid) => bid.brandLabel === "Other Only Co")).toBe(
+      false,
+    );
+  });
+
   test("slice 2.3: banned trades hard-reject (porn, hate, scams, school-lot)", async () => {
     expect(findBannedTradeReason("Ok Co", "fasteners")).toBeNull();
     expect(findBannedTradeReason("X", "porn merch")).toBe("porn");

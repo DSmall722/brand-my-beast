@@ -25,6 +25,9 @@ export default async function AccountPage() {
 
   const email = session.user.email ?? "unknown";
   const userId = session.user.id;
+  if (!userId) {
+    redirect("/signin?callbackUrl=/account");
+  }
   const operator = isOperatorEmail(session.user.email);
   const shopPartner = isShopPartnerEmail(session.user.email);
   const intents = await listBidsForUser(userId);
