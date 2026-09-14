@@ -4,7 +4,7 @@ ROOT="$(cd "$(dirname "$0")/../../../.." && pwd)"
 cd "$ROOT"
 
 PORT="${BMB_VERIFY_PORT:-3010}"
-URL="${BMB_VERIFY_URL:-http://127.0.0.1:${PORT}}"
+URL="http://127.0.0.1:${PORT}"
 
 HTML="$(curl -sf "$URL")" || {
   echo "doctor fail: cannot GET $URL" >&2

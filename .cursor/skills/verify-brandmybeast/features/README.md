@@ -26,6 +26,7 @@ Maintained source for verifying user-facing waitlist + P2 intent behavior. Read 
 
 ## Features
 
+- [Wave 0 slices 0.1–0.4](./wave0-slices.md) — truck-gated empty boards, copy audit, waitlist 201/200/400
 - [Campaign board](./campaign-board.md) — brand, floor, buyout, unset auction clock
 - [Panel grid](./panel-grid.md) — twelve panels, etch locked under buyout
 - [Waitlist signup](./waitlist-signup.md) — email capture create/exists + next-step CTA

@@ -76,6 +76,7 @@ WAITLIST_MODE=memory INTENT_MODE=memory AUTH_MODE=test npm test
 One-feature proofs with evidence:
 
 ```bash
+.cursor/skills/verify-brandmybeast/scripts/prove-wave0.sh
 .cursor/skills/verify-brandmybeast/scripts/prove-campaign-board.sh
 .cursor/skills/verify-brandmybeast/scripts/prove-panel-grid.sh
 .cursor/skills/verify-brandmybeast/scripts/prove-waitlist-signup.sh

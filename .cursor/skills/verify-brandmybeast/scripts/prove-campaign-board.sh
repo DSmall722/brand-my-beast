@@ -4,7 +4,8 @@ ROOT="$(cd "$(dirname "$0")/../../../.." && pwd)"
 cd "$ROOT"
 
 PORT="${BMB_VERIFY_PORT:-3010}"
-URL="${BMB_VERIFY_URL:-http://127.0.0.1:${PORT}}"
+URL="http://127.0.0.1:${PORT}"
+export BMB_VERIFY_URL="$URL"
 RUN_ID="${BMB_VERIFY_RUN_ID:-$(date +%Y%m%dT%H%M%S)}"
 OUT="$ROOT/.cursor/skills/verify-brandmybeast/artifacts/$RUN_ID"
 mkdir -p "$OUT"
@@ -25,8 +26,7 @@ const browser = await chromium.launch();
 const page = await browser.newPage({ viewport: { width: 1280, height: 800 } });
 await page.goto(url, { waitUntil: "networkidle" });
 await page.getByTestId("brand-wordmark").waitFor();
-// textContent ignores CSS text-transform; innerText can show BRANDMYBEAST.
-const brand = await page.getByTestId("brand-wordmark").evaluate((el) => el.textContent?.trim() ?? "");
+const brand = (await page.getByTestId("brand-wordmark").textContent())?.trim() ?? "";
 const floor = await page.getByTestId("floor-amount").innerText();
 const goal = await page.getByTestId("goal-amount").innerText();
 const raised = await page.getByTestId("raised-amount").innerText();
@@ -44,11 +44,11 @@ if (brand !== "BrandMyBeast") throw new Error(`bad brand: ${brand}`);
 if (floor !== "$58,000") throw new Error(`bad floor: ${floor}`);
 if (goal !== "$120,000") throw new Error(`bad goal: ${goal}`);
 if (raised !== "$0") throw new Error(`bad raised: ${raised}`);
-if (close.trim() !== "Auction clock starts when bidding opens.") {
+if (close.trim() !== "Bidding is not open yet.") {
   throw new Error(`bad close: ${close}`);
 }
 await browser.close();
 console.log(`evidence written under ${out}`);
 NODE
 
-echo "PROVE_OK run=$RUN_ID out=$OUT"
+echo "PROVE_OK feature=campaign-board run=$RUN_ID out=$OUT"

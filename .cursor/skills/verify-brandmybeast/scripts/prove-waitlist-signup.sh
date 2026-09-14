@@ -4,7 +4,8 @@ ROOT="$(cd "$(dirname "$0")/../../../.." && pwd)"
 cd "$ROOT"
 
 PORT="${BMB_VERIFY_PORT:-3010}"
-URL="${BMB_VERIFY_URL:-http://127.0.0.1:${PORT}}"
+URL="http://127.0.0.1:${PORT}"
+export BMB_VERIFY_URL="$URL"
 RUN_ID="${BMB_VERIFY_RUN_ID:-$(date +%Y%m%dT%H%M%S)}"
 OUT="$ROOT/.cursor/skills/verify-brandmybeast/artifacts/$RUN_ID"
 mkdir -p "$OUT"
@@ -42,6 +43,10 @@ const exists = await postWaitlist(email);
 if (exists.status !== 200 || exists.json?.status !== "exists") {
   throw new Error(`exists failed: ${JSON.stringify(exists)}`);
 }
+const invalid = await postWaitlist("not-an-email");
+if (invalid.status !== 400 || invalid.json?.code !== "invalid") {
+  throw new Error(`invalid email failed: ${JSON.stringify(invalid)}`);
+}
 
 const browser = await chromium.launch();
 const page = await browser.newPage({ viewport: { width: 1280, height: 800 } });
@@ -76,14 +81,14 @@ if (signinHref !== "/signin?callbackUrl=/panels/hood") {
   throw new Error(`bad signin href: ${signinHref}`);
 }
 const nextText = await page.getByTestId("waitlist-next").innerText();
-if (!/no Stripe capture/i.test(nextText)) {
-  throw new Error(`waitlist-next missing capture disclaimer: ${nextText}`);
+if (!/cards are not charged yet/i.test(nextText)) {
+  throw new Error(`waitlist-next missing charge disclaimer: ${nextText}`);
 }
 await page.screenshot({ path: `${out}/waitlist.png`, fullPage: false });
 fs.writeFileSync(
   `${out}/waitlist.json`,
   JSON.stringify(
-    { email, created, exists, statusText, browseHref, signinHref, nextText },
+    { email, created, exists, invalid, statusText, browseHref, signinHref, nextText },
     null,
     2,
   ) + "\n",

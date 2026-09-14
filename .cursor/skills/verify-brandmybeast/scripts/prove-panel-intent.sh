@@ -5,7 +5,8 @@ ROOT="$(cd "$(dirname "$0")/../../../.." && pwd)"
 cd "$ROOT"
 
 PORT="${BMB_VERIFY_PORT:-3010}"
-URL="${BMB_VERIFY_URL:-http://127.0.0.1:${PORT}}"
+URL="http://127.0.0.1:${PORT}"
+export BMB_VERIFY_URL="$URL"
 RUN_ID="${BMB_VERIFY_RUN_ID:-$(date +%Y%m%dT%H%M%S)}"
 OUT="$ROOT/.cursor/skills/verify-brandmybeast/artifacts/$RUN_ID"
 mkdir -p "$OUT"
@@ -61,6 +62,7 @@ lines.push("anon_panel_ok");
 await signIn(page, "intent-prove@example.com");
 await page.goto(`${url}/panels/hood`, { waitUntil: "networkidle" });
 await page.getByTestId("intent-brand").fill("Prove Co");
+await page.getByTestId("intent-trade").fill("prove tools");
 await page.getByTestId("intent-submit").click();
 await page.getByTestId("intent-success").waitFor();
 const success = await page.getByTestId("intent-success").innerText();
@@ -92,6 +94,7 @@ if (!reset2.ok) throw new Error(`reset-intents failed: ${reset2.status}`);
 await signIn(page, "outbid-prove-a@example.com");
 await page.goto(`${url}/panels/hood`, { waitUntil: "networkidle" });
 await page.getByTestId("intent-brand").fill("Outbid Alpha");
+await page.getByTestId("intent-trade").fill("alpha tools");
 await page.getByTestId("intent-submit").click();
 await page.getByTestId("intent-success").waitFor();
 
@@ -99,6 +102,7 @@ await page.context().clearCookies();
 await signIn(page, "outbid-prove-b@example.com");
 await page.goto(`${url}/panels/hood`, { waitUntil: "networkidle" });
 await page.getByTestId("intent-brand").fill("Outbid Beta");
+await page.getByTestId("intent-trade").fill("beta tools");
 await page.getByTestId("intent-standing").fill("2750");
 await page.getByTestId("intent-submit").click();
 await page.getByTestId("intent-success").waitFor();
