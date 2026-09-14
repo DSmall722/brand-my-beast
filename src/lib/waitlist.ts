@@ -37,10 +37,10 @@ function memoryStore(): Map<string, MemoryRow> {
 }
 
 function useMemoryStore(): boolean {
-  return (
-    process.env.WAITLIST_MODE === "memory" ||
-    (!process.env.DATABASE_URL && process.env.NODE_ENV !== "production")
-  );
+  // Explicit modes win (mirrors intent-store). CI sets WAITLIST_MODE=memory.
+  if (process.env.WAITLIST_MODE === "memory") return true;
+  if (process.env.WAITLIST_MODE === "postgres") return false;
+  return !process.env.DATABASE_URL && process.env.NODE_ENV !== "production";
 }
 
 async function notifyOperator(email: string): Promise<void> {

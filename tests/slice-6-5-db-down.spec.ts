@@ -162,10 +162,8 @@ test.describe("slice 6.5: DB-down failure copy", () => {
     resetWaitlistStoreForTests();
     const prevMode = process.env.WAITLIST_MODE;
     const prevDb = process.env.DATABASE_URL;
-    const prevNode = process.env.NODE_ENV;
     process.env.WAITLIST_MODE = "postgres";
     delete process.env.DATABASE_URL;
-    process.env.NODE_ENV = "production";
 
     try {
       const result = await joinWaitlist("no-db@example.com");
@@ -180,8 +178,6 @@ test.describe("slice 6.5: DB-down failure copy", () => {
       else process.env.WAITLIST_MODE = prevMode;
       if (prevDb === undefined) delete process.env.DATABASE_URL;
       else process.env.DATABASE_URL = prevDb;
-      if (prevNode === undefined) delete process.env.NODE_ENV;
-      else process.env.NODE_ENV = prevNode;
       resetWaitlistStoreForTests();
     }
   });
