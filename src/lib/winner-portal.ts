@@ -63,6 +63,10 @@ export const WINNER_PORTAL_FACTS = [
     text: "Route-day detour buyout stays empty until the truck exists. No invented detour prices. No reserved VIN.",
   },
   {
+    id: "clemson-saturday-lock",
+    text: "Clemson Saturday lock stays empty until the truck exists. No invented lock fee. No reserved VIN.",
+  },
+  {
     id: "no-vin",
     text: "No reserved VIN until the campaign clears the floor.",
   },

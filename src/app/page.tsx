@@ -16,6 +16,7 @@ import { QrNfcScanCounterCard } from "@/components/QrNfcScanCounterCard";
 import { CityPingWinnerCard } from "@/components/CityPingWinnerCard";
 import { ChargeStopSlotsCard } from "@/components/ChargeStopSlotsCard";
 import { RouteDetourBuyoutCard } from "@/components/RouteDetourBuyoutCard";
+import { ClemsonSaturdayLockCard } from "@/components/ClemsonSaturdayLockCard";
 
 import {
   BRAND,
@@ -452,6 +453,18 @@ export default async function HomePage() {
             VIN.
           </p>
           <RouteDetourBuyoutCard />
+        </section>
+
+        <section
+          className="shell section"
+          id="clemson-saturday-lock"
+          aria-labelledby="clemson-saturday-lock-title"
+        >
+          <h2 id="clemson-saturday-lock-title">Clemson Saturday lock</h2>
+          <p className="section-lead">
+            Empty until the truck exists. No invented lock fee. No reserved VIN.
+          </p>
+          <ClemsonSaturdayLockCard />
         </section>
 
         <section

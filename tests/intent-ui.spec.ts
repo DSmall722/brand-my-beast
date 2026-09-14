@@ -569,6 +569,12 @@ test.describe("P2 panel intent + approvals", () => {
     await expect(
       winner.getByTestId("winner-fact-route-detour-buyout"),
     ).toContainText("No invented detour prices");
+    await expect(
+      winner.getByTestId("winner-fact-clemson-saturday-lock"),
+    ).toContainText("empty until the truck exists");
+    await expect(
+      winner.getByTestId("winner-fact-clemson-saturday-lock"),
+    ).toContainText("No invented lock fee");
     await expect(winner.getByTestId("winner-portal-seats-list")).toContainText(
       "Winner Co",
     );
