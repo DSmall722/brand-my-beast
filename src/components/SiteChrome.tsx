@@ -23,7 +23,7 @@ export async function SiteChrome() {
         {showApprovals ? (
           <Link
             className="nav-link"
-            href="/operator/approvals"
+            href="/operator"
             data-testid="approvals-nav-link"
           >
             Approvals

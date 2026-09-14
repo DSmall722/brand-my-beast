@@ -29,6 +29,7 @@ export async function queueImagineMockupAction(
   const result = await queueImagineMockup({ bidId, finish });
   if (!result.ok) return { ok: false, error: result.error };
 
+  revalidatePath("/operator");
   revalidatePath("/operator/approvals");
   revalidatePath(`/panels/${result.mockup.panelId}`);
   return {

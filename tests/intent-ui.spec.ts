@@ -248,7 +248,7 @@ test.describe("P2 panel intent + approvals", () => {
     await signIn(operator, "operator@example.com");
     await expect(operator.getByTestId("approvals-nav-link")).toBeVisible();
     await expect(operator.getByTestId("account-approvals-link")).toBeVisible();
-    await operator.goto("/operator/approvals");
+    await operator.goto("/operator");
     await expect(operator.getByTestId("operator-approvals")).toBeVisible();
     await expect(operator.getByTestId("approvals-count")).toContainText(
       "waiting",
@@ -286,7 +286,7 @@ test.describe("P2 panel intent + approvals", () => {
 
     const operator = await browser.newPage();
     await signIn(operator, "operator@example.com");
-    await operator.goto("/operator/approvals");
+    await operator.goto("/operator");
     await expect(operator.getByTestId("approvals-list")).toContainText(
       "Reject Co",
     );
@@ -559,6 +559,46 @@ test.describe("P2 panel intent + approvals", () => {
     await visitor.close();
   });
 
+  test("slice 2.1: /operator lists pending intents for allow-listed operators", async ({
+    browser,
+  }) => {
+    const bidder = await browser.newPage();
+    await signIn(bidder, "slice21-bidder@example.com");
+    await bidder.goto("/panels/hood");
+    await bidder.getByTestId("intent-brand").fill("Slice TwentyOne Co");
+    await bidder.getByTestId("intent-trade").fill("operator seats");
+    await bidder.getByTestId("intent-standing").fill("2500");
+    await bidder.getByTestId("intent-submit").click();
+    await expect(bidder.getByTestId("intent-success")).toContainText(
+      "not charged",
+    );
+    await bidder.close();
+
+    const operator = await browser.newPage();
+    await signIn(operator, "slice21-ops@example.com");
+    await expect(operator.getByTestId("approvals-nav-link")).toHaveAttribute(
+      "href",
+      "/operator",
+    );
+    await operator.goto("/operator");
+    await expect(operator.getByTestId("operator-approvals")).toBeVisible();
+    await expect(operator.getByTestId("approvals-count")).toContainText(
+      "waiting",
+    );
+    await expect(operator.getByTestId("approvals-list")).toContainText(
+      "Slice TwentyOne Co",
+    );
+    await expect(operator.getByTestId("approvals-list")).toContainText(
+      "operator seats",
+    );
+    await expect(operator.getByTestId("approvals-list")).toContainText("2,500");
+    const html = await operator.content();
+    expect(html.toLowerCase()).not.toMatch(/\blease\b/);
+    expect(html).not.toContain("CLOSE_AT");
+    expect(html).not.toContain("slice21-bidder@example.com");
+    await operator.close();
+  });
+
   test("slice 1.5: next intent >= standing + max($250, 10%)", async ({
     browser,
   }) => {
@@ -629,7 +669,7 @@ test.describe("P2 panel intent + approvals", () => {
 
     const operator = await browser.newPage();
     await signIn(operator, "operator@example.com");
-    await operator.goto("/operator/approvals");
+    await operator.goto("/operator");
     await expect(operator.getByTestId("approvals-list")).toContainText(
       "Shop Bound Co",
     );
@@ -699,7 +739,7 @@ test.describe("P2 panel intent + approvals", () => {
 
     const operator = await browser.newPage();
     await signIn(operator, "operator@example.com");
-    await operator.goto("/operator/approvals");
+    await operator.goto("/operator");
     await expect(operator.getByTestId("approvals-list")).toContainText(
       "Winner Co",
     );
