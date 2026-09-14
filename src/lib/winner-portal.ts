@@ -47,6 +47,10 @@ export const WINNER_PORTAL_FACTS = [
     text: "City time-in-market heatmap stays empty until the truck exists. No invented city hours. No reserved VIN.",
   },
   {
+    id: "qr-nfc-scan-counter",
+    text: "QR / NFC raw scan counter stays empty until the truck exists. No invented scan counts. No reserved VIN.",
+  },
+  {
     id: "no-vin",
     text: "No reserved VIN until the campaign clears the floor.",
   },

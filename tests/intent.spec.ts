@@ -124,6 +124,10 @@ import {
   CITY_TIME_HEATMAP_LEAD,
   cityTimeHeatmapCopyIsSafe,
 } from "../src/lib/city-time-heatmap";
+import {
+  QR_NFC_SCAN_COUNTER_LEAD,
+  qrNfcScanCounterCopyIsSafe,
+} from "../src/lib/qr-nfc-scan-counter";
 
 import {
   EVENT_REQUEST_KINDS,
@@ -564,6 +568,9 @@ test.describe("winner portal (no capture)", () => {
     expect(
       WINNER_PORTAL_FACTS.some((fact) => fact.id === "city-time-heatmap"),
     ).toBe(true);
+    expect(
+      WINNER_PORTAL_FACTS.some((fact) => fact.id === "qr-nfc-scan-counter"),
+    ).toBe(true);
     const blob = WINNER_PORTAL_FACTS.map((fact) => fact.text).join(" ");
 
     expect(blob).toContain("12 months from install");
@@ -938,3 +945,19 @@ test.describe("city time-in-market heatmap (empty until truck)", () => {
   });
 });
 
+test.describe("qr-nfc scan counter (empty until truck)", () => {
+  test("publishes empty-counter copy without invented scans or reserved VIN", () => {
+    expect(QR_NFC_SCAN_COUNTER_LEAD).toContain("$58,000");
+    expect(QR_NFC_SCAN_COUNTER_LEAD).toContain("$120,000");
+    expect(QR_NFC_SCAN_COUNTER_LEAD.toLowerCase()).toContain(
+      "empty until the truck exists",
+    );
+    expect(QR_NFC_SCAN_COUNTER_LEAD.toLowerCase()).toContain(
+      "no invented scan counts",
+    );
+    expect(QR_NFC_SCAN_COUNTER_LEAD.toLowerCase()).toContain("no reserved vin");
+    expect(qrNfcScanCounterCopyIsSafe()).toBe(true);
+    expect(FLOOR_USD).toBe(58_000);
+    expect(GOAL_USD).toBe(120_000);
+  });
+});
