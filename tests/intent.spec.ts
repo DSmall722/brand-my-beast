@@ -11,6 +11,7 @@ import {
 import {
   FLOOR_USD,
   GOAL_USD,
+  WRECK_REFUND_RULES,
   floorMarkerPercentOnGoalTrack,
   floorProgressPercent,
   goalProgressPercent,
@@ -174,5 +175,22 @@ test.describe("honest shortfall math (no clock)", () => {
     );
     expect(floorMarkerPercentOnGoalTrack()).toBeGreaterThan(0);
     expect(floorMarkerPercentOnGoalTrack()).toBeLessThan(100);
+  });
+});
+
+test.describe("wreck + refund rules (no cash path)", () => {
+  test("publishes the three RULES.md wreck outcomes", () => {
+    expect(WRECK_REFUND_RULES).toHaveLength(3);
+    expect(WRECK_REFUND_RULES.map((r) => r.id)).toEqual([
+      "campaign-miss",
+      "wrap-pro-rata",
+      "immortal-fragment",
+    ]);
+    const joined = WRECK_REFUND_RULES.map((r) => r.body).join(" ");
+    expect(joined).toMatch(/full refund/i);
+    expect(joined).toMatch(/pro-rata/i);
+    expect(joined).toMatch(/vault certificate/i);
+    expect(joined).not.toMatch(/stripe/i);
+    expect(joined).not.toMatch(/\blease\b/i);
   });
 });

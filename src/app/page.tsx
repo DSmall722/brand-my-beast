@@ -7,6 +7,7 @@ import {
   FLOOR_USD,
   GOAL_USD,
   PANELS,
+  WRECK_REFUND_RULES,
   floorMarkerPercentOnGoalTrack,
   floorProgressPercent,
   formatUsd,
@@ -239,6 +240,25 @@ export default async function HomePage() {
               </span>
             </li>
           </ol>
+        </section>
+
+        <section
+          className="shell section"
+          id="wreck"
+          aria-labelledby="wreck-title"
+        >
+          <h2 id="wreck-title">Wreck &amp; refund</h2>
+          <p className="section-lead">
+            Rules draft for the contract. No card capture on this page.
+          </p>
+          <ul className="wreck-list" data-testid="wreck-refund-rules">
+            {WRECK_REFUND_RULES.map((rule) => (
+              <li key={rule.id} data-testid={`wreck-rule-${rule.id}`}>
+                <strong data-testid={`wreck-title-${rule.id}`}>{rule.title}</strong>
+                <span data-testid={`wreck-body-${rule.id}`}>{rule.body}</span>
+              </li>
+            ))}
+          </ul>
         </section>
 
         <section
