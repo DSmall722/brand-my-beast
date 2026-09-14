@@ -86,6 +86,9 @@ export default async function HomePage() {
 
   return (
     <>
+      <a className="skip-link" href="#main-content">
+        Skip to content
+      </a>
       <header className="shell site-header">
         <div className="wordmark" data-testid="brand-wordmark">
           {PUBLIC_COPY.header.wordmark}
@@ -99,6 +102,7 @@ export default async function HomePage() {
       </header>
 
       <main
+        id="main-content"
         data-testid="home-main"
         data-truck-exists={TRUCK_EXISTS ? "true" : "false"}
       >

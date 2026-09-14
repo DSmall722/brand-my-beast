@@ -14,8 +14,8 @@ Updated: 2026-09-14
 - A FEATURES.md row is not scheduled until it has a checkbox in this file.
 - Coordinator may merge a PR that finishes exactly one unchecked slice, Playwright is green, and the merge gates below hold.
 
-**Now:** 6.8 Keyboard / labels / contrast on /, seat, operator.
-**Last merged:** 6.7 (#97 No in-memory stores in Production.)
+**Now:** 6.9 Hero wordmark and truck still not clipped on mobile.
+**Last merged:** 6.8 (#98 Keyboard / labels / contrast on /, seat, operator.)
 
 ## Standing orders
 
@@ -114,7 +114,7 @@ If any gate fails: leave the PR unmerged and stop that slice.
 - [x] 6.5 Failure copy when DB is down. Never say joined if the write failed. (#94)
 - [x] 6.6 Rate-limit waitlist + intent POSTs. (#96)
 - [x] 6.7 No in-memory stores in Production. (#97)
-- [ ] 6.8 Keyboard / labels / contrast on /, seat, operator.
+- [x] 6.8 Keyboard / labels / contrast on /, seat, operator. (#98)
 - [ ] 6.9 Hero wordmark and truck still not clipped on mobile.
 - [ ] 6.10 OG image and favicon, public brand only.
 - [ ] 6.11 Playwright: homepage matches PUBLIC_COPY.md H1 `Put your brand on the truck people already photograph.` and waitlist button `Notify me`.

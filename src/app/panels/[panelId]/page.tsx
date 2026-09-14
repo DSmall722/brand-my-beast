@@ -78,6 +78,7 @@ export default async function PanelIntentPage({
     <>
       <SiteChrome />
       <main
+        id="main-content"
         className="shell auth-page panel-intent public-seat"
         data-testid="panel-intent-page"
       >

@@ -12,43 +12,48 @@ export async function SiteChrome() {
   const showShop = isShopPartnerEmail(session?.user?.email);
 
   return (
-    <header className="shell site-header site-header-compact">
-      <Link href="/" className="wordmark" data-testid="brand-wordmark">
-        {BRAND.name}
-      </Link>
-      <nav className="header-nav" aria-label="Primary">
-        <Link className="nav-link" href="/#panels">
-          Panels
+    <>
+      <a className="skip-link" href="#main-content">
+        Skip to content
+      </a>
+      <header className="shell site-header site-header-compact">
+        <Link href="/" className="wordmark" data-testid="brand-wordmark">
+          {BRAND.name}
         </Link>
-        {showApprovals ? (
-          <Link
-            className="nav-link"
-            href="/operator"
-            data-testid="approvals-nav-link"
-          >
-            Approvals
+        <nav className="header-nav" aria-label="Primary">
+          <Link className="nav-link" href="/#panels">
+            Panels
           </Link>
-        ) : null}
-        {showShop ? (
-          <Link
-            className="nav-link"
-            href="/partner/shop"
-            data-testid="shop-nav-link"
-          >
-            Wrap shop
-          </Link>
-        ) : null}
-        {session?.user ? (
-          <Link
-            className="nav-link"
-            href="/account/wins"
-            data-testid="wins-nav-link"
-          >
-            Wins
-          </Link>
-        ) : null}
-        <AuthNav />
-      </nav>
-    </header>
+          {showApprovals ? (
+            <Link
+              className="nav-link"
+              href="/operator"
+              data-testid="approvals-nav-link"
+            >
+              Approvals
+            </Link>
+          ) : null}
+          {showShop ? (
+            <Link
+              className="nav-link"
+              href="/partner/shop"
+              data-testid="shop-nav-link"
+            >
+              Wrap shop
+            </Link>
+          ) : null}
+          {session?.user ? (
+            <Link
+              className="nav-link"
+              href="/account/wins"
+              data-testid="wins-nav-link"
+            >
+              Wins
+            </Link>
+          ) : null}
+          <AuthNav />
+        </nav>
+      </header>
+    </>
   );
 }

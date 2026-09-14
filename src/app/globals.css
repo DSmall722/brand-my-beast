@@ -55,6 +55,31 @@ a {
   border: 0;
 }
 
+/* Slice 6.8 — skip link; visible on keyboard focus only. */
+.skip-link {
+  position: absolute;
+  left: 1rem;
+  top: 0;
+  z-index: 100;
+  padding: 0.65rem 1rem;
+  border-radius: 0.5rem;
+  background: var(--signal);
+  color: var(--signal-ink);
+  font-weight: 600;
+  text-decoration: none;
+  transform: translateY(-120%);
+  transition: transform 120ms ease;
+}
+
+.skip-link:focus {
+  outline: 2px solid white;
+  outline-offset: 2px;
+}
+
+.skip-link:focus-visible {
+  transform: translateY(0.85rem);
+}
+
 .shell {
   width: min(1120px, calc(100% - 2rem));
   margin-inline: auto;
@@ -108,6 +133,14 @@ a {
 .nav-link:hover {
   color: white;
   border-color: var(--signal);
+}
+
+.nav-link:focus-visible,
+.nav-button:focus-visible,
+.wordmark:focus-visible {
+  outline: 2px solid var(--signal);
+  outline-offset: 3px;
+  color: white;
 }
 
 .hero {
@@ -310,9 +343,18 @@ a {
   transform: translateY(-1px);
 }
 
+.btn:focus-visible {
+  outline: 2px solid var(--signal);
+  outline-offset: 3px;
+}
+
 .btn-signal {
   background: var(--signal);
   color: var(--signal-ink);
+}
+
+.btn-signal:focus-visible {
+  outline-color: white;
 }
 
 .btn-ghost {
@@ -360,7 +402,7 @@ a {
 }
 
 .money-cell .label {
-  color: var(--steel-500);
+  color: var(--steel-400);
   font-size: 0.8rem;
   text-transform: uppercase;
   letter-spacing: 0.08em;
@@ -451,7 +493,7 @@ a {
   justify-content: space-between;
   gap: 1rem;
   flex-wrap: wrap;
-  color: var(--steel-500);
+  color: var(--steel-400);
   font-size: 0.85rem;
 }
 
@@ -476,7 +518,7 @@ a {
 
 .shortfall-ticker dt {
   margin: 0;
-  color: var(--steel-500);
+  color: var(--steel-400);
   font-size: 0.75rem;
   letter-spacing: 0.08em;
   text-transform: uppercase;
@@ -601,7 +643,7 @@ a {
 }
 
 .panel-gloss {
-  color: var(--steel-500);
+  color: var(--steel-400);
   font-weight: 400;
   font-size: 0.9em;
 }
@@ -901,6 +943,11 @@ a {
   cursor: pointer;
 }
 
+.waitlist-row button:focus-visible {
+  outline: 2px solid white;
+  outline-offset: 3px;
+}
+
 .waitlist-row button:disabled,
 .waitlist-row input:disabled {
   opacity: 0.65;
@@ -910,7 +957,7 @@ a {
 .waitlist-msg {
   margin: 0.75rem 0 0;
   font-size: 0.92rem;
-  color: var(--steel-500);
+  color: var(--steel-400);
 }
 
 .waitlist-msg.is-ok {
@@ -1026,7 +1073,7 @@ a {
 .site-footer {
   border-top: 1px solid var(--hairline);
   padding: 2rem 0 3rem;
-  color: var(--steel-500);
+  color: var(--steel-400);
   font-size: 0.9rem;
 }
 
@@ -1535,6 +1582,12 @@ a {
   border-color: color-mix(in oklab, var(--signal) 55%, transparent);
   color: var(--steel-100);
   background: color-mix(in oklab, var(--signal) 14%, transparent);
+}
+
+.compositor-tab:focus-visible,
+.compositor-condition:focus-visible {
+  outline: 2px solid var(--signal);
+  outline-offset: 2px;
 }
 
 .compositor-tab:disabled {
