@@ -1504,6 +1504,13 @@ a {
   gap: 0;
 }
 
+.stainless-compositor-lead {
+  margin: 0;
+  padding: 0.75rem 0.9rem 0;
+  font-size: 0.9rem;
+  color: var(--steel-300, #b8bec8);
+}
+
 .compositor-toolbar {
   display: flex;
   gap: 0.35rem;

@@ -65,6 +65,11 @@ import {
   operatorCampaignLocks,
 } from "../src/lib/operator-campaign-locks";
 import {
+  STAINLESS_COMPOSITOR_LEAD,
+  compositorFinishLabel,
+  stainlessCompositorCopyIsSafe,
+} from "../src/lib/stainless-compositor";
+import {
   WINNER_PORTAL_FACTS,
   winnerPortalFactsVisible,
   winnerSeatsFor,
@@ -697,6 +702,17 @@ test.describe("adjacent-panel clash detector (no capture)", () => {
 });
 
 test.describe("finish condition shaders (no capture)", () => {
+  test("slice 3.1: stainless compositor lead is preview-only", () => {
+    expect(stainlessCompositorCopyIsSafe()).toBe(true);
+    expect(STAINLESS_COMPOSITOR_LEAD.toLowerCase()).toContain("preview only");
+    expect(STAINLESS_COMPOSITOR_LEAD).toContain("$120,000");
+    expect(STAINLESS_COMPOSITOR_LEAD.toLowerCase()).not.toMatch(/\blease\b/);
+    expect(STAINLESS_COMPOSITOR_LEAD).not.toContain("CLOSE_AT");
+    expect(compositorFinishLabel("wrap", true)).toContain("Wrap");
+    expect(compositorFinishLabel("etch", true)).toContain("$120,000");
+    expect(compositorFinishLabel("wrap", false)).toBe("Wrap only");
+  });
+
   test("publishes day/night/wet/dirty condition ids", () => {
     expect(FINISH_CONDITIONS.map((c) => c.id)).toEqual([
       "day",

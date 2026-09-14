@@ -13,8 +13,13 @@ import {
   FINISH_CONDITIONS,
   type FinishCondition,
 } from "@/lib/finish-conditions";
+import {
+  STAINLESS_COMPOSITOR_LEAD,
+  compositorFinishLabel,
+  type CompositorFinish,
+} from "@/lib/stainless-compositor";
 
-type FinishMode = "wrap" | "etch";
+type FinishMode = CompositorFinish;
 
 /**
  * PROCESS-safe stainless compositor: CSS preview of wrap vs etch on the steel
@@ -38,6 +43,12 @@ export function PanelMockup({ panel }: { panel: Panel }) {
       data-condition={condition}
       data-pair={pair ? "true" : "false"}
     >
+      <p
+        className="auth-hint stainless-compositor-lead"
+        data-testid="stainless-compositor-lead"
+      >
+        {STAINLESS_COMPOSITOR_LEAD}
+      </p>
       <div
         className="compositor-toolbar"
         data-testid="stainless-compositor"
@@ -155,11 +166,7 @@ export function PanelMockup({ panel }: { panel: Panel }) {
           className="panel-mockup-finish"
           data-testid="compositor-finish-label"
         >
-          {showingEtch
-            ? `Etch preview · locked under ${formatUsd(GOAL_USD)}`
-            : etchable
-              ? "Wrap on steel · etch at buyout"
-              : "Wrap only"}
+          {compositorFinishLabel(showingEtch ? "etch" : "wrap", etchable)}
         </span>
         <span
           className="compositor-condition-label"
