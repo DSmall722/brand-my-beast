@@ -846,10 +846,80 @@ a {
 }
 
 .approval-actions {
+  display: grid;
+  gap: 0.55rem;
+  margin-top: 0.65rem;
+  min-width: 12rem;
+}
+
+.approval-note {
+  width: 100%;
+  resize: vertical;
+  min-height: 3.2rem;
+}
+
+.approval-action-row {
   display: flex;
   flex-wrap: wrap;
   gap: 0.5rem;
-  margin-top: 0.65rem;
+}
+
+.artwork-approval-checklist {
+  margin: 0.75rem 0;
+  padding: 0.75rem 0.85rem;
+  border: 1px solid var(--hairline);
+  border-radius: 0.65rem;
+  background: color-mix(in oklab, black 22%, transparent);
+}
+
+.artwork-approval-title {
+  margin: 0 0 0.4rem;
+  font-size: 0.78rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--steel-300);
+}
+
+.artwork-approval-list {
+  margin: 0;
+  padding-left: 1.1rem;
+  color: var(--steel-100);
+  font-size: 0.9rem;
+  line-height: 1.45;
+}
+
+.approvals-decided {
+  margin-top: 1.75rem;
+}
+
+.decided-list {
+  list-style: none;
+  margin: 0.75rem 0 0;
+  padding: 0;
+  display: grid;
+  gap: 0.65rem;
+}
+
+.decided-row {
+  padding: 0.75rem 0.85rem;
+  border: 1px solid var(--hairline);
+  border-radius: 0.65rem;
+  background: color-mix(in oklab, black 18%, transparent);
+}
+
+.decided-row-main {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem 0.75rem;
+  align-items: baseline;
+}
+
+.decided-note,
+.account-reject-note {
+  margin: 0.45rem 0 0;
+  color: var(--steel-200);
+  font-size: 0.92rem;
+  line-height: 1.4;
 }
 
 .panel-name a {

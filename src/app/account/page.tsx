@@ -11,6 +11,7 @@ import {
   PANELS,
   formatUsd,
 } from "@/lib/campaign";
+import { listApprovalNotesForBids } from "@/lib/approval-note-store";
 import { intentStatusClass, intentStatusLabel } from "@/lib/intent-labels";
 import { listBidsForUser } from "@/lib/intent-store";
 
@@ -24,6 +25,7 @@ export default async function AccountPage() {
   const userId = session.user.id;
   const operator = isOperatorEmail(session.user.email);
   const intents = await listBidsForUser(userId);
+  const notes = await listApprovalNotesForBids(intents.map((bid) => bid.id));
 
   return (
     <>
@@ -112,6 +114,14 @@ export default async function AccountPage() {
                         next open panel, or{" "}
                         <Link href={`/panels/${bid.panelId}`}>re-list higher</Link>
                         .
+                      </p>
+                    ) : null}
+                    {bid.status === "rejected" && notes[bid.id]?.note ? (
+                      <p
+                        className="account-reject-note"
+                        data-testid={`account-reject-note-${bid.id}`}
+                      >
+                        Operator note: {notes[bid.id].note}
                       </p>
                     ) : null}
                   </li>

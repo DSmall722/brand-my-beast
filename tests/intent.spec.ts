@@ -38,7 +38,12 @@ import {
   isFinishCondition,
 } from "../src/lib/finish-conditions";
 import {
+  assertNoteRequiredForReject,
+  artworkChecklistForPanel,
+} from "../src/lib/artwork-approval";
+import {
   listBidsForPanel,
+  listDecidedBids,
   placeIntentBid,
   loadBoardIntentStats,
   resetIntentStoreForTests,
@@ -340,5 +345,42 @@ test.describe("finish condition shaders (no capture)", () => {
     expect(isFinishCondition("night")).toBe(true);
     expect(isFinishCondition("fog")).toBe(false);
     expect(finishConditionLabel("wet")).toBe("Wet");
+  });
+});
+
+test.describe("artwork approval thread (no capture)", () => {
+  test("requires reject note and lists decided bids", async () => {
+    expect(assertNoteRequiredForReject({ decision: "approved", note: "" }).ok).toBe(
+      true,
+    );
+    expect(
+      assertNoteRequiredForReject({ decision: "rejected", note: "" }).ok,
+    ).toBe(false);
+    expect(
+      assertNoteRequiredForReject({
+        decision: "rejected",
+        note: "Cannot pass a grocery lot",
+      }).ok,
+    ).toBe(true);
+    expect(artworkChecklistForPanel(true).some((i) => i.id === "etch-one-color")).toBe(
+      true,
+    );
+    expect(
+      artworkChecklistForPanel(false).some((i) => i.id === "etch-one-color"),
+    ).toBe(false);
+
+    await resetIntentStoreForTests();
+    const placed = await placeIntentBid({
+      panelId: "hood",
+      userId: "user_art_1",
+      brandLabel: "Art Co",
+      tradeLabel: "tools",
+    });
+    expect(placed.ok).toBe(true);
+    if (!placed.ok) return;
+    await setIntentStatus(placed.bid.id, "rejected");
+    const decided = await listDecidedBids();
+    expect(decided.map((b) => b.id)).toContain(placed.bid.id);
+    expect(decided[0]?.status).toBe("rejected");
   });
 });
