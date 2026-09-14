@@ -78,6 +78,15 @@ test.describe("P2 panel intent + approvals", () => {
     await expect(operator.getByTestId("approvals-list")).toContainText(
       "Signal Co",
     );
+    const mockupRoot = operator.locator('[data-testid^="imagine-mockup-"]').first();
+    await expect(mockupRoot).toBeVisible();
+    await operator.locator('[data-testid^="imagine-queue-wrap-"]').first().click();
+    await expect(
+      operator.locator('[data-testid^="imagine-preview-"]').first(),
+    ).toBeVisible({ timeout: 10_000 });
+    await expect(operator.getByTestId("imagine-message")).toContainText(
+      "placeholder",
+    );
     await operator.locator('[data-testid^="approve-"]').first().click();
     await expect(operator.getByTestId("approvals-empty")).toBeVisible({
       timeout: 10_000,
