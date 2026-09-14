@@ -507,6 +507,20 @@ a {
   color: var(--steel-100);
 }
 
+.vault-certificate {
+  margin: 0;
+}
+
+.vault-certificate-list {
+  margin: 0.75rem 0 0;
+  padding-left: 1.1rem;
+  color: var(--steel-100);
+  font-size: 0.95rem;
+  line-height: 1.5;
+  display: grid;
+  gap: 0.45rem;
+}
+
 .wreck-list span {
   color: var(--steel-300);
   line-height: 1.45;

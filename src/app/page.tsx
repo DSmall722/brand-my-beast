@@ -2,6 +2,7 @@ import { AuthNav } from "@/components/AuthNav";
 import { CabinPlaqueForm } from "@/components/CabinPlaqueForm";
 import { CircuitStoryForm } from "@/components/CircuitStoryForm";
 import { SightingForm } from "@/components/SightingForm";
+import { VaultCertificateCard } from "@/components/VaultCertificateCard";
 import { WaitlistForm } from "@/components/WaitlistForm";
 import {
   BRAND,
@@ -283,6 +284,18 @@ export default async function HomePage() {
               </li>
             ))}
           </ul>
+        </section>
+
+        <section
+          className="shell section"
+          id="vault-certificate"
+          aria-labelledby="vault-certificate-title"
+        >
+          <h2 id="vault-certificate-title">Immortal vault certificate</h2>
+          <p className="section-lead">
+            The steel record after etch unlocks. Not a cash path.
+          </p>
+          <VaultCertificateCard />
         </section>
 
         <section
