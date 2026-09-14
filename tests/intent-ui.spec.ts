@@ -539,6 +539,12 @@ test.describe("P2 panel intent + approvals", () => {
     await expect(
       winner.getByTestId("winner-fact-landmark-proof-log"),
     ).toContainText("No invented visits");
+    await expect(
+      winner.getByTestId("winner-fact-city-time-heatmap"),
+    ).toContainText("empty until the truck exists");
+    await expect(
+      winner.getByTestId("winner-fact-city-time-heatmap"),
+    ).toContainText("No invented city hours");
     await expect(winner.getByTestId("winner-portal-seats-list")).toContainText(
       "Winner Co",
     );

@@ -121,6 +121,11 @@ import {
   landmarkProofLogCopyIsSafe,
 } from "../src/lib/landmark-proof-log";
 import {
+  CITY_TIME_HEATMAP_LEAD,
+  cityTimeHeatmapCopyIsSafe,
+} from "../src/lib/city-time-heatmap";
+
+import {
   EVENT_REQUEST_KINDS,
   EVENT_REQUEST_LEAD,
   eventRequestCopyIsSafe,
@@ -556,7 +561,11 @@ test.describe("winner portal (no capture)", () => {
     expect(
       WINNER_PORTAL_FACTS.some((fact) => fact.id === "landmark-proof-log"),
     ).toBe(true);
+    expect(
+      WINNER_PORTAL_FACTS.some((fact) => fact.id === "city-time-heatmap"),
+    ).toBe(true);
     const blob = WINNER_PORTAL_FACTS.map((fact) => fact.text).join(" ");
+
     expect(blob).toContain("12 months from install");
     expect(blob).not.toContain("CLOSE_AT");
     expect(blob.toLowerCase()).not.toMatch(/\blease\b/);
@@ -911,3 +920,21 @@ test.describe("landmark proof log (empty until truck)", () => {
     expect(GOAL_USD).toBe(120_000);
   });
 });
+
+test.describe("city time-in-market heatmap (empty until truck)", () => {
+  test("publishes empty-heatmap copy without invented dwell or reserved VIN", () => {
+    expect(CITY_TIME_HEATMAP_LEAD).toContain("$58,000");
+    expect(CITY_TIME_HEATMAP_LEAD).toContain("$120,000");
+    expect(CITY_TIME_HEATMAP_LEAD.toLowerCase()).toContain(
+      "empty until the truck exists",
+    );
+    expect(CITY_TIME_HEATMAP_LEAD.toLowerCase()).toContain(
+      "no invented city hours",
+    );
+    expect(CITY_TIME_HEATMAP_LEAD.toLowerCase()).toContain("no reserved vin");
+    expect(cityTimeHeatmapCopyIsSafe()).toBe(true);
+    expect(FLOOR_USD).toBe(58_000);
+    expect(GOAL_USD).toBe(120_000);
+  });
+});
+

@@ -43,9 +43,14 @@ export const WINNER_PORTAL_FACTS = [
     text: "Landmark proof log stays empty until the truck exists. No invented visits. No reserved VIN.",
   },
   {
+    id: "city-time-heatmap",
+    text: "City time-in-market heatmap stays empty until the truck exists. No invented city hours. No reserved VIN.",
+  },
+  {
     id: "no-vin",
     text: "No reserved VIN until the campaign clears the floor.",
   },
+
   {
     id: "no-impressions",
     text: "No invented impression counts. Miles come after the truck exists.",
