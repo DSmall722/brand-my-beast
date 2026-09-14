@@ -14,8 +14,8 @@ Updated: 2026-09-14
 - A FEATURES.md row is not scheduled until it has a checkbox in this file.
 - Coordinator may merge a PR that finishes exactly one unchecked slice, Playwright is green, and the merge gates below hold.
 
-**Now:** 6.10 OG image and favicon, public brand only.
-**Last merged:** 6.9 (#99 Hero wordmark and truck still not clipped on mobile.)
+**Now:** 6.11 Playwright: homepage matches PUBLIC_COPY.md H1 `Put your brand on the truck people already photograph.` and waitlist button `Notify me`.
+**Last merged:** 6.10 (#100 OG image and favicon, public brand only.)
 
 ## Standing orders
 
@@ -116,7 +116,7 @@ If any gate fails: leave the PR unmerged and stop that slice.
 - [x] 6.7 No in-memory stores in Production. (#97)
 - [x] 6.8 Keyboard / labels / contrast on /, seat, operator. (#98)
 - [x] 6.9 Hero wordmark and truck still not clipped on mobile. (#99)
-- [ ] 6.10 OG image and favicon, public brand only.
+- [x] 6.10 OG image and favicon, public brand only. (#100)
 - [ ] 6.11 Playwright: homepage matches PUBLIC_COPY.md H1 `Put your brand on the truck people already photograph.` and waitlist button `Notify me`.
 - [ ] 6.12 One ObsidianUI block on the hero primary CTA only. Init shadcn `components.json` if missing. Add exactly `arrow-fill-button` (`npx shadcn@latest add "https://www.obsidianui.dev/r/arrow-fill-button.json"`). Replace the hero `<a className="btn btn-signal" href="#waitlist">` with that component. Visible string stays `Get on the list` from PUBLIC_COPY.md. href stays `#waitlist`. Waitlist submit stays the existing form button `Notify me`. Convert the registry `.jsx` to `.tsx`. Restyle CSS tokens to current `globals.css` stainless / black — no purple kit palette. `prefers-reduced-motion: reduce` = no fill animation; the control stays a real link with a visible focus ring. Abort the PR if the JSON adds gsap, three, @react-three/*, or Lenis. Ban for this PR: hover-img, magnetic-image-trail, fractal-glass, book-flip, rope-cursor, butterfly-trail-cursor, colorful-cursor-aura, mask-cursor-effect, apple-spotlight, cursor trails. Do not add a homepage section. Do not rewrite PUBLIC_COPY, H1, lead, secondary CTA, panel cards, waitlist form, operator, or intent. Playwright: H1 from 0.9, `Notify me`, hero primary CTA text + href `#waitlist`, no lease, no personal handle. Title: `slice(6.12): obsidianui signal button`.
 - [ ] 6.13 Branded not-found page. Add `src/app/not-found.tsx`. Study 404s.design for layout only — do not clone a gallery page or steal type. Dark stainless chrome, wordmark BrandMyBeast, one line `This page is not a panel.`, links Home (`/`) and `Get on the list` (`/#waitlist`). Footer strings from PUBLIC_COPY.md. Independent. Not Tesla. No lease, no close date, no personal handle, no street address, no wrap-as-delivered truck. No GSAP/Three/Lenis. Playwright: 404 status, those two links, no lease / no personal handle. Title: `slice(6.13): branded 404`.
