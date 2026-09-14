@@ -1,11 +1,13 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { ApprovalButtons } from "@/components/ApprovalButtons";
+import { ImagineMockupControls } from "@/components/ImagineMockupControls";
 import { SiteChrome } from "@/components/SiteChrome";
 import { auth } from "@/lib/auth";
 import { isOperatorEmail } from "@/lib/auth/operator";
-import { formatUsd, PANELS } from "@/lib/campaign";
+import { formatUsd, isEtchable, PANELS } from "@/lib/campaign";
 import { listBidsPendingApproval } from "@/lib/intent-store";
+import { listMockupsForBids } from "@/lib/mockup-store";
 
 export default async function OperatorApprovalsPage() {
   const session = await auth();
@@ -29,6 +31,7 @@ export default async function OperatorApprovalsPage() {
   }
 
   const pending = await listBidsPendingApproval();
+  const mockups = await listMockupsForBids(pending.map((bid) => bid.id));
 
   return (
     <>
@@ -40,7 +43,8 @@ export default async function OperatorApprovalsPage() {
         <p className="eyebrow">Operator</p>
         <h1>Intent approvals</h1>
         <p className="section-lead">
-          Approve or reject listed intents. No cards are charged here.
+          Approve or reject listed intents. Queue same-day Imagine mockup
+          placeholders here. No cards are charged.
         </p>
 
         <p className="approvals-count" data-testid="approvals-count">
@@ -64,6 +68,7 @@ export default async function OperatorApprovalsPage() {
           >
             {pending.map((bid) => {
               const panel = PANELS.find((row) => row.id === bid.panelId);
+              const etchable = panel ? isEtchable(panel) : false;
               return (
                 <li
                   key={bid.id}
@@ -87,6 +92,11 @@ export default async function OperatorApprovalsPage() {
                       {" · deposit shown "}
                       {formatUsd(bid.depositUsd)}
                     </p>
+                    <ImagineMockupControls
+                      bidId={bid.id}
+                      etchable={etchable}
+                      mockup={mockups[bid.id] ?? null}
+                    />
                   </div>
                   <ApprovalButtons bidId={bid.id} />
                 </li>

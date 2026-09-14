@@ -19,6 +19,10 @@ import {
   shortfallToGoalUsd,
 } from "../src/lib/campaign";
 import {
+  completeSameDayMockup,
+  previewKeyFor,
+} from "../src/lib/mockup";
+import {
   listBidsForPanel,
   placeIntentBid,
   loadBoardIntentStats,
@@ -192,5 +196,27 @@ test.describe("wreck + refund rules (no cash path)", () => {
     expect(joined).toMatch(/vault certificate/i);
     expect(joined).not.toMatch(/stripe/i);
     expect(joined).not.toMatch(/\blease\b/i);
+  });
+});
+
+test.describe("same-day Imagine mockup scaffold (no billable API)", () => {
+  test("preview keys are stable and completeSameDay marks ready", () => {
+    const key = previewKeyFor({ panelId: "hood", brandLabel: "Signal Co" });
+    expect(key).toMatch(/^imagine-[0-9a-f]+$/);
+    expect(
+      previewKeyFor({ panelId: "hood", brandLabel: "Signal Co" }),
+    ).toBe(key);
+    const mockup = completeSameDayMockup({
+      id: "mock_1",
+      bidId: "bid_1",
+      panelId: "hood",
+      brandLabel: "Signal Co",
+      tradeLabel: "cold brew",
+      finish: "wrap",
+      previewKey: key,
+      createdAt: "2026-09-14T00:00:00.000Z",
+    });
+    expect(mockup.status).toBe("ready");
+    expect(mockup.readyAt).toBe("2026-09-14T00:00:00.000Z");
   });
 });
