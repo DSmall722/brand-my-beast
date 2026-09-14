@@ -653,7 +653,7 @@ test.describe("cabin plaque names (no capture)", () => {
   test("reserves a name without bid or stripe fields", async () => {
     expect(CABIN_PLAQUE_LEAD).toContain("$58,000");
     expect(CABIN_PLAQUE_LEAD).toContain("$120,000");
-    expect(CABIN_PLAQUE_LEAD.toLowerCase()).toContain("not a bid");
+    expect(CABIN_PLAQUE_LEAD.toLowerCase()).toContain("not a panel seat");
     expect(CABIN_PLAQUE_LEAD.toLowerCase()).not.toMatch(/\blease\b/);
     expect(CABIN_PLAQUE_LEAD).not.toContain("CLOSE_AT");
 

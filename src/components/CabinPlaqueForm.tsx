@@ -7,9 +7,9 @@ type Status = "idle" | "loading" | "created" | "exists" | "error";
 function statusCopy(status: Exclude<Status, "idle" | "loading" | "error">): string {
   switch (status) {
     case "created":
-      return "Name reserved for the cabin plaque. Still not a panel bid. Still not charged.";
+      return "Name reserved for the cabin plaque.";
     case "exists":
-      return "That name is already on the cabin plaque. Still not a panel bid.";
+      return "That name is already on the cabin plaque.";
     default: {
       const _exhaustive: never = status;
       return _exhaustive;
@@ -94,7 +94,7 @@ export function CabinPlaqueForm() {
         role="status"
         data-testid="cabin-plaque-status"
       >
-        {message || "Not a panel bid. No deposit. No card charge."}
+        {message || "Reserve a name for the cabin. Free — not a panel bid."}
       </p>
     </form>
   );

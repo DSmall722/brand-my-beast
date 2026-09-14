@@ -39,7 +39,7 @@ async function expectHeroTitleUnclipped(page: Page) {
 }
 
 test.describe("P1 waitlist campaign locks", () => {
-  test("renders brand, floor, buyout, and auction clock copy", async ({
+  test("renders brand, floor, buyout, and bidding-not-open copy", async ({
     page,
   }) => {
     await page.goto("/");
@@ -52,7 +52,7 @@ test.describe("P1 waitlist campaign locks", () => {
     );
     await expect(page.getByTestId("raised-amount")).toHaveText(formatUsd(0));
     await expect(page.getByTestId("close-copy")).toHaveText(
-      "Auction clock starts when bidding opens.",
+      "Bidding is not open yet.",
     );
     await expect(page.getByTestId("shortfall-ticker")).toBeVisible();
     await expect(page.getByTestId("shortfall-floor")).toHaveText(formatUsd(FLOOR_USD));
@@ -164,6 +164,14 @@ test.describe("P1 waitlist campaign locks", () => {
     expect(html).not.toContain("Florida panhandle");
     expect(html).not.toContain("30-day clock");
     expect(html).not.toContain("FEATURES.md");
+    expect(html).not.toContain("Auction clock");
+    expect(html).not.toContain("Rules draft");
+    expect(html).not.toContain("No close clock on P2");
+    expect(html).not.toContain("Stripe capture");
+    expect(html).not.toMatch(/\bP2\b/);
+    expect(html).not.toContain("No invented miles");
+    expect(html).not.toContain("No invented scan counts");
+    expect(html).not.toContain("No invented city hours");
   });
 
   test("shows the full BrandMyBeast hero title without clipping", async ({
@@ -241,7 +249,7 @@ test.describe("P1 waitlist campaign locks", () => {
       "/signin?callbackUrl=/panels/hood",
     );
     await expect(page.getByTestId("waitlist-next")).toContainText(
-      "no Stripe capture",
+      "cards are not charged yet",
     );
   });
 
@@ -259,7 +267,7 @@ test.describe("P1 waitlist campaign locks", () => {
       "$120,000",
     );
     await expect(page.getByTestId("cabin-plaque-lead")).toContainText(
-      "Not a panel seat",
+      "not a panel seat",
     );
 
     const created = await request.post("/api/plaque", {

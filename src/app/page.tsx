@@ -75,7 +75,7 @@ export default async function HomePage() {
   const shortfallGoal = shortfallToGoalUsd(pledgedUsd);
   const closeCopy =
     CLOSE_AT === null
-      ? "Auction clock starts when bidding opens."
+      ? "Bidding is not open yet."
       : `Closes ${CLOSE_AT}.`;
 
   return (
@@ -216,7 +216,7 @@ export default async function HomePage() {
           </dl>
           <p className="section-lead" style={{ marginTop: "1.5rem" }}>
             When bidding opens, {DEPOSIT_PERCENT}% holds your seat. This page
-            doesn&apos;t charge cards. No close clock on P2.
+            does not charge cards.
           </p>
         </section>
 
@@ -305,7 +305,7 @@ export default async function HomePage() {
         >
           <h2 id="wreck-title">Wreck &amp; refund</h2>
           <p className="section-lead">
-            Rules draft for the contract. No card capture on this page.
+            What happens if the campaign misses or the wrap term ends early.
           </p>
           <ul className="wreck-list" data-testid="wreck-refund-rules">
             {WRECK_REFUND_RULES.map((rule) => (
@@ -522,7 +522,7 @@ export default async function HomePage() {
           <CabinPlaqueForm />
           {plaques.length === 0 ? (
             <p className="empty-state" data-testid="cabin-plaque-empty">
-              No cabin names yet. Reserve one — still not a panel bid.
+              No cabin names yet. Be the first to reserve one.
             </p>
           ) : (
             <ul
