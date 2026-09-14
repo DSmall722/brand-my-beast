@@ -14,8 +14,8 @@ Updated: 2026-09-14
 - A FEATURES.md row is not scheduled until it has a checkbox in this file.
 - Coordinator may merge a PR that finishes exactly one unchecked slice, Playwright is green, and the merge gates below hold.
 
-**Now:** 5.3 Waitlist email can become an account without losing the row.
-**Last merged:** 5.2 (#87 /account shows my intents only)
+**Now:** 5.4 Partner shop view read-only. No header link on the public page.
+**Last merged:** 5.3 (#88 waitlist email keeps row after account)
 
 ## Standing orders
 
@@ -101,7 +101,7 @@ If any gate fails: leave the PR unmerged and stop that slice.
 
 - [x] 5.1 Auth.js email magic link in Production via Resend. Test login is CI-only. (#86)
 - [x] 5.2 /account shows my intents only. (#87)
-- [ ] 5.3 Waitlist email can become an account without losing the row.
+- [x] 5.3 Waitlist email can become an account without losing the row. (#88)
 - [ ] 5.4 Partner shop view read-only. No header link on the public page.
 
 ## Wave 6 — harden

@@ -16,6 +16,8 @@ export const waitlistSignups = pgTable("waitlist_signups", {
     .defaultNow()
     .notNull(),
   source: text("source").notNull().default("p1-waitlist"),
+  /** Set when the waitlist email signs in — row is never deleted (slice 5.3). */
+  userId: text("user_id"),
 });
 
 /**
