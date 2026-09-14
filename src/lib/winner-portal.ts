@@ -67,6 +67,10 @@ export const WINNER_PORTAL_FACTS = [
     text: "Clemson Saturday lock stays empty until the truck exists. No invented lock fee. No reserved VIN.",
   },
   {
+    id: "sighting-bounty-cards",
+    text: "Sighting bounty cards stay empty until the truck exists. No invented bounty dollars. No reserved VIN.",
+  },
+  {
     id: "no-vin",
     text: "No reserved VIN until the campaign clears the floor.",
   },

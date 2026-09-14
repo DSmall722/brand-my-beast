@@ -144,6 +144,10 @@ import {
   CLEMSON_SATURDAY_LOCK_LEAD,
   clemsonSaturdayLockCopyIsSafe,
 } from "../src/lib/clemson-saturday-lock";
+import {
+  SIGHTING_BOUNTY_CARDS_LEAD,
+  sightingBountyCardsCopyIsSafe,
+} from "../src/lib/sighting-bounty-cards";
 
 import {
   EVENT_REQUEST_KINDS,
@@ -599,6 +603,9 @@ test.describe("winner portal (no capture)", () => {
     expect(
       WINNER_PORTAL_FACTS.some((fact) => fact.id === "clemson-saturday-lock"),
     ).toBe(true);
+    expect(
+      WINNER_PORTAL_FACTS.some((fact) => fact.id === "sighting-bounty-cards"),
+    ).toBe(true);
     const blob = WINNER_PORTAL_FACTS.map((fact) => fact.text).join(" ");
 
     expect(blob).toContain("12 months from install");
@@ -1053,6 +1060,26 @@ test.describe("clemson saturday lock (empty until truck)", () => {
     );
     expect(CLEMSON_SATURDAY_LOCK_LEAD.toLowerCase()).toContain("no reserved vin");
     expect(clemsonSaturdayLockCopyIsSafe()).toBe(true);
+    expect(FLOOR_USD).toBe(58_000);
+    expect(GOAL_USD).toBe(120_000);
+  });
+});
+
+test.describe("sighting bounty cards (empty until truck)", () => {
+  test("publishes empty-card copy without invented bounty or reserved VIN", () => {
+    expect(SIGHTING_BOUNTY_CARDS_LEAD).toContain("$58,000");
+    expect(SIGHTING_BOUNTY_CARDS_LEAD).toContain("$120,000");
+    expect(SIGHTING_BOUNTY_CARDS_LEAD.toLowerCase()).toContain(
+      "empty until the truck exists",
+    );
+    expect(SIGHTING_BOUNTY_CARDS_LEAD.toLowerCase()).toContain(
+      "no invented bounty dollars",
+    );
+    expect(SIGHTING_BOUNTY_CARDS_LEAD.toLowerCase()).toContain(
+      "no invented impressions",
+    );
+    expect(SIGHTING_BOUNTY_CARDS_LEAD.toLowerCase()).toContain("no reserved vin");
+    expect(sightingBountyCardsCopyIsSafe()).toBe(true);
     expect(FLOOR_USD).toBe(58_000);
     expect(GOAL_USD).toBe(120_000);
   });
