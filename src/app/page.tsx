@@ -26,6 +26,7 @@ import {
   FLOOR_USD,
   GOAL_USD,
   PANELS,
+  TRUCK_EXISTS,
   WRECK_REFUND_RULES,
   floorMarkerPercentOnGoalTrack,
   floorProgressPercent,
@@ -57,9 +58,11 @@ export const dynamic = "force-dynamic";
 export default async function HomePage() {
   const board = await loadBoardIntentStats();
   const plaques = await listCabinPlaqueLines();
-  const circuitStories = await listCircuitStoryRequests();
-  const sightings = await listSightings();
-  const eventRequests = await listEventRequests();
+  const circuitStories = TRUCK_EXISTS
+    ? await listCircuitStoryRequests()
+    : [];
+  const sightings = TRUCK_EXISTS ? await listSightings() : [];
+  const eventRequests = TRUCK_EXISTS ? await listEventRequests() : [];
   const pledgedUsd = board.pledgedUsd;
   const floorLabel = formatUsd(FLOOR_USD);
   const goalLabel = formatUsd(GOAL_USD);
@@ -88,17 +91,24 @@ export default async function HomePage() {
           <a className="nav-link" href="#plaque">
             Cabin plaque
           </a>
-          <a className="nav-link" href="#circuit-story">
-            Circuit story
-          </a>
-          <a className="nav-link" href="#sightings">
-            Sightings
-          </a>
+          {TRUCK_EXISTS ? (
+            <>
+              <a className="nav-link" href="#circuit-story">
+                Circuit story
+              </a>
+              <a className="nav-link" href="#sightings">
+                Sightings
+              </a>
+            </>
+          ) : null}
           <AuthNav />
         </nav>
       </header>
 
-      <main>
+      <main
+        data-testid="home-main"
+        data-truck-exists={TRUCK_EXISTS ? "true" : "false"}
+      >
         <section className="shell hero" aria-labelledby="hero-title">
           <div className="hero-copy">
             <h1 id="hero-title">{BRAND.name}</h1>
@@ -307,6 +317,8 @@ export default async function HomePage() {
           </ul>
         </section>
 
+        {TRUCK_EXISTS ? (
+          <>
         <section
           className="shell section"
           id="vault-certificate"
@@ -481,6 +493,9 @@ export default async function HomePage() {
           <SightingBountyCardsCard />
         </section>
 
+          </>
+        ) : null}
+
         <section
           className="shell section"
           id="waitlist"
@@ -526,6 +541,8 @@ export default async function HomePage() {
           )}
         </section>
 
+        {TRUCK_EXISTS ? (
+          <>
         <section
           className="shell section"
           id="circuit-story"
@@ -638,6 +655,8 @@ export default async function HomePage() {
             </ul>
           )}
         </section>
+          </>
+        ) : null}
       </main>
 
       <footer className="shell site-footer">

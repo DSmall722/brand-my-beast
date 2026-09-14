@@ -83,261 +83,31 @@ test.describe("P1 waitlist campaign locks", () => {
     await expect(page.getByTestId("wreck-body-immortal-fragment")).toContainText(
       "vault certificate",
     );
-    await expect(page.getByTestId("vault-certificate")).toBeVisible();
-    await expect(page.getByTestId("vault-certificate-lead")).toContainText(
-      "$58,000",
-    );
-    await expect(page.getByTestId("vault-certificate-lead")).toContainText(
-      "$120,000",
-    );
-    await expect(page.getByTestId("vault-cert-buyout-unlock")).toContainText(
-      "$120,000",
-    );
-    await expect(page.getByTestId("vault-cert-not-cash")).toContainText(
-      "Not a cash refund",
-    );
-    await expect(page.getByTestId("vault-cert-floor-miss")).toContainText(
-      "$58,000",
-    );
-    await expect(page.getByTestId("retired-vinyl")).toBeVisible();
-    await expect(page.getByTestId("retired-vinyl-lead")).toContainText(
-      "$58,000",
-    );
-    await expect(page.getByTestId("retired-vinyl-lead")).toContainText(
-      "$120,000",
-    );
-    await expect(page.getByTestId("retired-vinyl-wrap-term")).toContainText(
-      "12 months from install",
-    );
-    await expect(page.getByTestId("retired-vinyl-not-cash")).toContainText(
-      "No livestream",
-    );
-    await expect(page.getByTestId("retired-vinyl-floor-miss")).toContainText(
-      "$58,000",
-    );
-    await expect(page.getByTestId("season-two")).toBeVisible();
-    await expect(page.getByTestId("season-two-lead")).toContainText("$58,000");
-    await expect(page.getByTestId("season-two-lead")).toContainText(
-      "$120,000",
-    );
-    await expect(page.getByTestId("season-two-lead")).toContainText(
-      "not a gift",
-    );
-    await expect(page.getByTestId("season-two-new-buy")).toContainText(
-      "new buy",
-    );
-    await expect(page.getByTestId("season-two-no-first-refusal")).toContainText(
-      "not sold",
-    );
-    await expect(page.getByTestId("rain-night-lighting")).toBeVisible();
-    await expect(page.getByTestId("rain-night-lighting-lead")).toContainText(
-      "$58,000",
-    );
-    await expect(page.getByTestId("rain-night-lighting-lead")).toContainText(
-      "$120,000",
-    );
-    await expect(page.getByTestId("rain-night-lighting-lead")).toContainText(
-      "Not a livestream",
-    );
-    await expect(
-      page.getByTestId("rain-night-lighting-buyout-unlock"),
-    ).toContainText("$120,000");
-    await expect(
-      page.getByTestId("rain-night-lighting-no-livestream"),
-    ).toContainText("Not a close clock");
-    await expect(page.getByTestId("rain-night-lighting-floor-miss")).toContainText(
-      "$58,000",
-    );
-    await expect(page.getByTestId("truck-order-tracker")).toBeVisible();
-    await expect(page.getByTestId("truck-order-tracker-lead")).toContainText(
-      "$58,000",
-    );
-    await expect(page.getByTestId("truck-order-tracker-lead")).toContainText(
-      "$120,000",
-    );
-    await expect(page.getByTestId("truck-order-tracker-lead")).toContainText(
-      "No reserved VIN",
-    );
-    await expect(
-      page.getByTestId("truck-order-tracker-floor-unlock"),
-    ).toContainText("$58,000");
-    await expect(page.getByTestId("truck-order-tracker-no-vin")).toContainText(
-      "No reserved VIN",
-    );
-    await expect(
-      page.getByTestId("truck-order-tracker-buyout-context"),
-    ).toContainText("$120,000");
-    await expect(page.getByTestId("weekly-mileage-ledger")).toBeVisible();
-    await expect(page.getByTestId("weekly-mileage-ledger-lead")).toContainText(
-      "$58,000",
-    );
-    await expect(page.getByTestId("weekly-mileage-ledger-lead")).toContainText(
-      "$120,000",
-    );
-    await expect(page.getByTestId("weekly-mileage-ledger-lead")).toContainText(
-      "No reserved VIN",
-    );
-    await expect(
-      page.getByTestId("weekly-mileage-ledger-empty-until-truck"),
-    ).toContainText("No invented weekly miles");
-    await expect(page.getByTestId("weekly-mileage-ledger-empty")).toContainText(
-      "No weekly rows yet",
-    );
-    await expect(page.getByTestId("weekly-mileage-ledger-no-vin")).toContainText(
-      "No reserved VIN",
-    );
-    await expect(page.getByTestId("landmark-proof-log")).toBeVisible();
-    await expect(page.getByTestId("landmark-proof-log-lead")).toContainText(
-      "$58,000",
-    );
-    await expect(page.getByTestId("landmark-proof-log-lead")).toContainText(
-      "$120,000",
-    );
-    await expect(page.getByTestId("landmark-proof-log-lead")).toContainText(
-      "No reserved VIN",
-    );
-    await expect(
-      page.getByTestId("landmark-proof-log-empty-until-truck"),
-    ).toContainText("No invented landmark visits");
-    await expect(page.getByTestId("landmark-proof-log-empty")).toContainText(
-      "No landmark proofs yet",
-    );
-    await expect(page.getByTestId("landmark-proof-log-no-vin")).toContainText(
-      "No reserved VIN",
-    );
-    await expect(page.getByTestId("city-time-heatmap")).toBeVisible();
-    await expect(page.getByTestId("city-time-heatmap-lead")).toContainText(
-      "$58,000",
-    );
-    await expect(page.getByTestId("city-time-heatmap-lead")).toContainText(
-      "$120,000",
-    );
-    await expect(page.getByTestId("city-time-heatmap-lead")).toContainText(
-      "No reserved VIN",
-    );
-    await expect(
-      page.getByTestId("city-time-heatmap-empty-until-truck"),
-    ).toContainText("No invented city dwell");
-    await expect(page.getByTestId("city-time-heatmap-empty")).toContainText(
-      "No city heat yet",
-    );
-    await expect(page.getByTestId("city-time-heatmap-no-vin")).toContainText(
-      "No reserved VIN",
-    );
-    await expect(page.getByTestId("qr-nfc-scan-counter")).toBeVisible();
-    await expect(page.getByTestId("qr-nfc-scan-counter-lead")).toContainText(
-      "$58,000",
-    );
-    await expect(page.getByTestId("qr-nfc-scan-counter-lead")).toContainText(
-      "$120,000",
-    );
-    await expect(page.getByTestId("qr-nfc-scan-counter-lead")).toContainText(
-      "No reserved VIN",
-    );
-    await expect(
-      page.getByTestId("qr-nfc-scan-counter-empty-until-truck"),
-    ).toContainText("No invented scan counts");
-    await expect(page.getByTestId("qr-nfc-scan-counter-empty")).toContainText(
-      "No scans yet",
-    );
-    await expect(page.getByTestId("qr-nfc-scan-counter-no-vin")).toContainText(
-      "No reserved VIN",
-    );
-    await expect(page.getByTestId("city-ping-winner")).toBeVisible();
-    await expect(page.getByTestId("city-ping-winner-lead")).toContainText(
-      "$58,000",
-    );
-    await expect(page.getByTestId("city-ping-winner-lead")).toContainText(
-      "$120,000",
-    );
-    await expect(page.getByTestId("city-ping-winner-lead")).toContainText(
-      "No reserved VIN",
-    );
-    await expect(
-      page.getByTestId("city-ping-winner-empty-until-truck"),
-    ).toContainText("No invented city pings");
-    await expect(page.getByTestId("city-ping-winner-empty")).toContainText(
-      "No city pings yet",
-    );
-    await expect(page.getByTestId("city-ping-winner-no-vin")).toContainText(
-      "No reserved VIN",
-    );
-    await expect(page.getByTestId("charge-stop-slots")).toBeVisible();
-    await expect(page.getByTestId("charge-stop-slots-lead")).toContainText(
-      "$58,000",
-    );
-    await expect(page.getByTestId("charge-stop-slots-lead")).toContainText(
-      "$120,000",
-    );
-    await expect(page.getByTestId("charge-stop-slots-lead")).toContainText(
-      "No reserved VIN",
-    );
-    await expect(
-      page.getByTestId("charge-stop-slots-empty-until-truck"),
-    ).toContainText("No invented takeover prices");
-    await expect(page.getByTestId("charge-stop-slots-empty")).toContainText(
-      "No charge-stop slots yet",
-    );
-    await expect(page.getByTestId("charge-stop-slots-no-vin")).toContainText(
-      "No reserved VIN",
-    );
-    await expect(page.getByTestId("route-detour-buyout")).toBeVisible();
-    await expect(page.getByTestId("route-detour-buyout-lead")).toContainText(
-      "$58,000",
-    );
-    await expect(page.getByTestId("route-detour-buyout-lead")).toContainText(
-      "$120,000",
-    );
-    await expect(page.getByTestId("route-detour-buyout-lead")).toContainText(
-      "No reserved VIN",
-    );
-    await expect(
-      page.getByTestId("route-detour-buyout-empty-until-truck"),
-    ).toContainText("No invented buyout prices");
-    await expect(page.getByTestId("route-detour-buyout-empty")).toContainText(
-      "No route detours yet",
-    );
-    await expect(page.getByTestId("route-detour-buyout-no-vin")).toContainText(
-      "No reserved VIN",
-    );
-    await expect(page.getByTestId("clemson-saturday-lock")).toBeVisible();
-    await expect(page.getByTestId("clemson-saturday-lock-lead")).toContainText(
-      "$58,000",
-    );
-    await expect(page.getByTestId("clemson-saturday-lock-lead")).toContainText(
-      "$120,000",
-    );
-    await expect(page.getByTestId("clemson-saturday-lock-lead")).toContainText(
-      "No reserved VIN",
-    );
-    await expect(
-      page.getByTestId("clemson-saturday-lock-empty-until-truck"),
-    ).toContainText("No invented lock fee");
-    await expect(page.getByTestId("clemson-saturday-lock-empty")).toContainText(
-      "No Saturday lock yet",
-    );
-    await expect(page.getByTestId("clemson-saturday-lock-no-vin")).toContainText(
-      "No reserved VIN",
-    );
-    await expect(page.getByTestId("sighting-bounty-cards")).toBeVisible();
-    await expect(page.getByTestId("sighting-bounty-cards-lead")).toContainText(
-      "$58,000",
-    );
-    await expect(page.getByTestId("sighting-bounty-cards-lead")).toContainText(
-      "$120,000",
-    );
-    await expect(page.getByTestId("sighting-bounty-cards-lead")).toContainText(
-      "No reserved VIN",
-    );
-    await expect(
-      page.getByTestId("sighting-bounty-cards-empty-until-truck"),
-    ).toContainText("No invented bounty dollars");
-    await expect(page.getByTestId("sighting-bounty-cards-empty")).toContainText(
-      "No bounty cards yet",
-    );
-    await expect(page.getByTestId("sighting-bounty-cards-no-vin")).toContainText(
-      "No reserved VIN",
-    );
+    await expect(page.getByTestId("home-main")).toHaveAttribute(
+      "data-truck-exists",
+      "false",
+    );
+    for (const board of [
+      "vault-certificate",
+      "retired-vinyl",
+      "season-two",
+      "rain-night-lighting",
+      "truck-order-tracker",
+      "weekly-mileage-ledger",
+      "landmark-proof-log",
+      "city-time-heatmap",
+      "qr-nfc-scan-counter",
+      "city-ping-winner",
+      "charge-stop-slots",
+      "route-detour-buyout",
+      "clemson-saturday-lock",
+      "sighting-bounty-cards",
+      "circuit-story",
+      "sightings",
+      "event-calendar",
+    ] as const) {
+      await expect(page.getByTestId(board)).toHaveCount(0);
+    }
 
     await expect(page.getByTestId("raised-hint")).toContainText(
       "Under the floor: full refund.",
@@ -524,16 +294,7 @@ test.describe("P1 waitlist campaign locks", () => {
   }) => {
     const email = `circuit-${Date.now()}@example.com`;
     await page.goto("/");
-    await expect(page.getByTestId("circuit-story")).toBeVisible();
-    await expect(page.getByTestId("circuit-story-lead")).toContainText(
-      "$58,000",
-    );
-    await expect(page.getByTestId("circuit-story-lead")).toContainText(
-      "$120,000",
-    );
-    await expect(page.getByTestId("circuit-story-lead")).toContainText(
-      "No invented impressions",
-    );
+    await expect(page.getByTestId("circuit-story")).toHaveCount(0);
 
     const created = await request.post("/api/circuit-story", {
       data: { email, corridorId: "charlotte", note: "Proof after install" },
@@ -552,9 +313,7 @@ test.describe("P1 waitlist campaign locks", () => {
     expect(await again.json()).toMatchObject({ ok: true, status: "exists" });
 
     await page.goto("/");
-    await expect(page.getByTestId("circuit-story-list")).toContainText(
-      "Charlotte",
-    );
+    await expect(page.getByTestId("circuit-story")).toHaveCount(0);
     const html = await page.content();
     expect(html.toLowerCase()).not.toMatch(/\blease\b/);
     expect(html).not.toContain("CLOSE_AT");
@@ -570,10 +329,7 @@ test.describe("P1 waitlist campaign locks", () => {
   }) => {
     const note = `Grocery lot wrap ${Date.now()}`;
     await page.goto("/");
-    await expect(page.getByTestId("sightings")).toBeVisible();
-    await expect(page.getByTestId("sighting-lead")).toContainText("$58,000");
-    await expect(page.getByTestId("sighting-lead")).toContainText("$120,000");
-    await expect(page.getByTestId("sighting-lead")).toContainText("No bounty");
+    await expect(page.getByTestId("sightings")).toHaveCount(0);
 
     const created = await request.post("/api/sighting", {
       data: { corridorId: "atlanta", note },
@@ -593,8 +349,7 @@ test.describe("P1 waitlist campaign locks", () => {
     expect(await again.json()).toMatchObject({ ok: true, status: "exists" });
 
     await page.goto("/");
-    await expect(page.getByTestId("sighting-list")).toContainText("Atlanta");
-    await expect(page.getByTestId("sighting-list")).toContainText(note);
+    await expect(page.getByTestId("sightings")).toHaveCount(0);
     const html = await page.content();
     expect(html.toLowerCase()).not.toMatch(/\blease\b/);
     expect(html).not.toContain("CLOSE_AT");
@@ -610,19 +365,7 @@ test.describe("P1 waitlist campaign locks", () => {
   }) => {
     const email = `event-${Date.now()}@example.com`;
     await page.goto("/");
-    await expect(page.getByTestId("event-calendar")).toBeVisible();
-    await expect(page.getByTestId("event-calendar-lead")).toContainText(
-      "$58,000",
-    );
-    await expect(page.getByTestId("event-calendar-lead")).toContainText(
-      "$120,000",
-    );
-    await expect(page.getByTestId("event-calendar-lead")).toContainText(
-      "No livestream",
-    );
-    await expect(page.getByTestId("event-calendar-lead")).toContainText(
-      "No reserved VIN",
-    );
+    await expect(page.getByTestId("event-calendar")).toHaveCount(0);
 
     const created = await request.post("/api/event-request", {
       data: {
@@ -646,12 +389,7 @@ test.describe("P1 waitlist campaign locks", () => {
     expect(await again.json()).toMatchObject({ ok: true, status: "exists" });
 
     await page.goto("/");
-    await expect(page.getByTestId("event-calendar-list")).toContainText(
-      "Campus",
-    );
-    await expect(page.getByTestId("event-calendar-list")).toContainText(
-      "2026-11-07",
-    );
+    await expect(page.getByTestId("event-calendar")).toHaveCount(0);
     const html = await page.content();
     expect(html.toLowerCase()).not.toMatch(/\blease\b/);
     expect(html).not.toContain("CLOSE_AT");
@@ -659,43 +397,5 @@ test.describe("P1 waitlist campaign locks", () => {
     expect(html).not.toContain("South Carolina home loop");
     expect(html).not.toContain("Florida panhandle");
     expect(html).not.toMatch(/\b\d+\s*impressions\b/i);
-  });
-
-  test("event request form posts a new campus stop", async ({ page }) => {
-    const email = `event-form-${Date.now()}@example.com`;
-    await page.goto("/");
-    await page.getByTestId("event-calendar-email").fill(email);
-    await page.getByTestId("event-calendar-kind-campus").check();
-    const [response] = await Promise.all([
-      page.waitForResponse(
-        (res) =>
-          res.url().includes("/api/event-request") &&
-          res.request().method() === "POST",
-      ),
-      page.getByTestId("event-calendar-submit").click(),
-    ]);
-    expect(response.status()).toBe(201);
-    await expect(page.getByTestId("event-calendar-status")).toContainText(
-      "Event request saved",
-    );
-  });
-
-  test("sighting form posts a new corridor note", async ({ page }) => {
-    const note = `Form wrap ${Date.now()}`;
-    await page.goto("/");
-    await page.getByTestId("sighting-corridor-i77").check();
-    await page.getByTestId("sighting-note").fill(note);
-    const [response] = await Promise.all([
-      page.waitForResponse(
-        (res) =>
-          res.url().includes("/api/sighting") &&
-          res.request().method() === "POST",
-      ),
-      page.getByTestId("sighting-submit").click(),
-    ]);
-    expect(response.status()).toBe(201);
-    await expect(page.getByTestId("sighting-status")).toContainText(
-      "Sighting posted",
-    );
   });
 });

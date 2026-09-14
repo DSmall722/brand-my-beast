@@ -36,7 +36,7 @@ If any gate fails: leave the PR unmerged and stop that slice.
 
 ## Wave 0 — public page is a waitlist
 
-- [ ] 0.1 Hide every empty P3–P5 homepage section behind truckExists === false. Public / is hero, board, twelve panels, how-it-works, waitlist, footer.
+- [x] 0.1 Hide every empty P3–P5 homepage section behind truckExists === false. Public / is hero, board, twelve panels, how-it-works, waitlist, footer.
 - [ ] 0.2 Same hide on /account and /partner empty boards.
 - [ ] 0.3 Homepage copy audit: no process-memo voice, no invented miles/scans/city hours.
 - [ ] 0.4 Playwright contract: waitlist created/exists; invalid email 400. Production already returns 201 — do not regress.
