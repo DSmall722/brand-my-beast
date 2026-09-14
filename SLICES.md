@@ -13,8 +13,8 @@ Updated: 2026-09-14
 - A FEATURES.md row is not scheduled until it has a checkbox in this file.
 - Coordinator may merge a PR that finishes exactly one unchecked slice, Playwright is green, and the merge gates below hold.
 
-**Now:** 1.1 Intent schema in Drizzle + push on Production.
-**Last merged:** 0.7 (#58 hero truck preview layout A)
+**Now:** 1.2 Signed-in user submits one intent per panel.
+**Last merged:** 1.1 (#59 intent schema + Production push)
 
 ## Standing orders
 
@@ -58,7 +58,7 @@ If any gate fails: leave the PR unmerged and stop that slice.
 
 ## Wave 1 — durable intent
 
-- [ ] 1.1 Intent schema in Drizzle + push on Production. No memory in Production.
+- [x] 1.1 Intent schema in Drizzle + push on Production. No memory in Production. (#59)
 - [ ] 1.2 Signed-in user submits one intent per panel (brand, trade, amount >= opening).
 - [ ] 1.3 Amount is intent only. Page says it does not charge.
 - [ ] 1.4 One brand per trade. Challenger fights the same panel only.

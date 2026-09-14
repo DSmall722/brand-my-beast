@@ -36,11 +36,28 @@ function memoryBids(): IntentBid[] {
   return globalForIntent.__bmbIntentBids;
 }
 
+type IntentStoreEnv = {
+  VERCEL_ENV?: string;
+  INTENT_MODE?: string;
+  DATABASE_URL?: string;
+};
+
+/**
+ * Memory is CI/local only. Vercel Production never uses memory (SLICES 1.1),
+ * even if INTENT_MODE=memory is mis-set. Local `next build` without
+ * DATABASE_URL still uses memory when VERCEL_ENV is unset.
+ */
+export function intentStoreUsesMemory(
+  env: IntentStoreEnv = process.env as IntentStoreEnv,
+): boolean {
+  if (env.VERCEL_ENV === "production") return false;
+  if (env.INTENT_MODE === "memory") return true;
+  if (env.INTENT_MODE === "postgres") return false;
+  return !env.DATABASE_URL;
+}
+
 function useMemoryStore(): boolean {
-  if (process.env.INTENT_MODE === "memory") return true;
-  if (process.env.INTENT_MODE === "postgres") return false;
-  // No DATABASE_URL → memory, including `next build` (NODE_ENV=production).
-  return !process.env.DATABASE_URL;
+  return intentStoreUsesMemory();
 }
 
 function panelById(panelId: string): Panel | undefined {
