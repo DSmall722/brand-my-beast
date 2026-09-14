@@ -86,9 +86,26 @@ test.describe("P1 waitlist campaign locks", () => {
       PUBLIC_COPY.board.clockWhenCloseNull,
     );
     await expect(page.getByTestId("shortfall-ticker")).toBeVisible();
+    await expect(page.getByTestId("shortfall-floor-label")).toHaveText(
+      PUBLIC_COPY.board.shortfallFloorLabel,
+    );
+    await expect(page.getByTestId("shortfall-goal-label")).toHaveText(
+      PUBLIC_COPY.board.shortfallBuyoutLabel,
+    );
+    await expect(page.getByTestId("open-seats-label")).toHaveText(
+      PUBLIC_COPY.board.openSeatsLabel,
+    );
     await expect(page.getByTestId("shortfall-floor")).toHaveText(formatUsd(FLOOR_USD));
     await expect(page.getByTestId("shortfall-goal")).toHaveText(formatUsd(GOAL_USD));
     await expect(page.getByTestId("open-seats")).toHaveText(`12 of ${PANELS.length}`);
+    const shortfallTicker = page.getByTestId("shortfall-ticker");
+    await expect(shortfallTicker).toHaveAttribute(
+      "aria-label",
+      /dollars to floor and open seats/i,
+    );
+    await expect(shortfallTicker).toHaveAttribute("aria-label", /no impressions/i);
+    const shortfallText = (await shortfallTicker.innerText()).toLowerCase();
+    expect(shortfallText).not.toMatch(/impression|cpm|reach/i);
     await expect(page.getByTestId("floor-progress-copy")).toHaveText("0% of floor");
     await expect(page.getByTestId("goal-progress-copy")).toHaveText("0% of buyout");
     await expect(page.getByTestId("visual-vault")).toBeVisible();

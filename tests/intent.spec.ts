@@ -628,6 +628,40 @@ test.describe("honest shortfall math (no clock)", () => {
     expect(shortfallToGoalUsd(GOAL_USD)).toBe(0);
   });
 
+  test("slice 4.2: shortfall and open seats track approved standing only", async () => {
+    process.env.INTENT_MODE = "memory";
+    await resetIntentStoreForTests();
+
+    const empty = await loadBoardIntentStats();
+    expect(shortfallToFloorUsd(empty.pledgedUsd)).toBe(FLOOR_USD);
+    expect(shortfallToGoalUsd(empty.pledgedUsd)).toBe(GOAL_USD);
+    expect(empty.openSeats).toBe(12);
+
+    const listed = await placeIntentBid({
+      panelId: "hood",
+      userId: "shortfall_listed",
+      brandLabel: "Shortfall Listed",
+      tradeLabel: "shortfall snacks",
+      standingUsd: 5000,
+    });
+    expect(listed.ok).toBeTruthy();
+    if (!listed.ok) return;
+
+    const afterListed = await loadBoardIntentStats();
+    expect(shortfallToFloorUsd(afterListed.pledgedUsd)).toBe(FLOOR_USD);
+    expect(afterListed.openSeats).toBe(12);
+
+    const approved = await setIntentStatus(listed.bid.id, "approved");
+    expect(approved.ok).toBeTruthy();
+    if (!approved.ok) return;
+
+    const afterApproved = await loadBoardIntentStats();
+    expect(afterApproved.pledgedUsd).toBe(5000);
+    expect(shortfallToFloorUsd(afterApproved.pledgedUsd)).toBe(FLOOR_USD - 5000);
+    expect(shortfallToGoalUsd(afterApproved.pledgedUsd)).toBe(GOAL_USD - 5000);
+    expect(afterApproved.openSeats).toBe(11);
+  });
+
   test("visual vault markers sit on the buyout track", () => {
     expect(goalProgressPercent(0)).toBe(0);
     expect(goalProgressPercent(GOAL_USD / 2)).toBe(50);
