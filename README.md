@@ -12,14 +12,15 @@ Not affiliated with Tesla, Inc.
 |---|---|
 | [AGENTS.md](./AGENTS.md) | Stop rules for Cursor / pstack / Grok |
 | [CAMPAIGN.md](./CAMPAIGN.md) | Money, identity, route, term. Wins conflicts. |
+| [SLICES.md](./SLICES.md) | **What to build next.** Living queue. Not FEATURES.md. |
 | [RULES.md](./RULES.md) | Panels, increments, etch, refunds |
 | [ARCHITECTURE.md](./ARCHITECTURE.md) | Stack and phases P0–P3 |
 | [PROCESS.md](./PROCESS.md) | Cursor Projects dock + pstack loop |
-| [FEATURES.md](./FEATURES.md) | Ranked backlog. Not for the homepage |
+| [FEATURES.md](./FEATURES.md) | Idea catalog. Not a build order. Not for the homepage |
 | [IDENTITY.md](./IDENTITY.md) | Public vs private surfaces |
 | [STALE.md](./STALE.md) | Killed ideas. Do not revive |
 
-If any file disagrees with `CAMPAIGN.md`, `CAMPAIGN.md` wins.
+If any file disagrees with `CAMPAIGN.md` on money or identity, `CAMPAIGN.md` wins. If a file disagrees with `SLICES.md` on what to build this week, `SLICES.md` wins.
 
 ## Money
 
@@ -31,13 +32,13 @@ There is no cheaper trim. Cyberbeast or refund.
 
 ## Layout
 
-- Root markdown = harness dock. Pin these in Cursor Project Context.
-- `src/` = Next.js App Router production app (P1 waitlist).
+- Root markdown = harness dock. Pin these in Cursor Project Context, including `SLICES.md`.
+- `src/` = Next.js App Router production app.
 - `prototype/` = static HTML/JS/CSS look reference. Bids are `localStorage`. Not production.
 - `campaign/` = email and X SOPs. No personal inboxes in those files.
 - `.cursor/rules/` = always-on agent locks. `.cursor/skills/` = vendored pstack.
 
-## App (P1)
+## App
 
 ```bash
 cp .env.example .env.local

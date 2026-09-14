@@ -1,10 +1,20 @@
 # BrandMyBeast — autonomous slice list
 
-CAMPAIGN.md wins. FEATURES.md is not a build order. This file is.
+CAMPAIGN.md wins money and identity. FEATURES.md is a catalog. **This file is the only build order.**
 
 Updated: 2026-09-14
 
-Coordinator may merge a PR that finishes exactly one unchecked slice, Playwright is green, and the stop rules below hold. Do not skip ahead.
+## How this file stays alive
+
+- Next job = the first unchecked box, wave order. Do not skip. Do not start two boxes in one PR.
+- The PR that finishes a slice also flips that box `[ ]` → `[x]` and appends `(#NN)` on the same line.
+- Set **Now** and **Last merged** in this file in that same PR.
+- Do not add a new checkbox unless the human writes it here first. After Wave 6, idle on polish / a11y / verify-skill. Do not open Wave 7 from FEATURES.md.
+- A FEATURES.md row is not scheduled until it has a checkbox in this file.
+- Coordinator may merge a PR that finishes exactly one unchecked slice, Playwright is green, and the merge gates below hold.
+
+**Now:** 0.2 Hide empty boards on /account and /partner.
+**Last merged:** 0.1 (#? homepage slim)
 
 ## Standing orders
 
@@ -31,13 +41,14 @@ Coordinator may merge a PR that finishes exactly one unchecked slice, Playwright
 - package.json has no stripe
 - rendered HTML has no lease and no personal handle
 - PR does not add a new public homepage section for P3–P5
+- This file has the finished box checked in the same PR
 
 If any gate fails: leave the PR unmerged and stop that slice.
 
 ## Wave 0 — public page is a waitlist
 
 - [x] 0.1 Hide every empty P3–P5 homepage section behind truckExists === false. Public / is hero, board, twelve panels, how-it-works, waitlist, footer.
-- [x] 0.2 Same hide on /account and /partner empty boards.
+- [ ] 0.2 Same hide on /account and /partner empty boards.
 - [ ] 0.3 Homepage copy audit: no process-memo voice, no invented miles/scans/city hours.
 - [ ] 0.4 Playwright contract: waitlist created/exists; invalid email 400. Production already returns 201 — do not regress.
 - [ ] 0.5 prove-all.sh covers 0.1–0.4. CI red = merge nothing else.
