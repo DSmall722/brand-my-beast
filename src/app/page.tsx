@@ -1,6 +1,7 @@
 import { AuthNav } from "@/components/AuthNav";
 import { CabinPlaqueForm } from "@/components/CabinPlaqueForm";
 import { CircuitStoryForm } from "@/components/CircuitStoryForm";
+import { EventRequestForm } from "@/components/EventRequestForm";
 import { SightingForm } from "@/components/SightingForm";
 import { VaultCertificateCard } from "@/components/VaultCertificateCard";
 import { WaitlistForm } from "@/components/WaitlistForm";
@@ -27,6 +28,11 @@ import {
   CIRCUIT_STORY_LEAD,
 } from "@/lib/circuit-story";
 import { listCircuitStoryRequests } from "@/lib/circuit-story-store";
+import {
+  EVENT_REQUEST_KINDS,
+  EVENT_REQUEST_LEAD,
+} from "@/lib/event-request";
+import { listEventRequests } from "@/lib/event-request-store";
 import { loadBoardIntentStats } from "@/lib/intent-store";
 import { SIGHTING_CORRIDORS, SIGHTING_LEAD } from "@/lib/sighting";
 import { listSightings } from "@/lib/sighting-store";
@@ -39,6 +45,7 @@ export default async function HomePage() {
   const plaques = await listCabinPlaqueLines();
   const circuitStories = await listCircuitStoryRequests();
   const sightings = await listSightings();
+  const eventRequests = await listEventRequests();
   const pledgedUsd = board.pledgedUsd;
   const floorLabel = formatUsd(FLOOR_USD);
   const goalLabel = formatUsd(GOAL_USD);
@@ -408,6 +415,47 @@ export default async function HomePage() {
                     {corridor?.label ?? row.corridorId}
                     {" · "}
                     {row.note}
+                  </li>
+                );
+              })}
+            </ul>
+          )}
+        </section>
+
+        <section
+          className="shell section"
+          id="event-calendar"
+          aria-labelledby="event-calendar-title"
+          data-testid="event-calendar"
+        >
+          <h2 id="event-calendar-title">Event request calendar</h2>
+          <p className="section-lead" data-testid="event-calendar-lead">
+            {EVENT_REQUEST_LEAD}
+          </p>
+          <EventRequestForm />
+          {eventRequests.length === 0 ? (
+            <p className="empty-state" data-testid="event-calendar-empty">
+              No event requests yet. After the truck exists — still no
+              livestream.
+            </p>
+          ) : (
+            <ul
+              className="circuit-story-list"
+              data-testid="event-calendar-list"
+            >
+              {eventRequests.map((row) => {
+                const kind = EVENT_REQUEST_KINDS.find(
+                  (item) => item.id === row.kindId,
+                );
+                return (
+                  <li
+                    key={row.id}
+                    data-testid={`event-calendar-row-${row.id}`}
+                  >
+                    {kind?.label ?? row.kindId}
+                    {row.requestedDate
+                      ? ` · ${row.requestedDate}`
+                      : " · requested"}
                   </li>
                 );
               })}

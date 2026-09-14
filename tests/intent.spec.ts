@@ -93,6 +93,15 @@ import {
   vaultCertificateCopyIsSafe,
 } from "../src/lib/vault-certificate";
 import {
+  EVENT_REQUEST_KINDS,
+  EVENT_REQUEST_LEAD,
+  eventRequestCopyIsSafe,
+} from "../src/lib/event-request";
+import {
+  resetEventRequestStoreForTests,
+  submitEventRequest,
+} from "../src/lib/event-request-store";
+import {
   resetSightingStoreForTests,
   submitSighting,
 } from "../src/lib/sighting-store";
@@ -699,6 +708,58 @@ test.describe("immortal vault certificate (no cash)", () => {
     expect(VAULT_CERTIFICATE_LEAD.toLowerCase()).toContain("not cash");
     expect(VAULT_CERTIFICATE_LEAD.toLowerCase()).toContain("no reserved vin");
     expect(vaultCertificateCopyIsSafe()).toBe(true);
+    expect(FLOOR_USD).toBe(58_000);
+    expect(GOAL_USD).toBe(120_000);
+  });
+});
+
+test.describe("event request calendar (no livestream)", () => {
+  test("saves a kind and optional day without a close clock", async () => {
+    expect(EVENT_REQUEST_KINDS.map((row) => row.id)).toEqual([
+      "shop-night",
+      "campus",
+      "hometown",
+      "rest-stop",
+    ]);
+    expect(EVENT_REQUEST_LEAD).toContain("$58,000");
+    expect(EVENT_REQUEST_LEAD).toContain("$120,000");
+    expect(EVENT_REQUEST_LEAD.toLowerCase()).toContain("no livestream");
+    expect(EVENT_REQUEST_LEAD.toLowerCase()).toContain("no reserved vin");
+    expect(EVENT_REQUEST_LEAD.toLowerCase()).toContain("not a close clock");
+    expect(eventRequestCopyIsSafe()).toBe(true);
+
+    await resetEventRequestStoreForTests();
+    const first = await submitEventRequest({
+      email: "Event@Example.com",
+      kindId: "campus",
+      requestedDate: "2026-11-07",
+      note: "  After install  ",
+    });
+    expect(first.ok).toBe(true);
+    if (!first.ok) return;
+    expect(first.status).toBe("created");
+    expect(first.request.email).toBe("event@example.com");
+    expect(first.request.kindId).toBe("campus");
+    expect(first.request.requestedDate).toBe("2026-11-07");
+    expect(first.request.note).toBe("After install");
+    const again = await submitEventRequest({
+      email: "event@example.com",
+      kindId: "campus",
+    });
+    expect(again.ok).toBe(true);
+    if (!again.ok) return;
+    expect(again.status).toBe("exists");
+    const bad = await submitEventRequest({
+      email: "nope",
+      kindId: "campus",
+    });
+    expect(bad.ok).toBe(false);
+    const badDate = await submitEventRequest({
+      email: "event@example.com",
+      kindId: "hometown",
+      requestedDate: "11/07/2026",
+    });
+    expect(badDate.ok).toBe(false);
     expect(FLOOR_USD).toBe(58_000);
     expect(GOAL_USD).toBe(120_000);
   });

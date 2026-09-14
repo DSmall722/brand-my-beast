@@ -364,6 +364,82 @@ test.describe("P1 waitlist campaign locks", () => {
     expect(html).not.toMatch(/\b\d+\s*impressions\b/i);
   });
 
+  test("event request calendar saves without livestream or close clock", async ({
+    page,
+    request,
+  }) => {
+    const email = `event-${Date.now()}@example.com`;
+    await page.goto("/");
+    await expect(page.getByTestId("event-calendar")).toBeVisible();
+    await expect(page.getByTestId("event-calendar-lead")).toContainText(
+      "$58,000",
+    );
+    await expect(page.getByTestId("event-calendar-lead")).toContainText(
+      "$120,000",
+    );
+    await expect(page.getByTestId("event-calendar-lead")).toContainText(
+      "No livestream",
+    );
+    await expect(page.getByTestId("event-calendar-lead")).toContainText(
+      "No reserved VIN",
+    );
+
+    const created = await request.post("/api/event-request", {
+      data: {
+        email,
+        kindId: "campus",
+        requestedDate: "2026-11-07",
+        note: "After install",
+      },
+    });
+    expect(created.status()).toBe(201);
+    expect(await created.json()).toMatchObject({
+      ok: true,
+      status: "created",
+      kindId: "campus",
+    });
+
+    const again = await request.post("/api/event-request", {
+      data: { email, kindId: "campus" },
+    });
+    expect(again.status()).toBe(200);
+    expect(await again.json()).toMatchObject({ ok: true, status: "exists" });
+
+    await page.goto("/");
+    await expect(page.getByTestId("event-calendar-list")).toContainText(
+      "Campus",
+    );
+    await expect(page.getByTestId("event-calendar-list")).toContainText(
+      "2026-11-07",
+    );
+    const html = await page.content();
+    expect(html.toLowerCase()).not.toMatch(/\blease\b/);
+    expect(html).not.toContain("CLOSE_AT");
+    expect(html).not.toContain("FEATURES.md");
+    expect(html).not.toContain("South Carolina home loop");
+    expect(html).not.toContain("Florida panhandle");
+    expect(html).not.toMatch(/\b\d+\s*impressions\b/i);
+  });
+
+  test("event request form posts a new campus stop", async ({ page }) => {
+    const email = `event-form-${Date.now()}@example.com`;
+    await page.goto("/");
+    await page.getByTestId("event-calendar-email").fill(email);
+    await page.getByTestId("event-calendar-kind-campus").check();
+    const [response] = await Promise.all([
+      page.waitForResponse(
+        (res) =>
+          res.url().includes("/api/event-request") &&
+          res.request().method() === "POST",
+      ),
+      page.getByTestId("event-calendar-submit").click(),
+    ]);
+    expect(response.status()).toBe(201);
+    await expect(page.getByTestId("event-calendar-status")).toContainText(
+      "Event request saved",
+    );
+  });
+
   test("sighting form posts a new corridor note", async ({ page }) => {
     const note = `Form wrap ${Date.now()}`;
     await page.goto("/");
