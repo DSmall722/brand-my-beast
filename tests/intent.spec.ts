@@ -109,6 +109,10 @@ import {
   rainNightLightingCopyIsSafe,
 } from "../src/lib/rain-night-lighting";
 import {
+  TRUCK_ORDER_TRACKER_LEAD,
+  truckOrderTrackerCopyIsSafe,
+} from "../src/lib/truck-order-tracker";
+import {
   EVENT_REQUEST_KINDS,
   EVENT_REQUEST_LEAD,
   eventRequestCopyIsSafe,
@@ -535,6 +539,9 @@ test.describe("winner portal (no capture)", () => {
     expect(
       WINNER_PORTAL_FACTS.some((fact) => fact.id === "rain-night-lighting"),
     ).toBe(true);
+    expect(
+      WINNER_PORTAL_FACTS.some((fact) => fact.id === "truck-order-tracker"),
+    ).toBe(true);
     const blob = WINNER_PORTAL_FACTS.map((fact) => fact.text).join(" ");
     expect(blob).toContain("12 months from install");
     expect(blob).not.toContain("CLOSE_AT");
@@ -838,6 +845,18 @@ test.describe("rain/night lighting after buyout (no livestream)", () => {
     expect(RAIN_NIGHT_LIGHTING_LEAD.toLowerCase()).toContain("not a livestream");
     expect(RAIN_NIGHT_LIGHTING_LEAD.toLowerCase()).toContain("no reserved vin");
     expect(rainNightLightingCopyIsSafe()).toBe(true);
+    expect(FLOOR_USD).toBe(58_000);
+    expect(GOAL_USD).toBe(120_000);
+  });
+});
+
+test.describe("truck-order tracker after floor (no reserved VIN)", () => {
+  test("publishes order-path copy without clock, VIN, or invented fee", () => {
+    expect(TRUCK_ORDER_TRACKER_LEAD).toContain("$58,000");
+    expect(TRUCK_ORDER_TRACKER_LEAD).toContain("$120,000");
+    expect(TRUCK_ORDER_TRACKER_LEAD.toLowerCase()).toContain("order path");
+    expect(TRUCK_ORDER_TRACKER_LEAD.toLowerCase()).toContain("no reserved vin");
+    expect(truckOrderTrackerCopyIsSafe()).toBe(true);
     expect(FLOOR_USD).toBe(58_000);
     expect(GOAL_USD).toBe(120_000);
   });

@@ -31,6 +31,10 @@ export const WINNER_PORTAL_FACTS = [
     text: `Rain/night lighting unlocks only at ${formatUsd(GOAL_USD)}. Not a livestream. No reserved VIN.`,
   },
   {
+    id: "truck-order-tracker",
+    text: `Truck-order tracker opens after the floor. Buyout ${formatUsd(GOAL_USD)} buys the truck. No reserved VIN.`,
+  },
+  {
     id: "no-vin",
     text: "No reserved VIN until the campaign clears the floor.",
   },

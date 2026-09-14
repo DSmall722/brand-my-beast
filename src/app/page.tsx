@@ -6,6 +6,7 @@ import { RainNightLightingCard } from "@/components/RainNightLightingCard";
 import { RetiredVinylCard } from "@/components/RetiredVinylCard";
 import { SeasonTwoBoardCard } from "@/components/SeasonTwoBoardCard";
 import { SightingForm } from "@/components/SightingForm";
+import { TruckOrderTrackerCard } from "@/components/TruckOrderTrackerCard";
 import { VaultCertificateCard } from "@/components/VaultCertificateCard";
 import { WaitlistForm } from "@/components/WaitlistForm";
 import {
@@ -342,6 +343,18 @@ export default async function HomePage() {
             Post-buyout lighting story. Not a livestream. Not a clock.
           </p>
           <RainNightLightingCard />
+        </section>
+
+        <section
+          className="shell section"
+          id="truck-order-tracker"
+          aria-labelledby="truck-order-tracker-title"
+        >
+          <h2 id="truck-order-tracker-title">Truck-order tracker</h2>
+          <p className="section-lead">
+            Order-path board after the floor. No reserved VIN. Not a clock.
+          </p>
+          <TruckOrderTrackerCard />
         </section>
 
         <section
