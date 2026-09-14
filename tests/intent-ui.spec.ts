@@ -190,6 +190,27 @@ test.describe("P2 panel intent + approvals", () => {
     expect(html).not.toContain("CLOSE_AT");
   });
 
+  test("slice 3.4: etchable seat shows RULES.md etch linter", async ({
+    page,
+  }) => {
+    await page.goto("/panels/hood");
+    await expect(page.getByTestId("panel-mockup")).toHaveAttribute(
+      "data-etchable",
+      "true",
+    );
+    await expect(page.getByTestId("etch-constraint-linter")).toBeVisible();
+    await expect(page.getByTestId("etch-constraint-list")).toBeVisible();
+    await expect(page.getByTestId("etch-constraint-one-color")).toBeVisible();
+    await expect(page.getByTestId("etch-constraint-no-gradients")).toBeVisible();
+    await expect(page.getByTestId("etch-constraint-no-fine-type")).toBeVisible();
+    await page.getByTestId("etch-art-notes").fill("full color gradient photo");
+    await expect(page.getByTestId("etch-lint-issues")).toBeVisible();
+    await expect(page.getByTestId("etch-lint-etch-forbidden-art")).toBeVisible();
+    const html = await page.content();
+    expect(html.toLowerCase()).not.toMatch(/\blease\b/);
+    expect(html).not.toContain("CLOSE_AT");
+  });
+
   test("adjacent clash soft-warns when neighbor holds overlapping brand", async ({
     browser,
   }) => {
