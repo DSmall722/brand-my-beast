@@ -14,7 +14,7 @@ Updated: 2026-09-14
 - A FEATURES.md row is not scheduled until it has a checkbox in this file.
 - Coordinator may merge a PR that finishes exactly one unchecked slice, Playwright is green, and the merge gates below hold.
 
-**Now:** 6.6 Rate-limit waitlist + intent POSTs.
+**Now:** 0.9 Ship locked copy v2 from PUBLIC_COPY.md (then resume 6.6).
 **Last merged:** 6.5 (#94 Failure copy when DB is down)
 
 ## Standing orders
@@ -58,6 +58,7 @@ If any gate fails: leave the PR unmerged and stop that slice.
 - [x] 0.6 GitHub Actions: Playwright on every PR. (#57)
 - [x] 0.7 Hero truck preview (layout A). Fill the empty mobile hero well with a bare stainless Cyberbeast still (side or 3-quarter). Keep the full-bleed dark hero. Wordmark + one lead line + two CTAs overlay the lower third (over bed/ground, not the cab). Truck is the first thing on a phone. Tap/click the truck goes to `#panels`. Do not show wrap or etch as delivered. Do not use Tesla marks, teslacyberbeast livery, a 48-state map, or a 3D configurator. Label it a preview of the board. No new homepage sections. Asset lives in the repo (`public/` or `src/app`), not a hotlinked Tesla CDN. After this ships, 6.9 is only residual clip-check. (#58)
 - [x] 0.8 Ship PUBLIC_COPY.md onto `/` verbatim. Replace telegram hero lines. Section order: hero, The numbers, The twelve panels, How it works, What etch actually is, Questions people actually ask, Get on the list, footer. Keep the 0.7 stainless still. Keep $58,000 / $120,000 / 20% / CLOSE_AT null / hello@brandmybeast.com. Do not invent a per-panel etch dollar. Do not add Cabin plaque or FEATURES boards. Playwright asserts H1 `Put your brand on a Cybertruck.`, etch section present, no lease, no close date. After merge, resume Wave 1 at 1.3. (#62)
+- [ ] 0.9 Ship locked copy v2 from PUBLIC_COPY.md verbatim. H1 must be `Put your brand on the truck people already photograph.` Lead must be the three-beat line (twelve companies / one Cyberbeast / $58,000 or nobody pays). Kill public use of P3, pledged intent, and operator-finances. Keep stainless hero, $58,000 / $120,000 / 20% / CLOSE_AT null / hello@. No invented etch price. Playwright asserts the new H1 and `Notify me`. After merge, resume 6.5.
 
 ## Wave 1 — durable intent
 
@@ -90,7 +91,7 @@ If any gate fails: leave the PR unmerged and stop that slice.
 
 ## Wave 4 — board honesty
 
-- [x] 4.1 Public “standing” = sum of approved intents. Label it pledged intent, not cash raised, until P3. (#80)
+- [x] 4.1 Public “standing” = sum of approved intents. Label it pledged so far, not cash raised, until cards exist. (#80)
 - [x] 4.2 Shortfall ticker: dollars to floor, open seats. No impressions. (#81)
 - [x] 4.3 Vault marks at $58,000 and $120,000 on the bar only. (#82)
 - [x] 4.4 Wreck / refund FAQ uses PUBLIC_COPY.md + CAMPAIGN.md only. No invented legal terms. (#83)
@@ -116,7 +117,7 @@ If any gate fails: leave the PR unmerged and stop that slice.
 - [ ] 6.8 Keyboard / labels / contrast on /, seat, operator.
 - [ ] 6.9 Hero wordmark and truck still not clipped on mobile.
 - [ ] 6.10 OG image and favicon, public brand only.
-- [ ] 6.11 Playwright: homepage matches PUBLIC_COPY.md H1, etch section, waitlist button `Notify me`.
+- [ ] 6.11 Playwright: homepage matches PUBLIC_COPY.md H1 `Put your brand on the truck people already photograph.` and waitlist button `Notify me`.
 
 ## After Wave 6
 
