@@ -745,6 +745,48 @@ a {
   text-underline-offset: 0.15em;
 }
 
+.hometown-lane {
+  margin: 1rem 0 1.25rem;
+  padding: 0.85rem 1rem;
+  border: 1px solid var(--hairline);
+  border-radius: 0.65rem;
+  background: color-mix(in oklab, black 18%, transparent);
+}
+
+.hometown-lane-title {
+  margin: 0 0 0.3rem;
+  font-size: 0.78rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--steel-300);
+}
+
+.hometown-lane-hint {
+  margin: 0 0 0.55rem;
+  color: var(--steel-400);
+  font-size: 0.9rem;
+  line-height: 1.4;
+}
+
+.hometown-lane-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.hometown-lane-tag {
+  border: 1px solid var(--hairline);
+  border-radius: 0.4rem;
+  padding: 0.28rem 0.65rem;
+  font-size: 0.78rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--steel-100);
+}
+
 .adjacent-clash-hint {
   margin: 0.35rem 0 0.75rem;
   padding: 0.7rem 0.85rem;

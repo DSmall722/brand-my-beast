@@ -63,6 +63,17 @@ test.describe("P2 panel intent + approvals", () => {
     );
     await expect(page.getByTestId("adjacent-neighbors")).toBeVisible();
     await expect(page.getByTestId("adjacent-neighbors-empty")).toBeVisible();
+    await expect(page.getByTestId("hometown-lane")).toBeVisible();
+    await expect(page.getByTestId("hometown-lane-sc")).toHaveText("SC");
+    await expect(page.getByTestId("hometown-lane-charlotte")).toHaveText(
+      "Charlotte",
+    );
+    await expect(page.getByTestId("hometown-lane-atlanta")).toHaveText(
+      "Atlanta",
+    );
+    await expect(page.getByTestId("hometown-lane-panhandle")).toHaveText(
+      "Panhandle",
+    );
     await expect(page.getByTestId("panel-stats")).toBeVisible();
     await expect(page.getByTestId("intent-only-banner")).toContainText(
       "No Stripe capture",
@@ -71,6 +82,8 @@ test.describe("P2 panel intent + approvals", () => {
     const html = await page.content();
     expect(html.toLowerCase()).not.toMatch(/\blease\b/);
     expect(html).not.toContain("CLOSE_AT");
+    expect(html).not.toContain("South Carolina home loop");
+    expect(html).not.toContain("Florida panhandle");
   });
 
   test("signed-in bidder sees highway legibility warn on long brand", async ({
