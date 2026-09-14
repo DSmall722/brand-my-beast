@@ -273,6 +273,51 @@ test.describe("intent store memory ledger", () => {
     await resetIntentStoreForTests();
   });
 
+  test("slice 1.2: rejects mark below panel opening", async () => {
+    const low = await placeIntentBid({
+      panelId: "hood",
+      userId: "user_low",
+      brandLabel: "Low Bid Co",
+      tradeLabel: "trail mix",
+      standingUsd: 2499,
+    });
+    expect(low.ok).toBeFalsy();
+    if (low.ok) return;
+    expect(low.error).toMatch(/at least 2500/i);
+  });
+
+  test("slice 1.2: signed-in user keeps one listed intent per panel", async () => {
+    const first = await placeIntentBid({
+      panelId: "hood",
+      userId: "user_one",
+      brandLabel: "One Brand",
+      tradeLabel: "trail snacks",
+      standingUsd: 2500,
+    });
+    expect(first.ok).toBeTruthy();
+    if (!first.ok) return;
+
+    const second = await placeIntentBid({
+      panelId: "hood",
+      userId: "user_one",
+      brandLabel: "One Brand",
+      tradeLabel: "trail snacks",
+      standingUsd: 2500,
+    });
+    expect(second.ok).toBeTruthy();
+    if (!second.ok) return;
+
+    const listed = await listBidsForPanel("hood");
+    const active = listed.filter(
+      (bid) => bid.userId === "user_one" && bid.status === "listed",
+    );
+    expect(active).toHaveLength(1);
+    expect(active[0]?.id).toBe(second.bid.id);
+    expect(listed.find((bid) => bid.id === first.bid.id)?.status).toBe(
+      "withdrawn",
+    );
+  });
+
   test("places, outbids, and approves without capture fields", async () => {
     const first = await placeIntentBid({
       panelId: "hood",

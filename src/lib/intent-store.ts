@@ -291,6 +291,35 @@ export async function placeIntentBid(
     };
   }
 
+  // Slice 1.2: one active listed intent per user per panel — withdraw
+  // the caller's prior listed row before min/outbid so replaces don't stack.
+  if (useMemoryStore()) {
+    for (const existing of memoryBids()) {
+      if (
+        existing.panelId === input.panelId &&
+        existing.status === "listed" &&
+        existing.userId === input.userId
+      ) {
+        existing.status = "withdrawn";
+      }
+    }
+  } else {
+    const dbForWithdraw = getDb();
+    if (!dbForWithdraw) {
+      return { ok: false, error: "Intent ledger is not configured." };
+    }
+    await dbForWithdraw
+      .update(intentBids)
+      .set({ status: "withdrawn" })
+      .where(
+        and(
+          eq(intentBids.panelId, input.panelId),
+          eq(intentBids.status, "listed"),
+          eq(intentBids.userId, input.userId),
+        ),
+      );
+  }
+
   const minimum = await minimumIntentUsd(input.panelId);
   const standingUsd = input.standingUsd ?? minimum;
   if (standingUsd < minimum) {
