@@ -47,6 +47,8 @@ test.describe("P2 panel intent + approvals", () => {
     await page.getByTestId("etch-art-notes").fill("full color gradient photo");
     await expect(page.getByTestId("etch-lint-issues")).toBeVisible();
     await expect(page.getByTestId("etch-lint-etch-forbidden-art")).toBeVisible();
+    await expect(page.getByTestId("adjacent-neighbors")).toBeVisible();
+    await expect(page.getByTestId("adjacent-neighbors-empty")).toBeVisible();
     await expect(page.getByTestId("panel-stats")).toBeVisible();
     await expect(page.getByTestId("intent-only-banner")).toContainText(
       "No Stripe capture",
@@ -68,6 +70,34 @@ test.describe("P2 panel intent + approvals", () => {
       "warn",
     );
     await expect(page.getByTestId("legibility-brand-long")).toBeVisible();
+  });
+
+  test("adjacent clash soft-warns when neighbor holds overlapping brand", async ({
+    browser,
+  }) => {
+    const neighbor = await browser.newPage();
+    await signIn(neighbor, "neighbor@example.com");
+    await neighbor.goto("/panels/front-fascia");
+    await neighbor.getByTestId("intent-brand").fill("Acme Steel");
+    await neighbor.getByTestId("intent-trade").fill("fasteners");
+    await neighbor.getByTestId("intent-submit").click();
+    await expect(neighbor.getByTestId("intent-success")).toContainText(
+      "not charged",
+    );
+    await neighbor.close();
+
+    const bidder = await browser.newPage();
+    await signIn(bidder, "clash@example.com");
+    await bidder.goto("/panels/hood");
+    await expect(bidder.getByTestId("adjacent-neighbors-list")).toContainText(
+      "Acme Steel",
+    );
+    await bidder.getByTestId("intent-brand").fill("Acme Steel");
+    await expect(bidder.getByTestId("adjacent-clash-hint")).toBeVisible();
+    await expect(
+      bidder.getByTestId("adjacent-clash-front-fascia"),
+    ).toContainText("Same brand");
+    await bidder.close();
   });
 
   test("signed-in bidder lists intent and operator can approve", async ({

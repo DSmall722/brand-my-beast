@@ -28,6 +28,11 @@ import {
   lintEtchArtNotes,
 } from "../src/lib/etch-linter";
 import {
+  findAdjacentClashes,
+  holdersOnAdjacentPanels,
+  PANEL_ADJACENCY,
+} from "../src/lib/panel-clash";
+import {
   listBidsForPanel,
   placeIntentBid,
   loadBoardIntentStats,
@@ -268,5 +273,53 @@ test.describe("etch constraint linter (no capture)", () => {
     const bad = lintEtchArtNotes("full color gradient photo mark");
     expect(bad.severity).toBe("fail");
     expect(bad.issues.some((i) => i.id === "etch-forbidden-art")).toBe(true);
+  });
+});
+
+test.describe("adjacent-panel clash detector (no capture)", () => {
+  test("flags same brand and overlap on truck-face neighbors", () => {
+    expect(PANEL_ADJACENCY.hood).toContain("front-fascia");
+    const neighbors = holdersOnAdjacentPanels(
+      "hood",
+      new Map([
+        [
+          "front-fascia",
+          {
+            panelId: "front-fascia",
+            panelName: "Front fascia",
+            brandLabel: "Acme Steel",
+            tradeLabel: "tools",
+          },
+        ],
+        ["roof", null],
+      ]),
+    );
+    expect(neighbors).toHaveLength(1);
+    expect(
+      findAdjacentClashes({
+        panelId: "hood",
+        brandLabel: "Acme Steel",
+        neighbors,
+      }),
+    ).toEqual([
+      expect.objectContaining({
+        panelId: "front-fascia",
+        reason: "same-brand",
+      }),
+    ]);
+    expect(
+      findAdjacentClashes({
+        panelId: "hood",
+        brandLabel: "Acme Tools Co",
+        neighbors,
+      })[0]?.reason,
+    ).toBe("brand-overlap");
+    expect(
+      findAdjacentClashes({
+        panelId: "hood",
+        brandLabel: "Other Brand",
+        neighbors,
+      }),
+    ).toEqual([]);
   });
 });
