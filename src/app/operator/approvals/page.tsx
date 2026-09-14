@@ -1,76 +1,103 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { ApprovalButtons } from "@/components/ApprovalButtons";
+import { SiteChrome } from "@/components/SiteChrome";
 import { auth } from "@/lib/auth";
-import { resolveAuthMode } from "@/lib/auth/mode";
+import { isOperatorEmail } from "@/lib/auth/operator";
 import { formatUsd, PANELS } from "@/lib/campaign";
 import { listBidsPendingApproval } from "@/lib/intent-store";
-
-function isOperator(email: string | null | undefined): boolean {
-  if (!email) return false;
-  const allow = (process.env.OPERATOR_EMAILS ?? "")
-    .split(",")
-    .map((value) => value.trim().toLowerCase())
-    .filter(Boolean);
-  if (allow.includes(email.toLowerCase())) return true;
-  if (resolveAuthMode() === "test" && email.endsWith("@example.com")) {
-    return true;
-  }
-  return false;
-}
 
 export default async function OperatorApprovalsPage() {
   const session = await auth();
   if (!session?.user) {
     redirect("/signin?callbackUrl=/operator/approvals");
   }
-  if (!isOperator(session.user.email)) {
+  if (!isOperatorEmail(session.user.email)) {
     return (
-      <main className="shell auth-page" data-testid="operator-denied">
-        <h1>Operator only</h1>
-        <p className="section-lead">
-          This approval thread is limited to operator emails. Set{" "}
-          <code>OPERATOR_EMAILS</code> in Vercel.
-        </p>
-        <Link href="/">Back to the board</Link>
-      </main>
+      <>
+        <SiteChrome />
+        <main className="shell auth-page" data-testid="operator-denied">
+          <h1>Operator only</h1>
+          <p className="section-lead">
+            This approval thread is limited to operator emails. Set{" "}
+            <code>OPERATOR_EMAILS</code> in Vercel.
+          </p>
+          <Link href="/">Back to the board</Link>
+        </main>
+      </>
     );
   }
 
   const pending = await listBidsPendingApproval();
 
   return (
-    <main className="shell auth-page" data-testid="operator-approvals">
-      <p className="eyebrow">Operator</p>
-      <h1>Intent approvals</h1>
-      <p className="section-lead">
-        Approve or reject listed intents. No cards are charged here.
-      </p>
-
-      {pending.length === 0 ? (
-        <p className="auth-hint" data-testid="approvals-empty">
-          No listed intents waiting.
+    <>
+      <SiteChrome />
+      <main
+        className="shell auth-page approvals-page"
+        data-testid="operator-approvals"
+      >
+        <p className="eyebrow">Operator</p>
+        <h1>Intent approvals</h1>
+        <p className="section-lead">
+          Approve or reject listed intents. No cards are charged here.
         </p>
-      ) : (
-        <ul className="intent-list" data-testid="approvals-list">
-          {pending.map((bid) => {
-            const panel = PANELS.find((row) => row.id === bid.panelId);
-            return (
-              <li key={bid.id} data-testid={`approval-row-${bid.id}`}>
-                <div>
-                  <strong>{bid.brandLabel}</strong> on{" "}
-                  {panel?.name ?? bid.panelId} — {formatUsd(bid.standingUsd)}
-                </div>
-                <ApprovalButtons bidId={bid.id} />
-              </li>
-            );
-          })}
-        </ul>
-      )}
 
-      <p className="auth-back">
-        <Link href="/">Back to the board</Link>
-      </p>
-    </main>
+        <p className="approvals-count" data-testid="approvals-count">
+          {pending.length === 0 ? "Queue clear" : `${pending.length} waiting`}
+        </p>
+
+        {pending.length === 0 ? (
+          <div className="empty-state" data-testid="approvals-empty">
+            <p>No listed intents waiting.</p>
+            <p className="auth-hint">
+              New marks show up here when a bidder lists on a panel.
+            </p>
+            <Link className="btn btn-ghost" href="/#panels">
+              Browse panels
+            </Link>
+          </div>
+        ) : (
+          <ul
+            className="intent-list approval-list"
+            data-testid="approvals-list"
+          >
+            {pending.map((bid) => {
+              const panel = PANELS.find((row) => row.id === bid.panelId);
+              return (
+                <li
+                  key={bid.id}
+                  className="approval-card"
+                  data-testid={`approval-row-${bid.id}`}
+                >
+                  <div className="approval-card-body">
+                    <div className="approval-card-title">
+                      <strong>{bid.brandLabel}</strong>
+                      <span className="badge badge-status badge-listed">
+                        Listed
+                      </span>
+                    </div>
+                    <p className="approval-card-meta">
+                      <Link href={`/panels/${bid.panelId}`}>
+                        {panel?.name ?? bid.panelId}
+                      </Link>
+                      {" · "}
+                      {formatUsd(bid.standingUsd)}
+                      {" · deposit shown "}
+                      {formatUsd(bid.depositUsd)}
+                    </p>
+                  </div>
+                  <ApprovalButtons bidId={bid.id} />
+                </li>
+              );
+            })}
+          </ul>
+        )}
+
+        <p className="auth-back">
+          <Link href="/">Back to the board</Link>
+        </p>
+      </main>
+    </>
   );
 }
