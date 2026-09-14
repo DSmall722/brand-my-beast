@@ -9,6 +9,10 @@ import {
   type IntentBid,
 } from "../src/lib/intent";
 import {
+  parseIntentArtwork,
+  ARTWORK_MAX_DATA_URL_CHARS,
+} from "../src/lib/intent-artwork";
+import {
   FLOOR_USD,
   GOAL_USD,
   CLOSE_AT,
@@ -235,6 +239,7 @@ test.describe("P2 intent math (no capture)", () => {
       depositUsd: depositUsdForMark(2500),
       status: "listed",
       createdAt: "2026-09-14T00:00:00.000Z",
+      artworkUrl: null,
     };
     assertIntentOnly(bid);
     expect(() =>
@@ -1529,5 +1534,61 @@ test.describe("sighting bounty cards (empty until truck)", () => {
     expect(sightingBountyCardsCopyIsSafe()).toBe(true);
     expect(FLOOR_USD).toBe(58_000);
     expect(GOAL_USD).toBe(120_000);
+  });
+});
+
+
+
+test.describe("intent artwork attachment (no capture)", () => {
+  test("slice 3.5: accepts https artwork URL", () => {
+    const parsed = parseIntentArtwork({
+      artworkUrl: "https://cdn.example.com/mark.png",
+    });
+    expect(parsed.ok).toBe(true);
+    if (parsed.ok) {
+      expect(parsed.artworkUrl).toBe("https://cdn.example.com/mark.png");
+    }
+  });
+
+  test("slice 3.5: accepts small data-image upload", () => {
+    const upload = "data:image/png;base64,iVBORw0KGgo=";
+    const parsed = parseIntentArtwork({ artworkUpload: upload });
+    expect(parsed.ok).toBe(true);
+    if (parsed.ok) expect(parsed.artworkUrl).toBe(upload);
+  });
+
+  test("slice 3.5: rejects URL and upload together", () => {
+    const parsed = parseIntentArtwork({
+      artworkUrl: "https://cdn.example.com/mark.png",
+      artworkUpload: "data:image/png;base64,abc",
+    });
+    expect(parsed.ok).toBe(false);
+  });
+
+  test("slice 3.5: placeIntentBid stores artwork URL", async () => {
+    process.env.INTENT_MODE = "memory";
+    await resetIntentStoreForTests();
+    const result = await placeIntentBid({
+      panelId: "hood",
+      userId: "art_user",
+      brandLabel: "Art Co",
+      tradeLabel: "vinyl marks",
+      standingUsd: 2500,
+      artworkUrl: "https://cdn.example.com/art-co.svg",
+    });
+    expect(result.ok).toBe(true);
+    if (!result.ok) return;
+    expect(result.bid.artworkUrl).toBe("https://cdn.example.com/art-co.svg");
+    assertIntentOnly(result.bid);
+  });
+
+  test("slice 3.5: migration adds artwork_url without stripe columns", () => {
+    const sql = readFileSync(
+      join(process.cwd(), "drizzle/0003_intent_artwork_url.sql"),
+      "utf8",
+    );
+    expect(sql).toContain("artwork_url");
+    expect(sql.toLowerCase()).not.toContain("stripe");
+    expect(ARTWORK_MAX_DATA_URL_CHARS).toBeGreaterThan(10_000);
   });
 });

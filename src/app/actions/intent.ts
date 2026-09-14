@@ -8,6 +8,7 @@ import {
   getApprovalNote,
   saveApprovalNote,
 } from "@/lib/approval-note-store";
+import { parseIntentArtwork } from "@/lib/intent-artwork";
 import { placeIntentBid, setIntentStatus } from "@/lib/intent-store";
 
 export type IntentActionState = {
@@ -30,6 +31,11 @@ export async function submitIntentBid(
   const tradeLabel = String(formData.get("tradeLabel") ?? "");
   const standingRaw = String(formData.get("standingUsd") ?? "").trim();
   const standingUsd = standingRaw ? Number(standingRaw) : undefined;
+  const artwork = parseIntentArtwork({
+    artworkUrl: String(formData.get("artworkUrl") ?? ""),
+    artworkUpload: String(formData.get("artworkUpload") ?? ""),
+  });
+  if (!artwork.ok) return { ok: false, error: artwork.error };
 
   const result = await placeIntentBid({
     panelId,
@@ -37,6 +43,7 @@ export async function submitIntentBid(
     brandLabel,
     tradeLabel,
     standingUsd,
+    artworkUrl: artwork.artworkUrl,
   });
 
   if (!result.ok) return { ok: false, error: result.error };

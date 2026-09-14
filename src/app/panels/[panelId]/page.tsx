@@ -4,6 +4,7 @@ import {
   AdjacentNeighborsCard,
 } from "@/components/AdjacentClashHint";
 import { HometownLaneTags } from "@/components/HometownLaneTags";
+import { IntentArtworkPreview } from "@/components/IntentArtworkPreview";
 import { IntentBidForm } from "@/components/IntentBidForm";
 import { NeighborComboCard } from "@/components/NeighborComboCard";
 import { PanelMockup } from "@/components/PanelMockup";
@@ -235,6 +236,7 @@ export default async function PanelIntentPage({
                     Deposit shown {formatUsd(bid.depositUsd)} (not charged)
                   </span>
                 </div>
+                <IntentArtworkPreview artworkUrl={bid.artworkUrl} bidId={bid.id} />
               </li>
             ))}
           </ul>
