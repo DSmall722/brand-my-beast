@@ -175,6 +175,22 @@ test.describe("P2 panel intent + approvals", () => {
     await bidder.close();
   });
 
+  test("slice 1.2: signed-in user submits brand, trade, and amount at opening", async ({
+    page,
+  }) => {
+    await signIn(page, "slice12@example.com");
+    await page.goto("/panels/hood");
+    await expect(page.getByTestId("intent-bid-form")).toBeVisible();
+    await page.getByTestId("intent-brand").fill("Slice Twelve Co");
+    await page.getByTestId("intent-trade").fill("panel seats");
+    await page.getByTestId("intent-standing").fill("2500");
+    await page.getByTestId("intent-submit").click();
+    await expect(page.getByTestId("intent-success")).toBeVisible();
+    await expect(page.getByTestId("intent-list")).toContainText("Slice Twelve Co");
+    await expect(page.getByTestId("intent-list")).toContainText("panel seats");
+    await expect(page.getByTestId("intent-list")).toContainText("2,500");
+  });
+
   test("signed-in bidder lists intent and operator can approve", async ({
     browser,
   }) => {
