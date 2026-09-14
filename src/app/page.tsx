@@ -20,6 +20,7 @@ import { RouteDetourBuyoutCard } from "@/components/RouteDetourBuyoutCard";
 import { ClemsonSaturdayLockCard } from "@/components/ClemsonSaturdayLockCard";
 import { SightingBountyCardsCard } from "@/components/SightingBountyCardsCard";
 import { WholeTruckIntentForm } from "@/components/WholeTruckIntentForm";
+import { ArrowFillButton } from "@/components/block/arrow-fill-button";
 import { auth } from "@/lib/auth";
 
 import {
@@ -133,9 +134,12 @@ export default async function HomePage() {
             </div>
             <p className="hero-lead">{PUBLIC_COPY.hero.lead}</p>
             <div className="hero-actions">
-              <a className="btn btn-signal" href="#waitlist">
+              <ArrowFillButton
+                href="#waitlist"
+                data-testid="hero-primary-cta"
+              >
                 {PUBLIC_COPY.hero.primaryCta}
-              </a>
+              </ArrowFillButton>
               <a className="btn btn-ghost" href="#panels">
                 {PUBLIC_COPY.hero.secondaryCta}
               </a>
