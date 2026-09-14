@@ -1,9 +1,11 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
+import { ContentRightsPicker } from "@/components/ContentRightsPicker";
 import { SiteChrome } from "@/components/SiteChrome";
 import { WinnerPortalSheet } from "@/components/WinnerPortalSheet";
 import { auth } from "@/lib/auth";
 import { FLOOR_USD, GOAL_USD, formatUsd } from "@/lib/campaign";
+import { getContentRightsForUser } from "@/lib/content-rights-store";
 import { listApprovedBidsForUser } from "@/lib/intent-store";
 
 export default async function WinnerPortalPage() {
@@ -13,6 +15,7 @@ export default async function WinnerPortalPage() {
   }
 
   const wins = await listApprovedBidsForUser(session.user.id);
+  const rights = await getContentRightsForUser(session.user.id);
 
   return (
     <>
@@ -28,6 +31,7 @@ export default async function WinnerPortalPage() {
           {formatUsd(GOAL_USD)}. No payments on this path. No close clock.
         </p>
         <WinnerPortalSheet wins={wins} />
+        <ContentRightsPicker selected={rights} />
         <p className="auth-back">
           <Link href="/account">Back to account</Link>
         </p>

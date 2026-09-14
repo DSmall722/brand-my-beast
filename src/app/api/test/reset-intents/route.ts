@@ -1,6 +1,7 @@
 import { resolveAuthMode } from "@/lib/auth/mode";
 import { resetApprovalNoteStoreForTests } from "@/lib/approval-note-store";
 import { resetCabinPlaqueStoreForTests } from "@/lib/cabin-plaque-store";
+import { resetContentRightsStoreForTests } from "@/lib/content-rights-store";
 import { resetIntentStoreForTests } from "@/lib/intent-store";
 import { resetMockupStoreForTests } from "@/lib/mockup-store";
 
@@ -12,5 +13,6 @@ export async function POST() {
   await resetMockupStoreForTests();
   await resetApprovalNoteStoreForTests();
   await resetCabinPlaqueStoreForTests();
+  await resetContentRightsStoreForTests();
   return Response.json({ ok: true, capture: false, closeAt: null });
 }

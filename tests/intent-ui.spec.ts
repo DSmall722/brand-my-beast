@@ -469,4 +469,40 @@ test.describe("P2 panel intent + approvals", () => {
     expect(html).not.toContain("Florida panhandle");
     await winner.close();
   });
+
+  test("content-rights picker saves prefs without a tweet or clock", async ({
+    browser,
+  }) => {
+    const page = await browser.newPage();
+    await signIn(page, "rights@example.com");
+    await page.goto("/account/wins");
+    await expect(page.getByTestId("content-rights")).toBeVisible();
+    await expect(page.getByTestId("content-rights-lead")).toContainText(
+      "$58,000",
+    );
+    await expect(page.getByTestId("content-rights-lead")).toContainText(
+      "$120,000",
+    );
+    await expect(page.getByTestId("content-lock-no-impressions")).toContainText(
+      "impression",
+    );
+    await expect(page.getByTestId("content-lock-no-tweet")).toContainText(
+      "No auto-tweet",
+    );
+    await expect(page.getByTestId("content-right-film-seat")).toBeChecked();
+    await page.getByTestId("content-right-film-seat").uncheck();
+    await page.getByTestId("content-rights-save").click();
+    await expect(page.getByTestId("content-rights-saved")).toContainText(
+      "no auto-tweet",
+    );
+    await page.reload();
+    await expect(page.getByTestId("content-right-film-seat")).not.toBeChecked();
+    await expect(page.getByTestId("content-right-tag-handle")).toBeChecked();
+    const html = await page.content();
+    expect(html.toLowerCase()).not.toMatch(/\blease\b/);
+    expect(html).not.toContain("CLOSE_AT");
+    expect(html).not.toContain("South Carolina home loop");
+    expect(html).not.toContain("Florida panhandle");
+    await page.close();
+  });
 });

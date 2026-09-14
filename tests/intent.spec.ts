@@ -61,6 +61,16 @@ import {
   resetCabinPlaqueStoreForTests,
 } from "../src/lib/cabin-plaque-store";
 import {
+  CONTENT_RIGHT_OPTIONS,
+  contentRightsCopyIsSafe,
+  parseContentRightIds,
+} from "../src/lib/content-rights";
+import {
+  getContentRightsForUser,
+  resetContentRightsStoreForTests,
+  saveContentRightsForUser,
+} from "../src/lib/content-rights-store";
+import {
   listBidsForPanel,
   listApprovedBids,
   listApprovedBidsForUser,
@@ -518,6 +528,37 @@ test.describe("cabin plaque names (no capture)", () => {
       standingUsd: 2500,
     } as CabinPlaqueLine;
     expect(() => assertPlaqueIsNotABid(forged)).toThrow(/must not carry/);
+    expect(FLOOR_USD).toBe(58_000);
+    expect(GOAL_USD).toBe(120_000);
+  });
+});
+
+test.describe("content-rights picker (no tweet)", () => {
+  test("stores prefs and keeps tweet/clock locks", async () => {
+    expect(CONTENT_RIGHT_OPTIONS.map((option) => option.id)).toEqual([
+      "film-seat",
+      "tag-handle",
+      "proof-stills",
+    ]);
+    expect(parseContentRightIds(["film-seat", "nope", "proof-stills"])).toEqual([
+      "film-seat",
+      "proof-stills",
+    ]);
+    expect(contentRightsCopyIsSafe()).toBe(true);
+
+    await resetContentRightsStoreForTests();
+    expect(await getContentRightsForUser("user_rights_1")).toEqual([
+      "film-seat",
+      "tag-handle",
+      "proof-stills",
+    ]);
+    await saveContentRightsForUser({
+      userId: "user_rights_1",
+      rights: ["proof-stills", "bogus"],
+    });
+    expect(await getContentRightsForUser("user_rights_1")).toEqual([
+      "proof-stills",
+    ]);
     expect(FLOOR_USD).toBe(58_000);
     expect(GOAL_USD).toBe(120_000);
   });
