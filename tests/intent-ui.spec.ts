@@ -962,11 +962,19 @@ test.describe("P2 panel intent + approvals", () => {
       "Shop Bound Co",
     );
     await expect(shop.locator('[data-testid^="approve-"]')).toHaveCount(0);
+    await expect(shop.locator('[data-testid^="reject-"]')).toHaveCount(0);
+    await expect(shop.getByTestId("partner-shop-lead")).toContainText(
+      "No payments",
+    );
     const html = await shop.content();
     expect(html.toLowerCase()).not.toMatch(/\blease\b/);
     expect(html).not.toContain("CLOSE_AT");
+    expect(html).not.toContain("Stripe");
     expect(html).not.toContain("South Carolina home loop");
     expect(html).not.toContain("Florida panhandle");
+    await shop.goto("/");
+    await expect(shop.getByTestId("shop-nav-link")).toHaveCount(0);
+    await expect(shop.getByRole("link", { name: /wrap shop/i })).toHaveCount(0);
     await shop.close();
   });
 

@@ -1167,6 +1167,45 @@ test.describe("wrap-shop partner portal (no capture)", () => {
     expect(FLOOR_USD).toBe(58_000);
     expect(GOAL_USD).toBe(120_000);
   });
+
+  test("slice 5.4: SHOP_PARTNER_EMAILS allow-list gates live mode", () => {
+    expect(
+      isShopPartnerEmail("shop@brandmybeast.com", {
+        AUTH_MODE: "live",
+        SHOP_PARTNER_EMAILS: "shop@brandmybeast.com,crew@brandmybeast.com",
+      }),
+    ).toBe(true);
+    expect(
+      isShopPartnerEmail("crew@brandmybeast.com", {
+        AUTH_MODE: "live",
+        SHOP_PARTNER_EMAILS: "shop@brandmybeast.com,crew@brandmybeast.com",
+      }),
+    ).toBe(true);
+    expect(
+      isShopPartnerEmail("shop@example.com", {
+        AUTH_MODE: "live",
+        SHOP_PARTNER_EMAILS: "shop@brandmybeast.com",
+      }),
+    ).toBe(false);
+    expect(
+      isShopPartnerEmail("bidder@example.com", {
+        AUTH_MODE: "live",
+        SHOP_PARTNER_EMAILS: "shop@brandmybeast.com",
+      }),
+    ).toBe(false);
+    expect(
+      isShopPartnerEmail("operator@example.com", {
+        AUTH_MODE: "test",
+        SHOP_PARTNER_EMAILS: "",
+      }),
+    ).toBe(false);
+    expect(
+      isShopPartnerEmail("shop@example.com", {
+        AUTH_MODE: "test",
+        SHOP_PARTNER_EMAILS: "",
+      }),
+    ).toBe(true);
+  });
 });
 
 test.describe("operator allow-list (no capture)", () => {
