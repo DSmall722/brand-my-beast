@@ -5,6 +5,6 @@ export async function POST() {
   if (resolveAuthMode() !== "test") {
     return Response.json({ ok: false, error: "test only" }, { status: 403 });
   }
-  resetIntentStoreForTests();
+  await resetIntentStoreForTests();
   return Response.json({ ok: true, capture: false, closeAt: null });
 }

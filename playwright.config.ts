@@ -20,6 +20,7 @@ export default defineConfig({
     env: {
       ...process.env,
       WAITLIST_MODE: "memory",
+      INTENT_MODE: "memory",
       AUTH_MODE: "test",
       AUTH_SECRET: "playwright-auth-secret-min-32-chars!!",
       AUTH_TEST_PASSWORD: "test",

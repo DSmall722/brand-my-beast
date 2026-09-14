@@ -38,7 +38,7 @@ export async function submitIntentBid(
   const standingRaw = String(formData.get("standingUsd") ?? "").trim();
   const standingUsd = standingRaw ? Number(standingRaw) : undefined;
 
-  const result = placeIntentBid({
+  const result = await placeIntentBid({
     panelId,
     userId: session.user.id,
     brandLabel,
@@ -70,7 +70,7 @@ export async function decideIntentBid(
     return { ok: false, error: "Invalid decision." };
   }
 
-  const result = setIntentStatus(bidId, decision);
+  const result = await setIntentStatus(bidId, decision);
   if (!result.ok) return { ok: false, error: result.error };
 
   revalidatePath("/operator/approvals");

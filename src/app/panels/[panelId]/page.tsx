@@ -21,9 +21,9 @@ export default async function PanelIntentPage({
   if (!panel) notFound();
 
   const session = await auth();
-  const standing = standingForPanel(panel.id);
-  const minimum = minimumIntentUsd(panel.id);
-  const bids = listBidsForPanel(panel.id);
+  const standing = await standingForPanel(panel.id);
+  const minimum = await minimumIntentUsd(panel.id);
+  const bids = await listBidsForPanel(panel.id);
 
   return (
     <main className="shell auth-page" data-testid="panel-intent-page">
