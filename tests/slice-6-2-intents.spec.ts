@@ -26,14 +26,15 @@ async function signIn(page: import("@playwright/test").Page, email: string) {
 
 /**
  * Slice 6.2 — merge-gate Playwright contract for intent create / outbid /
- * exclusivity / increment. Broader coverage lives in intent.spec + intent-ui;
- * this file is the standing Wave 6 proof.
+ * exclusivity / increment.
+ *
+ * Store tests reset in-process memory only. UI tests reset the Next server
+ * store via API. Do not mix those resets in one beforeEach — parallel workers
+ * otherwise wipe mid-flow seat state (panel-minimum stuck at opening).
  */
-test.describe("slice 6.2: intent create / outbid / exclusivity / increment", () => {
-  test.beforeEach(async ({ request }) => {
+test.describe("slice 6.2 store: create / outbid / exclusivity / increment", () => {
+  test.beforeEach(async () => {
     await resetIntentStoreForTests();
-    const res = await request.post("/api/test/reset-intents");
-    expect(res.ok()).toBeTruthy();
   });
 
   test("money fences and increment math stay locked", () => {
@@ -105,8 +106,17 @@ test.describe("slice 6.2: intent create / outbid / exclusivity / increment", () 
       "listed",
     );
   });
+});
 
-  test("seat UI: create, reject low increment + foreign trade, accept outbid", async ({
+test.describe("slice 6.2 seat UI: create / outbid / exclusivity / increment", () => {
+  test.describe.configure({ mode: "serial" });
+
+  test.beforeEach(async ({ request }) => {
+    const res = await request.post("/api/test/reset-intents");
+    expect(res.ok()).toBeTruthy();
+  });
+
+  test("create advances panel-minimum; low increment and foreign trade fail; outbid lands", async ({
     browser,
   }) => {
     const holder = await browser.newPage();
@@ -116,13 +126,22 @@ test.describe("slice 6.2: intent create / outbid / exclusivity / increment", () 
       "standing + max($250, 10%)",
     );
     await expect(holder.getByTestId("seat-exclusivity")).toBeVisible();
+    await expect(holder.getByTestId("panel-standing")).toContainText("2,500");
+    await expect(holder.getByTestId("panel-minimum")).toContainText("2,500");
     await holder.getByTestId("intent-brand").fill("Slice Sixty Two UI Hold");
     await holder.getByTestId("intent-trade").fill("Circuit Snacks");
     await holder.getByTestId("intent-standing").fill("2500");
     await holder.getByTestId("intent-submit").click();
     await expect(holder.getByTestId("intent-success")).toContainText(
       "not charged",
+      { timeout: 10_000 },
     );
+    await expect(holder.getByTestId("intent-list")).toContainText(
+      "Slice Sixty Two UI Hold",
+    );
+    // Same document after server action + revalidate: minimum must advance.
+    await expect(holder.getByTestId("panel-standing")).toContainText("2,500");
+    await expect(holder.getByTestId("panel-minimum")).toContainText("2,750");
     const holderHtml = await holder.content();
     expect(holderHtml.toLowerCase()).not.toMatch(/\blease\b/);
     expect(holderHtml).not.toContain("CLOSE_AT");
@@ -144,6 +163,7 @@ test.describe("slice 6.2: intent create / outbid / exclusivity / increment", () 
     await low.getByTestId("intent-submit").click();
     await expect(low.getByTestId("intent-error")).toContainText(
       /at least 2,?750/i,
+      { timeout: 10_000 },
     );
     await low.close();
 
@@ -157,21 +177,26 @@ test.describe("slice 6.2: intent create / outbid / exclusivity / increment", () 
     await exclusivity.getByTestId("intent-submit").click();
     await expect(exclusivity.getByTestId("intent-error")).toContainText(
       /already held|one brand per trade/i,
+      { timeout: 10_000 },
     );
     await exclusivity.close();
 
     const ok = await browser.newPage();
     await signIn(ok, "slice62-ui-ok@example.com");
     await ok.goto("/panels/hood");
+    await expect(ok.getByTestId("panel-minimum")).toContainText("2,750");
     await ok.getByTestId("intent-brand").fill("Slice Sixty Two UI Ok");
     await ok.getByTestId("intent-trade").fill("Circuit Vinyl");
     await ok.getByTestId("intent-standing").fill("2750");
     await ok.getByTestId("intent-submit").click();
-    await expect(ok.getByTestId("intent-success")).toContainText("not charged");
+    await expect(ok.getByTestId("intent-success")).toContainText("not charged", {
+      timeout: 10_000,
+    });
     await expect(ok.getByTestId("intent-list")).toContainText(
       "Slice Sixty Two UI Ok",
     );
     await expect(ok.getByTestId("panel-standing")).toContainText("2,750");
+    await expect(ok.getByTestId("panel-minimum")).toContainText("3,025");
     await expect(ok.getByTestId("seat-exclusivity")).toBeVisible();
     const okHtml = await ok.content();
     expect(okHtml.toLowerCase()).not.toMatch(/\blease\b/);
