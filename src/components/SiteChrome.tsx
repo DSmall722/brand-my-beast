@@ -38,6 +38,15 @@ export async function SiteChrome() {
             Wrap shop
           </Link>
         ) : null}
+        {session?.user ? (
+          <Link
+            className="nav-link"
+            href="/account/wins"
+            data-testid="wins-nav-link"
+          >
+            Wins
+          </Link>
+        ) : null}
         <AuthNav />
       </nav>
     </header>

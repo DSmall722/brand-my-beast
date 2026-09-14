@@ -48,8 +48,13 @@ import {
 } from "../src/lib/hometown-lane";
 import { isShopPartnerEmail } from "../src/lib/auth/shop-partner";
 import {
+  WINNER_PORTAL_FACTS,
+  winnerSeatsFor,
+} from "../src/lib/winner-portal";
+import {
   listBidsForPanel,
   listApprovedBids,
+  listApprovedBidsForUser,
   listDecidedBids,
   placeIntentBid,
   loadBoardIntentStats,
@@ -435,6 +440,42 @@ test.describe("wrap-shop partner portal (no capture)", () => {
     const approved = await listApprovedBids();
     expect(approved.map((b) => b.id)).toContain(placed.bid.id);
     expect(approved.every((b) => b.status === "approved")).toBe(true);
+    expect(FLOOR_USD).toBe(58_000);
+    expect(GOAL_USD).toBe(120_000);
+  });
+});
+
+test.describe("winner portal (no capture)", () => {
+  test("lists only this user's approved seats", async () => {
+    expect(WINNER_PORTAL_FACTS.some((fact) => fact.id === "wrap-term")).toBe(
+      true,
+    );
+    expect(WINNER_PORTAL_FACTS.some((fact) => fact.id === "etch-lock")).toBe(
+      true,
+    );
+    const blob = WINNER_PORTAL_FACTS.map((fact) => fact.text).join(" ");
+    expect(blob).toContain("12 months from install");
+    expect(blob).not.toContain("CLOSE_AT");
+    expect(blob.toLowerCase()).not.toMatch(/\blease\b/);
+    expect(blob).not.toContain("South Carolina home loop");
+    expect(blob).not.toContain("Florida panhandle");
+
+    await resetIntentStoreForTests();
+    const placed = await placeIntentBid({
+      panelId: "hood",
+      userId: "user_win_1",
+      brandLabel: "Win Co",
+      tradeLabel: "tools",
+    });
+    expect(placed.ok).toBe(true);
+    if (!placed.ok) return;
+    expect(winnerSeatsFor([placed.bid]).length).toBe(0);
+    expect((await listApprovedBidsForUser("user_win_1")).length).toBe(0);
+    await setIntentStatus(placed.bid.id, "approved");
+    const wins = await listApprovedBidsForUser("user_win_1");
+    expect(wins.map((b) => b.id)).toContain(placed.bid.id);
+    expect(wins.every((b) => b.status === "approved")).toBe(true);
+    expect((await listApprovedBidsForUser("user_other")).length).toBe(0);
     expect(FLOOR_USD).toBe(58_000);
     expect(GOAL_USD).toBe(120_000);
   });

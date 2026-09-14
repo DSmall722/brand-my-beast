@@ -162,6 +162,13 @@ export default async function AccountPage() {
               Wrap shop sheet
             </Link>
           ) : null}
+          <Link
+            className="btn btn-ghost"
+            href="/account/wins"
+            data-testid="account-wins-link"
+          >
+            Winner portal
+          </Link>
           <Link className="btn btn-ghost" href="/">
             Back to the board
           </Link>
