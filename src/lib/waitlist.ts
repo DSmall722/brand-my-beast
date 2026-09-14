@@ -1,8 +1,8 @@
 import { eq } from "drizzle-orm";
 import { z } from "zod";
+import { BRAND } from "./campaign";
 import { getDb } from "./db";
 import { waitlistSignups } from "./db/schema";
-import { BRAND } from "./campaign";
 
 export const waitlistEmailSchema = z
   .string()
@@ -15,7 +15,14 @@ export type WaitlistResult =
   | { ok: true; status: "created" | "exists" }
   | { ok: false; error: string; code: "invalid" | "unavailable" | "failed" };
 
-type MemoryRow = { email: string; createdAt: string };
+export type WaitlistRow = {
+  email: string;
+  createdAt: string;
+  userId: string | null;
+  source: string;
+};
+
+type MemoryRow = WaitlistRow;
 
 const globalStore = globalThis as typeof globalThis & {
   __bmbWaitlistMemory?: Map<string, MemoryRow>;
@@ -69,7 +76,12 @@ export async function joinWaitlist(rawEmail: string): Promise<WaitlistResult> {
       if (store.has(email)) {
         return { ok: true, status: "exists" };
       }
-      store.set(email, { email, createdAt: new Date().toISOString() });
+      store.set(email, {
+        email,
+        createdAt: new Date().toISOString(),
+        userId: null,
+        source: "p1-waitlist",
+      });
       await notifyOperator(email);
       return { ok: true, status: "created" };
     }
@@ -103,4 +115,85 @@ export async function joinWaitlist(rawEmail: string): Promise<WaitlistResult> {
       code: "failed",
     };
   }
+}
+
+/** Look up a waitlist row by email. Never deletes. */
+export async function getWaitlistByEmail(
+  rawEmail: string,
+): Promise<WaitlistRow | null> {
+  const parsed = waitlistEmailSchema.safeParse(rawEmail);
+  if (!parsed.success) return null;
+  const email = parsed.data;
+
+  if (useMemoryStore()) {
+    return memoryStore().get(email) ?? null;
+  }
+
+  const db = getDb();
+  if (!db) return null;
+  const rows = await db
+    .select()
+    .from(waitlistSignups)
+    .where(eq(waitlistSignups.email, email))
+    .limit(1);
+  const row = rows[0];
+  if (!row) return null;
+  return {
+    email: row.email,
+    createdAt: row.createdAt.toISOString(),
+    userId: row.userId ?? null,
+    source: row.source,
+  };
+}
+
+/**
+ * Link a signed-in account to an existing waitlist row by email.
+ * Updates userId in place — never deletes or recreates the row.
+ */
+export async function attachWaitlistAccount(input: {
+  email: string;
+  userId: string;
+}): Promise<WaitlistRow | null> {
+  const parsed = waitlistEmailSchema.safeParse(input.email);
+  if (!parsed.success || !input.userId.trim()) return null;
+  const email = parsed.data;
+  const userId = input.userId.trim();
+
+  if (useMemoryStore()) {
+    const store = memoryStore();
+    const existing = store.get(email);
+    if (!existing) return null;
+    const next: MemoryRow = {
+      ...existing,
+      userId: existing.userId ?? userId,
+    };
+    store.set(email, next);
+    return next;
+  }
+
+  const db = getDb();
+  if (!db) return null;
+
+  const rows = await db
+    .select()
+    .from(waitlistSignups)
+    .where(eq(waitlistSignups.email, email))
+    .limit(1);
+  const row = rows[0];
+  if (!row) return null;
+
+  if (!row.userId) {
+    await db
+      .update(waitlistSignups)
+      .set({ userId })
+      .where(eq(waitlistSignups.email, email));
+  }
+
+  const refreshed = await getWaitlistByEmail(email);
+  return refreshed;
+}
+
+/** CI helper — clear memory waitlist only. */
+export function resetWaitlistStoreForTests(): void {
+  memoryStore().clear();
 }

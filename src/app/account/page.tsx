@@ -16,6 +16,7 @@ import {
 import { listApprovalNotesForBids } from "@/lib/approval-note-store";
 import { intentStatusClass, intentStatusLabel } from "@/lib/intent-labels";
 import { listBidsForUser } from "@/lib/intent-store";
+import { attachWaitlistAccount } from "@/lib/waitlist";
 
 export default async function AccountPage() {
   const session = await auth();
@@ -32,6 +33,10 @@ export default async function AccountPage() {
   const shopPartner = isShopPartnerEmail(session.user.email);
   const intents = await listBidsForUser(userId);
   const notes = await listApprovalNotesForBids(intents.map((bid) => bid.id));
+  const waitlistRow =
+    email !== "unknown"
+      ? await attachWaitlistAccount({ email, userId })
+      : null;
 
   return (
     <>
@@ -59,6 +64,23 @@ export default async function AccountPage() {
             <dd data-testid="account-user-id">{userId}</dd>
           </div>
         </dl>
+
+        {waitlistRow ? (
+          <p
+            className="auth-hint"
+            data-testid="account-waitlist-row"
+            data-waitlist-email={waitlistRow.email}
+            data-waitlist-user-id={waitlistRow.userId ?? ""}
+            data-waitlist-created-at={waitlistRow.createdAt}
+          >
+            This email is on the waitlist. Signing in kept that row — it was not
+            deleted. Still no card charge.
+          </p>
+        ) : (
+          <p className="auth-hint" data-testid="account-waitlist-absent">
+            Not on the waitlist yet. You can still list an intent mark below.
+          </p>
+        )}
 
         <p className="auth-hint" data-testid="intent-only-note">
           Pick a panel to list an intent mark. No Stripe capture, no close clock

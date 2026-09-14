@@ -62,10 +62,68 @@ test.describe("P2 Auth.js wiring", () => {
     );
     await expect(page.getByTestId("account-intents")).toBeVisible();
     await expect(page.getByTestId("account-intents-empty")).toBeVisible();
+    await expect(page.getByTestId("account-waitlist-absent")).toBeVisible();
     const html = await page.content();
     expect(html.toLowerCase()).not.toMatch(/\blease\b/);
     expect(html).not.toContain("CLOSE_AT");
     expect(html.toLowerCase()).not.toContain("dennard");
+  });
+
+  test("slice 5.3: waitlist email keeps its row after sign-in", async ({
+    page,
+    request,
+  }) => {
+    const email = `slice53-${Date.now()}@example.com`;
+    const created = await request.post("/api/waitlist", {
+      data: { email },
+    });
+    expect(created.status()).toBe(201);
+    expect(await created.json()).toMatchObject({
+      ok: true,
+      status: "created",
+    });
+
+    await page.goto("/signin");
+    await page.getByTestId("signin-email").fill(email);
+    await page.getByTestId("signin-password").fill("test");
+    await page.getByTestId("signin-submit").click();
+    await expect(page.getByTestId("account-page")).toBeVisible();
+    const row = page.getByTestId("account-waitlist-row");
+    await expect(row).toBeVisible();
+    await expect(row).toHaveAttribute("data-waitlist-email", email);
+    await expect(row).toHaveAttribute(
+      "data-waitlist-user-id",
+      `test:${email}`,
+    );
+    const createdAt = await row.getAttribute("data-waitlist-created-at");
+    expect(createdAt).toBeTruthy();
+    await expect(page.getByTestId("account-page")).toContainText("$58,000");
+    await expect(page.getByTestId("account-page")).toContainText("$120,000");
+
+    const exists = await request.post("/api/waitlist", {
+      data: { email },
+    });
+    expect(exists.status()).toBe(200);
+    expect(await exists.json()).toMatchObject({
+      ok: true,
+      status: "exists",
+    });
+
+    await page.goto("/account");
+    await expect(page.getByTestId("account-waitlist-row")).toHaveAttribute(
+      "data-waitlist-created-at",
+      createdAt!,
+    );
+    await expect(page.getByTestId("account-waitlist-row")).toHaveAttribute(
+      "data-waitlist-user-id",
+      `test:${email}`,
+    );
+
+    const html = await page.content();
+    expect(html.toLowerCase()).not.toMatch(/\blease\b/);
+    expect(html).not.toContain("CLOSE_AT");
+    expect(html.toLowerCase()).not.toContain("dennard");
+    expect(html).not.toContain("FEATURES.md");
   });
 
   test("account redirects anonymous users to sign-in", async ({ page }) => {
