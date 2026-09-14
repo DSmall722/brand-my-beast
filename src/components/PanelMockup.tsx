@@ -15,6 +15,7 @@ import {
 } from "@/lib/etch-lock";
 import {
   FINISH_CONDITIONS,
+  FINISH_CONDITIONS_LEAD,
   type FinishCondition,
 } from "@/lib/finish-conditions";
 import {
@@ -108,6 +109,12 @@ export function PanelMockup({
         </button>
       </div>
 
+      <p
+        className="auth-hint finish-conditions-lead"
+        data-testid="finish-conditions-lead"
+      >
+        {FINISH_CONDITIONS_LEAD}
+      </p>
       <div
         className="compositor-conditions"
         data-testid="finish-conditions"

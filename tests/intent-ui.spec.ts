@@ -88,6 +88,12 @@ test.describe("P2 panel intent + approvals", () => {
       "Wrap",
     );
     await expect(page.getByTestId("finish-conditions")).toBeVisible();
+    await expect(page.getByTestId("finish-conditions-lead")).toContainText(
+      "not proof",
+    );
+    await expect(page.getByTestId("finish-conditions-lead")).toContainText(
+      "$58,000",
+    );
     await expect(page.getByTestId("finish-condition-day")).toHaveAttribute(
       "aria-pressed",
       "true",
@@ -100,6 +106,20 @@ test.describe("P2 panel intent + approvals", () => {
     await expect(page.getByTestId("finish-condition-shader")).toHaveAttribute(
       "data-condition",
       "night",
+    );
+    await page.getByTestId("finish-condition-wet").click();
+    await expect(page.getByTestId("panel-mockup")).toHaveAttribute(
+      "data-condition",
+      "wet",
+    );
+    await page.getByTestId("finish-condition-dirty").click();
+    await expect(page.getByTestId("panel-mockup")).toHaveAttribute(
+      "data-condition",
+      "dirty",
+    );
+    await expect(page.getByTestId("finish-condition-shader")).toHaveAttribute(
+      "data-condition",
+      "dirty",
     );
     await expect(page.getByTestId("dirty-clean-pair-lead")).toContainText(
       "$58,000",
@@ -1051,5 +1071,43 @@ test.describe("P2 panel intent + approvals", () => {
     expect(html).not.toContain("CLOSE_AT");
   });
 
-
+  test("slice 3.6: day/night/wet/dirty toggles are shaders, not proof photos", async ({
+    page,
+  }) => {
+    await page.goto("/panels/hood");
+    await expect(page.getByTestId("finish-conditions-lead")).toContainText(
+      "toggles",
+    );
+    await expect(page.getByTestId("finish-conditions-lead")).toContainText(
+      "not proof",
+    );
+    await expect(page.getByTestId("finish-conditions-lead")).toContainText(
+      "$58,000",
+    );
+    await expect(page.getByTestId("finish-conditions-lead")).toContainText(
+      "$120,000",
+    );
+    for (const id of ["day", "night", "wet", "dirty"] as const) {
+      await expect(page.getByTestId(`finish-condition-${id}`)).toBeVisible();
+    }
+    await page.getByTestId("finish-condition-night").click();
+    await expect(page.getByTestId("panel-mockup")).toHaveAttribute(
+      "data-condition",
+      "night",
+    );
+    await page.getByTestId("finish-condition-wet").click();
+    await expect(page.getByTestId("finish-condition-shader")).toHaveAttribute(
+      "data-condition",
+      "wet",
+    );
+    await page.getByTestId("finish-condition-dirty").click();
+    await expect(page.getByTestId("panel-mockup")).toHaveAttribute(
+      "data-condition",
+      "dirty",
+    );
+    const html = await page.content();
+    expect(html.toLowerCase()).not.toMatch(/\blease\b/);
+    expect(html).not.toContain("CLOSE_AT");
+    expect(html.toLowerCase()).not.toContain("proof photo of the truck");
+  });
 });
