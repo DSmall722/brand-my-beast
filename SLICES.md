@@ -1,6 +1,7 @@
 # BrandMyBeast — autonomous slice list
 
 CAMPAIGN.md wins money and identity. FEATURES.md is a catalog. **This file is the only build order.**
+Public homepage strings come from PUBLIC_COPY.md. Do not invent a warmer variant.
 
 Updated: 2026-09-14
 
@@ -13,7 +14,7 @@ Updated: 2026-09-14
 - A FEATURES.md row is not scheduled until it has a checkbox in this file.
 - Coordinator may merge a PR that finishes exactly one unchecked slice, Playwright is green, and the merge gates below hold.
 
-**Now:** 1.3 Amount is intent only. Page says it does not charge.
+**Now:** 0.8 Public copy from PUBLIC_COPY.md (then resume 1.3).
 **Last merged:** 1.2 (#60 signed-in one intent per panel)
 
 ## Standing orders
@@ -25,6 +26,7 @@ Updated: 2026-09-14
 - Empty P3–P5 boards stay hidden while truckExists === false.
 - Intents and waitlist persist in Postgres in Production. Memory store is CI only.
 - Hero truck is a bare stainless preview. Do not show wrap or etch as if the truck exists.
+- Visible copy on `/` must match PUBLIC_COPY.md. Do not rewrite the rewrite.
 - One PR = one slice. Title: `slice(N): <name>`.
 
 ## Human-only (do not start)
@@ -55,6 +57,7 @@ If any gate fails: leave the PR unmerged and stop that slice.
 - [x] 0.5 prove-all.sh covers 0.1–0.4. CI red = merge nothing else. (#56)
 - [x] 0.6 GitHub Actions: Playwright on every PR. (#57)
 - [x] 0.7 Hero truck preview (layout A). Fill the empty mobile hero well with a bare stainless Cyberbeast still (side or 3-quarter). Keep the full-bleed dark hero. Wordmark + one lead line + two CTAs overlay the lower third (over bed/ground, not the cab). Truck is the first thing on a phone. Tap/click the truck goes to `#panels`. Do not show wrap or etch as delivered. Do not use Tesla marks, teslacyberbeast livery, a 48-state map, or a 3D configurator. Label it a preview of the board. No new homepage sections. Asset lives in the repo (`public/` or `src/app`), not a hotlinked Tesla CDN. After this ships, 6.9 is only residual clip-check. (#58)
+- [ ] 0.8 Ship PUBLIC_COPY.md onto `/` verbatim. Replace telegram hero lines. Section order: hero, The numbers, The twelve panels, How it works, What etch actually is, Questions people actually ask, Get on the list, footer. Keep the 0.7 stainless still. Keep $58,000 / $120,000 / 20% / CLOSE_AT null / hello@brandmybeast.com. Do not invent a per-panel etch dollar. Do not add Cabin plaque or FEATURES boards. Playwright asserts H1 `Put your brand on a Cybertruck.`, etch section present, no lease, no close date. After merge, resume Wave 1 at 1.3.
 
 ## Wave 1 — durable intent
 
@@ -90,7 +93,7 @@ If any gate fails: leave the PR unmerged and stop that slice.
 - [ ] 4.1 Public “standing” = sum of approved intents. Label it pledged intent, not cash raised, until P3.
 - [ ] 4.2 Shortfall ticker: dollars to floor, open seats. No impressions.
 - [ ] 4.3 Vault marks at $58,000 and $120,000 on the bar only.
-- [ ] 4.4 Wreck / refund FAQ copy from CAMPAIGN.md only.
+- [ ] 4.4 Wreck / refund FAQ uses PUBLIC_COPY.md + CAMPAIGN.md only. No invented legal terms.
 - [ ] 4.5 Whole-truck $120,000 intent. Hide if field already at $120,000.
 - [ ] 4.6 Category exclusivity copy on the seat. No public taxonomy list.
 
@@ -113,6 +116,7 @@ If any gate fails: leave the PR unmerged and stop that slice.
 - [ ] 6.8 Keyboard / labels / contrast on /, seat, operator.
 - [ ] 6.9 Hero wordmark and truck still not clipped on mobile.
 - [ ] 6.10 OG image and favicon, public brand only.
+- [ ] 6.11 Playwright: homepage matches PUBLIC_COPY.md H1, etch section, waitlist button `Notify me`.
 
 ## After Wave 6
 
