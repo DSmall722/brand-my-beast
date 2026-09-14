@@ -73,6 +73,15 @@ test.describe("P1 waitlist campaign locks", () => {
       formatUsd(GOAL_USD),
     );
     await expect(page.getByTestId("raised-amount")).toHaveText(formatUsd(0));
+    await expect(page.getByTestId("raised-label")).toHaveText(
+      PUBLIC_COPY.board.raisedLabel,
+    );
+    expect(PUBLIC_COPY.board.raisedLabel.toLowerCase()).toContain("pledged intent");
+    expect(PUBLIC_COPY.board.raisedHint.toLowerCase()).toMatch(/not cash raised/);
+    expect(PUBLIC_COPY.board.raisedHint.toLowerCase()).toMatch(/approved intents/);
+    await expect(page.getByTestId("raised-hint")).toHaveText(
+      PUBLIC_COPY.board.raisedHint,
+    );
     await expect(page.getByTestId("close-copy")).toHaveText(
       PUBLIC_COPY.board.clockWhenCloseNull,
     );
