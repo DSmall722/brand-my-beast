@@ -46,3 +46,13 @@ Allowed public strings: BrandMyBeast, @BrandMyBeast, hello@brandmybeast.com, bra
 ## What “done” means for a feature
 
 A feature is not done because the page renders. It is done when a Playwright check (or pstack skill) proves the rule above still holds: floor math, etch lock under $120k, increment, no banned identity strings in the HTML.
+
+<!-- BEGIN:nextjs-agent-rules -->
+
+# This is NOT the Next.js you know
+
+This version has breaking changes — APIs, conventions, and file structure may all differ from your training data. Read the relevant guide in `node_modules/next/dist/docs/` (resolved from this file's directory; in monorepos the `next` package may not be visible from the repo root) before writing any code. Heed deprecation notices.
+
+This block is written and re-added by `next dev` — verify at `node_modules/next/dist/server/lib/generate-agent-files.js`. Removing it from a diff only re-creates the uncommitted change; committing it with your work keeps the tree clean.
+
+<!-- END:nextjs-agent-rules -->
