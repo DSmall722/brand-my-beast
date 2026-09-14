@@ -25,6 +25,7 @@ import {
   holdersOnAdjacentPanels,
   type AdjacentSeatHolder,
 } from "@/lib/panel-clash";
+import { PUBLIC_COPY } from "@/lib/public-copy";
 
 type Params = Promise<{ panelId: string }>;
 
@@ -167,6 +168,19 @@ export default async function PanelIntentPage({
           Intent only. Amount does not charge. No Stripe capture. No close
           clock.
         </p>
+
+        <aside
+          className="seat-exclusivity"
+          data-testid="seat-exclusivity"
+          aria-labelledby="seat-exclusivity-title"
+        >
+          <h2 id="seat-exclusivity-title" className="auth-subhead">
+            {PUBLIC_COPY.seatExclusivity.heading}
+          </h2>
+          <p data-testid="seat-exclusivity-body">
+            {PUBLIC_COPY.seatExclusivity.body}
+          </p>
+        </aside>
 
         {viewerWasOutbid ? (
           <p

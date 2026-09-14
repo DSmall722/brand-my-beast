@@ -1,4 +1,5 @@
 import { expect, test } from "@playwright/test";
+import { PUBLIC_COPY } from "../src/lib/public-copy";
 
 async function signIn(page: import("@playwright/test").Page, email: string) {
   await page.goto("/signin");
@@ -669,6 +670,51 @@ test.describe("P2 panel intent + approvals", () => {
     );
     await expect(challenger.getByTestId("intent-list")).toContainText("Outbid");
     await challenger.close();
+  });
+
+  test("slice 4.6: seat exclusivity copy; no public taxonomy list", async ({
+    browser,
+  }) => {
+    const seat = await browser.newPage();
+    await seat.goto("/panels/hood");
+    await expect(seat.getByTestId("seat-exclusivity")).toBeVisible();
+    await expect(seat.getByTestId("seat-exclusivity")).toContainText(
+      PUBLIC_COPY.seatExclusivity.heading,
+    );
+    await expect(seat.getByTestId("seat-exclusivity-body")).toHaveText(
+      PUBLIC_COPY.seatExclusivity.body,
+    );
+    await expect(seat.getByTestId("seat-exclusivity-body")).toContainText(
+      "no public category list",
+    );
+    await expect(seat.getByTestId("taxonomy")).toHaveCount(0);
+    await expect(seat.getByTestId("category-list")).toHaveCount(0);
+    await expect(seat.getByTestId("trade-categories")).toHaveCount(0);
+    const seatHtml = await seat.content();
+    expect(seatHtml.toLowerCase()).not.toMatch(/\blease\b/);
+    expect(seatHtml).not.toContain("CLOSE_AT");
+    expect(seatHtml).not.toContain("FEATURES.md");
+    await seat.close();
+
+    const signedIn = await browser.newPage();
+    await signIn(signedIn, "slice46-exclusivity@example.com");
+    await signedIn.goto("/panels/hood");
+    await expect(signedIn.getByTestId("intent-trade-rule")).toHaveText(
+      PUBLIC_COPY.seatExclusivity.formHint,
+    );
+    await signedIn.close();
+
+    const home = await browser.newPage();
+    await home.goto("/");
+    await expect(home.getByTestId("taxonomy")).toHaveCount(0);
+    await expect(home.getByTestId("category-list")).toHaveCount(0);
+    await expect(home.getByTestId("trade-categories")).toHaveCount(0);
+    const homeHtml = await home.content();
+    expect(homeHtml).not.toContain("public category list");
+    expect(homeHtml.toLowerCase()).not.toMatch(/\blease\b/);
+    expect(homeHtml).not.toContain("CLOSE_AT");
+    expect(homeHtml).not.toContain("FEATURES.md");
+    await home.close();
   });
 
   test("slice 1.8: public standing shows brand, trade, amount — no bidder email", async ({

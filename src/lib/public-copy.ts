@@ -49,6 +49,12 @@ export const PUBLIC_COPY = {
     wholeTruckCta: "List whole-truck intent",
     wholeTruckSignIn: "Sign in to list a whole-truck intent",
   },
+  seatExclusivity: {
+    heading: "One brand per trade",
+    body: "Name your trade in one line. If another brand already holds that trade, you fight them on the same panel — you do not open a second seat. There is no public category list.",
+    formHint:
+      "One brand per trade. Challengers fight the same panel only — a held trade cannot open a second seat elsewhere.",
+  },
   panels: {
     heading: "The twelve panels",
     lead: "Each seat is a piece of the truck. The price under the name is the opening bid for that space. Wrap means vinyl for twelve months, then the film comes off. Can etch at $120k means that steel face can be cut if the campaign buys the truck. Etch is not a second product on this page. It is a finish that unlocks at buyout.",

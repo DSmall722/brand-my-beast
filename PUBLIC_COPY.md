@@ -46,6 +46,12 @@ Updated: 2026-09-14
 - Whole-truck CTA: `List whole-truck intent`
 - Whole-truck sign-in: `Sign in to list a whole-truck intent`
 
+## Seat exclusivity
+
+- Heading: `One brand per trade`
+- Body: `Name your trade in one line. If another brand already holds that trade, you fight them on the same panel — you do not open a second seat. There is no public category list.`
+- Form hint: `One brand per trade. Challengers fight the same panel only — a held trade cannot open a second seat elsewhere.`
+
 ## Twelve panels
 
 - Heading: `The twelve panels`
