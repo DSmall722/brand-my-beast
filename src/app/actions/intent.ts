@@ -2,7 +2,7 @@
 
 import { revalidatePath } from "next/cache";
 import { auth } from "@/lib/auth";
-import { resolveAuthMode } from "@/lib/auth/mode";
+import { isOperatorEmail } from "@/lib/auth/operator";
 import { placeIntentBid, setIntentStatus } from "@/lib/intent-store";
 
 export type IntentActionState = {
@@ -10,19 +10,6 @@ export type IntentActionState = {
   error?: string;
   message?: string;
 };
-
-function isOperator(email: string | null | undefined): boolean {
-  if (!email) return false;
-  const allow = (process.env.OPERATOR_EMAILS ?? "")
-    .split(",")
-    .map((value) => value.trim().toLowerCase())
-    .filter(Boolean);
-  if (allow.includes(email.toLowerCase())) return true;
-  if (resolveAuthMode() === "test" && email.endsWith("@example.com")) {
-    return true;
-  }
-  return false;
-}
 
 export async function submitIntentBid(
   _prev: IntentActionState,
@@ -60,7 +47,7 @@ export async function decideIntentBid(
   formData: FormData,
 ): Promise<IntentActionState> {
   const session = await auth();
-  if (!session?.user?.email || !isOperator(session.user.email)) {
+  if (!session?.user?.email || !isOperatorEmail(session.user.email)) {
     return { ok: false, error: "Operator access required." };
   }
 

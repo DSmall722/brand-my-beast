@@ -5,6 +5,7 @@ import {
   submitIntentBid,
   type IntentActionState,
 } from "@/app/actions/intent";
+import { formatUsd } from "@/lib/campaign";
 
 const initial: IntentActionState = { ok: false };
 
@@ -49,7 +50,8 @@ export function IntentBidForm({
         className="auth-input"
       />
       <p className="auth-hint">
-        Minimum {minimumUsd}. 20% deposit is shown later — not charged on P2.
+        Minimum {formatUsd(minimumUsd)}. 20% deposit is shown later — not
+        charged on P2.
       </p>
       <button
         type="submit"

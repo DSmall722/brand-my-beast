@@ -129,6 +129,11 @@ export default function HomePage() {
                   data-etchable={etchable ? "true" : "false"}
                   data-etch-unlocked={etchUnlocked ? "true" : "false"}
                 >
+                  <div
+                    className="panel-face"
+                    aria-hidden="true"
+                    data-testid={`panel-face-${panel.id}`}
+                  />
                   <div className="panel-name">
                     <a href={`/panels/${panel.id}`} data-testid={`panel-link-${panel.id}`}>
                       {panel.name}
