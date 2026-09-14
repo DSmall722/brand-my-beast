@@ -7,17 +7,27 @@ import {
   FLOOR_USD,
   GOAL_USD,
   PANELS,
+  floorProgressPercent,
   formatUsd,
   isEtchable,
+  shortfallToFloorUsd,
+  shortfallToGoalUsd,
 } from "@/lib/campaign";
+import { loadBoardIntentStats } from "@/lib/intent-store";
 
-const RAISED_USD = 0;
+/** Board stats read the intent ledger; keep dynamic so build does not SSG against DB. */
+export const dynamic = "force-dynamic";
 
-export default function HomePage() {
+export default async function HomePage() {
+  const board = await loadBoardIntentStats();
+  const pledgedUsd = board.pledgedUsd;
   const floorLabel = formatUsd(FLOOR_USD);
   const goalLabel = formatUsd(GOAL_USD);
-  const raisedLabel = formatUsd(RAISED_USD);
-  const etchUnlocked = RAISED_USD >= GOAL_USD;
+  const raisedLabel = formatUsd(pledgedUsd);
+  const etchUnlocked = pledgedUsd >= GOAL_USD;
+  const floorPct = floorProgressPercent(pledgedUsd);
+  const shortfallFloor = shortfallToFloorUsd(pledgedUsd);
+  const shortfallGoal = shortfallToGoalUsd(pledgedUsd);
   const closeCopy =
     CLOSE_AT === null
       ? "Auction clock starts when bidding opens."
@@ -67,12 +77,12 @@ export default function HomePage() {
           </p>
           <div className="money-grid">
             <div className="money-cell">
-              <div className="label">Raised</div>
+              <div className="label">Intent pledged</div>
               <div className="value" data-testid="raised-amount">
                 {raisedLabel}
               </div>
               <p className="hint" data-testid="raised-hint">
-                Under the floor: full refund.
+                Under the floor: full refund. Intent only — not charged.
               </p>
             </div>
             <div className="money-cell">
@@ -96,16 +106,34 @@ export default function HomePage() {
           </div>
           <div className="progress" data-testid="money-progress">
             <div className="progress-track" aria-hidden="true">
-              <div className="progress-fill" />
+              <div
+                className="progress-fill"
+                data-testid="money-progress-fill"
+                style={{ width: `${floorPct}%` }}
+              />
             </div>
             <div className="progress-meta">
-              <span>0% of floor</span>
+              <span data-testid="floor-progress-copy">{floorPct}% of floor</span>
               <span data-testid="close-copy">{closeCopy}</span>
             </div>
           </div>
+          <dl className="shortfall-ticker" data-testid="shortfall-ticker">
+            <div>
+              <dt>Short of floor</dt>
+              <dd data-testid="shortfall-floor">{formatUsd(shortfallFloor)}</dd>
+            </div>
+            <div>
+              <dt>Short of buyout</dt>
+              <dd data-testid="shortfall-goal">{formatUsd(shortfallGoal)}</dd>
+            </div>
+            <div>
+              <dt>Open seats</dt>
+              <dd data-testid="open-seats">{board.openSeats} of {PANELS.length}</dd>
+            </div>
+          </dl>
           <p className="section-lead" style={{ marginTop: "1.5rem" }}>
             When bidding opens, {DEPOSIT_PERCENT}% holds your seat. This page
-            doesn&apos;t charge cards.
+            doesn&apos;t charge cards. No close clock on P2.
           </p>
         </section>
 
