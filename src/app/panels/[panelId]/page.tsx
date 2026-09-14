@@ -14,6 +14,7 @@ import { comboLotFor } from "@/lib/combo-lots";
 import { intentStatusClass, intentStatusLabel } from "@/lib/intent-labels";
 import {
   listBidsForPanel,
+  loadBoardIntentStats,
   loadStandingHoldersByPanel,
   minimumIntentUsd,
   standingForPanel,
@@ -38,6 +39,7 @@ export default async function PanelIntentPage({
   const standing = await standingForPanel(panel.id);
   const minimum = await minimumIntentUsd(panel.id);
   const bids = await listBidsForPanel(panel.id);
+  const board = await loadBoardIntentStats();
   const holdersRaw = await loadStandingHoldersByPanel();
   const holdersByPanel = new Map<string, AdjacentSeatHolder | null>();
   for (const row of PANELS) {
@@ -126,7 +128,7 @@ export default async function PanelIntentPage({
 
         <HometownLaneTags />
 
-        <PanelMockup panel={panel} />
+        <PanelMockup panel={panel} raisedUsd={board.pledgedUsd} />
 
         <AdjacentNeighborsCard neighbors={adjacentNeighbors} />
         <NeighborComboCard lot={comboLotFor(panel.id)} />

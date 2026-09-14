@@ -31,14 +31,35 @@ test.describe("P2 panel intent + approvals", () => {
     await expect(page.getByTestId("compositor-finish-label")).toContainText(
       "Wrap",
     );
-    await page.getByTestId("compositor-mode-etch").click();
+    await expect(page.getByTestId("compositor-mode-etch")).toBeDisabled();
+    await expect(page.getByTestId("etch-lock-copy")).toContainText(
+      "$120,000",
+    );
+    const html = await page.content();
+    expect(html.toLowerCase()).not.toMatch(/\blease\b/);
+    expect(html).not.toContain("CLOSE_AT");
+  });
+
+  test("slice 3.2: etch controls disabled while raised < $120,000", async ({
+    page,
+  }) => {
+    await page.goto("/panels/hood");
+    await expect(page.getByTestId("panel-mockup")).toHaveAttribute(
+      "data-etchable",
+      "true",
+    );
+    await expect(page.getByTestId("panel-mockup")).toHaveAttribute(
+      "data-etch-unlocked",
+      "false",
+    );
+    await expect(page.getByTestId("compositor-mode-etch")).toBeDisabled();
+    await expect(page.getByTestId("etch-lock-copy")).toContainText(
+      "locked while raised is under $120,000",
+    );
+    await expect(page.getByTestId("compositor-mode-wrap")).toBeEnabled();
     await expect(page.getByTestId("panel-mockup")).toHaveAttribute(
       "data-finish",
-      "etch",
-    );
-    await expect(page.getByTestId("compositor-etch-mark")).toBeVisible();
-    await expect(page.getByTestId("compositor-finish-label")).toContainText(
-      "$120,000",
+      "wrap",
     );
     const html = await page.content();
     expect(html.toLowerCase()).not.toMatch(/\blease\b/);
@@ -60,23 +81,12 @@ test.describe("P2 panel intent + approvals", () => {
     await expect(page.getByTestId("panel-mockup")).toBeVisible();
     await expect(page.getByTestId("stainless-compositor")).toBeVisible();
     await expect(page.getByTestId("compositor-mode-wrap")).toBeVisible();
-    await expect(page.getByTestId("compositor-mode-etch")).toBeEnabled();
+    await expect(page.getByTestId("compositor-mode-etch")).toBeDisabled();
+    await expect(page.getByTestId("etch-lock-copy")).toContainText("$120,000");
     await expect(page.getByTestId("compositor-wrap-film")).toBeVisible();
-    await page.getByTestId("compositor-mode-etch").click();
-    await expect(page.getByTestId("panel-mockup")).toHaveAttribute(
-      "data-finish",
-      "etch",
-    );
-    await expect(page.getByTestId("compositor-etch-mark")).toBeVisible();
     await expect(page.getByTestId("compositor-finish-label")).toContainText(
-      "$120,000",
+      "Wrap",
     );
-    await expect(page.getByTestId("etch-constraint-linter")).toBeVisible();
-    await expect(page.getByTestId("etch-constraint-list")).toBeVisible();
-    await expect(page.getByTestId("etch-constraint-one-color")).toBeVisible();
-    await page.getByTestId("etch-art-notes").fill("full color gradient photo");
-    await expect(page.getByTestId("etch-lint-issues")).toBeVisible();
-    await expect(page.getByTestId("etch-lint-etch-forbidden-art")).toBeVisible();
     await expect(page.getByTestId("finish-conditions")).toBeVisible();
     await expect(page.getByTestId("finish-condition-day")).toHaveAttribute(
       "aria-pressed",

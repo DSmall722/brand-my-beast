@@ -10,6 +10,10 @@ import {
 } from "@/lib/campaign";
 import { DIRTY_CLEAN_PAIR_LEAD } from "@/lib/dirty-clean-pair";
 import {
+  etchControlsEnabled,
+  etchLockCopy,
+} from "@/lib/etch-lock";
+import {
   FINISH_CONDITIONS,
   type FinishCondition,
 } from "@/lib/finish-conditions";
@@ -24,14 +28,22 @@ type FinishMode = CompositorFinish;
 /**
  * PROCESS-safe stainless compositor: CSS preview of wrap vs etch on the steel
  * face, plus day/night/wet/dirty condition shaders and a dirty-vs-clean pair.
- * Etch stays preview-only until buyout — no capture, no clock.
+ * Etch controls stay off until board raised clears buyout — no capture, no clock.
  */
-export function PanelMockup({ panel }: { panel: Panel }) {
+export function PanelMockup({
+  panel,
+  raisedUsd = 0,
+}: {
+  panel: Panel;
+  /** Board pledged intent total. Etch controls need buyout. */
+  raisedUsd?: number;
+}) {
   const etchable = isEtchable(panel);
+  const etchOn = etchControlsEnabled(panel, raisedUsd);
   const [mode, setMode] = useState<FinishMode>("wrap");
   const [condition, setCondition] = useState<FinishCondition>("day");
   const [pair, setPair] = useState(false);
-  const showingEtch = etchable && mode === "etch";
+  const showingEtch = etchOn && mode === "etch";
 
   return (
     <div
@@ -39,6 +51,7 @@ export function PanelMockup({ panel }: { panel: Panel }) {
       data-testid="panel-mockup"
       data-panel={panel.id}
       data-etchable={etchable ? "true" : "false"}
+      data-etch-unlocked={etchOn ? "true" : "false"}
       data-finish={showingEtch ? "etch" : "wrap"}
       data-condition={condition}
       data-pair={pair ? "true" : "false"}
@@ -48,6 +61,12 @@ export function PanelMockup({ panel }: { panel: Panel }) {
         data-testid="stainless-compositor-lead"
       >
         {STAINLESS_COMPOSITOR_LEAD}
+      </p>
+      <p
+        className="auth-hint etch-lock-copy"
+        data-testid="etch-lock-copy"
+      >
+        {etchLockCopy(raisedUsd)}
       </p>
       <div
         className="compositor-toolbar"
@@ -73,14 +92,16 @@ export function PanelMockup({ panel }: { panel: Panel }) {
           }
           data-testid="compositor-mode-etch"
           aria-pressed={mode === "etch"}
-          disabled={!etchable}
+          disabled={!etchOn}
           title={
-            etchable
-              ? `Etch preview — unlocks at ${formatUsd(GOAL_USD)}`
-              : "This panel is wrap only"
+            !etchable
+              ? "This panel is wrap only"
+              : etchOn
+                ? `Etch unlocked at ${formatUsd(GOAL_USD)}`
+                : `Etch locked under ${formatUsd(GOAL_USD)}`
           }
           onClick={() => {
-            if (etchable) setMode("etch");
+            if (etchOn) setMode("etch");
           }}
         >
           Etch

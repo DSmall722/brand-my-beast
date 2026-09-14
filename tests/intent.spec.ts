@@ -12,11 +12,13 @@ import {
   FLOOR_USD,
   GOAL_USD,
   CLOSE_AT,
+  PANELS,
   TRUCK_EXISTS,
   WRECK_REFUND_RULES,
   floorMarkerPercentOnGoalTrack,
   floorProgressPercent,
   goalProgressPercent,
+  isEtchUnlocked,
   shortfallToFloorUsd,
   shortfallToGoalUsd,
 } from "../src/lib/campaign";
@@ -69,6 +71,10 @@ import {
   compositorFinishLabel,
   stainlessCompositorCopyIsSafe,
 } from "../src/lib/stainless-compositor";
+import {
+  etchControlsEnabled,
+  etchLockCopy,
+} from "../src/lib/etch-lock";
 import {
   WINNER_PORTAL_FACTS,
   winnerPortalFactsVisible,
@@ -702,6 +708,24 @@ test.describe("adjacent-panel clash detector (no capture)", () => {
 });
 
 test.describe("finish condition shaders (no capture)", () => {
+  test("slice 3.2: etch controls stay off under buyout", () => {
+    const hood = PANELS.find((p) => p.id === "hood");
+    expect(hood).toBeTruthy();
+    if (!hood) return;
+    expect(isEtchUnlocked(0)).toBe(false);
+    expect(isEtchUnlocked(119_999)).toBe(false);
+    expect(isEtchUnlocked(120_000)).toBe(true);
+    expect(etchControlsEnabled(hood, 0)).toBe(false);
+    expect(etchControlsEnabled(hood, 119_999)).toBe(false);
+    expect(etchControlsEnabled(hood, 120_000)).toBe(true);
+    expect(etchLockCopy(0)).toContain("locked while raised is under $120,000");
+    expect(etchLockCopy(120_000)).toContain("unlocked");
+    const roof = PANELS.find((p) => p.id === "roof");
+    expect(roof).toBeTruthy();
+    if (!roof) return;
+    expect(etchControlsEnabled(roof, 120_000)).toBe(false);
+  });
+
   test("slice 3.1: stainless compositor lead is preview-only", () => {
     expect(stainlessCompositorCopyIsSafe()).toBe(true);
     expect(STAINLESS_COMPOSITOR_LEAD.toLowerCase()).toContain("preview only");
