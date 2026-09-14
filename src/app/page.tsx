@@ -29,6 +29,7 @@ import {
   floorMarkerPercentOnGoalTrack,
   floorProgressPercent,
   formatUsd,
+  goalProgressPercent,
   isEtchable,
   shortfallToFloorUsd,
   shortfallToGoalUsd,
