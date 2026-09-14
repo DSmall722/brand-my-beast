@@ -46,6 +46,7 @@ export function WaitlistForm() {
   }
 
   const disabled = status === "loading";
+  const showNext = status === "created" || status === "exists";
 
   return (
     <form
@@ -81,6 +82,22 @@ export function WaitlistForm() {
       >
         {message || "Free to join. No countdown yet."}
       </p>
+      {showNext ? (
+        <p className="waitlist-next" data-testid="waitlist-next">
+          Next:{" "}
+          <a href="/#panels" data-testid="waitlist-browse-panels">
+            browse panels
+          </a>
+          {" · "}
+          <a
+            href="/signin?callbackUrl=/panels/hood"
+            data-testid="waitlist-signin-intent"
+          >
+            sign in to list an intent
+          </a>
+          . Intent only — no Stripe capture.
+        </p>
+      ) : null}
     </form>
   );
 }
