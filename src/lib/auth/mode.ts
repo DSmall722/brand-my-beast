@@ -5,9 +5,10 @@
 
 export type AuthMode = "test" | "live";
 
-export function resolveAuthMode(
-  env: NodeJS.ProcessEnv = process.env,
-): AuthMode {
+/** Partial env bags from tests; same shape as operator helpers. */
+export type AuthEnv = Record<string, string | undefined>;
+
+export function resolveAuthMode(env: AuthEnv = process.env): AuthMode {
   const raw = (env.AUTH_MODE ?? "").trim().toLowerCase();
   if (raw === "test" || raw === "live") return raw;
   if (env.NODE_ENV === "production" && env.VERCEL_ENV === "production") {
@@ -16,9 +17,7 @@ export function resolveAuthMode(
   return "test";
 }
 
-export function authSecretOrThrow(
-  env: NodeJS.ProcessEnv = process.env,
-): string {
+export function authSecretOrThrow(env: AuthEnv = process.env): string {
   const fromEnv = env.AUTH_SECRET?.trim();
   if (fromEnv) return fromEnv;
   if (resolveAuthMode(env) === "test") {
@@ -31,7 +30,7 @@ export function authSecretOrThrow(
 
 export type AuthProviderId = "test-login" | "resend" | "github";
 
-function hasResendMagicLink(env: NodeJS.ProcessEnv): boolean {
+function hasResendMagicLink(env: AuthEnv): boolean {
   return Boolean(env.RESEND_API_KEY?.trim() && env.DATABASE_URL?.trim());
 }
 
@@ -41,7 +40,7 @@ function hasResendMagicLink(env: NodeJS.ProcessEnv): boolean {
  * are set. GitHub stays optional. AUTH_ENABLE_TEST_LOGIN=1 is a staging hatch.
  */
 export function enabledAuthProviders(
-  env: NodeJS.ProcessEnv = process.env,
+  env: AuthEnv = process.env,
 ): AuthProviderId[] {
   const mode = resolveAuthMode(env);
   const ids: AuthProviderId[] = [];
