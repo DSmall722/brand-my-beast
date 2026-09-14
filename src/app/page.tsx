@@ -129,7 +129,11 @@ export default function HomePage() {
                   data-etchable={etchable ? "true" : "false"}
                   data-etch-unlocked={etchUnlocked ? "true" : "false"}
                 >
-                  <div className="panel-name">{panel.name}</div>
+                  <div className="panel-name">
+                    <a href={`/panels/${panel.id}`} data-testid={`panel-link-${panel.id}`}>
+                      {panel.name}
+                    </a>
+                  </div>
                   <div className="panel-meta">
                     Opens at {formatUsd(panel.openingUsd)}
                   </div>
