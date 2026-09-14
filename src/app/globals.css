@@ -938,6 +938,68 @@ a {
   color: var(--signal);
 }
 
+.etch-linter {
+  margin: 0.85rem 0.85rem 1rem;
+  padding: 0.85rem 0.95rem;
+  border: 1px solid var(--hairline);
+  border-radius: 0.75rem;
+  background: color-mix(in oklab, black 24%, transparent);
+  display: grid;
+  gap: 0.55rem;
+}
+
+.etch-linter-title {
+  margin: 0;
+  font-size: 0.78rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--steel-300);
+}
+
+.etch-constraint-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 0.45rem;
+}
+
+.etch-constraint-list li {
+  display: grid;
+  gap: 0.15rem;
+}
+
+.etch-constraint-list strong {
+  font-size: 0.92rem;
+  color: var(--steel-100);
+}
+
+.etch-constraint-list span {
+  color: var(--steel-400);
+  font-size: 0.85rem;
+  line-height: 1.35;
+}
+
+.etch-art-notes {
+  resize: vertical;
+  min-height: 4.5rem;
+}
+
+.etch-lint-issues {
+  margin: 0;
+  padding-left: 1.1rem;
+  font-size: 0.9rem;
+  line-height: 1.4;
+}
+
+.etch-lint-issues.etch-lint-warn {
+  color: #f0c040;
+}
+
+.etch-lint-issues.etch-lint-fail {
+  color: #ff8a6b;
+}
+
 .panel-stats {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));

@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { EtchConstraintLinter } from "@/components/EtchConstraintLinter";
 import {
   GOAL_USD,
   formatUsd,
@@ -93,6 +94,7 @@ export function PanelMockup({ panel }: { panel: Panel }) {
           </span>
         )}
       </div>
+      {showingEtch ? <EtchConstraintLinter /> : null}
     </div>
   );
 }
