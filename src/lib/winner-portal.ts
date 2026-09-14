@@ -19,6 +19,10 @@ export const WINNER_PORTAL_FACTS = [
     text: `Immortal vault certificate ships after install only at ${formatUsd(GOAL_USD)}. Not cash. No VIN.`,
   },
   {
+    id: "retired-vinyl",
+    text: "Retired wrap vinyl can be framed after 12 months from install. Not cash. No VIN.",
+  },
+  {
     id: "no-vin",
     text: "No reserved VIN until the campaign clears the floor.",
   },

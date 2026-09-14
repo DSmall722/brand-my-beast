@@ -478,6 +478,9 @@ test.describe("P2 panel intent + approvals", () => {
     await expect(
       winner.getByTestId("winner-fact-vault-certificate"),
     ).toContainText("Not cash");
+    await expect(winner.getByTestId("winner-fact-retired-vinyl")).toContainText(
+      "12 months from install",
+    );
     await expect(winner.getByTestId("winner-portal-seats-list")).toContainText(
       "Winner Co",
     );

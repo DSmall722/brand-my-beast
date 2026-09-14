@@ -2,6 +2,7 @@ import { AuthNav } from "@/components/AuthNav";
 import { CabinPlaqueForm } from "@/components/CabinPlaqueForm";
 import { CircuitStoryForm } from "@/components/CircuitStoryForm";
 import { EventRequestForm } from "@/components/EventRequestForm";
+import { RetiredVinylCard } from "@/components/RetiredVinylCard";
 import { SightingForm } from "@/components/SightingForm";
 import { VaultCertificateCard } from "@/components/VaultCertificateCard";
 import { WaitlistForm } from "@/components/WaitlistForm";
@@ -303,6 +304,18 @@ export default async function HomePage() {
             The steel record after etch unlocks. Not a cash path.
           </p>
           <VaultCertificateCard />
+        </section>
+
+        <section
+          className="shell section"
+          id="retired-vinyl"
+          aria-labelledby="retired-vinyl-title"
+        >
+          <h2 id="retired-vinyl-title">Retired vinyl</h2>
+          <p className="section-lead">
+            Framed wrap film after the 12-month term. Not a cash path.
+          </p>
+          <RetiredVinylCard />
         </section>
 
         <section
