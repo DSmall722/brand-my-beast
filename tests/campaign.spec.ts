@@ -44,6 +44,19 @@ test.describe("P1 waitlist campaign locks", () => {
   }) => {
     await page.goto("/");
     await expect(page.getByTestId("brand-wordmark")).toHaveText("BrandMyBeast");
+    const heroTruck = page.getByTestId("hero-truck-preview");
+    await expect(heroTruck).toBeVisible();
+    await expect(heroTruck).toHaveAttribute("href", "#panels");
+    await expect(heroTruck.locator("img")).toHaveAttribute(
+      "src",
+      "/hero-truck-preview.jpg",
+    );
+    await expect(page.getByTestId("hero-preview-label")).toContainText(
+      "Board preview",
+    );
+    await expect(page.getByTestId("hero-preview-label")).toContainText(
+      "bare stainless",
+    );
     await expect(page.getByTestId("floor-amount")).toHaveText(
       formatUsd(FLOOR_USD),
     );
