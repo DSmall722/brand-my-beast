@@ -26,7 +26,11 @@ import {
   completeSameDayMockup,
   previewKeyFor,
 } from "../src/lib/mockup";
-import { checkHighwayLegibility } from "../src/lib/legibility";
+import {
+  HIGHWAY_BRAND_HARD_MAX,
+  HIGHWAY_BRAND_SOFT_MAX,
+  checkHighwayLegibility,
+} from "../src/lib/legibility";
 import {
   ETCH_CONSTRAINTS,
   lintEtchArtNotes,
@@ -615,7 +619,7 @@ test.describe("same-day Imagine mockup scaffold (no billable API)", () => {
 });
 
 test.describe("highway legibility checker (no capture)", () => {
-  test("flags long wrap marks and etch-forbidden terms", () => {
+  test("slice 3.3: flags long wrap marks and etch-forbidden terms", () => {
     expect(
       checkHighwayLegibility({ brandLabel: "Short Co", finish: "wrap" })
         .severity,
@@ -640,6 +644,8 @@ test.describe("highway legibility checker (no capture)", () => {
     expect(etch.issues.some((i) => i.id === "etch-forbidden-terms")).toBe(
       true,
     );
+    expect(HIGHWAY_BRAND_SOFT_MAX).toBe(18);
+    expect(HIGHWAY_BRAND_HARD_MAX).toBe(28);
   });
 });
 

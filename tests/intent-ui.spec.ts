@@ -174,7 +174,7 @@ test.describe("P2 panel intent + approvals", () => {
     expect(html).not.toContain("Florida panhandle");
   });
 
-  test("signed-in bidder sees highway legibility warn on long brand", async ({
+  test("slice 3.3: signed-in bidder sees highway legibility warn on long brand", async ({
     page,
   }) => {
     await signIn(page, "legibility@example.com");
@@ -185,6 +185,9 @@ test.describe("P2 panel intent + approvals", () => {
       "warn",
     );
     await expect(page.getByTestId("legibility-brand-long")).toBeVisible();
+    const html = await page.content();
+    expect(html.toLowerCase()).not.toMatch(/\blease\b/);
+    expect(html).not.toContain("CLOSE_AT");
   });
 
   test("adjacent clash soft-warns when neighbor holds overlapping brand", async ({

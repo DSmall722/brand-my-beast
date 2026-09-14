@@ -1,5 +1,5 @@
 /**
- * Highway-legibility checker (FEATURES P2 #17).
+ * Slice 3.3 — highway-legibility checker (FEATURES P2 #17).
  * Soft rules from RULES.md art constraints — no capture, no clock.
  */
 
