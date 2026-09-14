@@ -13,8 +13,8 @@ Updated: 2026-09-14
 - A FEATURES.md row is not scheduled until it has a checkbox in this file.
 - Coordinator may merge a PR that finishes exactly one unchecked slice, Playwright is green, and the merge gates below hold.
 
-**Now:** 0.2 Hide empty boards on /account and /partner.
-**Last merged:** 0.1 (#? homepage slim)
+**Now:** 0.3 Homepage copy audit.
+**Last merged:** 0.2 (#52 account/partner hide)
 
 ## Standing orders
 
@@ -48,7 +48,7 @@ If any gate fails: leave the PR unmerged and stop that slice.
 ## Wave 0 — public page is a waitlist
 
 - [x] 0.1 Hide every empty P3–P5 homepage section behind truckExists === false. Public / is hero, board, twelve panels, how-it-works, waitlist, footer.
-- [ ] 0.2 Same hide on /account and /partner empty boards.
+- [x] 0.2 Same hide on /account and /partner empty boards. (#52)
 - [ ] 0.3 Homepage copy audit: no process-memo voice, no invented miles/scans/city hours.
 - [ ] 0.4 Playwright contract: waitlist created/exists; invalid email 400. Production already returns 201 — do not regress.
 - [ ] 0.5 prove-all.sh covers 0.1–0.4. CI red = merge nothing else.
