@@ -5,10 +5,12 @@ import {
 } from "@/components/AdjacentClashHint";
 import { HometownLaneTags } from "@/components/HometownLaneTags";
 import { IntentBidForm } from "@/components/IntentBidForm";
+import { NeighborComboCard } from "@/components/NeighborComboCard";
 import { PanelMockup } from "@/components/PanelMockup";
 import { SiteChrome } from "@/components/SiteChrome";
 import { auth } from "@/lib/auth";
 import { DEPOSIT_PERCENT, FLOOR_USD, GOAL_USD, PANELS, formatUsd, isEtchable } from "@/lib/campaign";
+import { comboLotFor } from "@/lib/combo-lots";
 import { intentStatusClass, intentStatusLabel } from "@/lib/intent-labels";
 import {
   listBidsForPanel,
@@ -119,6 +121,7 @@ export default async function PanelIntentPage({
         <PanelMockup panel={panel} />
 
         <AdjacentNeighborsCard neighbors={adjacentNeighbors} />
+        <NeighborComboCard lot={comboLotFor(panel.id)} />
 
         <dl className="panel-stats" data-testid="panel-stats">
           <div>

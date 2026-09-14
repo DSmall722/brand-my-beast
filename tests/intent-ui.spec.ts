@@ -63,6 +63,23 @@ test.describe("P2 panel intent + approvals", () => {
     );
     await expect(page.getByTestId("adjacent-neighbors")).toBeVisible();
     await expect(page.getByTestId("adjacent-neighbors-empty")).toBeVisible();
+    await expect(page.getByTestId("neighbor-combo")).toBeVisible();
+    await expect(page.getByTestId("neighbor-combo-lead")).toContainText(
+      "not a joint bid",
+    );
+    await expect(page.getByTestId("neighbor-combo-lead")).toContainText(
+      "$58,000",
+    );
+    await expect(page.getByTestId("neighbor-combo-lead")).toContainText(
+      "$120,000",
+    );
+    await expect(page.getByTestId("neighbor-combo-front-fascia")).toBeVisible();
+    await expect(
+      page.getByTestId("neighbor-combo-front-fascia").locator("a"),
+    ).toHaveAttribute("href", "/panels/front-fascia");
+    await expect(page.getByTestId("neighbor-combo-roof")).toBeVisible();
+    await expect(page.getByTestId("neighbor-combo-driver-door")).toBeVisible();
+    await expect(page.getByTestId("neighbor-combo-passenger-door")).toBeVisible();
     await expect(page.getByTestId("hometown-lane")).toBeVisible();
     await expect(page.getByTestId("hometown-lane-sc")).toHaveText("SC");
     await expect(page.getByTestId("hometown-lane-charlotte")).toHaveText(
