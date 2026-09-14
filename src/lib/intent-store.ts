@@ -323,3 +323,33 @@ export async function resetIntentStoreForTests(): Promise<void> {
   if (!db) return;
   await db.delete(intentBids);
 }
+
+export type BoardIntentStats = {
+  pledgedUsd: number;
+  seatedPanels: number;
+  openSeats: number;
+};
+
+/**
+ * Honest board totals from active intents (listed/approved standing).
+ * Empty panels do not count opening marks as pledged.
+ */
+export async function loadBoardIntentStats(): Promise<BoardIntentStats> {
+  let pledgedUsd = 0;
+  let seatedPanels = 0;
+  for (const panel of PANELS) {
+    const bids = await listBidsForPanel(panel.id);
+    const active = bids.filter(
+      (bid) => bid.status === "listed" || bid.status === "approved",
+    );
+    if (active.length === 0) continue;
+    seatedPanels += 1;
+    pledgedUsd += Math.max(...active.map((bid) => bid.standingUsd));
+  }
+  return {
+    pledgedUsd,
+    seatedPanels,
+    openSeats: PANELS.length - seatedPanels,
+  };
+}
+

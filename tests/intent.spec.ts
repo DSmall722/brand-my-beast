@@ -9,6 +9,13 @@ import {
   type IntentBid,
 } from "../src/lib/intent";
 import {
+  FLOOR_USD,
+  GOAL_USD,
+  floorProgressPercent,
+  shortfallToFloorUsd,
+  shortfallToGoalUsd,
+} from "../src/lib/campaign";
+import {
   listBidsForPanel,
   placeIntentBid,
   resetIntentStoreForTests,
@@ -130,5 +137,17 @@ test.describe("intent store memory ledger", () => {
     expect(clash.ok).toBeFalsy();
     if (clash.ok) return;
     expect(clash.error).toMatch(/already held/i);
+  });
+});
+
+test.describe("honest shortfall math (no clock)", () => {
+  test("shortfall and floor progress from pledged intents", () => {
+    expect(shortfallToFloorUsd(0)).toBe(FLOOR_USD);
+    expect(shortfallToGoalUsd(0)).toBe(GOAL_USD);
+    expect(floorProgressPercent(0)).toBe(0);
+    expect(shortfallToFloorUsd(FLOOR_USD)).toBe(0);
+    expect(floorProgressPercent(FLOOR_USD)).toBe(100);
+    expect(floorProgressPercent(FLOOR_USD * 2)).toBe(100);
+    expect(shortfallToGoalUsd(GOAL_USD)).toBe(0);
   });
 });

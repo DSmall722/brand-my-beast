@@ -151,3 +151,27 @@ export function moneyBandCopy(raisedUsd: number): string {
   }
   return "Campaign buys the truck. Immortal etch unlocks on eight steel faces.";
 }
+
+/** Dollars still needed to clear the floor. Never negative. */
+export function shortfallToFloorUsd(pledgedUsd: number): number {
+  if (!Number.isFinite(pledgedUsd) || pledgedUsd < 0) {
+    throw new Error("pledgedUsd must be a non-negative finite number");
+  }
+  return Math.max(0, FLOOR_USD - pledgedUsd);
+}
+
+/** Dollars still needed to clear the buyout. Never negative. */
+export function shortfallToGoalUsd(pledgedUsd: number): number {
+  if (!Number.isFinite(pledgedUsd) || pledgedUsd < 0) {
+    throw new Error("pledgedUsd must be a non-negative finite number");
+  }
+  return Math.max(0, GOAL_USD - pledgedUsd);
+}
+
+/** Progress toward the floor, capped at 100. */
+export function floorProgressPercent(pledgedUsd: number): number {
+  if (!Number.isFinite(pledgedUsd) || pledgedUsd < 0) {
+    throw new Error("pledgedUsd must be a non-negative finite number");
+  }
+  return Math.min(100, Math.round((pledgedUsd / FLOOR_USD) * 100));
+}

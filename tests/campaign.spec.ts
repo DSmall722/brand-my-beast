@@ -54,9 +54,16 @@ test.describe("P1 waitlist campaign locks", () => {
     await expect(page.getByTestId("close-copy")).toHaveText(
       "Auction clock starts when bidding opens.",
     );
-    await expect(page.getByTestId("raised-hint")).toHaveText(
+    await expect(page.getByTestId("shortfall-ticker")).toBeVisible();
+    await expect(page.getByTestId("shortfall-floor")).toHaveText(formatUsd(FLOOR_USD));
+    await expect(page.getByTestId("shortfall-goal")).toHaveText(formatUsd(GOAL_USD));
+    await expect(page.getByTestId("open-seats")).toHaveText(`12 of ${PANELS.length}`);
+    await expect(page.getByTestId("floor-progress-copy")).toHaveText("0% of floor");
+
+    await expect(page.getByTestId("raised-hint")).toContainText(
       "Under the floor: full refund.",
     );
+    await expect(page.getByTestId("raised-hint")).toContainText("not charged");
     await expect(page.getByTestId("floor-hint")).toHaveText(
       "Order the Cyberbeast. Fund the wrap.",
     );

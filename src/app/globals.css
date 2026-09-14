@@ -335,6 +335,42 @@ a {
   font-size: 0.85rem;
 }
 
+.shortfall-ticker {
+  margin-top: 1.25rem;
+  display: grid;
+  gap: 0.85rem;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+@media (max-width: 800px) {
+  .shortfall-ticker {
+    grid-template-columns: 1fr;
+  }
+}
+
+.shortfall-ticker > div {
+  padding: 0.9rem 1rem;
+  border: 1px solid var(--hairline);
+  background: color-mix(in oklab, var(--signal) 6%, transparent);
+}
+
+.shortfall-ticker dt {
+  margin: 0;
+  color: var(--steel-500);
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.shortfall-ticker dd {
+  margin: 0.35rem 0 0;
+  font-family: var(--font-display), Syne, system-ui, sans-serif;
+  font-size: 1.35rem;
+  letter-spacing: -0.02em;
+  color: var(--steel-100);
+}
+
+
 .panel-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
