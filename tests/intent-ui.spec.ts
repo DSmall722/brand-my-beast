@@ -339,6 +339,32 @@ test.describe("P2 panel intent + approvals", () => {
     await bidderAgain.close();
   });
 
+  test("slice 2.3: banned trades hard-reject on the seat", async ({ page }) => {
+    await signIn(page, "banned@example.com");
+    await page.goto("/panels/hood");
+    await page.getByTestId("intent-brand").fill("Ban Co");
+    await page.getByTestId("intent-trade").fill("porn merch");
+    await page.getByTestId("intent-submit").click();
+    await expect(page.getByTestId("intent-error")).toContainText("Hard-reject");
+    await expect(page.getByTestId("intent-error")).toContainText("porn");
+    await expect(page.getByTestId("intent-success")).toHaveCount(0);
+
+    await page.getByTestId("intent-trade").fill("phishing kits");
+    await page.getByTestId("intent-submit").click();
+    await expect(page.getByTestId("intent-error")).toContainText("scam");
+    await expect(page.getByTestId("intent-success")).toHaveCount(0);
+
+    await page.getByTestId("intent-trade").fill("gore stickers");
+    await page.getByTestId("intent-submit").click();
+    await expect(page.getByTestId("intent-error")).toContainText("school-lot");
+    await expect(page.getByTestId("intent-success")).toHaveCount(0);
+
+    await page.getByTestId("intent-trade").fill("cold brew");
+    await page.getByTestId("intent-submit").click();
+    await expect(page.getByTestId("intent-success")).toContainText("not charged");
+    await expect(page.getByTestId("intent-list")).toContainText("Ban Co");
+  });
+
   test("slice 1.6: outbid viewer sees failed-winner waitlist handoff", async ({
     browser,
   }) => {

@@ -7,6 +7,7 @@ import { and, asc, desc, eq, ne } from "drizzle-orm";
 import { PANELS, type Panel } from "./campaign";
 import { getDb } from "./db";
 import { intentBids, type IntentBidRow } from "./db/schema";
+import { assertTradeAllowed } from "./banned-trades";
 import {
   assertIntentOnly,
   depositUsdForMark,
@@ -278,6 +279,11 @@ export async function placeIntentBid(
     return { ok: false, error: "Trade must be 2–80 characters." };
   }
 
+  const ban = assertTradeAllowed({ brandLabel, tradeLabel });
+  if (!ban.ok) {
+    return { ok: false, error: ban.error };
+  }
+
   const holders = await listHoldingBids();
   const collision = holders.find(
     (bid) =>
@@ -397,6 +403,13 @@ export async function setIntentStatus(
   if (useMemoryStore()) {
     const bid = memoryBids().find((row) => row.id === bidId);
     if (!bid) return { ok: false, error: "Bid not found." };
+    if (status === "approved") {
+      const ban = assertTradeAllowed({
+        brandLabel: bid.brandLabel,
+        tradeLabel: bid.tradeLabel,
+      });
+      if (!ban.ok) return { ok: false, error: ban.error };
+    }
     bid.status = status;
     assertIntentOnly(bid);
     return { ok: true, bid };
@@ -405,6 +418,21 @@ export async function setIntentStatus(
   const db = getDb();
   if (!db) {
     return { ok: false, error: "Intent ledger is not configured." };
+  }
+
+  if (status === "approved") {
+    const existing = await db
+      .select()
+      .from(intentBids)
+      .where(eq(intentBids.id, bidId))
+      .limit(1);
+    const current = existing[0];
+    if (!current) return { ok: false, error: "Bid not found." };
+    const ban = assertTradeAllowed({
+      brandLabel: current.brandLabel,
+      tradeLabel: current.tradeLabel,
+    });
+    if (!ban.ok) return { ok: false, error: ban.error };
   }
 
   const updated = await db

@@ -14,8 +14,8 @@ Updated: 2026-09-14
 - A FEATURES.md row is not scheduled until it has a checkbox in this file.
 - Coordinator may merge a PR that finishes exactly one unchecked slice, Playwright is green, and the merge gates below hold.
 
-**Now:** 2.3 Banned trades hard-reject (porn, hate, scams, school-lot fail).
-**Last merged:** 2.2 (#69 approve lists; reject requires a note)
+**Now:** 2.4 Approval thread on /account.
+**Last merged:** 2.3 (#70 banned trades hard-reject)
 
 ## Standing orders
 
@@ -74,7 +74,7 @@ If any gate fails: leave the PR unmerged and stop that slice.
 
 - [x] 2.1 /operator lists pending intents. Operator email allowlist from env. (#68)
 - [x] 2.2 Approve lists the intent. Reject requires a note. (#69)
-- [ ] 2.3 Banned trades hard-reject (porn, hate, scams, school-lot fail).
+- [x] 2.3 Banned trades hard-reject (porn, hate, scams, school-lot fail). (#70)
 - [ ] 2.4 Approval thread on /account.
 - [ ] 2.5 Operator UI cannot edit FLOOR_USD / GOAL_USD / CLOSE_AT.
 
