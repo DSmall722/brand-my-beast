@@ -696,12 +696,15 @@ test.describe("finish condition shaders (no capture)", () => {
 });
 
 test.describe("artwork approval thread (no capture)", () => {
-  test("requires reject note and lists decided bids", async () => {
+  test("slice 2.2: approve lists the intent; reject requires a note", async () => {
     expect(assertNoteRequiredForReject({ decision: "approved", note: "" }).ok).toBe(
       true,
     );
     expect(
       assertNoteRequiredForReject({ decision: "rejected", note: "" }).ok,
+    ).toBe(false);
+    expect(
+      assertNoteRequiredForReject({ decision: "rejected", note: "no" }).ok,
     ).toBe(false);
     expect(
       assertNoteRequiredForReject({
@@ -717,18 +720,34 @@ test.describe("artwork approval thread (no capture)", () => {
     ).toBe(false);
 
     await resetIntentStoreForTests();
-    const placed = await placeIntentBid({
+    const approve = await placeIntentBid({
       panelId: "hood",
-      userId: "user_art_1",
-      brandLabel: "Art Co",
-      tradeLabel: "tools",
+      userId: "user_art_approve",
+      brandLabel: "Approve Co",
+      tradeLabel: "fasteners",
     });
-    expect(placed.ok).toBe(true);
-    if (!placed.ok) return;
-    await setIntentStatus(placed.bid.id, "rejected");
-    const decided = await listDecidedBids();
-    expect(decided.map((b) => b.id)).toContain(placed.bid.id);
-    expect(decided[0]?.status).toBe("rejected");
+    expect(approve.ok).toBe(true);
+    if (!approve.ok) return;
+    const approved = await setIntentStatus(approve.bid.id, "approved");
+    expect(approved.ok).toBe(true);
+    if (!approved.ok) return;
+    expect(approved.bid.status).toBe("approved");
+    expect((await listDecidedBids()).map((b) => b.id)).toContain(approve.bid.id);
+
+    const reject = await placeIntentBid({
+      panelId: "tonneau",
+      userId: "user_art_reject",
+      brandLabel: "Reject Co",
+      tradeLabel: "tools",
+      standingUsd: 800,
+    });
+    expect(reject.ok).toBe(true);
+    if (!reject.ok) return;
+    const rejected = await setIntentStatus(reject.bid.id, "rejected");
+    expect(rejected.ok).toBe(true);
+    if (!rejected.ok) return;
+    expect(rejected.bid.status).toBe("rejected");
+    expect((await listDecidedBids()).map((b) => b.id)).toContain(reject.bid.id);
   });
 });
 
