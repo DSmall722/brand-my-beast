@@ -33,6 +33,11 @@ import {
   PANEL_ADJACENCY,
 } from "../src/lib/panel-clash";
 import {
+  FINISH_CONDITIONS,
+  finishConditionLabel,
+  isFinishCondition,
+} from "../src/lib/finish-conditions";
+import {
   listBidsForPanel,
   placeIntentBid,
   loadBoardIntentStats,
@@ -321,5 +326,19 @@ test.describe("adjacent-panel clash detector (no capture)", () => {
         neighbors,
       }),
     ).toEqual([]);
+  });
+});
+
+test.describe("finish condition shaders (no capture)", () => {
+  test("publishes day/night/wet/dirty condition ids", () => {
+    expect(FINISH_CONDITIONS.map((c) => c.id)).toEqual([
+      "day",
+      "night",
+      "wet",
+      "dirty",
+    ]);
+    expect(isFinishCondition("night")).toBe(true);
+    expect(isFinishCondition("fog")).toBe(false);
+    expect(finishConditionLabel("wet")).toBe("Wet");
   });
 });

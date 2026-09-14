@@ -901,6 +901,8 @@ a {
 }
 
 .panel-mockup-face {
+  position: relative;
+  overflow: hidden;
   text-align: center;
   padding: 1.5rem;
 }
@@ -956,6 +958,118 @@ a {
 .compositor-tab:disabled {
   opacity: 0.4;
   cursor: not-allowed;
+}
+
+.compositor-conditions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem;
+  padding: 0.45rem 0.75rem 0;
+  justify-content: center;
+}
+
+.compositor-condition {
+  border: 1px solid var(--hairline);
+  background: transparent;
+  color: var(--steel-400);
+  border-radius: 0.45rem;
+  padding: 0.28rem 0.65rem;
+  font: inherit;
+  font-size: 0.72rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.compositor-condition.is-active {
+  border-color: color-mix(in oklab, var(--steel-100) 35%, transparent);
+  color: var(--steel-100);
+  background: color-mix(in oklab, white 8%, transparent);
+}
+
+.compositor-condition-label {
+  display: block;
+  margin-top: 0.45rem;
+  font-size: 0.78rem;
+  color: var(--steel-400);
+}
+
+.compositor-shader {
+  pointer-events: none;
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  mix-blend-mode: soft-light;
+  opacity: 0.55;
+  transition: opacity 180ms ease, background 180ms ease;
+}
+
+.panel-mockup[data-condition="day"] .compositor-shader {
+  background:
+    radial-gradient(
+      circle at 28% 18%,
+      color-mix(in oklab, white 55%, transparent),
+      transparent 48%
+    ),
+    linear-gradient(
+      145deg,
+      color-mix(in oklab, #c9b27a 18%, transparent),
+      transparent 60%
+    );
+  opacity: 0.5;
+}
+
+.panel-mockup[data-condition="night"] .compositor-shader {
+  background:
+    radial-gradient(
+      circle at 70% 12%,
+      color-mix(in oklab, #f0a84a 35%, transparent),
+      transparent 40%
+    ),
+    linear-gradient(
+      180deg,
+      color-mix(in oklab, #0b1220 70%, transparent),
+      color-mix(in oklab, #1a2438 45%, transparent)
+    );
+  mix-blend-mode: multiply;
+  opacity: 0.72;
+}
+
+.panel-mockup[data-condition="wet"] .compositor-shader {
+  background:
+    repeating-linear-gradient(
+      118deg,
+      color-mix(in oklab, white 22%, transparent) 0 2px,
+      transparent 2px 11px
+    ),
+    radial-gradient(
+      circle at 40% 70%,
+      color-mix(in oklab, #7ec8e8 28%, transparent),
+      transparent 55%
+    );
+  mix-blend-mode: screen;
+  opacity: 0.45;
+}
+
+.panel-mockup[data-condition="dirty"] .compositor-shader {
+  background:
+    radial-gradient(
+      circle at 20% 80%,
+      color-mix(in oklab, #5a4632 55%, transparent),
+      transparent 42%
+    ),
+    radial-gradient(
+      circle at 78% 35%,
+      color-mix(in oklab, #3d3428 40%, transparent),
+      transparent 38%
+    ),
+    repeating-linear-gradient(
+      25deg,
+      color-mix(in oklab, #2a2218 18%, transparent) 0 3px,
+      transparent 3px 9px
+    );
+  mix-blend-mode: multiply;
+  opacity: 0.65;
 }
 
 .panel-mockup[data-finish="etch"] {
