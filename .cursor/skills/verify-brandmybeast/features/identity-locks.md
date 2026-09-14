@@ -24,6 +24,12 @@ Preconditions:
 - **Forbid personal gmail.** HTML does not contain `gmail.com`.
 - **Proof.** Write the stripped text checks to `artifacts/<run-id>/identity.txt`.
 
+Or run:
+
+```bash
+.cursor/skills/verify-brandmybeast/scripts/prove-identity-locks.sh
+```
+
 ## Gotchas
 
 - Substring checks for `lease` falsely match words like `releases`. Use a word boundary.

@@ -60,20 +60,20 @@ Agents may write into a Project-only `notes.md` and `internal/`. Humans do not t
 
 ## First coordinator jobs (in order)
 
-1. **Vendor pstack** into `.cursor/skills/` from `https://github.com/cursor/plugins` (`pstack/skills`), plus `.cursor/PSTACK_UPSTREAM.md` with URL + SHA. Cloud agents can then see `/poteto-mode`.
-2. **Push `FEATURES.md`** if it is still missing from GitHub (README already links it).
-3. **Scaffold P1** — Next.js on `brandmybeast.com`: story, 12 panels, $58,000 / $120,000 bar, email capture to Resend + Postgres. No Stripe. `CLOSE_AT = null`.
-4. **Deploy P1** over the Vercel 404. X website field stops being a dead end.
-5. **`/create-verification-skill`** against that running app. Feature map must include: panel grid, floor math, etch locked under $120k, waitlist submit, no personal handle in HTML.
-6. Schedule `/maintain-verification-skill` as a Project subscription (daily, after P1).
-7. P2 only after waitlist is live. P3 (Stripe + 30-day clock) only after LLC + terms + wreck clause exist.
+1. **Vendor pstack** into `.cursor/skills/` — **done** (PR #1).
+2. **Push `FEATURES.md`** — **done**.
+3. **Scaffold P1** — **done** (PR #2). Story, 12 panels, $58,000 / $120,000, email capture. No Stripe. `CLOSE_AT = null`.
+4. **Deploy P1** over the Vercel 404 — **done** (`www.brandmybeast.com` live).
+5. **`/create-verification-skill`** — **done** (PR #3 → `.cursor/skills/verify-brandmybeast/`).
+6. Schedule `/maintain-verification-skill` as a Project subscription (daily) — **arm this**. Live lever: `prove-all.sh`.
+7. **P2** soft auction next (auth vendor in a dedicated PR; intent bids only). **P3** only after LLC + terms + wreck clause.
 
 ## Subscriptions (coordinator)
 
 On:
 
-- Watch PRs on `DSmall722/brand-my-beast`. Fix CI. Do not merge without a human.
-- Daily: `/maintain-verification-skill` once a verify skill exists.
+- Watch PRs on `DSmall722/brand-my-beast`. Fix CI. Merge when tests are green **and** the Project run has explicit merge authority; otherwise leave for human.
+- Daily: `/maintain-verification-skill` against `.cursor/skills/verify-brandmybeast/` (run `scripts/prove-all.sh` for the live pass).
 
 Off:
 

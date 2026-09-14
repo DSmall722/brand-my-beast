@@ -26,11 +26,11 @@ Do not build a second framework. Do not put the auction ledger in `localStorage`
 
 ## Phases
 
-**P0 — planning, still here.** Lock copy, LLC path, wrap-shop quote, this markdown. No GitHub app code required.
+**P0 — planning.** Copy, LLC path, wrap-shop quote, dock markdown. Done enough to ship P1.
 
-**P1 — waitlist.** `brandmybeast.com` is a real page: story, 12 panels, floor/goal, email capture to Resend/Postgres. No Stripe. No countdown with a fake date. This is the first deploy over the Vercel 404.
+**P1 — waitlist (live).** `brandmybeast.com` is a real page: story, 12 panels, floor/goal, email capture to Resend/Postgres. No Stripe. No countdown with a fake date. Local prove: `.cursor/skills/verify-brandmybeast/`.
 
-**P2 — soft auction.** Accounts, panel pages, standing bids as **intent** (no capture). Operator approval thread. Mockup compositor can start here.
+**P2 — soft auction (next).** Accounts, panel pages, standing bids as **intent** (no capture). Auth vendor chosen in a dedicated PR. Operator approval thread. Mockup compositor can start here.
 
 **P3 — live money.** Stripe SetupIntent, terms, wreck clause, 30-day clock starts the morning this ships. Soft close. Close-night capture or release.
 
