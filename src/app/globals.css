@@ -1554,3 +1554,53 @@ a {
   color: var(--steel-100);
   line-height: 1.45;
 }
+
+.partner-shop-page {
+  max-width: 52rem;
+}
+
+.wrap-shop-sheet {
+  display: grid;
+  gap: 1.5rem;
+  margin: 1.25rem 0 1.75rem;
+}
+
+.wrap-shop-rules-list,
+.wrap-shop-matrix-list,
+.wrap-shop-approved-list {
+  margin: 0.55rem 0 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 0.55rem;
+}
+
+.wrap-shop-rules-list {
+  padding-left: 1.1rem;
+  list-style: disc;
+  color: var(--steel-100);
+  font-size: 0.95rem;
+  line-height: 1.45;
+}
+
+.wrap-shop-matrix-row,
+.wrap-shop-approved-list .intent-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem 0.85rem;
+  align-items: baseline;
+  padding: 0.75rem 0.85rem;
+  border: 1px solid var(--hairline);
+  border-radius: 0.65rem;
+  background: color-mix(in oklab, black 18%, transparent);
+}
+
+.badge-finish {
+  border: 1px solid var(--hairline);
+  border-radius: 0.4rem;
+  padding: 0.2rem 0.55rem;
+  font-size: 0.75rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--steel-200);
+}

@@ -354,4 +354,61 @@ test.describe("P2 panel intent + approvals", () => {
     expect(html).not.toContain("CLOSE_AT");
     await second.close();
   });
+
+  test("wrap-shop partner sheet is read-only for shop@example.com", async ({
+    browser,
+  }) => {
+    const bidder = await browser.newPage();
+    await signIn(bidder, "shop-bidder@example.com");
+    await bidder.goto("/panels/hood");
+    await bidder.getByTestId("intent-brand").fill("Shop Bound Co");
+    await bidder.getByTestId("intent-trade").fill("wrap vinyl");
+    await bidder.getByTestId("intent-submit").click();
+    await expect(bidder.getByTestId("intent-success")).toContainText(
+      "not charged",
+    );
+    await bidder.close();
+
+    const operator = await browser.newPage();
+    await signIn(operator, "operator@example.com");
+    await operator.goto("/operator/approvals");
+    await expect(operator.getByTestId("approvals-list")).toContainText(
+      "Shop Bound Co",
+    );
+    await operator.locator('[data-testid^="approve-"]').first().click();
+    await expect(operator.getByTestId("approvals-empty")).toBeVisible({
+      timeout: 10_000,
+    });
+    await operator.goto("/partner/shop");
+    await expect(operator.getByTestId("partner-shop-denied")).toBeVisible();
+    await operator.close();
+
+    const shop = await browser.newPage();
+    await signIn(shop, "shop@example.com");
+    await expect(shop.getByTestId("account-shop-link")).toBeVisible();
+    await expect(shop.getByTestId("shop-nav-link")).toBeVisible();
+    await shop.goto("/partner/shop");
+    await expect(shop.getByTestId("partner-shop")).toBeVisible();
+    await expect(shop.getByTestId("partner-shop-lead")).toContainText(
+      "$58,000",
+    );
+    await expect(shop.getByTestId("partner-shop-lead")).toContainText(
+      "$120,000",
+    );
+    await expect(shop.getByTestId("wrap-shop-sheet")).toBeVisible();
+    await expect(shop.getByTestId("wrap-rule-term")).toContainText(
+      "12 months from install",
+    );
+    await expect(shop.getByTestId("wrap-matrix-hood")).toBeVisible();
+    await expect(shop.getByTestId("wrap-shop-approved-list")).toContainText(
+      "Shop Bound Co",
+    );
+    await expect(shop.locator('[data-testid^="approve-"]')).toHaveCount(0);
+    const html = await shop.content();
+    expect(html.toLowerCase()).not.toMatch(/\blease\b/);
+    expect(html).not.toContain("CLOSE_AT");
+    expect(html).not.toContain("South Carolina home loop");
+    expect(html).not.toContain("Florida panhandle");
+    await shop.close();
+  });
 });
