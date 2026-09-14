@@ -1,4 +1,4 @@
-import { expect, test } from "@playwright/test";
+import { expect, test, type Page } from "@playwright/test";
 import {
   FLOOR_USD,
   GOAL_USD,
@@ -6,6 +6,37 @@ import {
   formatUsd,
   isEtchable,
 } from "../src/lib/campaign";
+
+async function expectHeroTitleUnclipped(page: Page) {
+  const title = page.locator("#hero-title");
+  await expect(title).toBeVisible();
+  await expect(title).toHaveText("BrandMyBeast");
+  await page.evaluate(() => document.fonts.ready);
+
+  const metrics = await title.evaluate((el) => {
+    const hero = el.closest(".hero");
+    if (!(hero instanceof HTMLElement)) {
+      throw new Error("hero container missing");
+    }
+
+    const range = document.createRange();
+    range.selectNodeContents(el);
+    const textRects = [...range.getClientRects()];
+    const lastGlyph = textRects.at(-1);
+    const heroRect = hero.getBoundingClientRect();
+
+    return {
+      text: (el.textContent ?? "").replace(/\s+/g, ""),
+      overflowX: el.scrollWidth - el.clientWidth,
+      lastGlyphRight: lastGlyph?.right ?? 0,
+      heroRight: heroRect.right,
+    };
+  });
+
+  expect(metrics.text).toBe("BrandMyBeast");
+  expect(metrics.overflowX).toBeLessThanOrEqual(1);
+  expect(metrics.lastGlyphRight).toBeLessThanOrEqual(metrics.heroRight + 1);
+}
 
 test.describe("P1 waitlist campaign locks", () => {
   test("renders brand, floor, buyout, and auction clock copy", async ({
@@ -76,6 +107,29 @@ test.describe("P1 waitlist campaign locks", () => {
     expect(html).not.toContain("Florida panhandle");
     expect(html).not.toContain("30-day clock");
     expect(html).not.toContain("FEATURES.md");
+  });
+
+  test("shows the full BrandMyBeast hero title without clipping", async ({
+    page,
+  }) => {
+    await page.goto("/");
+    await expectHeroTitleUnclipped(page);
+  });
+
+  test("shows the full BrandMyBeast hero title on a 375px viewport", async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width: 375, height: 812 });
+    await page.goto("/");
+    await expectHeroTitleUnclipped(page);
+  });
+
+  test("shows the full BrandMyBeast hero title on a 900px viewport", async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width: 900, height: 800 });
+    await page.goto("/");
+    await expectHeroTitleUnclipped(page);
   });
 
   test("serves a favicon at /favicon.ico", async ({ request }) => {
