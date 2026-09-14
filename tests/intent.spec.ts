@@ -650,7 +650,7 @@ test.describe("highway legibility checker (no capture)", () => {
 });
 
 test.describe("etch constraint linter (no capture)", () => {
-  test("publishes RULES.md checklist and fails forbidden art notes", () => {
+  test("slice 3.4: publishes RULES.md checklist and fails forbidden art notes", () => {
     expect(ETCH_CONSTRAINTS.map((r) => r.id)).toEqual([
       "one-color",
       "min-stroke",
@@ -662,6 +662,8 @@ test.describe("etch constraint linter (no capture)", () => {
     const bad = lintEtchArtNotes("full color gradient photo mark");
     expect(bad.severity).toBe("fail");
     expect(bad.issues.some((i) => i.id === "etch-forbidden-art")).toBe(true);
+    expect(ETCH_CONSTRAINTS.some((r) => /1-color/i.test(r.label))).toBe(true);
+    expect(ETCH_CONSTRAINTS.some((r) => /gradient/i.test(r.label))).toBe(true);
   });
 });
 

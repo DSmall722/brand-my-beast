@@ -217,7 +217,7 @@ export function PanelMockup({
         />
       </div>
       )}
-      {showingEtch ? <EtchConstraintLinter /> : null}
+      {etchable ? <EtchConstraintLinter /> : null}
     </div>
   );
 }

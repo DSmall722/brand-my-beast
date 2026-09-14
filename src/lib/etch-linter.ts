@@ -1,5 +1,5 @@
 /**
- * Etch constraint linter (FEATURES P2 #18).
+ * Slice 3.4 — etch constraint linter (FEATURES P2 #18 / RULES.md).
  * RULES.md: 1-color, minimum stroke, no gradients, no 8-pt type.
  * Soft guidance only — no capture, no clock.
  */
