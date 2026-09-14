@@ -113,6 +113,10 @@ import {
   truckOrderTrackerCopyIsSafe,
 } from "../src/lib/truck-order-tracker";
 import {
+  WEEKLY_MILEAGE_LEDGER_LEAD,
+  weeklyMileageLedgerCopyIsSafe,
+} from "../src/lib/weekly-mileage-ledger";
+import {
   EVENT_REQUEST_KINDS,
   EVENT_REQUEST_LEAD,
   eventRequestCopyIsSafe,
@@ -542,6 +546,9 @@ test.describe("winner portal (no capture)", () => {
     expect(
       WINNER_PORTAL_FACTS.some((fact) => fact.id === "truck-order-tracker"),
     ).toBe(true);
+    expect(
+      WINNER_PORTAL_FACTS.some((fact) => fact.id === "weekly-mileage-ledger"),
+    ).toBe(true);
     const blob = WINNER_PORTAL_FACTS.map((fact) => fact.text).join(" ");
     expect(blob).toContain("12 months from install");
     expect(blob).not.toContain("CLOSE_AT");
@@ -857,6 +864,25 @@ test.describe("truck-order tracker after floor (no reserved VIN)", () => {
     expect(TRUCK_ORDER_TRACKER_LEAD.toLowerCase()).toContain("order path");
     expect(TRUCK_ORDER_TRACKER_LEAD.toLowerCase()).toContain("no reserved vin");
     expect(truckOrderTrackerCopyIsSafe()).toBe(true);
+    expect(FLOOR_USD).toBe(58_000);
+    expect(GOAL_USD).toBe(120_000);
+  });
+});
+
+test.describe("weekly mileage ledger (empty until truck)", () => {
+  test("publishes empty-ledger copy without invented miles or reserved VIN", () => {
+    expect(WEEKLY_MILEAGE_LEDGER_LEAD).toContain("$58,000");
+    expect(WEEKLY_MILEAGE_LEDGER_LEAD).toContain("$120,000");
+    expect(WEEKLY_MILEAGE_LEDGER_LEAD.toLowerCase()).toContain(
+      "empty until the truck exists",
+    );
+    expect(WEEKLY_MILEAGE_LEDGER_LEAD.toLowerCase()).toContain(
+      "no invented odometer",
+    );
+    expect(WEEKLY_MILEAGE_LEDGER_LEAD.toLowerCase()).toContain(
+      "no reserved vin",
+    );
+    expect(weeklyMileageLedgerCopyIsSafe()).toBe(true);
     expect(FLOOR_USD).toBe(58_000);
     expect(GOAL_USD).toBe(120_000);
   });

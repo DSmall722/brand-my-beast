@@ -527,6 +527,12 @@ test.describe("P2 panel intent + approvals", () => {
     await expect(
       winner.getByTestId("winner-fact-truck-order-tracker"),
     ).toContainText("No reserved VIN");
+    await expect(
+      winner.getByTestId("winner-fact-weekly-mileage-ledger"),
+    ).toContainText("empty until the truck exists");
+    await expect(
+      winner.getByTestId("winner-fact-weekly-mileage-ledger"),
+    ).toContainText("No invented miles");
     await expect(winner.getByTestId("winner-portal-seats-list")).toContainText(
       "Winner Co",
     );
