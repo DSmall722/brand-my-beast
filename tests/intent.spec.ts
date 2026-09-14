@@ -71,6 +71,15 @@ import {
   saveContentRightsForUser,
 } from "../src/lib/content-rights-store";
 import {
+  CIRCUIT_STORY_CORRIDORS,
+  CIRCUIT_STORY_LEAD,
+  circuitStoryCopyIsSafe,
+} from "../src/lib/circuit-story";
+import {
+  resetCircuitStoryStoreForTests,
+  submitCircuitStoryRequest,
+} from "../src/lib/circuit-story-store";
+import {
   listBidsForPanel,
   listApprovedBids,
   listApprovedBidsForUser,
@@ -559,6 +568,52 @@ test.describe("content-rights picker (no tweet)", () => {
     expect(await getContentRightsForUser("user_rights_1")).toEqual([
       "proof-stills",
     ]);
+    expect(FLOOR_USD).toBe(58_000);
+    expect(GOAL_USD).toBe(120_000);
+  });
+});
+
+test.describe("circuit story request (no tweet)", () => {
+  test("saves corridor request without impressions or auto-tweet", async () => {
+    expect(CIRCUIT_STORY_CORRIDORS.map((row) => row.id)).toEqual([
+      "sc",
+      "charlotte",
+      "atlanta",
+      "panhandle",
+      "i26",
+      "i77",
+      "i85",
+      "i95",
+    ]);
+    expect(CIRCUIT_STORY_LEAD).toContain("$58,000");
+    expect(CIRCUIT_STORY_LEAD).toContain("$120,000");
+    expect(CIRCUIT_STORY_LEAD.toLowerCase()).toContain("no auto-tweet");
+    expect(circuitStoryCopyIsSafe()).toBe(true);
+
+    await resetCircuitStoryStoreForTests();
+    const first = await submitCircuitStoryRequest({
+      email: "Story@Example.com",
+      corridorId: "i85",
+      note: "  Clemson Saturday proof  ",
+    });
+    expect(first.ok).toBe(true);
+    if (!first.ok) return;
+    expect(first.status).toBe("created");
+    expect(first.request.email).toBe("story@example.com");
+    expect(first.request.corridorId).toBe("i85");
+    expect(first.request.note).toBe("Clemson Saturday proof");
+    const again = await submitCircuitStoryRequest({
+      email: "story@example.com",
+      corridorId: "i85",
+    });
+    expect(again.ok).toBe(true);
+    if (!again.ok) return;
+    expect(again.status).toBe("exists");
+    const bad = await submitCircuitStoryRequest({
+      email: "nope",
+      corridorId: "i85",
+    });
+    expect(bad.ok).toBe(false);
     expect(FLOOR_USD).toBe(58_000);
     expect(GOAL_USD).toBe(120_000);
   });
