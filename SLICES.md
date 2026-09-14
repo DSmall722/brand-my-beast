@@ -14,8 +14,8 @@ Updated: 2026-09-14
 - A FEATURES.md row is not scheduled until it has a checkbox in this file.
 - Coordinator may merge a PR that finishes exactly one unchecked slice, Playwright is green, and the merge gates below hold.
 
-**Now:** 6.6 Rate-limit waitlist + intent POSTs.
-**Last merged:** 0.9 (#95 Ship locked copy v2 from PUBLIC_COPY.md)
+**Now:** 6.7 No in-memory stores in Production.
+**Last merged:** 6.6 (#96 Rate-limit waitlist + intent POSTs.)
 
 ## Standing orders
 
@@ -112,7 +112,7 @@ If any gate fails: leave the PR unmerged and stop that slice.
 - [x] 6.3 Playwright: operator approve / reject-with-note. (#92)
 - [x] 6.4 verify-brandmybeast feature map matches Waves 0–5. (#93)
 - [x] 6.5 Failure copy when DB is down. Never say joined if the write failed. (#94)
-- [ ] 6.6 Rate-limit waitlist + intent POSTs.
+- [x] 6.6 Rate-limit waitlist + intent POSTs. (#96)
 - [ ] 6.7 No in-memory stores in Production.
 - [ ] 6.8 Keyboard / labels / contrast on /, seat, operator.
 - [ ] 6.9 Hero wordmark and truck still not clipped on mobile.

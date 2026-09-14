@@ -162,6 +162,14 @@ export const PUBLIC_COPY = {
     unavailable:
       "Waitlist is temporarily unavailable. You are not on the list yet.",
     failed: "Could not save that email. You are not on the list. Try again.",
+    /** Slice 6.6 — never claim joined on 429. */
+    rateLimited:
+      "Too many attempts. You are not on the list. Wait a moment and try again.",
+  },
+  /** Intent failure strings (not homepage PUBLIC_COPY.md sections). */
+  intent: {
+    rateLimited:
+      "Too many intent attempts. No new intent was listed. Wait a moment and try again.",
   },
   footer: {
     line: "BrandMyBeast · @BrandMyBeast · hello@brandmybeast.com",

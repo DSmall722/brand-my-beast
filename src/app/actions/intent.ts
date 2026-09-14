@@ -15,6 +15,8 @@ import {
   setIntentStatus,
 } from "@/lib/intent-store";
 import { GOAL_USD, PANELS, formatUsd } from "@/lib/campaign";
+import { PUBLIC_COPY } from "@/lib/public-copy";
+import { checkRateLimit } from "@/lib/rate-limit";
 
 export type IntentActionState = {
   ok: boolean;
@@ -29,6 +31,11 @@ export async function submitIntentBid(
   const session = await auth();
   if (!session?.user?.id) {
     return { ok: false, error: "Sign in to place an intent mark." };
+  }
+
+  const limited = checkRateLimit("intent", `user:${session.user.id}`);
+  if (!limited.ok) {
+    return { ok: false, error: PUBLIC_COPY.intent.rateLimited };
   }
 
   const panelId = String(formData.get("panelId") ?? "");
@@ -116,6 +123,11 @@ export async function submitWholeTruckIntent(
   const session = await auth();
   if (!session?.user?.id) {
     return { ok: false, error: "Sign in to list a whole-truck intent." };
+  }
+
+  const limited = checkRateLimit("intent", `user:${session.user.id}`);
+  if (!limited.ok) {
+    return { ok: false, error: PUBLIC_COPY.intent.rateLimited };
   }
 
   const brandLabel = String(formData.get("brandLabel") ?? "");
