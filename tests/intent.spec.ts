@@ -22,6 +22,7 @@ import {
   completeSameDayMockup,
   previewKeyFor,
 } from "../src/lib/mockup";
+import { checkHighwayLegibility } from "../src/lib/legibility";
 import {
   listBidsForPanel,
   placeIntentBid,
@@ -218,5 +219,34 @@ test.describe("same-day Imagine mockup scaffold (no billable API)", () => {
     });
     expect(mockup.status).toBe("ready");
     expect(mockup.readyAt).toBe("2026-09-14T00:00:00.000Z");
+  });
+});
+
+test.describe("highway legibility checker (no capture)", () => {
+  test("flags long wrap marks and etch-forbidden terms", () => {
+    expect(
+      checkHighwayLegibility({ brandLabel: "Short Co", finish: "wrap" })
+        .severity,
+    ).toBe("pass");
+    expect(
+      checkHighwayLegibility({
+        brandLabel: "Twenty Character Brand!",
+        finish: "wrap",
+      }).severity,
+    ).toBe("warn");
+    expect(
+      checkHighwayLegibility({
+        brandLabel: "This Brand Name Is Way Too Long For Highway Speed Reads",
+        finish: "wrap",
+      }).severity,
+    ).toBe("fail");
+    const etch = checkHighwayLegibility({
+      brandLabel: "Neon gradient mark",
+      finish: "etch",
+    });
+    expect(etch.severity).toBe("fail");
+    expect(etch.issues.some((i) => i.id === "etch-forbidden-terms")).toBe(
+      true,
+    );
   });
 });

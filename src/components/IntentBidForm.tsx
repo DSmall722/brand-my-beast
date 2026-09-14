@@ -5,6 +5,7 @@ import {
   submitIntentBid,
   type IntentActionState,
 } from "@/app/actions/intent";
+import { BrandLabelWithLegibility } from "@/components/HighwayLegibilityHint";
 import { formatUsd } from "@/lib/campaign";
 
 const initial: IntentActionState = { ok: false };
@@ -21,20 +22,7 @@ export function IntentBidForm({
   return (
     <form action={action} className="auth-form" data-testid="intent-bid-form">
       <input type="hidden" name="panelId" value={panelId} />
-      <label className="auth-label" htmlFor="brandLabel">
-        Brand label
-      </label>
-      <input
-        id="brandLabel"
-        name="brandLabel"
-        type="text"
-        required
-        minLength={2}
-        maxLength={80}
-        placeholder="Your brand"
-        data-testid="intent-brand"
-        className="auth-input"
-      />
+      <BrandLabelWithLegibility finish="wrap" />
       <label className="auth-label" htmlFor="tradeLabel">
         Trade (one brand per trade)
       </label>

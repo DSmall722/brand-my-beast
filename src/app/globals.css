@@ -684,6 +684,38 @@ a {
   line-height: 1.45;
 }
 
+.legibility-hint {
+  margin: 0.35rem 0 0.75rem;
+  padding: 0.7rem 0.85rem;
+  border: 1px solid var(--hairline);
+  border-radius: 0.65rem;
+  background: color-mix(in oklab, black 22%, transparent);
+}
+
+.legibility-hint.legibility-warn {
+  border-color: color-mix(in oklab, #f0c040 45%, transparent);
+}
+
+.legibility-hint.legibility-fail {
+  border-color: color-mix(in oklab, #ff6b4a 55%, transparent);
+}
+
+.legibility-title {
+  margin: 0 0 0.35rem;
+  font-size: 0.78rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--steel-300);
+}
+
+.legibility-list {
+  margin: 0;
+  padding-left: 1.1rem;
+  color: var(--steel-100);
+  font-size: 0.9rem;
+  line-height: 1.4;
+}
+
 .auth-hint code,
 .auth-missing code {
   font-size: 0.85em;
