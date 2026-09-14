@@ -124,6 +124,14 @@ test.describe("P1 waitlist campaign locks", () => {
     await expectHeroTitleUnclipped(page);
   });
 
+  test("shows the full BrandMyBeast hero title on a 900px viewport", async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width: 900, height: 800 });
+    await page.goto("/");
+    await expectHeroTitleUnclipped(page);
+  });
+
   test("serves a favicon at /favicon.ico", async ({ request }) => {
     const response = await request.get("/favicon.ico");
     expect(response.status()).toBe(200);
