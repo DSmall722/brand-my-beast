@@ -55,6 +55,10 @@ export const WINNER_PORTAL_FACTS = [
     text: "City ping to the panel winner stays empty until the truck exists. No invented city pings. No reserved VIN.",
   },
   {
+    id: "charge-stop-slots",
+    text: "Charge-stop takeover slots stay empty until the truck exists. No invented slot prices. No reserved VIN.",
+  },
+  {
     id: "no-vin",
     text: "No reserved VIN until the campaign clears the floor.",
   },
