@@ -148,6 +148,25 @@ test.describe("P1 waitlist campaign locks", () => {
     await expect(page.getByTestId("rain-night-lighting-floor-miss")).toContainText(
       "$58,000",
     );
+    await expect(page.getByTestId("truck-order-tracker")).toBeVisible();
+    await expect(page.getByTestId("truck-order-tracker-lead")).toContainText(
+      "$58,000",
+    );
+    await expect(page.getByTestId("truck-order-tracker-lead")).toContainText(
+      "$120,000",
+    );
+    await expect(page.getByTestId("truck-order-tracker-lead")).toContainText(
+      "No reserved VIN",
+    );
+    await expect(
+      page.getByTestId("truck-order-tracker-floor-unlock"),
+    ).toContainText("$58,000");
+    await expect(page.getByTestId("truck-order-tracker-no-vin")).toContainText(
+      "No reserved VIN",
+    );
+    await expect(
+      page.getByTestId("truck-order-tracker-buyout-context"),
+    ).toContainText("$120,000");
 
     await expect(page.getByTestId("raised-hint")).toContainText(
       "Under the floor: full refund.",
