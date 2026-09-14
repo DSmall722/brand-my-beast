@@ -4,7 +4,7 @@
 
 import { FLOOR_USD, GOAL_USD, formatUsd } from "./campaign";
 
-export const CABIN_PLAQUE_LEAD = `A name inside the cabin after install. Not a panel seat. Not a bid. Floor stays ${formatUsd(FLOOR_USD)}. Buyout stays ${formatUsd(GOAL_USD)}. Still no card charge.`;
+export const CABIN_PLAQUE_LEAD = `Put a name inside the cabin after install. This is not a panel seat. Floor stays ${formatUsd(FLOOR_USD)}. Buyout stays ${formatUsd(GOAL_USD)}.`;
 
 export type CabinPlaqueLine = {
   id: string;

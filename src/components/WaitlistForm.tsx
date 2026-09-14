@@ -80,7 +80,7 @@ export function WaitlistForm() {
         role="status"
         data-testid="waitlist-status"
       >
-        {message || "Free to join. No countdown yet."}
+        {message || "Free to join. We will email when seats open."}
       </p>
       {showNext ? (
         <p className="waitlist-next" data-testid="waitlist-next">
@@ -95,7 +95,7 @@ export function WaitlistForm() {
           >
             sign in to list an intent
           </a>
-          . Intent only — no Stripe capture.
+          . Intent only — cards are not charged yet.
         </p>
       ) : null}
     </form>
