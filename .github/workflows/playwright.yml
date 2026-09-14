@@ -1,0 +1,54 @@
+name: Playwright
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+concurrency:
+  group: playwright-${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  playwright:
+    name: Playwright
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install Playwright Chromium
+        run: npx playwright install --with-deps chromium
+
+      - name: Typecheck
+        run: npx tsc --noEmit
+
+      - name: Run Playwright
+        run: npm test
+        env:
+          CI: true
+          WAITLIST_MODE: memory
+          INTENT_MODE: memory
+          AUTH_MODE: test
+          AUTH_SECRET: playwright-ci-auth-secret-min-32-chars!!
+          AUTH_TEST_PASSWORD: test
+
+      - name: Upload Playwright report
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report
+          path: |
+            playwright-report/
+            test-results/
+          retention-days: 7
