@@ -1,7 +1,8 @@
 # Waves 0–5 — verify-brandmybeast index
 
-Canonical map for slice **6.4**. Every SLICES checkbox `0.1`…`5.4` must appear
-in this file (and in the per-wave feature files it points to).
+Canonical map for slice **6.4**. Every SLICES checkbox `0.1`…`5.4` (including
+later Wave 0 inserts such as `0.9`) must appear in this file (and in the
+per-wave feature files it points to).
 
 Money fences (do not invent a third number):
 
@@ -21,6 +22,7 @@ No Stripe. No lease. No personal Gmail / personal handle.
 | 0.6 | [wave0-slices.md](./wave0-slices.md) |
 | 0.7 | [wave0-slices.md](./wave0-slices.md) |
 | 0.8 | [wave0-slices.md](./wave0-slices.md) |
+| 0.9 | [wave0-slices.md](./wave0-slices.md) |
 | 1.1 | [wave1-durable-intent.md](./wave1-durable-intent.md) |
 | 1.2 | [wave1-durable-intent.md](./wave1-durable-intent.md) |
 | 1.3 | [wave1-durable-intent.md](./wave1-durable-intent.md) |

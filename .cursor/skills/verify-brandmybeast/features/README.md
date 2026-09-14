@@ -25,7 +25,7 @@ the skill recipe and/or Playwright suite that proves it. Money fences stay
 
 ## Waves 0–5 map
 
-Canonical id → file index: [waves-0-5.md](./waves-0-5.md) (every `0.1`…`5.4`).
+Canonical id → file index: [waves-0-5.md](./waves-0-5.md) (every `0.1`…`5.4`, including `0.9`).
 
 | Wave | Feature file | Live lever |
 |---|---|---|
@@ -47,7 +47,7 @@ Hardening gates already named in Wave 6 Playwright:
 ## Features (detail)
 
 - [Waves 0–5 id index](./waves-0-5.md)
-- [Wave 0 slices 0.1–0.8](./wave0-slices.md)
+- [Wave 0 slices 0.1–0.9](./wave0-slices.md)
 - [Campaign board](./campaign-board.md)
 - [Panel grid](./panel-grid.md)
 - [Waitlist signup](./waitlist-signup.md)

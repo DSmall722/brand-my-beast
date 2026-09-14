@@ -1,6 +1,6 @@
 # Wave 0 — public page is a waitlist
 
-Maps SLICES **0.1–0.8**. Harness: `.cursor/skills/verify-brandmybeast/scripts/prove-wave0.sh`
+Maps SLICES **0.1–0.9**. Harness: `.cursor/skills/verify-brandmybeast/scripts/prove-wave0.sh`
 (also first step of `prove-all.sh`). Money fences: floor `$58,000`, buyout `$120,000`,
 `CLOSE_AT` null.
 
@@ -22,6 +22,7 @@ Maps SLICES **0.1–0.8**. Harness: `.cursor/skills/verify-brandmybeast/scripts/
 | 0.6 GitHub Actions Playwright on every PR | `.github/workflows/` Playwright job |
 | 0.7 Hero truck preview (bare stainless, no wrap/etch as delivered) | `tests/campaign.spec.ts` hero still |
 | 0.8 `PUBLIC_COPY.md` on `/` verbatim (H1, etch section, Notify me) | `tests/campaign.spec.ts` / later 6.11 |
+| 0.9 Locked copy v2 from `PUBLIC_COPY.md` (new H1 + `Notify me`) | Scheduled after 6.5; proof lands in the 0.9 PR / `tests/campaign.spec.ts` |
 
 ## Skip
 
