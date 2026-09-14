@@ -157,6 +157,10 @@ export const PUBLIC_COPY = {
     idleNote: "We only email when seats open.",
     success: "You are on the list. We will email when bidding opens.",
     already: "That email is already on the list.",
+    /** Slice 6.5 — never imply join when the write did not land. */
+    unavailable:
+      "Waitlist is temporarily unavailable. You are not on the list yet.",
+    failed: "Could not save that email. You are not on the list. Try again.",
   },
   footer: {
     line: "BrandMyBeast · @BrandMyBeast · hello@brandmybeast.com",

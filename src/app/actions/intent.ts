@@ -42,14 +42,22 @@ export async function submitIntentBid(
   });
   if (!artwork.ok) return { ok: false, error: artwork.error };
 
-  const result = await placeIntentBid({
-    panelId,
-    userId: session.user.id,
-    brandLabel,
-    tradeLabel,
-    standingUsd,
-    artworkUrl: artwork.artworkUrl,
-  });
+  let result: Awaited<ReturnType<typeof placeIntentBid>>;
+  try {
+    result = await placeIntentBid({
+      panelId,
+      userId: session.user.id,
+      brandLabel,
+      tradeLabel,
+      standingUsd,
+      artworkUrl: artwork.artworkUrl,
+    });
+  } catch {
+    return {
+      ok: false,
+      error: "Could not record intent. Try again. No intent was saved.",
+    };
+  }
 
   if (!result.ok) return { ok: false, error: result.error };
 

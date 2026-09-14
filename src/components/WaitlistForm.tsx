@@ -27,9 +27,10 @@ export function WaitlistForm() {
         error?: string;
       };
 
+      // Slice 6.5 — never paint success / "on the list" / "joined" unless ok.
       if (!response.ok || !data.ok) {
         setStatus("error");
-        setMessage(data.error ?? "Something went wrong.");
+        setMessage(data.error ?? PUBLIC_COPY.waitlist.failed);
         return;
       }
 
@@ -42,7 +43,7 @@ export function WaitlistForm() {
       setEmail("");
     } catch {
       setStatus("error");
-      setMessage("Network error. Try again.");
+      setMessage(PUBLIC_COPY.waitlist.failed);
     }
   }
 

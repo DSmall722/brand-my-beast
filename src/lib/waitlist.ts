@@ -3,6 +3,7 @@ import { z } from "zod";
 import { BRAND } from "./campaign";
 import { getDb } from "./db";
 import { waitlistSignups } from "./db/schema";
+import { PUBLIC_COPY } from "./public-copy";
 
 export const waitlistEmailSchema = z
   .string()
@@ -36,10 +37,10 @@ function memoryStore(): Map<string, MemoryRow> {
 }
 
 function useMemoryStore(): boolean {
-  return (
-    process.env.WAITLIST_MODE === "memory" ||
-    (!process.env.DATABASE_URL && process.env.NODE_ENV !== "production")
-  );
+  // Explicit modes win (mirrors intent-store). CI sets WAITLIST_MODE=memory.
+  if (process.env.WAITLIST_MODE === "memory") return true;
+  if (process.env.WAITLIST_MODE === "postgres") return false;
+  return !process.env.DATABASE_URL && process.env.NODE_ENV !== "production";
 }
 
 async function notifyOperator(email: string): Promise<void> {
@@ -62,6 +63,11 @@ async function notifyOperator(email: string): Promise<void> {
   });
 }
 
+/**
+ * Slice 6.5 — write outcome is authoritative. Notify failures must not
+ * flip a successful insert into a false "could not save" (and must never
+ * claim join when the write failed).
+ */
 export async function joinWaitlist(rawEmail: string): Promise<WaitlistResult> {
   const parsed = waitlistEmailSchema.safeParse(rawEmail);
   if (!parsed.success) {
@@ -69,52 +75,62 @@ export async function joinWaitlist(rawEmail: string): Promise<WaitlistResult> {
   }
 
   const email = parsed.data;
+  let saved: WaitlistResult;
 
   try {
     if (useMemoryStore()) {
       const store = memoryStore();
       if (store.has(email)) {
-        return { ok: true, status: "exists" };
+        saved = { ok: true, status: "exists" };
+      } else {
+        store.set(email, {
+          email,
+          createdAt: new Date().toISOString(),
+          userId: null,
+          source: "p1-waitlist",
+        });
+        saved = { ok: true, status: "created" };
       }
-      store.set(email, {
-        email,
-        createdAt: new Date().toISOString(),
-        userId: null,
-        source: "p1-waitlist",
-      });
-      await notifyOperator(email);
-      return { ok: true, status: "created" };
+    } else {
+      const db = getDb();
+      if (!db) {
+        return {
+          ok: false,
+          error: PUBLIC_COPY.waitlist.unavailable,
+          code: "unavailable",
+        };
+      }
+
+      const existing = await db
+        .select({ email: waitlistSignups.email })
+        .from(waitlistSignups)
+        .where(eq(waitlistSignups.email, email))
+        .limit(1);
+
+      if (existing.length > 0) {
+        saved = { ok: true, status: "exists" };
+      } else {
+        await db.insert(waitlistSignups).values({ email });
+        saved = { ok: true, status: "created" };
+      }
     }
-
-    const db = getDb();
-    if (!db) {
-      return {
-        ok: false,
-        error: "Waitlist is not configured yet.",
-        code: "unavailable",
-      };
-    }
-
-    const existing = await db
-      .select({ email: waitlistSignups.email })
-      .from(waitlistSignups)
-      .where(eq(waitlistSignups.email, email))
-      .limit(1);
-
-    if (existing.length > 0) {
-      return { ok: true, status: "exists" };
-    }
-
-    await db.insert(waitlistSignups).values({ email });
-    await notifyOperator(email);
-    return { ok: true, status: "created" };
   } catch {
     return {
       ok: false,
-      error: "Could not save that email. Try again.",
+      error: PUBLIC_COPY.waitlist.failed,
       code: "failed",
     };
   }
+
+  if (saved.ok && saved.status === "created") {
+    try {
+      await notifyOperator(email);
+    } catch {
+      // Row is already saved — do not tell the user the write failed.
+    }
+  }
+
+  return saved;
 }
 
 /** Look up a waitlist row by email. Never deletes. */
