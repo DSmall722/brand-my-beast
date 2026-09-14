@@ -49,6 +49,10 @@ import {
   artworkChecklistForPanel,
 } from "../src/lib/artwork-approval";
 import {
+  assertTradeAllowed,
+  findBannedTradeReason,
+} from "../src/lib/banned-trades";
+import {
   HOMETOWN_LANES,
   hometownLaneCopyIsSafe,
   hometownLaneLabels,
@@ -748,6 +752,56 @@ test.describe("artwork approval thread (no capture)", () => {
     if (!rejected.ok) return;
     expect(rejected.bid.status).toBe("rejected");
     expect((await listDecidedBids()).map((b) => b.id)).toContain(reject.bid.id);
+  });
+
+  test("slice 2.3: banned trades hard-reject (porn, hate, scams, school-lot)", async () => {
+    expect(findBannedTradeReason("Ok Co", "fasteners")).toBeNull();
+    expect(findBannedTradeReason("X", "porn merch")).toBe("porn");
+    expect(findBannedTradeReason("Hate Brand", "tees")).toBe("hate");
+    expect(findBannedTradeReason("Ok", "phishing kits")).toBe("scam");
+    expect(findBannedTradeReason("Ok", "strip club ads")).toBe("school_lot");
+
+    expect(
+      assertTradeAllowed({ brandLabel: "Clean Co", tradeLabel: "tools" }).ok,
+    ).toBe(true);
+    const porn = assertTradeAllowed({
+      brandLabel: "Bad Co",
+      tradeLabel: "porn merch",
+    });
+    expect(porn.ok).toBe(false);
+    if (porn.ok) return;
+    expect(porn.reason).toBe("porn");
+    expect(porn.error).toMatch(/Hard-reject/i);
+
+    await resetIntentStoreForTests();
+    const banned = await placeIntentBid({
+      panelId: "hood",
+      userId: "user_banned_trade",
+      brandLabel: "Scam Co",
+      tradeLabel: "scam leads",
+    });
+    expect(banned.ok).toBe(false);
+    if (banned.ok) return;
+    expect(banned.error).toMatch(/Hard-reject/i);
+    expect(banned.error).toMatch(/scam/i);
+
+    const school = await placeIntentBid({
+      panelId: "hood",
+      userId: "user_school_lot",
+      brandLabel: "Lot Fail",
+      tradeLabel: "gore stickers",
+    });
+    expect(school.ok).toBe(false);
+    if (school.ok) return;
+    expect(school.error).toMatch(/school-lot/i);
+
+    const clean = await placeIntentBid({
+      panelId: "hood",
+      userId: "user_clean_trade",
+      brandLabel: "Clean Co",
+      tradeLabel: "tools",
+    });
+    expect(clean.ok).toBe(true);
   });
 });
 
