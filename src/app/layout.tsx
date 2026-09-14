@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Syne, IBM_Plex_Sans } from "next/font/google";
+import { BRAND } from "@/lib/campaign";
 import { PUBLIC_COPY } from "@/lib/public-copy";
 import "./globals.css";
 
@@ -18,13 +19,20 @@ const body = IBM_Plex_Sans({
 export const metadata: Metadata = {
   title: PUBLIC_COPY.meta.title,
   description: PUBLIC_COPY.meta.description,
-  metadataBase: new URL("https://brandmybeast.com"),
+  metadataBase: new URL(`https://${BRAND.domain}`),
+  applicationName: BRAND.name,
   openGraph: {
-    title: "BrandMyBeast",
+    title: BRAND.name,
     description: PUBLIC_COPY.meta.description,
-    url: "https://brandmybeast.com",
-    siteName: "BrandMyBeast",
+    url: `https://${BRAND.domain}`,
+    siteName: BRAND.name,
     type: "website",
+    locale: "en_US",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: BRAND.name,
+    description: PUBLIC_COPY.meta.description,
   },
 };
 
