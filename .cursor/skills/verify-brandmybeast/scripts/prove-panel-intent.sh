@@ -85,6 +85,38 @@ await page.locator('[data-testid^="approve-"]').first().click();
 await page.getByTestId("approvals-empty").waitFor({ timeout: 10_000 });
 lines.push("approve_ok");
 
+await page.context().clearCookies();
+const reset2 = await fetch(`${url}/api/test/reset-intents`, { method: "POST" });
+if (!reset2.ok) throw new Error(`reset-intents failed: ${reset2.status}`);
+
+await signIn(page, "outbid-prove-a@example.com");
+await page.goto(`${url}/panels/hood`, { waitUntil: "networkidle" });
+await page.getByTestId("intent-brand").fill("Outbid Alpha");
+await page.getByTestId("intent-submit").click();
+await page.getByTestId("intent-success").waitFor();
+
+await page.context().clearCookies();
+await signIn(page, "outbid-prove-b@example.com");
+await page.goto(`${url}/panels/hood`, { waitUntil: "networkidle" });
+await page.getByTestId("intent-brand").fill("Outbid Beta");
+await page.getByTestId("intent-standing").fill("2750");
+await page.getByTestId("intent-submit").click();
+await page.getByTestId("intent-success").waitFor();
+
+await page.context().clearCookies();
+await signIn(page, "outbid-prove-a@example.com");
+await page.goto(`${url}/panels/hood`, { waitUntil: "networkidle" });
+await page.getByTestId("failed-winner-waitlist").waitFor();
+const failed = await page.getByTestId("failed-winner-waitlist").innerText();
+if (!/outbid/i.test(failed)) throw new Error(`bad failed-winner copy: ${failed}`);
+await page.goto(`${url}/account`, { waitUntil: "networkidle" });
+await page.getByTestId("account-intents-list").waitFor();
+const acct = await page.getByTestId("account-intents-list").innerText();
+if (!/Outbid Alpha/.test(acct)) throw new Error("account missing outbid intent");
+await page.locator('[data-testid^="account-outbid-waitlist-"]').first().waitFor();
+await page.screenshot({ path: `${out}/panel-intent-outbid.png`, fullPage: false });
+lines.push("failed_winner_waitlist_ok");
+
 fs.writeFileSync(`${out}/panel-intent-assert.txt`, lines.join("\n") + "\n");
 await browser.close();
 console.log(`evidence written under ${out}`);

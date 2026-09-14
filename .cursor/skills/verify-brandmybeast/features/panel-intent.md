@@ -21,11 +21,14 @@ Still no Stripe capture and no close clock.
    contains `not charged` and `intent-list` contains `Prove Co`.
 6. Sign in as `operator@example.com`, open `/operator/approvals`, approve the
    listed intent, assert `approvals-empty`.
+7. Reset intents. List as user A, outbid as user B, assert user A sees
+   `failed-winner-waitlist` on the panel and an account outbid→waitlist CTA.
 
 ## Evidence
 
 - Screenshot of anonymous panel intent page
 - Screenshot after listing intent
+- Screenshot of failed-winner waitlist handoff
 - Assertion log under `artifacts/<run-id>/panel-intent-assert.txt`
 
 ## Fail if
