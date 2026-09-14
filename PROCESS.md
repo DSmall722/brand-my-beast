@@ -66,7 +66,7 @@ Agents may write into a Project-only `notes.md` and `internal/`. Humans do not t
 4. **Deploy P1** over the Vercel 404 — **done** (`www.brandmybeast.com` live).
 5. **`/create-verification-skill`** — **done** (PR #3 → `.cursor/skills/verify-brandmybeast/`).
 6. Schedule `/maintain-verification-skill` as a Project subscription (daily) — **arm this**. Live lever: `prove-all.sh`.
-7. **P2** soft auction — auth vendor locked (`P2.md` / Auth.js). Intent math scaffolded (`src/lib/intent.ts`). Next: Auth.js wiring + panel intent UI (still no capture). **P3** only after LLC + terms + wreck clause.
+7. **P2** soft auction — Auth.js vendor locked (`P2.md`). Intent math + Auth.js routes/env scaffolded (`src/lib/auth`, `/signin`, `/account`). Next: panel intent UI + approval thread (still no capture). **P3** only after LLC + terms + wreck clause.
 
 ## Subscriptions (coordinator)
 

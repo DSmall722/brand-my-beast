@@ -1,3 +1,4 @@
+import { AuthNav } from "@/components/AuthNav";
 import { WaitlistForm } from "@/components/WaitlistForm";
 import {
   BRAND,
@@ -28,9 +29,12 @@ export default function HomePage() {
         <div className="wordmark" data-testid="brand-wordmark">
           {BRAND.name}
         </div>
-        <a className="nav-link" href="#waitlist">
-          Join waitlist
-        </a>
+        <nav className="header-nav" aria-label="Primary">
+          <a className="nav-link" href="#waitlist">
+            Join waitlist
+          </a>
+          <AuthNav />
+        </nav>
       </header>
 
       <main>
