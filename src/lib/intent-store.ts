@@ -122,6 +122,35 @@ export async function listBidsPendingApproval(): Promise<IntentBid[]> {
   return rows.map(rowToBid);
 }
 
+/** Approved + rejected intents, newest first — operator decided log. */
+export async function listDecidedBids(): Promise<IntentBid[]> {
+  if (useMemoryStore()) {
+    return memoryBids()
+      .filter((bid) => bid.status === "approved" || bid.status === "rejected")
+      .slice()
+      .sort((a, b) => b.createdAt.localeCompare(a.createdAt));
+  }
+
+  const db = getDb();
+  if (!db) {
+    throw new Error("Intent ledger requires DATABASE_URL.");
+  }
+  const rows = await db
+    .select()
+    .from(intentBids)
+    .where(
+      and(
+        ne(intentBids.status, "listed"),
+        ne(intentBids.status, "outbid"),
+        ne(intentBids.status, "withdrawn"),
+      ),
+    )
+    .orderBy(desc(intentBids.createdAt));
+  return rows
+    .map(rowToBid)
+    .filter((bid) => bid.status === "approved" || bid.status === "rejected");
+}
+
 export async function listBidsForUser(userId: UserId): Promise<IntentBid[]> {
   if (useMemoryStore()) {
     return memoryBids()

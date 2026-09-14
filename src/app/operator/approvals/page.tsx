@@ -1,12 +1,17 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { ApprovalButtons } from "@/components/ApprovalButtons";
+import { ArtworkApprovalChecklist } from "@/components/ArtworkApprovalChecklist";
 import { ImagineMockupControls } from "@/components/ImagineMockupControls";
 import { SiteChrome } from "@/components/SiteChrome";
 import { auth } from "@/lib/auth";
 import { isOperatorEmail } from "@/lib/auth/operator";
 import { formatUsd, isEtchable, PANELS } from "@/lib/campaign";
-import { listBidsPendingApproval } from "@/lib/intent-store";
+import { listApprovalNotesForBids } from "@/lib/approval-note-store";
+import {
+  listBidsPendingApproval,
+  listDecidedBids,
+} from "@/lib/intent-store";
 import { listMockupsForBids } from "@/lib/mockup-store";
 
 export default async function OperatorApprovalsPage() {
@@ -31,7 +36,11 @@ export default async function OperatorApprovalsPage() {
   }
 
   const pending = await listBidsPendingApproval();
+  const decided = await listDecidedBids();
   const mockups = await listMockupsForBids(pending.map((bid) => bid.id));
+  const decidedNotes = await listApprovalNotesForBids(
+    decided.map((bid) => bid.id),
+  );
 
   return (
     <>
@@ -43,8 +52,8 @@ export default async function OperatorApprovalsPage() {
         <p className="eyebrow">Operator</p>
         <h1>Intent approvals</h1>
         <p className="section-lead">
-          Approve or reject listed intents. Queue same-day Imagine mockup
-          placeholders here. No cards are charged.
+          Artwork checklist, approve or reject with a veto note, queue same-day
+          Imagine placeholders. No cards are charged.
         </p>
 
         <p className="approvals-count" data-testid="approvals-count">
@@ -92,6 +101,7 @@ export default async function OperatorApprovalsPage() {
                       {" · deposit shown "}
                       {formatUsd(bid.depositUsd)}
                     </p>
+                    <ArtworkApprovalChecklist etchable={etchable} />
                     <ImagineMockupControls
                       bidId={bid.id}
                       etchable={etchable}
@@ -104,6 +114,59 @@ export default async function OperatorApprovalsPage() {
             })}
           </ul>
         )}
+
+        <section
+          className="approvals-decided"
+          aria-labelledby="approvals-decided-title"
+          data-testid="approvals-decided"
+        >
+          <h2 id="approvals-decided-title" className="auth-subhead">
+            Decided
+          </h2>
+          {decided.length === 0 ? (
+            <p className="auth-hint" data-testid="approvals-decided-empty">
+              No approvals or rejects yet.
+            </p>
+          ) : (
+            <ul
+              className="intent-list decided-list"
+              data-testid="approvals-decided-list"
+            >
+              {decided.map((bid) => {
+                const panel = PANELS.find((row) => row.id === bid.panelId);
+                const note = decidedNotes[bid.id];
+                return (
+                  <li
+                    key={bid.id}
+                    className="decided-row"
+                    data-testid={`decided-row-${bid.id}`}
+                    data-status={bid.status}
+                  >
+                    <div className="decided-row-main">
+                      <strong>{bid.brandLabel}</strong>
+                      <span className="auth-hint">
+                        {panel?.name ?? bid.panelId}
+                      </span>
+                      <span
+                        className={`badge badge-status badge-${bid.status}`}
+                      >
+                        {bid.status === "approved" ? "Approved" : "Rejected"}
+                      </span>
+                    </div>
+                    {note?.note ? (
+                      <p
+                        className="decided-note"
+                        data-testid={`decided-note-${bid.id}`}
+                      >
+                        {note.note}
+                      </p>
+                    ) : null}
+                  </li>
+                );
+              })}
+            </ul>
+          )}
+        </section>
 
         <p className="auth-back">
           <Link href="/">Back to the board</Link>

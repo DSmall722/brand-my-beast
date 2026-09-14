@@ -3,6 +3,11 @@
 import { revalidatePath } from "next/cache";
 import { auth } from "@/lib/auth";
 import { isOperatorEmail } from "@/lib/auth/operator";
+import { assertNoteRequiredForReject } from "@/lib/artwork-approval";
+import {
+  getApprovalNote,
+  saveApprovalNote,
+} from "@/lib/approval-note-store";
 import { placeIntentBid, setIntentStatus } from "@/lib/intent-store";
 
 export type IntentActionState = {
@@ -59,10 +64,24 @@ export async function decideIntentBid(
     return { ok: false, error: "Invalid decision." };
   }
 
+  const note = String(formData.get("note") ?? "");
+  const noteGate = assertNoteRequiredForReject({ decision, note });
+  if (!noteGate.ok) return { ok: false, error: noteGate.error };
+
   const result = await setIntentStatus(bidId, decision);
   if (!result.ok) return { ok: false, error: result.error };
 
+  if (note.trim() || decision === "rejected") {
+    await saveApprovalNote({ bidId, decision, note });
+  }
+
   revalidatePath("/operator/approvals");
   revalidatePath(`/panels/${result.bid.panelId}`);
+  revalidatePath("/account");
   return { ok: true, message: `Bid ${decision}.` };
+}
+
+/** Read helper for account / decided log (server components). */
+export async function loadApprovalNote(bidId: string) {
+  return getApprovalNote(bidId);
 }

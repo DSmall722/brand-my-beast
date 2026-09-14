@@ -175,11 +175,53 @@ test.describe("P2 panel intent + approvals", () => {
     await expect(operator.getByTestId("approvals-list")).toContainText(
       "Reject Co",
     );
+    await expect(
+      operator.getByTestId("artwork-approval-checklist").first(),
+    ).toBeVisible();
+    await expect(
+      operator.getByTestId("artwork-check-school-grocery").first(),
+    ).toContainText("grocery");
+    await expect(
+      operator.getByTestId("artwork-check-etch-one-color").first(),
+    ).toBeVisible();
+
+    await operator.locator('[data-testid^="reject-"]').first().click();
+    await expect(
+      operator.locator('[data-testid^="approval-error-"]').first(),
+    ).toContainText("note");
+    await expect(operator.getByTestId("approvals-list")).toContainText(
+      "Reject Co",
+    );
+
+    await operator
+      .locator('[data-testid^="approval-note-"]')
+      .first()
+      .fill("Cannot pass a grocery lot");
     await operator.locator('[data-testid^="reject-"]').first().click();
     await expect(operator.getByTestId("approvals-empty")).toBeVisible({
       timeout: 10_000,
     });
+    await expect(operator.getByTestId("approvals-decided")).toContainText(
+      "Reject Co",
+    );
+    await expect(operator.getByTestId("approvals-decided")).toContainText(
+      "Cannot pass a grocery lot",
+    );
+    const html = await operator.content();
+    expect(html.toLowerCase()).not.toMatch(/\blease\b/);
+    expect(html).not.toContain("CLOSE_AT");
     await operator.close();
+
+    const bidderAgain = await browser.newPage();
+    await signIn(bidderAgain, "bidder2@example.com");
+    await bidderAgain.goto("/account");
+    await expect(
+      bidderAgain.locator('[data-testid^="account-reject-note-"]').first(),
+    ).toContainText("Cannot pass a grocery lot");
+    await expect(bidderAgain.getByTestId("intent-only-note")).toContainText(
+      "No Stripe capture",
+    );
+    await bidderAgain.close();
   });
 
   test("outbid viewer sees failed-winner waitlist handoff", async ({
