@@ -14,8 +14,8 @@ Updated: 2026-09-14
 - A FEATURES.md row is not scheduled until it has a checkbox in this file.
 - Coordinator may merge a PR that finishes exactly one unchecked slice, Playwright is green, and the merge gates below hold.
 
-**Now:** 4.5 Whole-truck $120,000 intent. Hide if field already at $120,000.
-**Last merged:** 4.4 (#83 wreck/refund FAQ from PUBLIC_COPY + CAMPAIGN)
+**Now:** 4.6 Category exclusivity copy on the seat. No public taxonomy list.
+**Last merged:** 4.5 (#84 whole-truck $120k intent)
 
 ## Standing orders
 
@@ -94,7 +94,7 @@ If any gate fails: leave the PR unmerged and stop that slice.
 - [x] 4.2 Shortfall ticker: dollars to floor, open seats. No impressions. (#81)
 - [x] 4.3 Vault marks at $58,000 and $120,000 on the bar only. (#82)
 - [x] 4.4 Wreck / refund FAQ uses PUBLIC_COPY.md + CAMPAIGN.md only. No invented legal terms. (#83)
-- [ ] 4.5 Whole-truck $120,000 intent. Hide if field already at $120,000.
+- [x] 4.5 Whole-truck $120,000 intent. Hide if field already at $120,000. (#84)
 - [ ] 4.6 Category exclusivity copy on the seat. No public taxonomy list.
 
 ## Wave 5 — accounts

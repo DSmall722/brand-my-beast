@@ -19,6 +19,8 @@ import { ChargeStopSlotsCard } from "@/components/ChargeStopSlotsCard";
 import { RouteDetourBuyoutCard } from "@/components/RouteDetourBuyoutCard";
 import { ClemsonSaturdayLockCard } from "@/components/ClemsonSaturdayLockCard";
 import { SightingBountyCardsCard } from "@/components/SightingBountyCardsCard";
+import { WholeTruckIntentForm } from "@/components/WholeTruckIntentForm";
+import { auth } from "@/lib/auth";
 
 import {
   BRAND,
@@ -48,6 +50,7 @@ import { listEventRequests } from "@/lib/event-request-store";
 import {
   loadBoardIntentStats,
   loadStandingHoldersByPanel,
+  isWholeTruckIntentOpen,
 } from "@/lib/intent-store";
 import { PUBLIC_COPY } from "@/lib/public-copy";
 import { SIGHTING_CORRIDORS, SIGHTING_LEAD } from "@/lib/sighting";
@@ -57,6 +60,7 @@ import { listSightings } from "@/lib/sighting-store";
 export const dynamic = "force-dynamic";
 
 export default async function HomePage() {
+  const session = await auth();
   const board = await loadBoardIntentStats();
   const standingHolders = await loadStandingHoldersByPanel();
   const occupiedPanelIds = [...standingHolders.keys()];
@@ -263,6 +267,31 @@ export default async function HomePage() {
           >
             Amount is intent only. {PUBLIC_COPY.board.depositLine}
           </p>
+          {isWholeTruckIntentOpen(pledgedUsd) ? (
+            <div
+              className="whole-truck-intent"
+              data-testid="whole-truck-intent"
+              style={{ marginTop: "1.75rem" }}
+            >
+              <h3 data-testid="whole-truck-heading">
+                {PUBLIC_COPY.board.wholeTruckHeading}
+              </h3>
+              <p className="section-lead" data-testid="whole-truck-lead">
+                {PUBLIC_COPY.board.wholeTruckLead}
+              </p>
+              {session?.user?.id ? (
+                <WholeTruckIntentForm />
+              ) : (
+                <a
+                  className="btn btn-signal"
+                  href="/signin?callbackUrl=/#money"
+                  data-testid="whole-truck-signin"
+                >
+                  {PUBLIC_COPY.board.wholeTruckSignIn}
+                </a>
+              )}
+            </div>
+          ) : null}
         </section>
 
         <section

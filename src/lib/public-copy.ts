@@ -42,6 +42,12 @@ export const PUBLIC_COPY = {
     openSeatsLabel: "Open seats",
     vaultFloorMarkLabel: "Floor",
     vaultBuyoutMarkLabel: "Buyout",
+    wholeTruckHeading: "Whole-truck intent — $120,000",
+    wholeTruckLead:
+      "One brand on every panel. Etch on. Standing panel winners are released. Intent only — cards are not charged here.",
+    wholeTruckAmountLabel: "Buyout mark",
+    wholeTruckCta: "List whole-truck intent",
+    wholeTruckSignIn: "Sign in to list a whole-truck intent",
   },
   panels: {
     heading: "The twelve panels",

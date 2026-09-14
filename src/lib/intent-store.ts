@@ -4,7 +4,7 @@
  */
 
 import { and, asc, desc, eq, ne } from "drizzle-orm";
-import { PANELS, type Panel } from "./campaign";
+import { GOAL_USD, PANELS, type Panel } from "./campaign";
 import { getDb } from "./db";
 import { intentBids, type IntentBidRow } from "./db/schema";
 import { assertTradeAllowed } from "./banned-trades";
@@ -458,6 +458,94 @@ export async function resetIntentStoreForTests(): Promise<void> {
   const db = getDb();
   if (!db) return;
   await db.delete(intentBids);
+}
+
+/** Per-panel standing so twelve seats sum to GOAL_USD ($10,000 × 12). */
+export const WHOLE_TRUCK_PANEL_USD = GOAL_USD / PANELS.length;
+
+export type PlaceWholeTruckInput = {
+  userId: UserId;
+  brandLabel: string;
+  tradeLabel: string;
+  artworkUrl?: string | null;
+};
+
+export type PlaceWholeTruckResult =
+  | { ok: true; bids: IntentBid[] }
+  | { ok: false; error: string };
+
+/** True while public pledged standing is under buyout. */
+export function isWholeTruckIntentOpen(pledgedUsd: number): boolean {
+  return Number.isFinite(pledgedUsd) && pledgedUsd < GOAL_USD;
+}
+
+/**
+ * Slice 4.5 — whole-truck $120,000 intent.
+ * Releases standing holders on every panel, then lists the same brand on
+ * all twelve seats at $10,000 each (intent only — not charged).
+ * Rejects when public pledged standing is already at buyout.
+ */
+export async function placeWholeTruckIntent(
+  input: PlaceWholeTruckInput,
+): Promise<PlaceWholeTruckResult> {
+  if (WHOLE_TRUCK_PANEL_USD * PANELS.length !== GOAL_USD) {
+    return { ok: false, error: "Whole-truck panel split must equal buyout." };
+  }
+
+  const board = await loadBoardIntentStats();
+  if (!isWholeTruckIntentOpen(board.pledgedUsd)) {
+    return {
+      ok: false,
+      error: "Whole-truck buyout is already met. Field is at $120,000.",
+    };
+  }
+
+  const brandLabel = input.brandLabel.trim();
+  if (brandLabel.length < 2 || brandLabel.length > 80) {
+    return { ok: false, error: "Brand label must be 2–80 characters." };
+  }
+  const tradeLabel = input.tradeLabel.trim();
+  if (tradeLabel.length < 2 || tradeLabel.length > 80) {
+    return { ok: false, error: "Trade must be 2–80 characters." };
+  }
+  if (!normalizeTradeLabel(tradeLabel)) {
+    return { ok: false, error: "Trade must be 2–80 characters." };
+  }
+  const ban = assertTradeAllowed({ brandLabel, tradeLabel });
+  if (!ban.ok) {
+    return { ok: false, error: ban.error };
+  }
+
+  // Release standing winners so one brand can take every panel.
+  for (const panel of PANELS) {
+    const bids = await listBidsForPanel(panel.id);
+    for (const bid of bids) {
+      if (bid.status === "listed" || bid.status === "approved") {
+        const released = await setIntentStatus(bid.id, "withdrawn");
+        if (!released.ok) {
+          return { ok: false, error: released.error };
+        }
+      }
+    }
+  }
+
+  const placed: IntentBid[] = [];
+  for (const panel of PANELS) {
+    const result = await placeIntentBid({
+      panelId: panel.id,
+      userId: input.userId,
+      brandLabel,
+      tradeLabel,
+      standingUsd: WHOLE_TRUCK_PANEL_USD,
+      artworkUrl: input.artworkUrl,
+    });
+    if (!result.ok) {
+      return { ok: false, error: result.error };
+    }
+    placed.push(result.bid);
+  }
+
+  return { ok: true, bids: placed };
 }
 
 export type BoardIntentStats = {

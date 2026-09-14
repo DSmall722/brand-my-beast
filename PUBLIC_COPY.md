@@ -40,6 +40,11 @@ Updated: 2026-09-14
 - Open seats label: `Open seats`
 - Vault floor mark label: `Floor`
 - Vault buyout mark label: `Buyout`
+- Whole-truck heading: `Whole-truck intent — $120,000`
+- Whole-truck lead: `One brand on every panel. Etch on. Standing panel winners are released. Intent only — cards are not charged here.`
+- Whole-truck amount label: `Buyout mark`
+- Whole-truck CTA: `List whole-truck intent`
+- Whole-truck sign-in: `Sign in to list a whole-truck intent`
 
 ## Twelve panels
 
