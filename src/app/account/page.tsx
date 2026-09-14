@@ -138,6 +138,89 @@ export default async function AccountPage() {
           )}
         </section>
 
+        <section
+          className="account-approval-thread"
+          aria-labelledby="account-approval-thread-title"
+          data-testid="account-approval-thread"
+        >
+          <h2 id="account-approval-thread-title" className="auth-subhead">
+            Approval thread
+          </h2>
+          <p className="auth-hint" data-testid="account-approval-thread-lead">
+            Operator decisions on your artwork land here before any vinyl or
+            etch work. Still no card capture.
+          </p>
+          {(() => {
+            const threaded = intents.filter(
+              (bid) => bid.status === "approved" || bid.status === "rejected",
+            );
+            if (threaded.length === 0) {
+              return (
+                <p
+                  className="empty-state"
+                  data-testid="account-approval-thread-empty"
+                >
+                  No operator decisions yet. Listed intents wait in the approval
+                  queue.
+                </p>
+              );
+            }
+            return (
+              <ul
+                className="approval-thread-list"
+                data-testid="account-approval-thread-list"
+              >
+                {threaded.map((bid) => {
+                  const panel = PANELS.find((row) => row.id === bid.panelId);
+                  const note = notes[bid.id];
+                  return (
+                    <li
+                      key={bid.id}
+                      className="approval-thread-row"
+                      data-testid={`account-approval-thread-row-${bid.id}`}
+                      data-decision={bid.status}
+                    >
+                      <div className="approval-thread-row-main">
+                        <strong>
+                          <Link href={`/panels/${bid.panelId}`}>
+                            {panel?.name ?? bid.panelId}
+                          </Link>
+                          {" · "}
+                          {bid.brandLabel}
+                        </strong>
+                        <span
+                          className={intentStatusClass(bid.status)}
+                          data-testid={`account-approval-decision-${bid.id}`}
+                        >
+                          {intentStatusLabel(bid.status)}
+                        </span>
+                      </div>
+                      {bid.status === "rejected" && note?.note ? (
+                        <p
+                          className="account-reject-note"
+                          data-testid={`account-approval-reject-note-${bid.id}`}
+                        >
+                          Operator note: {note.note}
+                        </p>
+                      ) : null}
+                      {bid.status === "approved" ? (
+                        <p
+                          className="account-approve-note"
+                          data-testid={`account-approval-approve-note-${bid.id}`}
+                        >
+                          {note?.note?.trim()
+                            ? `Operator note: ${note.note}`
+                            : "Listed — artwork cleared the operator gate."}
+                        </p>
+                      ) : null}
+                    </li>
+                  );
+                })}
+              </ul>
+            );
+          })()}
+        </section>
+
         <div className="auth-actions">
           <Link
             className="btn btn-signal"
