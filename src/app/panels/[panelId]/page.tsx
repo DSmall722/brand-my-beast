@@ -98,11 +98,19 @@ export default async function PanelIntentPage({
           </p>
           {holder ? (
             <p className="seat-holder" data-testid="seat-holder">
-              Standing brand <strong>{holder.brandLabel}</strong>
+              Standing brand{" "}
+              <strong data-testid="public-standing-brand">
+                {holder.brandLabel}
+              </strong>
               {" · "}
-              trade {holder.tradeLabel}
+              trade{" "}
+              <span data-testid="public-standing-trade">
+                {holder.tradeLabel}
+              </span>
               {" · "}
-              {formatUsd(holder.standingUsd)}
+              <span data-testid="public-standing-amount">
+                {formatUsd(holder.standingUsd)}
+              </span>
             </p>
           ) : (
             <p className="seat-holder" data-testid="seat-holder-empty">
@@ -198,11 +206,22 @@ export default async function PanelIntentPage({
                 data-testid={`intent-row-${bid.id}`}
               >
                 <div className="intent-row-main">
-                  <strong className="intent-brand">{bid.brandLabel}</strong>
-                  <span className="intent-trade" data-testid={`intent-trade-${bid.id}`}>
+                  <strong
+                    className="intent-brand"
+                    data-testid={`intent-brand-${bid.id}`}
+                  >
+                    {bid.brandLabel}
+                  </strong>
+                  <span
+                    className="intent-trade"
+                    data-testid={`intent-trade-${bid.id}`}
+                  >
                     {bid.tradeLabel}
                   </span>
-                  <span className="intent-mark">
+                  <span
+                    className="intent-mark"
+                    data-testid={`intent-amount-${bid.id}`}
+                  >
                     {formatUsd(bid.standingUsd)}
                   </span>
                 </div>
