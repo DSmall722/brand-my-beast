@@ -117,6 +117,10 @@ import {
   weeklyMileageLedgerCopyIsSafe,
 } from "../src/lib/weekly-mileage-ledger";
 import {
+  LANDMARK_PROOF_LOG_LEAD,
+  landmarkProofLogCopyIsSafe,
+} from "../src/lib/landmark-proof-log";
+import {
   EVENT_REQUEST_KINDS,
   EVENT_REQUEST_LEAD,
   eventRequestCopyIsSafe,
@@ -549,6 +553,9 @@ test.describe("winner portal (no capture)", () => {
     expect(
       WINNER_PORTAL_FACTS.some((fact) => fact.id === "weekly-mileage-ledger"),
     ).toBe(true);
+    expect(
+      WINNER_PORTAL_FACTS.some((fact) => fact.id === "landmark-proof-log"),
+    ).toBe(true);
     const blob = WINNER_PORTAL_FACTS.map((fact) => fact.text).join(" ");
     expect(blob).toContain("12 months from install");
     expect(blob).not.toContain("CLOSE_AT");
@@ -883,6 +890,23 @@ test.describe("weekly mileage ledger (empty until truck)", () => {
       "no reserved vin",
     );
     expect(weeklyMileageLedgerCopyIsSafe()).toBe(true);
+    expect(FLOOR_USD).toBe(58_000);
+    expect(GOAL_USD).toBe(120_000);
+  });
+});
+
+test.describe("landmark proof log (empty until truck)", () => {
+  test("publishes empty-log copy without invented visits or reserved VIN", () => {
+    expect(LANDMARK_PROOF_LOG_LEAD).toContain("$58,000");
+    expect(LANDMARK_PROOF_LOG_LEAD).toContain("$120,000");
+    expect(LANDMARK_PROOF_LOG_LEAD.toLowerCase()).toContain(
+      "empty until the truck exists",
+    );
+    expect(LANDMARK_PROOF_LOG_LEAD.toLowerCase()).toContain(
+      "no invented visits",
+    );
+    expect(LANDMARK_PROOF_LOG_LEAD.toLowerCase()).toContain("no reserved vin");
+    expect(landmarkProofLogCopyIsSafe()).toBe(true);
     expect(FLOOR_USD).toBe(58_000);
     expect(GOAL_USD).toBe(120_000);
   });

@@ -10,6 +10,7 @@ import { TruckOrderTrackerCard } from "@/components/TruckOrderTrackerCard";
 import { VaultCertificateCard } from "@/components/VaultCertificateCard";
 import { WaitlistForm } from "@/components/WaitlistForm";
 import { WeeklyMileageLedgerCard } from "@/components/WeeklyMileageLedgerCard";
+import { LandmarkProofLogCard } from "@/components/LandmarkProofLogCard";
 import {
   BRAND,
   CLOSE_AT,
@@ -368,6 +369,18 @@ export default async function HomePage() {
             Empty until the truck exists. No invented miles. No reserved VIN.
           </p>
           <WeeklyMileageLedgerCard />
+        </section>
+
+        <section
+          className="shell section"
+          id="landmark-proof-log"
+          aria-labelledby="landmark-proof-log-title"
+        >
+          <h2 id="landmark-proof-log-title">Landmark proof log</h2>
+          <p className="section-lead">
+            Empty until the truck exists. No invented visits. No reserved VIN.
+          </p>
+          <LandmarkProofLogCard />
         </section>
 
         <section

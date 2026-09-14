@@ -39,6 +39,10 @@ export const WINNER_PORTAL_FACTS = [
     text: "Weekly mileage ledger stays empty until the truck exists. No invented miles. No reserved VIN.",
   },
   {
+    id: "landmark-proof-log",
+    text: "Landmark proof log stays empty until the truck exists. No invented visits. No reserved VIN.",
+  },
+  {
     id: "no-vin",
     text: "No reserved VIN until the campaign clears the floor.",
   },
