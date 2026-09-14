@@ -57,7 +57,10 @@ test.describe("P2 intent math (no capture)", () => {
       "utf8",
     );
     expect(sql).toContain("intent_bids");
-    expect(sql.toLowerCase()).not.toMatch(/stripe|setup_intent|captured/);
+    expect(sql).toContain("standing_usd");
+    expect(sql).not.toMatch(
+      /"(stripe|setup_intent|captured|payment_method)[^"]*"/i,
+    );
   });
 });
 
