@@ -14,8 +14,8 @@ Updated: 2026-09-14
 - A FEATURES.md row is not scheduled until it has a checkbox in this file.
 - Coordinator may merge a PR that finishes exactly one unchecked slice, Playwright is green, and the merge gates below hold.
 
-**Now:** 1.5 Increment: next intent >= standing + max($250, 10%).
-**Last merged:** 1.4 (#63 one brand per trade / same-panel challenge)
+**Now:** 1.6 Outbid → previous status outbid + waitlist handoff.
+**Last merged:** 1.5 (#64 increment standing + max($250, 10%))
 
 ## Standing orders
 
@@ -65,7 +65,7 @@ If any gate fails: leave the PR unmerged and stop that slice.
 - [x] 1.2 Signed-in user submits one intent per panel (brand, trade, amount >= opening). (#60)
 - [x] 1.3 Amount is intent only. Page says it does not charge. (#61)
 - [x] 1.4 One brand per trade. Challenger fights the same panel only. (#63)
-- [ ] 1.5 Increment: next intent >= standing + max($250, 10%).
+- [x] 1.5 Increment: next intent >= standing + max($250, 10%). (#64)
 - [ ] 1.6 Outbid → previous status outbid + waitlist handoff.
 - [ ] 1.7 /panels/[id] is the seat. Homepage cards link there.
 - [ ] 1.8 Public standing: brand + trade + amount. No bidder email public.

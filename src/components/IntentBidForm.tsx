@@ -87,6 +87,10 @@ export function IntentBidForm({
         Amount is intent only. Minimum {formatUsd(minimumUsd)}. This page does
         not charge — the 20% deposit is shown later, never captured on P2.
       </p>
+      <p className="auth-hint" data-testid="intent-increment-rule">
+        Next intent must be at least standing + max($250, 10%). The minimum
+        above already applies that floor.
+      </p>
       <button
         type="submit"
         className="btn btn-signal"

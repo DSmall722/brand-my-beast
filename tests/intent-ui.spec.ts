@@ -505,6 +505,60 @@ test.describe("P2 panel intent + approvals", () => {
     await challenger.close();
   });
 
+  test("slice 1.5: next intent >= standing + max($250, 10%)", async ({
+    browser,
+  }) => {
+    const holder = await browser.newPage();
+    await signIn(holder, "slice15-holder@example.com");
+    await holder.goto("/panels/hood");
+    await expect(holder.getByTestId("intent-increment-rule")).toContainText(
+      "standing + max($250, 10%)",
+    );
+    await holder.getByTestId("intent-brand").fill("Slice Fifteen Hold");
+    await holder.getByTestId("intent-trade").fill("increment seats");
+    await holder.getByTestId("intent-standing").fill("2500");
+    await holder.getByTestId("intent-submit").click();
+    await expect(holder.getByTestId("intent-success")).toContainText(
+      "not charged",
+    );
+    await holder.close();
+
+    const low = await browser.newPage();
+    await signIn(low, "slice15-low@example.com");
+    await low.goto("/panels/hood");
+    await expect(low.getByTestId("panel-standing")).toContainText("2,500");
+    await expect(low.getByTestId("panel-minimum")).toContainText("2,750");
+    await expect(low.getByTestId("intent-increment-rule")).toContainText(
+      "standing + max($250, 10%)",
+    );
+    await low.getByTestId("intent-brand").fill("Slice Fifteen Low");
+    await low.getByTestId("intent-trade").fill("increment tools");
+    await low.getByTestId("intent-standing").evaluate((el: HTMLInputElement) => {
+      el.removeAttribute("min");
+    });
+    await low.getByTestId("intent-standing").fill("2749");
+    await low.getByTestId("intent-submit").click();
+    await expect(low.getByTestId("intent-error")).toContainText(
+      /at least 2,?750/i,
+    );
+    await low.close();
+
+    const ok = await browser.newPage();
+    await signIn(ok, "slice15-ok@example.com");
+    await ok.goto("/panels/hood");
+    await ok.getByTestId("intent-brand").fill("Slice Fifteen Ok");
+    await ok.getByTestId("intent-trade").fill("increment vinyl");
+    await ok.getByTestId("intent-standing").fill("2750");
+    await ok.getByTestId("intent-submit").click();
+    await expect(ok.getByTestId("intent-success")).toContainText("not charged");
+    await expect(ok.getByTestId("intent-list")).toContainText(
+      "Slice Fifteen Ok",
+    );
+    await expect(ok.getByTestId("panel-standing")).toContainText("2,750");
+    await expect(ok.getByTestId("panel-minimum")).toContainText("3,025");
+    await ok.close();
+  });
+
   test("wrap-shop partner sheet is read-only for shop@example.com", async ({
     browser,
   }) => {

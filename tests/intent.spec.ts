@@ -413,6 +413,72 @@ test.describe("intent store memory ledger", () => {
       "listed",
     );
   });
+
+  test("slice 1.5: rejects mark below standing + max($250, 10%)", async () => {
+    const first = await placeIntentBid({
+      panelId: "hood",
+      userId: "inc_holder",
+      brandLabel: "Increment Hold",
+      tradeLabel: "increment snacks",
+      standingUsd: 2500,
+    });
+    expect(first.ok).toBeTruthy();
+    if (!first.ok) return;
+    expect(nextStandingUsd(2500)).toBe(2750);
+
+    const tooLow = await placeIntentBid({
+      panelId: "hood",
+      userId: "inc_low",
+      brandLabel: "Increment Low",
+      tradeLabel: "increment tools",
+      standingUsd: 2749,
+    });
+    expect(tooLow.ok).toBeFalsy();
+    if (tooLow.ok) return;
+    expect(tooLow.error).toMatch(/at least 2750/i);
+
+    const exact = await placeIntentBid({
+      panelId: "hood",
+      userId: "inc_ok",
+      brandLabel: "Increment Ok",
+      tradeLabel: "increment vinyl",
+      standingUsd: 2750,
+    });
+    expect(exact.ok).toBeTruthy();
+  });
+
+  test("slice 1.5: 10% floor applies when larger than $250", async () => {
+    const first = await placeIntentBid({
+      panelId: "hood",
+      userId: "pct_holder",
+      brandLabel: "Percent Hold",
+      tradeLabel: "percent snacks",
+      standingUsd: 3000,
+    });
+    expect(first.ok).toBeTruthy();
+    if (!first.ok) return;
+    expect(nextStandingUsd(3000)).toBe(3300);
+
+    const tooLow = await placeIntentBid({
+      panelId: "hood",
+      userId: "pct_low",
+      brandLabel: "Percent Low",
+      tradeLabel: "percent tools",
+      standingUsd: 3299,
+    });
+    expect(tooLow.ok).toBeFalsy();
+    if (tooLow.ok) return;
+    expect(tooLow.error).toMatch(/at least 3300/i);
+
+    const exact = await placeIntentBid({
+      panelId: "hood",
+      userId: "pct_ok",
+      brandLabel: "Percent Ok",
+      tradeLabel: "percent vinyl",
+      standingUsd: 3300,
+    });
+    expect(exact.ok).toBeTruthy();
+  });
 });
 
 
