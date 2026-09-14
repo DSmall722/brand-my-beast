@@ -2200,3 +2200,28 @@ a {
 .content-rights-form .btn {
   margin-top: 0.35rem;
 }
+
+
+/* Slice 3.5 — artwork URL / upload on intent */
+.intent-artwork-fields {
+  margin: 1rem 0;
+  padding: 0.75rem 0 0;
+  border: none;
+  border-top: 1px solid color-mix(in oklab, var(--border, #333) 80%, transparent);
+}
+.intent-artwork-preview {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-top: 0.5rem;
+}
+.intent-artwork-thumb {
+  width: 48px;
+  height: 48px;
+  object-fit: contain;
+  border-radius: 4px;
+  background: color-mix(in oklab, var(--panel, #111) 90%, white);
+}
+.intent-artwork-link {
+  font-size: 0.9rem;
+}

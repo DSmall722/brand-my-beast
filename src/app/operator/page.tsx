@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { ApprovalButtons } from "@/components/ApprovalButtons";
+import { IntentArtworkPreview } from "@/components/IntentArtworkPreview";
 import { ArtworkApprovalChecklist } from "@/components/ArtworkApprovalChecklist";
 import { ImagineMockupControls } from "@/components/ImagineMockupControls";
 import { SiteChrome } from "@/components/SiteChrome";
@@ -134,6 +135,7 @@ export default async function OperatorPage() {
                       {" · deposit shown "}
                       {formatUsd(bid.depositUsd)}
                     </p>
+                    <IntentArtworkPreview artworkUrl={bid.artworkUrl} bidId={bid.id} />
                     <ArtworkApprovalChecklist etchable={etchable} />
                     <ImagineMockupControls
                       bidId={bid.id}

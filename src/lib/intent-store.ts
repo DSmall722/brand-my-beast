@@ -83,6 +83,7 @@ function rowToBid(row: IntentBidRow): IntentBid {
     depositUsd: row.depositUsd,
     status: parseStatus(row.status),
     createdAt: row.createdAt.toISOString(),
+    artworkUrl: row.artworkUrl ?? null,
   };
   assertIntentOnly(bid);
   return bid;
@@ -94,6 +95,8 @@ export type PlaceIntentInput = {
   brandLabel: string;
   tradeLabel: string;
   standingUsd?: number;
+  /** Parsed at the action boundary — https or data:image, or null. */
+  artworkUrl?: string | null;
 };
 
 export type PlaceIntentResult =
@@ -355,6 +358,7 @@ export async function placeIntentBid(
       depositUsd,
       status: "listed",
       createdAt: new Date().toISOString(),
+      artworkUrl: input.artworkUrl ?? null,
     };
     assertIntentOnly(bid);
     memoryBids().push(bid);
@@ -388,6 +392,7 @@ export async function placeIntentBid(
       standingUsd,
       depositUsd,
       status: "listed",
+      artworkUrl: input.artworkUrl ?? null,
     })
     .returning();
 

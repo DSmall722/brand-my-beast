@@ -34,6 +34,8 @@ export const intentBids = pgTable(
     createdAt: timestamp("created_at", { withTimezone: true })
       .defaultNow()
       .notNull(),
+    /** https URL or small data:image upload. Null when unset. */
+    artworkUrl: text("artwork_url"),
   },
   (table) => [
     index("intent_bids_panel_id_idx").on(table.panelId),

@@ -30,6 +30,11 @@ export type IntentBid = {
   depositUsd: number;
   status: IntentBidStatus;
   createdAt: string;
+  /**
+   * Optional art on the mark: https URL or data:image upload.
+   * Intent only — never a charge receipt.
+   */
+  artworkUrl: string | null;
 };
 
 /** Normalize bidder-named trade for collision checks. No public taxonomy. */

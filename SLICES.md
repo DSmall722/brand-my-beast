@@ -14,8 +14,8 @@ Updated: 2026-09-14
 - A FEATURES.md row is not scheduled until it has a checkbox in this file.
 - Coordinator may merge a PR that finishes exactly one unchecked slice, Playwright is green, and the merge gates below hold.
 
-**Now:** 3.5 Artwork URL or upload on the intent.
-**Last merged:** 3.4 (#76 etch linter from RULES.md)
+**Now:** 3.6 Day/night/wet/dirty as toggles. Not proof photos of a truck that does not exist.
+**Last merged:** 3.5 (#77 artwork URL or upload on the intent)
 
 ## Standing orders
 
@@ -84,7 +84,7 @@ If any gate fails: leave the PR unmerged and stop that slice.
 - [x] 3.2 Etch controls disabled while raised < $120,000. (#74)
 - [x] 3.3 Highway-legibility checker. (#75)
 - [x] 3.4 Etch linter from RULES.md. (#76)
-- [ ] 3.5 Artwork URL or upload on the intent.
+- [x] 3.5 Artwork URL or upload on the intent. (#77)
 - [ ] 3.6 Day/night/wet/dirty as toggles. Not proof photos of a truck that does not exist.
 - [ ] 3.7 Side / front / rear views + SVG hotspots on the hero/seat truck (the old static prototype pattern). 360 later. Empty seats stay raw 30X.
 

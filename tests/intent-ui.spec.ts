@@ -1020,4 +1020,36 @@ test.describe("P2 panel intent + approvals", () => {
     expect(html).not.toContain("Florida panhandle");
     await page.close();
   });
+
+  test("slice 3.5: artwork URL attaches on the intent mark", async ({ page }) => {
+    await signIn(page, "slice35-art@example.com");
+    await page.goto("/panels/hood");
+    await expect(page.getByTestId("intent-artwork-fields")).toBeVisible();
+    await expect(page.getByTestId("intent-artwork-note")).toContainText(
+      "Intent only",
+    );
+    await page.getByTestId("intent-brand").fill("Slice ThirtyFive Art");
+    await page.getByTestId("intent-trade").fill("artwork marks");
+    await page
+      .getByTestId("intent-artwork-url")
+      .fill("https://cdn.example.com/slice35.png");
+    await page.getByTestId("intent-submit").click();
+    await expect(page.getByTestId("intent-success")).toBeVisible();
+    await expect(page.getByTestId("intent-list")).toContainText(
+      "Slice ThirtyFive Art",
+    );
+    await expect(
+      page
+        .locator('[data-testid^="intent-artwork-"][data-artwork-kind="url"]')
+        .first(),
+    ).toBeVisible();
+    await expect(
+      page.locator('[data-testid^="intent-artwork-link-"]').first(),
+    ).toHaveAttribute("href", "https://cdn.example.com/slice35.png");
+    const html = await page.content();
+    expect(html.toLowerCase()).not.toMatch(/\blease\b/);
+    expect(html).not.toContain("CLOSE_AT");
+  });
+
+
 });
