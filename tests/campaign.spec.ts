@@ -253,6 +253,65 @@ test.describe("P1 waitlist campaign locks", () => {
     );
   });
 
+  test("waitlist API contract: created 201, exists 200, invalid 400", async ({
+    page,
+    request,
+  }) => {
+    const email = `contract-${Date.now()}@example.com`;
+
+    const created = await request.post("/api/waitlist", {
+      data: { email },
+    });
+    expect(created.status()).toBe(201);
+    expect(await created.json()).toMatchObject({
+      ok: true,
+      status: "created",
+    });
+
+    const exists = await request.post("/api/waitlist", {
+      data: { email },
+    });
+    expect(exists.status()).toBe(200);
+    expect(await exists.json()).toMatchObject({
+      ok: true,
+      status: "exists",
+    });
+
+    const invalid = await request.post("/api/waitlist", {
+      data: { email: "not-an-email" },
+    });
+    expect(invalid.status()).toBe(400);
+    expect(await invalid.json()).toMatchObject({
+      ok: false,
+      code: "invalid",
+    });
+
+    const missing = await request.post("/api/waitlist", {
+      data: {},
+    });
+    expect(missing.status()).toBe(400);
+    expect(await missing.json()).toMatchObject({
+      ok: false,
+      code: "invalid",
+    });
+
+    await page.goto("/");
+    const fresh = `fresh-${Date.now()}@example.com`;
+    await page.getByTestId("waitlist-email").fill(fresh);
+    const [uiCreated] = await Promise.all([
+      page.waitForResponse(
+        (res) =>
+          res.url().includes("/api/waitlist") &&
+          res.request().method() === "POST",
+      ),
+      page.getByTestId("waitlist-submit").click(),
+    ]);
+    expect(uiCreated.status()).toBe(201);
+    await expect(page.getByTestId("waitlist-status")).toContainText(
+      "on the list",
+    );
+  });
+
   test("cabin plaque reserves a name without a bid or charge", async ({
     page,
     request,
