@@ -576,6 +576,46 @@ a {
   line-height: 1.5;
 }
 
+.circuit-story-form {
+  max-width: 36rem;
+}
+
+.circuit-story-corridor-list {
+  margin: 0.75rem 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem 0.75rem;
+}
+
+.circuit-story-corridor {
+  display: inline-flex;
+  gap: 0.35rem;
+  align-items: center;
+  color: var(--steel-100);
+  font-size: 0.95rem;
+}
+
+.circuit-story-note {
+  width: 100%;
+  margin: 0.35rem 0 0.75rem;
+  border-radius: 0.75rem;
+  border: 1px solid var(--hairline);
+  background: color-mix(in oklab, black 35%, transparent);
+  color: white;
+  padding: 0.75rem 1rem;
+  font: inherit;
+  resize: vertical;
+}
+
+.circuit-story-list {
+  margin: 1rem 0 0;
+  padding-left: 1.1rem;
+  color: var(--steel-100);
+  line-height: 1.5;
+}
+
 .waitlist-next {
   margin: 0.85rem 0 0;
   color: var(--steel-300);

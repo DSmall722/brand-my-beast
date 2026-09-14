@@ -1,5 +1,6 @@
 import { AuthNav } from "@/components/AuthNav";
 import { CabinPlaqueForm } from "@/components/CabinPlaqueForm";
+import { CircuitStoryForm } from "@/components/CircuitStoryForm";
 import { WaitlistForm } from "@/components/WaitlistForm";
 import {
   BRAND,
@@ -19,6 +20,11 @@ import {
 } from "@/lib/campaign";
 import { CABIN_PLAQUE_LEAD } from "@/lib/cabin-plaque";
 import { listCabinPlaqueLines } from "@/lib/cabin-plaque-store";
+import {
+  CIRCUIT_STORY_CORRIDORS,
+  CIRCUIT_STORY_LEAD,
+} from "@/lib/circuit-story";
+import { listCircuitStoryRequests } from "@/lib/circuit-story-store";
 import { loadBoardIntentStats } from "@/lib/intent-store";
 
 /** Board stats read the intent ledger; keep dynamic so build does not SSG against DB. */
@@ -27,6 +33,7 @@ export const dynamic = "force-dynamic";
 export default async function HomePage() {
   const board = await loadBoardIntentStats();
   const plaques = await listCabinPlaqueLines();
+  const circuitStories = await listCircuitStoryRequests();
   const pledgedUsd = board.pledgedUsd;
   const floorLabel = formatUsd(FLOOR_USD);
   const goalLabel = formatUsd(GOAL_USD);
@@ -54,6 +61,9 @@ export default async function HomePage() {
           </a>
           <a className="nav-link" href="#plaque">
             Cabin plaque
+          </a>
+          <a className="nav-link" href="#circuit-story">
+            Circuit story
           </a>
           <AuthNav />
         </nav>
@@ -309,6 +319,45 @@ export default async function HomePage() {
                   {line.displayName}
                 </li>
               ))}
+            </ul>
+          )}
+        </section>
+
+        <section
+          className="shell section"
+          id="circuit-story"
+          aria-labelledby="circuit-story-title"
+          data-testid="circuit-story"
+        >
+          <h2 id="circuit-story-title">Request a circuit story</h2>
+          <p className="section-lead" data-testid="circuit-story-lead">
+            {CIRCUIT_STORY_LEAD}
+          </p>
+          <CircuitStoryForm />
+          {circuitStories.length === 0 ? (
+            <p className="empty-state" data-testid="circuit-story-empty">
+              No circuit story requests yet. After the truck exists — still no
+              auto-tweet.
+            </p>
+          ) : (
+            <ul
+              className="circuit-story-list"
+              data-testid="circuit-story-list"
+            >
+              {circuitStories.map((row) => {
+                const corridor = CIRCUIT_STORY_CORRIDORS.find(
+                  (item) => item.id === row.corridorId,
+                );
+                return (
+                  <li
+                    key={row.id}
+                    data-testid={`circuit-story-row-${row.id}`}
+                  >
+                    {corridor?.label ?? row.corridorId}
+                    {" · requested"}
+                  </li>
+                );
+              })}
             </ul>
           )}
         </section>

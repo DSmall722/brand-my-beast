@@ -273,4 +273,64 @@ test.describe("P1 waitlist campaign locks", () => {
     expect(html).not.toContain("South Carolina home loop");
     expect(html).not.toContain("Florida panhandle");
   });
+
+  test("circuit story request saves without tweet or impressions", async ({
+    page,
+    request,
+  }) => {
+    const email = `circuit-${Date.now()}@example.com`;
+    await page.goto("/");
+    await expect(page.getByTestId("circuit-story")).toBeVisible();
+    await expect(page.getByTestId("circuit-story-lead")).toContainText(
+      "$58,000",
+    );
+    await expect(page.getByTestId("circuit-story-lead")).toContainText(
+      "$120,000",
+    );
+    await expect(page.getByTestId("circuit-story-lead")).toContainText(
+      "No invented impressions",
+    );
+
+    const created = await request.post("/api/circuit-story", {
+      data: { email, corridorId: "charlotte", note: "Proof after install" },
+    });
+    expect(created.status()).toBe(201);
+    expect(await created.json()).toMatchObject({
+      ok: true,
+      status: "created",
+      corridorId: "charlotte",
+    });
+
+    const again = await request.post("/api/circuit-story", {
+      data: { email, corridorId: "charlotte" },
+    });
+    expect(again.status()).toBe(200);
+    expect(await again.json()).toMatchObject({ ok: true, status: "exists" });
+
+    await page.goto("/");
+    await page.getByTestId("circuit-story-email").fill(email);
+    await page.getByTestId("circuit-story-corridor-charlotte").check();
+    const [response] = await Promise.all([
+      page.waitForResponse(
+        (res) =>
+          res.url().includes("/api/circuit-story") &&
+          res.request().method() === "POST",
+      ),
+      page.getByTestId("circuit-story-submit").click(),
+    ]);
+    expect(response.status()).toBe(200);
+    await expect(page.getByTestId("circuit-story-status")).toContainText(
+      "already on the list",
+    );
+    await expect(page.getByTestId("circuit-story-list")).toContainText(
+      "Charlotte",
+    );
+    const html = await page.content();
+    expect(html.toLowerCase()).not.toMatch(/\blease\b/);
+    expect(html).not.toContain("CLOSE_AT");
+    expect(html).not.toContain("FEATURES.md");
+    expect(html).not.toContain("South Carolina home loop");
+    expect(html).not.toContain("Florida panhandle");
+    expect(html).not.toMatch(/\b\d+\s*impressions\b/i);
+  });
 });
