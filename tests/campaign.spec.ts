@@ -319,6 +319,25 @@ test.describe("P1 waitlist campaign locks", () => {
     await expect(page.getByTestId("clemson-saturday-lock-no-vin")).toContainText(
       "No reserved VIN",
     );
+    await expect(page.getByTestId("sighting-bounty-cards")).toBeVisible();
+    await expect(page.getByTestId("sighting-bounty-cards-lead")).toContainText(
+      "$58,000",
+    );
+    await expect(page.getByTestId("sighting-bounty-cards-lead")).toContainText(
+      "$120,000",
+    );
+    await expect(page.getByTestId("sighting-bounty-cards-lead")).toContainText(
+      "No reserved VIN",
+    );
+    await expect(
+      page.getByTestId("sighting-bounty-cards-empty-until-truck"),
+    ).toContainText("No invented bounty dollars");
+    await expect(page.getByTestId("sighting-bounty-cards-empty")).toContainText(
+      "No bounty cards yet",
+    );
+    await expect(page.getByTestId("sighting-bounty-cards-no-vin")).toContainText(
+      "No reserved VIN",
+    );
 
     await expect(page.getByTestId("raised-hint")).toContainText(
       "Under the floor: full refund.",

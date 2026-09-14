@@ -17,6 +17,7 @@ import { CityPingWinnerCard } from "@/components/CityPingWinnerCard";
 import { ChargeStopSlotsCard } from "@/components/ChargeStopSlotsCard";
 import { RouteDetourBuyoutCard } from "@/components/RouteDetourBuyoutCard";
 import { ClemsonSaturdayLockCard } from "@/components/ClemsonSaturdayLockCard";
+import { SightingBountyCardsCard } from "@/components/SightingBountyCardsCard";
 
 import {
   BRAND,
@@ -465,6 +466,19 @@ export default async function HomePage() {
             Empty until the truck exists. No invented lock fee. No reserved VIN.
           </p>
           <ClemsonSaturdayLockCard />
+        </section>
+
+        <section
+          className="shell section"
+          id="sighting-bounty-cards"
+          aria-labelledby="sighting-bounty-cards-title"
+        >
+          <h2 id="sighting-bounty-cards-title">Sighting bounty cards</h2>
+          <p className="section-lead">
+            Empty until the truck exists. No invented bounty dollars. No reserved
+            VIN.
+          </p>
+          <SightingBountyCardsCard />
         </section>
 
         <section
