@@ -24,6 +24,10 @@ import {
 } from "../src/lib/mockup";
 import { checkHighwayLegibility } from "../src/lib/legibility";
 import {
+  ETCH_CONSTRAINTS,
+  lintEtchArtNotes,
+} from "../src/lib/etch-linter";
+import {
   listBidsForPanel,
   placeIntentBid,
   loadBoardIntentStats,
@@ -248,5 +252,21 @@ test.describe("highway legibility checker (no capture)", () => {
     expect(etch.issues.some((i) => i.id === "etch-forbidden-terms")).toBe(
       true,
     );
+  });
+});
+
+test.describe("etch constraint linter (no capture)", () => {
+  test("publishes RULES.md checklist and fails forbidden art notes", () => {
+    expect(ETCH_CONSTRAINTS.map((r) => r.id)).toEqual([
+      "one-color",
+      "min-stroke",
+      "no-gradients",
+      "no-fine-type",
+    ]);
+    expect(lintEtchArtNotes("").severity).toBe("pass");
+    expect(lintEtchArtNotes("bold single-line sans").severity).toBe("pass");
+    const bad = lintEtchArtNotes("full color gradient photo mark");
+    expect(bad.severity).toBe("fail");
+    expect(bad.issues.some((i) => i.id === "etch-forbidden-art")).toBe(true);
   });
 });

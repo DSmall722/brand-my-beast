@@ -41,6 +41,12 @@ test.describe("P2 panel intent + approvals", () => {
     await expect(page.getByTestId("compositor-finish-label")).toContainText(
       "$120,000",
     );
+    await expect(page.getByTestId("etch-constraint-linter")).toBeVisible();
+    await expect(page.getByTestId("etch-constraint-list")).toBeVisible();
+    await expect(page.getByTestId("etch-constraint-one-color")).toBeVisible();
+    await page.getByTestId("etch-art-notes").fill("full color gradient photo");
+    await expect(page.getByTestId("etch-lint-issues")).toBeVisible();
+    await expect(page.getByTestId("etch-lint-etch-forbidden-art")).toBeVisible();
     await expect(page.getByTestId("panel-stats")).toBeVisible();
     await expect(page.getByTestId("intent-only-banner")).toContainText(
       "No Stripe capture",
