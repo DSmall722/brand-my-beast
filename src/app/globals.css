@@ -966,3 +966,37 @@ a {
     align-items: center;
   }
 }
+
+
+.public-seat-status {
+  margin: 0 0 1.25rem;
+  padding: 0.9rem 1rem;
+  border: 1px solid var(--hairline);
+  background: color-mix(in oklab, white 4%, transparent);
+}
+
+.seat-badge {
+  display: inline-block;
+  margin: 0 0 0.55rem;
+  padding: 0.2rem 0.55rem;
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  border: 1px solid var(--hairline);
+}
+
+.seat-open {
+  color: var(--signal);
+  border-color: color-mix(in oklab, var(--signal) 45%, transparent);
+}
+
+.seat-held {
+  color: var(--steel-100);
+  border-color: color-mix(in oklab, white 25%, transparent);
+}
+
+.seat-holder {
+  margin: 0 0 0.55rem;
+  color: var(--steel-100);
+  line-height: 1.45;
+}

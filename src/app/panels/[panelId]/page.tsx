@@ -4,7 +4,7 @@ import { IntentBidForm } from "@/components/IntentBidForm";
 import { PanelMockup } from "@/components/PanelMockup";
 import { SiteChrome } from "@/components/SiteChrome";
 import { auth } from "@/lib/auth";
-import { DEPOSIT_PERCENT, PANELS, formatUsd, isEtchable } from "@/lib/campaign";
+import { DEPOSIT_PERCENT, FLOOR_USD, GOAL_USD, PANELS, formatUsd, isEtchable } from "@/lib/campaign";
 import { intentStatusClass, intentStatusLabel } from "@/lib/intent-labels";
 import {
   listBidsForPanel,
@@ -35,23 +35,58 @@ export default async function PanelIntentPage({
         (bid) => bid.userId === viewerId && bid.status === "outbid",
       ),
   );
+  const holder = bids.find(
+    (bid) => bid.status === "listed" || bid.status === "approved",
+  );
+  const seatOpen = !holder;
 
   return (
     <>
       <SiteChrome />
       <main
-        className="shell auth-page panel-intent"
+        className="shell auth-page panel-intent public-seat"
         data-testid="panel-intent-page"
       >
         <p className="eyebrow">
           <Link href="/#panels">Panels</Link>
+          {" · "}
+          <span data-testid="public-seat-label">Public seat</span>
         </p>
         <h1>{panel.name}</h1>
         <p className="section-lead">
           Opens at {formatUsd(panel.openingUsd)}. Current standing{" "}
           {formatUsd(standing)}.{" "}
-          {etchable ? "Etchable at $120,000 buyout." : "Wrap only forever."}
+          {etchable
+            ? `Etchable only at ${formatUsd(GOAL_USD)} buyout.`
+            : "Wrap only forever."}
         </p>
+
+        <div className="public-seat-status" data-testid="public-seat-status">
+          <p
+            className={seatOpen ? "seat-badge seat-open" : "seat-badge seat-held"}
+            data-testid="seat-occupancy"
+          >
+            {seatOpen ? "Seat open" : "Seat held"}
+          </p>
+          {holder ? (
+            <p className="seat-holder" data-testid="seat-holder">
+              Standing brand <strong>{holder.brandLabel}</strong>
+              {" · "}
+              trade {holder.tradeLabel}
+              {" · "}
+              {formatUsd(holder.standingUsd)}
+            </p>
+          ) : (
+            <p className="seat-holder" data-testid="seat-holder-empty">
+              No intent listed yet. Floor for the campaign is {formatUsd(FLOOR_USD)}.
+            </p>
+          )}
+          <p className="auth-hint" data-testid="public-seat-waitlist-cta">
+            Want this seat later?{" "}
+            <Link href="/#waitlist">Join the waitlist</Link> — still no card
+            charge.
+          </p>
+        </div>
 
         <PanelMockup panel={panel} />
 
