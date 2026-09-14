@@ -3,6 +3,7 @@ import { CabinPlaqueForm } from "@/components/CabinPlaqueForm";
 import { CircuitStoryForm } from "@/components/CircuitStoryForm";
 import { EventRequestForm } from "@/components/EventRequestForm";
 import { RetiredVinylCard } from "@/components/RetiredVinylCard";
+import { SeasonTwoBoardCard } from "@/components/SeasonTwoBoardCard";
 import { SightingForm } from "@/components/SightingForm";
 import { VaultCertificateCard } from "@/components/VaultCertificateCard";
 import { WaitlistForm } from "@/components/WaitlistForm";
@@ -316,6 +317,18 @@ export default async function HomePage() {
             Framed wrap film after the 12-month term. Not a cash path.
           </p>
           <RetiredVinylCard />
+        </section>
+
+        <section
+          className="shell section"
+          id="season-two"
+          aria-labelledby="season-two-title"
+        >
+          <h2 id="season-two-title">Season 2 board</h2>
+          <p className="section-lead">
+            Year-two wrap is a new buy. Not a gift. Not for sale yet as rights.
+          </p>
+          <SeasonTwoBoardCard />
         </section>
 
         <section

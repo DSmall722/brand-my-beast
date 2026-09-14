@@ -97,6 +97,10 @@ import {
   retiredVinylCopyIsSafe,
 } from "../src/lib/retired-vinyl";
 import {
+  SEASON_TWO_LEAD,
+  seasonTwoCopyIsSafe,
+} from "../src/lib/season-two";
+import {
   EVENT_REQUEST_KINDS,
   EVENT_REQUEST_LEAD,
   eventRequestCopyIsSafe,
@@ -517,6 +521,9 @@ test.describe("winner portal (no capture)", () => {
     expect(
       WINNER_PORTAL_FACTS.some((fact) => fact.id === "retired-vinyl"),
     ).toBe(true);
+    expect(
+      WINNER_PORTAL_FACTS.some((fact) => fact.id === "season-two"),
+    ).toBe(true);
     const blob = WINNER_PORTAL_FACTS.map((fact) => fact.text).join(" ");
     expect(blob).toContain("12 months from install");
     expect(blob).not.toContain("CLOSE_AT");
@@ -780,6 +787,20 @@ test.describe("retired-vinyl framed artifact (no cash)", () => {
     expect(RETIRED_VINYL_LEAD.toLowerCase()).toContain("not cash");
     expect(RETIRED_VINYL_LEAD.toLowerCase()).toContain("no reserved vin");
     expect(retiredVinylCopyIsSafe()).toBe(true);
+    expect(FLOOR_USD).toBe(58_000);
+    expect(GOAL_USD).toBe(120_000);
+  });
+});
+
+test.describe("season 2 board (no first-refusal sale)", () => {
+  test("publishes year-two new-buy copy without inventing a price", () => {
+    expect(SEASON_TWO_LEAD).toContain("$58,000");
+    expect(SEASON_TWO_LEAD).toContain("$120,000");
+    expect(SEASON_TWO_LEAD.toLowerCase()).toContain("new buy");
+    expect(SEASON_TWO_LEAD.toLowerCase()).toContain("not a gift");
+    expect(SEASON_TWO_LEAD.toLowerCase()).toContain("not for sale in v1");
+    expect(SEASON_TWO_LEAD.toLowerCase()).toContain("no reserved vin");
+    expect(seasonTwoCopyIsSafe()).toBe(true);
     expect(FLOOR_USD).toBe(58_000);
     expect(GOAL_USD).toBe(120_000);
   });
