@@ -681,6 +681,44 @@ test.describe("P2 panel intent + approvals", () => {
     await operator.close();
   });
 
+  test("slice 2.5: operator UI cannot edit FLOOR_USD / GOAL_USD / CLOSE_AT", async ({
+    browser,
+  }) => {
+    const operator = await browser.newPage();
+    await signIn(operator, "slice25-ops@example.com");
+    await operator.goto("/operator");
+    await expect(operator.getByTestId("operator-approvals")).toBeVisible();
+    await expect(
+      operator.getByTestId("operator-campaign-locks"),
+    ).toBeVisible();
+    await expect(
+      operator.getByTestId("operator-campaign-locks"),
+    ).toHaveAttribute("data-editable", "false");
+    await expect(operator.getByTestId("operator-lock-floor")).toHaveText(
+      "$58,000",
+    );
+    await expect(operator.getByTestId("operator-lock-goal")).toHaveText(
+      "$120,000",
+    );
+    await expect(operator.getByTestId("operator-lock-close")).toHaveText(
+      "unset",
+    );
+    await expect(
+      operator.locator(
+        'input[name="FLOOR_USD"], input[name="GOAL_USD"], input[name="CLOSE_AT"], input[name="floorUsd"], input[name="goalUsd"], input[name="closeAt"]',
+      ),
+    ).toHaveCount(0);
+    await expect(
+      operator
+        .getByTestId("operator-campaign-locks")
+        .locator("input, select, textarea"),
+    ).toHaveCount(0);
+    const html = await operator.content();
+    expect(html.toLowerCase()).not.toMatch(/\blease\b/);
+    expect(html).not.toContain("CLOSE_AT");
+    await operator.close();
+  });
+
   test("slice 1.5: next intent >= standing + max($250, 10%)", async ({
     browser,
   }) => {

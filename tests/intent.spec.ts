@@ -60,6 +60,11 @@ import {
 import { isShopPartnerEmail } from "../src/lib/auth/shop-partner";
 import { isOperatorEmail } from "../src/lib/auth/operator";
 import {
+  assertOperatorCampaignLocks,
+  operatorCampaignLockLabels,
+  operatorCampaignLocks,
+} from "../src/lib/operator-campaign-locks";
+import {
   WINNER_PORTAL_FACTS,
   winnerPortalFactsVisible,
   winnerSeatsFor,
@@ -887,6 +892,23 @@ test.describe("wrap-shop partner portal (no capture)", () => {
 });
 
 test.describe("operator allow-list (no capture)", () => {
+  test("slice 2.5: operator campaign locks stay read-only constants", () => {
+    expect(assertOperatorCampaignLocks()).toBe(true);
+    const locks = operatorCampaignLocks();
+    expect(locks.editable).toBe(false);
+    expect(locks.floorUsd).toBe(58_000);
+    expect(locks.goalUsd).toBe(120_000);
+    expect(locks.closeAt).toBeNull();
+    expect(operatorCampaignLockLabels()).toEqual({
+      floor: "$58,000",
+      goal: "$120,000",
+      close: "unset",
+    });
+    expect(FLOOR_USD).toBe(58_000);
+    expect(GOAL_USD).toBe(120_000);
+    expect(CLOSE_AT).toBeNull();
+  });
+
   test("slice 2.1: OPERATOR_EMAILS allow-list gates /operator in live mode", () => {
     expect(
       isOperatorEmail("ops@brandmybeast.com", {
