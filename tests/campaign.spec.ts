@@ -281,6 +281,25 @@ test.describe("P1 waitlist campaign locks", () => {
     await expect(page.getByTestId("charge-stop-slots-no-vin")).toContainText(
       "No reserved VIN",
     );
+    await expect(page.getByTestId("route-detour-buyout")).toBeVisible();
+    await expect(page.getByTestId("route-detour-buyout-lead")).toContainText(
+      "$58,000",
+    );
+    await expect(page.getByTestId("route-detour-buyout-lead")).toContainText(
+      "$120,000",
+    );
+    await expect(page.getByTestId("route-detour-buyout-lead")).toContainText(
+      "No reserved VIN",
+    );
+    await expect(
+      page.getByTestId("route-detour-buyout-empty-until-truck"),
+    ).toContainText("No invented buyout prices");
+    await expect(page.getByTestId("route-detour-buyout-empty")).toContainText(
+      "No route detours yet",
+    );
+    await expect(page.getByTestId("route-detour-buyout-no-vin")).toContainText(
+      "No reserved VIN",
+    );
 
     await expect(page.getByTestId("raised-hint")).toContainText(
       "Under the floor: full refund.",

@@ -59,6 +59,10 @@ export const WINNER_PORTAL_FACTS = [
     text: "Charge-stop takeover slots stay empty until the truck exists. No invented slot prices. No reserved VIN.",
   },
   {
+    id: "route-detour-buyout",
+    text: "Route-day detour buyout stays empty until the truck exists. No invented detour prices. No reserved VIN.",
+  },
+  {
     id: "no-vin",
     text: "No reserved VIN until the campaign clears the floor.",
   },
