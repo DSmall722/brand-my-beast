@@ -174,5 +174,17 @@ test.describe("P1 waitlist campaign locks", () => {
     await expect(page.getByTestId("waitlist-status")).toContainText(
       "already on the list",
     );
+    await expect(page.getByTestId("waitlist-next")).toBeVisible();
+    await expect(page.getByTestId("waitlist-browse-panels")).toHaveAttribute(
+      "href",
+      "/#panels",
+    );
+    await expect(page.getByTestId("waitlist-signin-intent")).toHaveAttribute(
+      "href",
+      "/signin?callbackUrl=/panels/hood",
+    );
+    await expect(page.getByTestId("waitlist-next")).toContainText(
+      "no Stripe capture",
+    );
   });
 });

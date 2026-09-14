@@ -62,10 +62,31 @@ const statusText = await page.getByTestId("waitlist-status").innerText();
 if (!/already on the list/i.test(statusText)) {
   throw new Error(`bad waitlist status: ${statusText}`);
 }
+await page.getByTestId("waitlist-next").waitFor();
+const browseHref = await page
+  .getByTestId("waitlist-browse-panels")
+  .getAttribute("href");
+const signinHref = await page
+  .getByTestId("waitlist-signin-intent")
+  .getAttribute("href");
+if (browseHref !== "/#panels") {
+  throw new Error(`bad browse href: ${browseHref}`);
+}
+if (signinHref !== "/signin?callbackUrl=/panels/hood") {
+  throw new Error(`bad signin href: ${signinHref}`);
+}
+const nextText = await page.getByTestId("waitlist-next").innerText();
+if (!/no Stripe capture/i.test(nextText)) {
+  throw new Error(`waitlist-next missing capture disclaimer: ${nextText}`);
+}
 await page.screenshot({ path: `${out}/waitlist.png`, fullPage: false });
 fs.writeFileSync(
   `${out}/waitlist.json`,
-  JSON.stringify({ email, created, exists, statusText }, null, 2) + "\n",
+  JSON.stringify(
+    { email, created, exists, statusText, browseHref, signinHref, nextText },
+    null,
+    2,
+  ) + "\n",
 );
 await browser.close();
 console.log(`evidence written under ${out}`);

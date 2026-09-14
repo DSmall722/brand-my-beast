@@ -26,6 +26,10 @@ if [[ ! -f .next/BUILD_ID ]]; then
 fi
 
 export WAITLIST_MODE=memory
+export INTENT_MODE=memory
+export AUTH_MODE=test
+export AUTH_SECRET="${AUTH_SECRET:-verify-brandmybeast-auth-secret-min-32!!}"
+export AUTH_TEST_PASSWORD="${AUTH_TEST_PASSWORD:-test}"
 export PORT="$PORT"
 npx next start --hostname 127.0.0.1 --port "$PORT" >"$ART_DIR/dev.log" 2>&1 &
 echo $! >"$PID_FILE"

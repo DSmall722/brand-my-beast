@@ -1,14 +1,14 @@
 # BrandMyBeast verification map
 
-Maintained source for verifying user-facing P1 waitlist behavior. Read this index before driving the app, then open the matching feature file.
+Maintained source for verifying user-facing waitlist + P2 intent behavior. Read this index before driving the app, then open the matching feature file.
 
 ## Baseline preconditions
 
-- Launch the app with `WAITLIST_MODE=memory` on a disposable port (`BMB_VERIFY_PORT`, default `3010`).
-- Prefer `.cursor/skills/verify-brandmybeast/scripts/launch.sh`.
+- Launch with `WAITLIST_MODE=memory`, `INTENT_MODE=memory`, and `AUTH_MODE=test` on a disposable port (`BMB_VERIFY_PORT`, default `3010`).
+- Prefer `.cursor/skills/verify-brandmybeast/scripts/launch.sh` (sets those modes + a test `AUTH_SECRET`).
 - Run `.cursor/skills/verify-brandmybeast/scripts/doctor.sh` and require pass.
 - Never drive `brandmybeast.com` or any shared production instance from this skill.
-- Never invent a close date, Stripe flow, or lease tier during verification.
+- Never invent a close date, Stripe capture flow, or lease tier during verification.
 
 ## Driving conventions
 
@@ -28,8 +28,9 @@ Maintained source for verifying user-facing P1 waitlist behavior. Read this inde
 
 - [Campaign board](./campaign-board.md) — brand, floor, buyout, unset auction clock
 - [Panel grid](./panel-grid.md) — twelve panels, etch locked under buyout
-- [Waitlist signup](./waitlist-signup.md) — email capture create/exists
+- [Waitlist signup](./waitlist-signup.md) — email capture create/exists + next-step CTA
 - [Identity locks](./identity-locks.md) — public strings only, no lease, no personal gmail
+- [Panel intent](./panel-intent.md) — P2 soft auction list + operator approve (no capture)
 
 ## Maintain hook
 

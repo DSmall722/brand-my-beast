@@ -46,11 +46,23 @@ export default async function AccountPage() {
 
         <p className="auth-hint" data-testid="intent-only-note">
           Pick a panel to list an intent mark. No Stripe capture, no close clock
-          on this path.
+          on this path. Waitlist signup on the board still does not charge cards.
+        </p>
+
+        <p className="auth-hint" data-testid="waitlist-intent-glue">
+          Came from the waitlist? Open a panel and list an intent mark — deposit
+          is shown later, never charged on P2.
         </p>
 
         <div className="auth-actions">
-          <Link className="btn btn-signal" href="/#panels">
+          <Link
+            className="btn btn-signal"
+            href="/panels/hood"
+            data-testid="account-panel-intent-link"
+          >
+            List intent on Hood
+          </Link>
+          <Link className="btn btn-ghost" href="/#panels">
             Browse panels
           </Link>
           {operator ? (

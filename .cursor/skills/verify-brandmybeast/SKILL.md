@@ -1,11 +1,11 @@
 ---
 name: verify-brandmybeast
-description: "Drive the BrandMyBeast Next.js waitlist locally the way a user does. Use when proving campaign locks, panel grid, etch lock, waitlist signup, or banned-copy rules after a change."
+description: "Drive the BrandMyBeast Next.js app locally the way a user does. Use when proving campaign locks, panel grid, etch lock, waitlist signup, panel intent / approvals, or banned-copy rules after a change."
 ---
 
 # Verify BrandMyBeast
 
-Project-local verification skill for the P1 waitlist app. Agents read this cold. Prefer this over inventing new Playwright recipes mid-task.
+Project-local verification skill for the waitlist + P2 intent surfaces. Agents read this cold. Prefer this over inventing new Playwright recipes mid-task.
 
 ## Launch
 
@@ -18,10 +18,14 @@ Do not use a second `next dev` in this worktree. Next.js refuses it.
 export BMB_VERIFY_PORT="${BMB_VERIFY_PORT:-3010}"
 export BMB_VERIFY_URL="http://127.0.0.1:${BMB_VERIFY_PORT}"
 export WAITLIST_MODE=memory
+export INTENT_MODE=memory
+export AUTH_MODE=test
+export AUTH_SECRET="${AUTH_SECRET:-verify-brandmybeast-auth-secret-min-32!!}"
+export AUTH_TEST_PASSWORD="${AUTH_TEST_PASSWORD:-test}"
 .cursor/skills/verify-brandmybeast/scripts/launch.sh
 ```
 
-Ready when doctor passes. Launch writes the PID to `.cursor/skills/verify-brandmybeast/artifacts/dev.pid`.
+Ready when doctor passes. Launch writes the PID under `.cursor/skills/verify-brandmybeast/artifacts/`.
 
 ## Doctor
 
@@ -55,13 +59,18 @@ Stable handles:
 | `waitlist-email` | Email input |
 | `waitlist-submit` | Join button |
 | `waitlist-status` | Status text |
+| `waitlist-next` | Post-join CTA to panels / sign-in intent |
+| `panel-intent-page` | P2 panel soft-auction page |
+| `panel-mockup` | Steel-face mockup |
+| `intent-only-banner` | No Stripe / no close clock |
+| `operator-approvals` | Operator intent queue |
 
 Feature recipes live in `features/`. Read `features/README.md` first.
 
 Quick regression (Playwright config boots its own memory-mode server):
 
 ```bash
-WAITLIST_MODE=memory npm test
+WAITLIST_MODE=memory INTENT_MODE=memory AUTH_MODE=test npm test
 ```
 
 One-feature proofs with evidence:
@@ -71,6 +80,7 @@ One-feature proofs with evidence:
 .cursor/skills/verify-brandmybeast/scripts/prove-panel-grid.sh
 .cursor/skills/verify-brandmybeast/scripts/prove-waitlist-signup.sh
 .cursor/skills/verify-brandmybeast/scripts/prove-identity-locks.sh
+.cursor/skills/verify-brandmybeast/scripts/prove-panel-intent.sh
 ```
 
 Full map (daily `/maintain-verification-skill` live pass):
@@ -111,7 +121,8 @@ Stops only the PID recorded by launch. Leaves `artifacts/<run-id>/` in place.
 | `scripts/doctor.sh` | Read-only readiness + campaign lock smoke |
 | `scripts/prove-campaign-board.sh` | Drive campaign board; write evidence |
 | `scripts/prove-panel-grid.sh` | Twelve panels + etch lock under buyout |
-| `scripts/prove-waitlist-signup.sh` | Memory-mode create/exists + UI status |
+| `scripts/prove-waitlist-signup.sh` | Memory-mode create/exists + next-step CTA |
 | `scripts/prove-identity-locks.sh` | Public strings only; no lease / gmail |
+| `scripts/prove-panel-intent.sh` | Panel mockup + list intent + operator approve |
 | `scripts/prove-all.sh` | Launch once; drive every feature; cleanup |
 | `scripts/cleanup.sh` | Stop the PID recorded by launch |
