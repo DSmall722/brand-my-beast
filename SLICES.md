@@ -14,8 +14,8 @@ Updated: 2026-09-14
 - A FEATURES.md row is not scheduled until it has a checkbox in this file.
 - Coordinator may merge a PR that finishes exactly one unchecked slice, Playwright is green, and the merge gates below hold.
 
-**Now:** 3.3 Highway-legibility checker.
-**Last merged:** 3.2 (#74 etch controls disabled while raised < $120,000)
+**Now:** 3.4 Etch linter from RULES.md.
+**Last merged:** 3.3 (#75 highway-legibility checker)
 
 ## Standing orders
 
@@ -82,7 +82,7 @@ If any gate fails: leave the PR unmerged and stop that slice.
 
 - [x] 3.1 Stainless compositor on the seat. Preview only. (#73)
 - [x] 3.2 Etch controls disabled while raised < $120,000. (#74)
-- [ ] 3.3 Highway-legibility checker.
+- [x] 3.3 Highway-legibility checker. (#75)
 - [ ] 3.4 Etch linter from RULES.md.
 - [ ] 3.5 Artwork URL or upload on the intent.
 - [ ] 3.6 Day/night/wet/dirty as toggles. Not proof photos of a truck that does not exist.
