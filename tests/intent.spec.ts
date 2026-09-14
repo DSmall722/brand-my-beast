@@ -57,6 +57,14 @@ import {
   isFinishCondition,
 } from "../src/lib/finish-conditions";
 import {
+  TRUCK_VIEWS,
+  TRUCK_VIEWS_LEAD,
+  hotspotPanelIds,
+  hotspotsForView,
+  truckHotspotsAreValid,
+  truckViewsCopyIsSafe,
+} from "../src/lib/truck-views";
+import {
   assertNoteRequiredForReject,
   artworkChecklistForPanel,
 } from "../src/lib/artwork-approval";
@@ -1608,5 +1616,25 @@ test.describe("intent artwork attachment (no capture)", () => {
     expect(sql).toContain("artwork_url");
     expect(sql.toLowerCase()).not.toContain("stripe");
     expect(ARTWORK_MAX_DATA_URL_CHARS).toBeGreaterThan(10_000);
+  });
+});
+
+
+test.describe("truck view hotspots (no capture)", () => {
+  test("slice 3.7: side/front/rear hotspots map to real panels", () => {
+    expect(TRUCK_VIEWS.map((v) => v.id)).toEqual(["side", "front", "rear"]);
+    expect(truckHotspotsAreValid()).toBe(true);
+    expect(truckViewsCopyIsSafe()).toBe(true);
+    expect(TRUCK_VIEWS_LEAD.toLowerCase()).toContain("hotspot");
+    expect(TRUCK_VIEWS_LEAD.toLowerCase()).toContain("raw 30x");
+    expect(TRUCK_VIEWS_LEAD.toLowerCase()).toContain("not a 360");
+    expect(TRUCK_VIEWS_LEAD).toContain("$58,000");
+    expect(TRUCK_VIEWS_LEAD).toContain("$120,000");
+    expect(TRUCK_VIEWS_LEAD.toLowerCase()).not.toMatch(/\blease\b/);
+    expect(TRUCK_VIEWS_LEAD).not.toContain("CLOSE_AT");
+    for (const view of TRUCK_VIEWS) {
+      expect(hotspotsForView(view.id).length).toBeGreaterThan(0);
+    }
+    expect(hotspotPanelIds().length).toBeGreaterThan(5);
   });
 });

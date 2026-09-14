@@ -8,6 +8,7 @@ import { IntentArtworkPreview } from "@/components/IntentArtworkPreview";
 import { IntentBidForm } from "@/components/IntentBidForm";
 import { NeighborComboCard } from "@/components/NeighborComboCard";
 import { PanelMockup } from "@/components/PanelMockup";
+import { TruckViewHotspots } from "@/components/TruckViewHotspots";
 import { SiteChrome } from "@/components/SiteChrome";
 import { auth } from "@/lib/auth";
 import { DEPOSIT_PERCENT, FLOOR_USD, GOAL_USD, PANELS, formatUsd, isEtchable } from "@/lib/campaign";
@@ -58,6 +59,7 @@ export default async function PanelIntentPage({
     );
   }
   const adjacentNeighbors = holdersOnAdjacentPanels(panel.id, holdersByPanel);
+  const occupiedPanelIds = [...holdersRaw.keys()];
   const etchable = isEtchable(panel);
   const viewerId = session?.user?.id;
   const viewerWasOutbid = Boolean(
@@ -128,6 +130,12 @@ export default async function PanelIntentPage({
         </div>
 
         <HometownLaneTags />
+
+        <TruckViewHotspots
+          occupiedPanelIds={occupiedPanelIds}
+          activePanelId={panel.id}
+          compact
+        />
 
         <PanelMockup panel={panel} raisedUsd={board.pledgedUsd} />
 
