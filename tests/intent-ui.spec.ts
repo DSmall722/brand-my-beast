@@ -515,6 +515,12 @@ test.describe("P2 panel intent + approvals", () => {
     await expect(winner.getByTestId("winner-fact-season-two")).toContainText(
       "not a gift",
     );
+    await expect(
+      winner.getByTestId("winner-fact-rain-night-lighting"),
+    ).toContainText("$120,000");
+    await expect(
+      winner.getByTestId("winner-fact-rain-night-lighting"),
+    ).toContainText("Not a livestream");
     await expect(winner.getByTestId("winner-portal-seats-list")).toContainText(
       "Winner Co",
     );

@@ -2,6 +2,7 @@ import { AuthNav } from "@/components/AuthNav";
 import { CabinPlaqueForm } from "@/components/CabinPlaqueForm";
 import { CircuitStoryForm } from "@/components/CircuitStoryForm";
 import { EventRequestForm } from "@/components/EventRequestForm";
+import { RainNightLightingCard } from "@/components/RainNightLightingCard";
 import { RetiredVinylCard } from "@/components/RetiredVinylCard";
 import { SeasonTwoBoardCard } from "@/components/SeasonTwoBoardCard";
 import { SightingForm } from "@/components/SightingForm";
@@ -329,6 +330,18 @@ export default async function HomePage() {
             Year-two wrap is a new buy. Not a gift. Not for sale yet as rights.
           </p>
           <SeasonTwoBoardCard />
+        </section>
+
+        <section
+          className="shell section"
+          id="rain-night-lighting"
+          aria-labelledby="rain-night-lighting-title"
+        >
+          <h2 id="rain-night-lighting-title">Rain / night lighting</h2>
+          <p className="section-lead">
+            Post-buyout lighting story. Not a livestream. Not a clock.
+          </p>
+          <RainNightLightingCard />
         </section>
 
         <section

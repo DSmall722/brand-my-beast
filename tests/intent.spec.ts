@@ -105,6 +105,10 @@ import {
   dirtyCleanPairCopyIsSafe,
 } from "../src/lib/dirty-clean-pair";
 import {
+  RAIN_NIGHT_LIGHTING_LEAD,
+  rainNightLightingCopyIsSafe,
+} from "../src/lib/rain-night-lighting";
+import {
   EVENT_REQUEST_KINDS,
   EVENT_REQUEST_LEAD,
   eventRequestCopyIsSafe,
@@ -528,6 +532,9 @@ test.describe("winner portal (no capture)", () => {
     expect(
       WINNER_PORTAL_FACTS.some((fact) => fact.id === "season-two"),
     ).toBe(true);
+    expect(
+      WINNER_PORTAL_FACTS.some((fact) => fact.id === "rain-night-lighting"),
+    ).toBe(true);
     const blob = WINNER_PORTAL_FACTS.map((fact) => fact.text).join(" ");
     expect(blob).toContain("12 months from install");
     expect(blob).not.toContain("CLOSE_AT");
@@ -818,6 +825,19 @@ test.describe("dirty-vs-clean pair (preview only)", () => {
     expect(DIRTY_CLEAN_PAIR_LEAD.toLowerCase()).toContain("not a photo");
     expect(DIRTY_CLEAN_PAIR_LEAD.toLowerCase()).toContain("no reserved vin");
     expect(dirtyCleanPairCopyIsSafe()).toBe(true);
+    expect(FLOOR_USD).toBe(58_000);
+    expect(GOAL_USD).toBe(120_000);
+  });
+});
+
+test.describe("rain/night lighting after buyout (no livestream)", () => {
+  test("publishes post-buyout lighting copy without clock or invented price", () => {
+    expect(RAIN_NIGHT_LIGHTING_LEAD).toContain("$58,000");
+    expect(RAIN_NIGHT_LIGHTING_LEAD).toContain("$120,000");
+    expect(RAIN_NIGHT_LIGHTING_LEAD.toLowerCase()).toContain("post-buyout");
+    expect(RAIN_NIGHT_LIGHTING_LEAD.toLowerCase()).toContain("not a livestream");
+    expect(RAIN_NIGHT_LIGHTING_LEAD.toLowerCase()).toContain("no reserved vin");
+    expect(rainNightLightingCopyIsSafe()).toBe(true);
     expect(FLOOR_USD).toBe(58_000);
     expect(GOAL_USD).toBe(120_000);
   });
