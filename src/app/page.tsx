@@ -219,17 +219,31 @@ export default async function HomePage() {
               <span data-testid="close-copy">{closeCopy}</span>
             </div>
           </div>
-          <dl className="shortfall-ticker" data-testid="shortfall-ticker">
+          <dl
+            className="shortfall-ticker"
+            data-testid="shortfall-ticker"
+            aria-label="Shortfall: dollars to floor and open seats. No impressions."
+          >
             <div>
-              <dt>Short of floor</dt>
-              <dd data-testid="shortfall-floor">{formatUsd(shortfallFloor)}</dd>
+              <dt data-testid="shortfall-floor-label">
+                {PUBLIC_COPY.board.shortfallFloorLabel}
+              </dt>
+              <dd data-testid="shortfall-floor">
+                {formatUsd(shortfallFloor)}
+              </dd>
             </div>
             <div>
-              <dt>Short of buyout</dt>
-              <dd data-testid="shortfall-goal">{formatUsd(shortfallGoal)}</dd>
+              <dt data-testid="shortfall-goal-label">
+                {PUBLIC_COPY.board.shortfallBuyoutLabel}
+              </dt>
+              <dd data-testid="shortfall-goal">
+                {formatUsd(shortfallGoal)}
+              </dd>
             </div>
             <div>
-              <dt>Open seats</dt>
+              <dt data-testid="open-seats-label">
+                {PUBLIC_COPY.board.openSeatsLabel}
+              </dt>
               <dd data-testid="open-seats">
                 {board.openSeats} of {PANELS.length}
               </dd>

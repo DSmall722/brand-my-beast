@@ -37,6 +37,9 @@ export const PUBLIC_COPY = {
       "Bidding is not open yet. There is no countdown on this page.",
     depositLine:
       "When bidding opens, a 20% deposit holds your panel. This page does not charge cards.",
+    shortfallFloorLabel: "Short of floor",
+    shortfallBuyoutLabel: "Short of buyout",
+    openSeatsLabel: "Open seats",
   },
   panels: {
     heading: "The twelve panels",

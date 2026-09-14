@@ -35,6 +35,9 @@ Updated: 2026-09-14
 - Buyout hint: `The campaign buys the truck. Eight steel panels can then be etched into the metal — a mark that stays after the wrap year ends.`
 - Clock line when CLOSE_AT is null: `Bidding is not open yet. There is no countdown on this page.`
 - Deposit line: `When bidding opens, a 20% deposit holds your panel. This page does not charge cards.`
+- Shortfall floor label: `Short of floor`
+- Shortfall buyout label: `Short of buyout`
+- Open seats label: `Open seats`
 
 ## Twelve panels
 
