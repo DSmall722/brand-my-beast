@@ -33,6 +33,11 @@ import {
   PANEL_ADJACENCY,
 } from "../src/lib/panel-clash";
 import {
+  COMBO_LOT_LEAD,
+  comboLotCopyIsSafe,
+  comboLotFor,
+} from "../src/lib/combo-lots";
+import {
   FINISH_CONDITIONS,
   finishConditionLabel,
   isFinishCondition,
@@ -653,6 +658,28 @@ test.describe("public sighting board (no bounty)", () => {
     expect(again.status).toBe("exists");
     const bad = await submitSighting({ corridorId: "i26", note: "no" });
     expect(bad.ok).toBe(false);
+    expect(FLOOR_USD).toBe(58_000);
+    expect(GOAL_USD).toBe(120_000);
+  });
+});
+
+test.describe("neighbor-panel combo lots (display only)", () => {
+  test("lists hood neighbors without inventing a combo price", () => {
+    const lot = comboLotFor("hood");
+    expect(lot.neighbors.map((row) => row.id)).toEqual([
+      "front-fascia",
+      "roof",
+      "driver-door",
+      "passenger-door",
+    ]);
+    expect(lot.neighbors.map((row) => row.openingUsd)).toEqual([
+      1200, 600, 1500, 1500,
+    ]);
+    expect(COMBO_LOT_LEAD).toContain("$58,000");
+    expect(COMBO_LOT_LEAD).toContain("$120,000");
+    expect(COMBO_LOT_LEAD.toLowerCase()).toContain("not a joint bid");
+    expect(COMBO_LOT_LEAD.toLowerCase()).toContain("no combo price");
+    expect(comboLotCopyIsSafe()).toBe(true);
     expect(FLOOR_USD).toBe(58_000);
     expect(GOAL_USD).toBe(120_000);
   });

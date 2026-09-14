@@ -799,6 +799,35 @@ a {
   text-underline-offset: 0.15em;
 }
 
+.neighbor-combo {
+  margin: 1rem 0 1.25rem;
+  padding: 0.85rem 1rem;
+  border: 1px solid var(--hairline);
+  border-radius: 0.65rem;
+  background: color-mix(in oklab, black 18%, transparent);
+}
+
+.neighbor-combo-title {
+  margin: 0 0 0.4rem;
+  font-size: 0.78rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--steel-300);
+}
+
+.neighbor-combo-list {
+  margin: 0;
+  padding-left: 1.1rem;
+  color: var(--steel-100);
+  font-size: 0.92rem;
+  line-height: 1.45;
+}
+
+.neighbor-combo-list a {
+  color: var(--steel-100);
+  text-underline-offset: 0.15em;
+}
+
 .hometown-lane {
   margin: 1rem 0 1.25rem;
   padding: 0.85rem 1rem;
