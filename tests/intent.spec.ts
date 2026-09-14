@@ -51,7 +51,9 @@ import {
 } from "../src/lib/combo-lots";
 import {
   FINISH_CONDITIONS,
+  FINISH_CONDITIONS_LEAD,
   finishConditionLabel,
+  finishConditionsCopyIsSafe,
   isFinishCondition,
 } from "../src/lib/finish-conditions";
 import {
@@ -760,6 +762,22 @@ test.describe("finish condition shaders (no capture)", () => {
     expect(isFinishCondition("night")).toBe(true);
     expect(isFinishCondition("fog")).toBe(false);
     expect(finishConditionLabel("wet")).toBe("Wet");
+  });
+
+  test("slice 3.6: finish toggles are shaders, not proof photos", () => {
+    expect(finishConditionsCopyIsSafe()).toBe(true);
+    expect(FINISH_CONDITIONS_LEAD.toLowerCase()).toContain("toggle");
+    expect(FINISH_CONDITIONS_LEAD.toLowerCase()).toContain("not proof");
+    expect(FINISH_CONDITIONS_LEAD).toContain("$58,000");
+    expect(FINISH_CONDITIONS_LEAD).toContain("$120,000");
+    expect(FINISH_CONDITIONS_LEAD.toLowerCase()).not.toMatch(/\blease\b/);
+    expect(FINISH_CONDITIONS_LEAD).not.toContain("CLOSE_AT");
+    expect(FINISH_CONDITIONS.map((c) => c.id)).toEqual([
+      "day",
+      "night",
+      "wet",
+      "dirty",
+    ]);
   });
 });
 
