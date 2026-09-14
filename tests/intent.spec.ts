@@ -54,6 +54,7 @@ import {
   hometownLaneLabels,
 } from "../src/lib/hometown-lane";
 import { isShopPartnerEmail } from "../src/lib/auth/shop-partner";
+import { isOperatorEmail } from "../src/lib/auth/operator";
 import {
   WINNER_PORTAL_FACTS,
   winnerPortalFactsVisible,
@@ -778,6 +779,44 @@ test.describe("wrap-shop partner portal (no capture)", () => {
     expect(approved.every((b) => b.status === "approved")).toBe(true);
     expect(FLOOR_USD).toBe(58_000);
     expect(GOAL_USD).toBe(120_000);
+  });
+});
+
+test.describe("operator allow-list (no capture)", () => {
+  test("slice 2.1: OPERATOR_EMAILS allow-list gates /operator in live mode", () => {
+    expect(
+      isOperatorEmail("ops@brandmybeast.com", {
+        AUTH_MODE: "live",
+        OPERATOR_EMAILS: "ops@brandmybeast.com,crew@brandmybeast.com",
+      }),
+    ).toBe(true);
+    expect(
+      isOperatorEmail("crew@brandmybeast.com", {
+        AUTH_MODE: "live",
+        OPERATOR_EMAILS: "ops@brandmybeast.com,crew@brandmybeast.com",
+      }),
+    ).toBe(true);
+    expect(
+      isOperatorEmail("bidder@example.com", {
+        AUTH_MODE: "live",
+        OPERATOR_EMAILS: "ops@brandmybeast.com",
+      }),
+    ).toBe(false);
+    expect(
+      isOperatorEmail("stranger@brandmybeast.com", {
+        AUTH_MODE: "live",
+        OPERATOR_EMAILS: "ops@brandmybeast.com",
+      }),
+    ).toBe(false);
+    expect(
+      isOperatorEmail("bidder@example.com", {
+        AUTH_MODE: "test",
+        OPERATOR_EMAILS: "",
+      }),
+    ).toBe(true);
+    expect(isOperatorEmail(null, { AUTH_MODE: "live", OPERATOR_EMAILS: "ops@brandmybeast.com" })).toBe(
+      false,
+    );
   });
 });
 

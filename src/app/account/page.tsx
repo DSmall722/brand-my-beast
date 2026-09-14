@@ -152,7 +152,7 @@ export default async function AccountPage() {
           {operator ? (
             <Link
               className="btn btn-ghost"
-              href="/operator/approvals"
+              href="/operator"
               data-testid="account-approvals-link"
             >
               Intent approvals

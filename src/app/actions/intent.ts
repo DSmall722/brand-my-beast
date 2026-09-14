@@ -42,6 +42,7 @@ export async function submitIntentBid(
   if (!result.ok) return { ok: false, error: result.error };
 
   revalidatePath(`/panels/${panelId}`);
+  revalidatePath("/operator");
   revalidatePath("/operator/approvals");
   return {
     ok: true,
@@ -75,6 +76,7 @@ export async function decideIntentBid(
     await saveApprovalNote({ bidId, decision, note });
   }
 
+  revalidatePath("/operator");
   revalidatePath("/operator/approvals");
   revalidatePath(`/panels/${result.bid.panelId}`);
   revalidatePath("/account");
