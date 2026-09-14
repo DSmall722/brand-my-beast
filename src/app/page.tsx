@@ -188,7 +188,7 @@ export default async function HomePage() {
             className="progress visual-vault"
             data-testid="visual-vault"
             role="img"
-            aria-label={`Visual vault: ${raisedLabel} of ${goalLabel}. Floor marker at ${floorLabel}.`}
+            aria-label={`Visual vault: ${raisedLabel} of ${goalLabel}. Floor marker at ${floorLabel}. Buyout marker at ${goalLabel}.`}
           >
             <div className="progress-track" aria-hidden="true">
               <div
@@ -199,19 +199,27 @@ export default async function HomePage() {
               <span
                 className="vault-marker vault-marker-floor"
                 data-testid="vault-marker-floor"
+                data-mark-usd={FLOOR_USD}
+                data-mark-pct={floorMarkerPct}
                 style={{ left: `${floorMarkerPct}%` }}
-                title={`Floor ${floorLabel}`}
+                title={`${PUBLIC_COPY.board.vaultFloorMarkLabel} ${floorLabel}`}
               />
               <span
                 className="vault-marker vault-marker-goal"
                 data-testid="vault-marker-goal"
+                data-mark-usd={GOAL_USD}
+                data-mark-pct={100}
                 style={{ left: "100%" }}
-                title={`Buyout ${goalLabel}`}
+                title={`${PUBLIC_COPY.board.vaultBuyoutMarkLabel} ${goalLabel}`}
               />
             </div>
             <div className="vault-legend" data-testid="vault-legend">
-              <span data-testid="vault-floor-label">Floor {floorLabel}</span>
-              <span data-testid="vault-goal-label">Buyout {goalLabel}</span>
+              <span data-testid="vault-floor-label">
+                {PUBLIC_COPY.board.vaultFloorMarkLabel} {floorLabel}
+              </span>
+              <span data-testid="vault-goal-label">
+                {PUBLIC_COPY.board.vaultBuyoutMarkLabel} {goalLabel}
+              </span>
             </div>
             <div className="progress-meta">
               <span data-testid="floor-progress-copy">{floorPct}% of floor</span>

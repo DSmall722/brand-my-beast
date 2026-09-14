@@ -40,6 +40,8 @@ export const PUBLIC_COPY = {
     shortfallFloorLabel: "Short of floor",
     shortfallBuyoutLabel: "Short of buyout",
     openSeatsLabel: "Open seats",
+    vaultFloorMarkLabel: "Floor",
+    vaultBuyoutMarkLabel: "Buyout",
   },
   panels: {
     heading: "The twelve panels",

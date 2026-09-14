@@ -111,11 +111,51 @@ test.describe("P1 waitlist campaign locks", () => {
     await expect(page.getByTestId("visual-vault")).toBeVisible();
     await expect(page.getByTestId("vault-marker-floor")).toBeVisible();
     await expect(page.getByTestId("vault-marker-goal")).toBeVisible();
+    await expect(page.getByTestId("vault-marker-floor")).toHaveAttribute(
+      "data-mark-usd",
+      String(FLOOR_USD),
+    );
+    await expect(page.getByTestId("vault-marker-goal")).toHaveAttribute(
+      "data-mark-usd",
+      String(GOAL_USD),
+    );
+    await expect(page.getByTestId("vault-marker-floor")).toHaveAttribute(
+      "data-mark-pct",
+      String(Math.round((FLOOR_USD / GOAL_USD) * 1000) / 10),
+    );
+    await expect(page.getByTestId("vault-marker-goal")).toHaveAttribute(
+      "data-mark-pct",
+      "100",
+    );
+    await expect(page.getByTestId("vault-marker-floor")).toHaveAttribute(
+      "style",
+      new RegExp(
+        `left:\\s*${Math.round((FLOOR_USD / GOAL_USD) * 1000) / 10}%`,
+      ),
+    );
+    await expect(page.getByTestId("vault-marker-goal")).toHaveAttribute(
+      "style",
+      /left:\s*100%/,
+    );
+    expect(await page.getByTestId("vault-marker-floor").count()).toBe(1);
+    expect(await page.getByTestId("vault-marker-goal").count()).toBe(1);
+    expect(
+      await page
+        .getByTestId("visual-vault")
+        .getByTestId("vault-marker-floor")
+        .count(),
+    ).toBe(1);
+    expect(
+      await page
+        .getByTestId("visual-vault")
+        .getByTestId("vault-marker-goal")
+        .count(),
+    ).toBe(1);
     await expect(page.getByTestId("vault-floor-label")).toHaveText(
-      `Floor ${formatUsd(FLOOR_USD)}`,
+      `${PUBLIC_COPY.board.vaultFloorMarkLabel} ${formatUsd(FLOOR_USD)}`,
     );
     await expect(page.getByTestId("vault-goal-label")).toHaveText(
-      `Buyout ${formatUsd(GOAL_USD)}`,
+      `${PUBLIC_COPY.board.vaultBuyoutMarkLabel} ${formatUsd(GOAL_USD)}`,
     );
 
     await expect(page.getByTestId("etch-section")).toBeVisible();

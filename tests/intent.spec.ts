@@ -26,6 +26,7 @@ import {
   shortfallToFloorUsd,
   shortfallToGoalUsd,
 } from "../src/lib/campaign";
+import { PUBLIC_COPY } from "../src/lib/public-copy";
 import {
   completeSameDayMockup,
   previewKeyFor,
@@ -670,8 +671,17 @@ test.describe("honest shortfall math (no clock)", () => {
     expect(floorMarkerPercentOnGoalTrack()).toBe(
       Math.round((FLOOR_USD / GOAL_USD) * 1000) / 10,
     );
+    expect(floorMarkerPercentOnGoalTrack()).toBe(48.3);
     expect(floorMarkerPercentOnGoalTrack()).toBeGreaterThan(0);
     expect(floorMarkerPercentOnGoalTrack()).toBeLessThan(100);
+  });
+
+  test("slice 4.3: vault marks pin $58,000 and $120,000 on the bar only", () => {
+    expect(FLOOR_USD).toBe(58_000);
+    expect(GOAL_USD).toBe(120_000);
+    expect(floorMarkerPercentOnGoalTrack()).toBe(48.3);
+    expect(PUBLIC_COPY.board.vaultFloorMarkLabel).toBe("Floor");
+    expect(PUBLIC_COPY.board.vaultBuyoutMarkLabel).toBe("Buyout");
   });
 });
 

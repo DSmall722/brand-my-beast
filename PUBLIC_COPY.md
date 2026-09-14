@@ -38,6 +38,8 @@ Updated: 2026-09-14
 - Shortfall floor label: `Short of floor`
 - Shortfall buyout label: `Short of buyout`
 - Open seats label: `Open seats`
+- Vault floor mark label: `Floor`
+- Vault buyout mark label: `Buyout`
 
 ## Twelve panels
 
