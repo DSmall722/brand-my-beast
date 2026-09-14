@@ -32,6 +32,8 @@ test.describe("P2 Auth.js wiring", () => {
     await expect(page.getByTestId("intent-only-note")).toContainText(
       "No Stripe capture",
     );
+    await expect(page.getByTestId("account-intents")).toBeVisible();
+    await expect(page.getByTestId("account-intents-empty")).toBeVisible();
     const html = await page.content();
     expect(html.toLowerCase()).not.toMatch(/\blease\b/);
     expect(html).not.toContain("CLOSE_AT");

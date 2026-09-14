@@ -120,6 +120,26 @@ export async function listBidsPendingApproval(): Promise<IntentBid[]> {
   return rows.map(rowToBid);
 }
 
+export async function listBidsForUser(userId: UserId): Promise<IntentBid[]> {
+  if (useMemoryStore()) {
+    return memoryBids()
+      .filter((bid) => bid.userId === userId)
+      .slice()
+      .sort((a, b) => b.createdAt.localeCompare(a.createdAt));
+  }
+
+  const db = getDb();
+  if (!db) {
+    throw new Error("Intent ledger requires DATABASE_URL.");
+  }
+  const rows = await db
+    .select()
+    .from(intentBids)
+    .where(eq(intentBids.userId, userId))
+    .orderBy(desc(intentBids.createdAt));
+  return rows.map(rowToBid);
+}
+
 export async function standingForPanel(panelId: string): Promise<number> {
   const panel = panelById(panelId);
   if (!panel) throw new Error(`Unknown panel: ${panelId}`);

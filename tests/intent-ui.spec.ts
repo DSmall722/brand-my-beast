@@ -130,4 +130,46 @@ test.describe("P2 panel intent + approvals", () => {
     expect(html).not.toContain("CLOSE_AT");
     await outbidViewer.close();
   });
+
+  test("account lists outbid intents with waitlist handoff", async ({
+    browser,
+  }) => {
+    const first = await browser.newPage();
+    await signIn(first, "acct-a@example.com");
+    await first.goto("/panels/hood");
+    await first.getByTestId("intent-brand").fill("Acct Alpha");
+    await first.getByTestId("intent-submit").click();
+    await expect(first.getByTestId("intent-success")).toContainText(
+      "not charged",
+    );
+    await first.close();
+
+    const second = await browser.newPage();
+    await signIn(second, "acct-b@example.com");
+    await second.goto("/panels/hood");
+    await second.getByTestId("intent-brand").fill("Acct Beta");
+    await second.getByTestId("intent-standing").fill("2750");
+    await second.getByTestId("intent-submit").click();
+    await expect(second.getByTestId("intent-success")).toContainText(
+      "not charged",
+    );
+    await second.close();
+
+    const account = await browser.newPage();
+    await signIn(account, "acct-a@example.com");
+    await expect(account.getByTestId("account-intents-list")).toContainText(
+      "Acct Alpha",
+    );
+    await expect(account.getByTestId("account-intents-list")).toContainText(
+      "Outbid",
+    );
+    const handoff = account.locator(
+      '[data-testid^="account-outbid-waitlist-"]',
+    );
+    await expect(handoff).toBeVisible();
+    await expect(
+      handoff.getByRole("link", { name: "Join the waitlist" }),
+    ).toHaveAttribute("href", "/#waitlist");
+    await account.close();
+  });
 });
