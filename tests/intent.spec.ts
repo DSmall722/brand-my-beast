@@ -42,6 +42,11 @@ import {
   artworkChecklistForPanel,
 } from "../src/lib/artwork-approval";
 import {
+  HOMETOWN_LANES,
+  hometownLaneCopyIsSafe,
+  hometownLaneLabels,
+} from "../src/lib/hometown-lane";
+import {
   listBidsForPanel,
   listDecidedBids,
   placeIntentBid,
@@ -382,5 +387,28 @@ test.describe("artwork approval thread (no capture)", () => {
     const decided = await listDecidedBids();
     expect(decided.map((b) => b.id)).toContain(placed.bid.id);
     expect(decided[0]?.status).toBe("rejected");
+  });
+});
+
+test.describe("hometown lane tags (no capture)", () => {
+  test("publishes four soft circuit labels without banned dumps", () => {
+    expect(HOMETOWN_LANES.map((lane) => lane.id)).toEqual([
+      "sc",
+      "charlotte",
+      "atlanta",
+      "panhandle",
+    ]);
+    expect(hometownLaneLabels()).toEqual([
+      "SC",
+      "Charlotte",
+      "Atlanta",
+      "Panhandle",
+    ]);
+    expect(hometownLaneCopyIsSafe()).toBe(true);
+    const blob = hometownLaneLabels().join(" ");
+    expect(blob).not.toContain("South Carolina home loop");
+    expect(blob).not.toContain("Florida panhandle");
+    expect(FLOOR_USD).toBe(58_000);
+    expect(GOAL_USD).toBe(120_000);
   });
 });

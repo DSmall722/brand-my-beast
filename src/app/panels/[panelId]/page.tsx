@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import {
   AdjacentNeighborsCard,
 } from "@/components/AdjacentClashHint";
+import { HometownLaneTags } from "@/components/HometownLaneTags";
 import { IntentBidForm } from "@/components/IntentBidForm";
 import { PanelMockup } from "@/components/PanelMockup";
 import { SiteChrome } from "@/components/SiteChrome";
@@ -112,6 +113,8 @@ export default async function PanelIntentPage({
             charge.
           </p>
         </div>
+
+        <HometownLaneTags />
 
         <PanelMockup panel={panel} />
 

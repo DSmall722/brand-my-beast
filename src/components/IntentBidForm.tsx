@@ -7,6 +7,7 @@ import {
 } from "@/app/actions/intent";
 import { AdjacentClashHint } from "@/components/AdjacentClashHint";
 import { HighwayLegibilityHint } from "@/components/HighwayLegibilityHint";
+import { HometownLaneTags } from "@/components/HometownLaneTags";
 import { formatUsd } from "@/lib/campaign";
 import type { AdjacentSeatHolder } from "@/lib/panel-clash";
 
@@ -27,6 +28,7 @@ export function IntentBidForm({
   return (
     <form action={action} className="auth-form" data-testid="intent-bid-form">
       <input type="hidden" name="panelId" value={panelId} />
+      <HometownLaneTags />
       <label className="auth-label" htmlFor="brandLabel">
         Brand label
       </label>
