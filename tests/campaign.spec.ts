@@ -205,10 +205,30 @@ test.describe("P1 waitlist campaign locks", () => {
     await expect(page.getByTestId("landmark-proof-log-no-vin")).toContainText(
       "No reserved VIN",
     );
+    await expect(page.getByTestId("city-time-heatmap")).toBeVisible();
+    await expect(page.getByTestId("city-time-heatmap-lead")).toContainText(
+      "$58,000",
+    );
+    await expect(page.getByTestId("city-time-heatmap-lead")).toContainText(
+      "$120,000",
+    );
+    await expect(page.getByTestId("city-time-heatmap-lead")).toContainText(
+      "No reserved VIN",
+    );
+    await expect(
+      page.getByTestId("city-time-heatmap-empty-until-truck"),
+    ).toContainText("No invented city dwell");
+    await expect(page.getByTestId("city-time-heatmap-empty")).toContainText(
+      "No city heat yet",
+    );
+    await expect(page.getByTestId("city-time-heatmap-no-vin")).toContainText(
+      "No reserved VIN",
+    );
 
     await expect(page.getByTestId("raised-hint")).toContainText(
       "Under the floor: full refund.",
     );
+
     await expect(page.getByTestId("raised-hint")).toContainText("not charged");
     await expect(page.getByTestId("floor-hint")).toHaveText(
       "Order the Cyberbeast. Fund the wrap.",

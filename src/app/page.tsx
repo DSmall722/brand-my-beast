@@ -11,6 +11,8 @@ import { VaultCertificateCard } from "@/components/VaultCertificateCard";
 import { WaitlistForm } from "@/components/WaitlistForm";
 import { WeeklyMileageLedgerCard } from "@/components/WeeklyMileageLedgerCard";
 import { LandmarkProofLogCard } from "@/components/LandmarkProofLogCard";
+import { CityTimeHeatmapCard } from "@/components/CityTimeHeatmapCard";
+
 import {
   BRAND,
   CLOSE_AT,
@@ -381,6 +383,19 @@ export default async function HomePage() {
             Empty until the truck exists. No invented visits. No reserved VIN.
           </p>
           <LandmarkProofLogCard />
+        </section>
+
+        <section
+          className="shell section"
+          id="city-time-heatmap"
+          aria-labelledby="city-time-heatmap-title"
+        >
+          <h2 id="city-time-heatmap-title">City time-in-market heatmap</h2>
+          <p className="section-lead">
+            Empty until the truck exists. No invented city hours. No reserved
+            VIN.
+          </p>
+          <CityTimeHeatmapCard />
         </section>
 
         <section
