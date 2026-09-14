@@ -37,7 +37,7 @@ export default async function OperatorApprovalsPage() {
     );
   }
 
-  const pending = listBidsPendingApproval();
+  const pending = await listBidsPendingApproval();
 
   return (
     <main className="shell auth-page" data-testid="operator-approvals">
