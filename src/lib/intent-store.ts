@@ -39,9 +39,8 @@ function memoryBids(): IntentBid[] {
 function useMemoryStore(): boolean {
   if (process.env.INTENT_MODE === "memory") return true;
   if (process.env.INTENT_MODE === "postgres") return false;
-  return (
-    !process.env.DATABASE_URL && process.env.NODE_ENV !== "production"
-  );
+  // No DATABASE_URL → memory, including `next build` (NODE_ENV=production).
+  return !process.env.DATABASE_URL;
 }
 
 function panelById(panelId: string): Panel | undefined {
@@ -333,23 +332,34 @@ export type BoardIntentStats = {
 /**
  * Honest board totals from active intents (listed/approved standing).
  * Empty panels do not count opening marks as pledged.
+ * Soft-fails to an empty board if the ledger is unreachable (e.g. migration
+ * not applied yet on preview) so the homepage can still render.
  */
 export async function loadBoardIntentStats(): Promise<BoardIntentStats> {
-  let pledgedUsd = 0;
-  let seatedPanels = 0;
-  for (const panel of PANELS) {
-    const bids = await listBidsForPanel(panel.id);
-    const active = bids.filter(
-      (bid) => bid.status === "listed" || bid.status === "approved",
-    );
-    if (active.length === 0) continue;
-    seatedPanels += 1;
-    pledgedUsd += Math.max(...active.map((bid) => bid.standingUsd));
-  }
-  return {
-    pledgedUsd,
-    seatedPanels,
-    openSeats: PANELS.length - seatedPanels,
+  const empty: BoardIntentStats = {
+    pledgedUsd: 0,
+    seatedPanels: 0,
+    openSeats: PANELS.length,
   };
+  try {
+    let pledgedUsd = 0;
+    let seatedPanels = 0;
+    for (const panel of PANELS) {
+      const bids = await listBidsForPanel(panel.id);
+      const active = bids.filter(
+        (bid) => bid.status === "listed" || bid.status === "approved",
+      );
+      if (active.length === 0) continue;
+      seatedPanels += 1;
+      pledgedUsd += Math.max(...active.map((bid) => bid.standingUsd));
+    }
+    return {
+      pledgedUsd,
+      seatedPanels,
+      openSeats: PANELS.length - seatedPanels,
+    };
+  } catch {
+    return empty;
+  }
 }
 

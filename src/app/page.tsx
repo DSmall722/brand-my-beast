@@ -15,6 +15,9 @@ import {
 } from "@/lib/campaign";
 import { loadBoardIntentStats } from "@/lib/intent-store";
 
+/** Board stats read the intent ledger; keep dynamic so build does not SSG against DB. */
+export const dynamic = "force-dynamic";
+
 export default async function HomePage() {
   const board = await loadBoardIntentStats();
   const pledgedUsd = board.pledgedUsd;

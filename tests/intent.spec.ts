@@ -18,6 +18,7 @@ import {
 import {
   listBidsForPanel,
   placeIntentBid,
+  loadBoardIntentStats,
   resetIntentStoreForTests,
   setIntentStatus,
 } from "../src/lib/intent-store";
@@ -139,6 +140,16 @@ test.describe("intent store memory ledger", () => {
     expect(clash.error).toMatch(/already held/i);
   });
 });
+
+
+  test("board intent stats start empty and soft-fail safe", async () => {
+    process.env.INTENT_MODE = "memory";
+    await resetIntentStoreForTests();
+    const empty = await loadBoardIntentStats();
+    expect(empty.pledgedUsd).toBe(0);
+    expect(empty.openSeats).toBe(12);
+    expect(empty.seatedPanels).toBe(0);
+  });
 
 test.describe("honest shortfall math (no clock)", () => {
   test("shortfall and floor progress from pledged intents", () => {
