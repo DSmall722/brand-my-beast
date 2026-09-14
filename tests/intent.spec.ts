@@ -173,6 +173,7 @@ import {
 import {
   intentStoreUsesMemory,
   listBidsForPanel,
+  listBidsForUser,
   listApprovedBids,
   listApprovedBidsForUser,
   listDecidedBids,
@@ -181,6 +182,11 @@ import {
   resetIntentStoreForTests,
   setIntentStatus,
 } from "../src/lib/intent-store";
+import {
+  getApprovalNote,
+  resetApprovalNoteStoreForTests,
+  saveApprovalNote,
+} from "../src/lib/approval-note-store";
 
 test.describe("P2 intent math (no capture)", () => {
   test("increment uses $250 when larger than 10%", () => {
@@ -752,6 +758,31 @@ test.describe("artwork approval thread (no capture)", () => {
     if (!rejected.ok) return;
     expect(rejected.bid.status).toBe("rejected");
     expect((await listDecidedBids()).map((b) => b.id)).toContain(reject.bid.id);
+  });
+
+  test("slice 2.4: approval notes feed the /account thread", async () => {
+    await resetIntentStoreForTests();
+    await resetApprovalNoteStoreForTests();
+    const placed = await placeIntentBid({
+      panelId: "hood",
+      userId: "user_thread",
+      brandLabel: "Thread Co",
+      tradeLabel: "snacks",
+    });
+    expect(placed.ok).toBe(true);
+    if (!placed.ok) return;
+    const approved = await setIntentStatus(placed.bid.id, "approved");
+    expect(approved.ok).toBe(true);
+    await saveApprovalNote({
+      bidId: placed.bid.id,
+      decision: "approved",
+      note: "Clears school and grocery lot",
+    });
+    const note = await getApprovalNote(placed.bid.id);
+    expect(note?.decision).toBe("approved");
+    expect(note?.note).toMatch(/grocery/i);
+    const byUser = await listBidsForUser("user_thread");
+    expect(byUser.some((b) => b.status === "approved")).toBe(true);
   });
 
   test("slice 2.3: banned trades hard-reject (porn, hate, scams, school-lot)", async () => {

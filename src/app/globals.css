@@ -1404,11 +1404,37 @@ a {
 }
 
 .decided-note,
-.account-reject-note {
+.account-reject-note,
+.account-approve-note {
   margin: 0.45rem 0 0;
   color: var(--steel-200);
   font-size: 0.92rem;
   line-height: 1.4;
+}
+
+.account-approval-thread {
+  margin: 1.75rem 0 1.5rem;
+}
+
+.approval-thread-list {
+  list-style: none;
+  margin: 0.75rem 0 0;
+  padding: 0;
+  display: grid;
+  gap: 0.75rem;
+}
+
+.approval-thread-row {
+  border: 1px solid var(--steel-700, #3a3f47);
+  padding: 0.75rem 0.9rem;
+}
+
+.approval-thread-row-main {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 0.5rem;
+  align-items: baseline;
 }
 
 

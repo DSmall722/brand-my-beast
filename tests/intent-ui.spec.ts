@@ -339,6 +339,62 @@ test.describe("P2 panel intent + approvals", () => {
     await bidderAgain.close();
   });
 
+  test("slice 2.4: approval thread on /account shows operator decisions", async ({
+    browser,
+  }) => {
+    const bidder = await browser.newPage();
+    await signIn(bidder, "thread-bidder@example.com");
+    await bidder.goto("/panels/hood");
+    await bidder.getByTestId("intent-brand").fill("Thread Co");
+    await bidder.getByTestId("intent-trade").fill("trail snacks");
+    await bidder.getByTestId("intent-submit").click();
+    await expect(bidder.getByTestId("intent-success")).toContainText(
+      "not charged",
+    );
+    await bidder.goto("/account");
+    await expect(bidder.getByTestId("account-approval-thread")).toBeVisible();
+    await expect(
+      bidder.getByTestId("account-approval-thread-empty"),
+    ).toBeVisible();
+    await bidder.close();
+
+    const operator = await browser.newPage();
+    await signIn(operator, "operator@example.com");
+    await operator.goto("/operator");
+    await expect(operator.getByTestId("approvals-list")).toContainText(
+      "Thread Co",
+    );
+    await operator.locator('[data-testid^="approve-"]').first().click();
+    await expect(operator.getByTestId("approvals-empty")).toBeVisible({
+      timeout: 10_000,
+    });
+    await operator.close();
+
+    const bidderAgain = await browser.newPage();
+    await signIn(bidderAgain, "thread-bidder@example.com");
+    await bidderAgain.goto("/account");
+    await expect(
+      bidderAgain.getByTestId("account-approval-thread-list"),
+    ).toBeVisible();
+    await expect(
+      bidderAgain.locator('[data-testid^="account-approval-thread-row-"]').first(),
+    ).toBeVisible();
+    await expect(
+      bidderAgain
+        .locator('[data-testid^="account-approval-decision-"]')
+        .first(),
+    ).toContainText(/approved/i);
+    await expect(
+      bidderAgain
+        .locator('[data-testid^="account-approval-approve-note-"]')
+        .first(),
+    ).toContainText("operator gate");
+    const html = await bidderAgain.content();
+    expect(html.toLowerCase()).not.toMatch(/\blease\b/);
+    expect(html).not.toContain("CLOSE_AT");
+    await bidderAgain.close();
+  });
+
   test("slice 2.3: banned trades hard-reject on the seat", async ({ page }) => {
     await signIn(page, "banned@example.com");
     await page.goto("/panels/hood");
