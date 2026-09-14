@@ -1,12 +1,13 @@
 #!/usr/bin/env bash
-# Drive every P1 feature map entry once. Used by /maintain-verification-skill live pass.
+# Drive Wave 0 (slices 0.1–0.4) plus the rest of the verify map.
+# Used by /maintain-verification-skill live pass. CI red here = merge nothing else.
 set -euo pipefail
 ROOT="$(cd "$(dirname "$0")/../../../.." && pwd)"
 cd "$ROOT"
 
 PORT="${BMB_VERIFY_PORT:-3010}"
 export BMB_VERIFY_PORT="$PORT"
-export BMB_VERIFY_URL="${BMB_VERIFY_URL:-http://127.0.0.1:${PORT}}"
+export BMB_VERIFY_URL="http://127.0.0.1:${PORT}"
 export BMB_VERIFY_RUN_ID="${BMB_VERIFY_RUN_ID:-$(date +%Y%m%dT%H%M%S)}"
 export WAITLIST_MODE=memory
 export INTENT_MODE=memory
@@ -19,6 +20,8 @@ SCRIPTS="$ROOT/.cursor/skills/verify-brandmybeast/scripts"
 "$SCRIPTS/launch.sh" >/dev/null
 "$SCRIPTS/doctor.sh"
 
+# Wave 0 — must cover SLICES 0.1–0.4 before anything else merges.
+"$SCRIPTS/prove-wave0.sh"
 "$SCRIPTS/prove-campaign-board.sh"
 "$SCRIPTS/prove-panel-grid.sh"
 "$SCRIPTS/prove-waitlist-signup.sh"
