@@ -51,6 +51,10 @@ export const WINNER_PORTAL_FACTS = [
     text: "QR / NFC raw scan counter stays empty until the truck exists. No invented scan counts. No reserved VIN.",
   },
   {
+    id: "city-ping-winner",
+    text: "City ping to the panel winner stays empty until the truck exists. No invented city pings. No reserved VIN.",
+  },
+  {
     id: "no-vin",
     text: "No reserved VIN until the campaign clears the floor.",
   },
