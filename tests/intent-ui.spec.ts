@@ -39,6 +39,7 @@ test.describe("P2 panel intent + approvals", () => {
     await signIn(bidder, "bidder@example.com");
     await bidder.goto("/panels/hood");
     await bidder.getByTestId("intent-brand").fill("Signal Co");
+    await bidder.getByTestId("intent-trade").fill("cold brew");
     await bidder.getByTestId("intent-submit").click();
     await expect(bidder.getByTestId("intent-success")).toContainText(
       "not charged",
@@ -70,6 +71,7 @@ test.describe("P2 panel intent + approvals", () => {
     await signIn(bidder, "bidder2@example.com");
     await bidder.goto("/panels/hood");
     await bidder.getByTestId("intent-brand").fill("Reject Co");
+    await bidder.getByTestId("intent-trade").fill("energy drink");
     await bidder.getByTestId("intent-submit").click();
     await expect(bidder.getByTestId("intent-success")).toContainText(
       "not charged",
@@ -96,6 +98,7 @@ test.describe("P2 panel intent + approvals", () => {
     await signIn(first, "outbid-a@example.com");
     await first.goto("/panels/hood");
     await first.getByTestId("intent-brand").fill("Alpha Mark");
+    await first.getByTestId("intent-trade").fill("trail snacks");
     await first.getByTestId("intent-submit").click();
     await expect(first.getByTestId("intent-success")).toContainText(
       "not charged",
@@ -107,6 +110,7 @@ test.describe("P2 panel intent + approvals", () => {
     await signIn(second, "outbid-b@example.com");
     await second.goto("/panels/hood");
     await second.getByTestId("intent-brand").fill("Beta Mark");
+    await second.getByTestId("intent-trade").fill("trail tools");
     await second.getByTestId("intent-standing").fill("2750");
     await second.getByTestId("intent-submit").click();
     await expect(second.getByTestId("intent-success")).toContainText(
@@ -138,6 +142,7 @@ test.describe("P2 panel intent + approvals", () => {
     await signIn(first, "acct-a@example.com");
     await first.goto("/panels/hood");
     await first.getByTestId("intent-brand").fill("Acct Alpha");
+    await first.getByTestId("intent-trade").fill("yoga mats");
     await first.getByTestId("intent-submit").click();
     await expect(first.getByTestId("intent-success")).toContainText(
       "not charged",
@@ -148,6 +153,7 @@ test.describe("P2 panel intent + approvals", () => {
     await signIn(second, "acct-b@example.com");
     await second.goto("/panels/hood");
     await second.getByTestId("intent-brand").fill("Acct Beta");
+    await second.getByTestId("intent-trade").fill("foam rollers");
     await second.getByTestId("intent-standing").fill("2750");
     await second.getByTestId("intent-submit").click();
     await expect(second.getByTestId("intent-success")).toContainText(
@@ -171,5 +177,35 @@ test.describe("P2 panel intent + approvals", () => {
       handoff.getByRole("link", { name: "Join the waitlist" }),
     ).toHaveAttribute("href", "/#waitlist");
     await account.close();
+  });
+
+  test("blocks second brand from claiming the same trade", async ({
+    browser,
+  }) => {
+    const first = await browser.newPage();
+    await signIn(first, "trade-a@example.com");
+    await first.goto("/panels/hood");
+    await first.getByTestId("intent-brand").fill("Alpha Trade Co");
+    await first.getByTestId("intent-trade").fill("Cold Brew");
+    await first.getByTestId("intent-submit").click();
+    await expect(first.getByTestId("intent-success")).toContainText(
+      "not charged",
+    );
+    await first.close();
+
+    const second = await browser.newPage();
+    await signIn(second, "trade-b@example.com");
+    await second.goto("/panels/tonneau");
+    await second.getByTestId("intent-brand").fill("Beta Trade Co");
+    await second.getByTestId("intent-trade").fill("cold brew");
+    await second.getByTestId("intent-submit").click();
+    await expect(second.getByTestId("intent-error")).toBeVisible();
+    await expect(second.getByTestId("intent-error")).toContainText(
+      "already held",
+    );
+    const html = await second.content();
+    expect(html.toLowerCase()).not.toMatch(/\blease\b/);
+    expect(html).not.toContain("CLOSE_AT");
+    await second.close();
   });
 });

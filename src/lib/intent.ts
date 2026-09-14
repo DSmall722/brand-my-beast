@@ -24,11 +24,18 @@ export type IntentBid = {
   panelId: Panel["id"];
   userId: UserId;
   brandLabel: string;
+  /** Free-text trade / category. One brand holds a normalized trade at a time. */
+  tradeLabel: string;
   standingUsd: number;
   depositUsd: number;
   status: IntentBidStatus;
   createdAt: string;
 };
+
+/** Normalize bidder-named trade for collision checks. No public taxonomy. */
+export function normalizeTradeLabel(raw: string): string {
+  return raw.trim().toLowerCase().replace(/\s+/g, " ");
+}
 
 /** Next bid = standing + max($250, 10% of standing). */
 export function minIncrementUsd(standingUsd: number): number {

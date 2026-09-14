@@ -11,6 +11,7 @@ import {
   assertIntentOnly,
   depositUsdForMark,
   nextStandingUsd,
+  normalizeTradeLabel,
   type IntentBid,
   type IntentBidStatus,
   type UserId,
@@ -60,6 +61,7 @@ function rowToBid(row: IntentBidRow): IntentBid {
     panelId: row.panelId as Panel["id"],
     userId: row.userId,
     brandLabel: row.brandLabel,
+    tradeLabel: row.tradeLabel,
     standingUsd: row.standingUsd,
     depositUsd: row.depositUsd,
     status: parseStatus(row.status),
@@ -73,6 +75,7 @@ export type PlaceIntentInput = {
   panelId: string;
   userId: UserId;
   brandLabel: string;
+  tradeLabel: string;
   standingUsd?: number;
 };
 
@@ -160,6 +163,27 @@ export async function minimumIntentUsd(panelId: string): Promise<number> {
   return nextStandingUsd(await standingForPanel(panelId));
 }
 
+
+const HOLDING_STATUSES: readonly IntentBidStatus[] = ["listed", "approved"] as const;
+
+async function listHoldingBids(): Promise<IntentBid[]> {
+  if (useMemoryStore()) {
+    return memoryBids().filter((bid) =>
+      (HOLDING_STATUSES as readonly string[]).includes(bid.status),
+    );
+  }
+  const db = getDb();
+  if (!db) {
+    throw new Error("Intent ledger requires DATABASE_URL.");
+  }
+  const rows = await db.select().from(intentBids);
+  return rows
+    .map(rowToBid)
+    .filter((bid) =>
+      (HOLDING_STATUSES as readonly string[]).includes(bid.status),
+    );
+}
+
 export async function placeIntentBid(
   input: PlaceIntentInput,
 ): Promise<PlaceIntentResult> {
@@ -169,6 +193,28 @@ export async function placeIntentBid(
   const brandLabel = input.brandLabel.trim();
   if (brandLabel.length < 2 || brandLabel.length > 80) {
     return { ok: false, error: "Brand label must be 2–80 characters." };
+  }
+
+  const tradeLabel = input.tradeLabel.trim();
+  if (tradeLabel.length < 2 || tradeLabel.length > 80) {
+    return { ok: false, error: "Trade must be 2–80 characters." };
+  }
+  const tradeKey = normalizeTradeLabel(tradeLabel);
+  if (!tradeKey) {
+    return { ok: false, error: "Trade must be 2–80 characters." };
+  }
+
+  const holders = await listHoldingBids();
+  const collision = holders.find(
+    (bid) =>
+      bid.userId !== input.userId &&
+      normalizeTradeLabel(bid.tradeLabel) === tradeKey,
+  );
+  if (collision) {
+    return {
+      ok: false,
+      error: `Trade "${tradeLabel}" is already held by another brand. One brand per trade.`,
+    };
   }
 
   const minimum = await minimumIntentUsd(input.panelId);
@@ -195,6 +241,7 @@ export async function placeIntentBid(
       panelId: panel.id,
       userId: input.userId,
       brandLabel,
+      tradeLabel,
       standingUsd,
       depositUsd,
       status: "listed",
@@ -228,6 +275,7 @@ export async function placeIntentBid(
       panelId: panel.id,
       userId: input.userId,
       brandLabel,
+      tradeLabel,
       standingUsd,
       depositUsd,
       status: "listed",

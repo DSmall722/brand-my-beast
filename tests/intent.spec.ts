@@ -37,6 +37,7 @@ test.describe("P2 intent math (no capture)", () => {
       panelId: "hood",
       userId: "user_1",
       brandLabel: "Example Co",
+      tradeLabel: "cold brew",
       standingUsd: 2500,
       depositUsd: depositUsdForMark(2500),
       status: "listed",
@@ -58,6 +59,12 @@ test.describe("P2 intent math (no capture)", () => {
     );
     expect(sql).toContain("intent_bids");
     expect(sql).toContain("standing_usd");
+    const tradeSql = readFileSync(
+      join(process.cwd(), "drizzle/0002_intent_trade_label.sql"),
+      "utf8",
+    );
+    expect(tradeSql).toContain("trade_label");
+    expect(tradeSql).not.toMatch(/"(stripe|setup_intent|captured|payment_method)[^"]*"/i);
     expect(sql).not.toMatch(
       /"(stripe|setup_intent|captured|payment_method)[^"]*"/i,
     );
@@ -75,6 +82,7 @@ test.describe("intent store memory ledger", () => {
       panelId: "hood",
       userId: "user_a",
       brandLabel: "Alpha Brand",
+      tradeLabel: "trail snacks",
     });
     expect(first.ok).toBeTruthy();
     if (!first.ok) return;
@@ -85,6 +93,7 @@ test.describe("intent store memory ledger", () => {
       panelId: "hood",
       userId: "user_b",
       brandLabel: "Beta Brand",
+      tradeLabel: "trail tools",
       standingUsd: nextStandingUsd(first.bid.standingUsd),
     });
     expect(second.ok).toBeTruthy();
@@ -101,5 +110,25 @@ test.describe("intent store memory ledger", () => {
     const approved = await setIntentStatus(second.bid.id, "approved");
     expect(approved.ok).toBeTruthy();
     if (approved.ok) assertIntentOnly(approved.bid);
+  });
+
+  test("blocks a second brand from holding the same trade", async () => {
+    const first = await placeIntentBid({
+      panelId: "hood",
+      userId: "user_a",
+      brandLabel: "Alpha Brand",
+      tradeLabel: "Cold Brew",
+    });
+    expect(first.ok).toBeTruthy();
+
+    const clash = await placeIntentBid({
+      panelId: "front-fascia",
+      userId: "user_b",
+      brandLabel: "Beta Brand",
+      tradeLabel: "cold brew",
+    });
+    expect(clash.ok).toBeFalsy();
+    if (clash.ok) return;
+    expect(clash.error).toMatch(/already held/i);
   });
 });

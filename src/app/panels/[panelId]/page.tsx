@@ -124,6 +124,9 @@ export default async function PanelIntentPage({
               >
                 <div className="intent-row-main">
                   <strong className="intent-brand">{bid.brandLabel}</strong>
+                  <span className="intent-trade" data-testid={`intent-trade-${bid.id}`}>
+                    {bid.tradeLabel}
+                  </span>
                   <span className="intent-mark">
                     {formatUsd(bid.standingUsd)}
                   </span>

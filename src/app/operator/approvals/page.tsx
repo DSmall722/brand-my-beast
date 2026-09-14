@@ -73,6 +73,7 @@ export default async function OperatorApprovalsPage() {
                   <div className="approval-card-body">
                     <div className="approval-card-title">
                       <strong>{bid.brandLabel}</strong>
+                      <span className="auth-hint">Trade: {bid.tradeLabel}</span>
                       <span className="badge badge-status badge-listed">
                         Listed
                       </span>
