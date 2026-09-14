@@ -14,8 +14,8 @@ Updated: 2026-09-14
 - A FEATURES.md row is not scheduled until it has a checkbox in this file.
 - Coordinator may merge a PR that finishes exactly one unchecked slice, Playwright is green, and the merge gates below hold.
 
-**Now:** 4.4 Wreck / refund FAQ uses PUBLIC_COPY.md + CAMPAIGN.md only. No invented legal terms.
-**Last merged:** 4.3 (#82 vault marks at $58k / $120k on the bar)
+**Now:** 4.5 Whole-truck $120,000 intent. Hide if field already at $120,000.
+**Last merged:** 4.4 (#83 wreck/refund FAQ from PUBLIC_COPY + CAMPAIGN)
 
 ## Standing orders
 
@@ -93,7 +93,7 @@ If any gate fails: leave the PR unmerged and stop that slice.
 - [x] 4.1 Public “standing” = sum of approved intents. Label it pledged intent, not cash raised, until P3. (#80)
 - [x] 4.2 Shortfall ticker: dollars to floor, open seats. No impressions. (#81)
 - [x] 4.3 Vault marks at $58,000 and $120,000 on the bar only. (#82)
-- [ ] 4.4 Wreck / refund FAQ uses PUBLIC_COPY.md + CAMPAIGN.md only. No invented legal terms.
+- [x] 4.4 Wreck / refund FAQ uses PUBLIC_COPY.md + CAMPAIGN.md only. No invented legal terms. (#83)
 - [ ] 4.5 Whole-truck $120,000 intent. Hide if field already at $120,000.
 - [ ] 4.6 Category exclusivity copy on the seat. No public taxonomy list.
 

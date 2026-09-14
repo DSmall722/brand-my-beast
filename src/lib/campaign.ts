@@ -198,23 +198,12 @@ export function floorMarkerPercentOnGoalTrack(): number {
 }
 
 /**
- * Public wreck + refund rules (RULES.md). Contract text only —
- * no Stripe cash path until P3.
+ * Public wreck + refund FAQ ids (slice 4.4).
+ * Homepage copy lives in PUBLIC_COPY.wreck — CAMPAIGN.md money only,
+ * no invented legal terms, no Stripe cash path until P3.
  */
-export const WRECK_REFUND_RULES = [
-  {
-    id: "campaign-miss",
-    title: "Campaign miss",
-    body: "Under the floor: full refund, including deposits. No order. No wrap. No etch.",
-  },
-  {
-    id: "wrap-pro-rata",
-    title: "Wrap term",
-    body: "If the truck is totaled or sold before month 12, wrap seats get a pro-rata refund for the months left.",
-  },
-  {
-    id: "immortal-fragment",
-    title: "Immortal etch",
-    body: "After install, etch winners get a physical fragment of the etched panel plus the vault certificate. No cash refund of the etch premium.",
-  },
+export const WRECK_REFUND_RULE_IDS = [
+  "campaign-miss",
+  "wrap-pro-rata",
+  "immortal-fragment",
 ] as const;

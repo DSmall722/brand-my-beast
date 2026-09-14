@@ -170,18 +170,39 @@ test.describe("P1 waitlist campaign locks", () => {
       page.getByRole("heading", { name: PUBLIC_COPY.waitlist.heading }),
     ).toBeVisible();
 
+    await expect(page.getByTestId("wreck-refund-faq")).toBeVisible();
     await expect(page.getByTestId("wreck-refund-rules")).toBeVisible();
-    await expect(page.getByTestId("wreck-title-campaign-miss")).toHaveText(
-      "Campaign miss",
+    await expect(
+      page.getByRole("heading", { name: PUBLIC_COPY.wreck.heading }),
+    ).toBeVisible();
+    await expect(page.getByTestId("wreck-refund-faq")).toContainText(
+      PUBLIC_COPY.wreck.lead,
     );
+    for (const item of PUBLIC_COPY.wreck.items) {
+      await expect(page.getByTestId(`wreck-title-${item.id}`)).toHaveText(
+        item.q,
+      );
+      await expect(page.getByTestId(`wreck-body-${item.id}`)).toHaveText(
+        item.a,
+      );
+    }
     await expect(page.getByTestId("wreck-body-campaign-miss")).toContainText(
       "full refund",
+    );
+    await expect(page.getByTestId("wreck-body-campaign-miss")).toContainText(
+      "$58,000",
     );
     await expect(page.getByTestId("wreck-body-wrap-pro-rata")).toContainText(
       "pro-rata",
     );
     await expect(page.getByTestId("wreck-body-immortal-fragment")).toContainText(
       "vault certificate",
+    );
+    const wreckHtml = (
+      await page.getByTestId("wreck-refund-faq").innerText()
+    ).toLowerCase();
+    expect(wreckHtml).not.toMatch(
+      /force majeure|indemnif|arbitration|consequential damages|hereby|hereinafter|jurisdiction|statute|\blease\b|stripe/i,
     );
     await expect(page.getByTestId("home-main")).toHaveAttribute(
       "data-truck-exists",
