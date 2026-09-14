@@ -479,6 +479,39 @@ test.describe("intent store memory ledger", () => {
     });
     expect(exact.ok).toBeTruthy();
   });
+
+  test("slice 1.6: outbid flips previous listed mark to outbid", async () => {
+    const holder = await placeIntentBid({
+      panelId: "hood",
+      userId: "outbid_holder",
+      brandLabel: "Outbid Hold",
+      tradeLabel: "outbid snacks",
+      standingUsd: 2500,
+    });
+    expect(holder.ok).toBeTruthy();
+    if (!holder.ok) return;
+    expect(holder.bid.status).toBe("listed");
+
+    const challenger = await placeIntentBid({
+      panelId: "hood",
+      userId: "outbid_challenger",
+      brandLabel: "Outbid Fight",
+      tradeLabel: "outbid tools",
+      standingUsd: nextStandingUsd(holder.bid.standingUsd),
+    });
+    expect(challenger.ok).toBeTruthy();
+    if (!challenger.ok) return;
+    expect(challenger.bid.status).toBe("listed");
+
+    const listed = await listBidsForPanel("hood");
+    expect(listed.find((row) => row.id === holder.bid.id)?.status).toBe(
+      "outbid",
+    );
+    expect(listed.find((row) => row.id === challenger.bid.id)?.status).toBe(
+      "listed",
+    );
+    assertIntentOnly(challenger.bid);
+  });
 });
 
 
