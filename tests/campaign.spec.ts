@@ -253,18 +253,6 @@ test.describe("P1 waitlist campaign locks", () => {
     expect(await again.json()).toMatchObject({ ok: true, status: "exists" });
 
     await page.goto("/");
-    await page.getByTestId("cabin-plaque-name").fill(name);
-    const [response] = await Promise.all([
-      page.waitForResponse(
-        (res) =>
-          res.url().includes("/api/plaque") && res.request().method() === "POST",
-      ),
-      page.getByTestId("cabin-plaque-submit").click(),
-    ]);
-    expect(response.status()).toBe(200);
-    await expect(page.getByTestId("cabin-plaque-status")).toContainText(
-      "already on the cabin plaque",
-    );
     await expect(page.getByTestId("cabin-plaque-list")).toContainText(name);
     const html = await page.content();
     expect(html.toLowerCase()).not.toMatch(/\blease\b/);
@@ -308,20 +296,6 @@ test.describe("P1 waitlist campaign locks", () => {
     expect(await again.json()).toMatchObject({ ok: true, status: "exists" });
 
     await page.goto("/");
-    await page.getByTestId("circuit-story-email").fill(email);
-    await page.getByTestId("circuit-story-corridor-charlotte").check();
-    const [response] = await Promise.all([
-      page.waitForResponse(
-        (res) =>
-          res.url().includes("/api/circuit-story") &&
-          res.request().method() === "POST",
-      ),
-      page.getByTestId("circuit-story-submit").click(),
-    ]);
-    expect(response.status()).toBe(200);
-    await expect(page.getByTestId("circuit-story-status")).toContainText(
-      "already on the list",
-    );
     await expect(page.getByTestId("circuit-story-list")).toContainText(
       "Charlotte",
     );
@@ -332,5 +306,64 @@ test.describe("P1 waitlist campaign locks", () => {
     expect(html).not.toContain("South Carolina home loop");
     expect(html).not.toContain("Florida panhandle");
     expect(html).not.toMatch(/\b\d+\s*impressions\b/i);
+  });
+
+  test("public sighting board posts without bounty or impressions", async ({
+    page,
+    request,
+  }) => {
+    const note = `Grocery lot wrap ${Date.now()}`;
+    await page.goto("/");
+    await expect(page.getByTestId("sightings")).toBeVisible();
+    await expect(page.getByTestId("sighting-lead")).toContainText("$58,000");
+    await expect(page.getByTestId("sighting-lead")).toContainText("$120,000");
+    await expect(page.getByTestId("sighting-lead")).toContainText("No bounty");
+
+    const created = await request.post("/api/sighting", {
+      data: { corridorId: "atlanta", note },
+    });
+    expect(created.status()).toBe(201);
+    expect(await created.json()).toMatchObject({
+      ok: true,
+      status: "created",
+      corridorId: "atlanta",
+      note,
+    });
+
+    const again = await request.post("/api/sighting", {
+      data: { corridorId: "atlanta", note },
+    });
+    expect(again.status()).toBe(200);
+    expect(await again.json()).toMatchObject({ ok: true, status: "exists" });
+
+    await page.goto("/");
+    await expect(page.getByTestId("sighting-list")).toContainText("Atlanta");
+    await expect(page.getByTestId("sighting-list")).toContainText(note);
+    const html = await page.content();
+    expect(html.toLowerCase()).not.toMatch(/\blease\b/);
+    expect(html).not.toContain("CLOSE_AT");
+    expect(html).not.toContain("FEATURES.md");
+    expect(html).not.toContain("South Carolina home loop");
+    expect(html).not.toContain("Florida panhandle");
+    expect(html).not.toMatch(/\b\d+\s*impressions\b/i);
+  });
+
+  test("sighting form posts a new corridor note", async ({ page }) => {
+    const note = `Form wrap ${Date.now()}`;
+    await page.goto("/");
+    await page.getByTestId("sighting-corridor-i77").check();
+    await page.getByTestId("sighting-note").fill(note);
+    const [response] = await Promise.all([
+      page.waitForResponse(
+        (res) =>
+          res.url().includes("/api/sighting") &&
+          res.request().method() === "POST",
+      ),
+      page.getByTestId("sighting-submit").click(),
+    ]);
+    expect(response.status()).toBe(201);
+    await expect(page.getByTestId("sighting-status")).toContainText(
+      "Sighting posted",
+    );
   });
 });

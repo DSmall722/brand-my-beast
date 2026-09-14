@@ -80,6 +80,14 @@ import {
   submitCircuitStoryRequest,
 } from "../src/lib/circuit-story-store";
 import {
+  SIGHTING_LEAD,
+  sightingCopyIsSafe,
+} from "../src/lib/sighting";
+import {
+  resetSightingStoreForTests,
+  submitSighting,
+} from "../src/lib/sighting-store";
+import {
   listBidsForPanel,
   listApprovedBids,
   listApprovedBidsForUser,
@@ -613,6 +621,37 @@ test.describe("circuit story request (no tweet)", () => {
       email: "nope",
       corridorId: "i85",
     });
+    expect(bad.ok).toBe(false);
+    expect(FLOOR_USD).toBe(58_000);
+    expect(GOAL_USD).toBe(120_000);
+  });
+});
+
+test.describe("public sighting board (no bounty)", () => {
+  test("posts a corridor note without impressions or bounty", async () => {
+    expect(SIGHTING_LEAD).toContain("$58,000");
+    expect(SIGHTING_LEAD).toContain("$120,000");
+    expect(SIGHTING_LEAD.toLowerCase()).toContain("no bounty");
+    expect(sightingCopyIsSafe()).toBe(true);
+
+    await resetSightingStoreForTests();
+    const first = await submitSighting({
+      corridorId: "i26",
+      note: "  Steel wrap at a grocery lot  ",
+    });
+    expect(first.ok).toBe(true);
+    if (!first.ok) return;
+    expect(first.status).toBe("created");
+    expect(first.sighting.corridorId).toBe("i26");
+    expect(first.sighting.note).toBe("Steel wrap at a grocery lot");
+    const again = await submitSighting({
+      corridorId: "i26",
+      note: "steel wrap at a grocery lot",
+    });
+    expect(again.ok).toBe(true);
+    if (!again.ok) return;
+    expect(again.status).toBe("exists");
+    const bad = await submitSighting({ corridorId: "i26", note: "no" });
     expect(bad.ok).toBe(false);
     expect(FLOOR_USD).toBe(58_000);
     expect(GOAL_USD).toBe(120_000);

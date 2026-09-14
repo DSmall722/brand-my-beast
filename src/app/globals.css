@@ -616,6 +616,13 @@ a {
   line-height: 1.5;
 }
 
+.sighting-list {
+  margin: 1rem 0 0;
+  padding-left: 1.1rem;
+  color: var(--steel-100);
+  line-height: 1.5;
+}
+
 .waitlist-next {
   margin: 0.85rem 0 0;
   color: var(--steel-300);

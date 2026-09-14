@@ -1,6 +1,7 @@
 import { AuthNav } from "@/components/AuthNav";
 import { CabinPlaqueForm } from "@/components/CabinPlaqueForm";
 import { CircuitStoryForm } from "@/components/CircuitStoryForm";
+import { SightingForm } from "@/components/SightingForm";
 import { WaitlistForm } from "@/components/WaitlistForm";
 import {
   BRAND,
@@ -26,6 +27,8 @@ import {
 } from "@/lib/circuit-story";
 import { listCircuitStoryRequests } from "@/lib/circuit-story-store";
 import { loadBoardIntentStats } from "@/lib/intent-store";
+import { SIGHTING_CORRIDORS, SIGHTING_LEAD } from "@/lib/sighting";
+import { listSightings } from "@/lib/sighting-store";
 
 /** Board stats read the intent ledger; keep dynamic so build does not SSG against DB. */
 export const dynamic = "force-dynamic";
@@ -34,6 +37,7 @@ export default async function HomePage() {
   const board = await loadBoardIntentStats();
   const plaques = await listCabinPlaqueLines();
   const circuitStories = await listCircuitStoryRequests();
+  const sightings = await listSightings();
   const pledgedUsd = board.pledgedUsd;
   const floorLabel = formatUsd(FLOOR_USD);
   const goalLabel = formatUsd(GOAL_USD);
@@ -64,6 +68,9 @@ export default async function HomePage() {
           </a>
           <a className="nav-link" href="#circuit-story">
             Circuit story
+          </a>
+          <a className="nav-link" href="#sightings">
+            Sightings
           </a>
           <AuthNav />
         </nav>
@@ -355,6 +362,39 @@ export default async function HomePage() {
                   >
                     {corridor?.label ?? row.corridorId}
                     {" · requested"}
+                  </li>
+                );
+              })}
+            </ul>
+          )}
+        </section>
+
+        <section
+          className="shell section"
+          id="sightings"
+          aria-labelledby="sightings-title"
+          data-testid="sightings"
+        >
+          <h2 id="sightings-title">Public sighting board</h2>
+          <p className="section-lead" data-testid="sighting-lead">
+            {SIGHTING_LEAD}
+          </p>
+          <SightingForm />
+          {sightings.length === 0 ? (
+            <p className="empty-state" data-testid="sighting-empty">
+              No public sightings yet. After the truck exists — still no bounty.
+            </p>
+          ) : (
+            <ul className="sighting-list" data-testid="sighting-list">
+              {sightings.map((row) => {
+                const corridor = SIGHTING_CORRIDORS.find(
+                  (item) => item.id === row.corridorId,
+                );
+                return (
+                  <li key={row.id} data-testid={`sighting-row-${row.id}`}>
+                    {corridor?.label ?? row.corridorId}
+                    {" · "}
+                    {row.note}
                   </li>
                 );
               })}
