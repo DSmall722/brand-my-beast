@@ -28,6 +28,19 @@ test.describe("P2 panel intent + approvals", () => {
       "waitlist",
     );
     await expect(page.getByTestId("panel-mockup")).toBeVisible();
+    await expect(page.getByTestId("stainless-compositor")).toBeVisible();
+    await expect(page.getByTestId("compositor-mode-wrap")).toBeVisible();
+    await expect(page.getByTestId("compositor-mode-etch")).toBeEnabled();
+    await expect(page.getByTestId("compositor-wrap-film")).toBeVisible();
+    await page.getByTestId("compositor-mode-etch").click();
+    await expect(page.getByTestId("panel-mockup")).toHaveAttribute(
+      "data-finish",
+      "etch",
+    );
+    await expect(page.getByTestId("compositor-etch-mark")).toBeVisible();
+    await expect(page.getByTestId("compositor-finish-label")).toContainText(
+      "$120,000",
+    );
     await expect(page.getByTestId("panel-stats")).toBeVisible();
     await expect(page.getByTestId("intent-only-banner")).toContainText(
       "No Stripe capture",
