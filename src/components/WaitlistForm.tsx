@@ -79,8 +79,7 @@ export function WaitlistForm() {
         role="status"
         data-testid="waitlist-status"
       >
-        {message ||
-          "No charge. No countdown. Seats open when the money path is live."}
+        {message || "Free to join. No countdown yet."}
       </p>
     </form>
   );

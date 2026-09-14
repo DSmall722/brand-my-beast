@@ -8,7 +8,7 @@ import {
 } from "../src/lib/campaign";
 
 test.describe("P1 waitlist campaign locks", () => {
-  test("renders brand, floor, buyout, and unset close date", async ({
+  test("renders brand, floor, buyout, and auction clock copy", async ({
     page,
   }) => {
     await page.goto("/");
@@ -20,8 +20,17 @@ test.describe("P1 waitlist campaign locks", () => {
       formatUsd(GOAL_USD),
     );
     await expect(page.getByTestId("raised-amount")).toHaveText(formatUsd(0));
-    await expect(page.getByTestId("close-copy")).toContainText(
-      "Close date unset",
+    await expect(page.getByTestId("close-copy")).toHaveText(
+      "Auction clock starts when bidding opens.",
+    );
+    await expect(page.getByTestId("raised-hint")).toHaveText(
+      "Under the floor: full refund.",
+    );
+    await expect(page.getByTestId("floor-hint")).toHaveText(
+      "Order the Cyberbeast. Fund the wrap.",
+    );
+    await expect(page.getByTestId("goal-hint")).toHaveText(
+      "Campaign buys the truck. Etch unlocks.",
     );
   });
 
@@ -38,25 +47,44 @@ test.describe("P1 waitlist campaign locks", () => {
       if (isEtchable(panel)) {
         await expect(card).toHaveAttribute("data-etchable", "true");
         await expect(card).toHaveAttribute("data-etch-unlocked", "false");
-        await expect(page.getByTestId(`etch-lock-${panel.id}`)).toContainText(
-          "Etch locked",
+        await expect(page.getByTestId(`etch-lock-${panel.id}`)).toHaveText(
+          "Etch at $120k",
         );
       } else {
         await expect(card).toHaveAttribute("data-etchable", "false");
-        await expect(card.getByText("Wrap only")).toBeVisible();
+        await expect(card.getByText("Wrap", { exact: true })).toBeVisible();
       }
     }
   });
 
-  test("keeps banned identity and lease language out of the HTML", async ({
+  test("keeps banned identity, lease, and process notes out of the HTML", async ({
     page,
   }) => {
     await page.goto("/");
     const html = await page.content();
-    expect(html.toLowerCase()).not.toMatch(/\blease\b/);
-    expect(html.toLowerCase()).not.toContain("gmail.com");
+    const lower = html.toLowerCase();
+    expect(lower).not.toMatch(/\blease\b/);
+    expect(lower).not.toContain("gmail.com");
     expect(html).toContain("@BrandMyBeast");
     expect(html).toContain("hello@brandmybeast.com");
+    expect(lower).not.toContain("money path");
+    expect(html).not.toContain("Close date unset");
+    expect(lower).not.toContain("soft auction");
+    expect(html).not.toContain("Opening marks");
+    expect(html).not.toMatch(/etch locked under/i);
+    expect(html).not.toContain("South Carolina home loop");
+    expect(html).not.toContain("Florida panhandle");
+    expect(html).not.toContain("30-day clock");
+    expect(html).not.toContain("FEATURES.md");
+  });
+
+  test("serves a favicon at /favicon.ico", async ({ request }) => {
+    const response = await request.get("/favicon.ico");
+    expect(response.status()).toBe(200);
+    const type = response.headers()["content-type"] ?? "";
+    expect(type).toMatch(/image|icon|octet-stream/i);
+    const body = await response.body();
+    expect(body.byteLength).toBeGreaterThan(0);
   });
 
   test("accepts waitlist email in memory mode", async ({ page, request }) => {
