@@ -224,6 +224,25 @@ test.describe("P1 waitlist campaign locks", () => {
     await expect(page.getByTestId("city-time-heatmap-no-vin")).toContainText(
       "No reserved VIN",
     );
+    await expect(page.getByTestId("qr-nfc-scan-counter")).toBeVisible();
+    await expect(page.getByTestId("qr-nfc-scan-counter-lead")).toContainText(
+      "$58,000",
+    );
+    await expect(page.getByTestId("qr-nfc-scan-counter-lead")).toContainText(
+      "$120,000",
+    );
+    await expect(page.getByTestId("qr-nfc-scan-counter-lead")).toContainText(
+      "No reserved VIN",
+    );
+    await expect(
+      page.getByTestId("qr-nfc-scan-counter-empty-until-truck"),
+    ).toContainText("No invented scan counts");
+    await expect(page.getByTestId("qr-nfc-scan-counter-empty")).toContainText(
+      "No scans yet",
+    );
+    await expect(page.getByTestId("qr-nfc-scan-counter-no-vin")).toContainText(
+      "No reserved VIN",
+    );
 
     await expect(page.getByTestId("raised-hint")).toContainText(
       "Under the floor: full refund.",

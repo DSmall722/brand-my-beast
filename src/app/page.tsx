@@ -12,6 +12,7 @@ import { WaitlistForm } from "@/components/WaitlistForm";
 import { WeeklyMileageLedgerCard } from "@/components/WeeklyMileageLedgerCard";
 import { LandmarkProofLogCard } from "@/components/LandmarkProofLogCard";
 import { CityTimeHeatmapCard } from "@/components/CityTimeHeatmapCard";
+import { QrNfcScanCounterCard } from "@/components/QrNfcScanCounterCard";
 
 import {
   BRAND,
@@ -396,6 +397,19 @@ export default async function HomePage() {
             VIN.
           </p>
           <CityTimeHeatmapCard />
+        </section>
+
+        <section
+          className="shell section"
+          id="qr-nfc-scan-counter"
+          aria-labelledby="qr-nfc-scan-counter-title"
+        >
+          <h2 id="qr-nfc-scan-counter-title">QR / NFC raw scan counter</h2>
+          <p className="section-lead">
+            Empty until the truck exists. No invented scan counts. No reserved
+            VIN.
+          </p>
+          <QrNfcScanCounterCard />
         </section>
 
         <section
