@@ -24,6 +24,7 @@ Updated: 2026-09-14
 - Do not render FEATURES.md on the homepage.
 - Empty P3–P5 boards stay hidden while truckExists === false.
 - Intents and waitlist persist in Postgres in Production. Memory store is CI only.
+- Hero truck is a bare stainless preview. Do not show wrap or etch as if the truck exists.
 - One PR = one slice. Title: `slice(N): <name>`.
 
 ## Human-only (do not start)
@@ -53,6 +54,7 @@ If any gate fails: leave the PR unmerged and stop that slice.
 - [x] 0.4 Playwright contract: waitlist created/exists; invalid email 400. Production already returns 201 — do not regress. (#55)
 - [ ] 0.5 prove-all.sh covers 0.1–0.4. CI red = merge nothing else.
 - [ ] 0.6 GitHub Actions: Playwright on every PR.
+- [ ] 0.7 Hero truck preview (layout A). Fill the empty mobile hero well with a bare stainless Cyberbeast still (side or 3-quarter). Keep the full-bleed dark hero. Wordmark + one lead line + two CTAs overlay the lower third (over bed/ground, not the cab). Truck is the first thing on a phone. Tap/click the truck goes to `#panels`. Do not show wrap or etch as delivered. Do not use Tesla marks, teslacyberbeast livery, a 48-state map, or a 3D configurator. Label it a preview of the board. No new homepage sections. Asset lives in the repo (`public/` or `src/app`), not a hotlinked Tesla CDN. After this ships, 6.9 is only residual clip-check.
 
 ## Wave 1 — durable intent
 
@@ -81,6 +83,7 @@ If any gate fails: leave the PR unmerged and stop that slice.
 - [ ] 3.4 Etch linter from RULES.md.
 - [ ] 3.5 Artwork URL or upload on the intent.
 - [ ] 3.6 Day/night/wet/dirty as toggles. Not proof photos of a truck that does not exist.
+- [ ] 3.7 Side / front / rear views + SVG hotspots on the hero/seat truck (the old static prototype pattern). 360 later. Empty seats stay raw 30X.
 
 ## Wave 4 — board honesty
 
@@ -108,7 +111,7 @@ If any gate fails: leave the PR unmerged and stop that slice.
 - [ ] 6.6 Rate-limit waitlist + intent POSTs.
 - [ ] 6.7 No in-memory stores in Production.
 - [ ] 6.8 Keyboard / labels / contrast on /, seat, operator.
-- [ ] 6.9 Hero wordmark not clipped on mobile.
+- [ ] 6.9 Hero wordmark and truck still not clipped on mobile.
 - [ ] 6.10 OG image and favicon, public brand only.
 
 ## After Wave 6
