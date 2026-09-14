@@ -9,7 +9,12 @@ import {
   saveApprovalNote,
 } from "@/lib/approval-note-store";
 import { parseIntentArtwork } from "@/lib/intent-artwork";
-import { placeIntentBid, setIntentStatus } from "@/lib/intent-store";
+import {
+  placeIntentBid,
+  placeWholeTruckIntent,
+  setIntentStatus,
+} from "@/lib/intent-store";
+import { GOAL_USD, PANELS, formatUsd } from "@/lib/campaign";
 
 export type IntentActionState = {
   ok: boolean;
@@ -93,4 +98,43 @@ export async function decideIntentBid(
 /** Read helper for account / decided log (server components). */
 export async function loadApprovalNote(bidId: string) {
   return getApprovalNote(bidId);
+}
+
+export async function submitWholeTruckIntent(
+  _prev: IntentActionState,
+  formData: FormData,
+): Promise<IntentActionState> {
+  const session = await auth();
+  if (!session?.user?.id) {
+    return { ok: false, error: "Sign in to list a whole-truck intent." };
+  }
+
+  const brandLabel = String(formData.get("brandLabel") ?? "");
+  const tradeLabel = String(formData.get("tradeLabel") ?? "");
+  const artwork = parseIntentArtwork({
+    artworkUrl: String(formData.get("artworkUrl") ?? ""),
+    artworkUpload: String(formData.get("artworkUpload") ?? ""),
+  });
+  if (!artwork.ok) return { ok: false, error: artwork.error };
+
+  const result = await placeWholeTruckIntent({
+    userId: session.user.id,
+    brandLabel,
+    tradeLabel,
+    artworkUrl: artwork.artworkUrl,
+  });
+  if (!result.ok) return { ok: false, error: result.error };
+
+  revalidatePath("/");
+  revalidatePath("/operator");
+  revalidatePath("/operator/approvals");
+  revalidatePath("/account");
+  for (const panel of PANELS) {
+    revalidatePath(`/panels/${panel.id}`);
+  }
+
+  return {
+    ok: true,
+    message: `Whole-truck intent listed at ${formatUsd(GOAL_USD)} across ${result.bids.length} panels (not charged).`,
+  };
 }

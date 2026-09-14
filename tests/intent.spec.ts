@@ -213,9 +213,12 @@ import {
   listApprovedBidsForUser,
   listDecidedBids,
   placeIntentBid,
+  placeWholeTruckIntent,
   loadBoardIntentStats,
   resetIntentStoreForTests,
   setIntentStatus,
+  WHOLE_TRUCK_PANEL_USD,
+  isWholeTruckIntentOpen,
 } from "../src/lib/intent-store";
 import {
   getApprovalNote,
@@ -616,6 +619,70 @@ test.describe("intent store memory ledger", () => {
     expect(afterTwo.pledgedUsd).toBe(5500);
     expect(afterTwo.seatedPanels).toBe(2);
     expect(afterTwo.openSeats).toBe(10);
+  });
+
+  test("slice 4.5: whole-truck intent lists $120k across twelve panels", async () => {
+    process.env.INTENT_MODE = "memory";
+    await resetIntentStoreForTests();
+
+    expect(WHOLE_TRUCK_PANEL_USD * PANELS.length).toBe(GOAL_USD);
+    expect(isWholeTruckIntentOpen(0)).toBe(true);
+    expect(isWholeTruckIntentOpen(GOAL_USD)).toBe(false);
+
+    const prior = await placeIntentBid({
+      panelId: "hood",
+      userId: "prior_holder",
+      brandLabel: "Prior Co",
+      tradeLabel: "prior snacks",
+      standingUsd: 2500,
+    });
+    expect(prior.ok).toBeTruthy();
+    if (!prior.ok) return;
+    await setIntentStatus(prior.bid.id, "approved");
+
+    const whole = await placeWholeTruckIntent({
+      userId: "whole_truck_user",
+      brandLabel: "Fleet Co",
+      tradeLabel: "fleet tools",
+    });
+    expect(whole.ok).toBeTruthy();
+    if (!whole.ok) return;
+    expect(whole.bids).toHaveLength(12);
+    expect(whole.bids.every((bid) => bid.standingUsd === WHOLE_TRUCK_PANEL_USD)).toBe(
+      true,
+    );
+    expect(whole.bids.every((bid) => bid.status === "listed")).toBe(true);
+    expect(whole.bids.every((bid) => bid.brandLabel === "Fleet Co")).toBe(true);
+    for (const bid of whole.bids) {
+      assertIntentOnly(bid);
+    }
+
+    const priorAfter = (await listBidsForPanel("hood")).find(
+      (bid) => bid.id === prior.bid.id,
+    );
+    expect(priorAfter?.status).toBe("withdrawn");
+
+    const listedBoard = await loadBoardIntentStats();
+    expect(listedBoard.pledgedUsd).toBe(0);
+
+    for (const bid of whole.bids) {
+      const approved = await setIntentStatus(bid.id, "approved");
+      expect(approved.ok).toBeTruthy();
+    }
+    const after = await loadBoardIntentStats();
+    expect(after.pledgedUsd).toBe(GOAL_USD);
+    expect(after.seatedPanels).toBe(12);
+    expect(after.openSeats).toBe(0);
+    expect(isWholeTruckIntentOpen(after.pledgedUsd)).toBe(false);
+
+    const blocked = await placeWholeTruckIntent({
+      userId: "blocked_user",
+      brandLabel: "Blocked Co",
+      tradeLabel: "blocked tools",
+    });
+    expect(blocked.ok).toBeFalsy();
+    if (blocked.ok) return;
+    expect(blocked.error).toMatch(/already met|\$120,000/i);
   });
 
 test.describe("honest shortfall math (no clock)", () => {

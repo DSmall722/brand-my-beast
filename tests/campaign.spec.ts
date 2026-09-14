@@ -73,6 +73,16 @@ test.describe("P1 waitlist campaign locks", () => {
       formatUsd(GOAL_USD),
     );
     await expect(page.getByTestId("raised-amount")).toHaveText(formatUsd(0));
+    await expect(page.getByTestId("whole-truck-intent")).toBeVisible();
+    await expect(page.getByTestId("whole-truck-heading")).toHaveText(
+      PUBLIC_COPY.board.wholeTruckHeading,
+    );
+    await expect(page.getByTestId("whole-truck-lead")).toHaveText(
+      PUBLIC_COPY.board.wholeTruckLead,
+    );
+    await expect(page.getByTestId("whole-truck-signin")).toHaveText(
+      PUBLIC_COPY.board.wholeTruckSignIn,
+    );
     await expect(page.getByTestId("raised-label")).toHaveText(
       PUBLIC_COPY.board.raisedLabel,
     );
