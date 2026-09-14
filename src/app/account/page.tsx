@@ -10,6 +10,7 @@ import {
   FLOOR_USD,
   GOAL_USD,
   PANELS,
+  TRUCK_EXISTS,
   formatUsd,
 } from "@/lib/campaign";
 import { listApprovalNotesForBids } from "@/lib/approval-note-store";
@@ -32,7 +33,11 @@ export default async function AccountPage() {
   return (
     <>
       <SiteChrome />
-      <main className="shell auth-page" data-testid="account-page">
+      <main
+        className="shell auth-page"
+        data-testid="account-page"
+        data-truck-exists={TRUCK_EXISTS ? "true" : "false"}
+      >
         <p className="eyebrow">BrandMyBeast</p>
         <h1>Account</h1>
         <p className="section-lead">
