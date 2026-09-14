@@ -191,6 +191,43 @@ test.describe("P2 panel intent + approvals", () => {
     await expect(page.getByTestId("intent-list")).toContainText("2,500");
   });
 
+  test("slice 1.3: amount is intent only and page says it does not charge", async ({
+    page,
+  }) => {
+    await page.goto("/");
+    await expect(page.getByTestId("intent-no-charge-note")).toContainText(
+      "intent only",
+    );
+    await expect(page.getByTestId("intent-no-charge-note")).toContainText(
+      "does not charge",
+    );
+
+    await signIn(page, "slice13@example.com");
+    await page.goto("/panels/hood");
+    await expect(page.getByTestId("intent-only-banner")).toContainText(
+      "does not charge",
+    );
+    await expect(page.getByTestId("intent-only-banner")).toContainText(
+      "No Stripe capture",
+    );
+    await expect(page.getByTestId("panel-deposit-shown")).toContainText(
+      "not charged",
+    );
+    await expect(page.getByTestId("intent-amount-note")).toContainText(
+      "intent only",
+    );
+    await expect(page.getByTestId("intent-amount-note")).toContainText(
+      "does not charge",
+    );
+    await page.getByTestId("intent-brand").fill("Slice Thirteen Co");
+    await page.getByTestId("intent-trade").fill("intent marks");
+    await page.getByTestId("intent-standing").fill("2500");
+    await page.getByTestId("intent-submit").click();
+    await expect(page.getByTestId("intent-success")).toContainText(
+      "not charged",
+    );
+  });
+
   test("signed-in bidder lists intent and operator can approve", async ({
     browser,
   }) => {

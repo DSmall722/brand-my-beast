@@ -83,9 +83,9 @@ export function IntentBidForm({
         data-testid="intent-standing"
         className="auth-input"
       />
-      <p className="auth-hint">
-        Minimum {formatUsd(minimumUsd)}. 20% deposit is shown later — not
-        charged on P2.
+      <p className="auth-hint" data-testid="intent-amount-note">
+        Amount is intent only. Minimum {formatUsd(minimumUsd)}. This page does
+        not charge — the 20% deposit is shown later, never captured on P2.
       </p>
       <button
         type="submit"

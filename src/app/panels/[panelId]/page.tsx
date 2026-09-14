@@ -138,12 +138,15 @@ export default async function PanelIntentPage({
           </div>
           <div>
             <dt>Deposit shown</dt>
-            <dd>{DEPOSIT_PERCENT}%</dd>
+            <dd data-testid="panel-deposit-shown">
+              {DEPOSIT_PERCENT}% (not charged)
+            </dd>
           </div>
         </dl>
 
         <p className="intent-banner" data-testid="intent-only-banner">
-          Intent only. No Stripe capture. No close clock.
+          Intent only. Amount does not charge. No Stripe capture. No close
+          clock.
         </p>
 
         {viewerWasOutbid ? (
@@ -208,7 +211,7 @@ export default async function PanelIntentPage({
                     {intentStatusLabel(bid.status)}
                   </span>
                   <span className="auth-hint">
-                    Deposit shown {formatUsd(bid.depositUsd)}
+                    Deposit shown {formatUsd(bid.depositUsd)} (not charged)
                   </span>
                 </div>
               </li>

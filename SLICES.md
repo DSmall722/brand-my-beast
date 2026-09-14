@@ -14,8 +14,8 @@ Updated: 2026-09-14
 - A FEATURES.md row is not scheduled until it has a checkbox in this file.
 - Coordinator may merge a PR that finishes exactly one unchecked slice, Playwright is green, and the merge gates below hold.
 
-**Now:** 1.3 Amount is intent only. Page says it does not charge.
-**Last merged:** 0.8 (#62)
+**Now:** 1.4 One brand per trade. Challenger fights the same panel only.
+**Last merged:** 1.3 (#61 amount intent only / does not charge)
 
 ## Standing orders
 
@@ -63,7 +63,7 @@ If any gate fails: leave the PR unmerged and stop that slice.
 
 - [x] 1.1 Intent schema in Drizzle + push on Production. No memory in Production. (#59)
 - [x] 1.2 Signed-in user submits one intent per panel (brand, trade, amount >= opening). (#60)
-- [ ] 1.3 Amount is intent only. Page says it does not charge.
+- [x] 1.3 Amount is intent only. Page says it does not charge. (#61)
 - [ ] 1.4 One brand per trade. Challenger fights the same panel only.
 - [ ] 1.5 Increment: next intent >= standing + max($250, 10%).
 - [ ] 1.6 Outbid → previous status outbid + waitlist handoff.
