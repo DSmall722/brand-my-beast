@@ -14,8 +14,8 @@ Updated: 2026-09-14
 - A FEATURES.md row is not scheduled until it has a checkbox in this file.
 - Coordinator may merge a PR that finishes exactly one unchecked slice, Playwright is green, and the merge gates below hold.
 
-**Now:** 0.8 Public copy from PUBLIC_COPY.md (then resume 1.3).
-**Last merged:** 1.2 (#60 signed-in one intent per panel)
+**Now:** 1.3 Amount is intent only. Page says it does not charge.
+**Last merged:** 0.8 (#62)
 
 ## Standing orders
 
@@ -57,7 +57,7 @@ If any gate fails: leave the PR unmerged and stop that slice.
 - [x] 0.5 prove-all.sh covers 0.1–0.4. CI red = merge nothing else. (#56)
 - [x] 0.6 GitHub Actions: Playwright on every PR. (#57)
 - [x] 0.7 Hero truck preview (layout A). Fill the empty mobile hero well with a bare stainless Cyberbeast still (side or 3-quarter). Keep the full-bleed dark hero. Wordmark + one lead line + two CTAs overlay the lower third (over bed/ground, not the cab). Truck is the first thing on a phone. Tap/click the truck goes to `#panels`. Do not show wrap or etch as delivered. Do not use Tesla marks, teslacyberbeast livery, a 48-state map, or a 3D configurator. Label it a preview of the board. No new homepage sections. Asset lives in the repo (`public/` or `src/app`), not a hotlinked Tesla CDN. After this ships, 6.9 is only residual clip-check. (#58)
-- [ ] 0.8 Ship PUBLIC_COPY.md onto `/` verbatim. Replace telegram hero lines. Section order: hero, The numbers, The twelve panels, How it works, What etch actually is, Questions people actually ask, Get on the list, footer. Keep the 0.7 stainless still. Keep $58,000 / $120,000 / 20% / CLOSE_AT null / hello@brandmybeast.com. Do not invent a per-panel etch dollar. Do not add Cabin plaque or FEATURES boards. Playwright asserts H1 `Put your brand on a Cybertruck.`, etch section present, no lease, no close date. After merge, resume Wave 1 at 1.3.
+- [x] 0.8 Ship PUBLIC_COPY.md onto `/` verbatim. Replace telegram hero lines. Section order: hero, The numbers, The twelve panels, How it works, What etch actually is, Questions people actually ask, Get on the list, footer. Keep the 0.7 stainless still. Keep $58,000 / $120,000 / 20% / CLOSE_AT null / hello@brandmybeast.com. Do not invent a per-panel etch dollar. Do not add Cabin plaque or FEATURES boards. Playwright asserts H1 `Put your brand on a Cybertruck.`, etch section present, no lease, no close date. After merge, resume Wave 1 at 1.3. (#62)
 
 ## Wave 1 — durable intent
 

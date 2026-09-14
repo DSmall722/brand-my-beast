@@ -1,5 +1,4 @@
 import { AuthNav } from "@/components/AuthNav";
-import { CabinPlaqueForm } from "@/components/CabinPlaqueForm";
 import { CircuitStoryForm } from "@/components/CircuitStoryForm";
 import { EventRequestForm } from "@/components/EventRequestForm";
 import { RainNightLightingCard } from "@/components/RainNightLightingCard";
@@ -22,7 +21,6 @@ import { SightingBountyCardsCard } from "@/components/SightingBountyCardsCard";
 import {
   BRAND,
   CLOSE_AT,
-  DEPOSIT_PERCENT,
   FLOOR_USD,
   GOAL_USD,
   PANELS,
@@ -36,8 +34,6 @@ import {
   shortfallToFloorUsd,
   shortfallToGoalUsd,
 } from "@/lib/campaign";
-import { CABIN_PLAQUE_LEAD } from "@/lib/cabin-plaque";
-import { listCabinPlaqueLines } from "@/lib/cabin-plaque-store";
 import {
   CIRCUIT_STORY_CORRIDORS,
   CIRCUIT_STORY_LEAD,
@@ -49,6 +45,7 @@ import {
 } from "@/lib/event-request";
 import { listEventRequests } from "@/lib/event-request-store";
 import { loadBoardIntentStats } from "@/lib/intent-store";
+import { PUBLIC_COPY } from "@/lib/public-copy";
 import { SIGHTING_CORRIDORS, SIGHTING_LEAD } from "@/lib/sighting";
 import { listSightings } from "@/lib/sighting-store";
 
@@ -57,7 +54,6 @@ export const dynamic = "force-dynamic";
 
 export default async function HomePage() {
   const board = await loadBoardIntentStats();
-  const plaques = await listCabinPlaqueLines();
   const circuitStories = TRUCK_EXISTS
     ? await listCircuitStoryRequests()
     : [];
@@ -75,32 +71,19 @@ export default async function HomePage() {
   const shortfallGoal = shortfallToGoalUsd(pledgedUsd);
   const closeCopy =
     CLOSE_AT === null
-      ? "Bidding is not open yet."
+      ? PUBLIC_COPY.board.clockWhenCloseNull
       : `Closes ${CLOSE_AT}.`;
 
   return (
     <>
       <header className="shell site-header">
         <div className="wordmark" data-testid="brand-wordmark">
-          {BRAND.name}
+          {PUBLIC_COPY.header.wordmark}
         </div>
         <nav className="header-nav" aria-label="Primary">
           <a className="nav-link" href="#waitlist">
-            Join waitlist
+            {PUBLIC_COPY.header.nav}
           </a>
-          <a className="nav-link" href="#plaque">
-            Cabin plaque
-          </a>
-          {TRUCK_EXISTS ? (
-            <>
-              <a className="nav-link" href="#circuit-story">
-                Circuit story
-              </a>
-              <a className="nav-link" href="#sightings">
-                Sightings
-              </a>
-            </>
-          ) : null}
           <AuthNav />
         </nav>
       </header>
@@ -120,7 +103,7 @@ export default async function HomePage() {
             <img
               className="hero-truck-image"
               src="/hero-truck-preview.jpg"
-              alt="Bare stainless Cyberbeast preview of the BrandMyBeast board"
+              alt={PUBLIC_COPY.hero.imageAlt}
               width={1280}
               height={720}
               decoding="async"
@@ -132,18 +115,15 @@ export default async function HomePage() {
               Board preview — bare stainless. Wrap and etch unlock later.
             </p>
             <div className="hero-copy">
-              <h1 id="hero-title">{BRAND.name}</h1>
+              <h1 id="hero-title">{PUBLIC_COPY.hero.h1}</h1>
             </div>
-            <p className="hero-lead">
-              Twelve brands on a Cyberbeast. Bids cover the truck or they come
-              back. Ordered only if the board clears.
-            </p>
+            <p className="hero-lead">{PUBLIC_COPY.hero.lead}</p>
             <div className="hero-actions">
               <a className="btn btn-signal" href="#waitlist">
-                Get on the list
+                {PUBLIC_COPY.hero.primaryCta}
               </a>
               <a className="btn btn-ghost" href="#panels">
-                See the twelve panels
+                {PUBLIC_COPY.hero.secondaryCta}
               </a>
             </div>
           </div>
@@ -154,36 +134,34 @@ export default async function HomePage() {
           id="money"
           aria-labelledby="money-title"
         >
-          <h2 id="money-title">The board</h2>
-          <p className="section-lead">
-            Bids fund the truck. Miss the floor and nobody pays.
-          </p>
+          <h2 id="money-title">{PUBLIC_COPY.board.heading}</h2>
+          <p className="section-lead">{PUBLIC_COPY.board.lead}</p>
           <div className="money-grid">
             <div className="money-cell">
-              <div className="label">Intent pledged</div>
+              <div className="label">{PUBLIC_COPY.board.raisedLabel}</div>
               <div className="value" data-testid="raised-amount">
                 {raisedLabel}
               </div>
               <p className="hint" data-testid="raised-hint">
-                Under the floor: full refund. Intent only — not charged.
+                {PUBLIC_COPY.board.raisedHint}
               </p>
             </div>
             <div className="money-cell">
-              <div className="label">Floor</div>
+              <div className="label">{PUBLIC_COPY.board.floorLabel}</div>
               <div className="value" data-testid="floor-amount">
                 {floorLabel}
               </div>
               <p className="hint" data-testid="floor-hint">
-                Order the Cyberbeast. Fund the wrap.
+                {PUBLIC_COPY.board.floorHint}
               </p>
             </div>
             <div className="money-cell">
-              <div className="label">Buyout</div>
+              <div className="label">{PUBLIC_COPY.board.buyoutLabel}</div>
               <div className="value" data-testid="goal-amount">
                 {goalLabel}
               </div>
               <p className="hint" data-testid="goal-hint">
-                Campaign buys the truck. Etch unlocks.
+                {PUBLIC_COPY.board.buyoutHint}
               </p>
             </div>
           </div>
@@ -233,12 +211,13 @@ export default async function HomePage() {
             </div>
             <div>
               <dt>Open seats</dt>
-              <dd data-testid="open-seats">{board.openSeats} of {PANELS.length}</dd>
+              <dd data-testid="open-seats">
+                {board.openSeats} of {PANELS.length}
+              </dd>
             </div>
           </dl>
           <p className="section-lead" style={{ marginTop: "1.5rem" }}>
-            When bidding opens, {DEPOSIT_PERCENT}% holds your seat. This page
-            does not charge cards.
+            {PUBLIC_COPY.board.depositLine}
           </p>
         </section>
 
@@ -247,13 +226,12 @@ export default async function HomePage() {
           id="panels"
           aria-labelledby="panels-title"
         >
-          <h2 id="panels-title">Twelve panels</h2>
-          <p className="section-lead">
-            Starting bids. Eight panels can etch if the board hits {goalLabel}.
-          </p>
+          <h2 id="panels-title">{PUBLIC_COPY.panels.heading}</h2>
+          <p className="section-lead">{PUBLIC_COPY.panels.lead}</p>
           <div className="panel-grid" data-testid="panel-grid">
             {PANELS.map((panel) => {
               const etchable = isEtchable(panel);
+              const gloss = PUBLIC_COPY.panels.gloss[panel.id];
               return (
                 <article
                   key={panel.id}
@@ -268,9 +246,15 @@ export default async function HomePage() {
                     data-testid={`panel-face-${panel.id}`}
                   />
                   <div className="panel-name">
-                    <a href={`/panels/${panel.id}`} data-testid={`panel-link-${panel.id}`}>
+                    <a
+                      href={`/panels/${panel.id}`}
+                      data-testid={`panel-link-${panel.id}`}
+                    >
                       {panel.name}
                     </a>
+                    {gloss ? (
+                      <span className="panel-gloss"> ({gloss})</span>
+                    ) : null}
                   </div>
                   <div className="panel-meta">
                     Opens at {formatUsd(panel.openingUsd)}
@@ -280,10 +264,12 @@ export default async function HomePage() {
                       className="badge badge-locked"
                       data-testid={`etch-lock-${panel.id}`}
                     >
-                      Etch at $120k
+                      {PUBLIC_COPY.panels.badgeEtch}
                     </span>
                   ) : (
-                    <span className="badge badge-wrap">Wrap</span>
+                    <span className="badge badge-wrap">
+                      {PUBLIC_COPY.panels.badgeWrap}
+                    </span>
                   )}
                 </article>
               );
@@ -296,28 +282,33 @@ export default async function HomePage() {
           id="story"
           aria-labelledby="story-title"
         >
-          <h2 id="story-title">How it works</h2>
+          <h2 id="story-title">{PUBLIC_COPY.howItWorks.heading}</h2>
           <ol className="story-list">
-            <li>
-              <span className="story-num">01</span>
-              <span>
-                Claim a panel. One brand per trade. We approve the art.
-              </span>
-            </li>
-            <li>
-              <span className="story-num">02</span>
-              <span>
-                {floorLabel} orders the Cyberbeast and funds wrap. Miss it →
-                full refund.
-              </span>
-            </li>
-            <li>
-              <span className="story-num">03</span>
-              <span>
-                {goalLabel} buys the truck. Etch unlocks on eight steel faces.
-              </span>
-            </li>
+            {PUBLIC_COPY.howItWorks.steps.map((step, index) => (
+              <li key={step.title}>
+                <span className="story-num">
+                  {String(index + 1).padStart(2, "0")}
+                </span>
+                <span className="story-body">
+                  <strong className="story-step-title">{step.title}</strong>
+                  <span className="story-step-copy">{step.body}</span>
+                </span>
+              </li>
+            ))}
           </ol>
+        </section>
+
+        <section
+          className="shell section"
+          id="etch"
+          aria-labelledby="etch-title"
+          data-testid="etch-section"
+        >
+          <h2 id="etch-title">{PUBLIC_COPY.etch.heading}</h2>
+          <p className="section-lead">{PUBLIC_COPY.etch.body}</p>
+          <p className="section-lead">{PUBLIC_COPY.etch.whyBuyout}</p>
+          <p className="section-lead">{PUBLIC_COPY.etch.cost}</p>
+          <p className="section-lead">{PUBLIC_COPY.etch.art}</p>
         </section>
 
         <section
@@ -332,189 +323,211 @@ export default async function HomePage() {
           <ul className="wreck-list" data-testid="wreck-refund-rules">
             {WRECK_REFUND_RULES.map((rule) => (
               <li key={rule.id} data-testid={`wreck-rule-${rule.id}`}>
-                <strong data-testid={`wreck-title-${rule.id}`}>{rule.title}</strong>
+                <strong data-testid={`wreck-title-${rule.id}`}>
+                  {rule.title}
+                </strong>
                 <span data-testid={`wreck-body-${rule.id}`}>{rule.body}</span>
               </li>
             ))}
           </ul>
         </section>
 
+        <section
+          className="shell section"
+          id="questions"
+          aria-labelledby="questions-title"
+          data-testid="questions-section"
+        >
+          <h2 id="questions-title">{PUBLIC_COPY.questions.heading}</h2>
+          <dl className="questions-list">
+            {PUBLIC_COPY.questions.items.map((item) => (
+              <div key={item.q} className="questions-item">
+                <dt>{item.q}</dt>
+                <dd>{item.a}</dd>
+              </div>
+            ))}
+          </dl>
+        </section>
+
         {TRUCK_EXISTS ? (
           <>
-        <section
-          className="shell section"
-          id="vault-certificate"
-          aria-labelledby="vault-certificate-title"
-        >
-          <h2 id="vault-certificate-title">Immortal vault certificate</h2>
-          <p className="section-lead">
-            The steel record after etch unlocks. Not a cash path.
-          </p>
-          <VaultCertificateCard />
-        </section>
+            <section
+              className="shell section"
+              id="vault-certificate"
+              aria-labelledby="vault-certificate-title"
+            >
+              <h2 id="vault-certificate-title">Immortal vault certificate</h2>
+              <p className="section-lead">
+                The steel record after etch unlocks. Not a cash path.
+              </p>
+              <VaultCertificateCard />
+            </section>
 
-        <section
-          className="shell section"
-          id="retired-vinyl"
-          aria-labelledby="retired-vinyl-title"
-        >
-          <h2 id="retired-vinyl-title">Retired vinyl</h2>
-          <p className="section-lead">
-            Framed wrap film after the 12-month term. Not a cash path.
-          </p>
-          <RetiredVinylCard />
-        </section>
+            <section
+              className="shell section"
+              id="retired-vinyl"
+              aria-labelledby="retired-vinyl-title"
+            >
+              <h2 id="retired-vinyl-title">Retired vinyl</h2>
+              <p className="section-lead">
+                Framed wrap film after the 12-month term. Not a cash path.
+              </p>
+              <RetiredVinylCard />
+            </section>
 
-        <section
-          className="shell section"
-          id="season-two"
-          aria-labelledby="season-two-title"
-        >
-          <h2 id="season-two-title">Season 2 board</h2>
-          <p className="section-lead">
-            Year-two wrap is a new buy. Not a gift. Not for sale yet as rights.
-          </p>
-          <SeasonTwoBoardCard />
-        </section>
+            <section
+              className="shell section"
+              id="season-two"
+              aria-labelledby="season-two-title"
+            >
+              <h2 id="season-two-title">Season 2 board</h2>
+              <p className="section-lead">
+                Year-two wrap is a new buy. Not a gift. Not for sale yet as
+                rights.
+              </p>
+              <SeasonTwoBoardCard />
+            </section>
 
-        <section
-          className="shell section"
-          id="rain-night-lighting"
-          aria-labelledby="rain-night-lighting-title"
-        >
-          <h2 id="rain-night-lighting-title">Rain / night lighting</h2>
-          <p className="section-lead">
-            Post-buyout lighting story. Not a livestream. Not a clock.
-          </p>
-          <RainNightLightingCard />
-        </section>
+            <section
+              className="shell section"
+              id="rain-night-lighting"
+              aria-labelledby="rain-night-lighting-title"
+            >
+              <h2 id="rain-night-lighting-title">Rain / night lighting</h2>
+              <p className="section-lead">
+                Post-buyout lighting story. Not a livestream. Not a clock.
+              </p>
+              <RainNightLightingCard />
+            </section>
 
-        <section
-          className="shell section"
-          id="truck-order-tracker"
-          aria-labelledby="truck-order-tracker-title"
-        >
-          <h2 id="truck-order-tracker-title">Truck-order tracker</h2>
-          <p className="section-lead">
-            Order-path board after the floor. No reserved VIN. Not a clock.
-          </p>
-          <TruckOrderTrackerCard />
-        </section>
+            <section
+              className="shell section"
+              id="truck-order-tracker"
+              aria-labelledby="truck-order-tracker-title"
+            >
+              <h2 id="truck-order-tracker-title">Truck-order tracker</h2>
+              <p className="section-lead">
+                Order-path board after the floor. No reserved VIN. Not a clock.
+              </p>
+              <TruckOrderTrackerCard />
+            </section>
 
-        <section
-          className="shell section"
-          id="weekly-mileage-ledger"
-          aria-labelledby="weekly-mileage-ledger-title"
-        >
-          <h2 id="weekly-mileage-ledger-title">Weekly mileage ledger</h2>
-          <p className="section-lead">
-            Empty until the truck exists. No invented miles. No reserved VIN.
-          </p>
-          <WeeklyMileageLedgerCard />
-        </section>
+            <section
+              className="shell section"
+              id="weekly-mileage-ledger"
+              aria-labelledby="weekly-mileage-ledger-title"
+            >
+              <h2 id="weekly-mileage-ledger-title">Weekly mileage ledger</h2>
+              <p className="section-lead">
+                Empty until the truck exists. No invented miles. No reserved
+                VIN.
+              </p>
+              <WeeklyMileageLedgerCard />
+            </section>
 
-        <section
-          className="shell section"
-          id="landmark-proof-log"
-          aria-labelledby="landmark-proof-log-title"
-        >
-          <h2 id="landmark-proof-log-title">Landmark proof log</h2>
-          <p className="section-lead">
-            Empty until the truck exists. No invented visits. No reserved VIN.
-          </p>
-          <LandmarkProofLogCard />
-        </section>
+            <section
+              className="shell section"
+              id="landmark-proof-log"
+              aria-labelledby="landmark-proof-log-title"
+            >
+              <h2 id="landmark-proof-log-title">Landmark proof log</h2>
+              <p className="section-lead">
+                Empty until the truck exists. No invented visits. No reserved
+                VIN.
+              </p>
+              <LandmarkProofLogCard />
+            </section>
 
-        <section
-          className="shell section"
-          id="city-time-heatmap"
-          aria-labelledby="city-time-heatmap-title"
-        >
-          <h2 id="city-time-heatmap-title">City time-in-market heatmap</h2>
-          <p className="section-lead">
-            Empty until the truck exists. No invented city hours. No reserved
-            VIN.
-          </p>
-          <CityTimeHeatmapCard />
-        </section>
+            <section
+              className="shell section"
+              id="city-time-heatmap"
+              aria-labelledby="city-time-heatmap-title"
+            >
+              <h2 id="city-time-heatmap-title">City time-in-market heatmap</h2>
+              <p className="section-lead">
+                Empty until the truck exists. No invented city hours. No
+                reserved VIN.
+              </p>
+              <CityTimeHeatmapCard />
+            </section>
 
-        <section
-          className="shell section"
-          id="qr-nfc-scan-counter"
-          aria-labelledby="qr-nfc-scan-counter-title"
-        >
-          <h2 id="qr-nfc-scan-counter-title">QR / NFC raw scan counter</h2>
-          <p className="section-lead">
-            Empty until the truck exists. No invented scan counts. No reserved
-            VIN.
-          </p>
-          <QrNfcScanCounterCard />
-        </section>
+            <section
+              className="shell section"
+              id="qr-nfc-scan-counter"
+              aria-labelledby="qr-nfc-scan-counter-title"
+            >
+              <h2 id="qr-nfc-scan-counter-title">QR / NFC raw scan counter</h2>
+              <p className="section-lead">
+                Empty until the truck exists. No invented scan counts. No
+                reserved VIN.
+              </p>
+              <QrNfcScanCounterCard />
+            </section>
 
-        <section
-          className="shell section"
-          id="city-ping-winner"
-          aria-labelledby="city-ping-winner-title"
-        >
-          <h2 id="city-ping-winner-title">City ping to the panel winner</h2>
-          <p className="section-lead">
-            Empty until the truck exists. No invented city pings. No reserved
-            VIN.
-          </p>
-          <CityPingWinnerCard />
-        </section>
+            <section
+              className="shell section"
+              id="city-ping-winner"
+              aria-labelledby="city-ping-winner-title"
+            >
+              <h2 id="city-ping-winner-title">City ping to the panel winner</h2>
+              <p className="section-lead">
+                Empty until the truck exists. No invented city pings. No
+                reserved VIN.
+              </p>
+              <CityPingWinnerCard />
+            </section>
 
-        <section
-          className="shell section"
-          id="charge-stop-slots"
-          aria-labelledby="charge-stop-slots-title"
-        >
-          <h2 id="charge-stop-slots-title">Charge-stop takeover slots</h2>
-          <p className="section-lead">
-            Empty until the truck exists. No invented slot prices. No reserved
-            VIN.
-          </p>
-          <ChargeStopSlotsCard />
-        </section>
+            <section
+              className="shell section"
+              id="charge-stop-slots"
+              aria-labelledby="charge-stop-slots-title"
+            >
+              <h2 id="charge-stop-slots-title">Charge-stop takeover slots</h2>
+              <p className="section-lead">
+                Empty until the truck exists. No invented slot prices. No
+                reserved VIN.
+              </p>
+              <ChargeStopSlotsCard />
+            </section>
 
-        <section
-          className="shell section"
-          id="route-detour-buyout"
-          aria-labelledby="route-detour-buyout-title"
-        >
-          <h2 id="route-detour-buyout-title">Route-day detour buyout</h2>
-          <p className="section-lead">
-            Empty until the truck exists. No invented detour prices. No reserved
-            VIN.
-          </p>
-          <RouteDetourBuyoutCard />
-        </section>
+            <section
+              className="shell section"
+              id="route-detour-buyout"
+              aria-labelledby="route-detour-buyout-title"
+            >
+              <h2 id="route-detour-buyout-title">Route-day detour buyout</h2>
+              <p className="section-lead">
+                Empty until the truck exists. No invented detour prices. No
+                reserved VIN.
+              </p>
+              <RouteDetourBuyoutCard />
+            </section>
 
-        <section
-          className="shell section"
-          id="clemson-saturday-lock"
-          aria-labelledby="clemson-saturday-lock-title"
-        >
-          <h2 id="clemson-saturday-lock-title">Clemson Saturday lock</h2>
-          <p className="section-lead">
-            Empty until the truck exists. No invented lock fee. No reserved VIN.
-          </p>
-          <ClemsonSaturdayLockCard />
-        </section>
+            <section
+              className="shell section"
+              id="clemson-saturday-lock"
+              aria-labelledby="clemson-saturday-lock-title"
+            >
+              <h2 id="clemson-saturday-lock-title">Clemson Saturday lock</h2>
+              <p className="section-lead">
+                Empty until the truck exists. No invented lock fee. No reserved
+                VIN.
+              </p>
+              <ClemsonSaturdayLockCard />
+            </section>
 
-        <section
-          className="shell section"
-          id="sighting-bounty-cards"
-          aria-labelledby="sighting-bounty-cards-title"
-        >
-          <h2 id="sighting-bounty-cards-title">Sighting bounty cards</h2>
-          <p className="section-lead">
-            Empty until the truck exists. No invented bounty dollars. No reserved
-            VIN.
-          </p>
-          <SightingBountyCardsCard />
-        </section>
-
+            <section
+              className="shell section"
+              id="sighting-bounty-cards"
+              aria-labelledby="sighting-bounty-cards-title"
+            >
+              <h2 id="sighting-bounty-cards-title">Sighting bounty cards</h2>
+              <p className="section-lead">
+                Empty until the truck exists. No invented bounty dollars. No
+                reserved VIN.
+              </p>
+              <SightingBountyCardsCard />
+            </section>
           </>
         ) : null}
 
@@ -523,160 +536,126 @@ export default async function HomePage() {
           id="waitlist"
           aria-labelledby="waitlist-title"
         >
-          <h2 id="waitlist-title">Waitlist</h2>
-          <p className="section-lead">
-            Bidding isn&apos;t open yet. Leave your email. We&apos;ll tell you
-            when seats go live.
-          </p>
+          <h2 id="waitlist-title">{PUBLIC_COPY.waitlist.heading}</h2>
+          <p className="section-lead">{PUBLIC_COPY.waitlist.lead}</p>
           <WaitlistForm />
-        </section>
-
-        <section
-          className="shell section"
-          id="plaque"
-          aria-labelledby="plaque-title"
-          data-testid="cabin-plaque"
-        >
-          <h2 id="plaque-title">Cabin plaque</h2>
-          <p className="section-lead" data-testid="cabin-plaque-lead">
-            {CABIN_PLAQUE_LEAD}
-          </p>
-          <CabinPlaqueForm />
-          {plaques.length === 0 ? (
-            <p className="empty-state" data-testid="cabin-plaque-empty">
-              No cabin names yet. Be the first to reserve one.
-            </p>
-          ) : (
-            <ul
-              className="cabin-plaque-list"
-              data-testid="cabin-plaque-list"
-            >
-              {plaques.map((line) => (
-                <li
-                  key={line.id}
-                  data-testid={`cabin-plaque-line-${line.id}`}
-                >
-                  {line.displayName}
-                </li>
-              ))}
-            </ul>
-          )}
         </section>
 
         {TRUCK_EXISTS ? (
           <>
-        <section
-          className="shell section"
-          id="circuit-story"
-          aria-labelledby="circuit-story-title"
-          data-testid="circuit-story"
-        >
-          <h2 id="circuit-story-title">Request a circuit story</h2>
-          <p className="section-lead" data-testid="circuit-story-lead">
-            {CIRCUIT_STORY_LEAD}
-          </p>
-          <CircuitStoryForm />
-          {circuitStories.length === 0 ? (
-            <p className="empty-state" data-testid="circuit-story-empty">
-              No circuit story requests yet. After the truck exists — still no
-              auto-tweet.
-            </p>
-          ) : (
-            <ul
-              className="circuit-story-list"
-              data-testid="circuit-story-list"
+            <section
+              className="shell section"
+              id="circuit-story"
+              aria-labelledby="circuit-story-title"
+              data-testid="circuit-story"
             >
-              {circuitStories.map((row) => {
-                const corridor = CIRCUIT_STORY_CORRIDORS.find(
-                  (item) => item.id === row.corridorId,
-                );
-                return (
-                  <li
-                    key={row.id}
-                    data-testid={`circuit-story-row-${row.id}`}
-                  >
-                    {corridor?.label ?? row.corridorId}
-                    {" · requested"}
-                  </li>
-                );
-              })}
-            </ul>
-          )}
-        </section>
+              <h2 id="circuit-story-title">Request a circuit story</h2>
+              <p className="section-lead" data-testid="circuit-story-lead">
+                {CIRCUIT_STORY_LEAD}
+              </p>
+              <CircuitStoryForm />
+              {circuitStories.length === 0 ? (
+                <p className="empty-state" data-testid="circuit-story-empty">
+                  No circuit story requests yet. After the truck exists — still
+                  no auto-tweet.
+                </p>
+              ) : (
+                <ul
+                  className="circuit-story-list"
+                  data-testid="circuit-story-list"
+                >
+                  {circuitStories.map((row) => {
+                    const corridor = CIRCUIT_STORY_CORRIDORS.find(
+                      (item) => item.id === row.corridorId,
+                    );
+                    return (
+                      <li
+                        key={row.id}
+                        data-testid={`circuit-story-row-${row.id}`}
+                      >
+                        {corridor?.label ?? row.corridorId}
+                        {" · requested"}
+                      </li>
+                    );
+                  })}
+                </ul>
+              )}
+            </section>
 
-        <section
-          className="shell section"
-          id="sightings"
-          aria-labelledby="sightings-title"
-          data-testid="sightings"
-        >
-          <h2 id="sightings-title">Public sighting board</h2>
-          <p className="section-lead" data-testid="sighting-lead">
-            {SIGHTING_LEAD}
-          </p>
-          <SightingForm />
-          {sightings.length === 0 ? (
-            <p className="empty-state" data-testid="sighting-empty">
-              No public sightings yet. After the truck exists — still no bounty.
-            </p>
-          ) : (
-            <ul className="sighting-list" data-testid="sighting-list">
-              {sightings.map((row) => {
-                const corridor = SIGHTING_CORRIDORS.find(
-                  (item) => item.id === row.corridorId,
-                );
-                return (
-                  <li key={row.id} data-testid={`sighting-row-${row.id}`}>
-                    {corridor?.label ?? row.corridorId}
-                    {" · "}
-                    {row.note}
-                  </li>
-                );
-              })}
-            </ul>
-          )}
-        </section>
-
-        <section
-          className="shell section"
-          id="event-calendar"
-          aria-labelledby="event-calendar-title"
-          data-testid="event-calendar"
-        >
-          <h2 id="event-calendar-title">Event request calendar</h2>
-          <p className="section-lead" data-testid="event-calendar-lead">
-            {EVENT_REQUEST_LEAD}
-          </p>
-          <EventRequestForm />
-          {eventRequests.length === 0 ? (
-            <p className="empty-state" data-testid="event-calendar-empty">
-              No event requests yet. After the truck exists — still no
-              livestream.
-            </p>
-          ) : (
-            <ul
-              className="circuit-story-list"
-              data-testid="event-calendar-list"
+            <section
+              className="shell section"
+              id="sightings"
+              aria-labelledby="sightings-title"
+              data-testid="sightings"
             >
-              {eventRequests.map((row) => {
-                const kind = EVENT_REQUEST_KINDS.find(
-                  (item) => item.id === row.kindId,
-                );
-                return (
-                  <li
-                    key={row.id}
-                    data-testid={`event-calendar-row-${row.id}`}
-                  >
-                    {kind?.label ?? row.kindId}
-                    {row.requestedDate
-                      ? ` · ${row.requestedDate}`
-                      : " · requested"}
-                  </li>
-                );
-              })}
-            </ul>
-          )}
-        </section>
+              <h2 id="sightings-title">Public sighting board</h2>
+              <p className="section-lead" data-testid="sighting-lead">
+                {SIGHTING_LEAD}
+              </p>
+              <SightingForm />
+              {sightings.length === 0 ? (
+                <p className="empty-state" data-testid="sighting-empty">
+                  No public sightings yet. After the truck exists — still no
+                  bounty.
+                </p>
+              ) : (
+                <ul className="sighting-list" data-testid="sighting-list">
+                  {sightings.map((row) => {
+                    const corridor = SIGHTING_CORRIDORS.find(
+                      (item) => item.id === row.corridorId,
+                    );
+                    return (
+                      <li key={row.id} data-testid={`sighting-row-${row.id}`}>
+                        {corridor?.label ?? row.corridorId}
+                        {" · "}
+                        {row.note}
+                      </li>
+                    );
+                  })}
+                </ul>
+              )}
+            </section>
+
+            <section
+              className="shell section"
+              id="event-calendar"
+              aria-labelledby="event-calendar-title"
+              data-testid="event-calendar"
+            >
+              <h2 id="event-calendar-title">Event request calendar</h2>
+              <p className="section-lead" data-testid="event-calendar-lead">
+                {EVENT_REQUEST_LEAD}
+              </p>
+              <EventRequestForm />
+              {eventRequests.length === 0 ? (
+                <p className="empty-state" data-testid="event-calendar-empty">
+                  No event requests yet. After the truck exists — still no
+                  livestream.
+                </p>
+              ) : (
+                <ul
+                  className="circuit-story-list"
+                  data-testid="event-calendar-list"
+                >
+                  {eventRequests.map((row) => {
+                    const kind = EVENT_REQUEST_KINDS.find(
+                      (item) => item.id === row.kindId,
+                    );
+                    return (
+                      <li
+                        key={row.id}
+                        data-testid={`event-calendar-row-${row.id}`}
+                      >
+                        {kind?.label ?? row.kindId}
+                        {row.requestedDate
+                          ? ` · ${row.requestedDate}`
+                          : " · requested"}
+                      </li>
+                    );
+                  })}
+                </ul>
+              )}
+            </section>
           </>
         ) : null}
       </main>
@@ -686,7 +665,7 @@ export default async function HomePage() {
           {BRAND.name} · {BRAND.handle} ·{" "}
           <a href={`mailto:${BRAND.email}`}>{BRAND.email}</a>
         </div>
-        <p className="fine-print">Independent. Not Tesla.</p>
+        <p className="fine-print">{PUBLIC_COPY.footer.independent}</p>
       </footer>
     </>
   );

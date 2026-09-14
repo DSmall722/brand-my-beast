@@ -1,6 +1,7 @@
 "use client";
 
 import { FormEvent, useState } from "react";
+import { PUBLIC_COPY } from "@/lib/public-copy";
 
 type Status = "idle" | "loading" | "created" | "exists" | "error";
 
@@ -35,8 +36,8 @@ export function WaitlistForm() {
       setStatus(data.status === "exists" ? "exists" : "created");
       setMessage(
         data.status === "exists"
-          ? "You are already on the list."
-          : "You are on the list. We will email when seats open.",
+          ? PUBLIC_COPY.waitlist.already
+          : PUBLIC_COPY.waitlist.success,
       );
       setEmail("");
     } catch {
@@ -67,12 +68,12 @@ export function WaitlistForm() {
           required
           value={email}
           onChange={(event) => setEmail(event.target.value)}
-          placeholder="you@brand.com"
+          placeholder={PUBLIC_COPY.waitlist.placeholder}
           disabled={disabled}
           data-testid="waitlist-email"
         />
         <button type="submit" disabled={disabled} data-testid="waitlist-submit">
-          {status === "loading" ? "Joining…" : "Join waitlist"}
+          {status === "loading" ? "Notifying…" : PUBLIC_COPY.waitlist.button}
         </button>
       </div>
       <p
@@ -80,7 +81,7 @@ export function WaitlistForm() {
         role="status"
         data-testid="waitlist-status"
       >
-        {message || "Free to join. We will email when seats open."}
+        {message || PUBLIC_COPY.waitlist.idleNote}
       </p>
       {showNext ? (
         <p className="waitlist-next" data-testid="waitlist-next">

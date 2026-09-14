@@ -6,11 +6,14 @@ import {
   formatUsd,
   isEtchable,
 } from "../src/lib/campaign";
+import { PUBLIC_COPY } from "../src/lib/public-copy";
+
+const HERO_TITLE = PUBLIC_COPY.hero.h1;
 
 async function expectHeroTitleUnclipped(page: Page) {
   const title = page.locator("#hero-title");
   await expect(title).toBeVisible();
-  await expect(title).toHaveText("BrandMyBeast");
+  await expect(title).toHaveText(HERO_TITLE);
   await page.evaluate(() => document.fonts.ready);
 
   const metrics = await title.evaluate((el) => {
@@ -33,7 +36,7 @@ async function expectHeroTitleUnclipped(page: Page) {
     };
   });
 
-  expect(metrics.text).toBe("BrandMyBeast");
+  expect(metrics.text).toBe(HERO_TITLE.replace(/\s+/g, ""));
   expect(metrics.overflowX).toBeLessThanOrEqual(1);
   expect(metrics.lastGlyphRight).toBeLessThanOrEqual(metrics.heroRight + 1);
 }
@@ -51,12 +54,18 @@ test.describe("P1 waitlist campaign locks", () => {
       "src",
       "/hero-truck-preview.jpg",
     );
+    await expect(heroTruck.locator("img")).toHaveAttribute(
+      "alt",
+      PUBLIC_COPY.hero.imageAlt,
+    );
     await expect(page.getByTestId("hero-preview-label")).toContainText(
       "Board preview",
     );
     await expect(page.getByTestId("hero-preview-label")).toContainText(
       "bare stainless",
     );
+    await expect(page.locator("#hero-title")).toHaveText(HERO_TITLE);
+    await expect(page.getByRole("heading", { name: PUBLIC_COPY.board.heading })).toBeVisible();
     await expect(page.getByTestId("floor-amount")).toHaveText(
       formatUsd(FLOOR_USD),
     );
@@ -65,7 +74,7 @@ test.describe("P1 waitlist campaign locks", () => {
     );
     await expect(page.getByTestId("raised-amount")).toHaveText(formatUsd(0));
     await expect(page.getByTestId("close-copy")).toHaveText(
-      "Bidding is not open yet.",
+      PUBLIC_COPY.board.clockWhenCloseNull,
     );
     await expect(page.getByTestId("shortfall-ticker")).toBeVisible();
     await expect(page.getByTestId("shortfall-floor")).toHaveText(formatUsd(FLOOR_USD));
@@ -82,6 +91,18 @@ test.describe("P1 waitlist campaign locks", () => {
     await expect(page.getByTestId("vault-goal-label")).toHaveText(
       `Buyout ${formatUsd(GOAL_USD)}`,
     );
+
+    await expect(page.getByTestId("etch-section")).toBeVisible();
+    await expect(
+      page.getByRole("heading", { name: PUBLIC_COPY.etch.heading }),
+    ).toBeVisible();
+    await expect(page.getByTestId("questions-section")).toBeVisible();
+    await expect(
+      page.getByRole("heading", { name: PUBLIC_COPY.questions.heading }),
+    ).toBeVisible();
+    await expect(
+      page.getByRole("heading", { name: PUBLIC_COPY.waitlist.heading }),
+    ).toBeVisible();
 
     await expect(page.getByTestId("wreck-refund-rules")).toBeVisible();
     await expect(page.getByTestId("wreck-title-campaign-miss")).toHaveText(
@@ -118,20 +139,19 @@ test.describe("P1 waitlist campaign locks", () => {
       "circuit-story",
       "sightings",
       "event-calendar",
+      "cabin-plaque",
     ] as const) {
       await expect(page.getByTestId(board)).toHaveCount(0);
     }
 
-    await expect(page.getByTestId("raised-hint")).toContainText(
-      "Under the floor: full refund.",
+    await expect(page.getByTestId("raised-hint")).toHaveText(
+      PUBLIC_COPY.board.raisedHint,
     );
-
-    await expect(page.getByTestId("raised-hint")).toContainText("not charged");
     await expect(page.getByTestId("floor-hint")).toHaveText(
-      "Order the Cyberbeast. Fund the wrap.",
+      PUBLIC_COPY.board.floorHint,
     );
     await expect(page.getByTestId("goal-hint")).toHaveText(
-      "Campaign buys the truck. Etch unlocks.",
+      PUBLIC_COPY.board.buyoutHint,
     );
   });
 
@@ -149,11 +169,13 @@ test.describe("P1 waitlist campaign locks", () => {
         await expect(card).toHaveAttribute("data-etchable", "true");
         await expect(card).toHaveAttribute("data-etch-unlocked", "false");
         await expect(page.getByTestId(`etch-lock-${panel.id}`)).toHaveText(
-          "Etch at $120k",
+          PUBLIC_COPY.panels.badgeEtch,
         );
       } else {
         await expect(card).toHaveAttribute("data-etchable", "false");
-        await expect(card.getByText("Wrap", { exact: true })).toBeVisible();
+        await expect(
+          card.getByText(PUBLIC_COPY.panels.badgeWrap, { exact: true }),
+        ).toBeVisible();
       }
     }
   });
@@ -168,11 +190,12 @@ test.describe("P1 waitlist campaign locks", () => {
     expect(lower).not.toContain("gmail.com");
     expect(html).toContain("@BrandMyBeast");
     expect(html).toContain("hello@brandmybeast.com");
-    expect(lower).not.toContain("money path");
+    expect(html).toContain(HERO_TITLE);
+    expect(html).toContain(PUBLIC_COPY.etch.heading);
+    expect(html).not.toContain("CLOSE_AT");
     expect(html).not.toContain("Close date unset");
     expect(lower).not.toContain("soft auction");
     expect(html).not.toContain("Opening marks");
-    expect(html).not.toMatch(/etch locked under/i);
     expect(html).not.toContain("South Carolina home loop");
     expect(html).not.toContain("Florida panhandle");
     expect(html).not.toContain("30-day clock");
@@ -185,26 +208,21 @@ test.describe("P1 waitlist campaign locks", () => {
     expect(html).not.toContain("No invented miles");
     expect(html).not.toContain("No invented scan counts");
     expect(html).not.toContain("No invented city hours");
+    expect(html).not.toContain("Cabin plaque");
   });
 
-  test("shows the full BrandMyBeast hero title without clipping", async ({
-    page,
-  }) => {
+  test("shows the full hero title without clipping", async ({ page }) => {
     await page.goto("/");
     await expectHeroTitleUnclipped(page);
   });
 
-  test("shows the full BrandMyBeast hero title on a 375px viewport", async ({
-    page,
-  }) => {
+  test("shows the full hero title on a 375px viewport", async ({ page }) => {
     await page.setViewportSize({ width: 375, height: 812 });
     await page.goto("/");
     await expectHeroTitleUnclipped(page);
   });
 
-  test("shows the full BrandMyBeast hero title on a 900px viewport", async ({
-    page,
-  }) => {
+  test("shows the full hero title on a 900px viewport", async ({ page }) => {
     await page.setViewportSize({ width: 900, height: 800 });
     await page.goto("/");
     await expectHeroTitleUnclipped(page);
@@ -238,6 +256,13 @@ test.describe("P1 waitlist campaign locks", () => {
     expect(await again.json()).toMatchObject({ ok: true, status: "exists" });
 
     await page.goto("/");
+    await expect(page.getByTestId("waitlist-submit")).toHaveText(
+      PUBLIC_COPY.waitlist.button,
+    );
+    await expect(page.getByTestId("waitlist-email")).toHaveAttribute(
+      "placeholder",
+      PUBLIC_COPY.waitlist.placeholder,
+    );
     await page.getByTestId("waitlist-email").fill(email);
 
     const [response] = await Promise.all([
@@ -249,8 +274,8 @@ test.describe("P1 waitlist campaign locks", () => {
     ]);
 
     expect(response.status()).toBe(200);
-    await expect(page.getByTestId("waitlist-status")).toContainText(
-      "already on the list",
+    await expect(page.getByTestId("waitlist-status")).toHaveText(
+      PUBLIC_COPY.waitlist.already,
     );
     await expect(page.getByTestId("waitlist-next")).toBeVisible();
     await expect(page.getByTestId("waitlist-browse-panels")).toHaveAttribute(
@@ -320,27 +345,18 @@ test.describe("P1 waitlist campaign locks", () => {
       page.getByTestId("waitlist-submit").click(),
     ]);
     expect(uiCreated.status()).toBe(201);
-    await expect(page.getByTestId("waitlist-status")).toContainText(
-      "on the list",
+    await expect(page.getByTestId("waitlist-status")).toHaveText(
+      PUBLIC_COPY.waitlist.success,
     );
   });
 
-  test("cabin plaque reserves a name without a bid or charge", async ({
+  test("cabin plaque API still works without homepage UI", async ({
     page,
     request,
   }) => {
     const name = `Plaque ${Date.now()}`;
     await page.goto("/");
-    await expect(page.getByTestId("cabin-plaque")).toBeVisible();
-    await expect(page.getByTestId("cabin-plaque-lead")).toContainText(
-      "$58,000",
-    );
-    await expect(page.getByTestId("cabin-plaque-lead")).toContainText(
-      "$120,000",
-    );
-    await expect(page.getByTestId("cabin-plaque-lead")).toContainText(
-      "not a panel seat",
-    );
+    await expect(page.getByTestId("cabin-plaque")).toHaveCount(0);
 
     const created = await request.post("/api/plaque", {
       data: { name },
@@ -359,8 +375,9 @@ test.describe("P1 waitlist campaign locks", () => {
     expect(await again.json()).toMatchObject({ ok: true, status: "exists" });
 
     await page.goto("/");
-    await expect(page.getByTestId("cabin-plaque-list")).toContainText(name);
+    await expect(page.getByTestId("cabin-plaque")).toHaveCount(0);
     const html = await page.content();
+    expect(html).not.toContain(name);
     expect(html.toLowerCase()).not.toMatch(/\blease\b/);
     expect(html).not.toContain("CLOSE_AT");
     expect(html).not.toContain("FEATURES.md");

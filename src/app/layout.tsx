@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Syne, IBM_Plex_Sans } from "next/font/google";
+import { PUBLIC_COPY } from "@/lib/public-copy";
 import "./globals.css";
 
 const display = Syne({
@@ -15,14 +16,12 @@ const body = IBM_Plex_Sans({
 });
 
 export const metadata: Metadata = {
-  title: "BrandMyBeast — twelve panels on a Cyberbeast",
-  description:
-    "Twelve brands on a Cyberbeast. Miss $58,000 and nobody pays. $120,000 buys the truck and unlocks etch.",
+  title: PUBLIC_COPY.meta.title,
+  description: PUBLIC_COPY.meta.description,
   metadataBase: new URL("https://brandmybeast.com"),
   openGraph: {
     title: "BrandMyBeast",
-    description:
-      "Twelve brands on a Cyberbeast. Ordered only if the board clears.",
+    description: PUBLIC_COPY.meta.description,
     url: "https://brandmybeast.com",
     siteName: "BrandMyBeast",
     type: "website",
