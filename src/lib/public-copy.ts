@@ -24,9 +24,9 @@ export const PUBLIC_COPY = {
   board: {
     heading: "The numbers",
     lead: "This is an auction for advertising space. Twelve brands do not own the truck. They buy a year on it — or they get their money back.",
-    raisedLabel: "Pledged so far",
+    raisedLabel: "Pledged intent",
     raisedHint:
-      "No one has a paid seat yet. If the floor is missed, every bid is refunded.",
+      "Sum of approved intents — not cash raised. Cards are not charged until P3. If the floor is missed, every bid is refunded.",
     floorLabel: "Floor — $58,000",
     floorHint:
       "Enough to order the Cyberbeast and pay for a professional wrap.",

@@ -14,8 +14,8 @@ Updated: 2026-09-14
 - A FEATURES.md row is not scheduled until it has a checkbox in this file.
 - Coordinator may merge a PR that finishes exactly one unchecked slice, Playwright is green, and the merge gates below hold.
 
-**Now:** 4.1 Public “standing” = sum of approved intents. Label it pledged intent, not cash raised, until P3.
-**Last merged:** 3.7 (#79 side/front/rear SVG hotspots)
+**Now:** 4.2 Shortfall ticker: dollars to floor, open seats. No impressions.
+**Last merged:** 4.1 (#80 pledged intent = approved standing)
 
 ## Standing orders
 
@@ -90,7 +90,7 @@ If any gate fails: leave the PR unmerged and stop that slice.
 
 ## Wave 4 — board honesty
 
-- [ ] 4.1 Public “standing” = sum of approved intents. Label it pledged intent, not cash raised, until P3.
+- [x] 4.1 Public “standing” = sum of approved intents. Label it pledged intent, not cash raised, until P3. (#80)
 - [ ] 4.2 Shortfall ticker: dollars to floor, open seats. No impressions.
 - [ ] 4.3 Vault marks at $58,000 and $120,000 on the bar only.
 - [ ] 4.4 Wreck / refund FAQ uses PUBLIC_COPY.md + CAMPAIGN.md only. No invented legal terms.

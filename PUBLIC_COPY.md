@@ -27,8 +27,8 @@ Updated: 2026-09-14
 
 - Heading: `The numbers`
 - Lead: `This is an auction for advertising space. Twelve brands do not own the truck. They buy a year on it — or they get their money back.`
-- Raised label: `Pledged so far`
-- Raised hint (under floor): `No one has a paid seat yet. If the floor is missed, every bid is refunded.`
+- Raised label: `Pledged intent`
+- Raised hint (under floor): `Sum of approved intents — not cash raised. Cards are not charged until P3. If the floor is missed, every bid is refunded.`
 - Floor label: `Floor — $58,000`
 - Floor hint: `Enough to order the Cyberbeast and pay for a professional wrap.`
 - Buyout label: `Buyout — $120,000`

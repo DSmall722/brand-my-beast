@@ -570,6 +570,53 @@ test.describe("intent store memory ledger", () => {
     expect(empty.seatedPanels).toBe(0);
   });
 
+  test("slice 4.1: public standing sums approved intents only", async () => {
+    process.env.INTENT_MODE = "memory";
+    await resetIntentStoreForTests();
+
+    const listed = await placeIntentBid({
+      panelId: "hood",
+      userId: "listed_only",
+      brandLabel: "Listed Co",
+      tradeLabel: "listed snacks",
+      standingUsd: 2500,
+    });
+    expect(listed.ok).toBeTruthy();
+    if (!listed.ok) return;
+
+    const afterListed = await loadBoardIntentStats();
+    expect(afterListed.pledgedUsd).toBe(0);
+    expect(afterListed.seatedPanels).toBe(0);
+    expect(afterListed.openSeats).toBe(12);
+
+    const approved = await setIntentStatus(listed.bid.id, "approved");
+    expect(approved.ok).toBeTruthy();
+    if (!approved.ok) return;
+
+    const afterApproved = await loadBoardIntentStats();
+    expect(afterApproved.pledgedUsd).toBe(2500);
+    expect(afterApproved.seatedPanels).toBe(1);
+    expect(afterApproved.openSeats).toBe(11);
+
+    const second = await placeIntentBid({
+      panelId: "driver-door",
+      userId: "approved_two",
+      brandLabel: "Door Co",
+      tradeLabel: "door tools",
+      standingUsd: 3000,
+    });
+    expect(second.ok).toBeTruthy();
+    if (!second.ok) return;
+    const secondApproved = await setIntentStatus(second.bid.id, "approved");
+    expect(secondApproved.ok).toBeTruthy();
+    if (!secondApproved.ok) return;
+
+    const afterTwo = await loadBoardIntentStats();
+    expect(afterTwo.pledgedUsd).toBe(5500);
+    expect(afterTwo.seatedPanels).toBe(2);
+    expect(afterTwo.openSeats).toBe(10);
+  });
+
 test.describe("honest shortfall math (no clock)", () => {
   test("shortfall and floor progress from pledged intents", () => {
     expect(shortfallToFloorUsd(0)).toBe(FLOOR_USD);

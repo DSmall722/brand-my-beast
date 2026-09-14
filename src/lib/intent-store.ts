@@ -467,7 +467,8 @@ export type BoardIntentStats = {
 };
 
 /**
- * Honest board totals from active intents (listed/approved standing).
+ * Public board standing = sum of approved intents only (slice 4.1).
+ * Listed (not yet approved) does not count toward pledged intent.
  * Empty panels do not count opening marks as pledged.
  * Soft-fails to an empty board if the ledger is unreachable (e.g. migration
  * not applied yet on preview) so the homepage can still render.
@@ -483,12 +484,10 @@ export async function loadBoardIntentStats(): Promise<BoardIntentStats> {
     let seatedPanels = 0;
     for (const panel of PANELS) {
       const bids = await listBidsForPanel(panel.id);
-      const active = bids.filter(
-        (bid) => bid.status === "listed" || bid.status === "approved",
-      );
-      if (active.length === 0) continue;
+      const approved = bids.filter((bid) => bid.status === "approved");
+      if (approved.length === 0) continue;
       seatedPanels += 1;
-      pledgedUsd += Math.max(...active.map((bid) => bid.standingUsd));
+      pledgedUsd += Math.max(...approved.map((bid) => bid.standingUsd));
     }
     return {
       pledgedUsd,

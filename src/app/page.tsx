@@ -155,7 +155,9 @@ export default async function HomePage() {
           <p className="section-lead">{PUBLIC_COPY.board.lead}</p>
           <div className="money-grid">
             <div className="money-cell">
-              <div className="label">{PUBLIC_COPY.board.raisedLabel}</div>
+              <div className="label" data-testid="raised-label">
+                {PUBLIC_COPY.board.raisedLabel}
+              </div>
               <div className="value" data-testid="raised-amount">
                 {raisedLabel}
               </div>
