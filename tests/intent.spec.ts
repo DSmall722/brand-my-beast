@@ -101,6 +101,10 @@ import {
   seasonTwoCopyIsSafe,
 } from "../src/lib/season-two";
 import {
+  DIRTY_CLEAN_PAIR_LEAD,
+  dirtyCleanPairCopyIsSafe,
+} from "../src/lib/dirty-clean-pair";
+import {
   EVENT_REQUEST_KINDS,
   EVENT_REQUEST_LEAD,
   eventRequestCopyIsSafe,
@@ -801,6 +805,19 @@ test.describe("season 2 board (no first-refusal sale)", () => {
     expect(SEASON_TWO_LEAD.toLowerCase()).toContain("not for sale in v1");
     expect(SEASON_TWO_LEAD.toLowerCase()).toContain("no reserved vin");
     expect(seasonTwoCopyIsSafe()).toBe(true);
+    expect(FLOOR_USD).toBe(58_000);
+    expect(GOAL_USD).toBe(120_000);
+  });
+});
+
+test.describe("dirty-vs-clean pair (preview only)", () => {
+  test("publishes pair lead without lease, clock, bounty, or impressions", () => {
+    expect(DIRTY_CLEAN_PAIR_LEAD).toContain("$58,000");
+    expect(DIRTY_CLEAN_PAIR_LEAD).toContain("$120,000");
+    expect(DIRTY_CLEAN_PAIR_LEAD.toLowerCase()).toContain("preview only");
+    expect(DIRTY_CLEAN_PAIR_LEAD.toLowerCase()).toContain("not a photo");
+    expect(DIRTY_CLEAN_PAIR_LEAD.toLowerCase()).toContain("no reserved vin");
+    expect(dirtyCleanPairCopyIsSafe()).toBe(true);
     expect(FLOOR_USD).toBe(58_000);
     expect(GOAL_USD).toBe(120_000);
   });
