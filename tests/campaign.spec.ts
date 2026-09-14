@@ -86,9 +86,12 @@ test.describe("P1 waitlist campaign locks", () => {
     await expect(page.getByTestId("raised-label")).toHaveText(
       PUBLIC_COPY.board.raisedLabel,
     );
-    expect(PUBLIC_COPY.board.raisedLabel.toLowerCase()).toContain("pledged intent");
-    expect(PUBLIC_COPY.board.raisedHint.toLowerCase()).toMatch(/not cash raised/);
-    expect(PUBLIC_COPY.board.raisedHint.toLowerCase()).toMatch(/approved intents/);
+    expect(PUBLIC_COPY.board.raisedLabel.toLowerCase()).toContain("pledged so far");
+    expect(PUBLIC_COPY.board.raisedHint.toLowerCase()).not.toMatch(/\bp3\b/);
+    expect(PUBLIC_COPY.board.raisedHint.toLowerCase()).not.toMatch(
+      /operator[- ]financ/,
+    );
+    expect(PUBLIC_COPY.board.raisedHint.toLowerCase()).toMatch(/refund/);
     await expect(page.getByTestId("raised-hint")).toHaveText(
       PUBLIC_COPY.board.raisedHint,
     );
@@ -196,11 +199,8 @@ test.describe("P1 waitlist campaign locks", () => {
         item.a,
       );
     }
-    await expect(page.getByTestId("wreck-body-campaign-miss")).toContainText(
-      "full refund",
-    );
-    await expect(page.getByTestId("wreck-body-campaign-miss")).toContainText(
-      "$58,000",
+    await expect(page.getByTestId("wreck-body-campaign-miss")).toHaveText(
+      PUBLIC_COPY.wreck.items.find((item) => item.id === "campaign-miss")!.a,
     );
     await expect(page.getByTestId("wreck-body-wrap-pro-rata")).toContainText(
       "pro-rata",
