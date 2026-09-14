@@ -1,7 +1,17 @@
+import { DrizzleAdapter } from "@auth/drizzle-adapter";
 import NextAuth from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 import GitHub from "next-auth/providers/github";
+import Resend from "next-auth/providers/resend";
 import type { Provider } from "next-auth/providers";
+import { BRAND } from "@/lib/campaign";
+import { getDb } from "@/lib/db";
+import {
+  authAccounts,
+  authSessions,
+  authUsers,
+  authVerificationTokens,
+} from "@/lib/db/schema";
 import {
   authSecretOrThrow,
   enabledAuthProviders,
@@ -39,6 +49,16 @@ function buildProviders(): Provider[] {
     );
   }
 
+  if (enabled.has("resend")) {
+    providers.push(
+      Resend({
+        apiKey: process.env.RESEND_API_KEY!,
+        from:
+          process.env.RESEND_FROM ?? `${BRAND.name} <${BRAND.email}>`,
+      }),
+    );
+  }
+
   if (enabled.has("github")) {
     providers.push(
       GitHub({
@@ -64,13 +84,28 @@ function buildProviders(): Provider[] {
   return providers;
 }
 
+function buildAdapter() {
+  const enabled = enabledAuthProviders();
+  if (!enabled.includes("resend")) return undefined;
+  const db = getDb();
+  if (!db) return undefined;
+  return DrizzleAdapter(db, {
+    usersTable: authUsers,
+    accountsTable: authAccounts,
+    sessionsTable: authSessions,
+    verificationTokensTable: authVerificationTokens,
+  });
+}
+
 export const { handlers, auth, signIn, signOut } = NextAuth({
+  adapter: buildAdapter(),
   providers: buildProviders(),
   secret: authSecretOrThrow(),
   trustHost: true,
   session: { strategy: "jwt" },
   pages: {
     signIn: "/signin",
+    verifyRequest: "/signin/check-email",
   },
   callbacks: {
     jwt({ token, user }) {

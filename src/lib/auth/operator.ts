@@ -15,7 +15,7 @@ export function isOperatorEmail(
     .filter(Boolean);
   if (allow.includes(email.toLowerCase())) return true;
   if (
-    resolveAuthMode(env as NodeJS.ProcessEnv) === "test" &&
+    resolveAuthMode(env) === "test" &&
     email.endsWith("@example.com")
   ) {
     return true;
