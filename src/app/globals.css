@@ -2225,3 +2225,83 @@ a {
 .intent-artwork-link {
   font-size: 0.9rem;
 }
+
+
+/* Slice 3.7 — side/front/rear SVG hotspots */
+.truck-view-hotspots {
+  margin-top: 0.75rem;
+}
+.truck-view-hotspots-compact {
+  margin-top: 0.5rem;
+  margin-bottom: 1rem;
+}
+.truck-view-lead {
+  margin-bottom: 0.75rem;
+}
+.truck-view-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 0.75rem;
+}
+.truck-view-tab {
+  appearance: none;
+  border: 1px solid color-mix(in oklab, white 18%, transparent);
+  background: color-mix(in oklab, white 4%, transparent);
+  color: var(--steel-100);
+  padding: 0.4rem 0.85rem;
+  border-radius: 4px;
+  cursor: pointer;
+  font: inherit;
+}
+.truck-view-tab.is-active,
+.truck-view-tab[aria-pressed="true"] {
+  border-color: var(--signal);
+  background: color-mix(in oklab, var(--signal) 16%, transparent);
+  color: var(--signal);
+}
+.truck-view-stage {
+  border: 1px solid color-mix(in oklab, white 12%, transparent);
+  border-radius: 8px;
+  padding: 0.75rem;
+  background:
+    linear-gradient(160deg, #1a2028 0%, #0e1218 55%, #151b22 100%);
+}
+.truck-view-svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: 220px;
+}
+.truck-view-body,
+.truck-view-cab {
+  fill: color-mix(in oklab, var(--steel-300) 22%, transparent);
+  stroke: color-mix(in oklab, var(--steel-100) 35%, transparent);
+  stroke-width: 1.2;
+}
+.truck-hotspot {
+  stroke-width: 1.5;
+  transition: fill 120ms ease, stroke 120ms ease;
+}
+.truck-hotspot.is-raw {
+  fill: color-mix(in oklab, var(--steel-100) 18%, transparent);
+  stroke: var(--steel-300);
+}
+.truck-hotspot.is-held {
+  fill: color-mix(in oklab, var(--signal) 28%, transparent);
+  stroke: var(--signal);
+}
+.truck-hotspot.is-active {
+  fill: color-mix(in oklab, var(--signal) 48%, transparent);
+  stroke: var(--signal);
+}
+a:hover .truck-hotspot.is-raw,
+a:focus-visible .truck-hotspot.is-raw {
+  fill: color-mix(in oklab, var(--steel-100) 32%, transparent);
+  stroke: var(--steel-100);
+}
+.truck-view-legend {
+  margin: 0.65rem 0 0;
+  font-size: 0.85rem;
+  color: var(--steel-400);
+}

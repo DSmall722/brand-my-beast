@@ -1110,4 +1110,46 @@ test.describe("P2 panel intent + approvals", () => {
     expect(html).not.toContain("CLOSE_AT");
     expect(html.toLowerCase()).not.toContain("proof photo of the truck");
   });
+
+  test("slice 3.7: side/front/rear SVG hotspots; empty seats raw 30X", async ({
+    page,
+  }) => {
+    await page.goto("/");
+    await expect(page.getByTestId("truck-views-section")).toBeVisible();
+    await expect(page.getByTestId("truck-view-hotspots")).toBeVisible();
+    await expect(page.getByTestId("truck-view-lead")).toContainText("raw 30X");
+    await expect(page.getByTestId("truck-view-lead")).toContainText("Not a 360");
+    await expect(page.getByTestId("truck-view-lead")).toContainText("$58,000");
+    await expect(page.getByTestId("truck-view-side")).toHaveAttribute(
+      "aria-pressed",
+      "true",
+    );
+    await expect(page.getByTestId("truck-hotspot-hood")).toHaveAttribute(
+      "data-raw",
+      "true",
+    );
+    await page.getByTestId("truck-view-front").click();
+    await expect(page.getByTestId("truck-view-hotspots")).toHaveAttribute(
+      "data-view",
+      "front",
+    );
+    await expect(page.getByTestId("truck-hotspot-front-fascia")).toBeVisible();
+    await page.getByTestId("truck-view-rear").click();
+    await expect(page.getByTestId("truck-view-hotspots")).toHaveAttribute(
+      "data-view",
+      "rear",
+    );
+    await expect(page.getByTestId("truck-hotspot-tailgate")).toBeVisible();
+    await page.getByTestId("truck-hotspot-tailgate").click();
+    await expect(page).toHaveURL(/\/panels\/tailgate/);
+    await expect(page.getByTestId("truck-view-hotspots")).toBeVisible();
+    await expect(page.getByTestId("truck-hotspot-tailgate")).toHaveAttribute(
+      "data-active",
+      "true",
+    );
+    const html = await page.content();
+    expect(html.toLowerCase()).not.toMatch(/\blease\b/);
+    expect(html).not.toContain("CLOSE_AT");
+  });
+
 });

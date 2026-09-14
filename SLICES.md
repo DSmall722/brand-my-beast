@@ -14,8 +14,8 @@ Updated: 2026-09-14
 - A FEATURES.md row is not scheduled until it has a checkbox in this file.
 - Coordinator may merge a PR that finishes exactly one unchecked slice, Playwright is green, and the merge gates below hold.
 
-**Now:** 3.7 Side / front / rear views + SVG hotspots on the hero/seat truck (the old static prototype pattern). 360 later. Empty seats stay raw 30X.
-**Last merged:** 3.6 (#78 day/night/wet/dirty toggles)
+**Now:** 4.1 Public “standing” = sum of approved intents. Label it pledged intent, not cash raised, until P3.
+**Last merged:** 3.7 (#79 side/front/rear SVG hotspots)
 
 ## Standing orders
 
@@ -86,7 +86,7 @@ If any gate fails: leave the PR unmerged and stop that slice.
 - [x] 3.4 Etch linter from RULES.md. (#76)
 - [x] 3.5 Artwork URL or upload on the intent. (#77)
 - [x] 3.6 Day/night/wet/dirty as toggles. Not proof photos of a truck that does not exist. (#78)
-- [ ] 3.7 Side / front / rear views + SVG hotspots on the hero/seat truck (the old static prototype pattern). 360 later. Empty seats stay raw 30X.
+- [x] 3.7 Side / front / rear views + SVG hotspots on the hero/seat truck (the old static prototype pattern). 360 later. Empty seats stay raw 30X. (#79)
 
 ## Wave 4 — board honesty
 

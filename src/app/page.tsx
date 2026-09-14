@@ -8,6 +8,7 @@ import { SeasonTwoBoardCard } from "@/components/SeasonTwoBoardCard";
 import { SightingForm } from "@/components/SightingForm";
 import { TruckOrderTrackerCard } from "@/components/TruckOrderTrackerCard";
 import { VaultCertificateCard } from "@/components/VaultCertificateCard";
+import { TruckViewHotspots } from "@/components/TruckViewHotspots";
 import { WaitlistForm } from "@/components/WaitlistForm";
 import { WeeklyMileageLedgerCard } from "@/components/WeeklyMileageLedgerCard";
 import { LandmarkProofLogCard } from "@/components/LandmarkProofLogCard";
@@ -45,7 +46,10 @@ import {
   EVENT_REQUEST_LEAD,
 } from "@/lib/event-request";
 import { listEventRequests } from "@/lib/event-request-store";
-import { loadBoardIntentStats } from "@/lib/intent-store";
+import {
+  loadBoardIntentStats,
+  loadStandingHoldersByPanel,
+} from "@/lib/intent-store";
 import { PUBLIC_COPY } from "@/lib/public-copy";
 import { SIGHTING_CORRIDORS, SIGHTING_LEAD } from "@/lib/sighting";
 import { listSightings } from "@/lib/sighting-store";
@@ -55,6 +59,8 @@ export const dynamic = "force-dynamic";
 
 export default async function HomePage() {
   const board = await loadBoardIntentStats();
+  const standingHolders = await loadStandingHoldersByPanel();
+  const occupiedPanelIds = [...standingHolders.keys()];
   const circuitStories = TRUCK_EXISTS
     ? await listCircuitStoryRequests()
     : [];
@@ -128,6 +134,16 @@ export default async function HomePage() {
               </a>
             </div>
           </div>
+        </section>
+
+        <section
+          className="shell section"
+          id="truck-views"
+          aria-labelledby="truck-views-title"
+          data-testid="truck-views-section"
+        >
+          <h2 id="truck-views-title">Board truck seats</h2>
+          <TruckViewHotspots occupiedPanelIds={occupiedPanelIds} />
         </section>
 
         <section
