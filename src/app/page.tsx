@@ -7,8 +7,10 @@ import {
   FLOOR_USD,
   GOAL_USD,
   PANELS,
+  floorMarkerPercentOnGoalTrack,
   floorProgressPercent,
   formatUsd,
+  goalProgressPercent,
   isEtchable,
   shortfallToFloorUsd,
   shortfallToGoalUsd,
@@ -26,6 +28,8 @@ export default async function HomePage() {
   const raisedLabel = formatUsd(pledgedUsd);
   const etchUnlocked = pledgedUsd >= GOAL_USD;
   const floorPct = floorProgressPercent(pledgedUsd);
+  const goalPct = goalProgressPercent(pledgedUsd);
+  const floorMarkerPct = floorMarkerPercentOnGoalTrack();
   const shortfallFloor = shortfallToFloorUsd(pledgedUsd);
   const shortfallGoal = shortfallToGoalUsd(pledgedUsd);
   const closeCopy =
@@ -104,16 +108,38 @@ export default async function HomePage() {
               </p>
             </div>
           </div>
-          <div className="progress" data-testid="money-progress">
+          <div
+            className="progress visual-vault"
+            data-testid="visual-vault"
+            role="img"
+            aria-label={`Visual vault: ${raisedLabel} of ${goalLabel}. Floor marker at ${floorLabel}.`}
+          >
             <div className="progress-track" aria-hidden="true">
               <div
                 className="progress-fill"
                 data-testid="money-progress-fill"
-                style={{ width: `${floorPct}%` }}
+                style={{ width: `${goalPct}%` }}
               />
+              <span
+                className="vault-marker vault-marker-floor"
+                data-testid="vault-marker-floor"
+                style={{ left: `${floorMarkerPct}%` }}
+                title={`Floor ${floorLabel}`}
+              />
+              <span
+                className="vault-marker vault-marker-goal"
+                data-testid="vault-marker-goal"
+                style={{ left: "100%" }}
+                title={`Buyout ${goalLabel}`}
+              />
+            </div>
+            <div className="vault-legend" data-testid="vault-legend">
+              <span data-testid="vault-floor-label">Floor {floorLabel}</span>
+              <span data-testid="vault-goal-label">Buyout {goalLabel}</span>
             </div>
             <div className="progress-meta">
               <span data-testid="floor-progress-copy">{floorPct}% of floor</span>
+              <span data-testid="goal-progress-copy">{goalPct}% of buyout</span>
               <span data-testid="close-copy">{closeCopy}</span>
             </div>
           </div>

@@ -11,7 +11,9 @@ import {
 import {
   FLOOR_USD,
   GOAL_USD,
+  floorMarkerPercentOnGoalTrack,
   floorProgressPercent,
+  goalProgressPercent,
   shortfallToFloorUsd,
   shortfallToGoalUsd,
 } from "../src/lib/campaign";
@@ -160,5 +162,17 @@ test.describe("honest shortfall math (no clock)", () => {
     expect(floorProgressPercent(FLOOR_USD)).toBe(100);
     expect(floorProgressPercent(FLOOR_USD * 2)).toBe(100);
     expect(shortfallToGoalUsd(GOAL_USD)).toBe(0);
+  });
+
+  test("visual vault markers sit on the buyout track", () => {
+    expect(goalProgressPercent(0)).toBe(0);
+    expect(goalProgressPercent(GOAL_USD / 2)).toBe(50);
+    expect(goalProgressPercent(GOAL_USD)).toBe(100);
+    expect(goalProgressPercent(GOAL_USD * 2)).toBe(100);
+    expect(floorMarkerPercentOnGoalTrack()).toBe(
+      Math.round((FLOOR_USD / GOAL_USD) * 1000) / 10,
+    );
+    expect(floorMarkerPercentOnGoalTrack()).toBeGreaterThan(0);
+    expect(floorMarkerPercentOnGoalTrack()).toBeLessThan(100);
   });
 });

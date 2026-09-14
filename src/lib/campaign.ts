@@ -175,3 +175,16 @@ export function floorProgressPercent(pledgedUsd: number): number {
   }
   return Math.min(100, Math.round((pledgedUsd / FLOOR_USD) * 100));
 }
+
+/** Progress toward the buyout on the visual vault track, capped at 100. */
+export function goalProgressPercent(pledgedUsd: number): number {
+  if (!Number.isFinite(pledgedUsd) || pledgedUsd < 0) {
+    throw new Error("pledgedUsd must be a non-negative finite number");
+  }
+  return Math.min(100, Math.round((pledgedUsd / GOAL_USD) * 100));
+}
+
+/** Floor marker position on a 0→buyout vault track (percent). */
+export function floorMarkerPercentOnGoalTrack(): number {
+  return Math.round((FLOOR_USD / GOAL_USD) * 1000) / 10;
+}
