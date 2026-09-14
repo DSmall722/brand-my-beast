@@ -186,6 +186,25 @@ test.describe("P1 waitlist campaign locks", () => {
     await expect(page.getByTestId("weekly-mileage-ledger-no-vin")).toContainText(
       "No reserved VIN",
     );
+    await expect(page.getByTestId("landmark-proof-log")).toBeVisible();
+    await expect(page.getByTestId("landmark-proof-log-lead")).toContainText(
+      "$58,000",
+    );
+    await expect(page.getByTestId("landmark-proof-log-lead")).toContainText(
+      "$120,000",
+    );
+    await expect(page.getByTestId("landmark-proof-log-lead")).toContainText(
+      "No reserved VIN",
+    );
+    await expect(
+      page.getByTestId("landmark-proof-log-empty-until-truck"),
+    ).toContainText("No invented landmark visits");
+    await expect(page.getByTestId("landmark-proof-log-empty")).toContainText(
+      "No landmark proofs yet",
+    );
+    await expect(page.getByTestId("landmark-proof-log-no-vin")).toContainText(
+      "No reserved VIN",
+    );
 
     await expect(page.getByTestId("raised-hint")).toContainText(
       "Under the floor: full refund.",
