@@ -27,11 +27,11 @@ Do not build a second framework. Do not put the auction ledger in `localStorage`
 
 ## Phases
 
-**P0 — planning.** Copy, LLC path, wrap-shop quote, dock markdown. Done enough to ship P1.
+**P0 — planning.** Copy, LLC path, wrap-shop quote, dock markdown. **Done** (shipped P1).
 
 **P1 — waitlist (live).** `brandmybeast.com` is a real page: story, 12 panels, floor/goal, email capture to Resend/Postgres. No Stripe. No countdown with a fake date. Local prove: `.cursor/skills/verify-brandmybeast/`.
 
-**P2 — soft auction (in progress).** Auth.js wired with `AUTH_MODE=test` for CI and optional GitHub for live. Intent helpers in `src/lib/intent.ts`. Next: panel bid UI + operator approval thread. Still no capture.
+**P2 — soft auction (in progress).** Auth.js with `AUTH_MODE=test` for CI; optional GitHub for live. Panel intent UI, operator approvals, durable/memory intent ledger, waitlist→intent CTAs, and failed-winner waitlist handoff are in. Still no capture.
 
 **P3 — live money.** Stripe SetupIntent, terms, wreck clause, 30-day clock starts the morning this ships. Soft close. Close-night capture or release.
 

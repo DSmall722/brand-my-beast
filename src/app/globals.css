@@ -774,6 +774,28 @@ a {
   line-height: 1.45;
 }
 
+.failed-winner-banner {
+  margin: 0 0 1.25rem;
+  padding: 0.85rem 1rem;
+  border-radius: 0.75rem;
+  border: 1px solid color-mix(in oklab, var(--warn) 40%, transparent);
+  background: color-mix(in oklab, var(--warn) 10%, transparent);
+  color: var(--steel-100);
+  font-size: 0.95rem;
+  line-height: 1.45;
+}
+
+.failed-winner-banner a {
+  color: var(--signal);
+  text-decoration: underline;
+  text-decoration-color: color-mix(in oklab, var(--signal) 45%, transparent);
+}
+
+.failed-winner-banner a:hover {
+  color: white;
+  text-decoration-color: var(--signal);
+}
+
 .intent-compose {
   margin-bottom: 1.75rem;
 }
