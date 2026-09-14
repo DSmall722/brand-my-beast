@@ -93,6 +93,10 @@ import {
   vaultCertificateCopyIsSafe,
 } from "../src/lib/vault-certificate";
 import {
+  RETIRED_VINYL_LEAD,
+  retiredVinylCopyIsSafe,
+} from "../src/lib/retired-vinyl";
+import {
   EVENT_REQUEST_KINDS,
   EVENT_REQUEST_LEAD,
   eventRequestCopyIsSafe,
@@ -510,6 +514,9 @@ test.describe("winner portal (no capture)", () => {
     expect(
       WINNER_PORTAL_FACTS.some((fact) => fact.id === "vault-certificate"),
     ).toBe(true);
+    expect(
+      WINNER_PORTAL_FACTS.some((fact) => fact.id === "retired-vinyl"),
+    ).toBe(true);
     const blob = WINNER_PORTAL_FACTS.map((fact) => fact.text).join(" ");
     expect(blob).toContain("12 months from install");
     expect(blob).not.toContain("CLOSE_AT");
@@ -760,6 +767,19 @@ test.describe("event request calendar (no livestream)", () => {
       requestedDate: "11/07/2026",
     });
     expect(badDate.ok).toBe(false);
+    expect(FLOOR_USD).toBe(58_000);
+    expect(GOAL_USD).toBe(120_000);
+  });
+});
+
+test.describe("retired-vinyl framed artifact (no cash)", () => {
+  test("publishes wrap-term frame copy without cash, VIN, or livestream price", () => {
+    expect(RETIRED_VINYL_LEAD).toContain("$58,000");
+    expect(RETIRED_VINYL_LEAD).toContain("$120,000");
+    expect(RETIRED_VINYL_LEAD.toLowerCase()).toContain("12 months from install");
+    expect(RETIRED_VINYL_LEAD.toLowerCase()).toContain("not cash");
+    expect(RETIRED_VINYL_LEAD.toLowerCase()).toContain("no reserved vin");
+    expect(retiredVinylCopyIsSafe()).toBe(true);
     expect(FLOOR_USD).toBe(58_000);
     expect(GOAL_USD).toBe(120_000);
   });

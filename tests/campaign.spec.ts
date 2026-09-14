@@ -99,6 +99,22 @@ test.describe("P1 waitlist campaign locks", () => {
     await expect(page.getByTestId("vault-cert-floor-miss")).toContainText(
       "$58,000",
     );
+    await expect(page.getByTestId("retired-vinyl")).toBeVisible();
+    await expect(page.getByTestId("retired-vinyl-lead")).toContainText(
+      "$58,000",
+    );
+    await expect(page.getByTestId("retired-vinyl-lead")).toContainText(
+      "$120,000",
+    );
+    await expect(page.getByTestId("retired-vinyl-wrap-term")).toContainText(
+      "12 months from install",
+    );
+    await expect(page.getByTestId("retired-vinyl-not-cash")).toContainText(
+      "No livestream",
+    );
+    await expect(page.getByTestId("retired-vinyl-floor-miss")).toContainText(
+      "$58,000",
+    );
 
     await expect(page.getByTestId("raised-hint")).toContainText(
       "Under the floor: full refund.",
