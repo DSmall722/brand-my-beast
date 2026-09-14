@@ -10,7 +10,8 @@ Project-local verification skill for the P1 waitlist app. Agents read this cold.
 ## Launch
 
 Use a disposable port so you do not collide with a human `npm run dev` on 3000.
-Launch boots **`next start`** (production server) after ensuring `.next` exists.
+Launch boots **`next start`** (production server) after ensuring `.next/BUILD_ID` exists
+(Playwright/`next dev` alone is not enough — they leave `.next/dev` without a prod build).
 Do not use a second `next dev` in this worktree. Next.js refuses it.
 
 ```bash
@@ -47,7 +48,7 @@ Stable handles:
 | `floor-amount` | `$58,000` order+wrap floor |
 | `goal-amount` | `$120,000` buy+etch buyout |
 | `raised-amount` | Raised total (P1 is `$0`) |
-| `close-copy` | Must say close date unset |
+| `close-copy` | Unset clock: `Auction clock starts when bidding opens.` |
 | `panel-grid` | Twelve panel cards |
 | `panel-<id>` | One panel |
 | `etch-lock-<id>` | Etch locked under buyout |

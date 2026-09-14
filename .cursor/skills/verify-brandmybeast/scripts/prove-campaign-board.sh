@@ -44,7 +44,7 @@ if (brand !== "BrandMyBeast") throw new Error(`bad brand: ${brand}`);
 if (floor !== "$58,000") throw new Error(`bad floor: ${floor}`);
 if (goal !== "$120,000") throw new Error(`bad goal: ${goal}`);
 if (raised !== "$0") throw new Error(`bad raised: ${raised}`);
-if (!close.toLowerCase().includes("close date unset")) {
+if (close.trim() !== "Auction clock starts when bidding opens.") {
   throw new Error(`bad close: ${close}`);
 }
 await browser.close();

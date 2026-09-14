@@ -26,7 +26,7 @@ Maintained source for verifying user-facing P1 waitlist behavior. Read this inde
 
 ## Features
 
-- [Campaign board](./campaign-board.md) — brand, floor, buyout, unset close date
+- [Campaign board](./campaign-board.md) — brand, floor, buyout, unset auction clock
 - [Panel grid](./panel-grid.md) — twelve panels, etch locked under buyout
 - [Waitlist signup](./waitlist-signup.md) — email capture create/exists
 - [Identity locks](./identity-locks.md) — public strings only, no lease, no personal gmail

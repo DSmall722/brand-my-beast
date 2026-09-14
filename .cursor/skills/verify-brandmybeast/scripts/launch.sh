@@ -19,7 +19,9 @@ if [[ -f "$PID_FILE" ]]; then
   rm -f "$PID_FILE"
 fi
 
-if [[ ! -d .next ]]; then
+# Playwright / next dev leave `.next/dev` without a production BUILD_ID.
+# `next start` needs a real production build.
+if [[ ! -f .next/BUILD_ID ]]; then
   npm run build
 fi
 
@@ -29,15 +31,21 @@ npx next start --hostname 127.0.0.1 --port "$PORT" >"$ART_DIR/dev.log" 2>&1 &
 echo $! >"$PID_FILE"
 
 i=0
-while [[ $i -lt 60 ]]; do
+while [[ $i -lt 90 ]]; do
   if curl -sf "$URL" | grep -q "BrandMyBeast"; then
     echo "Ready $URL pid=$(cat "$PID_FILE")"
     echo "$URL"
     exit 0
+  fi
+  if ! kill -0 "$(cat "$PID_FILE")" 2>/dev/null; then
+    echo "Launch process exited early. See $ART_DIR/dev.log" >&2
+    rm -f "$PID_FILE"
+    exit 1
   fi
   i=$((i + 1))
   sleep 0.5
 done
 
 echo "Launch timed out. See $ART_DIR/dev.log" >&2
+"$ROOT/.cursor/skills/verify-brandmybeast/scripts/cleanup.sh" >/dev/null 2>&1 || true
 exit 1
