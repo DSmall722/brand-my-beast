@@ -14,8 +14,8 @@ Updated: 2026-09-14
 - A FEATURES.md row is not scheduled until it has a checkbox in this file.
 - Coordinator may merge a PR that finishes exactly one unchecked slice, Playwright is green, and the merge gates below hold.
 
-**Now:** 6.1 Playwright: floor, buyout, etch lock, no lease, no personal handle.
-**Last merged:** 5.4 (#89 partner shop read-only, no public header link)
+**Now:** 6.2 Playwright: intent create / outbid / exclusivity / increment.
+**Last merged:** 6.1 (#90 Playwright floor, buyout, etch lock, no lease, no personal handle)
 
 ## Standing orders
 
@@ -106,7 +106,7 @@ If any gate fails: leave the PR unmerged and stop that slice.
 
 ## Wave 6 — harden
 
-- [ ] 6.1 Playwright: floor, buyout, etch lock, no lease, no personal handle.
+- [x] 6.1 Playwright: floor, buyout, etch lock, no lease, no personal handle. (#90)
 - [ ] 6.2 Playwright: intent create / outbid / exclusivity / increment.
 - [ ] 6.3 Playwright: operator approve / reject-with-note.
 - [ ] 6.4 verify-brandmybeast feature map matches Waves 0–5.
