@@ -5,7 +5,11 @@ const baseURL = process.env.PLAYWRIGHT_BASE_URL ?? `http://localhost:${PORT}`;
 
 export default defineConfig({
   testDir: "./tests",
-  fullyParallel: true,
+  // INTENT_MODE=memory is one process-global ledger. Parallel workers race
+  // resets vs creates (leftover panel-minimum, wiped exclusivity). CI stays
+  // single-worker; local can parallelize.
+  fullyParallel: !process.env.CI,
+  workers: process.env.CI ? 1 : undefined,
   forbidOnly: !!process.env.CI,
   retries: process.env.CI ? 2 : 0,
   reporter: "list",

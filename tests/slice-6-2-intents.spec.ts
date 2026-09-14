@@ -1,4 +1,4 @@
-import { expect, test } from "@playwright/test";
+import { expect, test, type APIRequestContext, type Page } from "@playwright/test";
 import {
   CLOSE_AT,
   FLOOR_USD,
@@ -16,7 +16,7 @@ import {
   resetIntentStoreForTests,
 } from "../src/lib/intent-store";
 
-async function signIn(page: import("@playwright/test").Page, email: string) {
+async function signIn(page: Page, email: string) {
   await page.goto("/signin");
   await page.getByTestId("signin-email").fill(email);
   await page.getByTestId("signin-password").fill("test");
@@ -24,13 +24,31 @@ async function signIn(page: import("@playwright/test").Page, email: string) {
   await expect(page.getByTestId("account-page")).toBeVisible();
 }
 
+async function resetServerIntents(request: APIRequestContext) {
+  const res = await request.post("/api/test/reset-intents");
+  expect(res.ok()).toBeTruthy();
+}
+
+/** Reset + reload until hood is at opening standing/minimum (no leftover ledger). */
+async function ensureHoodAtOpening(page: Page, request: APIRequestContext) {
+  for (let attempt = 0; attempt < 5; attempt += 1) {
+    await resetServerIntents(request);
+    await page.goto("/panels/hood");
+    const standing = (await page.getByTestId("panel-standing").innerText()).trim();
+    const minimum = (await page.getByTestId("panel-minimum").innerText()).trim();
+    if (standing === "$2,500" && minimum === "$2,500") return;
+  }
+  await expect(page.getByTestId("panel-standing")).toHaveText("$2,500");
+  await expect(page.getByTestId("panel-minimum")).toHaveText("$2,500");
+}
+
 /**
  * Slice 6.2 — merge-gate Playwright contract for intent create / outbid /
  * exclusivity / increment.
  *
- * Store tests reset in-process memory only. UI tests reset the Next server
- * store via API. Do not mix those resets in one beforeEach — parallel workers
- * otherwise wipe mid-flow seat state (panel-minimum stuck at opening).
+ * Store tests reset in-process memory only. Seat UI tests reset the Next
+ * server ledger via API and require CI workers=1 (see playwright.config.ts)
+ * so parallel suites cannot leave or wipe shared memory mid-flow.
  */
 test.describe("slice 6.2 store: create / outbid / exclusivity / increment", () => {
   test.beforeEach(async () => {
@@ -111,23 +129,20 @@ test.describe("slice 6.2 store: create / outbid / exclusivity / increment", () =
 test.describe("slice 6.2 seat UI: create / outbid / exclusivity / increment", () => {
   test.describe.configure({ mode: "serial" });
 
-  test.beforeEach(async ({ request }) => {
-    const res = await request.post("/api/test/reset-intents");
-    expect(res.ok()).toBeTruthy();
-  });
-
   test("create advances panel-minimum; low increment and foreign trade fail; outbid lands", async ({
     browser,
+    request,
   }) => {
     const holder = await browser.newPage();
     await signIn(holder, "slice62-ui-holder@example.com");
-    await holder.goto("/panels/hood");
+    await ensureHoodAtOpening(holder, request);
     await expect(holder.getByTestId("intent-increment-rule")).toContainText(
       "standing + max($250, 10%)",
     );
     await expect(holder.getByTestId("seat-exclusivity")).toBeVisible();
-    await expect(holder.getByTestId("panel-standing")).toContainText("2,500");
-    await expect(holder.getByTestId("panel-minimum")).toContainText("2,500");
+    await expect(holder.getByTestId("panel-standing")).toHaveText("$2,500");
+    await expect(holder.getByTestId("panel-minimum")).toHaveText("$2,500");
+
     await holder.getByTestId("intent-brand").fill("Slice Sixty Two UI Hold");
     await holder.getByTestId("intent-trade").fill("Circuit Snacks");
     await holder.getByTestId("intent-standing").fill("2500");
@@ -139,9 +154,8 @@ test.describe("slice 6.2 seat UI: create / outbid / exclusivity / increment", ()
     await expect(holder.getByTestId("intent-list")).toContainText(
       "Slice Sixty Two UI Hold",
     );
-    // Same document after server action + revalidate: minimum must advance.
-    await expect(holder.getByTestId("panel-standing")).toContainText("2,500");
-    await expect(holder.getByTestId("panel-minimum")).toContainText("2,750");
+    await expect(holder.getByTestId("panel-standing")).toHaveText("$2,500");
+    await expect(holder.getByTestId("panel-minimum")).toHaveText("$2,750");
     const holderHtml = await holder.content();
     expect(holderHtml.toLowerCase()).not.toMatch(/\blease\b/);
     expect(holderHtml).not.toContain("CLOSE_AT");
@@ -150,8 +164,8 @@ test.describe("slice 6.2 seat UI: create / outbid / exclusivity / increment", ()
     const low = await browser.newPage();
     await signIn(low, "slice62-ui-low@example.com");
     await low.goto("/panels/hood");
-    await expect(low.getByTestId("panel-standing")).toContainText("2,500");
-    await expect(low.getByTestId("panel-minimum")).toContainText("2,750");
+    await expect(low.getByTestId("panel-standing")).toHaveText("$2,500");
+    await expect(low.getByTestId("panel-minimum")).toHaveText("$2,750");
     await low.getByTestId("intent-brand").fill("Slice Sixty Two UI Low");
     await low.getByTestId("intent-trade").fill("Circuit Tools");
     await low
@@ -184,7 +198,7 @@ test.describe("slice 6.2 seat UI: create / outbid / exclusivity / increment", ()
     const ok = await browser.newPage();
     await signIn(ok, "slice62-ui-ok@example.com");
     await ok.goto("/panels/hood");
-    await expect(ok.getByTestId("panel-minimum")).toContainText("2,750");
+    await expect(ok.getByTestId("panel-minimum")).toHaveText("$2,750");
     await ok.getByTestId("intent-brand").fill("Slice Sixty Two UI Ok");
     await ok.getByTestId("intent-trade").fill("Circuit Vinyl");
     await ok.getByTestId("intent-standing").fill("2750");
@@ -195,8 +209,8 @@ test.describe("slice 6.2 seat UI: create / outbid / exclusivity / increment", ()
     await expect(ok.getByTestId("intent-list")).toContainText(
       "Slice Sixty Two UI Ok",
     );
-    await expect(ok.getByTestId("panel-standing")).toContainText("2,750");
-    await expect(ok.getByTestId("panel-minimum")).toContainText("3,025");
+    await expect(ok.getByTestId("panel-standing")).toHaveText("$2,750");
+    await expect(ok.getByTestId("panel-minimum")).toHaveText("$3,025");
     await expect(ok.getByTestId("seat-exclusivity")).toBeVisible();
     const okHtml = await ok.content();
     expect(okHtml.toLowerCase()).not.toMatch(/\blease\b/);
