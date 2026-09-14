@@ -331,6 +331,24 @@ test.describe("P1 waitlist campaign locks", () => {
     expect(html).not.toContain("Cabin plaque");
   });
 
+  test("slice 5.4: public homepage has no wrap-shop header link", async ({
+    page,
+  }) => {
+    await page.goto("/");
+    await expect(page.getByTestId("brand-wordmark")).toHaveText("BrandMyBeast");
+    await expect(page.getByTestId("shop-nav-link")).toHaveCount(0);
+    await expect(page.getByRole("link", { name: /wrap shop/i })).toHaveCount(0);
+    await expect(page.getByTestId("floor-amount")).toHaveText(
+      formatUsd(FLOOR_USD),
+    );
+    await expect(page.getByTestId("goal-amount")).toHaveText(
+      formatUsd(GOAL_USD),
+    );
+    const html = await page.content();
+    expect(html.toLowerCase()).not.toMatch(/\blease\b/);
+    expect(html).not.toContain("CLOSE_AT");
+  });
+
   test("shows the full hero title without clipping", async ({ page }) => {
     await page.goto("/");
     await expectHeroTitleUnclipped(page);
