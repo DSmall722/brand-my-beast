@@ -1,6 +1,6 @@
 /**
  * Process-local fixed-window limiter for waitlist + intent POSTs (slice 6.6).
- * Ephemeral throttle state only — not a durable store (6.7 owns Production memory).
+ * Ephemeral throttle state only — not a durable ledger (6.7 gates Production memory for waitlist/intent).
  */
 
 export type RateLimitScope = "waitlist" | "intent";

@@ -44,7 +44,7 @@ type IntentStoreEnv = {
 };
 
 /**
- * Memory is CI/local only. Vercel Production never uses memory (SLICES 1.1),
+ * Memory is CI/local only. Vercel Production never uses memory (SLICES 1.1 / 6.7),
  * even if INTENT_MODE=memory is mis-set. Local `next build` without
  * DATABASE_URL still uses memory when VERCEL_ENV is unset.
  */

@@ -36,11 +36,29 @@ function memoryStore(): Map<string, MemoryRow> {
   return globalStore.__bmbWaitlistMemory;
 }
 
+type WaitlistStoreEnv = {
+  VERCEL_ENV?: string;
+  WAITLIST_MODE?: string;
+  DATABASE_URL?: string;
+  NODE_ENV?: string;
+};
+
+/**
+ * Memory is CI/local only. Vercel Production never uses memory (SLICES 6.7),
+ * even if WAITLIST_MODE=memory is mis-set. Local `next build` without
+ * DATABASE_URL still uses memory when VERCEL_ENV is unset.
+ */
+export function waitlistStoreUsesMemory(
+  env: WaitlistStoreEnv = process.env as WaitlistStoreEnv,
+): boolean {
+  if (env.VERCEL_ENV === "production") return false;
+  if (env.WAITLIST_MODE === "memory") return true;
+  if (env.WAITLIST_MODE === "postgres") return false;
+  return !env.DATABASE_URL && env.NODE_ENV !== "production";
+}
+
 function useMemoryStore(): boolean {
-  // Explicit modes win (mirrors intent-store). CI sets WAITLIST_MODE=memory.
-  if (process.env.WAITLIST_MODE === "memory") return true;
-  if (process.env.WAITLIST_MODE === "postgres") return false;
-  return !process.env.DATABASE_URL && process.env.NODE_ENV !== "production";
+  return waitlistStoreUsesMemory();
 }
 
 async function notifyOperator(email: string): Promise<void> {
