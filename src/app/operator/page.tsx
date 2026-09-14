@@ -13,6 +13,10 @@ import {
   listDecidedBids,
 } from "@/lib/intent-store";
 import { listMockupsForBids } from "@/lib/mockup-store";
+import {
+  operatorCampaignLockLabels,
+  operatorCampaignLocks,
+} from "@/lib/operator-campaign-locks";
 
 export default async function OperatorPage() {
   const session = await auth();
@@ -41,13 +45,16 @@ export default async function OperatorPage() {
   const decidedNotes = await listApprovalNotesForBids(
     decided.map((bid) => bid.id),
   );
+  const locks = operatorCampaignLocks();
+  const lockLabels = operatorCampaignLockLabels();
 
   return (
     <>
       <SiteChrome />
       <main
         className="shell auth-page approvals-page"
-        data-testid="operator-approvals" data-operator-root="true"
+        data-testid="operator-approvals"
+        data-operator-root="true"
       >
         <p className="eyebrow">Operator</p>
         <h1>Intent approvals</h1>
@@ -55,6 +62,32 @@ export default async function OperatorPage() {
           Artwork checklist, approve or reject with a veto note, queue same-day
           Imagine placeholders. No cards are charged.
         </p>
+
+        <aside
+          className="operator-campaign-locks"
+          data-testid="operator-campaign-locks"
+          data-editable={locks.editable ? "true" : "false"}
+          aria-label="Campaign locks"
+        >
+          <p className="operator-campaign-locks-lead">
+            Campaign locks — display only. Operator UI cannot edit floor,
+            buyout, or close.
+          </p>
+          <dl className="operator-campaign-locks-grid">
+            <div>
+              <dt>Floor</dt>
+              <dd data-testid="operator-lock-floor">{lockLabels.floor}</dd>
+            </div>
+            <div>
+              <dt>Buyout</dt>
+              <dd data-testid="operator-lock-goal">{lockLabels.goal}</dd>
+            </div>
+            <div>
+              <dt>Close</dt>
+              <dd data-testid="operator-lock-close">{lockLabels.close}</dd>
+            </div>
+          </dl>
+        </aside>
 
         <p className="approvals-count" data-testid="approvals-count">
           {pending.length === 0 ? "Queue clear" : `${pending.length} waiting`}
