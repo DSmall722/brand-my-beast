@@ -87,6 +87,8 @@ export default async function AccountPage() {
                         </Link>
                         {" · "}
                         {bid.brandLabel}
+                        {" · "}
+                        <span data-testid={`account-intent-trade-${bid.id}`}>{bid.tradeLabel}</span>
                       </strong>
                       <span className="intent-mark">
                         {formatUsd(bid.standingUsd)}

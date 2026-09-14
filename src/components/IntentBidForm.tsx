@@ -35,6 +35,24 @@ export function IntentBidForm({
         data-testid="intent-brand"
         className="auth-input"
       />
+      <label className="auth-label" htmlFor="tradeLabel">
+        Trade (one brand per trade)
+      </label>
+      <input
+        id="tradeLabel"
+        name="tradeLabel"
+        type="text"
+        required
+        minLength={2}
+        maxLength={80}
+        placeholder="e.g. cold brew"
+        data-testid="intent-trade"
+        className="auth-input"
+      />
+      <p className="auth-hint">
+        Name your trade in one line. No public category list — collisions are
+        blocked.
+      </p>
       <label className="auth-label" htmlFor="standingUsd">
         Intent mark (USD)
       </label>

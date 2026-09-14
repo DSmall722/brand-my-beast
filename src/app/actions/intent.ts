@@ -22,6 +22,7 @@ export async function submitIntentBid(
 
   const panelId = String(formData.get("panelId") ?? "");
   const brandLabel = String(formData.get("brandLabel") ?? "");
+  const tradeLabel = String(formData.get("tradeLabel") ?? "");
   const standingRaw = String(formData.get("standingUsd") ?? "").trim();
   const standingUsd = standingRaw ? Number(standingRaw) : undefined;
 
@@ -29,6 +30,7 @@ export async function submitIntentBid(
     panelId,
     userId: session.user.id,
     brandLabel,
+    tradeLabel,
     standingUsd,
   });
 

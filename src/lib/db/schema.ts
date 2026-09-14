@@ -18,6 +18,7 @@ export const intentBids = pgTable("intent_bids", {
   panelId: text("panel_id").notNull(),
   userId: text("user_id").notNull(),
   brandLabel: text("brand_label").notNull(),
+  tradeLabel: text("trade_label").notNull(),
   standingUsd: integer("standing_usd").notNull(),
   depositUsd: integer("deposit_usd").notNull(),
   status: text("status").notNull(),
