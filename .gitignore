@@ -7,22 +7,18 @@
 !.yarn/plugins
 !.yarn/releases
 !.yarn/versions
-
 # testing
 /coverage
 /playwright-report
 /test-results
-
 # next.js
 /.next/
 /out/
 /build
-
 # env
 .env
 .env.*
 !.env.example
-
 # misc
 .DS_Store
 *.pem
@@ -34,8 +30,9 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 .vercel
-
 # harness artifacts
 campaign/*.docx
 campaign/*.xlsx
 campaign/*.pptx
+# verification skill evidence (keep skill; drop run artifacts)
+.cursor/skills/verify-brandmybeast/artifacts/
