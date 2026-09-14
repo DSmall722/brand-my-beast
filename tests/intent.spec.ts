@@ -136,6 +136,10 @@ import {
   CHARGE_STOP_SLOTS_LEAD,
   chargeStopSlotsCopyIsSafe,
 } from "../src/lib/charge-stop-slots";
+import {
+  ROUTE_DETOUR_BUYOUT_LEAD,
+  routeDetourBuyoutCopyIsSafe,
+} from "../src/lib/route-detour-buyout";
 
 import {
   EVENT_REQUEST_KINDS,
@@ -585,6 +589,9 @@ test.describe("winner portal (no capture)", () => {
     expect(
       WINNER_PORTAL_FACTS.some((fact) => fact.id === "charge-stop-slots"),
     ).toBe(true);
+    expect(
+      WINNER_PORTAL_FACTS.some((fact) => fact.id === "route-detour-buyout"),
+    ).toBe(true);
     const blob = WINNER_PORTAL_FACTS.map((fact) => fact.text).join(" ");
 
     expect(blob).toContain("12 months from install");
@@ -1005,6 +1012,23 @@ test.describe("charge-stop takeover slots (empty until truck)", () => {
     );
     expect(CHARGE_STOP_SLOTS_LEAD.toLowerCase()).toContain("no reserved vin");
     expect(chargeStopSlotsCopyIsSafe()).toBe(true);
+    expect(FLOOR_USD).toBe(58_000);
+    expect(GOAL_USD).toBe(120_000);
+  });
+});
+
+test.describe("route-day detour buyout (empty until truck)", () => {
+  test("publishes empty-detour copy without invented prices or reserved VIN", () => {
+    expect(ROUTE_DETOUR_BUYOUT_LEAD).toContain("$58,000");
+    expect(ROUTE_DETOUR_BUYOUT_LEAD).toContain("$120,000");
+    expect(ROUTE_DETOUR_BUYOUT_LEAD.toLowerCase()).toContain(
+      "empty until the truck exists",
+    );
+    expect(ROUTE_DETOUR_BUYOUT_LEAD.toLowerCase()).toContain(
+      "no invented detour prices",
+    );
+    expect(ROUTE_DETOUR_BUYOUT_LEAD.toLowerCase()).toContain("no reserved vin");
+    expect(routeDetourBuyoutCopyIsSafe()).toBe(true);
     expect(FLOOR_USD).toBe(58_000);
     expect(GOAL_USD).toBe(120_000);
   });

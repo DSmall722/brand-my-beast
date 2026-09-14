@@ -15,6 +15,7 @@ import { CityTimeHeatmapCard } from "@/components/CityTimeHeatmapCard";
 import { QrNfcScanCounterCard } from "@/components/QrNfcScanCounterCard";
 import { CityPingWinnerCard } from "@/components/CityPingWinnerCard";
 import { ChargeStopSlotsCard } from "@/components/ChargeStopSlotsCard";
+import { RouteDetourBuyoutCard } from "@/components/RouteDetourBuyoutCard";
 
 import {
   BRAND,
@@ -438,6 +439,19 @@ export default async function HomePage() {
             VIN.
           </p>
           <ChargeStopSlotsCard />
+        </section>
+
+        <section
+          className="shell section"
+          id="route-detour-buyout"
+          aria-labelledby="route-detour-buyout-title"
+        >
+          <h2 id="route-detour-buyout-title">Route-day detour buyout</h2>
+          <p className="section-lead">
+            Empty until the truck exists. No invented detour prices. No reserved
+            VIN.
+          </p>
+          <RouteDetourBuyoutCard />
         </section>
 
         <section
