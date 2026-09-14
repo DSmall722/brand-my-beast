@@ -2,8 +2,28 @@
  * Winner portal copy + approved-seat filter. Intent only — no capture.
  */
 
-import { GOAL_USD, formatUsd } from "./campaign";
+import { GOAL_USD, TRUCK_EXISTS, formatUsd } from "./campaign";
 import type { IntentBid } from "./intent";
+
+/** Empty P3–P5 board facts — hidden on /account while TRUCK_EXISTS is false. */
+export const EMPTY_UNTIL_TRUCK_FACT_IDS = [
+  "vault-certificate",
+  "retired-vinyl",
+  "season-two",
+  "rain-night-lighting",
+  "truck-order-tracker",
+  "weekly-mileage-ledger",
+  "landmark-proof-log",
+  "city-time-heatmap",
+  "qr-nfc-scan-counter",
+  "city-ping-winner",
+  "charge-stop-slots",
+  "route-detour-buyout",
+  "clemson-saturday-lock",
+  "sighting-bounty-cards",
+] as const;
+
+export type EmptyUntilTruckFactId = (typeof EMPTY_UNTIL_TRUCK_FACT_IDS)[number];
 
 export const WINNER_PORTAL_FACTS = [
   {
@@ -84,6 +104,25 @@ export const WINNER_PORTAL_FACTS = [
     text: "Still no card charge on this path.",
   },
 ] as const;
+
+
+export type WinnerPortalFact = (typeof WINNER_PORTAL_FACTS)[number];
+
+const EMPTY_UNTIL_TRUCK_FACT_ID_SET = new Set<string>(EMPTY_UNTIL_TRUCK_FACT_IDS);
+
+export function isEmptyUntilTruckFact(id: string): boolean {
+  return EMPTY_UNTIL_TRUCK_FACT_ID_SET.has(id);
+}
+
+/** Facts shown on /account/wins. Empty P3–P5 boards stay hidden until the truck exists. */
+export function winnerPortalFactsVisible(
+  truckExists: boolean = TRUCK_EXISTS,
+): WinnerPortalFact[] {
+  if (truckExists) {
+    return [...WINNER_PORTAL_FACTS];
+  }
+  return WINNER_PORTAL_FACTS.filter((fact) => !isEmptyUntilTruckFact(fact.id));
+}
 
 export function isWinnerSeat(bid: IntentBid): boolean {
   return bid.status === "approved";

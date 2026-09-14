@@ -21,8 +21,9 @@ export const GOAL_USD = 120_000;
 export const CLOSE_AT: string | null = null;
 
 /**
- * Truck / order exists. Empty P3–P5 homepage boards stay hidden while false.
- * Flip via TRUCK_EXISTS=true only after a real order path exists — never invent a VIN.
+ * Truck / order exists. Empty P3–P5 boards stay hidden on /, /account, and
+ * /partner while false. Flip via TRUCK_EXISTS=true only after a real order
+ * path exists — never invent a VIN.
  */
 export const TRUCK_EXISTS =
   process.env.TRUCK_EXISTS === "true" || process.env.TRUCK_EXISTS === "1";

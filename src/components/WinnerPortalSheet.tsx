@@ -1,13 +1,15 @@
 import Link from "next/link";
 import { GOAL_USD, PANELS, formatUsd, isEtchable } from "@/lib/campaign";
 import type { IntentBid } from "@/lib/intent";
-import { WINNER_PORTAL_FACTS } from "@/lib/winner-portal";
+import { winnerPortalFactsVisible } from "@/lib/winner-portal";
 
 export function WinnerPortalSheet({
   wins,
 }: {
   wins: readonly IntentBid[];
 }) {
+  const facts = winnerPortalFactsVisible();
+
   return (
     <div className="winner-portal-sheet" data-testid="winner-portal-sheet">
       <section
@@ -19,7 +21,7 @@ export function WinnerPortalSheet({
           What this seat is
         </h2>
         <ul className="winner-portal-facts-list">
-          {WINNER_PORTAL_FACTS.map((fact) => (
+          {facts.map((fact) => (
             <li key={fact.id} data-testid={`winner-fact-${fact.id}`}>
               {fact.text}
             </li>

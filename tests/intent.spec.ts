@@ -56,6 +56,7 @@ import {
 import { isShopPartnerEmail } from "../src/lib/auth/shop-partner";
 import {
   WINNER_PORTAL_FACTS,
+  winnerPortalFactsVisible,
   winnerSeatsFor,
 } from "../src/lib/winner-portal";
 import {
@@ -610,6 +611,15 @@ test.describe("winner portal (no capture)", () => {
     expect(
       WINNER_PORTAL_FACTS.some((fact) => fact.id === "sighting-bounty-cards"),
     ).toBe(true);
+    const visible = winnerPortalFactsVisible(false);
+    expect(visible.some((fact) => fact.id === "wrap-term")).toBe(true);
+    expect(visible.some((fact) => fact.id === "etch-lock")).toBe(true);
+    expect(visible.some((fact) => fact.id === "vault-certificate")).toBe(false);
+    expect(visible.some((fact) => fact.id === "sighting-bounty-cards")).toBe(
+      false,
+    );
+    expect(winnerPortalFactsVisible(true).length).toBe(WINNER_PORTAL_FACTS.length);
+
     const blob = WINNER_PORTAL_FACTS.map((fact) => fact.text).join(" ");
 
     expect(blob).toContain("12 months from install");

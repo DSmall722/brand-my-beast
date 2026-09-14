@@ -437,6 +437,17 @@ test.describe("P2 panel intent + approvals", () => {
     await expect(shop.getByTestId("shop-nav-link")).toBeVisible();
     await shop.goto("/partner/shop");
     await expect(shop.getByTestId("partner-shop")).toBeVisible();
+    await expect(shop.getByTestId("partner-shop")).toHaveAttribute(
+      "data-truck-exists",
+      "false",
+    );
+    for (const board of [
+      "vault-certificate",
+      "weekly-mileage-ledger",
+      "sighting-bounty-cards",
+    ] as const) {
+      await expect(shop.getByTestId(board)).toHaveCount(0);
+    }
     await expect(shop.getByTestId("partner-shop-lead")).toContainText(
       "$58,000",
     );
@@ -506,81 +517,29 @@ test.describe("P2 panel intent + approvals", () => {
     await expect(winner.getByTestId("winner-fact-etch-lock")).toContainText(
       "$120,000",
     );
-    await expect(
-      winner.getByTestId("winner-fact-vault-certificate"),
-    ).toContainText("Not cash");
-    await expect(winner.getByTestId("winner-fact-retired-vinyl")).toContainText(
-      "12 months from install",
+    for (const factId of [
+      "vault-certificate",
+      "retired-vinyl",
+      "season-two",
+      "rain-night-lighting",
+      "truck-order-tracker",
+      "weekly-mileage-ledger",
+      "landmark-proof-log",
+      "city-time-heatmap",
+      "qr-nfc-scan-counter",
+      "city-ping-winner",
+      "charge-stop-slots",
+      "route-detour-buyout",
+      "clemson-saturday-lock",
+      "sighting-bounty-cards",
+    ] as const) {
+      await expect(winner.getByTestId(`winner-fact-${factId}`)).toHaveCount(0);
+    }
+    await expect(winner.getByTestId("winner-portal")).toHaveAttribute(
+      "data-truck-exists",
+      "false",
     );
-    await expect(winner.getByTestId("winner-fact-season-two")).toContainText(
-      "not a gift",
-    );
-    await expect(
-      winner.getByTestId("winner-fact-rain-night-lighting"),
-    ).toContainText("$120,000");
-    await expect(
-      winner.getByTestId("winner-fact-rain-night-lighting"),
-    ).toContainText("Not a livestream");
-    await expect(
-      winner.getByTestId("winner-fact-truck-order-tracker"),
-    ).toContainText("$120,000");
-    await expect(
-      winner.getByTestId("winner-fact-truck-order-tracker"),
-    ).toContainText("No reserved VIN");
-    await expect(
-      winner.getByTestId("winner-fact-weekly-mileage-ledger"),
-    ).toContainText("empty until the truck exists");
-    await expect(
-      winner.getByTestId("winner-fact-weekly-mileage-ledger"),
-    ).toContainText("No invented miles");
-    await expect(
-      winner.getByTestId("winner-fact-landmark-proof-log"),
-    ).toContainText("empty until the truck exists");
-    await expect(
-      winner.getByTestId("winner-fact-landmark-proof-log"),
-    ).toContainText("No invented visits");
-    await expect(
-      winner.getByTestId("winner-fact-city-time-heatmap"),
-    ).toContainText("empty until the truck exists");
-    await expect(
-      winner.getByTestId("winner-fact-city-time-heatmap"),
-    ).toContainText("No invented city hours");
-    await expect(
-      winner.getByTestId("winner-fact-qr-nfc-scan-counter"),
-    ).toContainText("empty until the truck exists");
-    await expect(
-      winner.getByTestId("winner-fact-qr-nfc-scan-counter"),
-    ).toContainText("No invented scan counts");
-    await expect(
-      winner.getByTestId("winner-fact-city-ping-winner"),
-    ).toContainText("empty until the truck exists");
-    await expect(
-      winner.getByTestId("winner-fact-city-ping-winner"),
-    ).toContainText("No invented city pings");
-    await expect(
-      winner.getByTestId("winner-fact-charge-stop-slots"),
-    ).toContainText("empty until the truck exists");
-    await expect(
-      winner.getByTestId("winner-fact-charge-stop-slots"),
-    ).toContainText("No invented slot prices");
-    await expect(
-      winner.getByTestId("winner-fact-route-detour-buyout"),
-    ).toContainText("empty until the truck exists");
-    await expect(
-      winner.getByTestId("winner-fact-route-detour-buyout"),
-    ).toContainText("No invented detour prices");
-    await expect(
-      winner.getByTestId("winner-fact-clemson-saturday-lock"),
-    ).toContainText("empty until the truck exists");
-    await expect(
-      winner.getByTestId("winner-fact-clemson-saturday-lock"),
-    ).toContainText("No invented lock fee");
-    await expect(
-      winner.getByTestId("winner-fact-sighting-bounty-cards"),
-    ).toContainText("empty until the truck exists");
-    await expect(
-      winner.getByTestId("winner-fact-sighting-bounty-cards"),
-    ).toContainText("No invented bounty dollars");
+
     await expect(winner.getByTestId("winner-portal-seats-list")).toContainText(
       "Winner Co",
     );

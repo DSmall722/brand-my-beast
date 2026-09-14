@@ -4,7 +4,7 @@ import { ContentRightsPicker } from "@/components/ContentRightsPicker";
 import { SiteChrome } from "@/components/SiteChrome";
 import { WinnerPortalSheet } from "@/components/WinnerPortalSheet";
 import { auth } from "@/lib/auth";
-import { FLOOR_USD, GOAL_USD, formatUsd } from "@/lib/campaign";
+import { FLOOR_USD, GOAL_USD, TRUCK_EXISTS, formatUsd } from "@/lib/campaign";
 import { getContentRightsForUser } from "@/lib/content-rights-store";
 import { listApprovedBidsForUser } from "@/lib/intent-store";
 
@@ -23,6 +23,7 @@ export default async function WinnerPortalPage() {
       <main
         className="shell auth-page winner-portal-page"
         data-testid="winner-portal"
+        data-truck-exists={TRUCK_EXISTS ? "true" : "false"}
       >
         <p className="eyebrow">Account</p>
         <h1>Winner portal</h1>

@@ -4,7 +4,7 @@ import { SiteChrome } from "@/components/SiteChrome";
 import { WrapShopSheet } from "@/components/WrapShopSheet";
 import { auth } from "@/lib/auth";
 import { isShopPartnerEmail } from "@/lib/auth/shop-partner";
-import { FLOOR_USD, GOAL_USD, formatUsd } from "@/lib/campaign";
+import { FLOOR_USD, GOAL_USD, TRUCK_EXISTS, formatUsd } from "@/lib/campaign";
 import { listApprovedBids } from "@/lib/intent-store";
 
 export default async function PartnerShopPage() {
@@ -37,6 +37,7 @@ export default async function PartnerShopPage() {
       <main
         className="shell auth-page partner-shop-page"
         data-testid="partner-shop"
+        data-truck-exists={TRUCK_EXISTS ? "true" : "false"}
       >
         <p className="eyebrow">Partner</p>
         <h1>Wrap shop sheet</h1>
