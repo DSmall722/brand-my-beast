@@ -338,7 +338,7 @@ test.describe("P2 panel intent + approvals", () => {
     await bidderAgain.close();
   });
 
-  test("outbid viewer sees failed-winner waitlist handoff", async ({
+  test("slice 1.6: outbid viewer sees failed-winner waitlist handoff", async ({
     browser,
   }) => {
     const first = await browser.newPage();
@@ -382,7 +382,7 @@ test.describe("P2 panel intent + approvals", () => {
     await outbidViewer.close();
   });
 
-  test("account lists outbid intents with waitlist handoff", async ({
+  test("slice 1.6: account lists outbid intents with waitlist handoff", async ({
     browser,
   }) => {
     const first = await browser.newPage();
