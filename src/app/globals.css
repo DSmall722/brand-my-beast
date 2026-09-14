@@ -237,14 +237,13 @@ a {
 
 .hero h1 {
   margin: 0;
-  max-width: 100%;
+  max-width: 18ch;
   font-family: var(--font-display), Syne, system-ui, sans-serif;
   font-weight: 800;
-  letter-spacing: -0.06em;
-  line-height: 0.92;
-  /* 12-letter Syne 800 wordmark; cqi when container works, vw as hard cap. */
-  font-size: min(7.5rem, 7cqi, 12.5vw);
-  text-transform: uppercase;
+  letter-spacing: -0.045em;
+  line-height: 1.02;
+  /* Sentence H1 from PUBLIC_COPY — scale to the shell, not a 12-letter wordmark. */
+  font-size: clamp(1.85rem, 5.2vw, 3.6rem);
   text-shadow: 0 2px 28px color-mix(in oklab, #07090c 70%, transparent);
 }
 
@@ -252,7 +251,7 @@ a {
   position: relative;
   z-index: 1;
   margin: 1.25rem 0 0;
-  max-width: 34ch;
+  max-width: 48ch;
   color: var(--steel-300);
   font-size: clamp(1.05rem, 2.2vw, 1.25rem);
   line-height: 1.45;
@@ -285,8 +284,8 @@ a {
   }
 
   .hero h1 {
-    /* Syne 800 “BrandMyBeast” is wide — keep under the 375px shell. */
-    font-size: min(2.25rem, 6.5vw);
+    max-width: 14ch;
+    font-size: clamp(1.55rem, 7.2vw, 2.1rem);
   }
 }
 
@@ -564,6 +563,60 @@ a {
   font-family: var(--font-display), Syne, system-ui, sans-serif;
   color: var(--signal);
   font-size: 1.4rem;
+}
+
+.story-body {
+  display: grid;
+  gap: 0.35rem;
+}
+
+.story-step-title {
+  font-family: var(--font-display), Syne, system-ui, sans-serif;
+  font-size: 1.15rem;
+  letter-spacing: -0.02em;
+  color: var(--steel-100);
+}
+
+.story-step-copy {
+  color: var(--steel-300);
+  line-height: 1.5;
+}
+
+.panel-gloss {
+  color: var(--steel-500);
+  font-weight: 400;
+  font-size: 0.9em;
+}
+
+.questions-list {
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0.85rem;
+}
+
+.questions-item {
+  display: grid;
+  gap: 0.35rem;
+  padding: 0.95rem 0;
+  border-top: 1px solid var(--hairline);
+}
+
+.questions-item:last-child {
+  border-bottom: 1px solid var(--hairline);
+}
+
+.questions-item dt {
+  font-family: var(--font-display), Syne, system-ui, sans-serif;
+  font-size: 1.05rem;
+  letter-spacing: -0.02em;
+  color: var(--steel-100);
+}
+
+.questions-item dd {
+  margin: 0;
+  color: var(--steel-300);
+  line-height: 1.5;
 }
 
 .wreck-list {
