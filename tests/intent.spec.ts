@@ -140,6 +140,10 @@ import {
   ROUTE_DETOUR_BUYOUT_LEAD,
   routeDetourBuyoutCopyIsSafe,
 } from "../src/lib/route-detour-buyout";
+import {
+  CLEMSON_SATURDAY_LOCK_LEAD,
+  clemsonSaturdayLockCopyIsSafe,
+} from "../src/lib/clemson-saturday-lock";
 
 import {
   EVENT_REQUEST_KINDS,
@@ -592,6 +596,9 @@ test.describe("winner portal (no capture)", () => {
     expect(
       WINNER_PORTAL_FACTS.some((fact) => fact.id === "route-detour-buyout"),
     ).toBe(true);
+    expect(
+      WINNER_PORTAL_FACTS.some((fact) => fact.id === "clemson-saturday-lock"),
+    ).toBe(true);
     const blob = WINNER_PORTAL_FACTS.map((fact) => fact.text).join(" ");
 
     expect(blob).toContain("12 months from install");
@@ -1029,6 +1036,23 @@ test.describe("route-day detour buyout (empty until truck)", () => {
     );
     expect(ROUTE_DETOUR_BUYOUT_LEAD.toLowerCase()).toContain("no reserved vin");
     expect(routeDetourBuyoutCopyIsSafe()).toBe(true);
+    expect(FLOOR_USD).toBe(58_000);
+    expect(GOAL_USD).toBe(120_000);
+  });
+});
+
+test.describe("clemson saturday lock (empty until truck)", () => {
+  test("publishes empty-lock copy without invented fee or reserved VIN", () => {
+    expect(CLEMSON_SATURDAY_LOCK_LEAD).toContain("$58,000");
+    expect(CLEMSON_SATURDAY_LOCK_LEAD).toContain("$120,000");
+    expect(CLEMSON_SATURDAY_LOCK_LEAD.toLowerCase()).toContain(
+      "empty until the truck exists",
+    );
+    expect(CLEMSON_SATURDAY_LOCK_LEAD.toLowerCase()).toContain(
+      "no invented lock fee",
+    );
+    expect(CLEMSON_SATURDAY_LOCK_LEAD.toLowerCase()).toContain("no reserved vin");
+    expect(clemsonSaturdayLockCopyIsSafe()).toBe(true);
     expect(FLOOR_USD).toBe(58_000);
     expect(GOAL_USD).toBe(120_000);
   });
