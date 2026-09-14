@@ -21,7 +21,7 @@ GitHub `DSmall722/brand-my-beast` is the harness source of truth. Seed it with t
 | Host | Vercel, domain already on Vercel DNS |
 | Tests | Playwright, driven by pstack verification skills |
 | Agents | Cursor Projects coordinator + `/poteto-mode` after skills exist |
-| Auth (P2) | **Auth.js** (`next-auth` v5). See `P2.md`. Routes/env scaffolded; live GitHub secrets optional. |
+| Auth (P2) | **Auth.js** (`next-auth` v5). Test login for CI; Resend magic link in live. See `P2.md`. |
 
 Do not build a second framework. Do not put the auction ledger in `localStorage` or a client JSON file.
 
@@ -31,7 +31,7 @@ Do not build a second framework. Do not put the auction ledger in `localStorage`
 
 **P1 — waitlist (live).** `brandmybeast.com` is a real page: story, 12 panels, floor/goal, email capture to Resend/Postgres. No Stripe. No countdown with a fake date. Local prove: `.cursor/skills/verify-brandmybeast/`.
 
-**P2 — soft auction (in progress).** Auth.js with `AUTH_MODE=test` for CI; optional GitHub for live. Panel intent UI, operator approvals, durable/memory intent ledger, waitlist→intent CTAs, and failed-winner waitlist handoff are in. Still no capture.
+**P2 — soft auction (in progress).** Auth.js with `AUTH_MODE=test` for CI; Resend magic link for live. Panel intent UI, operator approvals, durable/memory intent ledger, waitlist→intent CTAs, and failed-winner waitlist handoff are in. Still no capture.
 
 **P3 — live money.** Stripe SetupIntent, terms, wreck clause, 30-day clock starts the morning this ships. Soft close. Close-night capture or release.
 

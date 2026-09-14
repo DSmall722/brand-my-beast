@@ -15,7 +15,11 @@ export function TestSignInForm({ callbackUrl }: { callbackUrl: string }) {
   );
 
   return (
-    <form action={action} className="auth-form" data-testid="test-signin-form">
+    <form
+      action={action}
+      className="auth-form"
+      data-testid="test-signin-form"
+    >
       <input type="hidden" name="callbackUrl" value={callbackUrl} />
       <label className="auth-label" htmlFor="email">
         Email

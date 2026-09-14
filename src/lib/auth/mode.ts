@@ -1,6 +1,6 @@
 /**
  * Auth.js mode gate. Parse env at the boundary; callers trust the result.
- * See P2.md — live OAuth secrets are optional; test mode keeps CI green.
+ * See P2.md — live magic-link secrets are optional; test mode keeps CI green.
  */
 
 export type AuthMode = "test" | "live";
@@ -29,8 +29,17 @@ export function authSecretOrThrow(
   );
 }
 
-export type AuthProviderId = "test-login" | "github";
+export type AuthProviderId = "test-login" | "resend" | "github";
 
+function hasResendMagicLink(env: NodeJS.ProcessEnv): boolean {
+  return Boolean(env.RESEND_API_KEY?.trim() && env.DATABASE_URL?.trim());
+}
+
+/**
+ * Test login is CI/local only (AUTH_MODE=test).
+ * Production (live) uses Resend magic link when RESEND_API_KEY + DATABASE_URL
+ * are set. GitHub stays optional. AUTH_ENABLE_TEST_LOGIN=1 is a staging hatch.
+ */
 export function enabledAuthProviders(
   env: NodeJS.ProcessEnv = process.env,
 ): AuthProviderId[] {
@@ -38,6 +47,9 @@ export function enabledAuthProviders(
   const ids: AuthProviderId[] = [];
   if (mode === "test" || env.AUTH_ENABLE_TEST_LOGIN === "1") {
     ids.push("test-login");
+  }
+  if (mode === "live" && hasResendMagicLink(env)) {
+    ids.push("resend");
   }
   if (env.AUTH_GITHUB_ID && env.AUTH_GITHUB_SECRET) {
     ids.push("github");

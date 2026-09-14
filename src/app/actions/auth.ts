@@ -31,6 +31,34 @@ export async function signInWithTestCredentials(
   }
 }
 
+export async function signInWithMagicLink(
+  _prev: SignInState,
+  formData: FormData,
+): Promise<SignInState> {
+  const email = String(formData.get("email") ?? "").trim().toLowerCase();
+  const callbackUrl = String(formData.get("callbackUrl") ?? "/account");
+
+  if (!email || !email.includes("@")) {
+    return { ok: false, error: "Enter a valid email." };
+  }
+
+  try {
+    await signIn("resend", {
+      email,
+      redirectTo: callbackUrl.startsWith("/") ? callbackUrl : "/account",
+    });
+    return { ok: true };
+  } catch (error) {
+    if (error instanceof AuthError) {
+      return {
+        ok: false,
+        error: "Could not send the sign-in link. Try again.",
+      };
+    }
+    throw error;
+  }
+}
+
 export async function signOutAction(): Promise<void> {
   await signOut({ redirectTo: "/" });
 }

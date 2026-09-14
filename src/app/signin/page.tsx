@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
+import { MagicLinkSignInForm } from "@/components/MagicLinkSignInForm";
 import { TestSignInForm } from "@/components/TestSignInForm";
 import { auth, signIn } from "@/lib/auth";
 import { enabledAuthProviders, resolveAuthMode } from "@/lib/auth/mode";
@@ -25,8 +26,10 @@ export default async function SignInPage({
   const mode = resolveAuthMode();
   const providers = enabledAuthProviders();
   const hasTest = providers.includes("test-login");
+  const hasResend = providers.includes("resend");
   const hasGithub = providers.includes("github");
-  const liveMissingProviders = mode === "live" && !hasGithub && !hasTest;
+  const liveMissingProviders =
+    mode === "live" && !hasResend && !hasGithub && !hasTest;
 
   return (
     <main className="shell auth-page">
@@ -44,6 +47,15 @@ export default async function SignInPage({
             <code>{process.env.AUTH_TEST_PASSWORD ?? "test"}</code>.
           </p>
           <TestSignInForm callbackUrl={callbackUrl} />
+        </>
+      ) : null}
+
+      {hasResend ? (
+        <>
+          <p className="auth-hint" data-testid="magic-link-hint">
+            Production sign-in: we email a one-time link. No password. No card.
+          </p>
+          <MagicLinkSignInForm callbackUrl={callbackUrl} />
         </>
       ) : null}
 
@@ -68,21 +80,25 @@ export default async function SignInPage({
       {liveMissingProviders ? (
         <div className="auth-missing" data-testid="auth-secrets-missing">
           <p>
-            Live Auth.js is on, but no providers are configured yet. Dennard
-            needs these Vercel env vars:
+            Live Auth.js is on, but no providers are configured yet. The
+            operator needs these Vercel env vars:
           </p>
           <ul>
             <li>
               <code>AUTH_SECRET</code>
             </li>
             <li>
-              <code>AUTH_GITHUB_ID</code>
-            </li>
-            <li>
-              <code>AUTH_GITHUB_SECRET</code>
-            </li>
-            <li>
               <code>AUTH_URL</code> (e.g. https://brandmybeast.com)
+            </li>
+            <li>
+              <code>RESEND_API_KEY</code>
+            </li>
+            <li>
+              <code>RESEND_FROM</code> (e.g. BrandMyBeast
+              &lt;hello@brandmybeast.com&gt;)
+            </li>
+            <li>
+              <code>DATABASE_URL</code> (Auth.js verification tokens)
             </li>
           </ul>
           <p>
