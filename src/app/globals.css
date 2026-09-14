@@ -1128,20 +1128,58 @@ a {
 }
 
 .site-footer {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.85rem;
   border-top: 1px solid var(--hairline);
   padding: 2rem 0 3rem;
-  color: var(--steel-400);
-  font-size: 0.9rem;
+  color: var(--steel-300);
+  font-size: 0.95rem;
+}
+
+.site-footer-line {
+  margin: 0;
+  max-width: 48rem;
+  line-height: 1.5;
+  color: var(--steel-300);
 }
 
 .site-footer a {
-  color: var(--steel-300);
+  color: var(--steel-100);
+  text-decoration: underline;
+  text-decoration-color: color-mix(in oklab, var(--signal) 45%, transparent);
+  text-underline-offset: 0.15em;
+}
+
+.site-footer a:hover {
+  color: white;
+  text-decoration-color: var(--signal);
+}
+
+.site-footer-independent,
+.site-footer .fine-print {
+  margin: 0;
+  max-width: 42ch;
+  line-height: 1.45;
+  color: var(--steel-400);
 }
 
 .fine-print {
   margin-top: 0.75rem;
   max-width: 62ch;
   line-height: 1.45;
+}
+
+@media (max-width: 720px) {
+  .site-footer {
+    gap: 1.15rem;
+    padding: 1.75rem 0 2.75rem;
+  }
+
+  .site-footer-line {
+    max-width: 16rem;
+  }
 }
 
 .auth-page {
