@@ -66,6 +66,26 @@ a {
   padding: 1.25rem 0 0;
 }
 
+.header-nav {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.auth-nav {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.nav-button {
+  background: none;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+  font: inherit;
+}
+
 .wordmark {
   font-family: var(--font-display), Syne, system-ui, sans-serif;
   font-weight: 800;
@@ -460,4 +480,123 @@ a {
   margin-top: 0.75rem;
   max-width: 62ch;
   line-height: 1.45;
+}
+
+.auth-page {
+  padding: 4rem 0 5rem;
+  max-width: 36rem;
+}
+
+.auth-page h1 {
+  font-family: var(--font-display), Syne, system-ui, sans-serif;
+  font-size: clamp(2rem, 4vw, 2.8rem);
+  letter-spacing: -0.04em;
+  margin: 0.35rem 0 0.75rem;
+}
+
+.section-lead {
+  color: var(--steel-300);
+  line-height: 1.5;
+  margin: 0 0 1.5rem;
+}
+
+.eyebrow {
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-size: 0.75rem;
+  color: var(--signal);
+  margin: 0;
+}
+
+.auth-form {
+  display: grid;
+  gap: 0.55rem;
+  margin: 1rem 0 1.5rem;
+}
+
+.auth-label {
+  font-size: 0.85rem;
+  color: var(--steel-300);
+}
+
+.auth-input {
+  border-radius: 0.65rem;
+  border: 1px solid var(--hairline);
+  background: color-mix(in oklab, black 35%, transparent);
+  color: white;
+  padding: 0.85rem 1rem;
+  font: inherit;
+}
+
+.auth-input:focus {
+  outline: 2px solid color-mix(in oklab, var(--signal) 70%, white);
+  outline-offset: 1px;
+}
+
+.auth-error {
+  color: #ffb4a0;
+  margin: 0.25rem 0 0;
+}
+
+.auth-hint {
+  color: var(--steel-400);
+  font-size: 0.92rem;
+  line-height: 1.45;
+}
+
+.auth-hint code,
+.auth-missing code {
+  font-size: 0.85em;
+}
+
+.auth-oauth {
+  margin: 1rem 0;
+}
+
+.auth-missing {
+  border: 1px solid var(--hairline);
+  border-radius: 0.75rem;
+  padding: 1rem 1.1rem;
+  color: var(--steel-300);
+  line-height: 1.45;
+}
+
+.auth-missing ul {
+  margin: 0.5rem 0 0.75rem;
+  padding-left: 1.2rem;
+}
+
+.auth-back {
+  margin-top: 2rem;
+}
+
+.auth-back a {
+  color: var(--steel-300);
+}
+
+.auth-dl {
+  display: grid;
+  gap: 0.85rem;
+  margin: 1.25rem 0;
+}
+
+.auth-dl dt {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--steel-500);
+}
+
+.auth-dl dd {
+  margin: 0.2rem 0 0;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  color: white;
+  word-break: break-all;
+}
+
+.auth-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: 1.5rem;
 }
