@@ -21,6 +21,12 @@ test.describe("P2 panel intent + approvals", () => {
   }) => {
     await page.goto("/panels/hood");
     await expect(page.getByTestId("panel-intent-page")).toBeVisible();
+    await expect(page.getByTestId("public-seat-label")).toHaveText("Public seat");
+    await expect(page.getByTestId("public-seat-status")).toBeVisible();
+    await expect(page.getByTestId("seat-occupancy")).toHaveText("Seat open");
+    await expect(page.getByTestId("public-seat-waitlist-cta")).toContainText(
+      "waitlist",
+    );
     await expect(page.getByTestId("panel-mockup")).toBeVisible();
     await expect(page.getByTestId("panel-stats")).toBeVisible();
     await expect(page.getByTestId("intent-only-banner")).toContainText(
