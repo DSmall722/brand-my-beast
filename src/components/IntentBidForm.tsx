@@ -11,6 +11,7 @@ import { HometownLaneTags } from "@/components/HometownLaneTags";
 import { formatUsd } from "@/lib/campaign";
 import { ARTWORK_MAX_DATA_URL_CHARS } from "@/lib/intent-artwork";
 import type { AdjacentSeatHolder } from "@/lib/panel-clash";
+import { PUBLIC_COPY } from "@/lib/public-copy";
 
 const initial: IntentActionState = { ok: false };
 
@@ -117,8 +118,7 @@ export function IntentBidForm({
         className="auth-input"
       />
       <p className="auth-hint" data-testid="intent-trade-rule">
-        One brand per trade. Challengers fight the same panel only — a held
-        trade cannot open a second seat elsewhere.
+        {PUBLIC_COPY.seatExclusivity.formHint}
       </p>
       <label className="auth-label" htmlFor="standingUsd">
         Intent mark (USD)
