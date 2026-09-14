@@ -14,8 +14,8 @@ Updated: 2026-09-14
 - A FEATURES.md row is not scheduled until it has a checkbox in this file.
 - Coordinator may merge a PR that finishes exactly one unchecked slice, Playwright is green, and the merge gates below hold.
 
-**Now:** 3.1 Stainless compositor on the seat. Preview only.
-**Last merged:** 2.5 (#72 operator UI cannot edit FLOOR_USD / GOAL_USD / CLOSE_AT)
+**Now:** 3.2 Etch controls disabled while raised < $120,000.
+**Last merged:** 3.1 (#73 stainless compositor on the seat)
 
 ## Standing orders
 
@@ -80,7 +80,7 @@ If any gate fails: leave the PR unmerged and stop that slice.
 
 ## Wave 3 — mockup and art
 
-- [ ] 3.1 Stainless compositor on the seat. Preview only.
+- [x] 3.1 Stainless compositor on the seat. Preview only. (#73)
 - [ ] 3.2 Etch controls disabled while raised < $120,000.
 - [ ] 3.3 Highway-legibility checker.
 - [ ] 3.4 Etch linter from RULES.md.

@@ -16,6 +16,35 @@ test.describe("P2 panel intent + approvals", () => {
     expect(res.ok()).toBeTruthy();
   });
 
+  test("slice 3.1: stainless compositor on the seat is preview only", async ({
+    page,
+  }) => {
+    await page.goto("/panels/hood");
+    await expect(page.getByTestId("panel-intent-page")).toBeVisible();
+    await expect(page.getByTestId("panel-mockup")).toBeVisible();
+    await expect(page.getByTestId("stainless-compositor")).toBeVisible();
+    await expect(page.getByTestId("stainless-compositor-lead")).toContainText(
+      "preview only",
+    );
+    await expect(page.getByTestId("compositor-mode-wrap")).toBeVisible();
+    await expect(page.getByTestId("compositor-wrap-film")).toBeVisible();
+    await expect(page.getByTestId("compositor-finish-label")).toContainText(
+      "Wrap",
+    );
+    await page.getByTestId("compositor-mode-etch").click();
+    await expect(page.getByTestId("panel-mockup")).toHaveAttribute(
+      "data-finish",
+      "etch",
+    );
+    await expect(page.getByTestId("compositor-etch-mark")).toBeVisible();
+    await expect(page.getByTestId("compositor-finish-label")).toContainText(
+      "$120,000",
+    );
+    const html = await page.content();
+    expect(html.toLowerCase()).not.toMatch(/\blease\b/);
+    expect(html).not.toContain("CLOSE_AT");
+  });
+
   test("slice 1.7: /panels/[id] is the public seat", async ({ page }) => {
     await page.goto("/panels/hood");
     await expect(page.getByTestId("panel-intent-page")).toBeVisible();
