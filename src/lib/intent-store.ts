@@ -262,6 +262,9 @@ async function listHoldingBids(): Promise<IntentBid[]> {
     );
 }
 
+const INTENT_WRITE_FAILED =
+  "Could not record intent. Try again. No intent was saved.";
+
 export async function placeIntentBid(
   input: PlaceIntentInput,
 ): Promise<PlaceIntentResult> {
@@ -287,7 +290,12 @@ export async function placeIntentBid(
     return { ok: false, error: ban.error };
   }
 
-  const holders = await listHoldingBids();
+  let holders: IntentBid[];
+  try {
+    holders = await listHoldingBids();
+  } catch {
+    return { ok: false, error: INTENT_WRITE_FAILED };
+  }
   const collision = holders.find(
     (bid) =>
       bid.userId !== input.userId &&
@@ -300,105 +308,110 @@ export async function placeIntentBid(
     };
   }
 
-  // Slice 1.2: one active listed intent per user per panel — withdraw
-  // the caller's prior listed row before min/outbid so replaces don't stack.
-  if (useMemoryStore()) {
-    for (const existing of memoryBids()) {
-      if (
-        existing.panelId === input.panelId &&
-        existing.status === "listed" &&
-        existing.userId === input.userId
-      ) {
-        existing.status = "withdrawn";
+  try {
+    // Slice 1.2: one active listed intent per user per panel — withdraw
+    // the caller's prior listed row before min/outbid so replaces don't stack.
+    if (useMemoryStore()) {
+      for (const existing of memoryBids()) {
+        if (
+          existing.panelId === input.panelId &&
+          existing.status === "listed" &&
+          existing.userId === input.userId
+        ) {
+          existing.status = "withdrawn";
+        }
       }
+    } else {
+      const dbForWithdraw = getDb();
+      if (!dbForWithdraw) {
+        return { ok: false, error: "Intent ledger is not configured." };
+      }
+      await dbForWithdraw
+        .update(intentBids)
+        .set({ status: "withdrawn" })
+        .where(
+          and(
+            eq(intentBids.panelId, input.panelId),
+            eq(intentBids.status, "listed"),
+            eq(intentBids.userId, input.userId),
+          ),
+        );
     }
-  } else {
-    const dbForWithdraw = getDb();
-    if (!dbForWithdraw) {
+
+    const minimum = await minimumIntentUsd(input.panelId);
+    const standingUsd = input.standingUsd ?? minimum;
+    if (standingUsd < minimum) {
+      return { ok: false, error: `Mark must be at least ${minimum}.` };
+    }
+
+    const depositUsd = depositUsdForMark(standingUsd);
+
+    if (useMemoryStore()) {
+      for (const existing of memoryBids()) {
+        if (
+          existing.panelId === input.panelId &&
+          existing.status === "listed" &&
+          existing.userId !== input.userId
+        ) {
+          existing.status = "outbid";
+        }
+      }
+
+      const bid: IntentBid = {
+        id: crypto.randomUUID(),
+        panelId: panel.id,
+        userId: input.userId,
+        brandLabel,
+        tradeLabel,
+        standingUsd,
+        depositUsd,
+        status: "listed",
+        createdAt: new Date().toISOString(),
+        artworkUrl: input.artworkUrl ?? null,
+      };
+      assertIntentOnly(bid);
+      memoryBids().push(bid);
+      return { ok: true, bid };
+    }
+
+    const db = getDb();
+    if (!db) {
       return { ok: false, error: "Intent ledger is not configured." };
     }
-    await dbForWithdraw
+
+    // Neon HTTP: sequential outbid then insert (no interactive txn).
+    await db
       .update(intentBids)
-      .set({ status: "withdrawn" })
+      .set({ status: "outbid" })
       .where(
         and(
           eq(intentBids.panelId, input.panelId),
           eq(intentBids.status, "listed"),
-          eq(intentBids.userId, input.userId),
+          ne(intentBids.userId, input.userId),
         ),
       );
+
+    const inserted = await db
+      .insert(intentBids)
+      .values({
+        panelId: panel.id,
+        userId: input.userId,
+        brandLabel,
+        tradeLabel,
+        standingUsd,
+        depositUsd,
+        status: "listed",
+        artworkUrl: input.artworkUrl ?? null,
+      })
+      .returning();
+
+    const row = inserted[0];
+    if (!row) return { ok: false, error: "Could not record intent." };
+    return { ok: true, bid: rowToBid(row) };
+  } catch {
+    // Slice 6.5 — structured failure only; never claim the intent listed.
+    return { ok: false, error: INTENT_WRITE_FAILED };
   }
-
-  const minimum = await minimumIntentUsd(input.panelId);
-  const standingUsd = input.standingUsd ?? minimum;
-  if (standingUsd < minimum) {
-    return { ok: false, error: `Mark must be at least ${minimum}.` };
-  }
-
-  const depositUsd = depositUsdForMark(standingUsd);
-
-  if (useMemoryStore()) {
-    for (const existing of memoryBids()) {
-      if (
-        existing.panelId === input.panelId &&
-        existing.status === "listed" &&
-        existing.userId !== input.userId
-      ) {
-        existing.status = "outbid";
-      }
-    }
-
-    const bid: IntentBid = {
-      id: crypto.randomUUID(),
-      panelId: panel.id,
-      userId: input.userId,
-      brandLabel,
-      tradeLabel,
-      standingUsd,
-      depositUsd,
-      status: "listed",
-      createdAt: new Date().toISOString(),
-      artworkUrl: input.artworkUrl ?? null,
-    };
-    assertIntentOnly(bid);
-    memoryBids().push(bid);
-    return { ok: true, bid };
-  }
-
-  const db = getDb();
-  if (!db) {
-    return { ok: false, error: "Intent ledger is not configured." };
-  }
-
-  // Neon HTTP: sequential outbid then insert (no interactive txn).
-  await db
-    .update(intentBids)
-    .set({ status: "outbid" })
-    .where(
-      and(
-        eq(intentBids.panelId, input.panelId),
-        eq(intentBids.status, "listed"),
-        ne(intentBids.userId, input.userId),
-      ),
-    );
-
-  const inserted = await db
-    .insert(intentBids)
-    .values({
-      panelId: panel.id,
-      userId: input.userId,
-      brandLabel,
-      tradeLabel,
-      standingUsd,
-      depositUsd,
-      status: "listed",
-      artworkUrl: input.artworkUrl ?? null,
-    })
-    .returning();
-
-  const row = inserted[0];
-  if (!row) return { ok: false, error: "Could not record intent." };
-  return { ok: true, bid: rowToBid(row) };
 }
 
 export async function setIntentStatus(
