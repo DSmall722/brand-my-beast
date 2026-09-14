@@ -132,6 +132,10 @@ import {
   CITY_PING_WINNER_LEAD,
   cityPingWinnerCopyIsSafe,
 } from "../src/lib/city-ping-winner";
+import {
+  CHARGE_STOP_SLOTS_LEAD,
+  chargeStopSlotsCopyIsSafe,
+} from "../src/lib/charge-stop-slots";
 
 import {
   EVENT_REQUEST_KINDS,
@@ -578,6 +582,9 @@ test.describe("winner portal (no capture)", () => {
     expect(
       WINNER_PORTAL_FACTS.some((fact) => fact.id === "city-ping-winner"),
     ).toBe(true);
+    expect(
+      WINNER_PORTAL_FACTS.some((fact) => fact.id === "charge-stop-slots"),
+    ).toBe(true);
     const blob = WINNER_PORTAL_FACTS.map((fact) => fact.text).join(" ");
 
     expect(blob).toContain("12 months from install");
@@ -981,6 +988,23 @@ test.describe("city ping to panel winner (empty until truck)", () => {
     );
     expect(CITY_PING_WINNER_LEAD.toLowerCase()).toContain("no reserved vin");
     expect(cityPingWinnerCopyIsSafe()).toBe(true);
+    expect(FLOOR_USD).toBe(58_000);
+    expect(GOAL_USD).toBe(120_000);
+  });
+});
+
+test.describe("charge-stop takeover slots (empty until truck)", () => {
+  test("publishes empty-slot copy without invented prices or reserved VIN", () => {
+    expect(CHARGE_STOP_SLOTS_LEAD).toContain("$58,000");
+    expect(CHARGE_STOP_SLOTS_LEAD).toContain("$120,000");
+    expect(CHARGE_STOP_SLOTS_LEAD.toLowerCase()).toContain(
+      "empty until the truck exists",
+    );
+    expect(CHARGE_STOP_SLOTS_LEAD.toLowerCase()).toContain(
+      "no invented slot prices",
+    );
+    expect(CHARGE_STOP_SLOTS_LEAD.toLowerCase()).toContain("no reserved vin");
+    expect(chargeStopSlotsCopyIsSafe()).toBe(true);
     expect(FLOOR_USD).toBe(58_000);
     expect(GOAL_USD).toBe(120_000);
   });

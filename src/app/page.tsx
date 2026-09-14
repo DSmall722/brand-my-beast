@@ -14,6 +14,7 @@ import { LandmarkProofLogCard } from "@/components/LandmarkProofLogCard";
 import { CityTimeHeatmapCard } from "@/components/CityTimeHeatmapCard";
 import { QrNfcScanCounterCard } from "@/components/QrNfcScanCounterCard";
 import { CityPingWinnerCard } from "@/components/CityPingWinnerCard";
+import { ChargeStopSlotsCard } from "@/components/ChargeStopSlotsCard";
 
 import {
   BRAND,
@@ -424,6 +425,19 @@ export default async function HomePage() {
             VIN.
           </p>
           <CityPingWinnerCard />
+        </section>
+
+        <section
+          className="shell section"
+          id="charge-stop-slots"
+          aria-labelledby="charge-stop-slots-title"
+        >
+          <h2 id="charge-stop-slots-title">Charge-stop takeover slots</h2>
+          <p className="section-lead">
+            Empty until the truck exists. No invented slot prices. No reserved
+            VIN.
+          </p>
+          <ChargeStopSlotsCard />
         </section>
 
         <section
