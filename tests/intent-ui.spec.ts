@@ -16,14 +16,15 @@ test.describe("P2 panel intent + approvals", () => {
     expect(res.ok()).toBeTruthy();
   });
 
-  test("anonymous panel page shows mockup, intent-only banner, and sign-in prompt", async ({
-    page,
-  }) => {
+  test("slice 1.7: /panels/[id] is the public seat", async ({ page }) => {
     await page.goto("/panels/hood");
     await expect(page.getByTestId("panel-intent-page")).toBeVisible();
     await expect(page.getByTestId("public-seat-label")).toHaveText("Public seat");
     await expect(page.getByTestId("public-seat-status")).toBeVisible();
     await expect(page.getByTestId("seat-occupancy")).toHaveText("Seat open");
+    await expect(
+      page.getByTestId("panel-intent-page").getByRole("link", { name: "Panels" }),
+    ).toHaveAttribute("href", "/#panels");
     await expect(page.getByTestId("public-seat-waitlist-cta")).toContainText(
       "waitlist",
     );

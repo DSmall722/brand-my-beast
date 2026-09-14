@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { AuthNav } from "@/components/AuthNav";
 import { CircuitStoryForm } from "@/components/CircuitStoryForm";
 import { EventRequestForm } from "@/components/EventRequestForm";
@@ -244,37 +245,38 @@ export default async function HomePage() {
                   data-etchable={etchable ? "true" : "false"}
                   data-etch-unlocked={etchUnlocked ? "true" : "false"}
                 >
-                  <div
-                    className="panel-face"
-                    aria-hidden="true"
-                    data-testid={`panel-face-${panel.id}`}
-                  />
-                  <div className="panel-name">
-                    <a
-                      href={`/panels/${panel.id}`}
-                      data-testid={`panel-link-${panel.id}`}
-                    >
+                  <Link
+                    href={`/panels/${panel.id}`}
+                    className="panel-card-link"
+                    data-testid={`panel-link-${panel.id}`}
+                  >
+                    <div
+                      className="panel-face"
+                      aria-hidden="true"
+                      data-testid={`panel-face-${panel.id}`}
+                    />
+                    <div className="panel-name">
                       {panel.name}
-                    </a>
-                    {gloss ? (
-                      <span className="panel-gloss"> ({gloss})</span>
-                    ) : null}
-                  </div>
-                  <div className="panel-meta">
-                    Opens at {formatUsd(panel.openingUsd)}
-                  </div>
-                  {etchable ? (
-                    <span
-                      className="badge badge-locked"
-                      data-testid={`etch-lock-${panel.id}`}
-                    >
-                      {PUBLIC_COPY.panels.badgeEtch}
-                    </span>
-                  ) : (
-                    <span className="badge badge-wrap">
-                      {PUBLIC_COPY.panels.badgeWrap}
-                    </span>
-                  )}
+                      {gloss ? (
+                        <span className="panel-gloss"> ({gloss})</span>
+                      ) : null}
+                    </div>
+                    <div className="panel-meta">
+                      Opens at {formatUsd(panel.openingUsd)}
+                    </div>
+                    {etchable ? (
+                      <span
+                        className="badge badge-locked"
+                        data-testid={`etch-lock-${panel.id}`}
+                      >
+                        {PUBLIC_COPY.panels.badgeEtch}
+                      </span>
+                    ) : (
+                      <span className="badge badge-wrap">
+                        {PUBLIC_COPY.panels.badgeWrap}
+                      </span>
+                    )}
+                  </Link>
                 </article>
               );
             })}
