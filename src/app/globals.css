@@ -481,6 +481,37 @@ a {
   font-size: 1.4rem;
 }
 
+.wreck-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 0.85rem;
+}
+
+.wreck-list li {
+  display: grid;
+  gap: 0.35rem;
+  padding: 0.95rem 0;
+  border-top: 1px solid var(--hairline);
+}
+
+.wreck-list li:last-child {
+  border-bottom: 1px solid var(--hairline);
+}
+
+.wreck-list strong {
+  font-family: var(--font-display), Syne, system-ui, sans-serif;
+  font-size: 1.05rem;
+  letter-spacing: -0.02em;
+  color: var(--steel-100);
+}
+
+.wreck-list span {
+  color: var(--steel-300);
+  line-height: 1.45;
+}
+
 .waitlist-form {
   max-width: 34rem;
 }

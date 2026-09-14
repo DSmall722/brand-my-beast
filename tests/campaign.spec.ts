@@ -70,6 +70,20 @@ test.describe("P1 waitlist campaign locks", () => {
       `Buyout ${formatUsd(GOAL_USD)}`,
     );
 
+    await expect(page.getByTestId("wreck-refund-rules")).toBeVisible();
+    await expect(page.getByTestId("wreck-title-campaign-miss")).toHaveText(
+      "Campaign miss",
+    );
+    await expect(page.getByTestId("wreck-body-campaign-miss")).toContainText(
+      "full refund",
+    );
+    await expect(page.getByTestId("wreck-body-wrap-pro-rata")).toContainText(
+      "pro-rata",
+    );
+    await expect(page.getByTestId("wreck-body-immortal-fragment")).toContainText(
+      "vault certificate",
+    );
+
     await expect(page.getByTestId("raised-hint")).toContainText(
       "Under the floor: full refund.",
     );
