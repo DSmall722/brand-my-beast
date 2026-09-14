@@ -129,6 +129,25 @@ test.describe("P1 waitlist campaign locks", () => {
     await expect(page.getByTestId("season-two-no-first-refusal")).toContainText(
       "not sold",
     );
+    await expect(page.getByTestId("rain-night-lighting")).toBeVisible();
+    await expect(page.getByTestId("rain-night-lighting-lead")).toContainText(
+      "$58,000",
+    );
+    await expect(page.getByTestId("rain-night-lighting-lead")).toContainText(
+      "$120,000",
+    );
+    await expect(page.getByTestId("rain-night-lighting-lead")).toContainText(
+      "Not a livestream",
+    );
+    await expect(
+      page.getByTestId("rain-night-lighting-buyout-unlock"),
+    ).toContainText("$120,000");
+    await expect(
+      page.getByTestId("rain-night-lighting-no-livestream"),
+    ).toContainText("Not a close clock");
+    await expect(page.getByTestId("rain-night-lighting-floor-miss")).toContainText(
+      "$58,000",
+    );
 
     await expect(page.getByTestId("raised-hint")).toContainText(
       "Under the floor: full refund.",

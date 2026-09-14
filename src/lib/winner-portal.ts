@@ -27,6 +27,10 @@ export const WINNER_PORTAL_FACTS = [
     text: "Season 2 wrap is a new buy after the 12-month term — not a gift. First refusal is not sold in v1.",
   },
   {
+    id: "rain-night-lighting",
+    text: `Rain/night lighting unlocks only at ${formatUsd(GOAL_USD)}. Not a livestream. No reserved VIN.`,
+  },
+  {
     id: "no-vin",
     text: "No reserved VIN until the campaign clears the floor.",
   },
