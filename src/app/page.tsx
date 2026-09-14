@@ -9,6 +9,7 @@ import { SightingForm } from "@/components/SightingForm";
 import { TruckOrderTrackerCard } from "@/components/TruckOrderTrackerCard";
 import { VaultCertificateCard } from "@/components/VaultCertificateCard";
 import { WaitlistForm } from "@/components/WaitlistForm";
+import { WeeklyMileageLedgerCard } from "@/components/WeeklyMileageLedgerCard";
 import {
   BRAND,
   CLOSE_AT,
@@ -355,6 +356,18 @@ export default async function HomePage() {
             Order-path board after the floor. No reserved VIN. Not a clock.
           </p>
           <TruckOrderTrackerCard />
+        </section>
+
+        <section
+          className="shell section"
+          id="weekly-mileage-ledger"
+          aria-labelledby="weekly-mileage-ledger-title"
+        >
+          <h2 id="weekly-mileage-ledger-title">Weekly mileage ledger</h2>
+          <p className="section-lead">
+            Empty until the truck exists. No invented miles. No reserved VIN.
+          </p>
+          <WeeklyMileageLedgerCard />
         </section>
 
         <section

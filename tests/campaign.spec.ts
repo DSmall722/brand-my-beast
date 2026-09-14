@@ -167,6 +167,25 @@ test.describe("P1 waitlist campaign locks", () => {
     await expect(
       page.getByTestId("truck-order-tracker-buyout-context"),
     ).toContainText("$120,000");
+    await expect(page.getByTestId("weekly-mileage-ledger")).toBeVisible();
+    await expect(page.getByTestId("weekly-mileage-ledger-lead")).toContainText(
+      "$58,000",
+    );
+    await expect(page.getByTestId("weekly-mileage-ledger-lead")).toContainText(
+      "$120,000",
+    );
+    await expect(page.getByTestId("weekly-mileage-ledger-lead")).toContainText(
+      "No reserved VIN",
+    );
+    await expect(
+      page.getByTestId("weekly-mileage-ledger-empty-until-truck"),
+    ).toContainText("No invented weekly miles");
+    await expect(page.getByTestId("weekly-mileage-ledger-empty")).toContainText(
+      "No weekly rows yet",
+    );
+    await expect(page.getByTestId("weekly-mileage-ledger-no-vin")).toContainText(
+      "No reserved VIN",
+    );
 
     await expect(page.getByTestId("raised-hint")).toContainText(
       "Under the floor: full refund.",

@@ -35,6 +35,10 @@ export const WINNER_PORTAL_FACTS = [
     text: `Truck-order tracker opens after the floor. Buyout ${formatUsd(GOAL_USD)} buys the truck. No reserved VIN.`,
   },
   {
+    id: "weekly-mileage-ledger",
+    text: "Weekly mileage ledger stays empty until the truck exists. No invented miles. No reserved VIN.",
+  },
+  {
     id: "no-vin",
     text: "No reserved VIN until the campaign clears the floor.",
   },
