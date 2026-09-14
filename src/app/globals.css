@@ -1649,3 +1649,36 @@ a {
   border-radius: 0.65rem;
   background: color-mix(in oklab, black 18%, transparent);
 }
+
+.content-rights {
+  margin: 0 0 1.75rem;
+}
+
+.content-rights-locks,
+.content-rights-options {
+  margin: 0.55rem 0 0.85rem;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 0.45rem;
+}
+
+.content-rights-locks {
+  padding-left: 1.1rem;
+  list-style: disc;
+  color: var(--steel-100);
+  font-size: 0.95rem;
+  line-height: 1.45;
+}
+
+.content-rights-option {
+  display: flex;
+  gap: 0.55rem;
+  align-items: flex-start;
+  color: var(--steel-100);
+  line-height: 1.4;
+}
+
+.content-rights-form .btn {
+  margin-top: 0.35rem;
+}
