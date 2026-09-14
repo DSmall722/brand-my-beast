@@ -26,7 +26,7 @@ Not Docker. **Cursor Projects** (left nav, launched Sep 2026).
 | Tests | Playwright, then a project-local `verify-brandmybeast` skill |
 | Agents | Cursor Projects coordinator + `/poteto-mode` |
 
-Auth: **none on P1** (email capture only). Pick an auth vendor when P2 starts, in a dedicated PR, not in the waitlist scaffold.
+Auth: **none on P1** (email capture only). **P2 vendor locked: Auth.js** — see `P2.md`. Do not add a second auth product without rewriting that file.
 
 Do not add Docker, a second framework, or a `localStorage` ledger.
 
@@ -66,7 +66,7 @@ Agents may write into a Project-only `notes.md` and `internal/`. Humans do not t
 4. **Deploy P1** over the Vercel 404 — **done** (`www.brandmybeast.com` live).
 5. **`/create-verification-skill`** — **done** (PR #3 → `.cursor/skills/verify-brandmybeast/`).
 6. Schedule `/maintain-verification-skill` as a Project subscription (daily) — **arm this**. Live lever: `prove-all.sh`.
-7. **P2** soft auction next (auth vendor in a dedicated PR; intent bids only). **P3** only after LLC + terms + wreck clause.
+7. **P2** soft auction — auth vendor locked (`P2.md` / Auth.js). Intent math scaffolded (`src/lib/intent.ts`). Next: Auth.js wiring + panel intent UI (still no capture). **P3** only after LLC + terms + wreck clause.
 
 ## Subscriptions (coordinator)
 
