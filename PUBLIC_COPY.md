@@ -71,6 +71,16 @@ Keep panel names. Optional short gloss on the card, not a rename:
 - Cost: `There is no separate etch price list on this page. You bid on the panel. If the board hits $120,000 and your seat is one of the eight, etch is a finish you can choose. The $120,000 buyout is the truck, destination, tax, a $10,000 wrap reserve, a home charger, and a buffer — not a laser-shop invoice split twelve ways. After etch is installed there is no cash refund of that finish; the record is a piece of the cut panel and a vault certificate.`
 - Art: `Etch art is one color, thick strokes, no gradients, no tiny type. If it cannot be cut, it does not ship.`
 
+## Wreck & refund
+
+Money facts from CAMPAIGN.md only. Plain English. Not a full contract.
+
+- Heading: `Wreck & refund`
+- Lead: `What happens if the campaign misses, the wrap year ends early, or etch is already cut. No invented legal terms on this page.`
+- Q: `What if the board misses $58,000?` A: `Under $58,000: full refund. No order. No wrap. No etch. Deposits are released.`
+- Q: `What if the wrap year is cut short?` A: `Wrap lasts twelve months from install. If the truck is totaled or sold before month 12, wrap seats get a pro-rata refund for the months left.`
+- Q: `What if Immortal etch is already installed?` A: `After etch is installed there is no cash refund of that finish. The record is a piece of the cut panel and a vault certificate.`
+
 ## Questions
 
 - Heading: `Questions people actually ask`

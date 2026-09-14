@@ -18,7 +18,7 @@ import {
   CLOSE_AT,
   PANELS,
   TRUCK_EXISTS,
-  WRECK_REFUND_RULES,
+  WRECK_REFUND_RULE_IDS,
   floorMarkerPercentOnGoalTrack,
   floorProgressPercent,
   goalProgressPercent,
@@ -685,20 +685,33 @@ test.describe("honest shortfall math (no clock)", () => {
   });
 });
 
-test.describe("wreck + refund rules (no cash path)", () => {
-  test("publishes the three RULES.md wreck outcomes", () => {
-    expect(WRECK_REFUND_RULES).toHaveLength(3);
-    expect(WRECK_REFUND_RULES.map((r) => r.id)).toEqual([
+test.describe("wreck + refund FAQ (PUBLIC_COPY + CAMPAIGN only)", () => {
+  test("slice 4.4: FAQ ids match CAMPAIGN money facts without invented legal terms", () => {
+    expect(WRECK_REFUND_RULE_IDS).toEqual([
       "campaign-miss",
       "wrap-pro-rata",
       "immortal-fragment",
     ]);
-    const joined = WRECK_REFUND_RULES.map((r) => r.body).join(" ");
+    expect(PUBLIC_COPY.wreck.items.map((item) => item.id)).toEqual([
+      ...WRECK_REFUND_RULE_IDS,
+    ]);
+    expect(PUBLIC_COPY.wreck.items).toHaveLength(3);
+
+    const joined = PUBLIC_COPY.wreck.items.map((item) => item.a).join(" ");
     expect(joined).toMatch(/full refund/i);
+    expect(joined).toMatch(/\$58,000/);
     expect(joined).toMatch(/pro-rata/i);
     expect(joined).toMatch(/vault certificate/i);
+    expect(joined).toMatch(/\$120,000|twelve months|etch/i);
     expect(joined).not.toMatch(/stripe/i);
     expect(joined).not.toMatch(/\blease\b/i);
+    expect(joined.toLowerCase()).not.toMatch(
+      /force majeure|indemnif|arbitration|consequential damages|hereby|hereinafter|jurisdiction|statute/,
+    );
+
+    expect(FLOOR_USD).toBe(58_000);
+    expect(GOAL_USD).toBe(120_000);
+    expect(PUBLIC_COPY.wreck.lead.toLowerCase()).toMatch(/no invented legal terms/);
   });
 });
 

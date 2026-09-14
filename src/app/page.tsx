@@ -27,7 +27,6 @@ import {
   GOAL_USD,
   PANELS,
   TRUCK_EXISTS,
-  WRECK_REFUND_RULES,
   floorMarkerPercentOnGoalTrack,
   floorProgressPercent,
   formatUsd,
@@ -361,21 +360,18 @@ export default async function HomePage() {
           className="shell section"
           id="wreck"
           aria-labelledby="wreck-title"
+          data-testid="wreck-refund-faq"
         >
-          <h2 id="wreck-title">Wreck &amp; refund</h2>
-          <p className="section-lead">
-            What happens if the campaign misses or the wrap term ends early.
-          </p>
-          <ul className="wreck-list" data-testid="wreck-refund-rules">
-            {WRECK_REFUND_RULES.map((rule) => (
-              <li key={rule.id} data-testid={`wreck-rule-${rule.id}`}>
-                <strong data-testid={`wreck-title-${rule.id}`}>
-                  {rule.title}
-                </strong>
-                <span data-testid={`wreck-body-${rule.id}`}>{rule.body}</span>
-              </li>
+          <h2 id="wreck-title">{PUBLIC_COPY.wreck.heading}</h2>
+          <p className="section-lead">{PUBLIC_COPY.wreck.lead}</p>
+          <dl className="wreck-list" data-testid="wreck-refund-rules">
+            {PUBLIC_COPY.wreck.items.map((item) => (
+              <div key={item.id} data-testid={`wreck-rule-${item.id}`}>
+                <dt data-testid={`wreck-title-${item.id}`}>{item.q}</dt>
+                <dd data-testid={`wreck-body-${item.id}`}>{item.a}</dd>
+              </div>
             ))}
-          </ul>
+          </dl>
         </section>
 
         <section
