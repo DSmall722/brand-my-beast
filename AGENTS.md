@@ -31,7 +31,7 @@ Allowed public strings: BrandMyBeast, @BrandMyBeast, hello@brandmybeast.com, bra
 
 - Floor **$58,000** — order the Cyberbeast + wrap reserve. Miss = refund.
 - Goal / buyout **$120,000** — campaign buys the truck, etch unlocks.
-- $58,001–$119,999 — ordered + wrapped. No etch.
+- $58,000–$119,999 — ordered + wrapped. No etch.
 - Deposit **20%** to list.
 - Twelve panels. Eight etchable **only at $120,000**.
 

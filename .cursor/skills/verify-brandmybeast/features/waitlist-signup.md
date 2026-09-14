@@ -25,6 +25,12 @@ Preconditions:
 - **UI exists path.** Fill `waitlist-email`, click `waitlist-submit`. Expect `waitlist-status` to contain `already on the list`.
 - **Proof.** Save response JSON under `artifacts/<run-id>/waitlist.json` and screenshot `waitlist.png`.
 
+Or run:
+
+```bash
+.cursor/skills/verify-brandmybeast/scripts/prove-waitlist-signup.sh
+```
+
 ## Gotchas
 
 - Without `WAITLIST_MODE=memory` and without `DATABASE_URL`, production-shaped runs return unavailable. Local proof must set memory mode.

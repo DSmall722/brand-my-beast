@@ -30,3 +30,8 @@ Maintained source for verifying user-facing P1 waitlist behavior. Read this inde
 - [Panel grid](./panel-grid.md) — twelve panels, etch locked under buyout
 - [Waitlist signup](./waitlist-signup.md) — email capture create/exists
 - [Identity locks](./identity-locks.md) — public strings only, no lease, no personal gmail
+
+## Maintain hook
+
+Daily Project subscription runs `/maintain-verification-skill` against this map.
+Live pass lever: `.cursor/skills/verify-brandmybeast/scripts/prove-all.sh`.

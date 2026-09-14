@@ -64,10 +64,19 @@ Quick regression (Playwright config boots its own memory-mode server):
 WAITLIST_MODE=memory npm test
 ```
 
-One-feature proof with evidence (campaign board):
+One-feature proofs with evidence:
 
 ```bash
 .cursor/skills/verify-brandmybeast/scripts/prove-campaign-board.sh
+.cursor/skills/verify-brandmybeast/scripts/prove-panel-grid.sh
+.cursor/skills/verify-brandmybeast/scripts/prove-waitlist-signup.sh
+.cursor/skills/verify-brandmybeast/scripts/prove-identity-locks.sh
+```
+
+Full map (daily `/maintain-verification-skill` live pass):
+
+```bash
+.cursor/skills/verify-brandmybeast/scripts/prove-all.sh
 ```
 
 ## Evidence
@@ -101,4 +110,8 @@ Stops only the PID recorded by launch. Leaves `artifacts/<run-id>/` in place.
 | `scripts/launch.sh` | Start memory-mode Next on `BMB_VERIFY_PORT` |
 | `scripts/doctor.sh` | Read-only readiness + campaign lock smoke |
 | `scripts/prove-campaign-board.sh` | Drive campaign board; write evidence |
+| `scripts/prove-panel-grid.sh` | Twelve panels + etch lock under buyout |
+| `scripts/prove-waitlist-signup.sh` | Memory-mode create/exists + UI status |
+| `scripts/prove-identity-locks.sh` | Public strings only; no lease / gmail |
+| `scripts/prove-all.sh` | Launch once; drive every feature; cleanup |
 | `scripts/cleanup.sh` | Stop the PID recorded by launch |
