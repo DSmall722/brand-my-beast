@@ -23,6 +23,10 @@ export const WINNER_PORTAL_FACTS = [
     text: "Retired wrap vinyl can be framed after 12 months from install. Not cash. No VIN.",
   },
   {
+    id: "season-two",
+    text: "Season 2 wrap is a new buy after the 12-month term — not a gift. First refusal is not sold in v1.",
+  },
+  {
     id: "no-vin",
     text: "No reserved VIN until the campaign clears the floor.",
   },

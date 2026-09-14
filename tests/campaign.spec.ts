@@ -115,6 +115,20 @@ test.describe("P1 waitlist campaign locks", () => {
     await expect(page.getByTestId("retired-vinyl-floor-miss")).toContainText(
       "$58,000",
     );
+    await expect(page.getByTestId("season-two")).toBeVisible();
+    await expect(page.getByTestId("season-two-lead")).toContainText("$58,000");
+    await expect(page.getByTestId("season-two-lead")).toContainText(
+      "$120,000",
+    );
+    await expect(page.getByTestId("season-two-lead")).toContainText(
+      "not a gift",
+    );
+    await expect(page.getByTestId("season-two-new-buy")).toContainText(
+      "new buy",
+    );
+    await expect(page.getByTestId("season-two-no-first-refusal")).toContainText(
+      "not sold",
+    );
 
     await expect(page.getByTestId("raised-hint")).toContainText(
       "Under the floor: full refund.",
