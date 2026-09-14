@@ -1,4 +1,9 @@
 import { NextResponse } from "next/server";
+import { PUBLIC_COPY } from "@/lib/public-copy";
+import {
+  checkRateLimit,
+  clientIpFromRequest,
+} from "@/lib/rate-limit";
 import { joinWaitlist } from "@/lib/waitlist";
 
 export async function POST(request: Request) {
@@ -19,6 +24,24 @@ export async function POST(request: Request) {
     typeof (body as { email: unknown }).email === "string"
       ? (body as { email: string }).email
       : "";
+
+  const rateKey = email.trim()
+    ? `email:${email.trim().toLowerCase()}`
+    : `ip:${clientIpFromRequest(request)}`;
+  const limited = checkRateLimit("waitlist", rateKey);
+  if (!limited.ok) {
+    return NextResponse.json(
+      {
+        ok: false,
+        error: PUBLIC_COPY.waitlist.rateLimited,
+        code: "rate_limited",
+      },
+      {
+        status: 429,
+        headers: { "Retry-After": String(limited.retryAfterSec) },
+      },
+    );
+  }
 
   const result = await joinWaitlist(email);
 

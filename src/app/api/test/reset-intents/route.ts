@@ -5,6 +5,7 @@ import { resetCircuitStoryStoreForTests } from "@/lib/circuit-story-store";
 import { resetContentRightsStoreForTests } from "@/lib/content-rights-store";
 import { resetIntentStoreForTests } from "@/lib/intent-store";
 import { resetMockupStoreForTests } from "@/lib/mockup-store";
+import { resetRateLimitForTests } from "@/lib/rate-limit";
 import { resetSightingStoreForTests } from "@/lib/sighting-store";
 
 export async function POST() {
@@ -18,5 +19,6 @@ export async function POST() {
   await resetContentRightsStoreForTests();
   await resetCircuitStoryStoreForTests();
   await resetSightingStoreForTests();
+  resetRateLimitForTests();
   return Response.json({ ok: true, capture: false, closeAt: null });
 }
