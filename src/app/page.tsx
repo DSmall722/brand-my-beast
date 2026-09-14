@@ -109,21 +109,43 @@ export default async function HomePage() {
         data-testid="home-main"
         data-truck-exists={TRUCK_EXISTS ? "true" : "false"}
       >
-        <section className="shell hero" aria-labelledby="hero-title">
-          <div className="hero-copy">
-            <h1 id="hero-title">{BRAND.name}</h1>
-          </div>
-          <p className="hero-lead">
-            Twelve brands on a Cyberbeast. Bids cover the truck or they come
-            back. Ordered only if the board clears.
-          </p>
-          <div className="hero-actions">
-            <a className="btn btn-signal" href="#waitlist">
-              Get on the list
-            </a>
-            <a className="btn btn-ghost" href="#panels">
-              See the twelve panels
-            </a>
+        <section className="hero" aria-labelledby="hero-title">
+          <a
+            className="hero-truck-link"
+            href="#panels"
+            data-testid="hero-truck-preview"
+            aria-label="Board preview — jump to the twelve panels"
+          >
+            {/* eslint-disable-next-line @next/next/no-img-element -- static hero still in /public */}
+            <img
+              className="hero-truck-image"
+              src="/hero-truck-preview.jpg"
+              alt="Bare stainless Cyberbeast preview of the BrandMyBeast board"
+              width={1280}
+              height={720}
+              decoding="async"
+              fetchPriority="high"
+            />
+          </a>
+          <div className="hero-overlay">
+            <p className="hero-preview-label" data-testid="hero-preview-label">
+              Board preview — bare stainless. Wrap and etch unlock later.
+            </p>
+            <div className="hero-copy">
+              <h1 id="hero-title">{BRAND.name}</h1>
+            </div>
+            <p className="hero-lead">
+              Twelve brands on a Cyberbeast. Bids cover the truck or they come
+              back. Ordered only if the board clears.
+            </p>
+            <div className="hero-actions">
+              <a className="btn btn-signal" href="#waitlist">
+                Get on the list
+              </a>
+              <a className="btn btn-ghost" href="#panels">
+                See the twelve panels
+              </a>
+            </div>
           </div>
         </section>
 

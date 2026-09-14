@@ -112,44 +112,107 @@ a {
 
 .hero {
   position: relative;
+  isolation: isolate;
   min-height: min(92vh, 900px);
   display: grid;
   align-content: end;
-  padding: 4rem 0 3.5rem;
+  padding: 0;
   overflow: hidden;
+  background: linear-gradient(180deg, #07090c 0%, #0c0e11 55%, #10151c 100%);
 }
 
-.hero::before {
+/* Layout A: bare stainless still fills the hero well; tap opens #panels. */
+.hero-truck-link {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  display: block;
+  overflow: hidden;
+  text-decoration: none;
+  color: inherit;
+}
+
+.hero-truck-image {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  /* Bias toward cab/hood in the upper well; bed/ground stay in the lower third. */
+  object-position: 55% 38%;
+  transform: scale(1.02);
+  transition: transform 420ms cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.hero-truck-link:hover .hero-truck-image,
+.hero-truck-link:focus-visible .hero-truck-image {
+  transform: scale(1.035);
+}
+
+.hero-truck-link:focus-visible {
+  outline: none;
+}
+
+.hero-truck-link:focus-visible::after {
   content: "";
   position: absolute;
-  inset: 8% -8% auto;
-  height: 70%;
-  background:
-    linear-gradient(
-      120deg,
-      transparent 10%,
-      color-mix(in oklab, white 7%, transparent) 42%,
-      transparent 70%
-    ),
-    repeating-linear-gradient(
-      -18deg,
-      transparent,
-      transparent 18px,
-      color-mix(in oklab, white 3.5%, transparent) 19px,
-      transparent 20px
-    );
-  mask-image: linear-gradient(to bottom, black, transparent 90%);
+  inset: 0.75rem;
+  border: 2px solid var(--signal);
   pointer-events: none;
-  animation: sheet-drift 18s linear infinite;
+  z-index: 2;
 }
 
-@keyframes sheet-drift {
-  from {
-    transform: translate3d(0, 0, 0);
-  }
-  to {
-    transform: translate3d(40px, 12px, 0);
-  }
+.hero::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background:
+    linear-gradient(
+      to bottom,
+      color-mix(in oklab, #07090c 35%, transparent) 0%,
+      transparent 28%,
+      color-mix(in oklab, #07090c 55%, transparent) 58%,
+      color-mix(in oklab, #07090c 92%, transparent) 100%
+    ),
+    linear-gradient(
+      to right,
+      color-mix(in oklab, #07090c 40%, transparent),
+      transparent 35%,
+      transparent 70%,
+      color-mix(in oklab, #07090c 25%, transparent)
+    );
+}
+
+.hero-overlay {
+  position: relative;
+  z-index: 2;
+  width: min(1120px, calc(100% - 2rem));
+  margin-inline: auto;
+  padding: 5.5rem 0 2.75rem;
+  display: grid;
+  align-content: end;
+  pointer-events: none;
+}
+
+.hero-overlay a,
+.hero-overlay .hero-truck-link {
+  pointer-events: auto;
+}
+
+.hero-overlay .hero-actions a {
+  pointer-events: auto;
+}
+
+.hero-preview-label {
+  margin: 0 0 0.85rem;
+  max-width: 42ch;
+  color: var(--steel-300);
+  font-size: 0.8rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  animation: rise 650ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
 }
 
 .hero-copy {
@@ -179,9 +242,10 @@ a {
   font-weight: 800;
   letter-spacing: -0.06em;
   line-height: 0.92;
-  /* 12-letter Syne 800 wordmark is ~13.7em; 7cqi keeps it on one line. */
-  font-size: min(7.5rem, 7cqi);
+  /* 12-letter Syne 800 wordmark; cqi when container works, vw as hard cap. */
+  font-size: min(7.5rem, 7cqi, 12.5vw);
   text-transform: uppercase;
+  text-shadow: 0 2px 28px color-mix(in oklab, #07090c 70%, transparent);
 }
 
 .hero-lead {
@@ -192,6 +256,7 @@ a {
   color: var(--steel-300);
   font-size: clamp(1.05rem, 2.2vw, 1.25rem);
   line-height: 1.45;
+  text-shadow: 0 1px 18px color-mix(in oklab, #07090c 75%, transparent);
   animation: rise 800ms 80ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
 }
 
@@ -202,7 +267,27 @@ a {
   display: flex;
   flex-wrap: wrap;
   gap: 0.75rem 1rem;
+  pointer-events: auto;
   animation: rise 850ms 120ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+
+@media (max-width: 720px) {
+  .hero {
+    min-height: min(100svh, 820px);
+  }
+
+  .hero-truck-image {
+    object-position: 60% 32%;
+  }
+
+  .hero-overlay {
+    padding: 4.25rem 0 2rem;
+  }
+
+  .hero h1 {
+    /* Syne 800 “BrandMyBeast” is wide — keep under the 375px shell. */
+    font-size: min(2.25rem, 6.5vw);
+  }
 }
 
 .btn {
