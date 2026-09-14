@@ -8,10 +8,8 @@ import {
   PANELS,
   formatUsd,
   isEtchable,
-  moneyBandCopy,
 } from "@/lib/campaign";
 
-/** P1 raised total stays zero until soft auction ships. */
 const RAISED_USD = 0;
 
 export default function HomePage() {
@@ -21,7 +19,7 @@ export default function HomePage() {
   const etchUnlocked = RAISED_USD >= GOAL_USD;
   const closeCopy =
     CLOSE_AT === null
-      ? "Close date unset. The 30-day clock starts only when the live money path ships."
+      ? "Auction clock starts when bidding opens."
       : `Closes ${CLOSE_AT}.`;
 
   return (
@@ -61,8 +59,7 @@ export default function HomePage() {
         >
           <h2 id="money-title">The board</h2>
           <p className="section-lead">
-            Standing bids fund the order. Miss the floor and nobody is charged.
-            Immortal etch stays locked until buyout.
+            Bids fund the truck. Miss the floor and nobody pays.
           </p>
           <div className="money-grid">
             <div className="money-cell">
@@ -70,16 +67,17 @@ export default function HomePage() {
               <div className="value" data-testid="raised-amount">
                 {raisedLabel}
               </div>
-              <p className="hint">{moneyBandCopy(RAISED_USD)}</p>
+              <p className="hint" data-testid="raised-hint">
+                Under the floor: full refund.
+              </p>
             </div>
             <div className="money-cell">
               <div className="label">Floor</div>
               <div className="value" data-testid="floor-amount">
                 {floorLabel}
               </div>
-              <p className="hint">
-                Clear {floorLabel} to order the Cyberbeast and fund wrap. Miss
-                it and every deposit is returned.
+              <p className="hint" data-testid="floor-hint">
+                Order the Cyberbeast. Fund the wrap.
               </p>
             </div>
             <div className="money-cell">
@@ -87,9 +85,8 @@ export default function HomePage() {
               <div className="value" data-testid="goal-amount">
                 {goalLabel}
               </div>
-              <p className="hint">
-                Hit {goalLabel} and the campaign buys the truck. Etch unlocks on
-                eight steel faces.
+              <p className="hint" data-testid="goal-hint">
+                Campaign buys the truck. Etch unlocks.
               </p>
             </div>
           </div>
@@ -103,8 +100,8 @@ export default function HomePage() {
             </div>
           </div>
           <p className="section-lead" style={{ marginTop: "1.5rem" }}>
-            Deposit to list is {DEPOSIT_PERCENT}% when bidding opens. Cards are
-            not charged on this waitlist.
+            When bidding opens, {DEPOSIT_PERCENT}% holds your seat. This page
+            doesn&apos;t charge cards.
           </p>
         </section>
 
@@ -115,8 +112,7 @@ export default function HomePage() {
         >
           <h2 id="panels-title">Twelve panels</h2>
           <p className="section-lead">
-            Opening marks are the first bid floor on each seat. Immortal etch is
-            available on eight faces only after {goalLabel}.
+            Starting bids. Eight panels can etch if the board hits {goalLabel}.
           </p>
           <div className="panel-grid" data-testid="panel-grid">
             {PANELS.map((panel) => {
@@ -138,10 +134,10 @@ export default function HomePage() {
                       className="badge badge-locked"
                       data-testid={`etch-lock-${panel.id}`}
                     >
-                      Etch locked under {goalLabel}
+                      Etch at $120k
                     </span>
                   ) : (
-                    <span className="badge badge-wrap">Wrap only</span>
+                    <span className="badge badge-wrap">Wrap</span>
                   )}
                 </article>
               );
@@ -159,22 +155,20 @@ export default function HomePage() {
             <li>
               <span className="story-num">01</span>
               <span>
-                Brands claim a stainless panel. One brand per trade. The
-                operator vetoes art and category collisions.
+                Claim a panel. One brand per trade. We approve the art.
               </span>
             </li>
             <li>
               <span className="story-num">02</span>
               <span>
-                If the board hits {floorLabel}, the Cyberbeast gets ordered and
-                wrap is funded. Under that line, full refund.
+                {floorLabel} orders the Cyberbeast and funds wrap. Miss it →
+                full refund.
               </span>
             </li>
             <li>
               <span className="story-num">03</span>
               <span>
-                At {goalLabel}, the campaign buys the truck and Immortal etch
-                unlocks. Between floor and buyout, wrap only.
+                {goalLabel} buys the truck. Etch unlocks on eight steel faces.
               </span>
             </li>
           </ol>
@@ -187,8 +181,8 @@ export default function HomePage() {
         >
           <h2 id="waitlist-title">Waitlist</h2>
           <p className="section-lead">
-            Soft auction seats are not open yet. Leave an email and we notify
-            when {BRAND.handle} opens bidding from {BRAND.email}.
+            Bidding isn&apos;t open yet. Leave your email. We&apos;ll tell you
+            when seats go live.
           </p>
           <WaitlistForm />
         </section>
@@ -199,11 +193,7 @@ export default function HomePage() {
           {BRAND.name} · {BRAND.handle} ·{" "}
           <a href={`mailto:${BRAND.email}`}>{BRAND.email}</a>
         </div>
-        <p className="fine-print">
-          Independent. Not Tesla. Work circuit across the Southeast — South
-          Carolina home loop, Atlanta, Charlotte, Florida panhandle. Proof is
-          miles after the truck exists.
-        </p>
+        <p className="fine-print">Independent. Not Tesla.</p>
       </footer>
     </>
   );

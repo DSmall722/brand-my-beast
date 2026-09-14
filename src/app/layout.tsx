@@ -17,7 +17,7 @@ const body = IBM_Plex_Sans({
 export const metadata: Metadata = {
   title: "BrandMyBeast — twelve panels on a Cyberbeast",
   description:
-    "Standing bids fund a Tesla Cybertruck Cyberbeast. Miss $58,000 and nobody is charged. Immortal etch unlocks only at $120,000.",
+    "Twelve brands on a Cyberbeast. Miss $58,000 and nobody pays. $120,000 buys the truck and unlocks etch.",
   metadataBase: new URL("https://brandmybeast.com"),
   openGraph: {
     title: "BrandMyBeast",
