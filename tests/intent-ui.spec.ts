@@ -51,6 +51,19 @@ test.describe("P2 panel intent + approvals", () => {
     expect(html).not.toContain("CLOSE_AT");
   });
 
+  test("signed-in bidder sees highway legibility warn on long brand", async ({
+    page,
+  }) => {
+    await signIn(page, "legibility@example.com");
+    await page.goto("/panels/hood");
+    await page.getByTestId("intent-brand").fill("Twenty Character Brand!");
+    await expect(page.getByTestId("highway-legibility")).toHaveAttribute(
+      "data-severity",
+      "warn",
+    );
+    await expect(page.getByTestId("legibility-brand-long")).toBeVisible();
+  });
+
   test("signed-in bidder lists intent and operator can approve", async ({
     browser,
   }) => {
