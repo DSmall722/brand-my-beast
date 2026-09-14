@@ -363,3 +363,28 @@ export async function loadBoardIntentStats(): Promise<BoardIntentStats> {
   }
 }
 
+/** Standing holder (highest listed/approved) per panel, if any. */
+export async function loadStandingHoldersByPanel(): Promise<
+  Map<string, { brandLabel: string; tradeLabel: string; standingUsd: number }>
+> {
+  const map = new Map<
+    string,
+    { brandLabel: string; tradeLabel: string; standingUsd: number }
+  >();
+  for (const panel of PANELS) {
+    const bids = await listBidsForPanel(panel.id);
+    const active = bids
+      .filter((bid) => bid.status === "listed" || bid.status === "approved")
+      .sort((a, b) => b.standingUsd - a.standingUsd);
+    const top = active[0];
+    if (top) {
+      map.set(panel.id, {
+        brandLabel: top.brandLabel,
+        tradeLabel: top.tradeLabel,
+        standingUsd: top.standingUsd,
+      });
+    }
+  }
+  return map;
+}
+

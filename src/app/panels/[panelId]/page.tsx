@@ -1,5 +1,8 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import {
+  AdjacentNeighborsCard,
+} from "@/components/AdjacentClashHint";
 import { IntentBidForm } from "@/components/IntentBidForm";
 import { PanelMockup } from "@/components/PanelMockup";
 import { SiteChrome } from "@/components/SiteChrome";
@@ -8,9 +11,14 @@ import { DEPOSIT_PERCENT, FLOOR_USD, GOAL_USD, PANELS, formatUsd, isEtchable } f
 import { intentStatusClass, intentStatusLabel } from "@/lib/intent-labels";
 import {
   listBidsForPanel,
+  loadStandingHoldersByPanel,
   minimumIntentUsd,
   standingForPanel,
 } from "@/lib/intent-store";
+import {
+  holdersOnAdjacentPanels,
+  type AdjacentSeatHolder,
+} from "@/lib/panel-clash";
 
 type Params = Promise<{ panelId: string }>;
 
@@ -27,6 +35,23 @@ export default async function PanelIntentPage({
   const standing = await standingForPanel(panel.id);
   const minimum = await minimumIntentUsd(panel.id);
   const bids = await listBidsForPanel(panel.id);
+  const holdersRaw = await loadStandingHoldersByPanel();
+  const holdersByPanel = new Map<string, AdjacentSeatHolder | null>();
+  for (const row of PANELS) {
+    const held = holdersRaw.get(row.id);
+    holdersByPanel.set(
+      row.id,
+      held
+        ? {
+            panelId: row.id,
+            panelName: row.name,
+            brandLabel: held.brandLabel,
+            tradeLabel: held.tradeLabel,
+          }
+        : null,
+    );
+  }
+  const adjacentNeighbors = holdersOnAdjacentPanels(panel.id, holdersByPanel);
   const etchable = isEtchable(panel);
   const viewerId = session?.user?.id;
   const viewerWasOutbid = Boolean(
@@ -90,6 +115,8 @@ export default async function PanelIntentPage({
 
         <PanelMockup panel={panel} />
 
+        <AdjacentNeighborsCard neighbors={adjacentNeighbors} />
+
         <dl className="panel-stats" data-testid="panel-stats">
           <div>
             <dt>Opening</dt>
@@ -133,7 +160,11 @@ export default async function PanelIntentPage({
             <h2 id="intent-compose-title" className="auth-subhead">
               List an intent mark
             </h2>
-            <IntentBidForm panelId={panel.id} minimumUsd={minimum} />
+            <IntentBidForm
+              panelId={panel.id}
+              minimumUsd={minimum}
+              adjacentNeighbors={adjacentNeighbors}
+            />
           </section>
         ) : (
           <p className="auth-hint" data-testid="intent-signin-needed">

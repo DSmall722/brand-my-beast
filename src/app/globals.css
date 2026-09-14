@@ -716,6 +716,59 @@ a {
   line-height: 1.4;
 }
 
+.adjacent-neighbors {
+  margin: 1rem 0 1.25rem;
+  padding: 0.85rem 1rem;
+  border: 1px solid var(--hairline);
+  border-radius: 0.65rem;
+  background: color-mix(in oklab, black 18%, transparent);
+}
+
+.adjacent-neighbors-title {
+  margin: 0 0 0.4rem;
+  font-size: 0.78rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--steel-300);
+}
+
+.adjacent-neighbors-list {
+  margin: 0;
+  padding-left: 1.1rem;
+  color: var(--steel-100);
+  font-size: 0.92rem;
+  line-height: 1.45;
+}
+
+.adjacent-neighbors-list a {
+  color: var(--steel-100);
+  text-underline-offset: 0.15em;
+}
+
+.adjacent-clash-hint {
+  margin: 0.35rem 0 0.75rem;
+  padding: 0.7rem 0.85rem;
+  border: 1px solid color-mix(in oklab, #f0c040 45%, transparent);
+  border-radius: 0.65rem;
+  background: color-mix(in oklab, black 22%, transparent);
+}
+
+.adjacent-clash-title {
+  margin: 0 0 0.35rem;
+  font-size: 0.78rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--steel-300);
+}
+
+.adjacent-clash-list {
+  margin: 0;
+  padding-left: 1.1rem;
+  color: var(--steel-100);
+  font-size: 0.9rem;
+  line-height: 1.4;
+}
+
 .auth-hint code,
 .auth-missing code {
   font-size: 0.85em;
