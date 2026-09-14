@@ -14,7 +14,7 @@ Updated: 2026-09-14
 - Coordinator may merge a PR that finishes exactly one unchecked slice, Playwright is green, and the merge gates below hold.
 
 **Now:** 0.6 GitHub Actions Playwright on every PR.
-**Last merged:** 0.5 (#pending prove-all covers 0.1–0.4)
+**Last merged:** 0.5 (#56 prove-all covers 0.1–0.4)
 
 ## Standing orders
 
@@ -51,7 +51,7 @@ If any gate fails: leave the PR unmerged and stop that slice.
 - [x] 0.2 Same hide on /account and /partner empty boards. (#53)
 - [x] 0.3 Homepage copy audit: no process-memo voice, no invented miles/scans/city hours. (#54)
 - [x] 0.4 Playwright contract: waitlist created/exists; invalid email 400. Production already returns 201 — do not regress. (#55)
-- [x] 0.5 prove-all.sh covers 0.1–0.4. CI red = merge nothing else. (#pending)
+- [x] 0.5 prove-all.sh covers 0.1–0.4. CI red = merge nothing else. (#56)
 - [ ] 0.6 GitHub Actions: Playwright on every PR.
 
 ## Wave 1 — durable intent
