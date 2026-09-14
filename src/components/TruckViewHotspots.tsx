@@ -67,7 +67,7 @@ export function TruckViewHotspots({
         <svg
           className="truck-view-svg"
           viewBox="0 0 400 160"
-          role="img"
+          role="group"
           aria-label={`${view} view of the board truck with panel hotspots`}
           data-testid="truck-view-svg"
           data-view={view}

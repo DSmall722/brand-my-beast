@@ -28,7 +28,7 @@ export default async function OperatorPage() {
     return (
       <>
         <SiteChrome />
-        <main className="shell auth-page" data-testid="operator-denied">
+        <main id="main-content" className="shell auth-page" data-testid="operator-denied">
           <h1>Operator only</h1>
           <p className="section-lead">
             This approval thread is limited to operator emails. Set{" "}
@@ -53,6 +53,7 @@ export default async function OperatorPage() {
     <>
       <SiteChrome />
       <main
+        id="main-content"
         className="shell auth-page approvals-page"
         data-testid="operator-approvals"
         data-operator-root="true"
