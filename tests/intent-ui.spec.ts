@@ -456,6 +456,55 @@ test.describe("P2 panel intent + approvals", () => {
     await second.close();
   });
 
+  test("slice 1.4: one brand per trade; challenger fights same panel only", async ({
+    browser,
+  }) => {
+    const holder = await browser.newPage();
+    await signIn(holder, "slice14-holder@example.com");
+    await holder.goto("/panels/hood");
+    await expect(holder.getByTestId("intent-trade-rule")).toContainText(
+      "One brand per trade",
+    );
+    await expect(holder.getByTestId("intent-trade-rule")).toContainText(
+      "same panel only",
+    );
+    await holder.getByTestId("intent-brand").fill("Slice Fourteen Hold");
+    await holder.getByTestId("intent-trade").fill("Panel Seats");
+    await holder.getByTestId("intent-standing").fill("2500");
+    await holder.getByTestId("intent-submit").click();
+    await expect(holder.getByTestId("intent-success")).toContainText(
+      "not charged",
+    );
+    await holder.close();
+
+    const elsewhere = await browser.newPage();
+    await signIn(elsewhere, "slice14-elsewhere@example.com");
+    await elsewhere.goto("/panels/tonneau");
+    await elsewhere.getByTestId("intent-brand").fill("Slice Fourteen Else");
+    await elsewhere.getByTestId("intent-trade").fill("panel seats");
+    await elsewhere.getByTestId("intent-submit").click();
+    await expect(elsewhere.getByTestId("intent-error")).toContainText(
+      /already held|one brand per trade/i,
+    );
+    await elsewhere.close();
+
+    const challenger = await browser.newPage();
+    await signIn(challenger, "slice14-challenger@example.com");
+    await challenger.goto("/panels/hood");
+    await challenger.getByTestId("intent-brand").fill("Slice Fourteen Fight");
+    await challenger.getByTestId("intent-trade").fill("panel tools");
+    await challenger.getByTestId("intent-standing").fill("2750");
+    await challenger.getByTestId("intent-submit").click();
+    await expect(challenger.getByTestId("intent-success")).toContainText(
+      "not charged",
+    );
+    await expect(challenger.getByTestId("intent-list")).toContainText(
+      "Slice Fourteen Fight",
+    );
+    await expect(challenger.getByTestId("intent-list")).toContainText("Outbid");
+    await challenger.close();
+  });
+
   test("wrap-shop partner sheet is read-only for shop@example.com", async ({
     browser,
   }) => {

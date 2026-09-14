@@ -65,9 +65,9 @@ export function IntentBidForm({
         data-testid="intent-trade"
         className="auth-input"
       />
-      <p className="auth-hint">
-        Name your trade in one line. No public category list — collisions are
-        blocked.
+      <p className="auth-hint" data-testid="intent-trade-rule">
+        One brand per trade. Challengers fight the same panel only — a held
+        trade cannot open a second seat elsewhere.
       </p>
       <label className="auth-label" htmlFor="standingUsd">
         Intent mark (USD)

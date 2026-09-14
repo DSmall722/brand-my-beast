@@ -372,6 +372,47 @@ test.describe("intent store memory ledger", () => {
     if (clash.ok) return;
     expect(clash.error).toMatch(/already held/i);
   });
+
+  test("slice 1.4: one brand per trade; challenger fights the same panel only", async () => {
+    const holder = await placeIntentBid({
+      panelId: "hood",
+      userId: "holder_a",
+      brandLabel: "Holder Brand",
+      tradeLabel: "Trail Snacks",
+      standingUsd: 2500,
+    });
+    expect(holder.ok).toBeTruthy();
+    if (!holder.ok) return;
+
+    const elsewhere = await placeIntentBid({
+      panelId: "tonneau",
+      userId: "challenger_b",
+      brandLabel: "Challenger Brand",
+      tradeLabel: "trail snacks",
+      standingUsd: 800,
+    });
+    expect(elsewhere.ok).toBeFalsy();
+    if (elsewhere.ok) return;
+    expect(elsewhere.error).toMatch(/one brand per trade/i);
+
+    const samePanel = await placeIntentBid({
+      panelId: "hood",
+      userId: "challenger_b",
+      brandLabel: "Challenger Brand",
+      tradeLabel: "trail tools",
+      standingUsd: nextStandingUsd(holder.bid.standingUsd),
+    });
+    expect(samePanel.ok).toBeTruthy();
+    if (!samePanel.ok) return;
+
+    const listed = await listBidsForPanel("hood");
+    expect(listed.find((row) => row.id === holder.bid.id)?.status).toBe(
+      "outbid",
+    );
+    expect(listed.find((row) => row.id === samePanel.bid.id)?.status).toBe(
+      "listed",
+    );
+  });
 });
 
 
