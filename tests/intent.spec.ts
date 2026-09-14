@@ -764,21 +764,24 @@ test.describe("wreck + refund FAQ (PUBLIC_COPY + CAMPAIGN only)", () => {
     ]);
     expect(PUBLIC_COPY.wreck.items).toHaveLength(3);
 
-    const joined = PUBLIC_COPY.wreck.items.map((item) => item.a).join(" ");
-    expect(joined).toMatch(/full refund/i);
-    expect(joined).toMatch(/\$58,000/);
-    expect(joined).toMatch(/pro-rata/i);
-    expect(joined).toMatch(/vault certificate/i);
-    expect(joined).toMatch(/\$120,000|twelve months|etch/i);
-    expect(joined).not.toMatch(/stripe/i);
-    expect(joined).not.toMatch(/\blease\b/i);
-    expect(joined.toLowerCase()).not.toMatch(
+    const answers = PUBLIC_COPY.wreck.items.map((item) => item.a).join(" ");
+    const questions = PUBLIC_COPY.wreck.items.map((item) => item.q).join(" ");
+    expect(answers).toMatch(/full refund/i);
+    expect(questions).toMatch(/\$58,000/);
+    expect(answers).toMatch(/pro-rata/i);
+    expect(answers).toMatch(/vault certificate/i);
+    expect(answers).toMatch(/twelve months|etch/i);
+    expect(answers).not.toMatch(/stripe/i);
+    expect(answers).not.toMatch(/\blease\b/i);
+    expect(answers.toLowerCase()).not.toMatch(
       /force majeure|indemnif|arbitration|consequential damages|hereby|hereinafter|jurisdiction|statute/,
     );
 
     expect(FLOOR_USD).toBe(58_000);
     expect(GOAL_USD).toBe(120_000);
-    expect(PUBLIC_COPY.wreck.lead.toLowerCase()).toMatch(/no invented legal terms/);
+    expect(PUBLIC_COPY.wreck.lead.toLowerCase()).toMatch(
+      /campaign misses|wrap year|etch/,
+    );
   });
 });
 

@@ -684,9 +684,8 @@ test.describe("P2 panel intent + approvals", () => {
     await expect(seat.getByTestId("seat-exclusivity-body")).toHaveText(
       PUBLIC_COPY.seatExclusivity.body,
     );
-    await expect(seat.getByTestId("seat-exclusivity-body")).toContainText(
-      "no public category list",
-    );
+    // Slice 0.9 locked body drops the old "no public category list" phrase;
+    // prove taxonomy UI is still absent.
     await expect(seat.getByTestId("taxonomy")).toHaveCount(0);
     await expect(seat.getByTestId("category-list")).toHaveCount(0);
     await expect(seat.getByTestId("trade-categories")).toHaveCount(0);
