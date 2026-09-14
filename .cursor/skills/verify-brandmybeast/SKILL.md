@@ -1,11 +1,14 @@
 ---
 name: verify-brandmybeast
-description: "Drive the BrandMyBeast Next.js app locally the way a user does. Use when proving campaign locks, panel grid, etch lock, waitlist signup, panel intent / approvals, or banned-copy rules after a change."
+description: "Drive the BrandMyBeast Next.js app locally the way a user does. Use when proving campaign locks, panel grid, etch lock, waitlist signup, panel intent / approvals, banned-copy rules, or the Waves 0–5 feature map after a change."
 ---
 
 # Verify BrandMyBeast
 
 Project-local verification skill for the waitlist + P2 intent surfaces. Agents read this cold. Prefer this over inventing new Playwright recipes mid-task.
+
+**Feature map (Waves 0–5):** `.cursor/skills/verify-brandmybeast/features/README.md`
+and `features/waves-0-5.md`. Slice 6.4 merge-gate: `tests/slice-6-4-verify-map.spec.ts`.
 
 ## Launch
 

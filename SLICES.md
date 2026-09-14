@@ -14,8 +14,8 @@ Updated: 2026-09-14
 - A FEATURES.md row is not scheduled until it has a checkbox in this file.
 - Coordinator may merge a PR that finishes exactly one unchecked slice, Playwright is green, and the merge gates below hold.
 
-**Now:** 6.4 verify-brandmybeast feature map matches Waves 0–5.
-**Last merged:** 6.3 (#92 Playwright operator approve / reject-with-note)
+**Now:** 6.5 Failure copy when DB is down. Never say joined if the write failed.
+**Last merged:** 6.4 (#93 verify-brandmybeast feature map Waves 0–5)
 
 ## Standing orders
 
@@ -109,7 +109,7 @@ If any gate fails: leave the PR unmerged and stop that slice.
 - [x] 6.1 Playwright: floor, buyout, etch lock, no lease, no personal handle. (#90)
 - [x] 6.2 Playwright: intent create / outbid / exclusivity / increment. (#91)
 - [x] 6.3 Playwright: operator approve / reject-with-note. (#92)
-- [ ] 6.4 verify-brandmybeast feature map matches Waves 0–5.
+- [x] 6.4 verify-brandmybeast feature map matches Waves 0–5. (#93)
 - [ ] 6.5 Failure copy when DB is down. Never say joined if the write failed.
 - [ ] 6.6 Rate-limit waitlist + intent POSTs.
 - [ ] 6.7 No in-memory stores in Production.
