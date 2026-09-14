@@ -192,6 +192,14 @@ export async function listBidsForUser(userId: UserId): Promise<IntentBid[]> {
   return rows.map(rowToBid);
 }
 
+/** Approved seats for one bidder — winner portal. */
+export async function listApprovedBidsForUser(
+  userId: UserId,
+): Promise<IntentBid[]> {
+  const bids = await listBidsForUser(userId);
+  return bids.filter((bid) => bid.status === "approved");
+}
+
 export async function standingForPanel(panelId: string): Promise<number> {
   const panel = panelById(panelId);
   if (!panel) throw new Error(`Unknown panel: ${panelId}`);

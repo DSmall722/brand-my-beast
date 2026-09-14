@@ -411,4 +411,62 @@ test.describe("P2 panel intent + approvals", () => {
     expect(html).not.toContain("Florida panhandle");
     await shop.close();
   });
+
+  test("winner portal lists approved seats for the bidder", async ({
+    browser,
+  }) => {
+    const bidder = await browser.newPage();
+    await signIn(bidder, "winner@example.com");
+    await bidder.goto("/panels/hood");
+    await bidder.getByTestId("intent-brand").fill("Winner Co");
+    await bidder.getByTestId("intent-trade").fill("cabin tools");
+    await bidder.getByTestId("intent-submit").click();
+    await expect(bidder.getByTestId("intent-success")).toContainText(
+      "not charged",
+    );
+    await bidder.goto("/account/wins");
+    await expect(bidder.getByTestId("winner-portal-empty")).toBeVisible();
+    await bidder.close();
+
+    const operator = await browser.newPage();
+    await signIn(operator, "operator@example.com");
+    await operator.goto("/operator/approvals");
+    await expect(operator.getByTestId("approvals-list")).toContainText(
+      "Winner Co",
+    );
+    await operator.locator('[data-testid^="approve-"]').first().click();
+    await expect(operator.getByTestId("approvals-empty")).toBeVisible({
+      timeout: 10_000,
+    });
+    await operator.close();
+
+    const winner = await browser.newPage();
+    await signIn(winner, "winner@example.com");
+    await expect(winner.getByTestId("account-wins-link")).toBeVisible();
+    await expect(winner.getByTestId("wins-nav-link")).toBeVisible();
+    await winner.goto("/account/wins");
+    await expect(winner.getByTestId("winner-portal")).toBeVisible();
+    await expect(winner.getByTestId("winner-portal-lead")).toContainText(
+      "$58,000",
+    );
+    await expect(winner.getByTestId("winner-portal-lead")).toContainText(
+      "$120,000",
+    );
+    await expect(winner.getByTestId("winner-fact-wrap-term")).toContainText(
+      "12 months from install",
+    );
+    await expect(winner.getByTestId("winner-fact-etch-lock")).toContainText(
+      "$120,000",
+    );
+    await expect(winner.getByTestId("winner-portal-seats-list")).toContainText(
+      "Winner Co",
+    );
+    await expect(winner.locator('[data-testid^="approve-"]')).toHaveCount(0);
+    const html = await winner.content();
+    expect(html.toLowerCase()).not.toMatch(/\blease\b/);
+    expect(html).not.toContain("CLOSE_AT");
+    expect(html).not.toContain("South Carolina home loop");
+    expect(html).not.toContain("Florida panhandle");
+    await winner.close();
+  });
 });
