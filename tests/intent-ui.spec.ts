@@ -506,6 +506,59 @@ test.describe("P2 panel intent + approvals", () => {
     await challenger.close();
   });
 
+  test("slice 1.8: public standing shows brand, trade, amount — no bidder email", async ({
+    browser,
+  }) => {
+    const bidderEmail = "slice18-bidder@example.com";
+    const bidder = await browser.newPage();
+    await signIn(bidder, bidderEmail);
+    await bidder.goto("/panels/hood");
+    await bidder.getByTestId("intent-brand").fill("Public Standing Co");
+    await bidder.getByTestId("intent-trade").fill("standing seats");
+    await bidder.getByTestId("intent-standing").fill("2500");
+    await bidder.getByTestId("intent-submit").click();
+    await expect(bidder.getByTestId("intent-success")).toContainText(
+      "not charged",
+    );
+    await expect(bidder.getByTestId("public-standing-brand")).toHaveText(
+      "Public Standing Co",
+    );
+    await expect(bidder.getByTestId("public-standing-trade")).toHaveText(
+      "standing seats",
+    );
+    await expect(bidder.getByTestId("public-standing-amount")).toContainText(
+      "2,500",
+    );
+    await bidder.close();
+
+    const visitor = await browser.newPage();
+    await visitor.goto("/panels/hood");
+    await expect(visitor.getByTestId("seat-occupancy")).toHaveText("Seat held");
+    await expect(visitor.getByTestId("public-standing-brand")).toHaveText(
+      "Public Standing Co",
+    );
+    await expect(visitor.getByTestId("public-standing-trade")).toHaveText(
+      "standing seats",
+    );
+    await expect(visitor.getByTestId("public-standing-amount")).toContainText(
+      "2,500",
+    );
+    await expect(visitor.getByTestId("intent-list")).toContainText(
+      "Public Standing Co",
+    );
+    await expect(visitor.getByTestId("intent-list")).toContainText(
+      "standing seats",
+    );
+    await expect(visitor.getByTestId("intent-list")).toContainText("2,500");
+    const html = await visitor.content();
+    expect(html).not.toContain(bidderEmail);
+    expect(html).not.toContain("slice18-bidder");
+    expect(html.toLowerCase()).not.toContain("gmail.com");
+    expect(html.toLowerCase()).not.toMatch(/\blease\b/);
+    expect(html).not.toContain("CLOSE_AT");
+    await visitor.close();
+  });
+
   test("slice 1.5: next intent >= standing + max($250, 10%)", async ({
     browser,
   }) => {

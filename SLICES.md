@@ -14,8 +14,8 @@ Updated: 2026-09-14
 - A FEATURES.md row is not scheduled until it has a checkbox in this file.
 - Coordinator may merge a PR that finishes exactly one unchecked slice, Playwright is green, and the merge gates below hold.
 
-**Now:** 1.8 Public standing: brand + trade + amount. No bidder email public.
-**Last merged:** 1.7 (#66 /panels/[id] seat + homepage card links)
+**Now:** 2.1 /operator lists pending intents. Operator email allowlist from env.
+**Last merged:** 1.8 (#67 public standing brand + trade + amount)
 
 ## Standing orders
 
@@ -68,7 +68,7 @@ If any gate fails: leave the PR unmerged and stop that slice.
 - [x] 1.5 Increment: next intent >= standing + max($250, 10%). (#64)
 - [x] 1.6 Outbid → previous status outbid + waitlist handoff. (#65)
 - [x] 1.7 /panels/[id] is the seat. Homepage cards link there. (#66)
-- [ ] 1.8 Public standing: brand + trade + amount. No bidder email public.
+- [x] 1.8 Public standing: brand + trade + amount. No bidder email public. (#67)
 
 ## Wave 2 — operator
 
