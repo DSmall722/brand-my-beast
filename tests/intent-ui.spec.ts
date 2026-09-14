@@ -229,7 +229,7 @@ test.describe("P2 panel intent + approvals", () => {
     );
   });
 
-  test("signed-in bidder lists intent and operator can approve", async ({
+  test("slice 2.2: operator approve lists the intent", async ({
     browser,
   }) => {
     const bidder = await browser.newPage();
@@ -272,7 +272,7 @@ test.describe("P2 panel intent + approvals", () => {
     await operator.close();
   });
 
-  test("operator can reject a listed intent", async ({ browser }) => {
+  test("slice 2.2: operator reject requires a note", async ({ browser }) => {
     const bidder = await browser.newPage();
     await signIn(bidder, "bidder2@example.com");
     await bidder.goto("/panels/hood");
