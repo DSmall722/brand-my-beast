@@ -166,6 +166,7 @@ import {
   submitSighting,
 } from "../src/lib/sighting-store";
 import {
+  intentStoreUsesMemory,
   listBidsForPanel,
   listApprovedBids,
   listApprovedBidsForUser,
@@ -229,6 +230,40 @@ test.describe("P2 intent math (no capture)", () => {
     expect(sql).not.toMatch(
       /"(stripe|setup_intent|captured|payment_method)[^"]*"/i,
     );
+  });
+
+  test("drizzle schema declares intent indexes and no stripe columns", () => {
+    const schema = readFileSync(
+      join(process.cwd(), "src/lib/db/schema.ts"),
+      "utf8",
+    );
+    expect(schema).toContain("intent_bids");
+    expect(schema).toContain("intent_bids_panel_id_idx");
+    expect(schema).toContain("intent_bids_status_idx");
+    expect(schema).toContain("intent_bids_trade_label_idx");
+    expect(schema).not.toMatch(
+      /"(stripe|setup_intent|captured|payment_method)[^"]*"/i,
+    );
+  });
+
+  test("Production never uses the memory intent store", () => {
+    expect(
+      intentStoreUsesMemory({
+        VERCEL_ENV: "production",
+        INTENT_MODE: "memory",
+      }),
+    ).toBe(false);
+    expect(
+      intentStoreUsesMemory({
+        VERCEL_ENV: "production",
+        DATABASE_URL: "postgres://example",
+      }),
+    ).toBe(false);
+    expect(intentStoreUsesMemory({ INTENT_MODE: "memory" })).toBe(true);
+    expect(intentStoreUsesMemory({})).toBe(true);
+    expect(
+      intentStoreUsesMemory({ DATABASE_URL: "postgres://example" }),
+    ).toBe(false);
   });
 });
 
