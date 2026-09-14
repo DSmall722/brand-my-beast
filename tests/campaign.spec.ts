@@ -59,6 +59,16 @@ test.describe("P1 waitlist campaign locks", () => {
     await expect(page.getByTestId("shortfall-goal")).toHaveText(formatUsd(GOAL_USD));
     await expect(page.getByTestId("open-seats")).toHaveText(`12 of ${PANELS.length}`);
     await expect(page.getByTestId("floor-progress-copy")).toHaveText("0% of floor");
+    await expect(page.getByTestId("goal-progress-copy")).toHaveText("0% of buyout");
+    await expect(page.getByTestId("visual-vault")).toBeVisible();
+    await expect(page.getByTestId("vault-marker-floor")).toBeVisible();
+    await expect(page.getByTestId("vault-marker-goal")).toBeVisible();
+    await expect(page.getByTestId("vault-floor-label")).toHaveText(
+      `Floor ${formatUsd(FLOOR_USD)}`,
+    );
+    await expect(page.getByTestId("vault-goal-label")).toHaveText(
+      `Buyout ${formatUsd(GOAL_USD)}`,
+    );
 
     await expect(page.getByTestId("raised-hint")).toContainText(
       "Under the floor: full refund.",
