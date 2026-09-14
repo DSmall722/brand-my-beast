@@ -739,12 +739,16 @@ export default async function HomePage() {
         ) : null}
       </main>
 
-      <footer className="shell site-footer">
-        <div>
-          {BRAND.name} · {BRAND.handle} ·{" "}
-          <a href={`mailto:${BRAND.email}`}>{BRAND.email}</a>
-        </div>
-        <p className="fine-print">{PUBLIC_COPY.footer.independent}</p>
+      <footer className="shell site-footer" data-testid="site-footer">
+        <p className="site-footer-line" data-testid="site-footer-line">
+          {PUBLIC_COPY.footer.line}
+        </p>
+        <p
+          className="fine-print site-footer-independent"
+          data-testid="site-footer-independent"
+        >
+          {PUBLIC_COPY.footer.independent}
+        </p>
       </footer>
     </>
   );
