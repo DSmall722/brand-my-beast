@@ -128,6 +128,10 @@ import {
   QR_NFC_SCAN_COUNTER_LEAD,
   qrNfcScanCounterCopyIsSafe,
 } from "../src/lib/qr-nfc-scan-counter";
+import {
+  CITY_PING_WINNER_LEAD,
+  cityPingWinnerCopyIsSafe,
+} from "../src/lib/city-ping-winner";
 
 import {
   EVENT_REQUEST_KINDS,
@@ -571,6 +575,9 @@ test.describe("winner portal (no capture)", () => {
     expect(
       WINNER_PORTAL_FACTS.some((fact) => fact.id === "qr-nfc-scan-counter"),
     ).toBe(true);
+    expect(
+      WINNER_PORTAL_FACTS.some((fact) => fact.id === "city-ping-winner"),
+    ).toBe(true);
     const blob = WINNER_PORTAL_FACTS.map((fact) => fact.text).join(" ");
 
     expect(blob).toContain("12 months from install");
@@ -957,6 +964,23 @@ test.describe("qr-nfc scan counter (empty until truck)", () => {
     );
     expect(QR_NFC_SCAN_COUNTER_LEAD.toLowerCase()).toContain("no reserved vin");
     expect(qrNfcScanCounterCopyIsSafe()).toBe(true);
+    expect(FLOOR_USD).toBe(58_000);
+    expect(GOAL_USD).toBe(120_000);
+  });
+});
+
+test.describe("city ping to panel winner (empty until truck)", () => {
+  test("publishes empty-ping copy without invented pings or reserved VIN", () => {
+    expect(CITY_PING_WINNER_LEAD).toContain("$58,000");
+    expect(CITY_PING_WINNER_LEAD).toContain("$120,000");
+    expect(CITY_PING_WINNER_LEAD.toLowerCase()).toContain(
+      "empty until the truck exists",
+    );
+    expect(CITY_PING_WINNER_LEAD.toLowerCase()).toContain(
+      "no invented city pings",
+    );
+    expect(CITY_PING_WINNER_LEAD.toLowerCase()).toContain("no reserved vin");
+    expect(cityPingWinnerCopyIsSafe()).toBe(true);
     expect(FLOOR_USD).toBe(58_000);
     expect(GOAL_USD).toBe(120_000);
   });

@@ -13,6 +13,7 @@ import { WeeklyMileageLedgerCard } from "@/components/WeeklyMileageLedgerCard";
 import { LandmarkProofLogCard } from "@/components/LandmarkProofLogCard";
 import { CityTimeHeatmapCard } from "@/components/CityTimeHeatmapCard";
 import { QrNfcScanCounterCard } from "@/components/QrNfcScanCounterCard";
+import { CityPingWinnerCard } from "@/components/CityPingWinnerCard";
 
 import {
   BRAND,
@@ -410,6 +411,19 @@ export default async function HomePage() {
             VIN.
           </p>
           <QrNfcScanCounterCard />
+        </section>
+
+        <section
+          className="shell section"
+          id="city-ping-winner"
+          aria-labelledby="city-ping-winner-title"
+        >
+          <h2 id="city-ping-winner-title">City ping to the panel winner</h2>
+          <p className="section-lead">
+            Empty until the truck exists. No invented city pings. No reserved
+            VIN.
+          </p>
+          <CityPingWinnerCard />
         </section>
 
         <section
