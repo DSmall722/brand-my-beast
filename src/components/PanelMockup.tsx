@@ -8,16 +8,22 @@ import {
   isEtchable,
   type Panel,
 } from "@/lib/campaign";
+import {
+  FINISH_CONDITIONS,
+  type FinishCondition,
+} from "@/lib/finish-conditions";
 
 type FinishMode = "wrap" | "etch";
 
 /**
  * PROCESS-safe stainless compositor: CSS preview of wrap vs etch on the steel
- * face. Etch stays preview-only until buyout — no capture, no clock.
+ * face, plus day/night/wet/dirty condition shaders. Etch stays preview-only
+ * until buyout — no capture, no clock.
  */
 export function PanelMockup({ panel }: { panel: Panel }) {
   const etchable = isEtchable(panel);
   const [mode, setMode] = useState<FinishMode>("wrap");
+  const [condition, setCondition] = useState<FinishCondition>("day");
   const showingEtch = etchable && mode === "etch";
 
   return (
@@ -27,6 +33,7 @@ export function PanelMockup({ panel }: { panel: Panel }) {
       data-panel={panel.id}
       data-etchable={etchable ? "true" : "false"}
       data-finish={showingEtch ? "etch" : "wrap"}
+      data-condition={condition}
     >
       <div
         className="compositor-toolbar"
@@ -66,6 +73,31 @@ export function PanelMockup({ panel }: { panel: Panel }) {
         </button>
       </div>
 
+      <div
+        className="compositor-conditions"
+        data-testid="finish-conditions"
+        role="group"
+        aria-label="Finish condition shaders"
+      >
+        {FINISH_CONDITIONS.map((row) => (
+          <button
+            key={row.id}
+            type="button"
+            className={
+              condition === row.id
+                ? "compositor-condition is-active"
+                : "compositor-condition"
+            }
+            data-testid={`finish-condition-${row.id}`}
+            aria-pressed={condition === row.id}
+            title={row.hint}
+            onClick={() => setCondition(row.id)}
+          >
+            {row.label}
+          </button>
+        ))}
+      </div>
+
       <div className="panel-mockup-face" aria-hidden="true">
         <span className="panel-mockup-label">{panel.name}</span>
         <span
@@ -77,6 +109,12 @@ export function PanelMockup({ panel }: { panel: Panel }) {
             : etchable
               ? "Wrap on steel · etch at buyout"
               : "Wrap only"}
+        </span>
+        <span
+          className="compositor-condition-label"
+          data-testid="finish-condition-label"
+        >
+          {FINISH_CONDITIONS.find((row) => row.id === condition)?.hint}
         </span>
         {showingEtch ? (
           <span
@@ -93,6 +131,11 @@ export function PanelMockup({ panel }: { panel: Panel }) {
             Vinyl film layer
           </span>
         )}
+        <span
+          className="compositor-shader"
+          data-testid="finish-condition-shader"
+          data-condition={condition}
+        />
       </div>
       {showingEtch ? <EtchConstraintLinter /> : null}
     </div>

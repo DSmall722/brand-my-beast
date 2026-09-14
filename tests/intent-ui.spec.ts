@@ -47,6 +47,20 @@ test.describe("P2 panel intent + approvals", () => {
     await page.getByTestId("etch-art-notes").fill("full color gradient photo");
     await expect(page.getByTestId("etch-lint-issues")).toBeVisible();
     await expect(page.getByTestId("etch-lint-etch-forbidden-art")).toBeVisible();
+    await expect(page.getByTestId("finish-conditions")).toBeVisible();
+    await expect(page.getByTestId("finish-condition-day")).toHaveAttribute(
+      "aria-pressed",
+      "true",
+    );
+    await page.getByTestId("finish-condition-night").click();
+    await expect(page.getByTestId("panel-mockup")).toHaveAttribute(
+      "data-condition",
+      "night",
+    );
+    await expect(page.getByTestId("finish-condition-shader")).toHaveAttribute(
+      "data-condition",
+      "night",
+    );
     await expect(page.getByTestId("adjacent-neighbors")).toBeVisible();
     await expect(page.getByTestId("adjacent-neighbors-empty")).toBeVisible();
     await expect(page.getByTestId("panel-stats")).toBeVisible();
