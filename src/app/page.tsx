@@ -1,4 +1,5 @@
 import { AuthNav } from "@/components/AuthNav";
+import { CabinPlaqueForm } from "@/components/CabinPlaqueForm";
 import { WaitlistForm } from "@/components/WaitlistForm";
 import {
   BRAND,
@@ -16,6 +17,8 @@ import {
   shortfallToFloorUsd,
   shortfallToGoalUsd,
 } from "@/lib/campaign";
+import { CABIN_PLAQUE_LEAD } from "@/lib/cabin-plaque";
+import { listCabinPlaqueLines } from "@/lib/cabin-plaque-store";
 import { loadBoardIntentStats } from "@/lib/intent-store";
 
 /** Board stats read the intent ledger; keep dynamic so build does not SSG against DB. */
@@ -23,6 +26,7 @@ export const dynamic = "force-dynamic";
 
 export default async function HomePage() {
   const board = await loadBoardIntentStats();
+  const plaques = await listCabinPlaqueLines();
   const pledgedUsd = board.pledgedUsd;
   const floorLabel = formatUsd(FLOOR_USD);
   const goalLabel = formatUsd(GOAL_USD);
@@ -47,6 +51,9 @@ export default async function HomePage() {
         <nav className="header-nav" aria-label="Primary">
           <a className="nav-link" href="#waitlist">
             Join waitlist
+          </a>
+          <a className="nav-link" href="#plaque">
+            Cabin plaque
           </a>
           <AuthNav />
         </nav>
@@ -272,6 +279,38 @@ export default async function HomePage() {
             when seats go live.
           </p>
           <WaitlistForm />
+        </section>
+
+        <section
+          className="shell section"
+          id="plaque"
+          aria-labelledby="plaque-title"
+          data-testid="cabin-plaque"
+        >
+          <h2 id="plaque-title">Cabin plaque</h2>
+          <p className="section-lead" data-testid="cabin-plaque-lead">
+            {CABIN_PLAQUE_LEAD}
+          </p>
+          <CabinPlaqueForm />
+          {plaques.length === 0 ? (
+            <p className="empty-state" data-testid="cabin-plaque-empty">
+              No cabin names yet. Reserve one — still not a panel bid.
+            </p>
+          ) : (
+            <ul
+              className="cabin-plaque-list"
+              data-testid="cabin-plaque-list"
+            >
+              {plaques.map((line) => (
+                <li
+                  key={line.id}
+                  data-testid={`cabin-plaque-line-${line.id}`}
+                >
+                  {line.displayName}
+                </li>
+              ))}
+            </ul>
+          )}
         </section>
       </main>
 

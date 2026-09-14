@@ -52,6 +52,15 @@ import {
   winnerSeatsFor,
 } from "../src/lib/winner-portal";
 import {
+  CABIN_PLAQUE_LEAD,
+  assertPlaqueIsNotABid,
+  type CabinPlaqueLine,
+} from "../src/lib/cabin-plaque";
+import {
+  reserveCabinPlaqueName,
+  resetCabinPlaqueStoreForTests,
+} from "../src/lib/cabin-plaque-store";
+import {
   listBidsForPanel,
   listApprovedBids,
   listApprovedBidsForUser,
@@ -476,6 +485,39 @@ test.describe("winner portal (no capture)", () => {
     expect(wins.map((b) => b.id)).toContain(placed.bid.id);
     expect(wins.every((b) => b.status === "approved")).toBe(true);
     expect((await listApprovedBidsForUser("user_other")).length).toBe(0);
+    expect(FLOOR_USD).toBe(58_000);
+    expect(GOAL_USD).toBe(120_000);
+  });
+});
+
+test.describe("cabin plaque names (no capture)", () => {
+  test("reserves a name without bid or stripe fields", async () => {
+    expect(CABIN_PLAQUE_LEAD).toContain("$58,000");
+    expect(CABIN_PLAQUE_LEAD).toContain("$120,000");
+    expect(CABIN_PLAQUE_LEAD.toLowerCase()).toContain("not a bid");
+    expect(CABIN_PLAQUE_LEAD.toLowerCase()).not.toMatch(/\blease\b/);
+    expect(CABIN_PLAQUE_LEAD).not.toContain("CLOSE_AT");
+
+    await resetCabinPlaqueStoreForTests();
+    const first = await reserveCabinPlaqueName("  River Co  ");
+    expect(first.ok).toBe(true);
+    if (!first.ok) return;
+    expect(first.status).toBe("created");
+    expect(first.line.displayName).toBe("River Co");
+    assertPlaqueIsNotABid(first.line);
+    const again = await reserveCabinPlaqueName("river co");
+    expect(again.ok).toBe(true);
+    if (!again.ok) return;
+    expect(again.status).toBe("exists");
+    const invalid = await reserveCabinPlaqueName("x");
+    expect(invalid.ok).toBe(false);
+    const forged = {
+      id: "plaque_x",
+      displayName: "Forge",
+      createdAt: "2026-09-14T00:00:00.000Z",
+      standingUsd: 2500,
+    } as CabinPlaqueLine;
+    expect(() => assertPlaqueIsNotABid(forged)).toThrow(/must not carry/);
     expect(FLOOR_USD).toBe(58_000);
     expect(GOAL_USD).toBe(120_000);
   });

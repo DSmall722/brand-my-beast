@@ -218,4 +218,59 @@ test.describe("P1 waitlist campaign locks", () => {
       "no Stripe capture",
     );
   });
+
+  test("cabin plaque reserves a name without a bid or charge", async ({
+    page,
+    request,
+  }) => {
+    const name = `Plaque ${Date.now()}`;
+    await page.goto("/");
+    await expect(page.getByTestId("cabin-plaque")).toBeVisible();
+    await expect(page.getByTestId("cabin-plaque-lead")).toContainText(
+      "$58,000",
+    );
+    await expect(page.getByTestId("cabin-plaque-lead")).toContainText(
+      "$120,000",
+    );
+    await expect(page.getByTestId("cabin-plaque-lead")).toContainText(
+      "Not a panel seat",
+    );
+
+    const created = await request.post("/api/plaque", {
+      data: { name },
+    });
+    expect(created.status()).toBe(201);
+    expect(await created.json()).toMatchObject({
+      ok: true,
+      status: "created",
+      name,
+    });
+
+    const again = await request.post("/api/plaque", {
+      data: { name },
+    });
+    expect(again.status()).toBe(200);
+    expect(await again.json()).toMatchObject({ ok: true, status: "exists" });
+
+    await page.goto("/");
+    await page.getByTestId("cabin-plaque-name").fill(name);
+    const [response] = await Promise.all([
+      page.waitForResponse(
+        (res) =>
+          res.url().includes("/api/plaque") && res.request().method() === "POST",
+      ),
+      page.getByTestId("cabin-plaque-submit").click(),
+    ]);
+    expect(response.status()).toBe(200);
+    await expect(page.getByTestId("cabin-plaque-status")).toContainText(
+      "already on the cabin plaque",
+    );
+    await expect(page.getByTestId("cabin-plaque-list")).toContainText(name);
+    const html = await page.content();
+    expect(html.toLowerCase()).not.toMatch(/\blease\b/);
+    expect(html).not.toContain("CLOSE_AT");
+    expect(html).not.toContain("FEATURES.md");
+    expect(html).not.toContain("South Carolina home loop");
+    expect(html).not.toContain("Florida panhandle");
+  });
 });
