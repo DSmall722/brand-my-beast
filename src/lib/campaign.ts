@@ -20,6 +20,13 @@ export const GOAL_USD = 120_000;
 /** Unset until P3 money path ships. Do not invent a close date. */
 export const CLOSE_AT: string | null = null;
 
+/**
+ * Truck / order exists. Empty P3–P5 homepage boards stay hidden while false.
+ * Flip via TRUCK_EXISTS=true only after a real order path exists — never invent a VIN.
+ */
+export const TRUCK_EXISTS =
+  process.env.TRUCK_EXISTS === "true" || process.env.TRUCK_EXISTS === "1";
+
 /** Deposit share to list a bid (P2/P3). Shown on P1 as rules copy only. */
 export const DEPOSIT_PERCENT = 20;
 

@@ -11,6 +11,8 @@ import {
 import {
   FLOOR_USD,
   GOAL_USD,
+  CLOSE_AT,
+  TRUCK_EXISTS,
   WRECK_REFUND_RULES,
   floorMarkerPercentOnGoalTrack,
   floorProgressPercent,
@@ -528,6 +530,8 @@ test.describe("hometown lane tags (no capture)", () => {
     expect(blob).not.toContain("Florida panhandle");
     expect(FLOOR_USD).toBe(58_000);
     expect(GOAL_USD).toBe(120_000);
+    expect(TRUCK_EXISTS).toBe(false);
+    expect(CLOSE_AT).toBeNull();
   });
 });
 
