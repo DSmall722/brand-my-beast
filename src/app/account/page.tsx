@@ -4,6 +4,7 @@ import { signOutAction } from "@/app/actions/auth";
 import { SiteChrome } from "@/components/SiteChrome";
 import { auth } from "@/lib/auth";
 import { isOperatorEmail } from "@/lib/auth/operator";
+import { isShopPartnerEmail } from "@/lib/auth/shop-partner";
 import {
   DEPOSIT_PERCENT,
   FLOOR_USD,
@@ -24,6 +25,7 @@ export default async function AccountPage() {
   const email = session.user.email ?? "unknown";
   const userId = session.user.id;
   const operator = isOperatorEmail(session.user.email);
+  const shopPartner = isShopPartnerEmail(session.user.email);
   const intents = await listBidsForUser(userId);
   const notes = await listApprovalNotesForBids(intents.map((bid) => bid.id));
 
@@ -149,6 +151,15 @@ export default async function AccountPage() {
               data-testid="account-approvals-link"
             >
               Intent approvals
+            </Link>
+          ) : null}
+          {shopPartner ? (
+            <Link
+              className="btn btn-ghost"
+              href="/partner/shop"
+              data-testid="account-shop-link"
+            >
+              Wrap shop sheet
             </Link>
           ) : null}
           <Link className="btn btn-ghost" href="/">

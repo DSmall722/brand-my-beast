@@ -46,8 +46,10 @@ import {
   hometownLaneCopyIsSafe,
   hometownLaneLabels,
 } from "../src/lib/hometown-lane";
+import { isShopPartnerEmail } from "../src/lib/auth/shop-partner";
 import {
   listBidsForPanel,
+  listApprovedBids,
   listDecidedBids,
   placeIntentBid,
   loadBoardIntentStats,
@@ -408,6 +410,31 @@ test.describe("hometown lane tags (no capture)", () => {
     const blob = hometownLaneLabels().join(" ");
     expect(blob).not.toContain("South Carolina home loop");
     expect(blob).not.toContain("Florida panhandle");
+    expect(FLOOR_USD).toBe(58_000);
+    expect(GOAL_USD).toBe(120_000);
+  });
+});
+
+test.describe("wrap-shop partner portal (no capture)", () => {
+  test("gates shop email and lists approved bids only", async () => {
+    expect(isShopPartnerEmail("shop@example.com")).toBe(true);
+    expect(isShopPartnerEmail("operator@example.com")).toBe(false);
+    expect(isShopPartnerEmail("bidder@example.com")).toBe(false);
+
+    await resetIntentStoreForTests();
+    const placed = await placeIntentBid({
+      panelId: "hood",
+      userId: "user_shop_1",
+      brandLabel: "Wrap Co",
+      tradeLabel: "vinyl",
+    });
+    expect(placed.ok).toBe(true);
+    if (!placed.ok) return;
+    expect((await listApprovedBids()).length).toBe(0);
+    await setIntentStatus(placed.bid.id, "approved");
+    const approved = await listApprovedBids();
+    expect(approved.map((b) => b.id)).toContain(placed.bid.id);
+    expect(approved.every((b) => b.status === "approved")).toBe(true);
     expect(FLOOR_USD).toBe(58_000);
     expect(GOAL_USD).toBe(120_000);
   });

@@ -151,6 +151,27 @@ export async function listDecidedBids(): Promise<IntentBid[]> {
     .filter((bid) => bid.status === "approved" || bid.status === "rejected");
 }
 
+/** Approved intents only — wrap-shop partner sheet. */
+export async function listApprovedBids(): Promise<IntentBid[]> {
+  if (useMemoryStore()) {
+    return memoryBids()
+      .filter((bid) => bid.status === "approved")
+      .slice()
+      .sort((a, b) => b.createdAt.localeCompare(a.createdAt));
+  }
+
+  const db = getDb();
+  if (!db) {
+    throw new Error("Intent ledger requires DATABASE_URL.");
+  }
+  const rows = await db
+    .select()
+    .from(intentBids)
+    .where(eq(intentBids.status, "approved"))
+    .orderBy(desc(intentBids.createdAt));
+  return rows.map(rowToBid);
+}
+
 export async function listBidsForUser(userId: UserId): Promise<IntentBid[]> {
   if (useMemoryStore()) {
     return memoryBids()
