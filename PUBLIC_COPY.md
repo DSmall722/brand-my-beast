@@ -3,12 +3,12 @@
 Voice lock for `/`. CAMPAIGN.md still wins money and identity.
 Use these strings in slice 0.9. Do not invent a closer, warmer, or snarkier variant.
 
-Locked: 2026-09-14 afternoon (v2 — desire first).
+Locked: 2026-09-14 — desire first, then the deal, then the catch.
 
 ## Meta
 
 - Title: `BrandMyBeast — advertise on a Cybertruck`
-- Description: `Twelve companies. One Cyberbeast. Buy a panel for a year. Hit $58,000 and the truck gets ordered and wrapped. Miss it and nobody pays.`
+- Description: `Twelve companies. One Cyberbeast. Bid on a panel. Hit $58,000 and the truck gets ordered and wrapped for a year. Miss it and nobody pays.`
 
 ## Header
 
@@ -23,16 +23,16 @@ Locked: 2026-09-14 afternoon (v2 — desire first).
 - Secondary CTA: `See the twelve panels`
 - Hero image label (alt): `Preview of a stainless Cyberbeast. No wrap on this truck yet.`
 
-## The board
+## The numbers
 
 - Heading: `The numbers`
 - Lead: `This is advertising space, not a slice of the title.`
 - Raised label: `Pledged so far`
-- Raised hint (under floor): `No one has a seat yet. Bidding is not open. Nothing is charged here. If the floor is missed, every bid is refunded.`
+- Raised hint (under floor): `No one has a seat yet. If the floor is missed, every bid is refunded.`
 - Floor label: `Floor — $58,000`
-- Floor hint: `Orders the Cyberbeast and pays for the wrap.`
+- Floor hint: `Orders the truck and pays for the wrap.`
 - Buyout label: `Buyout — $120,000`
-- Buyout hint: `The campaign buys the truck. Then eight steel faces can be cut, not just wrapped.`
+- Buyout hint: `Buys the truck. Then eight steel faces can be cut, not just wrapped.`
 - Clock line when CLOSE_AT is null: `Bidding is not open. This page does not charge cards.`
 - Deposit line: `When bidding opens, a 20% deposit holds your panel. This page does not charge cards.`
 - Shortfall floor label: `Short of floor`
@@ -40,16 +40,16 @@ Locked: 2026-09-14 afternoon (v2 — desire first).
 - Open seats label: `Open seats`
 - Vault floor mark label: `Floor`
 - Vault buyout mark label: `Buyout`
-- Whole-truck heading: `Whole-truck intent — $120,000`
-- Whole-truck lead: `One brand on every panel. Etch on. Standing panel winners are released. Nothing is charged here.`
+- Whole-truck heading: `Whole truck — $120,000`
+- Whole-truck lead: `One brand on every panel. Etch on. Standing panel winners are released. Nothing is charged on this page.`
 - Whole-truck amount label: `Buyout mark`
-- Whole-truck CTA: `List whole-truck intent`
+- Whole-truck CTA: `List a whole-truck intent`
 - Whole-truck sign-in: `Sign in to list a whole-truck intent`
 
 ## Seat exclusivity
 
 - Heading: `One brand per trade`
-- Body: `Name your trade in one line. If another brand already holds that trade, you fight them on the same panel — you do not open a second seat. There is no public category list.`
+- Body: `Name your trade in one line. If another brand already holds that trade, you fight them on the same panel — you do not open a second seat.`
 - Form hint: `One brand per trade. Challengers fight the same panel only.`
 
 ## Twelve panels
@@ -70,16 +70,16 @@ Keep panel names. Optional short gloss on the card, not a rename:
 - 01 title: `Pick a face`
 - 01 body: `One brand per kind of business. If someone in your trade is already standing, you bid against them.`
 - 02 title: `$58,000 or the money comes back`
-- 02 body: `Hit the floor and the Cyberbeast is ordered and winners are wrapped for twelve months. Miss it and every bid is released.`
+- 02 body: `Reach $58,000 and the Cyberbeast is ordered and winners are wrapped for twelve months. Miss it and every bid is released.`
 - 03 title: `$120,000 and the logo can be cut into the stainless`
-- 03 body: `At buyout the campaign owns the truck. Eight steel faces can take Immortal etch. Vinyl still lasts a year. The cut stays.`
+- 03 body: `At $120,000 the campaign owns the truck. Eight steel faces can take Immortal etch. Vinyl still lasts a year. The cut stays.`
 
 ## Immortal etch
 
 - Heading: `What etch actually is`
-- Body: `Wrap is a year of film. Etch is cut into the steel. It does not peel with the wrap. Only eight faces: hood, both doors, both beds, both rear quarters, tailgate. Bumpers, roof, and bed cover stay wrap-only.`
-- Why buyout: `Only if the auction reaches $120,000. You do not cut a truck the campaign does not own.`
-- Cost: `Your bid buys the seat. $120,000 buys the truck so the cut is allowed. There is no separate etch price list on this page.`
+- Body: `Wrap is a year of film. Etch is cut into the steel. It does not peel with the wrap. Only eight faces. Only if the auction reaches $120,000 — you do not cut a truck the campaign does not own.`
+- Why buyout: `Your bid buys the seat. $120,000 buys the truck so the cut is allowed.`
+- Cost: `There is no separate etch price list on this page. After etch is installed there is no cash refund of that finish.`
 - Art: `Etch art is one color, thick strokes, no gradients, no tiny type. If it cannot be cut, it does not ship.`
 
 ## Wreck & refund
@@ -87,20 +87,20 @@ Keep panel names. Optional short gloss on the card, not a rename:
 Money facts from CAMPAIGN.md only. Plain English. Not a full contract.
 
 - Heading: `Wreck & refund`
-- Lead: `What happens if the campaign misses, the wrap year ends early, or etch is already cut.`
+- Lead: `If the campaign misses, the wrap year ends early, or etch is already cut.`
 - Q: `What if the board misses $58,000?` A: `Full refund. No order. No wrap. No etch.`
 - Q: `What if the wrap year is cut short?` A: `Wrap lasts twelve months from install. If the truck is totaled or sold before month 12, wrap seats get a pro-rata refund for the months left.`
 - Q: `What if Immortal etch is already installed?` A: `No cash refund of that finish. The record is a piece of the cut panel and a vault certificate.`
 
 ## Questions
 
-- Heading: `Questions`
+- Heading: `Questions people actually ask`
 - Q: `Is this Tesla?` A: `No. Independent project. Not affiliated with Tesla, Inc.`
 - Q: `Is there a truck yet?` A: `Not yet. The photo is a preview. The Cyberbeast is ordered only if the auction clears $58,000.`
 - Q: `What am I buying?` A: `A year of your brand on one panel. Not a share of the title.`
 - Q: `What if two of us sell the same thing?` A: `You bid against each other for that panel.`
-- Q: `What is etch?` A: `A cut in the stainless. Vinyl comes off after a year. The cut does not. Only at $120,000, only on eight steel faces.`
-- Q: `Why does etch cost $120,000?` A: `It does not. $120,000 buys the truck so a permanent cut is allowed. Your panel bid is the seat.`
+- Q: `What is etch?` A: `The permanent option. On eight steel panels the logo can be cut into the stainless, only at $120,000. Vinyl comes off after a year. The cut does not.`
+- Q: `Why does etch cost $120,000?` A: `It does not. $120,000 buys the truck so a permanent cut is allowed. Your panel bid is the seat price.`
 - Q: `When does bidding start?` A: `When seats open. There is no date on this page yet.`
 - Q: `Will I be charged if I join the list?` A: `No. The waitlist is an email.`
 
@@ -121,4 +121,4 @@ Money facts from CAMPAIGN.md only. Plain English. Not a full contract.
 
 ## Banned on this page
 
-First person. Personal name or handle. Lease. Close date. Cabin plaque in the header. FEATURES backlog. teslacyberbeast. 48-state tour. Invented miles or impressions. House-mark lecture. A per-panel etch dollar amount we have not quoted. The words P3, pledged intent, and operator finances on `/`.
+First person. Personal name or handle. Lease. Close date. Cabin plaque in the header. FEATURES backlog. teslacyberbeast. 48-state tour. Invented miles or impressions. House-mark lecture. A per-panel etch dollar amount we have not quoted. The words P3, pledged intent, operator finances, 30X in the hero.
