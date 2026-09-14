@@ -28,6 +28,13 @@ export default async function PanelIntentPage({
   const minimum = await minimumIntentUsd(panel.id);
   const bids = await listBidsForPanel(panel.id);
   const etchable = isEtchable(panel);
+  const viewerId = session?.user?.id;
+  const viewerWasOutbid = Boolean(
+    viewerId &&
+      bids.some(
+        (bid) => bid.userId === viewerId && bid.status === "outbid",
+      ),
+  );
 
   return (
     <>
@@ -70,6 +77,18 @@ export default async function PanelIntentPage({
         <p className="intent-banner" data-testid="intent-only-banner">
           Intent only. No Stripe capture. No close clock.
         </p>
+
+        {viewerWasOutbid ? (
+          <p
+            className="failed-winner-banner"
+            data-testid="failed-winner-waitlist"
+          >
+            You were outbid on this panel. Stay on the{" "}
+            <Link href="/#waitlist">waitlist</Link> for a second look if this
+            seat opens — still no card charge. Or list a higher intent mark
+            below.
+          </p>
+        ) : null}
 
         {session?.user ? (
           <section

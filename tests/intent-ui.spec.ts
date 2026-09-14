@@ -88,4 +88,46 @@ test.describe("P2 panel intent + approvals", () => {
     });
     await operator.close();
   });
+
+  test("outbid viewer sees failed-winner waitlist handoff", async ({
+    browser,
+  }) => {
+    const first = await browser.newPage();
+    await signIn(first, "outbid-a@example.com");
+    await first.goto("/panels/hood");
+    await first.getByTestId("intent-brand").fill("Alpha Mark");
+    await first.getByTestId("intent-submit").click();
+    await expect(first.getByTestId("intent-success")).toContainText(
+      "not charged",
+    );
+    await expect(first.getByTestId("failed-winner-waitlist")).toHaveCount(0);
+    await first.close();
+
+    const second = await browser.newPage();
+    await signIn(second, "outbid-b@example.com");
+    await second.goto("/panels/hood");
+    await second.getByTestId("intent-brand").fill("Beta Mark");
+    await second.getByTestId("intent-standing").fill("2750");
+    await second.getByTestId("intent-submit").click();
+    await expect(second.getByTestId("intent-success")).toContainText(
+      "not charged",
+    );
+    await expect(second.getByTestId("intent-list")).toContainText("Outbid");
+    await second.close();
+
+    const outbidViewer = await browser.newPage();
+    await signIn(outbidViewer, "outbid-a@example.com");
+    await outbidViewer.goto("/panels/hood");
+    const banner = outbidViewer.getByTestId("failed-winner-waitlist");
+    await expect(banner).toBeVisible();
+    await expect(banner).toContainText("outbid");
+    await expect(banner.getByRole("link", { name: "waitlist" })).toHaveAttribute(
+      "href",
+      "/#waitlist",
+    );
+    const html = await outbidViewer.content();
+    expect(html.toLowerCase()).not.toMatch(/\blease\b/);
+    expect(html).not.toContain("CLOSE_AT");
+    await outbidViewer.close();
+  });
 });
