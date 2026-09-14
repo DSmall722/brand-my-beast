@@ -180,6 +180,29 @@ test.describe("P1 waitlist campaign locks", () => {
     }
   });
 
+  test("slice 1.7: homepage panel cards link to the seat page", async ({
+    page,
+  }) => {
+    await page.goto("/");
+    for (const panel of PANELS) {
+      await expect(page.getByTestId(`panel-link-${panel.id}`)).toHaveAttribute(
+        "href",
+        `/panels/${panel.id}`,
+      );
+    }
+
+    await page.getByTestId("panel-link-hood").click();
+    await expect(page).toHaveURL(/\/panels\/hood$/);
+    await expect(page.getByTestId("panel-intent-page")).toBeVisible();
+    await expect(page.getByTestId("public-seat-label")).toHaveText(
+      "Public seat",
+    );
+    await expect(page.getByRole("heading", { level: 1 })).toContainText(/hood/i);
+    const html = await page.content();
+    expect(html.toLowerCase()).not.toMatch(/\blease\b/);
+    expect(html).not.toContain("CLOSE_AT");
+  });
+
   test("keeps banned identity, lease, and process notes out of the HTML", async ({
     page,
   }) => {
