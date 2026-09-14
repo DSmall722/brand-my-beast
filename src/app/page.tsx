@@ -216,8 +216,12 @@ export default async function HomePage() {
               </dd>
             </div>
           </dl>
-          <p className="section-lead" style={{ marginTop: "1.5rem" }}>
-            {PUBLIC_COPY.board.depositLine}
+          <p
+            className="section-lead"
+            style={{ marginTop: "1.5rem" }}
+            data-testid="intent-no-charge-note"
+          >
+            Amount is intent only. {PUBLIC_COPY.board.depositLine}
           </p>
         </section>
 
