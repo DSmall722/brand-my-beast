@@ -83,6 +83,22 @@ test.describe("P1 waitlist campaign locks", () => {
     await expect(page.getByTestId("wreck-body-immortal-fragment")).toContainText(
       "vault certificate",
     );
+    await expect(page.getByTestId("vault-certificate")).toBeVisible();
+    await expect(page.getByTestId("vault-certificate-lead")).toContainText(
+      "$58,000",
+    );
+    await expect(page.getByTestId("vault-certificate-lead")).toContainText(
+      "$120,000",
+    );
+    await expect(page.getByTestId("vault-cert-buyout-unlock")).toContainText(
+      "$120,000",
+    );
+    await expect(page.getByTestId("vault-cert-not-cash")).toContainText(
+      "Not a cash refund",
+    );
+    await expect(page.getByTestId("vault-cert-floor-miss")).toContainText(
+      "$58,000",
+    );
 
     await expect(page.getByTestId("raised-hint")).toContainText(
       "Under the floor: full refund.",

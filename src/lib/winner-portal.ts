@@ -15,6 +15,10 @@ export const WINNER_PORTAL_FACTS = [
     text: `Etch stays locked under ${formatUsd(GOAL_USD)} buyout.`,
   },
   {
+    id: "vault-certificate",
+    text: `Immortal vault certificate ships after install only at ${formatUsd(GOAL_USD)}. Not cash. No VIN.`,
+  },
+  {
     id: "no-vin",
     text: "No reserved VIN until the campaign clears the floor.",
   },

@@ -89,6 +89,10 @@ import {
   sightingCopyIsSafe,
 } from "../src/lib/sighting";
 import {
+  VAULT_CERTIFICATE_LEAD,
+  vaultCertificateCopyIsSafe,
+} from "../src/lib/vault-certificate";
+import {
   resetSightingStoreForTests,
   submitSighting,
 } from "../src/lib/sighting-store";
@@ -494,6 +498,9 @@ test.describe("winner portal (no capture)", () => {
     expect(WINNER_PORTAL_FACTS.some((fact) => fact.id === "etch-lock")).toBe(
       true,
     );
+    expect(
+      WINNER_PORTAL_FACTS.some((fact) => fact.id === "vault-certificate"),
+    ).toBe(true);
     const blob = WINNER_PORTAL_FACTS.map((fact) => fact.text).join(" ");
     expect(blob).toContain("12 months from install");
     expect(blob).not.toContain("CLOSE_AT");
@@ -680,6 +687,18 @@ test.describe("neighbor-panel combo lots (display only)", () => {
     expect(COMBO_LOT_LEAD.toLowerCase()).toContain("not a joint bid");
     expect(COMBO_LOT_LEAD.toLowerCase()).toContain("no combo price");
     expect(comboLotCopyIsSafe()).toBe(true);
+    expect(FLOOR_USD).toBe(58_000);
+    expect(GOAL_USD).toBe(120_000);
+  });
+});
+
+test.describe("immortal vault certificate (no cash)", () => {
+  test("publishes etch-record copy without cash, VIN, or impressions", () => {
+    expect(VAULT_CERTIFICATE_LEAD).toContain("$58,000");
+    expect(VAULT_CERTIFICATE_LEAD).toContain("$120,000");
+    expect(VAULT_CERTIFICATE_LEAD.toLowerCase()).toContain("not cash");
+    expect(VAULT_CERTIFICATE_LEAD.toLowerCase()).toContain("no reserved vin");
+    expect(vaultCertificateCopyIsSafe()).toBe(true);
     expect(FLOOR_USD).toBe(58_000);
     expect(GOAL_USD).toBe(120_000);
   });

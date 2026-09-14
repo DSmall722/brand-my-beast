@@ -475,6 +475,9 @@ test.describe("P2 panel intent + approvals", () => {
     await expect(winner.getByTestId("winner-fact-etch-lock")).toContainText(
       "$120,000",
     );
+    await expect(
+      winner.getByTestId("winner-fact-vault-certificate"),
+    ).toContainText("Not cash");
     await expect(winner.getByTestId("winner-portal-seats-list")).toContainText(
       "Winner Co",
     );
