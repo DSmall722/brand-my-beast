@@ -8,6 +8,7 @@ import {
   isEtchable,
   type Panel,
 } from "@/lib/campaign";
+import { DIRTY_CLEAN_PAIR_LEAD } from "@/lib/dirty-clean-pair";
 import {
   FINISH_CONDITIONS,
   type FinishCondition,
@@ -17,13 +18,14 @@ type FinishMode = "wrap" | "etch";
 
 /**
  * PROCESS-safe stainless compositor: CSS preview of wrap vs etch on the steel
- * face, plus day/night/wet/dirty condition shaders. Etch stays preview-only
- * until buyout — no capture, no clock.
+ * face, plus day/night/wet/dirty condition shaders and a dirty-vs-clean pair.
+ * Etch stays preview-only until buyout — no capture, no clock.
  */
 export function PanelMockup({ panel }: { panel: Panel }) {
   const etchable = isEtchable(panel);
   const [mode, setMode] = useState<FinishMode>("wrap");
   const [condition, setCondition] = useState<FinishCondition>("day");
+  const [pair, setPair] = useState(false);
   const showingEtch = etchable && mode === "etch";
 
   return (
@@ -34,6 +36,7 @@ export function PanelMockup({ panel }: { panel: Panel }) {
       data-etchable={etchable ? "true" : "false"}
       data-finish={showingEtch ? "etch" : "wrap"}
       data-condition={condition}
+      data-pair={pair ? "true" : "false"}
     >
       <div
         className="compositor-toolbar"
@@ -96,8 +99,56 @@ export function PanelMockup({ panel }: { panel: Panel }) {
             {row.label}
           </button>
         ))}
+        <button
+          type="button"
+          className={
+            pair ? "compositor-condition is-active" : "compositor-condition"
+          }
+          data-testid="dirty-clean-pair-toggle"
+          aria-pressed={pair}
+          onClick={() => setPair((open) => !open)}
+        >
+          Pair
+        </button>
       </div>
+      <p className="auth-hint dirty-clean-pair-lead" data-testid="dirty-clean-pair-lead">
+        {DIRTY_CLEAN_PAIR_LEAD}
+      </p>
 
+      {pair ? (
+        <div className="dirty-clean-pair" data-testid="dirty-clean-pair">
+          <div
+            className="pair-half"
+            data-condition="day"
+            data-testid="dirty-clean-clean"
+          >
+            <div className="panel-mockup-face" aria-hidden="true">
+              <span className="panel-mockup-label">{panel.name}</span>
+              <span className="compositor-condition-label">Clean</span>
+              <span
+                className="compositor-shader"
+                data-testid="dirty-clean-clean-shader"
+                data-condition="day"
+              />
+            </div>
+          </div>
+          <div
+            className="pair-half"
+            data-condition="dirty"
+            data-testid="dirty-clean-dirty"
+          >
+            <div className="panel-mockup-face" aria-hidden="true">
+              <span className="panel-mockup-label">{panel.name}</span>
+              <span className="compositor-condition-label">Dirty</span>
+              <span
+                className="compositor-shader"
+                data-testid="dirty-clean-dirty-shader"
+                data-condition="dirty"
+              />
+            </div>
+          </div>
+        </div>
+      ) : (
       <div className="panel-mockup-face" aria-hidden="true">
         <span className="panel-mockup-label">{panel.name}</span>
         <span
@@ -137,6 +188,7 @@ export function PanelMockup({ panel }: { panel: Panel }) {
           data-condition={condition}
         />
       </div>
+      )}
       {showingEtch ? <EtchConstraintLinter /> : null}
     </div>
   );

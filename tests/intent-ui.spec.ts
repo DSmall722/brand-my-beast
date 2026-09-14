@@ -61,6 +61,37 @@ test.describe("P2 panel intent + approvals", () => {
       "data-condition",
       "night",
     );
+    await expect(page.getByTestId("dirty-clean-pair-lead")).toContainText(
+      "$58,000",
+    );
+    await expect(page.getByTestId("dirty-clean-pair-lead")).toContainText(
+      "$120,000",
+    );
+    await expect(page.getByTestId("dirty-clean-pair-lead")).toContainText(
+      "Preview only",
+    );
+    await page.getByTestId("dirty-clean-pair-toggle").click();
+    await expect(page.getByTestId("panel-mockup")).toHaveAttribute(
+      "data-pair",
+      "true",
+    );
+    await expect(page.getByTestId("dirty-clean-pair")).toBeVisible();
+    await expect(page.getByTestId("dirty-clean-clean")).toHaveAttribute(
+      "data-condition",
+      "day",
+    );
+    await expect(page.getByTestId("dirty-clean-dirty")).toHaveAttribute(
+      "data-condition",
+      "dirty",
+    );
+    await expect(page.getByTestId("dirty-clean-clean-shader")).toHaveAttribute(
+      "data-condition",
+      "day",
+    );
+    await expect(page.getByTestId("dirty-clean-dirty-shader")).toHaveAttribute(
+      "data-condition",
+      "dirty",
+    );
     await expect(page.getByTestId("adjacent-neighbors")).toBeVisible();
     await expect(page.getByTestId("adjacent-neighbors-empty")).toBeVisible();
     await expect(page.getByTestId("neighbor-combo")).toBeVisible();

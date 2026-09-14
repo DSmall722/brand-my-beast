@@ -1253,7 +1253,7 @@ a {
   transition: opacity 180ms ease, background 180ms ease;
 }
 
-.panel-mockup[data-condition="day"] .compositor-shader {
+.compositor-shader[data-condition="day"] {
   background:
     radial-gradient(
       circle at 28% 18%,
@@ -1268,7 +1268,7 @@ a {
   opacity: 0.5;
 }
 
-.panel-mockup[data-condition="night"] .compositor-shader {
+.compositor-shader[data-condition="night"] {
   background:
     radial-gradient(
       circle at 70% 12%,
@@ -1284,7 +1284,7 @@ a {
   opacity: 0.72;
 }
 
-.panel-mockup[data-condition="wet"] .compositor-shader {
+.compositor-shader[data-condition="wet"] {
   background:
     repeating-linear-gradient(
       118deg,
@@ -1300,7 +1300,7 @@ a {
   opacity: 0.45;
 }
 
-.panel-mockup[data-condition="dirty"] .compositor-shader {
+.compositor-shader[data-condition="dirty"] {
   background:
     radial-gradient(
       circle at 20% 80%,
@@ -1319,6 +1319,28 @@ a {
     );
   mix-blend-mode: multiply;
   opacity: 0.65;
+}
+
+.dirty-clean-pair-lead {
+  margin: 0.55rem 0.75rem 0;
+}
+
+.dirty-clean-pair {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.5rem;
+  padding: 0.55rem 0.75rem 0.85rem;
+}
+
+.pair-half {
+  min-width: 0;
+  overflow: hidden;
+  border-radius: 0.35rem;
+  border: 1px solid color-mix(in oklab, white 10%, transparent);
+}
+
+.pair-half .panel-mockup-face {
+  min-height: 8.5rem;
 }
 
 .panel-mockup[data-finish="etch"] {
