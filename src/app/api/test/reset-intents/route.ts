@@ -7,8 +7,13 @@ import { resetIntentStoreForTests } from "@/lib/intent-store";
 import { resetMockupStoreForTests } from "@/lib/mockup-store";
 import { resetRateLimitForTests } from "@/lib/rate-limit";
 import { resetSightingStoreForTests } from "@/lib/sighting-store";
+import { testApiBlockedResponse } from "@/lib/test-api-gate";
 
+/** Slice 7.3 — 404 when VERCEL_ENV or NODE_ENV is production. */
 export async function POST() {
+  const blocked = testApiBlockedResponse();
+  if (blocked) return blocked;
+
   if (resolveAuthMode() !== "test") {
     return Response.json({ ok: false, error: "test only" }, { status: 403 });
   }

@@ -3,12 +3,17 @@ import {
   configureRateLimitForTests,
   resetRateLimitForTests,
 } from "@/lib/rate-limit";
+import { testApiBlockedResponse } from "@/lib/test-api-gate";
 
 /**
  * Test-only rate-limit control (AUTH_MODE=test).
  * Body: `{ reset: true }` or `{ configure: { waitlistMax, intentMax, windowMs? } }`.
+ * Slice 7.3 — 404 when VERCEL_ENV or NODE_ENV is production.
  */
 export async function POST(request: Request) {
+  const blocked = testApiBlockedResponse();
+  if (blocked) return blocked;
+
   if (resolveAuthMode() !== "test") {
     return Response.json({ ok: false, error: "test only" }, { status: 403 });
   }
