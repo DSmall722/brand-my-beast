@@ -38,7 +38,7 @@ export const intentBids = pgTable(
     createdAt: timestamp("created_at", { withTimezone: true })
       .defaultNow()
       .notNull(),
-    /** https URL or small data:image upload. Null when unset. */
+    /** http(s) or /api/artwork/{id}. Never a data: URL (slice 8.5). */
     artworkUrl: text("artwork_url"),
   },
   (table) => [
@@ -47,6 +47,19 @@ export const intentBids = pgTable(
     index("intent_bids_trade_label_idx").on(table.tradeLabel),
   ],
 );
+
+/**
+ * Slice 8.5 — binary artwork payloads. Intent ledger stores only the path.
+ * body_base64 is the raw payload without a data: prefix.
+ */
+export const artworkBlobs = pgTable("artwork_blobs", {
+  id: text("id").primaryKey(),
+  contentType: text("content_type").notNull(),
+  bodyBase64: text("body_base64").notNull(),
+  createdAt: timestamp("created_at", { withTimezone: true })
+    .defaultNow()
+    .notNull(),
+});
 
 /**
  * Auth.js / Drizzle adapter tables (Resend magic link in live mode).
@@ -108,3 +121,5 @@ export type WaitlistSignup = typeof waitlistSignups.$inferSelect;
 export type NewWaitlistSignup = typeof waitlistSignups.$inferInsert;
 export type IntentBidRow = typeof intentBids.$inferSelect;
 export type NewIntentBidRow = typeof intentBids.$inferInsert;
+export type ArtworkBlobRow = typeof artworkBlobs.$inferSelect;
+export type NewArtworkBlobRow = typeof artworkBlobs.$inferInsert;

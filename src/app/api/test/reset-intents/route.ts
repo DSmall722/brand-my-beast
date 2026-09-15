@@ -1,5 +1,6 @@
 import { resolveAuthMode } from "@/lib/auth/mode";
 import { resetApprovalNoteStoreForTests } from "@/lib/approval-note-store";
+import { resetArtworkBlobStoreForTests } from "@/lib/artwork-blob";
 import { resetCabinPlaqueStoreForTests } from "@/lib/cabin-plaque-store";
 import { resetCircuitStoryStoreForTests } from "@/lib/circuit-story-store";
 import { resetContentRightsStoreForTests } from "@/lib/content-rights-store";
@@ -18,6 +19,7 @@ export async function POST() {
     return Response.json({ ok: false, error: "test only" }, { status: 403 });
   }
   await resetIntentStoreForTests();
+  resetArtworkBlobStoreForTests();
   await resetMockupStoreForTests();
   await resetApprovalNoteStoreForTests();
   await resetCabinPlaqueStoreForTests();

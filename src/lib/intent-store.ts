@@ -4,6 +4,11 @@
  */
 
 import { and, asc, desc, eq, inArray, ne } from "drizzle-orm";
+import {
+  assertLedgerArtworkUrl,
+  persistArtworkForLedger,
+  resetArtworkBlobStoreForTests,
+} from "./artwork-blob";
 import { GOAL_USD, PANELS, type Panel } from "./campaign";
 import { getDb } from "./db";
 import { intentBids, type IntentBidRow } from "./db/schema";
@@ -356,6 +361,19 @@ export async function placeIntentBid(
     return { ok: false, error: ban.error };
   }
 
+  // Slice 8.5 — data: uploads land in blob store; ledger keeps path only.
+  let artworkUrl: string | null = input.artworkUrl ?? null;
+  try {
+    const persisted = await persistArtworkForLedger(artworkUrl);
+    if (!persisted.ok) {
+      return { ok: false, error: persisted.error };
+    }
+    artworkUrl = persisted.url;
+    assertLedgerArtworkUrl(artworkUrl);
+  } catch {
+    return { ok: false, error: INTENT_WRITE_FAILED };
+  }
+
   let holders: IntentBid[];
   try {
     holders = await listHoldingBids();
@@ -435,7 +453,7 @@ export async function placeIntentBid(
         depositUsd,
         status: "listed",
         createdAt: new Date().toISOString(),
-        artworkUrl: input.artworkUrl ?? null,
+        artworkUrl,
       };
       assertIntentOnly(bid);
       memoryBids().push(bid);
@@ -484,7 +502,7 @@ export async function placeIntentBid(
         standingUsd,
         depositUsd,
         status: "listed",
-        artworkUrl: input.artworkUrl ?? null,
+        artworkUrl,
       })
       .returning();
 
@@ -571,6 +589,7 @@ export async function setIntentStatus(
 }
 
 export async function resetIntentStoreForTests(): Promise<void> {
+  resetArtworkBlobStoreForTests();
   if (useMemoryStore()) {
     globalForIntent.__bmbIntentBids = [];
     return;
