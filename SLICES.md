@@ -15,8 +15,8 @@ Updated: 2026-09-15
 - Coordinator may merge a PR that finishes exactly one unchecked slice, Playwright is green, and the merge gates below hold.
 - Judge PRs from git + `npm test` + `npm run build`. Do not use brandmybeast.com as a gate while the Vercel usage hold is on.
 
-**Now:** 8.1 Intent status emails (listed / outbid / approved / rejected).
-**Last merged:** 7.10 (#115 layout meta matches PUBLIC_COPY).
+**Now:** 8.2 Operator digest function + cron route in repo.
+**Last merged:** 8.1 Intent status emails (listed / outbid / approved / rejected).
 
 ## Standing orders
 
@@ -127,7 +127,7 @@ If any gate fails: leave the PR unmerged and stop that slice.
 
 ## Wave 8 — operator day
 
-- [ ] 8.1 Intent status emails: listed / outbid / approved / rejected+note. Tests mock Resend.
+- [x] 8.1 Intent status emails: listed / outbid / approved / rejected+note. Tests mock Resend.
 - [ ] 8.2 Operator digest function + cron *route* in repo. Do not register a Vercel cron until the hold lifts.
 - [ ] 8.3 Operator filters: pending / approved / rejected / outbid.
 - [ ] 8.4 Operator CSV of waitlist + standing intents. Auth-gated.
