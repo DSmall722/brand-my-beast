@@ -1,4 +1,5 @@
 import { desc, eq } from "drizzle-orm";
+import { Resend } from "resend";
 import { z } from "zod";
 import { BRAND } from "./campaign";
 import { getDb } from "./db";
@@ -23,10 +24,23 @@ export type WaitlistRow = {
   source: string;
 };
 
+/** Payload Resend (or a test double) receives on waitlist insert. */
+export type WaitlistNotifyPayload = {
+  from: string;
+  to: string;
+  subject: string;
+  text: string;
+};
+
+export type WaitlistMailer = {
+  send: (payload: WaitlistNotifyPayload) => Promise<unknown>;
+};
+
 type MemoryRow = WaitlistRow;
 
 const globalStore = globalThis as typeof globalThis & {
   __bmbWaitlistMemory?: Map<string, MemoryRow>;
+  __bmbWaitlistMailer?: WaitlistMailer | null;
 };
 
 function memoryStore(): Map<string, MemoryRow> {
@@ -34,6 +48,27 @@ function memoryStore(): Map<string, MemoryRow> {
     globalStore.__bmbWaitlistMemory = new Map();
   }
   return globalStore.__bmbWaitlistMemory;
+}
+
+/**
+ * Slice 7.6 — inject a Resend double in Playwright. Pass null to clear.
+ * Live mail is never sent from the agent / CI.
+ */
+export function setWaitlistMailerForTests(
+  mailer: WaitlistMailer | null,
+): void {
+  globalStore.__bmbWaitlistMailer = mailer;
+}
+
+function resolveMailer(apiKey: string | undefined): WaitlistMailer | null {
+  if (globalStore.__bmbWaitlistMailer) {
+    return globalStore.__bmbWaitlistMailer;
+  }
+  if (!apiKey) return null;
+  const resend = new Resend(apiKey);
+  return {
+    send: (payload) => resend.emails.send(payload),
+  };
 }
 
 type WaitlistStoreEnv = {
@@ -61,19 +96,20 @@ function useMemoryStore(): boolean {
   return waitlistStoreUsesMemory();
 }
 
+/**
+ * Slice 7.6 — notify hello@ on insert via Resend.
+ * Missing key / mailer = no-op. Throw is swallowed by joinWaitlist.
+ */
 async function notifyOperator(email: string): Promise<void> {
   const key = process.env.RESEND_API_KEY;
-  if (!key) {
-    return;
-  }
+  const mailer = resolveMailer(key);
+  if (!mailer) return;
 
-  const { Resend } = await import("resend");
-  const resend = new Resend(key);
   const from =
     process.env.RESEND_FROM ?? `${BRAND.name} <${BRAND.email}>`;
   const to = process.env.WAITLIST_NOTIFY_TO ?? BRAND.email;
 
-  await resend.emails.send({
+  await mailer.send({
     from,
     to,
     subject: `Waitlist: ${email}`,
@@ -254,7 +290,8 @@ export async function listWaitlistSignups(): Promise<WaitlistRow[]> {
   }));
 }
 
-/** CI helper — clear memory waitlist only. */
+/** CI helper — clear memory waitlist and any injected mailer. */
 export function resetWaitlistStoreForTests(): void {
   memoryStore().clear();
+  globalStore.__bmbWaitlistMailer = null;
 }

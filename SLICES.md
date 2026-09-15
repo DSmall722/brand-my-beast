@@ -15,8 +15,8 @@ Updated: 2026-09-15
 - Coordinator may merge a PR that finishes exactly one unchecked slice, Playwright is green, and the merge gates below hold.
 - Judge PRs from git + `npm test` + `npm run build`. Do not use brandmybeast.com as a gate while the Vercel usage hold is on.
 
-**Now:** 7.6 Waitlist Resend path notifies hello@ on insert.
-**Last merged:** 7.5 (#110 `/operator/waitlist` lists waitlist signups.)
+**Now:** 7.7 Magic-link From is BrandMyBeast <hello@brandmybeast.com>.
+**Last merged:** 7.6 Waitlist Resend path notifies hello@ on insert.
 
 ## Standing orders
 
@@ -119,7 +119,7 @@ If any gate fails: leave the PR unmerged and stop that slice.
 - [x] 7.3 `/api/test/*` returns 404 when `VERCEL_ENV=production` or `NODE_ENV=production`. Test-mode still works in CI. (#108)
 - [x] 7.4 Delete or Postgres-back leftover memory stores (plaque, sighting, circuit, content-rights). Production has no in-memory store. Same rule as 6.7. (#109)
 - [x] 7.5 `/operator/waitlist` lists `waitlist_signups`. Auth + `OPERATOR_EMAILS`. No public header link. No export to X. (#110)
-- [ ] 7.6 Waitlist Resend path in code: notify `hello@` on insert. Tests mock Resend. Do not send live mail from the agent. Failure does not claim the visitor joined if the row write failed.
+- [x] 7.6 Waitlist Resend path in code: notify `hello@` on insert. Tests mock Resend. Do not send live mail from the agent. Failure does not claim the visitor joined if the row write failed.
 - [ ] 7.7 Magic-link From is `BrandMyBeast <hello@brandmybeast.com>` in auth config. Playwright or unit assert on the from string.
 - [ ] 7.8 `/robots.txt` + `/sitemap.ts` include `/` and `/panels/*` only. `/operator` is not listed.
 - [ ] 7.9 `/privacy` and `/terms` stubs from CAMPAIGN.md + PUBLIC_COPY.md only. No invented legal terms. Footer links them.
