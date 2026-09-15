@@ -822,7 +822,7 @@ export type PlaceWholeTruckResult =
   | { ok: true; bids: IntentBid[] }
   | { ok: false; error: string };
 
-/** True while public pledged standing is under buyout. */
+/** Slice 9.5 — hide whole-truck control when pledged >= $120,000. */
 export function isWholeTruckIntentOpen(pledgedUsd: number): boolean {
   return Number.isFinite(pledgedUsd) && pledgedUsd < GOAL_USD;
 }

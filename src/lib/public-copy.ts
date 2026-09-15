@@ -53,6 +53,9 @@ export const PUBLIC_COPY = {
     wholeTruckAmountLabel: "Buyout mark",
     wholeTruckCta: "List a whole-truck intent",
     wholeTruckSignIn: "Sign in to list a whole-truck intent",
+    /** Slice 9.5 — control hidden when pledged >= $120,000. */
+    wholeTruckMet:
+      "Whole-truck buyout is met at $120,000. The field is closed. Still no card charge on this page.",
   },
   seatExclusivity: {
     heading: "One brand per trade",
