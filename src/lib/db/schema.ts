@@ -42,6 +42,11 @@ export const intentBids = pgTable(
     artworkUrl: text("artwork_url"),
     /** Optional proxy ceiling (slice 9.1). Intent only — never a card. */
     proxyMaxUsd: integer("proxy_max_usd"),
+    /**
+     * Slice 9.4 — floor-save raise-to Y. Stored, not charged.
+     * Null = normal standing intent.
+     */
+    floorSaveUsd: integer("floor_save_usd"),
   },
   (table) => [
     index("intent_bids_panel_id_idx").on(table.panelId),

@@ -293,9 +293,19 @@ export default async function PanelIntentPage({
                   <span className={intentStatusClass(bid.status)}>
                     {intentStatusLabel(bid.status)}
                   </span>
-                  <span className="auth-hint">
-                    Deposit shown {formatUsd(bid.depositUsd)} (not charged)
-                  </span>
+                  {bid.floorSaveUsd != null ? (
+                    <span
+                      className="auth-hint"
+                      data-testid={`intent-floor-save-badge-${bid.id}`}
+                    >
+                      Floor-save to {formatUsd(bid.floorSaveUsd)} if short of{" "}
+                      {formatUsd(FLOOR_USD)} (not charged)
+                    </span>
+                  ) : (
+                    <span className="auth-hint">
+                      Deposit shown {formatUsd(bid.depositUsd)} (not charged)
+                    </span>
+                  )}
                 </div>
                 <IntentArtworkPreview artworkUrl={bid.artworkUrl} bidId={bid.id} />
               </li>

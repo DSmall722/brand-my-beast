@@ -46,11 +46,21 @@ export async function submitIntentBid(
   const standingUsd = standingRaw ? Number(standingRaw) : undefined;
   const proxyRaw = String(formData.get("proxyMaxUsd") ?? "").trim();
   const proxyMaxUsd = proxyRaw === "" ? null : Number(proxyRaw);
+  const asFloorSave =
+    formData.get("floorSave") === "on" ||
+    formData.get("floorSave") === "1" ||
+    formData.get("floorSave") === "true";
   const artwork = parseIntentArtwork({
     artworkUrl: String(formData.get("artworkUrl") ?? ""),
     artworkUpload: String(formData.get("artworkUpload") ?? ""),
   });
   if (!artwork.ok) return { ok: false, error: artwork.error };
+
+  if (asFloorSave) {
+    if (standingUsd == null || !Number.isFinite(standingUsd)) {
+      return { ok: false, error: "Floor-save mark Y is required." };
+    }
+  }
 
   let result: Awaited<ReturnType<typeof placeIntentBid>>;
   try {
@@ -59,8 +69,9 @@ export async function submitIntentBid(
       userId: session.user.id,
       brandLabel,
       tradeLabel,
-      standingUsd,
-      proxyMaxUsd,
+      standingUsd: asFloorSave ? undefined : standingUsd,
+      proxyMaxUsd: asFloorSave ? null : proxyMaxUsd,
+      floorSaveUsd: asFloorSave ? standingUsd : null,
       artworkUrl: artwork.artworkUrl,
     });
   } catch {
@@ -76,6 +87,12 @@ export async function submitIntentBid(
   revalidatePath("/operator");
   revalidatePath("/operator/approvals");
   revalidatePath("/account");
+  if (result.bid.floorSaveUsd != null) {
+    return {
+      ok: true,
+      message: `Floor-save listed at $${result.bid.floorSaveUsd} if short of $58,000. Deposit shown: $${result.bid.depositUsd} (not charged).`,
+    };
+  }
   return {
     ok: true,
     message: `Intent listed at $${result.bid.standingUsd}. Deposit shown: $${result.bid.depositUsd} (not charged).`,

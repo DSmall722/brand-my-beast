@@ -3,7 +3,7 @@
  * No Stripe fields. Capture is P3. See P2.md and RULES.md.
  */
 
-import { DEPOSIT_PERCENT, type Panel } from "./campaign";
+import { DEPOSIT_PERCENT, FLOOR_USD, type Panel } from "./campaign";
 
 /** Auth.js user id once wired. Opaque string until then. */
 export type UserId = string;
@@ -40,7 +40,23 @@ export type IntentBid = {
    * standing + max($250, 10%) up to this max. Still intent only — no card.
    */
   proxyMaxUsd: number | null;
+  /**
+   * Slice 9.4 — floor-save raise-to mark. When set, this row means:
+   * if campaign pledged is short of $58,000, raise this seat to this amount.
+   * Stored, not charged. Does not displace standing holders until fired.
+   */
+  floorSaveUsd: number | null;
 };
+
+/** True when the row is a floor-save conditional (slice 9.4). */
+export function isFloorSaveBid(bid: Pick<IntentBid, "floorSaveUsd">): boolean {
+  return bid.floorSaveUsd != null;
+}
+
+/** Slice 9.4 — campaign is short of the $58,000 floor. */
+export function isCampaignShortOfFloor(pledgedUsd: number): boolean {
+  return Number.isFinite(pledgedUsd) && pledgedUsd < FLOOR_USD;
+}
 
 /** Normalize bidder-named trade for collision checks. No public taxonomy. */
 export function normalizeTradeLabel(raw: string): string {
@@ -87,6 +103,26 @@ export function parseProxyMaxUsd(
     };
   }
   return { ok: true, proxyMaxUsd: value };
+}
+
+/**
+ * Slice 9.4 — floor-save raise-to amount Y. Whole dollars only.
+ * Never a payment method.
+ */
+export function parseFloorSaveUsd(
+  raw: unknown,
+): { ok: true; floorSaveUsd: number } | { ok: false; error: string } {
+  if (raw == null || raw === "") {
+    return { ok: false, error: "Floor-save mark Y is required." };
+  }
+  const value = typeof raw === "number" ? raw : Number(String(raw).trim());
+  if (!Number.isFinite(value) || !Number.isInteger(value) || value <= 0) {
+    return {
+      ok: false,
+      error: "Floor-save mark must be a whole dollar amount.",
+    };
+  }
+  return { ok: true, floorSaveUsd: value };
 }
 
 /** 20% of the listed mark. Intent only on P2 — do not charge. */
