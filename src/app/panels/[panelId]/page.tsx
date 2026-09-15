@@ -22,6 +22,8 @@ import {
   minimumIntentUsd,
   standingForPanel,
 } from "@/lib/intent-store";
+import { panelExtendedUntilCopy } from "@/lib/panel-extension";
+import { getPanelExtendedUntil } from "@/lib/panel-extension-store";
 import {
   holdersOnAdjacentPanels,
   type AdjacentSeatHolder,
@@ -44,6 +46,8 @@ export default async function PanelIntentPage({
   const minimum = await minimumIntentUsd(panel.id);
   const bids = await listBidsForPanel(panel.id);
   const board = await loadBoardIntentStats();
+  const panelExtendedUntil = await getPanelExtendedUntil(panel.id);
+  const extensionCopy = panelExtendedUntilCopy(panelExtendedUntil);
   const holdersRaw = await loadStandingHoldersByPanel();
   const holdersByPanel = new Map<string, AdjacentSeatHolder | null>();
   for (const row of PANELS) {
@@ -185,6 +189,19 @@ export default async function PanelIntentPage({
             ? `Seat open — next minimum is the opening mark ${formatUsd(minimum)}. Still intent only — no card.`
             : `Next minimum is standing + max($250, 10%) = ${formatUsd(minimum)}. Still intent only — no card.`}
         </p>
+
+        <aside
+          className="panel-extension"
+          data-testid="panel-extended-until"
+          data-extended={extensionCopy.isSet ? "true" : "false"}
+          data-until={panelExtendedUntil ?? ""}
+          aria-labelledby="panel-extension-title"
+        >
+          <h2 id="panel-extension-title" className="auth-subhead">
+            {extensionCopy.heading}
+          </h2>
+          <p data-testid="panel-extended-until-copy">{extensionCopy.body}</p>
+        </aside>
 
         <p className="intent-banner" data-testid="intent-only-banner">
           Intent only. Amount does not charge. No Stripe capture. No close

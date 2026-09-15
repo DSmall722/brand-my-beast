@@ -8,6 +8,7 @@ import { resetIntentStoreForTests } from "@/lib/intent-store";
 import { resetMockupStoreForTests } from "@/lib/mockup-store";
 import { resetOperatorAuditLogForTests } from "@/lib/operator-audit-log";
 import { resetOperatorBanListForTests } from "@/lib/operator-ban-list";
+import { resetPanelExtensionStoreForTests } from "@/lib/panel-extension-store";
 import { resetRateLimitForTests } from "@/lib/rate-limit";
 import { resetSightingStoreForTests } from "@/lib/sighting-store";
 import { testApiBlockedResponse } from "@/lib/test-api-gate";
@@ -24,6 +25,7 @@ export async function POST() {
   resetArtworkBlobStoreForTests();
   resetOperatorBanListForTests();
   resetOperatorAuditLogForTests();
+  await resetPanelExtensionStoreForTests();
   await resetMockupStoreForTests();
   await resetApprovalNoteStoreForTests();
   await resetCabinPlaqueStoreForTests();
