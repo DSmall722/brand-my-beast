@@ -13,6 +13,10 @@ import { GOAL_USD, PANELS, type Panel } from "./campaign";
 import { getDb } from "./db";
 import { intentBids, type IntentBidRow } from "./db/schema";
 import { assertTradeAllowed } from "./banned-trades";
+import {
+  assertOperatorBanAllowed,
+  listBanRules,
+} from "./operator-ban-list";
 import { notifyIntentStatus } from "./intent-status-mail";
 import {
   assertIntentOnly,
@@ -380,6 +384,16 @@ export async function placeIntentBid(
   const ban = assertTradeAllowed({ brandLabel, tradeLabel });
   if (!ban.ok) {
     return { ok: false, error: ban.error };
+  }
+
+  try {
+    const rules = await listBanRules();
+    const opBan = assertOperatorBanAllowed({ brandLabel, tradeLabel, rules });
+    if (!opBan.ok) {
+      return { ok: false, error: opBan.error };
+    }
+  } catch {
+    return { ok: false, error: INTENT_WRITE_FAILED };
   }
 
   // Slice 8.5 — data: uploads land in blob store; ledger keeps path only.

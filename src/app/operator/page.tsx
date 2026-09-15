@@ -107,6 +107,13 @@ export default async function OperatorPage({
             Waitlist signups
           </Link>
           {" · "}
+          <Link
+            href="/operator/ban-list"
+            data-testid="operator-ban-list-link"
+          >
+            Ban list
+          </Link>
+          {" · "}
           <a
             href={OPERATOR_CSV_PATH}
             data-testid="operator-csv-download"
