@@ -16,7 +16,7 @@ Updated: 2026-09-15
 - Judge PRs from git + `npm test` + `npm run build`. Do not use brandmybeast.com as a gate while the Vercel usage hold is on.
 
 **Now:** 8.2 Operator digest function + cron route in repo.
-**Last merged:** 8.1 Intent status emails (listed / outbid / approved / rejected).
+**Last merged:** 8.1 (#116 Intent status emails via mocked Resend).
 
 ## Standing orders
 
