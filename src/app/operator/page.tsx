@@ -64,6 +64,14 @@ export default async function OperatorPage() {
           Artwork checklist, approve or reject with a veto note, queue same-day
           Imagine placeholders. No cards are charged.
         </p>
+        <p className="auth-hint" data-testid="operator-internal-nav">
+          <Link
+            href="/operator/waitlist"
+            data-testid="operator-waitlist-link"
+          >
+            Waitlist signups
+          </Link>
+        </p>
 
         <aside
           className="operator-campaign-locks"
