@@ -4,6 +4,7 @@ import { SiteChrome } from "@/components/SiteChrome";
 import { auth } from "@/lib/auth";
 import { isOperatorEmail } from "@/lib/auth/operator";
 import { FLOOR_USD, GOAL_USD, formatUsd } from "@/lib/campaign";
+import { OPERATOR_CSV_PATH } from "@/lib/operator-csv";
 import { listWaitlistSignups } from "@/lib/waitlist";
 
 /**
@@ -57,6 +58,13 @@ export default async function OperatorWaitlistPage() {
           <Link href="/operator" data-testid="operator-waitlist-approvals-link">
             Intent approvals
           </Link>
+          {" · "}
+          <a
+            href={OPERATOR_CSV_PATH}
+            data-testid="operator-csv-download"
+          >
+            Download CSV
+          </a>
         </p>
 
         <p
