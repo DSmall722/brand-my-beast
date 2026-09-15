@@ -176,7 +176,15 @@ export function HomeMoneySection({
                 </a>
               )}
             </div>
-          ) : null}
+          ) : (
+            <p
+              className="section-lead"
+              style={{ marginTop: "1.75rem" }}
+              data-testid="whole-truck-met"
+            >
+              {PUBLIC_COPY.board.wholeTruckMet}
+            </p>
+          )}
         </section>
   );
 }

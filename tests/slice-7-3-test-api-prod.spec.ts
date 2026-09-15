@@ -87,7 +87,11 @@ test.describe("slice 7.3: test API blocked in production", () => {
       join(process.cwd(), "src/app/api/test/panel-extended-until/route.ts"),
       "utf8",
     );
-    for (const src of [rateLimit, reset, panelExt]) {
+    const seedBuyout = readFileSync(
+      join(process.cwd(), "src/app/api/test/seed-buyout/route.ts"),
+      "utf8",
+    );
+    for (const src of [rateLimit, reset, panelExt, seedBuyout]) {
       expect(src).toContain('from "@/lib/test-api-gate"');
       expect(src).toContain("testApiBlockedResponse()");
     }
