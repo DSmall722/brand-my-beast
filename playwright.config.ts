@@ -28,6 +28,7 @@ export default defineConfig({
       AUTH_MODE: "test",
       AUTH_SECRET: "playwright-auth-secret-min-32-chars!!",
       AUTH_TEST_PASSWORD: "test",
+      CRON_SECRET: "playwright-cron-secret",
       PORT: String(PORT),
     },
   },
