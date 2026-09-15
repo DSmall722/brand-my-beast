@@ -4,7 +4,6 @@ import Credentials from "next-auth/providers/credentials";
 import GitHub from "next-auth/providers/github";
 import Resend from "next-auth/providers/resend";
 import type { Provider } from "next-auth/providers";
-import { BRAND } from "@/lib/campaign";
 import { getDb } from "@/lib/db";
 import {
   authAccounts,
@@ -16,6 +15,7 @@ import {
   authSecretOrThrow,
   enabledAuthProviders,
   resolveAuthMode,
+  resolveMagicLinkFrom,
 } from "./mode";
 
 function buildProviders(): Provider[] {
@@ -53,8 +53,7 @@ function buildProviders(): Provider[] {
     providers.push(
       Resend({
         apiKey: process.env.RESEND_API_KEY!,
-        from:
-          process.env.RESEND_FROM ?? `${BRAND.name} <${BRAND.email}>`,
+        from: resolveMagicLinkFrom(),
       }),
     );
   }

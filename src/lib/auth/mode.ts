@@ -3,10 +3,23 @@
  * See P2.md — live magic-link secrets are optional; test mode keeps CI green.
  */
 
+import { BRAND } from "@/lib/campaign";
+
 export type AuthMode = "test" | "live";
 
 /** Partial env bags from tests; same shape as operator helpers. */
 export type AuthEnv = Record<string, string | undefined>;
+
+/**
+ * Slice 7.7 — default Resend magic-link From. Must stay BrandMyBeast + hello@.
+ * RESEND_FROM may override in ops; the default in auth config is this string.
+ */
+export const MAGIC_LINK_FROM = `${BRAND.name} <${BRAND.email}>` as const;
+
+export function resolveMagicLinkFrom(env: AuthEnv = process.env): string {
+  const override = env.RESEND_FROM?.trim();
+  return override || MAGIC_LINK_FROM;
+}
 
 export function resolveAuthMode(env: AuthEnv = process.env): AuthMode {
   const raw = (env.AUTH_MODE ?? "").trim().toLowerCase();
