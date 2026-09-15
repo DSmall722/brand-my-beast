@@ -15,8 +15,8 @@ Updated: 2026-09-15
 - Coordinator may merge a PR that finishes exactly one unchecked slice, Playwright is green, and the merge gates below hold.
 - Judge PRs from git + `npm test` + `npm run build`. Do not use brandmybeast.com as a gate while the Vercel usage hold is on.
 
-**Now:** 7.8 `/robots.txt` + `/sitemap.ts` include `/` and `/panels/*` only.
-**Last merged:** 7.7 (#112 Magic-link From is BrandMyBeast <hello@brandmybeast.com>).
+**Now:** 7.9 `/privacy` and `/terms` stubs from CAMPAIGN + PUBLIC_COPY.
+**Last merged:** 7.8 robots + sitemap public surface only.
 
 ## Standing orders
 
@@ -121,7 +121,7 @@ If any gate fails: leave the PR unmerged and stop that slice.
 - [x] 7.5 `/operator/waitlist` lists `waitlist_signups`. Auth + `OPERATOR_EMAILS`. No public header link. No export to X. (#110)
 - [x] 7.6 Waitlist Resend path in code: notify `hello@` on insert. Tests mock Resend. Do not send live mail from the agent. Failure does not claim the visitor joined if the row write failed. (#111)
 - [x] 7.7 Magic-link From is `BrandMyBeast <hello@brandmybeast.com>` in auth config. Playwright or unit assert on the from string. (#112)
-- [ ] 7.8 `/robots.txt` + `/sitemap.ts` include `/` and `/panels/*` only. `/operator` is not listed.
+- [x] 7.8 `/robots.txt` + `/sitemap.ts` include `/` and `/panels/*` only. `/operator` is not listed.
 - [ ] 7.9 `/privacy` and `/terms` stubs from CAMPAIGN.md + PUBLIC_COPY.md only. No invented legal terms. Footer links them.
 - [ ] 7.10 `layout.tsx` title and description match PUBLIC_COPY meta. Do not use the live tab as a gate.
 
