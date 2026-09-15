@@ -8,6 +8,7 @@ import { GOAL_USD, PANELS, type Panel } from "./campaign";
 import { getDb } from "./db";
 import { intentBids, type IntentBidRow } from "./db/schema";
 import { assertTradeAllowed } from "./banned-trades";
+import { notifyIntentStatus } from "./intent-status-mail";
 import {
   assertIntentOnly,
   depositUsdForMark,
@@ -25,6 +26,17 @@ const STATUSES: readonly IntentBidStatus[] = [
   "approved",
   "rejected",
 ] as const;
+
+/** Slice 8.1 — mail failure must not undo a successful intent write. */
+async function notifyIntentStatusSafe(
+  input: Parameters<typeof notifyIntentStatus>[0],
+): Promise<void> {
+  try {
+    await notifyIntentStatus(input);
+  } catch {
+    // Status / list already committed.
+  }
+}
 
 const globalForIntent = globalThis as typeof globalThis & {
   __bmbIntentBids?: IntentBid[];
@@ -347,6 +359,7 @@ export async function placeIntentBid(
     const depositUsd = depositUsdForMark(standingUsd);
 
     if (useMemoryStore()) {
+      const outbidTargets: IntentBid[] = [];
       for (const existing of memoryBids()) {
         if (
           existing.panelId === input.panelId &&
@@ -354,6 +367,7 @@ export async function placeIntentBid(
           existing.userId !== input.userId
         ) {
           existing.status = "outbid";
+          outbidTargets.push({ ...existing });
         }
       }
 
@@ -371,6 +385,10 @@ export async function placeIntentBid(
       };
       assertIntentOnly(bid);
       memoryBids().push(bid);
+      await notifyIntentStatusSafe({ kind: "listed", bid });
+      for (const outbid of outbidTargets) {
+        await notifyIntentStatusSafe({ kind: "outbid", bid: outbid });
+      }
       return { ok: true, bid };
     }
 
@@ -378,6 +396,17 @@ export async function placeIntentBid(
     if (!db) {
       return { ok: false, error: "Intent ledger is not configured." };
     }
+
+    const priorListed = await db
+      .select()
+      .from(intentBids)
+      .where(
+        and(
+          eq(intentBids.panelId, input.panelId),
+          eq(intentBids.status, "listed"),
+          ne(intentBids.userId, input.userId),
+        ),
+      );
 
     // Neon HTTP: sequential outbid then insert (no interactive txn).
     await db
@@ -407,7 +436,15 @@ export async function placeIntentBid(
 
     const row = inserted[0];
     if (!row) return { ok: false, error: "Could not record intent." };
-    return { ok: true, bid: rowToBid(row) };
+    const bid = rowToBid(row);
+    await notifyIntentStatusSafe({ kind: "listed", bid });
+    for (const prior of priorListed) {
+      await notifyIntentStatusSafe({
+        kind: "outbid",
+        bid: { ...rowToBid(prior), status: "outbid" },
+      });
+    }
+    return { ok: true, bid };
   } catch {
     // Slice 6.5 — structured failure only; never claim the intent listed.
     return { ok: false, error: INTENT_WRITE_FAILED };
@@ -417,6 +454,7 @@ export async function placeIntentBid(
 export async function setIntentStatus(
   bidId: string,
   status: Extract<IntentBidStatus, "approved" | "rejected" | "withdrawn">,
+  opts?: { note?: string },
 ): Promise<PlaceIntentResult> {
   if (useMemoryStore()) {
     const bid = memoryBids().find((row) => row.id === bidId);
@@ -430,6 +468,13 @@ export async function setIntentStatus(
     }
     bid.status = status;
     assertIntentOnly(bid);
+    if (status === "approved" || status === "rejected") {
+      await notifyIntentStatusSafe({
+        kind: status,
+        bid: { ...bid },
+        note: opts?.note,
+      });
+    }
     return { ok: true, bid };
   }
 
@@ -460,7 +505,15 @@ export async function setIntentStatus(
     .returning();
   const row = updated[0];
   if (!row) return { ok: false, error: "Bid not found." };
-  return { ok: true, bid: rowToBid(row) };
+  const bid = rowToBid(row);
+  if (status === "approved" || status === "rejected") {
+    await notifyIntentStatusSafe({
+      kind: status,
+      bid,
+      note: opts?.note,
+    });
+  }
+  return { ok: true, bid };
 }
 
 export async function resetIntentStoreForTests(): Promise<void> {

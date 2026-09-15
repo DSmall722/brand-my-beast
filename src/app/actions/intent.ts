@@ -97,7 +97,7 @@ export async function decideIntentBid(
   const noteGate = assertNoteRequiredForReject({ decision, note });
   if (!noteGate.ok) return { ok: false, error: noteGate.error };
 
-  const result = await setIntentStatus(bidId, decision);
+  const result = await setIntentStatus(bidId, decision, { note });
   if (!result.ok) return { ok: false, error: result.error };
 
   if (note.trim() || decision === "rejected") {
