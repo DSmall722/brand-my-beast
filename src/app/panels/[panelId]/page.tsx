@@ -14,6 +14,10 @@ import { auth } from "@/lib/auth";
 import { DEPOSIT_PERCENT, FLOOR_USD, GOAL_USD, PANELS, formatUsd, isEtchable } from "@/lib/campaign";
 import { comboLotFor } from "@/lib/combo-lots";
 import { minIncrementUsd } from "@/lib/intent";
+import {
+  buildFailedWinnerOffer,
+  failedWinnerOfferCopy,
+} from "@/lib/failed-winner-offer";
 import { intentStatusClass, intentStatusLabel } from "@/lib/intent-labels";
 import {
   listBidsForPanel,
@@ -68,12 +72,30 @@ export default async function PanelIntentPage({
   const occupiedPanelIds = [...holdersRaw.keys()];
   const etchable = isEtchable(panel);
   const viewerId = session?.user?.id;
-  const viewerWasOutbid = Boolean(
+  const viewerOutbidBids = viewerId
+    ? bids
+        .filter((bid) => bid.userId === viewerId && bid.status === "outbid")
+        .slice()
+        .sort((a, b) => b.createdAt.localeCompare(a.createdAt))
+    : [];
+  const viewerHasActive = Boolean(
     viewerId &&
       bids.some(
-        (bid) => bid.userId === viewerId && bid.status === "outbid",
+        (bid) =>
+          bid.userId === viewerId &&
+          (bid.status === "listed" || bid.status === "approved"),
       ),
   );
+  // Slice 9.6 — offer only while outbid with no active re-list (no silent reopen).
+  const viewerOutbid =
+    !viewerHasActive && viewerOutbidBids[0] ? viewerOutbidBids[0] : null;
+  const viewerWasOutbid = Boolean(viewerOutbid);
+  const failedWinnerOffer = viewerOutbid
+    ? buildFailedWinnerOffer({
+        lastMarkUsd: viewerOutbid.standingUsd,
+        panelMinimumUsd: minimum,
+      })
+    : null;
   const holder = bids.find(
     (bid) => bid.status === "listed" || bid.status === "approved",
   );
@@ -221,16 +243,25 @@ export default async function PanelIntentPage({
           </p>
         </aside>
 
-        {viewerWasOutbid ? (
-          <p
+        {viewerWasOutbid && failedWinnerOffer ? (
+          <aside
             className="failed-winner-banner"
-            data-testid="failed-winner-waitlist"
+            data-testid="failed-winner-offer"
+            data-last-mark={failedWinnerOffer.lastMarkUsd}
+            data-offer={failedWinnerOffer.offerUsd}
           >
-            You were outbid on this panel. Stay on the{" "}
-            <Link href="/#waitlist">waitlist</Link> for a second look if this
-            seat opens — still no card charge. Or list a higher intent mark
-            below.
-          </p>
+            <p data-testid="failed-winner-offer-copy">
+              {failedWinnerOfferCopy(failedWinnerOffer)}
+            </p>
+            <p data-testid="failed-winner-offer-amount">
+              Offer mark {formatUsd(failedWinnerOffer.offerUsd)}
+            </p>
+            <p data-testid="failed-winner-waitlist">
+              Or stay on the <Link href="/#waitlist">waitlist</Link> for a
+              second look if this seat opens — still no card charge. Submit
+              below to accept the offer — no silent reopen.
+            </p>
+          </aside>
         ) : null}
 
         {session?.user ? (
@@ -245,6 +276,9 @@ export default async function PanelIntentPage({
               panelId={panel.id}
               minimumUsd={minimum}
               adjacentNeighbors={adjacentNeighbors}
+              suggestedStandingUsd={failedWinnerOffer?.offerUsd}
+              suggestedBrand={viewerOutbid?.brandLabel ?? ""}
+              suggestedTrade={viewerOutbid?.tradeLabel ?? ""}
             />
           </section>
         ) : (

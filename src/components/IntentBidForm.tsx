@@ -19,13 +19,24 @@ export function IntentBidForm({
   panelId,
   minimumUsd,
   adjacentNeighbors = [],
+  suggestedStandingUsd,
+  suggestedBrand = "",
+  suggestedTrade = "",
 }: {
   panelId: string;
   minimumUsd: number;
   adjacentNeighbors?: readonly AdjacentSeatHolder[];
+  /** Slice 9.6 — failed-winner offer prefill (explicit; not silent). */
+  suggestedStandingUsd?: number;
+  suggestedBrand?: string;
+  suggestedTrade?: string;
 }) {
   const [state, action, pending] = useActionState(submitIntentBid, initial);
-  const [brand, setBrand] = useState("");
+  const [brand, setBrand] = useState(suggestedBrand);
+  const standingDefault = Math.max(
+    minimumUsd,
+    suggestedStandingUsd ?? minimumUsd,
+  );
   const [artworkUrl, setArtworkUrl] = useState("");
   const [artworkUpload, setArtworkUpload] = useState("");
   const [uploadName, setUploadName] = useState("");
@@ -116,6 +127,7 @@ export function IntentBidForm({
         placeholder="e.g. cold brew"
         data-testid="intent-trade"
         className="auth-input"
+        defaultValue={suggestedTrade}
       />
       <p className="auth-hint" data-testid="intent-trade-rule">
         {PUBLIC_COPY.seatExclusivity.formHint}
@@ -129,11 +141,17 @@ export function IntentBidForm({
         type="number"
         min={minimumUsd}
         step={1}
-        defaultValue={minimumUsd}
+        defaultValue={standingDefault}
         required
         data-testid="intent-standing"
         className="auth-input"
       />
+      {suggestedStandingUsd != null ? (
+        <p className="auth-hint" data-testid="intent-failed-winner-prefill">
+          Prefills the failed-winner offer {formatUsd(standingDefault)}. You
+          still submit — no silent reopen. Not charged.
+        </p>
+      ) : null}
       <p className="auth-hint" data-testid="intent-amount-note">
         Amount is intent only. Minimum {formatUsd(minimumUsd)}. This page does
         not charge — the 20% deposit is shown later, never captured on P2.
