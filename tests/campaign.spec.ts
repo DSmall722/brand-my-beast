@@ -488,7 +488,7 @@ test.describe("P1 waitlist campaign locks", () => {
     );
   });
 
-  test("cabin plaque API still works without homepage UI", async ({
+  test("cabin plaque API 404s while truck is missing (no homepage UI)", async ({
     page,
     request,
   }) => {
@@ -499,18 +499,7 @@ test.describe("P1 waitlist campaign locks", () => {
     const created = await request.post("/api/plaque", {
       data: { name },
     });
-    expect(created.status()).toBe(201);
-    expect(await created.json()).toMatchObject({
-      ok: true,
-      status: "created",
-      name,
-    });
-
-    const again = await request.post("/api/plaque", {
-      data: { name },
-    });
-    expect(again.status()).toBe(200);
-    expect(await again.json()).toMatchObject({ ok: true, status: "exists" });
+    expect(created.status()).toBe(404);
 
     await page.goto("/");
     await expect(page.getByTestId("cabin-plaque")).toHaveCount(0);
@@ -523,7 +512,7 @@ test.describe("P1 waitlist campaign locks", () => {
     expect(html).not.toContain("Florida panhandle");
   });
 
-  test("circuit story request saves without tweet or impressions", async ({
+  test("circuit story request 404s while truck is missing", async ({
     page,
     request,
   }) => {
@@ -534,18 +523,7 @@ test.describe("P1 waitlist campaign locks", () => {
     const created = await request.post("/api/circuit-story", {
       data: { email, corridorId: "charlotte", note: "Proof after install" },
     });
-    expect(created.status()).toBe(201);
-    expect(await created.json()).toMatchObject({
-      ok: true,
-      status: "created",
-      corridorId: "charlotte",
-    });
-
-    const again = await request.post("/api/circuit-story", {
-      data: { email, corridorId: "charlotte" },
-    });
-    expect(again.status()).toBe(200);
-    expect(await again.json()).toMatchObject({ ok: true, status: "exists" });
+    expect(created.status()).toBe(404);
 
     await page.goto("/");
     await expect(page.getByTestId("circuit-story")).toHaveCount(0);
@@ -558,7 +536,7 @@ test.describe("P1 waitlist campaign locks", () => {
     expect(html).not.toMatch(/\b\d+\s*impressions\b/i);
   });
 
-  test("public sighting board posts without bounty or impressions", async ({
+  test("public sighting board 404s while truck is missing", async ({
     page,
     request,
   }) => {
@@ -569,19 +547,7 @@ test.describe("P1 waitlist campaign locks", () => {
     const created = await request.post("/api/sighting", {
       data: { corridorId: "atlanta", note },
     });
-    expect(created.status()).toBe(201);
-    expect(await created.json()).toMatchObject({
-      ok: true,
-      status: "created",
-      corridorId: "atlanta",
-      note,
-    });
-
-    const again = await request.post("/api/sighting", {
-      data: { corridorId: "atlanta", note },
-    });
-    expect(again.status()).toBe(200);
-    expect(await again.json()).toMatchObject({ ok: true, status: "exists" });
+    expect(created.status()).toBe(404);
 
     await page.goto("/");
     await expect(page.getByTestId("sightings")).toHaveCount(0);
@@ -594,7 +560,7 @@ test.describe("P1 waitlist campaign locks", () => {
     expect(html).not.toMatch(/\b\d+\s*impressions\b/i);
   });
 
-  test("event request calendar saves without livestream or close clock", async ({
+  test("event request calendar 404s while truck is missing", async ({
     page,
     request,
   }) => {
@@ -610,18 +576,7 @@ test.describe("P1 waitlist campaign locks", () => {
         note: "After install",
       },
     });
-    expect(created.status()).toBe(201);
-    expect(await created.json()).toMatchObject({
-      ok: true,
-      status: "created",
-      kindId: "campus",
-    });
-
-    const again = await request.post("/api/event-request", {
-      data: { email, kindId: "campus" },
-    });
-    expect(again.status()).toBe(200);
-    expect(await again.json()).toMatchObject({ ok: true, status: "exists" });
+    expect(created.status()).toBe(404);
 
     await page.goto("/");
     await expect(page.getByTestId("event-calendar")).toHaveCount(0);
