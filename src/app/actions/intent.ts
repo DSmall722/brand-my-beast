@@ -44,6 +44,8 @@ export async function submitIntentBid(
   const tradeLabel = String(formData.get("tradeLabel") ?? "");
   const standingRaw = String(formData.get("standingUsd") ?? "").trim();
   const standingUsd = standingRaw ? Number(standingRaw) : undefined;
+  const proxyRaw = String(formData.get("proxyMaxUsd") ?? "").trim();
+  const proxyMaxUsd = proxyRaw === "" ? null : Number(proxyRaw);
   const artwork = parseIntentArtwork({
     artworkUrl: String(formData.get("artworkUrl") ?? ""),
     artworkUpload: String(formData.get("artworkUpload") ?? ""),
@@ -58,6 +60,7 @@ export async function submitIntentBid(
       brandLabel,
       tradeLabel,
       standingUsd,
+      proxyMaxUsd,
       artworkUrl: artwork.artworkUrl,
     });
   } catch {

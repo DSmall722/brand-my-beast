@@ -23,10 +23,14 @@ import {
   depositUsdForMark,
   nextStandingUsd,
   normalizeTradeLabel,
+  parseProxyMaxUsd,
   type IntentBid,
   type IntentBidStatus,
   type UserId,
 } from "./intent";
+
+/** Slice 9.1 — cap mutual proxy wars (still no card). */
+const MAX_PROXY_DEPTH = 48;
 
 const STATUSES: readonly IntentBidStatus[] = [
   "listed",
@@ -105,6 +109,7 @@ function rowToBid(row: IntentBidRow): IntentBid {
     status: parseStatus(row.status),
     createdAt: row.createdAt.toISOString(),
     artworkUrl: row.artworkUrl ?? null,
+    proxyMaxUsd: row.proxyMaxUsd ?? null,
   };
   assertIntentOnly(bid);
   return bid;
@@ -118,6 +123,13 @@ export type PlaceIntentInput = {
   standingUsd?: number;
   /** Parsed at the action boundary — https or data:image, or null. */
   artworkUrl?: string | null;
+  /** Optional proxy ceiling — agent steps max($250, 10%) up to this. */
+  proxyMaxUsd?: number | null;
+};
+
+type PlaceIntentOptions = {
+  /** Internal — proxy agent recursion depth. */
+  proxyDepth?: number;
 };
 
 export type PlaceIntentResult =
@@ -363,6 +375,7 @@ const INTENT_WRITE_FAILED =
 
 export async function placeIntentBid(
   input: PlaceIntentInput,
+  opts?: PlaceIntentOptions,
 ): Promise<PlaceIntentResult> {
   const panel = panelById(input.panelId);
   if (!panel) return { ok: false, error: "Unknown panel." };
@@ -463,7 +476,17 @@ export async function placeIntentBid(
       return { ok: false, error: `Mark must be at least ${minimum}.` };
     }
 
+    const proxyParsed = parseProxyMaxUsd(
+      input.proxyMaxUsd === undefined ? null : input.proxyMaxUsd,
+      standingUsd,
+    );
+    if (!proxyParsed.ok) {
+      return { ok: false, error: proxyParsed.error };
+    }
+    const proxyMaxUsd = proxyParsed.proxyMaxUsd;
+
     const depositUsd = depositUsdForMark(standingUsd);
+    const proxyDepth = opts?.proxyDepth ?? 0;
 
     if (useMemoryStore()) {
       const outbidTargets: IntentBid[] = [];
@@ -473,8 +496,9 @@ export async function placeIntentBid(
           existing.status === "listed" &&
           existing.userId !== input.userId
         ) {
+          const snapshot: IntentBid = { ...existing };
           existing.status = "outbid";
-          outbidTargets.push({ ...existing });
+          outbidTargets.push({ ...snapshot, status: "outbid" });
         }
       }
 
@@ -489,6 +513,7 @@ export async function placeIntentBid(
         status: "listed",
         createdAt: new Date().toISOString(),
         artworkUrl,
+        proxyMaxUsd,
       };
       assertIntentOnly(bid);
       memoryBids().push(bid);
@@ -496,7 +521,15 @@ export async function placeIntentBid(
       for (const outbid of outbidTargets) {
         await notifyIntentStatusSafe({ kind: "outbid", bid: outbid });
       }
-      return { ok: true, bid };
+      await runProxyMaxAgent({
+        panelId: input.panelId,
+        listed: bid,
+        outbidTargets,
+        proxyDepth,
+      });
+      const fresh =
+        memoryBids().find((row) => row.id === bid.id) ?? bid;
+      return { ok: true, bid: { ...fresh } };
     }
 
     const db = getDb();
@@ -538,24 +571,77 @@ export async function placeIntentBid(
         depositUsd,
         status: "listed",
         artworkUrl,
+        proxyMaxUsd,
       })
       .returning();
 
     const row = inserted[0];
     if (!row) return { ok: false, error: "Could not record intent." };
     const bid = rowToBid(row);
+    const outbidTargets = priorListed.map((prior) => ({
+      ...rowToBid(prior),
+      status: "outbid" as const,
+    }));
     await notifyIntentStatusSafe({ kind: "listed", bid });
-    for (const prior of priorListed) {
-      await notifyIntentStatusSafe({
-        kind: "outbid",
-        bid: { ...rowToBid(prior), status: "outbid" },
-      });
+    for (const outbid of outbidTargets) {
+      await notifyIntentStatusSafe({ kind: "outbid", bid: outbid });
     }
-    return { ok: true, bid };
+    await runProxyMaxAgent({
+      panelId: input.panelId,
+      listed: bid,
+      outbidTargets,
+      proxyDepth,
+    });
+    const fresh = (await getIntentBidById(bid.id)) ?? bid;
+    return { ok: true, bid: fresh };
   } catch {
     // Slice 6.5 — structured failure only; never claim the intent listed.
     return { ok: false, error: INTENT_WRITE_FAILED };
   }
+}
+
+/**
+ * Slice 9.1 — when a listed mark outbids holders with a proxy ceiling,
+ * the agent steps standing + max($250, 10%) up to proxyMax. Still no card.
+ */
+async function runProxyMaxAgent(input: {
+  panelId: string;
+  listed: IntentBid;
+  outbidTargets: IntentBid[];
+  proxyDepth: number;
+}): Promise<void> {
+  if (input.proxyDepth >= MAX_PROXY_DEPTH) return;
+  if (input.outbidTargets.length === 0) return;
+
+  const next = nextStandingUsd(input.listed.standingUsd);
+  const able = input.outbidTargets.filter(
+    (target) =>
+      target.userId !== input.listed.userId &&
+      target.proxyMaxUsd != null &&
+      target.proxyMaxUsd >= next,
+  );
+  if (able.length === 0) return;
+
+  able.sort((a, b) => {
+    const byMax = (b.proxyMaxUsd ?? 0) - (a.proxyMaxUsd ?? 0);
+    if (byMax !== 0) return byMax;
+    return b.createdAt.localeCompare(a.createdAt);
+  });
+  const agent = able[0];
+  if (!agent) return;
+
+  await placeIntentBid(
+    {
+      panelId: input.panelId,
+      userId: agent.userId,
+      brandLabel: agent.brandLabel,
+      tradeLabel: agent.tradeLabel,
+      standingUsd: next,
+      artworkUrl: agent.artworkUrl,
+      proxyMaxUsd: agent.proxyMaxUsd,
+    },
+    { proxyDepth: input.proxyDepth + 1 },
+  );
 }
 
 export async function setIntentStatus(

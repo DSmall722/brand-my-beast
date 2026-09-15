@@ -35,6 +35,11 @@ export type IntentBid = {
    * Intent only — never a charge receipt.
    */
   artworkUrl: string | null;
+  /**
+   * Optional proxy ceiling (slice 9.1). When outbid, the agent steps
+   * standing + max($250, 10%) up to this max. Still intent only — no card.
+   */
+  proxyMaxUsd: number | null;
 };
 
 /** Normalize bidder-named trade for collision checks. No public taxonomy. */
@@ -52,6 +57,36 @@ export function minIncrementUsd(standingUsd: number): number {
 
 export function nextStandingUsd(currentStandingUsd: number): number {
   return currentStandingUsd + minIncrementUsd(currentStandingUsd);
+}
+
+/**
+ * Slice 9.1 — optional proxy ceiling. Empty → null. Must be a whole dollar
+ * amount at or above the listed mark. Never a payment method.
+ */
+export function parseProxyMaxUsd(
+  raw: unknown,
+  standingUsd: number,
+): { ok: true; proxyMaxUsd: number | null } | { ok: false; error: string } {
+  if (raw == null || raw === "") {
+    return { ok: true, proxyMaxUsd: null };
+  }
+  const value = typeof raw === "number" ? raw : Number(String(raw).trim());
+  if (!Number.isFinite(value) || !Number.isInteger(value) || value <= 0) {
+    return {
+      ok: false,
+      error: "Proxy max must be a whole dollar amount.",
+    };
+  }
+  if (!Number.isFinite(standingUsd) || standingUsd <= 0) {
+    return { ok: false, error: "Intent mark must be set before proxy max." };
+  }
+  if (value < standingUsd) {
+    return {
+      ok: false,
+      error: "Proxy max must be at least the intent mark.",
+    };
+  }
+  return { ok: true, proxyMaxUsd: value };
 }
 
 /** 20% of the listed mark. Intent only on P2 — do not charge. */

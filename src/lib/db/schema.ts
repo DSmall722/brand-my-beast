@@ -40,6 +40,8 @@ export const intentBids = pgTable(
       .notNull(),
     /** http(s) or /api/artwork/{id}. Never a data: URL (slice 8.5). */
     artworkUrl: text("artwork_url"),
+    /** Optional proxy ceiling (slice 9.1). Intent only — never a card. */
+    proxyMaxUsd: integer("proxy_max_usd"),
   },
   (table) => [
     index("intent_bids_panel_id_idx").on(table.panelId),
