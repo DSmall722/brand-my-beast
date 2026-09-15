@@ -956,7 +956,7 @@ test.describe("P2 panel intent + approvals", () => {
     await expect(shop.getByTestId("wrap-rule-term")).toContainText(
       "12 months from install",
     );
-    await expect(shop.getByTestId("wrap-matrix-hood")).toBeVisible();
+    await expect(shop.getByTestId("wrap-shop-matrix")).toHaveCount(0);
     await expect(shop.getByTestId("wrap-shop-approved-list")).toContainText(
       "Shop Bound Co",
     );
