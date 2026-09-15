@@ -155,6 +155,36 @@ export async function listBidsPendingApproval(): Promise<IntentBid[]> {
   return rows.map(rowToBid);
 }
 
+/** Slice 8.3 — operator filter lists by exact status (newest first except pending). */
+export async function listBidsWithStatus(
+  status: Extract<
+    IntentBidStatus,
+    "listed" | "approved" | "rejected" | "outbid"
+  >,
+): Promise<IntentBid[]> {
+  if (status === "listed") {
+    return listBidsPendingApproval();
+  }
+
+  if (useMemoryStore()) {
+    return memoryBids()
+      .filter((bid) => bid.status === status)
+      .slice()
+      .sort((a, b) => b.createdAt.localeCompare(a.createdAt));
+  }
+
+  const db = getDb();
+  if (!db) {
+    throw new Error("Intent ledger requires DATABASE_URL.");
+  }
+  const rows = await db
+    .select()
+    .from(intentBids)
+    .where(eq(intentBids.status, status))
+    .orderBy(desc(intentBids.createdAt));
+  return rows.map(rowToBid);
+}
+
 /** Approved + rejected intents, newest first — operator decided log. */
 export async function listDecidedBids(): Promise<IntentBid[]> {
   if (useMemoryStore()) {

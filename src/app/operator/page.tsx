@@ -10,16 +10,34 @@ import { isOperatorEmail } from "@/lib/auth/operator";
 import { formatUsd, isEtchable, PANELS } from "@/lib/campaign";
 import { listApprovalNotesForBids } from "@/lib/approval-note-store";
 import {
+  intentStatusClass,
+  intentStatusLabel,
+} from "@/lib/intent-labels";
+import {
   listBidsPendingApproval,
+  listBidsWithStatus,
   listDecidedBids,
 } from "@/lib/intent-store";
 import { listMockupsForBids } from "@/lib/mockup-store";
+import {
+  OPERATOR_FILTERS,
+  operatorFilterLabel,
+  operatorFilterToStatus,
+  parseOperatorFilter,
+  type OperatorFilter,
+} from "@/lib/operator-filters";
 import {
   operatorCampaignLockLabels,
   operatorCampaignLocks,
 } from "@/lib/operator-campaign-locks";
 
-export default async function OperatorPage() {
+type SearchParams = Promise<{ status?: string | string[] }>;
+
+export default async function OperatorPage({
+  searchParams,
+}: {
+  searchParams: SearchParams;
+}) {
   const session = await auth();
   if (!session?.user) {
     redirect("/signin?callbackUrl=/operator");
@@ -40,12 +58,27 @@ export default async function OperatorPage() {
     );
   }
 
-  const pending = await listBidsPendingApproval();
-  const decided = await listDecidedBids();
-  const mockups = await listMockupsForBids(pending.map((bid) => bid.id));
-  const decidedNotes = await listApprovalNotesForBids(
-    decided.map((bid) => bid.id),
-  );
+  const params = await searchParams;
+  const filter = parseOperatorFilter(params.status);
+  const status = operatorFilterToStatus(filter);
+
+  const [pending, filtered, decided] = await Promise.all([
+    listBidsPendingApproval(),
+    listBidsWithStatus(status),
+    listDecidedBids(),
+  ]);
+  const mockups =
+    filter === "pending"
+      ? await listMockupsForBids(filtered.map((bid) => bid.id))
+      : {};
+  const filterNotes =
+    filter === "approved" || filter === "rejected"
+      ? await listApprovalNotesForBids(filtered.map((bid) => bid.id))
+      : {};
+  const decidedNotes =
+    filter === "pending"
+      ? await listApprovalNotesForBids(decided.map((bid) => bid.id))
+      : {};
   const locks = operatorCampaignLocks();
   const lockLabels = operatorCampaignLockLabels();
 
@@ -57,6 +90,7 @@ export default async function OperatorPage() {
         className="shell auth-page approvals-page"
         data-testid="operator-approvals"
         data-operator-root="true"
+        data-operator-filter={filter}
       >
         <p className="eyebrow">Operator</p>
         <h1>Intent approvals</h1>
@@ -99,26 +133,49 @@ export default async function OperatorPage() {
           </dl>
         </aside>
 
+        <nav
+          className="operator-filters"
+          data-testid="operator-filters"
+          aria-label="Intent status filters"
+        >
+          {OPERATOR_FILTERS.map((id) => (
+            <Link
+              key={id}
+              href={id === "pending" ? "/operator" : `/operator?status=${id}`}
+              className={
+                filter === id
+                  ? "operator-filter-link is-active"
+                  : "operator-filter-link"
+              }
+              data-testid={`operator-filter-${id}`}
+              data-active={filter === id ? "true" : "false"}
+            >
+              {operatorFilterLabel(id)}
+              {id === "pending" ? ` (${pending.length})` : ""}
+            </Link>
+          ))}
+        </nav>
+
         <p className="approvals-count" data-testid="approvals-count">
-          {pending.length === 0 ? "Queue clear" : `${pending.length} waiting`}
+          {filterCountLabel(filter, filtered.length, pending.length)}
         </p>
 
-        {pending.length === 0 ? (
+        {filtered.length === 0 ? (
           <div className="empty-state" data-testid="approvals-empty">
-            <p>No listed intents waiting.</p>
+            <p>No {operatorFilterLabel(filter).toLowerCase()} intents.</p>
             <p className="auth-hint">
-              New marks show up here when a bidder lists on a panel.
+              Switch filters above, or wait for new marks on a panel.
             </p>
             <Link className="btn btn-ghost" href="/#panels">
               Browse panels
             </Link>
           </div>
-        ) : (
+        ) : filter === "pending" ? (
           <ul
             className="intent-list approval-list"
             data-testid="approvals-list"
           >
-            {pending.map((bid) => {
+            {filtered.map((bid) => {
               const panel = PANELS.find((row) => row.id === bid.panelId);
               const etchable = panel ? isEtchable(panel) : false;
               return (
@@ -157,60 +214,98 @@ export default async function OperatorPage() {
               );
             })}
           </ul>
+        ) : (
+          <ul
+            className="intent-list decided-list"
+            data-testid={`operator-filter-list-${filter}`}
+          >
+            {filtered.map((bid) => {
+              const panel = PANELS.find((row) => row.id === bid.panelId);
+              const note = filterNotes[bid.id];
+              return (
+                <li
+                  key={bid.id}
+                  className="decided-row"
+                  data-testid={`operator-row-${bid.id}`}
+                  data-status={bid.status}
+                >
+                  <div className="decided-row-main">
+                    <strong>{bid.brandLabel}</strong>
+                    <span className="auth-hint">
+                      {panel?.name ?? bid.panelId} · {formatUsd(bid.standingUsd)}
+                    </span>
+                    <span className={intentStatusClass(bid.status)}>
+                      {intentStatusLabel(bid.status)}
+                    </span>
+                  </div>
+                  {note?.note ? (
+                    <p
+                      className="decided-note"
+                      data-testid={`operator-note-${bid.id}`}
+                    >
+                      {note.note}
+                    </p>
+                  ) : null}
+                </li>
+              );
+            })}
+          </ul>
         )}
 
-        <section
-          className="approvals-decided"
-          aria-labelledby="approvals-decided-title"
-          data-testid="approvals-decided"
-        >
-          <h2 id="approvals-decided-title" className="auth-subhead">
-            Decided
-          </h2>
-          {decided.length === 0 ? (
-            <p className="auth-hint" data-testid="approvals-decided-empty">
-              No approvals or rejects yet.
-            </p>
-          ) : (
-            <ul
-              className="intent-list decided-list"
-              data-testid="approvals-decided-list"
-            >
-              {decided.map((bid) => {
-                const panel = PANELS.find((row) => row.id === bid.panelId);
-                const note = decidedNotes[bid.id];
-                return (
-                  <li
-                    key={bid.id}
-                    className="decided-row"
-                    data-testid={`decided-row-${bid.id}`}
-                    data-status={bid.status}
-                  >
-                    <div className="decided-row-main">
-                      <strong>{bid.brandLabel}</strong>
-                      <span className="auth-hint">
-                        {panel?.name ?? bid.panelId}
-                      </span>
-                      <span
-                        className={`badge badge-status badge-${bid.status}`}
-                      >
-                        {bid.status === "approved" ? "Approved" : "Rejected"}
-                      </span>
-                    </div>
-                    {note?.note ? (
-                      <p
-                        className="decided-note"
-                        data-testid={`decided-note-${bid.id}`}
-                      >
-                        {note.note}
-                      </p>
-                    ) : null}
-                  </li>
-                );
-              })}
-            </ul>
-          )}
-        </section>
+        {filter === "pending" ? (
+          <section
+            className="approvals-decided"
+            aria-labelledby="approvals-decided-title"
+            data-testid="approvals-decided"
+          >
+            <h2 id="approvals-decided-title" className="auth-subhead">
+              Decided
+            </h2>
+            {decided.length === 0 ? (
+              <p className="auth-hint" data-testid="approvals-decided-empty">
+                No approvals or rejects yet.
+              </p>
+            ) : (
+              <ul
+                className="intent-list decided-list"
+                data-testid="approvals-decided-list"
+              >
+                {decided.map((bid) => {
+                  const panel = PANELS.find((row) => row.id === bid.panelId);
+                  const note = decidedNotes[bid.id];
+                  return (
+                    <li
+                      key={bid.id}
+                      className="decided-row"
+                      data-testid={`decided-row-${bid.id}`}
+                      data-status={bid.status}
+                    >
+                      <div className="decided-row-main">
+                        <strong>{bid.brandLabel}</strong>
+                        <span className="auth-hint">
+                          {panel?.name ?? bid.panelId}
+                        </span>
+                        <span
+                          className={`badge badge-status badge-${bid.status}`}
+                        >
+                          {bid.status === "approved" ? "Approved" : "Rejected"}
+                        </span>
+                      </div>
+                      {note?.note ? (
+                        <p
+                          className="decided-note"
+                          data-testid={`decided-note-${bid.id}`}
+                        >
+                          {note.note}
+                        </p>
+                      ) : null}
+                    </li>
+                  );
+                })}
+              </ul>
+            )}
+          </section>
+        ) : null}
 
         <p className="auth-back">
           <Link href="/">Back to the board</Link>
@@ -218,4 +313,17 @@ export default async function OperatorPage() {
       </main>
     </>
   );
+}
+
+function filterCountLabel(
+  filter: OperatorFilter,
+  count: number,
+  pendingCount: number,
+): string {
+  if (filter === "pending") {
+    return pendingCount === 0 ? "Queue clear" : `${pendingCount} waiting`;
+  }
+  return count === 0
+    ? `No ${operatorFilterLabel(filter).toLowerCase()}`
+    : `${count} ${operatorFilterLabel(filter).toLowerCase()}`;
 }
