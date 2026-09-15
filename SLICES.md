@@ -15,8 +15,8 @@ Updated: 2026-09-14
 - Coordinator may merge a PR that finishes exactly one unchecked slice, Playwright is green, and the merge gates below hold.
 - Judge PRs from git + `npm test` + `npm run build`. Do not use brandmybeast.com as a gate while the Vercel usage hold is on.
 
-**Now:** 7.3 `/api/test/*` returns 404 in production.
-**Last merged:** 7.2 (#TBD Truck-gated public APIs 404 while TRUCK_EXISTS false.)
+**Now:** 7.4 Delete or Postgres-back leftover memory stores.
+**Last merged:** 7.3 (#TBD `/api/test/*` 404 in production.)
 
 ## Standing orders
 
@@ -115,8 +115,8 @@ If any gate fails: leave the PR unmerged and stop that slice.
 ## Wave 7 — code hygiene (Vercel hold: git + tests only)
 
 - [x] 7.1 Split `src/app/page.tsx` into section components. Visible strings stay in PUBLIC_COPY / `@/lib/public-copy`. Do not change H1, lead, money numbers, or add a homepage section. Playwright: H1 from 0.9, `Notify me`, no lease, no personal handle. (#106)
-- [x] 7.2 `/api/plaque`, `/api/sighting`, `/api/event-request`, `/api/circuit-story` return 404 while `TRUCK_EXISTS` is false. Playwright covers 404. (#TBD)
-- [ ] 7.3 `/api/test/*` returns 404 when `VERCEL_ENV=production` or `NODE_ENV=production`. Test-mode still works in CI.
+- [x] 7.2 `/api/plaque`, `/api/sighting`, `/api/event-request`, `/api/circuit-story` return 404 while `TRUCK_EXISTS` is false. Playwright covers 404. (#107)
+- [x] 7.3 `/api/test/*` returns 404 when `VERCEL_ENV=production` or `NODE_ENV=production`. Test-mode still works in CI. (#TBD)
 - [ ] 7.4 Delete or Postgres-back leftover memory stores (plaque, sighting, circuit, content-rights). Production has no in-memory store. Same rule as 6.7.
 - [ ] 7.5 `/operator/waitlist` lists `waitlist_signups`. Auth + `OPERATOR_EMAILS`. No public header link. No export to X.
 - [ ] 7.6 Waitlist Resend path in code: notify `hello@` on insert. Tests mock Resend. Do not send live mail from the agent. Failure does not claim the visitor joined if the row write failed.
