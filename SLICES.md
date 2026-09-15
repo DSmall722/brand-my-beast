@@ -10,7 +10,7 @@ Updated: 2026-09-15
 - Next job = the first unchecked box, wave order. Do not skip. Do not start two boxes in one PR.
 - The PR that finishes a slice also flips that box `[ ]` → `[x]` and appends `(#NN)` on the same line.
 - Set **Now** and **Last merged** in this file in that same PR.
-- Do not add a new checkbox unless the human writes it here first. After Wave 12, idle. Do not open Wave 13 from FEATURES.md.
+- Do not add a new checkbox unless the human writes it here first. Waves 7–12 are scheduled below. Do not open Wave 13 from FEATURES.md.
 - A FEATURES.md row is not scheduled until it has a checkbox in this file.
 - Coordinator may merge a PR that finishes exactly one unchecked slice, Playwright is green, and the merge gates below hold.
 - Judge PRs from git + `npm test` + `npm run build`. Do not use brandmybeast.com as a gate while the Vercel usage hold is on.
@@ -179,7 +179,7 @@ If any gate fails: leave the PR unmerged and stop that slice.
 
 ## Wave 12 — money-ready without charging
 
-Human locked 2026-09-15. Do not start Wave 12 until 11.10 is checked or skipped by the human. No Stripe. No CLOSE_AT. No tweet. No live URL gate.
+Do not start Wave 12 until 11.10 is checked. Still no Stripe. Still no CLOSE_AT.
 
 ### Ledger / races
 
@@ -236,7 +236,7 @@ Human locked 2026-09-15. Do not start Wave 12 until 11.10 is checked or skipped 
 ### Ops
 
 - [ ] 12.41 Structured log line on waitlist insert + intent status change. No PII beyond email hash.
-- [ ] 12.42 `/operator/health` last-migration name from Drizzle (builds on 11.5).
+- [ ] 12.42 `/operator/health` already in 11.5 — add last-migration name from Drizzle.
 - [ ] 12.43 Drizzle migrate runbook in repo (`drizzle/` + command). No dashboard.
 - [ ] 12.44 Backup restore drill doc (Neon PITR) next to 11.6.
 - [ ] 12.45 Playwright: concurrent two bidders on hood, only one approved standing.
