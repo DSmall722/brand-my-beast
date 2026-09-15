@@ -30,6 +30,7 @@ import {
   operatorCampaignLockLabels,
   operatorCampaignLocks,
 } from "@/lib/operator-campaign-locks";
+import { OPERATOR_CSV_PATH } from "@/lib/operator-csv";
 
 type SearchParams = Promise<{ status?: string | string[] }>;
 
@@ -105,6 +106,13 @@ export default async function OperatorPage({
           >
             Waitlist signups
           </Link>
+          {" · "}
+          <a
+            href={OPERATOR_CSV_PATH}
+            data-testid="operator-csv-download"
+          >
+            Download CSV
+          </a>
         </p>
 
         <aside
