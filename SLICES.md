@@ -15,8 +15,8 @@ Updated: 2026-09-15
 - Coordinator may merge a PR that finishes exactly one unchecked slice, Playwright is green, and the merge gates below hold.
 - Judge PRs from git + `npm test` + `npm run build`. Do not use brandmybeast.com as a gate while the Vercel usage hold is on.
 
-**Now:** 9.1 Proxy max on an intent. Agent steps `$250` or `10%`. Still no card.
-**Last merged:** 8.10 (#125 Boot assert: AUTH_ENABLE_TEST_LOGIN off in Production).
+**Now:** 9.3 `panelExtendedUntil` field + PUBLIC_COPY-safe copy. Do not set `CLOSE_AT`.
+**Last merged:** 9.2 (#127 Seat shows next minimum from standing + increment).
 
 ## Standing orders
 
@@ -140,8 +140,8 @@ If any gate fails: leave the PR unmerged and stop that slice.
 
 ## Wave 9 — auction mechanics, no capture
 
-- [ ] 9.1 Proxy max on an intent. Agent steps `$250` or `10%`. Still no card.
-- [ ] 9.2 Seat shows next minimum from standing + increment.
+- [x] 9.1 Proxy max on an intent. Agent steps `$250` or `10%`. Still no card. (#126)
+- [x] 9.2 Seat shows next minimum from standing + increment. (#127)
 - [ ] 9.3 `panelExtendedUntil` field + PUBLIC_COPY-safe copy. Do not set `CLOSE_AT`.
 - [ ] 9.4 Floor-save intent row: if short of $58,000, raise this seat to Y. Stored, not charged.
 - [ ] 9.5 Hide whole-truck control when pledged >= $120,000. Unit + Playwright lock.

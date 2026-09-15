@@ -13,6 +13,7 @@ import { SiteChrome } from "@/components/SiteChrome";
 import { auth } from "@/lib/auth";
 import { DEPOSIT_PERCENT, FLOOR_USD, GOAL_USD, PANELS, formatUsd, isEtchable } from "@/lib/campaign";
 import { comboLotFor } from "@/lib/combo-lots";
+import { minIncrementUsd } from "@/lib/intent";
 import { intentStatusClass, intentStatusLabel } from "@/lib/intent-labels";
 import {
   listBidsForPanel,
@@ -73,6 +74,8 @@ export default async function PanelIntentPage({
     (bid) => bid.status === "listed" || bid.status === "approved",
   );
   const seatOpen = !holder;
+  // Slice 9.2 — next minimum is standing + max($250, 10%) once a mark holds.
+  const incrementUsd = seatOpen ? 0 : minIncrementUsd(standing);
 
   return (
     <>
@@ -144,7 +147,14 @@ export default async function PanelIntentPage({
         <AdjacentNeighborsCard neighbors={adjacentNeighbors} />
         <NeighborComboCard lot={comboLotFor(panel.id)} />
 
-        <dl className="panel-stats" data-testid="panel-stats">
+        <dl
+          className="panel-stats"
+          data-testid="panel-stats"
+          data-seat-open={seatOpen ? "true" : "false"}
+          data-standing-usd={standing}
+          data-minimum-usd={minimum}
+          data-increment-usd={incrementUsd}
+        >
           <div>
             <dt>Opening</dt>
             <dd>{formatUsd(panel.openingUsd)}</dd>
@@ -158,12 +168,23 @@ export default async function PanelIntentPage({
             <dd data-testid="panel-minimum">{formatUsd(minimum)}</dd>
           </div>
           <div>
+            <dt>Increment</dt>
+            <dd data-testid="panel-increment">
+              {seatOpen ? "—" : formatUsd(incrementUsd)}
+            </dd>
+          </div>
+          <div>
             <dt>Deposit shown</dt>
             <dd data-testid="panel-deposit-shown">
               {DEPOSIT_PERCENT}% (not charged)
             </dd>
           </div>
         </dl>
+        <p className="auth-hint" data-testid="seat-next-minimum-rule">
+          {seatOpen
+            ? `Seat open — next minimum is the opening mark ${formatUsd(minimum)}. Still intent only — no card.`
+            : `Next minimum is standing + max($250, 10%) = ${formatUsd(minimum)}. Still intent only — no card.`}
+        </p>
 
         <p className="intent-banner" data-testid="intent-only-banner">
           Intent only. Amount does not charge. No Stripe capture. No close
