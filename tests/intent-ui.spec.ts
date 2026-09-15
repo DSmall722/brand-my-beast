@@ -539,6 +539,7 @@ test.describe("P2 panel intent + approvals", () => {
     const banner = outbidViewer.getByTestId("failed-winner-offer");
     await expect(banner).toBeVisible();
     await expect(banner).toContainText("outbid");
+    await expect(banner).toContainText("No silent reopen");
     await expect(
       outbidViewer.getByTestId("failed-winner-waitlist").getByRole("link", {
         name: "waitlist",

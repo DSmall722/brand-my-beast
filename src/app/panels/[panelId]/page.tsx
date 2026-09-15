@@ -257,9 +257,10 @@ export default async function PanelIntentPage({
               Offer mark {formatUsd(failedWinnerOffer.offerUsd)}
             </p>
             <p data-testid="failed-winner-waitlist">
-              Or stay on the <Link href="/#waitlist">waitlist</Link> for a
-              second look if this seat opens — still no card charge. Submit
-              below to accept the offer — no silent reopen.
+              You were outbid on this panel. Or stay on the{" "}
+              <Link href="/#waitlist">waitlist</Link> for a second look if this
+              seat opens — still no card charge. Submit below to accept the
+              offer — no silent reopen.
             </p>
           </aside>
         ) : null}
