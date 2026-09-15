@@ -1,7 +1,7 @@
 # BrandMyBeast — autonomous slice list
 
 CAMPAIGN.md wins money and identity. FEATURES.md is a catalog. **This file is the only build order.**
-Public homepage strings come from PUBLIC_COPY.md. Do not invent a warmer variant.
+PUBLIC_COPY.md wins public homepage wording. Do not invent a warmer variant.
 
 Updated: 2026-09-14
 
@@ -10,11 +10,12 @@ Updated: 2026-09-14
 - Next job = the first unchecked box, wave order. Do not skip. Do not start two boxes in one PR.
 - The PR that finishes a slice also flips that box `[ ]` → `[x]` and appends `(#NN)` on the same line.
 - Set **Now** and **Last merged** in this file in that same PR.
-- Do not add a new checkbox unless the human writes it here first. After Wave 6, idle on polish / a11y / verify-skill. Do not open Wave 7 from FEATURES.md.
+- Do not add a new checkbox unless the human writes it here first. After Wave 11, idle. Do not open Wave 12 from FEATURES.md.
 - A FEATURES.md row is not scheduled until it has a checkbox in this file.
 - Coordinator may merge a PR that finishes exactly one unchecked slice, Playwright is green, and the merge gates below hold.
+- Judge PRs from git + `npm test` + `npm run build`. Do not use brandmybeast.com as a gate while the Vercel usage hold is on.
 
-**Now:** idle (Wave 6 complete — polish / a11y / verify-skill).
+**Now:** 7.1 Split src/app/page.tsx into section components.
 **Last merged:** 6.15 (#105 Vercel main-only deploys.)
 
 ## Standing orders
@@ -27,6 +28,7 @@ Updated: 2026-09-14
 - Intents and waitlist persist in Postgres in Production. Memory store is CI only.
 - Hero truck is a bare stainless preview. Do not show wrap or etch as if the truck exists.
 - Visible copy on `/` must match PUBLIC_COPY.md. Do not rewrite the rewrite.
+- Vercel usage hold: do not add preview deploys, extra Vercel projects, or slices that only exist to inspect the live URL.
 - One PR = one slice. Title: `slice(N): <name>`.
 
 ## Human-only (do not start)
@@ -36,6 +38,7 @@ Updated: 2026-09-14
 - First campaign tweet from @BrandMyBeast
 - LLC paperwork
 - Moving Vercel nameservers
+- Clearing the Vercel usage hold / buying more credits
 
 ## Merge gate (all must be true)
 
@@ -56,74 +59,125 @@ If any gate fails: leave the PR unmerged and stop that slice.
 - [x] 0.4 Playwright contract: waitlist created/exists; invalid email 400. Production already returns 201 — do not regress. (#55)
 - [x] 0.5 prove-all.sh covers 0.1–0.4. CI red = merge nothing else. (#56)
 - [x] 0.6 GitHub Actions: Playwright on every PR. (#57)
-- [x] 0.7 Hero truck preview (layout A). Fill the empty mobile hero well with a bare stainless Cyberbeast still (side or 3-quarter). Keep the full-bleed dark hero. Wordmark + one lead line + two CTAs overlay the lower third (over bed/ground, not the cab). Truck is the first thing on a phone. Tap/click the truck goes to `#panels`. Do not show wrap or etch as delivered. Do not use Tesla marks, teslacyberbeast livery, a 48-state map, or a 3D configurator. Label it a preview of the board. No new homepage sections. Asset lives in the repo (`public/` or `src/app`), not a hotlinked Tesla CDN. After this ships, 6.9 is only residual clip-check. (#58)
-- [x] 0.8 Ship PUBLIC_COPY.md onto `/` verbatim. Replace telegram hero lines. Section order: hero, The numbers, The twelve panels, How it works, What etch actually is, Questions people actually ask, Get on the list, footer. Keep the 0.7 stainless still. Keep $58,000 / $120,000 / 20% / CLOSE_AT null / hello@brandmybeast.com. Do not invent a per-panel etch dollar. Do not add Cabin plaque or FEATURES boards. Playwright asserts H1 `Put your brand on a Cybertruck.`, etch section present, no lease, no close date. After merge, resume Wave 1 at 1.3. (#62)
-- [x] 0.9 Ship locked copy v2 from PUBLIC_COPY.md verbatim. H1 must be `Put your brand on the truck people already photograph.` Lead must be the three-beat line (twelve companies / one Cyberbeast / $58,000 or nobody pays). Kill public use of P3, pledged intent, and operator-finances. Keep stainless hero, $58,000 / $120,000 / 20% / CLOSE_AT null / hello@. No invented etch price. Playwright asserts the new H1 and `Notify me`. After merge, resume 6.6. (#95)
+- [x] 0.7 Hero truck preview (layout A). (#58)
+- [x] 0.8 Ship PUBLIC_COPY.md onto `/` verbatim. (#62)
+- [x] 0.9 Ship locked copy v2 from PUBLIC_COPY.md verbatim. H1 `Put your brand on the truck people already photograph.` (#95)
 
 ## Wave 1 — durable intent
 
-- [x] 1.1 Intent schema in Drizzle + push on Production. No memory in Production. (#59)
-- [x] 1.2 Signed-in user submits one intent per panel (brand, trade, amount >= opening). (#60)
+- [x] 1.1 Intent schema in Drizzle + push on Production. (#59)
+- [x] 1.2 Signed-in user submits one intent per panel. (#60)
 - [x] 1.3 Amount is intent only. Page says it does not charge. (#61)
-- [x] 1.4 One brand per trade. Challenger fights the same panel only. (#63)
+- [x] 1.4 One brand per trade. (#63)
 - [x] 1.5 Increment: next intent >= standing + max($250, 10%). (#64)
 - [x] 1.6 Outbid → previous status outbid + waitlist handoff. (#65)
-- [x] 1.7 /panels/[id] is the seat. Homepage cards link there. (#66)
+- [x] 1.7 /panels/[id] is the seat. (#66)
 - [x] 1.8 Public standing: brand + trade + amount. No bidder email public. (#67)
 
 ## Wave 2 — operator
 
-- [x] 2.1 /operator lists pending intents. Operator email allowlist from env. (#68)
+- [x] 2.1 /operator lists pending intents. (#68)
 - [x] 2.2 Approve lists the intent. Reject requires a note. (#69)
-- [x] 2.3 Banned trades hard-reject (porn, hate, scams, school-lot fail). (#70)
+- [x] 2.3 Banned trades hard-reject. (#70)
 - [x] 2.4 Approval thread on /account. (#71)
 - [x] 2.5 Operator UI cannot edit FLOOR_USD / GOAL_USD / CLOSE_AT. (#72)
 
 ## Wave 3 — mockup and art
 
-- [x] 3.1 Stainless compositor on the seat. Preview only. (#73)
+- [x] 3.1 Stainless compositor on the seat. (#73)
 - [x] 3.2 Etch controls disabled while raised < $120,000. (#74)
 - [x] 3.3 Highway-legibility checker. (#75)
 - [x] 3.4 Etch linter from RULES.md. (#76)
 - [x] 3.5 Artwork URL or upload on the intent. (#77)
-- [x] 3.6 Day/night/wet/dirty as toggles. Not proof photos of a truck that does not exist. (#78)
-- [x] 3.7 Side / front / rear views + SVG hotspots on the hero/seat truck (the old static prototype pattern). 360 later. Empty seats stay raw 30X. (#79)
+- [x] 3.6 Day/night/wet/dirty as toggles. (#78)
+- [x] 3.7 Side / front / rear views + SVG hotspots. (#79)
 
 ## Wave 4 — board honesty
 
-- [x] 4.1 Public “standing” = sum of approved intents. Label it pledged so far, not cash raised, until cards exist. (#80)
-- [x] 4.2 Shortfall ticker: dollars to floor, open seats. No impressions. (#81)
-- [x] 4.3 Vault marks at $58,000 and $120,000 on the bar only. (#82)
-- [x] 4.4 Wreck / refund FAQ uses PUBLIC_COPY.md + CAMPAIGN.md only. No invented legal terms. (#83)
-- [x] 4.5 Whole-truck $120,000 intent. Hide if field already at $120,000. (#84)
-- [x] 4.6 Category exclusivity copy on the seat. No public taxonomy list. (#85)
+- [x] 4.1 Public standing = sum of approved intents. (#80)
+- [x] 4.2 Shortfall ticker. (#81)
+- [x] 4.3 Vault marks at $58,000 and $120,000. (#82)
+- [x] 4.4 Wreck / refund FAQ. (#83)
+- [x] 4.5 Whole-truck $120,000 intent. (#84)
+- [x] 4.6 Category exclusivity copy on the seat. (#85)
 
 ## Wave 5 — accounts
 
-- [x] 5.1 Auth.js email magic link in Production via Resend. Test login is CI-only. (#86)
+- [x] 5.1 Auth.js email magic link. (#86)
 - [x] 5.2 /account shows my intents only. (#87)
-- [x] 5.3 Waitlist email can become an account without losing the row. (#88)
-- [x] 5.4 Partner shop view read-only. No header link on the public page. (#89)
+- [x] 5.3 Waitlist email can become an account. (#88)
+- [x] 5.4 Partner shop view read-only. (#89)
 
 ## Wave 6 — harden
 
-- [x] 6.1 Playwright: floor, buyout, etch lock, no lease, no personal handle. (#90)
-- [x] 6.2 Playwright: intent create / outbid / exclusivity / increment. (#91)
-- [x] 6.3 Playwright: operator approve / reject-with-note. (#92)
-- [x] 6.4 verify-brandmybeast feature map matches Waves 0–5. (#93)
-- [x] 6.5 Failure copy when DB is down. Never say joined if the write failed. (#94)
-- [x] 6.6 Rate-limit waitlist + intent POSTs. (#96)
-- [x] 6.7 No in-memory stores in Production. (#97)
-- [x] 6.8 Keyboard / labels / contrast on /, seat, operator. (#98)
-- [x] 6.9 Hero wordmark and truck still not clipped on mobile. (#99)
-- [x] 6.10 OG image and favicon, public brand only. (#100)
-- [x] 6.11 Playwright: homepage matches PUBLIC_COPY.md H1 `Put your brand on the truck people already photograph.` and waitlist button `Notify me`. (#101)
-- [x] 6.12 One ObsidianUI block on the hero primary CTA only. Init shadcn `components.json` if missing. Add exactly `arrow-fill-button` (`npx shadcn@latest add "https://www.obsidianui.dev/r/arrow-fill-button.json"`). Replace the hero `<a className="btn btn-signal" href="#waitlist">` with that component. Visible string stays `Get on the list` from PUBLIC_COPY.md. href stays `#waitlist`. Waitlist submit stays the existing form button `Notify me`. Convert the registry `.jsx` to `.tsx`. Restyle CSS tokens to current `globals.css` stainless / black — no purple kit palette. `prefers-reduced-motion: reduce` = no fill animation; the control stays a real link with a visible focus ring. Abort the PR if the JSON adds gsap, three, @react-three/*, or Lenis. Ban for this PR: hover-img, magnetic-image-trail, fractal-glass, book-flip, rope-cursor, butterfly-trail-cursor, colorful-cursor-aura, mask-cursor-effect, apple-spotlight, cursor trails. Do not add a homepage section. Do not rewrite PUBLIC_COPY, H1, lead, secondary CTA, panel cards, waitlist form, operator, or intent. Playwright: H1 from 0.9, `Notify me`, hero primary CTA text + href `#waitlist`, no lease, no personal handle. Title: `slice(6.12): obsidianui signal button`. (#102)
-- [x] 6.13 Branded not-found page. Add `src/app/not-found.tsx`. Study 404s.design for layout only — do not clone a gallery page or steal type. Dark stainless chrome, wordmark BrandMyBeast, one line `This page is not a panel.`, links Home (`/`) and `Get on the list` (`/#waitlist`). Footer strings from PUBLIC_COPY.md. Independent. Not Tesla. No lease, no close date, no personal handle, no street address, no wrap-as-delivered truck. No GSAP/Three/Lenis. Playwright: 404 status, those two links, no lease / no personal handle. Title: `slice(6.13): branded 404`. (#103)
-- [x] 6.14 Footer layout only. Study footer.design for stacking, not copy. Keep exact PUBLIC_COPY.md footer strings (`BrandMyBeast · @BrandMyBeast · hello@brandmybeast.com` and `Independent. Not Tesla.`). Mobile-stack the existing footer. No street address, no social grid, no sitemap dump, no new homepage section. Do not rewrite hero, waitlist, or panels. Depends on 6.8 contrast. Playwright: footer strings unchanged, no lease / no personal handle. Title: `slice(6.14): footer layout`. (#104)
-- [x] 6.15 Vercel main-only deploys. New root `vercel.json` with `git.deploymentEnabled` `"*": false`, `"main": true`. Feature branches must not create previews. `main` still auto-deploys. Do not change PUBLIC_COPY, hero, waitlist, panels, operator, intent, Stripe, or nameservers. Playwright still: H1 from 0.9, `Notify me`, no lease, no personal handle. Title: `slice(6.15): vercel main-only deploys`. (#105)
+- [x] 6.1–6.15 Complete through Vercel main-only deploys. (#90–#105)
 
-## After Wave 6
+## Wave 7 — code hygiene (Vercel hold: git + tests only)
 
-If you finish early: copy polish, a11y, test gaps, maintain the verify skill. Loop those.
-Do not open a Wave 7 from FEATURES.md. P3 (Stripe, clock, terms) waits for the human.
+- [ ] 7.1 Split `src/app/page.tsx` into section components. Visible strings stay in PUBLIC_COPY / `@/lib/public-copy`. Do not change H1, lead, money numbers, or add a homepage section. Playwright: H1 from 0.9, `Notify me`, no lease, no personal handle.
+- [ ] 7.2 `/api/plaque`, `/api/sighting`, `/api/event-request`, `/api/circuit-story` return 404 while `TRUCK_EXISTS` is false. Playwright covers 404.
+- [ ] 7.3 `/api/test/*` returns 404 when `VERCEL_ENV=production` or `NODE_ENV=production`. Test-mode still works in CI.
+- [ ] 7.4 Delete or Postgres-back leftover memory stores (plaque, sighting, circuit, content-rights). Production has no in-memory store. Same rule as 6.7.
+- [ ] 7.5 `/operator/waitlist` lists `waitlist_signups`. Auth + `OPERATOR_EMAILS`. No public header link. No export to X.
+- [ ] 7.6 Waitlist Resend path in code: notify `hello@` on insert. Tests mock Resend. Do not send live mail from the agent. Failure does not claim the visitor joined if the row write failed.
+- [ ] 7.7 Magic-link From is `BrandMyBeast <hello@brandmybeast.com>` in auth config. Playwright or unit assert on the from string.
+- [ ] 7.8 `/robots.txt` + `/sitemap.ts` include `/` and `/panels/*` only. `/operator` is not listed.
+- [ ] 7.9 `/privacy` and `/terms` stubs from CAMPAIGN.md + PUBLIC_COPY.md only. No invented legal terms. Footer links them.
+- [ ] 7.10 `layout.tsx` title and description match PUBLIC_COPY meta. Do not use the live tab as a gate.
+
+## Wave 8 — operator day
+
+- [ ] 8.1 Intent status emails: listed / outbid / approved / rejected+note. Tests mock Resend.
+- [ ] 8.2 Operator digest function + cron *route* in repo. Do not register a Vercel cron until the hold lifts.
+- [ ] 8.3 Operator filters: pending / approved / rejected / outbid.
+- [ ] 8.4 Operator CSV of waitlist + standing intents. Auth-gated.
+- [ ] 8.5 Artwork in Blob storage (or equivalent), not a data-URL column in Postgres.
+- [ ] 8.6 Shop PDF builder for an approved seat (panel, brand, wrap vs etch, art). No Imagine API call.
+- [ ] 8.7 Partner shop: approved seats + art only. Still no public header link.
+- [ ] 8.8 Operator ban-list table + hard-reject matching intents.
+- [ ] 8.9 Audit log rows on approve / reject (who, when, note id).
+- [ ] 8.10 Boot assert: `AUTH_ENABLE_TEST_LOGIN` cannot be on when `VERCEL_ENV=production`.
+
+## Wave 9 — auction mechanics, no capture
+
+- [ ] 9.1 Proxy max on an intent. Agent steps `$250` or `10%`. Still no card.
+- [ ] 9.2 Seat shows next minimum from standing + increment.
+- [ ] 9.3 `panelExtendedUntil` field + PUBLIC_COPY-safe copy. Do not set `CLOSE_AT`.
+- [ ] 9.4 Floor-save intent row: if short of $58,000, raise this seat to Y. Stored, not charged.
+- [ ] 9.5 Hide whole-truck control when pledged >= $120,000. Unit + Playwright lock.
+- [ ] 9.6 Failed-winner offer at last mark + one increment. No silent reopen.
+- [ ] 9.7 Withdraw intent while pending only. Approved needs operator.
+- [ ] 9.8 Edit brand / trade / art while pending only.
+- [ ] 9.9 Public seat log: amount + time. No bidder email.
+- [ ] 9.10 Playwright: pledged dollars = sum of approved standing only.
+
+## Wave 10 — compositor people will trust
+
+- [ ] 10.1 Hero / hotspot links go to `/panels/[id]`, not only `#panels`.
+- [ ] 10.2 Seat compositor renders the standing brand, not only a typed preview.
+- [ ] 10.3 Etch toggle disabled unless pledged >= $120,000. Playwright on the seat.
+- [ ] 10.4 Mockup queue row. No billable Imagine call.
+- [ ] 10.5 Wrap vs etch labels from PUBLIC_COPY only. No “permanent vinyl.”
+- [ ] 10.6 Export one PNG per seat (auth-gated server route).
+- [ ] 10.7 Mobile compositor: one view at a time. Playwright 390px, wordmark not clipped.
+- [ ] 10.8 Every truck `<img>` alt comes from PUBLIC_COPY.
+- [ ] 10.9 Panel cards show standing brand or “Open.”
+- [ ] 10.10 Neighbor combo is display only. Test there is no invented combo price.
+
+## Wave 11 — harden in repo
+
+- [ ] 11.1 CSP / security headers in `next.config`.
+- [ ] 11.2 Rate-limit magic-link POST.
+- [ ] 11.3 verify-brandmybeast feature map covers Waves 7–10.
+- [ ] 11.4 Playwright: 50 unique waitlist inserts in memory mode, no 500s.
+- [ ] 11.5 Operator status panel: DB ping + waitlist count. No public URL.
+- [ ] 11.6 Neon PITR runbook markdown in repo. No dashboard clicks.
+- [ ] 11.7 a11y: reject-note required announced; waitlist errors linked to the field.
+- [ ] 11.8 Pre-P3 checklist component on `/operator` (LLC, terms, Resend, Stripe not wired). Checkboxes do not set CLOSE_AT.
+- [ ] 11.9 `vercel.json` stays main-only. Do not add preview deploys or extra projects.
+- [ ] 11.10 BLOCKED until the human clears the Vercel usage hold. Slice is a repo note only: “redeploy when the hold lifts.” No app change. No Stripe. No CLOSE_AT.
+
+## After Wave 11
+
+Idle on polish / a11y / verify-skill. Do not open Wave 12 from FEATURES.md.
+P3 (Stripe, clock, terms signed, first tweet) waits for the human.
