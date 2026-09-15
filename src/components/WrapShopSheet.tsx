@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { IntentArtworkPreview } from "@/components/IntentArtworkPreview";
 import {
   FLOOR_USD,
   GOAL_USD,
@@ -9,6 +10,10 @@ import {
 import type { IntentBid } from "@/lib/intent";
 import { shopPdfPath } from "@/lib/shop-pdf";
 
+/**
+ * Slice 8.7 — partner shop shows approved seats + art only.
+ * No twelve-panel matrix. No public header link (HomeHeader).
+ */
 export function WrapShopSheet({
   approved,
 }: {
@@ -42,42 +47,12 @@ export function WrapShopSheet({
       </section>
 
       <section
-        className="wrap-shop-matrix"
-        aria-labelledby="wrap-shop-matrix-title"
-        data-testid="wrap-shop-matrix"
-      >
-        <h2 id="wrap-shop-matrix-title" className="auth-subhead">
-          Twelve-panel wrap matrix
-        </h2>
-        <ul className="wrap-shop-matrix-list">
-          {PANELS.map((panel) => (
-            <li
-              key={panel.id}
-              className="wrap-shop-matrix-row"
-              data-testid={`wrap-matrix-${panel.id}`}
-            >
-              <Link href={`/panels/${panel.id}`}>{panel.name}</Link>
-              <span className="auth-hint">{formatUsd(panel.openingUsd)}</span>
-              <span
-                className="badge badge-finish"
-                data-testid={`wrap-matrix-finish-${panel.id}`}
-              >
-                {isEtchable(panel)
-                  ? `Wrap · etchable at ${formatUsd(GOAL_USD)}`
-                  : "Wrap only"}
-              </span>
-            </li>
-          ))}
-        </ul>
-      </section>
-
-      <section
         className="wrap-shop-approved"
         aria-labelledby="wrap-shop-approved-title"
         data-testid="wrap-shop-approved"
       >
         <h2 id="wrap-shop-approved-title" className="auth-subhead">
-          Approved wrap seats
+          Approved seats + art
         </h2>
         {approved.length === 0 ? (
           <p className="empty-state" data-testid="wrap-shop-approved-empty">
@@ -90,6 +65,7 @@ export function WrapShopSheet({
           >
             {approved.map((bid) => {
               const panel = PANELS.find((row) => row.id === bid.panelId);
+              const etchable = panel ? isEtchable(panel) : false;
               return (
                 <li
                   key={bid.id}
@@ -110,6 +86,27 @@ export function WrapShopSheet({
                       {formatUsd(bid.standingUsd)}
                     </span>
                   </div>
+                  <p
+                    className="auth-hint"
+                    data-testid={`wrap-approved-finish-${bid.id}`}
+                  >
+                    {etchable
+                      ? `Wrap · etchable at ${formatUsd(GOAL_USD)}`
+                      : "Wrap only"}
+                  </p>
+                  {bid.artworkUrl ? (
+                    <IntentArtworkPreview
+                      artworkUrl={bid.artworkUrl}
+                      bidId={bid.id}
+                    />
+                  ) : (
+                    <p
+                      className="auth-hint"
+                      data-testid={`wrap-approved-no-art-${bid.id}`}
+                    >
+                      No artwork attached.
+                    </p>
+                  )}
                   <p className="auth-hint">
                     Approved — wrap sheet only.{" "}
                     <a
