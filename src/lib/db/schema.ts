@@ -62,6 +62,18 @@ export const artworkBlobs = pgTable("artwork_blobs", {
 });
 
 /**
+ * Slice 8.8 — operator-managed ban patterns (additive to static banned-trades).
+ */
+export const operatorBanList = pgTable("operator_ban_list", {
+  id: text("id").primaryKey(),
+  pattern: text("pattern").notNull().unique(),
+  note: text("note").notNull().default(""),
+  createdAt: timestamp("created_at", { withTimezone: true })
+    .defaultNow()
+    .notNull(),
+});
+
+/**
  * Auth.js / Drizzle adapter tables (Resend magic link in live mode).
  * JWT sessions stay on; these rows hold users + email verification tokens.
  */
@@ -123,3 +135,5 @@ export type IntentBidRow = typeof intentBids.$inferSelect;
 export type NewIntentBidRow = typeof intentBids.$inferInsert;
 export type ArtworkBlobRow = typeof artworkBlobs.$inferSelect;
 export type NewArtworkBlobRow = typeof artworkBlobs.$inferInsert;
+export type OperatorBanListRow = typeof operatorBanList.$inferSelect;
+export type NewOperatorBanListRow = typeof operatorBanList.$inferInsert;

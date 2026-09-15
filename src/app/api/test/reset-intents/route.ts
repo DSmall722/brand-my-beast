@@ -6,6 +6,7 @@ import { resetCircuitStoryStoreForTests } from "@/lib/circuit-story-store";
 import { resetContentRightsStoreForTests } from "@/lib/content-rights-store";
 import { resetIntentStoreForTests } from "@/lib/intent-store";
 import { resetMockupStoreForTests } from "@/lib/mockup-store";
+import { resetOperatorBanListForTests } from "@/lib/operator-ban-list";
 import { resetRateLimitForTests } from "@/lib/rate-limit";
 import { resetSightingStoreForTests } from "@/lib/sighting-store";
 import { testApiBlockedResponse } from "@/lib/test-api-gate";
@@ -20,6 +21,7 @@ export async function POST() {
   }
   await resetIntentStoreForTests();
   resetArtworkBlobStoreForTests();
+  resetOperatorBanListForTests();
   await resetMockupStoreForTests();
   await resetApprovalNoteStoreForTests();
   await resetCabinPlaqueStoreForTests();
