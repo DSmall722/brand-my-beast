@@ -8,6 +8,7 @@ import {
   getApprovalNote,
   saveApprovalNote,
 } from "@/lib/approval-note-store";
+import { appendOperatorAuditLog } from "@/lib/operator-audit-log";
 import { parseIntentArtwork } from "@/lib/intent-artwork";
 import {
   placeIntentBid,
@@ -100,12 +101,23 @@ export async function decideIntentBid(
   const result = await setIntentStatus(bidId, decision, { note });
   if (!result.ok) return { ok: false, error: result.error };
 
+  let noteId: string | null = null;
   if (note.trim() || decision === "rejected") {
-    await saveApprovalNote({ bidId, decision, note });
+    const saved = await saveApprovalNote({ bidId, decision, note });
+    noteId = saved.id;
   }
+
+  await appendOperatorAuditLog({
+    bidId,
+    decision,
+    actorEmail: session.user.email,
+    actorUserId: session.user.id ?? null,
+    noteId,
+  });
 
   revalidatePath("/operator");
   revalidatePath("/operator/approvals");
+  revalidatePath("/operator/audit");
   revalidatePath(`/panels/${result.bid.panelId}`);
   revalidatePath("/account");
   return { ok: true, message: `Bid ${decision}.` };

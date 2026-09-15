@@ -74,6 +74,25 @@ export const operatorBanList = pgTable("operator_ban_list", {
 });
 
 /**
+ * Slice 8.9 — audit log on approve / reject (who, when, note id).
+ */
+export const operatorAuditLog = pgTable(
+  "operator_audit_log",
+  {
+    id: text("id").primaryKey(),
+    bidId: text("bid_id").notNull(),
+    decision: text("decision").notNull(),
+    actorEmail: text("actor_email").notNull(),
+    actorUserId: text("actor_user_id"),
+    noteId: text("note_id"),
+    createdAt: timestamp("created_at", { withTimezone: true })
+      .defaultNow()
+      .notNull(),
+  },
+  (table) => [index("operator_audit_log_created_at_idx").on(table.createdAt)],
+);
+
+/**
  * Auth.js / Drizzle adapter tables (Resend magic link in live mode).
  * JWT sessions stay on; these rows hold users + email verification tokens.
  */
@@ -137,3 +156,5 @@ export type ArtworkBlobRow = typeof artworkBlobs.$inferSelect;
 export type NewArtworkBlobRow = typeof artworkBlobs.$inferInsert;
 export type OperatorBanListRow = typeof operatorBanList.$inferSelect;
 export type NewOperatorBanListRow = typeof operatorBanList.$inferInsert;
+export type OperatorAuditLogRow = typeof operatorAuditLog.$inferSelect;
+export type NewOperatorAuditLogRow = typeof operatorAuditLog.$inferInsert;

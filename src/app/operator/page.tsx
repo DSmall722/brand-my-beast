@@ -114,6 +114,10 @@ export default async function OperatorPage({
             Ban list
           </Link>
           {" · "}
+          <Link href="/operator/audit" data-testid="operator-audit-link">
+            Audit log
+          </Link>
+          {" · "}
           <a
             href={OPERATOR_CSV_PATH}
             data-testid="operator-csv-download"

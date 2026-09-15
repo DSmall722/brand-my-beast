@@ -15,8 +15,8 @@ Updated: 2026-09-15
 - Coordinator may merge a PR that finishes exactly one unchecked slice, Playwright is green, and the merge gates below hold.
 - Judge PRs from git + `npm test` + `npm run build`. Do not use brandmybeast.com as a gate while the Vercel usage hold is on.
 
-**Now:** 8.9 Audit log rows on approve / reject (who, when, note id).
-**Last merged:** 8.8 (#123 Operator ban-list table + hard-reject matching intents).
+**Now:** 8.10 Boot assert: `AUTH_ENABLE_TEST_LOGIN` cannot be on when `VERCEL_ENV=production`.
+**Last merged:** 8.9 (#124 Audit log rows on approve / reject).
 
 ## Standing orders
 
@@ -135,7 +135,7 @@ If any gate fails: leave the PR unmerged and stop that slice.
 - [x] 8.6 Shop PDF builder for an approved seat (panel, brand, wrap vs etch, art). No Imagine API call. (#121)
 - [x] 8.7 Partner shop: approved seats + art only. Still no public header link. (#122)
 - [x] 8.8 Operator ban-list table + hard-reject matching intents. (#123)
-- [ ] 8.9 Audit log rows on approve / reject (who, when, note id).
+- [x] 8.9 Audit log rows on approve / reject (who, when, note id). (#124)
 - [ ] 8.10 Boot assert: `AUTH_ENABLE_TEST_LOGIN` cannot be on when `VERCEL_ENV=production`.
 
 ## Wave 9 — auction mechanics, no capture

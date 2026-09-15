@@ -7,10 +7,12 @@ import {
   addBanRule,
   matchesBanPattern,
 } from "@/lib/operator-ban-list";
+import { appendOperatorAuditLog } from "@/lib/operator-audit-log";
 import {
   listBidsWithStatus,
   setIntentStatus,
 } from "@/lib/intent-store";
+import { saveApprovalNote } from "@/lib/approval-note-store";
 
 export type BanListActionState = {
   ok: boolean;
@@ -41,15 +43,29 @@ export async function submitBanRule(
     if (
       matchesBanPattern(bid.brandLabel, bid.tradeLabel, result.rule.pattern)
     ) {
-      const status = await setIntentStatus(bid.id, "rejected", {
-        note: `Hard-reject: ban-list “${result.rule.pattern}”.`,
-      });
-      if (status.ok) rejected += 1;
+      const note = `Hard-reject: ban-list “${result.rule.pattern}”.`;
+      const status = await setIntentStatus(bid.id, "rejected", { note });
+      if (status.ok) {
+        const saved = await saveApprovalNote({
+          bidId: bid.id,
+          decision: "rejected",
+          note,
+        });
+        await appendOperatorAuditLog({
+          bidId: bid.id,
+          decision: "rejected",
+          actorEmail: session.user.email,
+          actorUserId: session.user.id ?? null,
+          noteId: saved.id,
+        });
+        rejected += 1;
+      }
     }
   }
 
   revalidatePath("/operator");
   revalidatePath("/operator/ban-list");
+  revalidatePath("/operator/audit");
   return {
     ok: true,
     message:
