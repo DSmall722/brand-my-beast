@@ -1,7 +1,11 @@
 import { NextResponse } from "next/server";
 import { submitCircuitStoryRequest } from "@/lib/circuit-story-store";
+import { truckMissingResponse } from "@/lib/truck-gate";
 
 export async function POST(request: Request) {
+  const missing = truckMissingResponse();
+  if (missing) return missing;
+
   let body: unknown;
   try {
     body = await request.json();
