@@ -171,6 +171,18 @@ export const PUBLIC_COPY = {
     rateLimited:
       "Too many intent attempts. No new intent was listed. Wait a moment and try again.",
   },
+  /**
+   * Slice 9.3 — per-seat soft-close extension. Never a campaign CLOSE_AT.
+   * Not a homepage PUBLIC_COPY.md section.
+   */
+  panelExtension: {
+    heading: "Soft-close extension",
+    unset:
+      "This seat is not on a soft-close extension. Bidding is not open. This page does not charge cards.",
+    setLead: "This seat's soft-close window runs until",
+    setTail:
+      "That is a seat extension only — not a campaign close date. This page does not charge cards.",
+  },
   footer: {
     line: "BrandMyBeast · @BrandMyBeast · hello@brandmybeast.com",
     independent: "Independent. Not Tesla.",

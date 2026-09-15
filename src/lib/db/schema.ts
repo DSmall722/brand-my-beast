@@ -95,6 +95,14 @@ export const operatorAuditLog = pgTable(
 );
 
 /**
+ * Slice 9.3 — per-panel soft-close extension. Not a campaign CLOSE_AT.
+ */
+export const panelExtensions = pgTable("panel_extensions", {
+  panelId: text("panel_id").primaryKey(),
+  extendedUntil: timestamp("extended_until", { withTimezone: true }),
+});
+
+/**
  * Auth.js / Drizzle adapter tables (Resend magic link in live mode).
  * JWT sessions stay on; these rows hold users + email verification tokens.
  */
@@ -160,3 +168,5 @@ export type OperatorBanListRow = typeof operatorBanList.$inferSelect;
 export type NewOperatorBanListRow = typeof operatorBanList.$inferInsert;
 export type OperatorAuditLogRow = typeof operatorAuditLog.$inferSelect;
 export type NewOperatorAuditLogRow = typeof operatorAuditLog.$inferInsert;
+export type PanelExtensionRow = typeof panelExtensions.$inferSelect;
+export type NewPanelExtensionRow = typeof panelExtensions.$inferInsert;
