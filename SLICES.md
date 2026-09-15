@@ -3,14 +3,14 @@
 CAMPAIGN.md wins money and identity. FEATURES.md is a catalog. **This file is the only build order.**
 PUBLIC_COPY.md wins public homepage wording. Do not invent a warmer variant.
 
-Updated: 2026-09-14
+Updated: 2026-09-15
 
 ## How this file stays alive
 
 - Next job = the first unchecked box, wave order. Do not skip. Do not start two boxes in one PR.
 - The PR that finishes a slice also flips that box `[ ]` → `[x]` and appends `(#NN)` on the same line.
 - Set **Now** and **Last merged** in this file in that same PR.
-- Do not add a new checkbox unless the human writes it here first. After Wave 11, idle. Do not open Wave 12 from FEATURES.md.
+- Do not add a new checkbox unless the human writes it here first. After Wave 12, idle. Do not open Wave 13 from FEATURES.md.
 - A FEATURES.md row is not scheduled until it has a checkbox in this file.
 - Coordinator may merge a PR that finishes exactly one unchecked slice, Playwright is green, and the merge gates below hold.
 - Judge PRs from git + `npm test` + `npm run build`. Do not use brandmybeast.com as a gate while the Vercel usage hold is on.
@@ -177,7 +177,76 @@ If any gate fails: leave the PR unmerged and stop that slice.
 - [ ] 11.9 `vercel.json` stays main-only. Do not add preview deploys or extra projects.
 - [ ] 11.10 BLOCKED until the human clears the Vercel usage hold. Slice is a repo note only: “redeploy when the hold lifts.” No app change. No Stripe. No CLOSE_AT.
 
-## After Wave 11
+## Wave 12 — money-ready without charging
 
-Idle on polish / a11y / verify-skill. Do not open Wave 12 from FEATURES.md.
+Human locked 2026-09-15. Do not start Wave 12 until 11.10 is checked or skipped by the human. No Stripe. No CLOSE_AT. No tweet. No live URL gate.
+
+### Ledger / races
+
+- [ ] 12.1 Place + outbid + approve in one DB transaction. No double standing on a panel.
+- [ ] 12.2 Optimistic lock on `intent_bids.updatedAt`. Second writer gets a typed error.
+- [ ] 12.3 Unique partial index: one `approved` row per `panelId`.
+- [ ] 12.4 Idempotency key on intent POST. Replay does not double-list.
+- [ ] 12.5 `depositUsd` always `round(standing * 0.20)` in one helper. Playwright lock.
+- [ ] 12.6 Reject standing that is not an integer dollar.
+- [ ] 12.7 Normalize trade strings (trim, collapse space, casefold) before exclusivity check.
+- [ ] 12.8 Intent revision table: brand/trade/amount/art changes with timestamps.
+- [ ] 12.9 Soft-delete withdrawn rows. Never hard-delete an approved bid.
+- [ ] 12.10 Seed script: 12 open panels, zero standing. CI only.
+
+### Mail / identity
+
+- [ ] 12.11 Email templates as files under `src/emails/`. No inline HTML in actions.
+- [ ] 12.12 Dead-letter table for failed Resend sends. Operator can retry.
+- [ ] 12.13 Unsubscribe + physical address line on every mail (CAN-SPAM stub).
+- [ ] 12.14 Waitlist double-opt-in token. List stays “intent to be notified.”
+- [ ] 12.15 Account export JSON (my intents + waitlist row). Auth-gated.
+- [ ] 12.16 Account delete: anonymize user id on bids, keep public standing amounts.
+- [ ] 12.17 Sign-in page copy from PUBLIC_COPY. No “test login” string in live mode.
+- [ ] 12.18 Session max-age documented + idle timeout copy on `/account`.
+- [ ] 12.19 Magic-link consumed-once test.
+- [ ] 12.20 From/reply-to both `hello@brandmybeast.com`. Unit assert.
+
+### Winner + shop, still no VIN
+
+- [ ] 12.21 `/account/wins` lists only *approved* standing seats for that user.
+- [ ] 12.22 Winner packet markdown: panel, brand, wrap vs etch, 12-month term.
+- [ ] 12.23 Shop cut-file checklist (vector, bleed, etch 1-color) as a form, not a card on `/`.
+- [ ] 12.24 Partner can mark art `shop-ready` / `needs-fix`. Bidder sees it on `/account`.
+- [ ] 12.25 Contract markdown template from CAMPAIGN wreck rules. Not a signature product.
+- [ ] 12.26 Deposit preview on the seat: “20% of this mark is $X. Not charged.”
+- [ ] 12.27 Opening-bid rationale one-liner on the seat from RULES.md only.
+- [ ] 12.28 Operator cannot approve etch finish while pledged < $120,000.
+- [ ] 12.29 Whole-truck intent cannot stack on a panel that already has approved standing.
+- [ ] 12.30 Ban-list match is logged with the rule id (ties to 8.8).
+
+### Public surface
+
+- [ ] 12.31 JSON-LD `Organization` + `Offer` on `/` from PUBLIC_COPY. No impression claims.
+- [ ] 12.32 Canonical URL `https://brandmybeast.com`.
+- [ ] 12.33 Print stylesheet for `/panels/[id]` (shop packet).
+- [ ] 12.34 Error boundary + branded 500 that is not a panel.
+- [ ] 12.35 Strip `console.log` from `src/` except test helpers.
+- [ ] 12.36 `globals.css` split: tokens / hero / board. No copy change.
+- [ ] 12.37 Prefetch `/panels/*` from homepage cards.
+- [ ] 12.38 Focus restore after waitlist submit.
+- [ ] 12.39 `/signin/check-email` uses PUBLIC_COPY success line.
+- [ ] 12.40 Remove dead vapor components from the production bundle if `TRUCK_EXISTS` is false (tree-shake or do not import).
+
+### Ops
+
+- [ ] 12.41 Structured log line on waitlist insert + intent status change. No PII beyond email hash.
+- [ ] 12.42 `/operator/health` last-migration name from Drizzle (builds on 11.5).
+- [ ] 12.43 Drizzle migrate runbook in repo (`drizzle/` + command). No dashboard.
+- [ ] 12.44 Backup restore drill doc (Neon PITR) next to 11.6.
+- [ ] 12.45 Playwright: concurrent two bidders on hood, only one approved standing.
+- [ ] 12.46 Playwright: reject without note fails; with note succeeds.
+- [ ] 12.47 Verify-skill map for Wave 12.
+- [ ] 12.48 `package.json` license + engines. No new runtime.
+- [ ] 12.49 SECURITY.md: report to `hello@`. No personal inbox.
+- [ ] 12.50 Pre-P3 freeze tag `intent-complete`. Does not set `CLOSE_AT`. Does not add Stripe.
+
+## After Wave 12
+
+Idle on polish / a11y / verify-skill. Do not open Wave 13 from FEATURES.md.
 P3 (Stripe, clock, terms signed, first tweet) waits for the human.
