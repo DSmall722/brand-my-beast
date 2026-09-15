@@ -5,25 +5,40 @@ import {
   normalizeCircuitStoryNote,
   type CircuitStoryRequest,
 } from "./circuit-story";
+import {
+  leftoverStoreUnavailableError,
+  leftoverStoreUsesMemory,
+} from "./leftover-store-mode";
 
 export type SubmitCircuitStoryResult =
   | { ok: true; status: "created" | "exists"; request: CircuitStoryRequest }
-  | { ok: false; error: string; code: "invalid" };
+  | { ok: false; error: string; code: "invalid" | "unavailable" };
 
 const globalForStories = globalThis as typeof globalThis & {
   __bmbCircuitStories?: Map<string, CircuitStoryRequest>;
 };
 
 function storyMap(): Map<string, CircuitStoryRequest> {
+  if (!leftoverStoreUsesMemory()) {
+    throw leftoverStoreUnavailableError("Circuit story store");
+  }
   if (!globalForStories.__bmbCircuitStories) {
     globalForStories.__bmbCircuitStories = new Map();
   }
   return globalForStories.__bmbCircuitStories;
 }
 
+/** Exported for Playwright / unit gates (slice 7.4). */
+export function circuitStoryStoreUsesMemory(
+  env?: Parameters<typeof leftoverStoreUsesMemory>[0],
+): boolean {
+  return leftoverStoreUsesMemory(env);
+}
+
 export async function listCircuitStoryRequests(): Promise<
   CircuitStoryRequest[]
 > {
+  if (!leftoverStoreUsesMemory()) return [];
   return [...storyMap().values()].sort((a, b) =>
     b.createdAt.localeCompare(a.createdAt),
   );
@@ -34,6 +49,15 @@ export async function submitCircuitStoryRequest(input: {
   corridorId: string;
   note?: string;
 }): Promise<SubmitCircuitStoryResult> {
+  if (!leftoverStoreUsesMemory()) {
+    return {
+      ok: false,
+      error:
+        "Circuit story requests are unavailable until the truck store is durable.",
+      code: "unavailable",
+    };
+  }
+
   if (!circuitStoryEmailIsValid(input.email)) {
     return {
       ok: false,
@@ -70,5 +94,6 @@ export async function submitCircuitStoryRequest(input: {
 }
 
 export async function resetCircuitStoryStoreForTests(): Promise<void> {
+  if (!leftoverStoreUsesMemory()) return;
   storyMap().clear();
 }
