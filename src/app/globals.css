@@ -2080,6 +2080,27 @@ a {
   color: var(--steel-400);
 }
 
+.operator-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.65rem 1rem;
+  margin: 0 0 1.25rem;
+}
+
+.operator-filter-link {
+  color: var(--steel-300);
+  text-decoration: underline;
+  text-decoration-color: color-mix(in oklab, var(--signal) 35%, transparent);
+  text-underline-offset: 0.15em;
+  font-size: 0.95rem;
+}
+
+.operator-filter-link.is-active {
+  color: white;
+  text-decoration-color: var(--signal);
+  font-weight: 600;
+}
+
 .operator-campaign-locks {
   margin: 0 0 1.25rem;
   padding: 0.85rem 1rem;
