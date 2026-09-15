@@ -1,6 +1,6 @@
 /**
  * Artwork attachment on an intent mark — URL or small image upload.
- * Parsed at the action boundary. Stored as one string on the bid.
+ * Parsed at the action boundary. Ledger stores http(s) or blob path only (slice 8.5).
  */
 
 /** ~90KB binary ceiling once base64-expanded. */
@@ -70,5 +70,8 @@ export function parseIntentArtwork(input: {
 }
 
 export function artworkIsUpload(artworkUrl: string): boolean {
-  return artworkUrl.startsWith("data:image/");
+  return (
+    artworkUrl.startsWith("data:image/") ||
+    artworkUrl.startsWith("/api/artwork/")
+  );
 }
