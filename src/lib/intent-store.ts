@@ -140,6 +140,27 @@ export async function listBidsForPanel(panelId: string): Promise<IntentBid[]> {
   return rows.map(rowToBid);
 }
 
+/** Lookup one intent by id — shop PDF and operator tools. */
+export async function getIntentBidById(
+  bidId: string,
+): Promise<IntentBid | null> {
+  if (!bidId) return null;
+  if (useMemoryStore()) {
+    return memoryBids().find((bid) => bid.id === bidId) ?? null;
+  }
+  const db = getDb();
+  if (!db) {
+    throw new Error("Intent ledger requires DATABASE_URL.");
+  }
+  const rows = await db
+    .select()
+    .from(intentBids)
+    .where(eq(intentBids.id, bidId))
+    .limit(1);
+  const row = rows[0];
+  return row ? rowToBid(row) : null;
+}
+
 export async function listBidsPendingApproval(): Promise<IntentBid[]> {
   if (useMemoryStore()) {
     return memoryBids()

@@ -7,6 +7,7 @@ import {
   isEtchable,
 } from "@/lib/campaign";
 import type { IntentBid } from "@/lib/intent";
+import { shopPdfPath } from "@/lib/shop-pdf";
 
 export function WrapShopSheet({
   approved,
@@ -109,7 +110,15 @@ export function WrapShopSheet({
                       {formatUsd(bid.standingUsd)}
                     </span>
                   </div>
-                  <p className="auth-hint">Approved — wrap sheet only.</p>
+                  <p className="auth-hint">
+                    Approved — wrap sheet only.{" "}
+                    <a
+                      href={shopPdfPath(bid.id)}
+                      data-testid={`wrap-shop-pdf-${bid.id}`}
+                    >
+                      Download seat PDF
+                    </a>
+                  </p>
                 </li>
               );
             })}
