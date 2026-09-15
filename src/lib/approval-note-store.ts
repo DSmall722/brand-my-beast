@@ -4,6 +4,7 @@
  */
 
 export type ApprovalNote = {
+  id: string;
   bidId: string;
   decision: "approved" | "rejected";
   note: string;
@@ -44,6 +45,7 @@ export async function saveApprovalNote(input: {
   note: string;
 }): Promise<ApprovalNote> {
   const row: ApprovalNote = {
+    id: crypto.randomUUID(),
     bidId: input.bidId,
     decision: input.decision,
     note: input.note.trim(),
