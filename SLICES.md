@@ -127,7 +127,7 @@ If any gate fails: leave the PR unmerged and stop that slice.
 
 ## Wave 8 — operator day
 
-- [x] 8.1 Intent status emails: listed / outbid / approved / rejected+note. Tests mock Resend.
+- [x] 8.1 Intent status emails: listed / outbid / approved / rejected+note. Tests mock Resend. (#116)
 - [ ] 8.2 Operator digest function + cron *route* in repo. Do not register a Vercel cron until the hold lifts.
 - [ ] 8.3 Operator filters: pending / approved / rejected / outbid.
 - [ ] 8.4 Operator CSV of waitlist + standing intents. Auth-gated.
