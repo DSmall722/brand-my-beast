@@ -1,4 +1,4 @@
-import { eq } from "drizzle-orm";
+import { desc, eq } from "drizzle-orm";
 import { z } from "zod";
 import { BRAND } from "./campaign";
 import { getDb } from "./db";
@@ -225,6 +225,33 @@ export async function attachWaitlistAccount(input: {
 
   const refreshed = await getWaitlistByEmail(email);
   return refreshed;
+}
+
+/**
+ * Slice 7.5 — operator waitlist board. Newest first.
+ * Memory in CI/local; Postgres when configured. Never tweets / exports to X.
+ */
+export async function listWaitlistSignups(): Promise<WaitlistRow[]> {
+  if (useMemoryStore()) {
+    return [...memoryStore().values()].sort((a, b) =>
+      b.createdAt.localeCompare(a.createdAt),
+    );
+  }
+
+  const db = getDb();
+  if (!db) return [];
+
+  const rows = await db
+    .select()
+    .from(waitlistSignups)
+    .orderBy(desc(waitlistSignups.createdAt));
+
+  return rows.map((row) => ({
+    email: row.email,
+    createdAt: row.createdAt.toISOString(),
+    userId: row.userId ?? null,
+    source: row.source,
+  }));
 }
 
 /** CI helper — clear memory waitlist only. */

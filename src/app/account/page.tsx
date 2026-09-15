@@ -258,13 +258,22 @@ export default async function AccountPage() {
             Browse panels
           </Link>
           {operator ? (
-            <Link
-              className="btn btn-ghost"
-              href="/operator"
-              data-testid="account-approvals-link"
-            >
-              Intent approvals
-            </Link>
+            <>
+              <Link
+                className="btn btn-ghost"
+                href="/operator"
+                data-testid="account-approvals-link"
+              >
+                Intent approvals
+              </Link>
+              <Link
+                className="btn btn-ghost"
+                href="/operator/waitlist"
+                data-testid="account-waitlist-link"
+              >
+                Waitlist signups
+              </Link>
+            </>
           ) : null}
           {shopPartner ? (
             <Link
