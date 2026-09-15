@@ -142,6 +142,22 @@ export function IntentBidForm({
         Next intent must be at least standing + max($250, 10%). The minimum
         above already applies that floor.
       </p>
+      <label className="auth-label" htmlFor="proxyMaxUsd">
+        Proxy max (USD, optional)
+      </label>
+      <input
+        id="proxyMaxUsd"
+        name="proxyMaxUsd"
+        type="number"
+        min={minimumUsd}
+        step={1}
+        data-testid="intent-proxy-max"
+        className="auth-input"
+      />
+      <p className="auth-hint" data-testid="intent-proxy-note">
+        Optional ceiling. If outbid, the agent steps standing + max($250, 10%)
+        up to this max. Still intent only — no card on P2.
+      </p>
 
       <fieldset
         className="intent-artwork-fields"
