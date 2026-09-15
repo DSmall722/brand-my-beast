@@ -4,23 +4,38 @@ import {
   plaqueNameIsValid,
   type CabinPlaqueLine,
 } from "./cabin-plaque";
+import {
+  leftoverStoreUnavailableError,
+  leftoverStoreUsesMemory,
+} from "./leftover-store-mode";
 
 export type ReservePlaqueResult =
   | { ok: true; status: "created" | "exists"; line: CabinPlaqueLine }
-  | { ok: false; error: string; code: "invalid" };
+  | { ok: false; error: string; code: "invalid" | "unavailable" };
 
 const globalForPlaque = globalThis as typeof globalThis & {
   __bmbCabinPlaques?: Map<string, CabinPlaqueLine>;
 };
 
 function plaqueMap(): Map<string, CabinPlaqueLine> {
+  if (!leftoverStoreUsesMemory()) {
+    throw leftoverStoreUnavailableError("Cabin plaque store");
+  }
   if (!globalForPlaque.__bmbCabinPlaques) {
     globalForPlaque.__bmbCabinPlaques = new Map();
   }
   return globalForPlaque.__bmbCabinPlaques;
 }
 
+/** Exported for Playwright / unit gates (slice 7.4). */
+export function cabinPlaqueStoreUsesMemory(
+  env?: Parameters<typeof leftoverStoreUsesMemory>[0],
+): boolean {
+  return leftoverStoreUsesMemory(env);
+}
+
 export async function listCabinPlaqueLines(): Promise<CabinPlaqueLine[]> {
+  if (!leftoverStoreUsesMemory()) return [];
   return [...plaqueMap().values()].sort((a, b) =>
     b.createdAt.localeCompare(a.createdAt),
   );
@@ -29,6 +44,14 @@ export async function listCabinPlaqueLines(): Promise<CabinPlaqueLine[]> {
 export async function reserveCabinPlaqueName(
   rawName: string,
 ): Promise<ReservePlaqueResult> {
+  if (!leftoverStoreUsesMemory()) {
+    return {
+      ok: false,
+      error: "Plaque reserve is unavailable until the truck store is durable.",
+      code: "unavailable",
+    };
+  }
+
   if (!plaqueNameIsValid(rawName)) {
     return {
       ok: false,
@@ -56,5 +79,6 @@ export async function reserveCabinPlaqueName(
 }
 
 export async function resetCabinPlaqueStoreForTests(): Promise<void> {
+  if (!leftoverStoreUsesMemory()) return;
   plaqueMap().clear();
 }

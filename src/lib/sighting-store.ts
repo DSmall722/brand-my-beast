@@ -4,23 +4,38 @@ import {
   sightingNoteIsValid,
   type Sighting,
 } from "./sighting";
+import {
+  leftoverStoreUnavailableError,
+  leftoverStoreUsesMemory,
+} from "./leftover-store-mode";
 
 export type SubmitSightingResult =
   | { ok: true; status: "created" | "exists"; sighting: Sighting }
-  | { ok: false; error: string; code: "invalid" };
+  | { ok: false; error: string; code: "invalid" | "unavailable" };
 
 const globalForSightings = globalThis as typeof globalThis & {
   __bmbSightings?: Map<string, Sighting>;
 };
 
 function sightingMap(): Map<string, Sighting> {
+  if (!leftoverStoreUsesMemory()) {
+    throw leftoverStoreUnavailableError("Sighting store");
+  }
   if (!globalForSightings.__bmbSightings) {
     globalForSightings.__bmbSightings = new Map();
   }
   return globalForSightings.__bmbSightings;
 }
 
+/** Exported for Playwright / unit gates (slice 7.4). */
+export function sightingStoreUsesMemory(
+  env?: Parameters<typeof leftoverStoreUsesMemory>[0],
+): boolean {
+  return leftoverStoreUsesMemory(env);
+}
+
 export async function listSightings(): Promise<Sighting[]> {
+  if (!leftoverStoreUsesMemory()) return [];
   return [...sightingMap().values()].sort((a, b) =>
     b.createdAt.localeCompare(a.createdAt),
   );
@@ -30,6 +45,14 @@ export async function submitSighting(input: {
   corridorId: string;
   note: string;
 }): Promise<SubmitSightingResult> {
+  if (!leftoverStoreUsesMemory()) {
+    return {
+      ok: false,
+      error: "Sightings are unavailable until the truck store is durable.",
+      code: "unavailable",
+    };
+  }
+
   if (!isSightingCorridorId(input.corridorId)) {
     return {
       ok: false,
@@ -64,5 +87,6 @@ export async function submitSighting(input: {
 }
 
 export async function resetSightingStoreForTests(): Promise<void> {
+  if (!leftoverStoreUsesMemory()) return;
   sightingMap().clear();
 }
