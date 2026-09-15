@@ -15,8 +15,8 @@ Updated: 2026-09-15
 - Coordinator may merge a PR that finishes exactly one unchecked slice, Playwright is green, and the merge gates below hold.
 - Judge PRs from git + `npm test` + `npm run build`. Do not use brandmybeast.com as a gate while the Vercel usage hold is on.
 
-**Now:** 9.4 Floor-save intent row: if short of $58,000, raise this seat to Y. Stored, not charged.
-**Last merged:** 9.3 (#128 `panelExtendedUntil` field + PUBLIC_COPY-safe copy).
+**Now:** 9.5 Hide whole-truck control when pledged >= $120,000. Unit + Playwright lock.
+**Last merged:** 9.4 (#129 Floor-save intent row: if short of $58,000, raise this seat to Y).
 
 ## Standing orders
 
@@ -143,7 +143,7 @@ If any gate fails: leave the PR unmerged and stop that slice.
 - [x] 9.1 Proxy max on an intent. Agent steps `$250` or `10%`. Still no card. (#126)
 - [x] 9.2 Seat shows next minimum from standing + increment. (#127)
 - [x] 9.3 `panelExtendedUntil` field + PUBLIC_COPY-safe copy. Do not set `CLOSE_AT`. (#128)
-- [ ] 9.4 Floor-save intent row: if short of $58,000, raise this seat to Y. Stored, not charged.
+- [x] 9.4 Floor-save intent row: if short of $58,000, raise this seat to Y. Stored, not charged. (#129)
 - [ ] 9.5 Hide whole-truck control when pledged >= $120,000. Unit + Playwright lock.
 - [ ] 9.6 Failed-winner offer at last mark + one increment. No silent reopen.
 - [ ] 9.7 Withdraw intent while pending only. Approved needs operator.

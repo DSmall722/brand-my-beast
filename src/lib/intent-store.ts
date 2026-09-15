@@ -3,7 +3,7 @@
  * Intent only — never stores Stripe/capture fields. See P2.md.
  */
 
-import { and, asc, desc, eq, inArray, ne } from "drizzle-orm";
+import { and, asc, desc, eq, inArray, isNull, ne } from "drizzle-orm";
 import {
   assertLedgerArtworkUrl,
   persistArtworkForLedger,
@@ -21,6 +21,7 @@ import { notifyIntentStatus } from "./intent-status-mail";
 import {
   assertIntentOnly,
   depositUsdForMark,
+  isFloorSaveBid,
   nextStandingUsd,
   normalizeTradeLabel,
   parseProxyMaxUsd,
@@ -110,6 +111,7 @@ function rowToBid(row: IntentBidRow): IntentBid {
     createdAt: row.createdAt.toISOString(),
     artworkUrl: row.artworkUrl ?? null,
     proxyMaxUsd: row.proxyMaxUsd ?? null,
+    floorSaveUsd: row.floorSaveUsd ?? null,
   };
   assertIntentOnly(bid);
   return bid;
@@ -125,6 +127,11 @@ export type PlaceIntentInput = {
   artworkUrl?: string | null;
   /** Optional proxy ceiling — agent steps max($250, 10%) up to this. */
   proxyMaxUsd?: number | null;
+  /**
+   * Slice 9.4 — when set, list as floor-save raise-to Y.
+   * Stored, not charged. Does not displace standing holders.
+   */
+  floorSaveUsd?: number | null;
 };
 
 type PlaceIntentOptions = {
@@ -333,7 +340,9 @@ export async function standingForPanel(panelId: string): Promise<number> {
   const panel = panelById(panelId);
   if (!panel) throw new Error(`Unknown panel: ${panelId}`);
   const active = (await listBidsForPanel(panelId)).filter(
-    (bid) => bid.status === "listed" || bid.status === "approved",
+    (bid) =>
+      (bid.status === "listed" || bid.status === "approved") &&
+      !isFloorSaveBid(bid),
   );
   if (active.length === 0) return panel.openingUsd;
   return Math.max(...active.map((bid) => bid.standingUsd));
@@ -343,7 +352,9 @@ export async function minimumIntentUsd(panelId: string): Promise<number> {
   const panel = panelById(panelId);
   if (!panel) throw new Error(`Unknown panel: ${panelId}`);
   const active = (await listBidsForPanel(panelId)).filter(
-    (bid) => bid.status === "listed" || bid.status === "approved",
+    (bid) =>
+      (bid.status === "listed" || bid.status === "approved") &&
+      !isFloorSaveBid(bid),
   );
   if (active.length === 0) return panel.openingUsd;
   return nextStandingUsd(await standingForPanel(panelId));
@@ -441,6 +452,9 @@ export async function placeIntentBid(
   }
 
   try {
+    const asFloorSave =
+      input.floorSaveUsd != null && input.floorSaveUsd !== undefined;
+
     // Slice 1.2: one active listed intent per user per panel — withdraw
     // the caller's prior listed row before min/outbid so replaces don't stack.
     if (useMemoryStore()) {
@@ -470,6 +484,74 @@ export async function placeIntentBid(
         );
     }
 
+    // Slice 9.4 — floor-save: store raise-to Y if short of $58k. No outbid. No card.
+    if (asFloorSave) {
+      const y = input.floorSaveUsd as number;
+      if (!Number.isFinite(y) || !Number.isInteger(y) || y <= 0) {
+        return {
+          ok: false,
+          error: "Floor-save mark must be a whole dollar amount.",
+        };
+      }
+      if (y < panel.openingUsd) {
+        return {
+          ok: false,
+          error: `Floor-save mark must be at least ${panel.openingUsd}.`,
+        };
+      }
+      if (input.proxyMaxUsd != null && input.proxyMaxUsd !== undefined) {
+        return {
+          ok: false,
+          error: "Floor-save cannot carry a proxy max.",
+        };
+      }
+      const depositUsd = depositUsdForMark(y);
+      if (useMemoryStore()) {
+        const bid: IntentBid = {
+          id: crypto.randomUUID(),
+          panelId: panel.id,
+          userId: input.userId,
+          brandLabel,
+          tradeLabel,
+          standingUsd: y,
+          depositUsd,
+          status: "listed",
+          createdAt: new Date().toISOString(),
+          artworkUrl,
+          proxyMaxUsd: null,
+          floorSaveUsd: y,
+        };
+        assertIntentOnly(bid);
+        memoryBids().push(bid);
+        await notifyIntentStatusSafe({ kind: "listed", bid });
+        return { ok: true, bid };
+      }
+      const dbFloor = getDb();
+      if (!dbFloor) {
+        return { ok: false, error: "Intent ledger is not configured." };
+      }
+      const insertedFloor = await dbFloor
+        .insert(intentBids)
+        .values({
+          panelId: panel.id,
+          userId: input.userId,
+          brandLabel,
+          tradeLabel,
+          standingUsd: y,
+          depositUsd,
+          status: "listed",
+          artworkUrl,
+          proxyMaxUsd: null,
+          floorSaveUsd: y,
+        })
+        .returning();
+      const floorRow = insertedFloor[0];
+      if (!floorRow) return { ok: false, error: "Could not record intent." };
+      const floorBid = rowToBid(floorRow);
+      await notifyIntentStatusSafe({ kind: "listed", bid: floorBid });
+      return { ok: true, bid: floorBid };
+    }
+
     const minimum = await minimumIntentUsd(input.panelId);
     const standingUsd = input.standingUsd ?? minimum;
     if (standingUsd < minimum) {
@@ -494,7 +576,8 @@ export async function placeIntentBid(
         if (
           existing.panelId === input.panelId &&
           existing.status === "listed" &&
-          existing.userId !== input.userId
+          existing.userId !== input.userId &&
+          !isFloorSaveBid(existing)
         ) {
           const snapshot: IntentBid = { ...existing };
           existing.status = "outbid";
@@ -514,6 +597,7 @@ export async function placeIntentBid(
         createdAt: new Date().toISOString(),
         artworkUrl,
         proxyMaxUsd,
+        floorSaveUsd: null,
       };
       assertIntentOnly(bid);
       memoryBids().push(bid);
@@ -545,10 +629,12 @@ export async function placeIntentBid(
           eq(intentBids.panelId, input.panelId),
           eq(intentBids.status, "listed"),
           ne(intentBids.userId, input.userId),
+          isNull(intentBids.floorSaveUsd),
         ),
       );
 
     // Neon HTTP: sequential outbid then insert (no interactive txn).
+    // Floor-save rows stay listed — they do not hold the seat yet.
     await db
       .update(intentBids)
       .set({ status: "outbid" })
@@ -557,6 +643,7 @@ export async function placeIntentBid(
           eq(intentBids.panelId, input.panelId),
           eq(intentBids.status, "listed"),
           ne(intentBids.userId, input.userId),
+          isNull(intentBids.floorSaveUsd),
         ),
       );
 
@@ -572,6 +659,7 @@ export async function placeIntentBid(
         status: "listed",
         artworkUrl,
         proxyMaxUsd,
+        floorSaveUsd: null,
       })
       .returning();
 
@@ -832,7 +920,9 @@ export async function loadBoardIntentStats(): Promise<BoardIntentStats> {
     let seatedPanels = 0;
     for (const panel of PANELS) {
       const bids = await listBidsForPanel(panel.id);
-      const approved = bids.filter((bid) => bid.status === "approved");
+      const approved = bids.filter(
+        (bid) => bid.status === "approved" && !isFloorSaveBid(bid),
+      );
       if (approved.length === 0) continue;
       seatedPanels += 1;
       pledgedUsd += Math.max(...approved.map((bid) => bid.standingUsd));
@@ -858,7 +948,11 @@ export async function loadStandingHoldersByPanel(): Promise<
   for (const panel of PANELS) {
     const bids = await listBidsForPanel(panel.id);
     const active = bids
-      .filter((bid) => bid.status === "listed" || bid.status === "approved")
+      .filter(
+        (bid) =>
+          (bid.status === "listed" || bid.status === "approved") &&
+          !isFloorSaveBid(bid),
+      )
       .sort((a, b) => b.standingUsd - a.standingUsd);
     const top = active[0];
     if (top) {

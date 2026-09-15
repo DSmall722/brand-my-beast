@@ -158,6 +158,20 @@ export function IntentBidForm({
         Optional ceiling. If outbid, the agent steps standing + max($250, 10%)
         up to this max. Still intent only — no card on P2.
       </p>
+      <label className="auth-check" htmlFor="floorSave">
+        <input
+          id="floorSave"
+          name="floorSave"
+          type="checkbox"
+          value="1"
+          data-testid="intent-floor-save"
+        />{" "}
+        Floor-save — if short of $58,000, raise this seat to the mark above
+      </label>
+      <p className="auth-hint" data-testid="intent-floor-save-note">
+        Stored, not charged. Floor-save does not displace a standing holder
+        until it fires. No card on P2.
+      </p>
 
       <fieldset
         className="intent-artwork-fields"

@@ -200,6 +200,7 @@ test.describe("slice 8.1: intent status emails mock Resend", () => {
       createdAt: new Date().toISOString(),
       artworkUrl: null,
       proxyMaxUsd: null,
+      floorSaveUsd: null,
     };
     for (const kind of ["listed", "outbid", "approved", "rejected"] as const) {
       const mail = buildIntentStatusMail({

@@ -255,6 +255,7 @@ test.describe("P2 intent math (no capture)", () => {
       createdAt: "2026-09-14T00:00:00.000Z",
       artworkUrl: null,
       proxyMaxUsd: null,
+      floorSaveUsd: null,
     };
     assertIntentOnly(bid);
     expect(() =>
