@@ -48,16 +48,38 @@ function hasResendMagicLink(env: AuthEnv): boolean {
 }
 
 /**
+ * Slice 8.10 — boot assert: test login hatch cannot be on in Vercel Production.
+ * Throws so the process fails closed instead of exposing credentials auth.
+ */
+export function assertTestLoginNotInProduction(
+  env: AuthEnv = process.env,
+): void {
+  if (
+    env.VERCEL_ENV === "production" &&
+    env.AUTH_ENABLE_TEST_LOGIN === "1"
+  ) {
+    throw new Error(
+      "AUTH_ENABLE_TEST_LOGIN cannot be on when VERCEL_ENV=production.",
+    );
+  }
+}
+
+/**
  * Test login is CI/local only (AUTH_MODE=test).
  * Production (live) uses Resend magic link when RESEND_API_KEY + DATABASE_URL
- * are set. GitHub stays optional. AUTH_ENABLE_TEST_LOGIN=1 is a staging hatch.
+ * are set. GitHub stays optional. AUTH_ENABLE_TEST_LOGIN=1 is a staging hatch —
+ * never on VERCEL_ENV=production (slice 8.10).
  */
 export function enabledAuthProviders(
   env: AuthEnv = process.env,
 ): AuthProviderId[] {
+  assertTestLoginNotInProduction(env);
   const mode = resolveAuthMode(env);
   const ids: AuthProviderId[] = [];
-  if (mode === "test" || env.AUTH_ENABLE_TEST_LOGIN === "1") {
+  const allowTestLogin =
+    env.VERCEL_ENV !== "production" &&
+    (mode === "test" || env.AUTH_ENABLE_TEST_LOGIN === "1");
+  if (allowTestLogin) {
     ids.push("test-login");
   }
   if (mode === "live" && hasResendMagicLink(env)) {
