@@ -11,8 +11,12 @@ import {
 import { PUBLIC_COPY } from "../src/lib/public-copy";
 
 /**
- * Slice 6.15 — vercel.json main-only git deploys (repo-side).
- * No PUBLIC_COPY / hero / waitlist rewrite. No dashboard credentials.
+ * Slice 6.15 — vercel.json git deploy policy (repo-side).
+ * Dual-accept (Hobby hold vs restore):
+ *   - hold-mode: `deploymentEnabled === false` (all auto Git deploys off)
+ *   - restore:   `{ "*": false, "main": true }` (main-only)
+ * Accepting both shapes keeps this lock green after restore without a
+ * follow-up test rewrite. No PUBLIC_COPY / hero / waitlist rewrite.
  */
 test.describe("slice 6.15: vercel main-only deploys", () => {
   test("campaign money fences stay locked", () => {
@@ -40,14 +44,18 @@ test.describe("slice 6.15: vercel main-only deploys", () => {
     );
   });
 
-  test("vercel.json enables main only and disables other branches", () => {
+  test("vercel.json is hold-mode pause or main-only restore", () => {
     const raw = readFileSync(join(process.cwd(), "vercel.json"), "utf8");
     const config = JSON.parse(raw) as {
       git?: { deploymentEnabled?: Record<string, boolean> | boolean };
     };
     const enabled = config.git?.deploymentEnabled;
-    expect(enabled).toBeTruthy();
-    expect(typeof enabled).toBe("object");
+    // Dual-accept: full pause (hold) OR main-only (post-restore).
+    if (enabled === false) {
+      expect(enabled).toBe(false);
+      return;
+    }
+    expect(enabled && typeof enabled === "object").toBe(true);
     if (!enabled || typeof enabled !== "object") return;
     expect(enabled["*"]).toBe(false);
     expect(enabled.main).toBe(true);
