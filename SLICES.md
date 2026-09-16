@@ -15,8 +15,8 @@ Updated: 2026-09-16
 - Coordinator may merge a PR that finishes exactly one unchecked slice, Playwright is green, and the merge gates below hold.
 - Judge PRs from git + `npm test` + `npm run build`. Do not use brandmybeast.com as a gate while the Vercel usage hold is on.
 
-**Now:** 13.4 RULES.md adds failed-winner + one-approved-per-panel.
-**Last merged:** 13.3 (#210 CAMPAIGN.md → CONTRACT.md wreck text).
+**Now:** 13.5 PUBLIC_COPY seat pack: withdraw, failed-winner, deposit preview. Do not rewrite the homepage H1.
+**Last merged:** 13.4 (#211 RULES.md failed-winner + one-approved-per-panel).
 
 ## Standing orders
 
@@ -99,7 +99,7 @@ Do not start Wave 13 until 12.50 is checked. No Stripe. No CLOSE_AT.
 - [x] 13.1 PROCESS.md: coordinator reads SLICES Waves 7–14; live site is not a gate while the Vercel hold is on. (#208)
 - [x] 13.2 ARCHITECTURE.md: Postgres + Blob + Resend mock; no Stripe box. (#209)
 - [x] 13.3 CAMPAIGN.md links `CONTRACT.md` for wreck text. Money table stays $58,000 / $120,000. (#210)
-- [ ] 13.4 RULES.md adds failed-winner + one-approved-per-panel.
+- [x] 13.4 RULES.md adds failed-winner + one-approved-per-panel. (#211)
 - [ ] 13.5 PUBLIC_COPY seat pack: withdraw, failed-winner, deposit preview. Do not rewrite the homepage H1.
 - [ ] 13.6 FEATURES.md banner: “not the build order.”
 - [ ] 13.7 `docs/P3-DAY.md` runbook. Checkboxes only. Does not set CLOSE_AT.
