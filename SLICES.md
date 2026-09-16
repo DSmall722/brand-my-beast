@@ -15,8 +15,8 @@ Updated: 2026-09-15
 - Coordinator may merge a PR that finishes exactly one unchecked slice, Playwright is green, and the merge gates below hold.
 - Judge PRs from git + `npm test` + `npm run build`. Do not use brandmybeast.com as a gate while the Vercel usage hold is on.
 
-**Now:** 11.1 CSP / security headers in `next.config`.
-**Last merged:** 10.10 (#145 Neighbor combo is display only. Test there is no invented combo price).
+**Now:** 11.2 Rate-limit magic-link POST.
+**Last merged:** 11.1 (#TBD CSP / security headers in `next.config`).
 
 ## Standing orders
 
@@ -123,7 +123,7 @@ If any gate fails: leave the PR unmerged and stop that slice.
 
 ## Wave 11 — harden in repo
 
-- [ ] 11.1 CSP / security headers in `next.config`.
+- [x] 11.1 CSP / security headers in `next.config`. (#TBD)
 - [ ] 11.2 Rate-limit magic-link POST.
 - [ ] 11.3 verify-brandmybeast feature map covers Waves 7–10.
 - [ ] 11.4 Playwright: 50 unique waitlist inserts in memory mode, no 500s.
