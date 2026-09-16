@@ -11,6 +11,7 @@ import {
 import { appendOperatorAuditLog } from "@/lib/operator-audit-log";
 import { parseIntentArtwork } from "@/lib/intent-artwork";
 import {
+  editPendingIntent,
   placeIntentBid,
   placeWholeTruckIntent,
   setIntentStatus,
@@ -175,6 +176,55 @@ export async function withdrawIntentBid(
   return {
     ok: true,
     message: "Intent withdrawn. Still not charged.",
+  };
+}
+
+/** Slice 9.8 — owner edits brand / trade / art while pending only. */
+export async function editPendingIntentBid(
+  _prev: IntentActionState,
+  formData: FormData,
+): Promise<IntentActionState> {
+  const session = await auth();
+  if (!session?.user?.id) {
+    return { ok: false, error: "Sign in to edit an intent." };
+  }
+
+  const bidId = String(formData.get("bidId") ?? "");
+  if (!bidId) return { ok: false, error: "Missing intent id." };
+
+  const brandLabel = String(formData.get("brandLabel") ?? "");
+  const tradeLabel = String(formData.get("tradeLabel") ?? "");
+  const artwork = parseIntentArtwork({
+    artworkUrl: String(formData.get("artworkUrl") ?? ""),
+    artworkUpload: String(formData.get("artworkUpload") ?? ""),
+  });
+  if (!artwork.ok) return { ok: false, error: artwork.error };
+
+  const clearArt =
+    formData.get("clearArtwork") === "on" ||
+    formData.get("clearArtwork") === "1" ||
+    formData.get("clearArtwork") === "true";
+
+  const result = await editPendingIntent({
+    bidId,
+    userId: session.user.id,
+    brandLabel,
+    tradeLabel,
+    artworkUrl: clearArt
+      ? null
+      : artwork.artworkUrl !== null
+        ? artwork.artworkUrl
+        : undefined,
+  });
+  if (!result.ok) return { ok: false, error: result.error };
+
+  revalidatePath("/account");
+  revalidatePath(`/panels/${result.bid.panelId}`);
+  revalidatePath("/operator");
+  revalidatePath("/operator/approvals");
+  return {
+    ok: true,
+    message: "Intent updated. Still not charged.",
   };
 }
 

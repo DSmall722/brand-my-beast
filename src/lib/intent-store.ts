@@ -825,6 +825,125 @@ export async function withdrawPendingIntent(input: {
   return setIntentStatus(bid.id, "withdrawn");
 }
 
+/**
+ * Slice 9.8 — owner may edit brand / trade / art while listed (pending) only.
+ * Standing amount unchanged. Approved needs operator.
+ */
+export async function editPendingIntent(input: {
+  bidId: string;
+  userId: UserId;
+  brandLabel: string;
+  tradeLabel: string;
+  artworkUrl?: string | null;
+}): Promise<PlaceIntentResult> {
+  const bid = await getIntentBidById(input.bidId);
+  if (!bid) return { ok: false, error: "Bid not found." };
+  if (bid.userId !== input.userId) {
+    return { ok: false, error: "You can only edit your own intent." };
+  }
+  if (bid.status === "approved") {
+    return {
+      ok: false,
+      error: "Approved needs operator. You cannot edit this intent.",
+    };
+  }
+  if (bid.status !== "listed") {
+    return {
+      ok: false,
+      error: "Only pending (listed) intents can be edited.",
+    };
+  }
+
+  const brandLabel = input.brandLabel.trim();
+  if (brandLabel.length < 2 || brandLabel.length > 80) {
+    return { ok: false, error: "Brand label must be 2–80 characters." };
+  }
+  const tradeLabel = input.tradeLabel.trim();
+  if (tradeLabel.length < 2 || tradeLabel.length > 80) {
+    return { ok: false, error: "Trade must be 2–80 characters." };
+  }
+  const tradeKey = normalizeTradeLabel(tradeLabel);
+  if (!tradeKey) {
+    return { ok: false, error: "Trade must be 2–80 characters." };
+  }
+
+  const ban = assertTradeAllowed({ brandLabel, tradeLabel });
+  if (!ban.ok) {
+    return { ok: false, error: ban.error };
+  }
+  try {
+    const rules = await listBanRules();
+    const opBan = assertOperatorBanAllowed({ brandLabel, tradeLabel, rules });
+    if (!opBan.ok) {
+      return { ok: false, error: opBan.error };
+    }
+  } catch {
+    return { ok: false, error: INTENT_WRITE_FAILED };
+  }
+
+  let artworkUrl: string | null =
+    input.artworkUrl === undefined ? bid.artworkUrl : input.artworkUrl;
+  try {
+    const persisted = await persistArtworkForLedger(artworkUrl);
+    if (!persisted.ok) {
+      return { ok: false, error: persisted.error };
+    }
+    artworkUrl = persisted.url;
+    assertLedgerArtworkUrl(artworkUrl);
+  } catch {
+    return { ok: false, error: INTENT_WRITE_FAILED };
+  }
+
+  let holders: IntentBid[];
+  try {
+    holders = await listHoldingBids();
+  } catch {
+    return { ok: false, error: INTENT_WRITE_FAILED };
+  }
+  const collision = holders.find(
+    (row) =>
+      row.id !== bid.id &&
+      row.userId !== input.userId &&
+      normalizeTradeLabel(row.tradeLabel) === tradeKey,
+  );
+  if (collision) {
+    return {
+      ok: false,
+      error: `Trade "${tradeLabel}" is already held by another brand. One brand per trade.`,
+    };
+  }
+
+  if (useMemoryStore()) {
+    bid.brandLabel = brandLabel;
+    bid.tradeLabel = tradeLabel;
+    bid.artworkUrl = artworkUrl;
+    assertIntentOnly(bid);
+    return { ok: true, bid };
+  }
+
+  const db = getDb();
+  if (!db) {
+    return { ok: false, error: "Intent ledger is not configured." };
+  }
+  const updated = await db
+    .update(intentBids)
+    .set({ brandLabel, tradeLabel, artworkUrl })
+    .where(
+      and(eq(intentBids.id, bid.id), eq(intentBids.status, "listed")),
+    )
+    .returning();
+  const row = updated[0];
+  if (!row) {
+    return {
+      ok: false,
+      error: "Only pending (listed) intents can be edited.",
+    };
+  }
+  const next = rowToBid(row);
+  assertIntentOnly(next);
+  return { ok: true, bid: next };
+}
+
 export async function resetIntentStoreForTests(): Promise<void> {
   resetArtworkBlobStoreForTests();
   if (useMemoryStore()) {
