@@ -27,6 +27,7 @@ import {
 import { logIntentStatusChange } from "./structured-log";
 import {
   assertIntentOnly,
+  activeStandingUsd,
   canFireFloorSave,
   depositUsdForMark,
   isFloorSaveBid,
@@ -407,13 +408,8 @@ export async function listApprovedBidsForUser(
 export async function standingForPanel(panelId: string): Promise<number> {
   const panel = panelById(panelId);
   if (!panel) throw new Error(`Unknown panel: ${panelId}`);
-  const active = (await listBidsForPanel(panelId)).filter(
-    (bid) =>
-      (bid.status === "listed" || bid.status === "approved") &&
-      !isFloorSaveBid(bid),
-  );
-  if (active.length === 0) return panel.openingUsd;
-  return Math.max(...active.map((bid) => bid.standingUsd));
+  // Slice 13.14 — withdrawn / outbid / floor-save never ghost a standing mark.
+  return activeStandingUsd(await listBidsForPanel(panelId), panel.openingUsd);
 }
 
 export async function minimumIntentUsd(panelId: string): Promise<number> {

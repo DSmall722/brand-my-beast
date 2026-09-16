@@ -63,6 +63,24 @@ export type IntentBid = {
   deletedAt: string | null;
 };
 
+/**
+ * Slice 13.14 — standing from live listed/approved only (not floor-save,
+ * not withdrawn, not outbid). Empty → panel opening. Prevents ghost standing
+ * after the sole pending mark withdraws.
+ */
+export function activeStandingUsd(
+  bids: readonly Pick<IntentBid, "status" | "standingUsd" | "floorSaveUsd">[],
+  openingUsd: number,
+): number {
+  const active = bids.filter(
+    (bid) =>
+      (bid.status === "listed" || bid.status === "approved") &&
+      !isFloorSaveBid(bid),
+  );
+  if (active.length === 0) return openingUsd;
+  return Math.max(...active.map((bid) => bid.standingUsd));
+}
+
 /** True when the row is a floor-save conditional (slice 9.4). */
 export function isFloorSaveBid(bid: Pick<IntentBid, "floorSaveUsd">): boolean {
   return bid.floorSaveUsd != null;

@@ -51,6 +51,10 @@ When an approved standing mark fails brand / artwork check, the seat is **not** 
 
 At most **one** `approved` intent per `panelId` at a time. Approving a new mark demotes any prior approved on that panel to outbid. The DB unique partial index and app demotion (Wave 12) enforce this — do not invent a second standing brand on the same seat.
 
+### Withdraw and standing (slice 13.14)
+
+Withdrawing the only pending (`listed`) mark returns the seat standing to that panel’s opening bid. Withdrawn, outbid, and floor-save rows do not leave a ghost standing. Soft-delete only — never hard-delete an approved seat.
+
 Do not take live money on `localStorage`. The static prototype is a brochure.
 
 ## Soft close
