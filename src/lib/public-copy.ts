@@ -200,7 +200,7 @@ export const PUBLIC_COPY = {
     withdrawSuccess: "Intent withdrawn. Still not charged.",
     withdrawButton: "Withdraw pending intent",
     failedWinnerWaitlist:
-      "Stay on the waitlist. This page does not charge cards.",
+      "You were outbid on this panel. Stay on the waitlist. This page does not charge cards.",
     /** `{percent}` `{amount}` filled by deposit-preview helper. */
     depositPreviewTemplate: "{percent}% of this mark is {amount}. Not charged.",
     /**

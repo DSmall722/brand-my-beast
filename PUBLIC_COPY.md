@@ -136,7 +136,7 @@ Slice **13.5**. Panel / account strings only. Do **not** rewrite the homepage H1
 - Withdraw success: `Intent withdrawn. Still not charged.`
 - Withdraw button: `Withdraw pending intent`
 - Failed-winner lead: `Failed-winner offer: re-list at {amount} — your last mark {last} + one increment (max($250, 10%)). Still not charged. No silent reopen.`
-- Failed-winner waitlist note: `Stay on the waitlist. This page does not charge cards.`
+- Failed-winner waitlist note: `You were outbid on this panel. Stay on the waitlist. This page does not charge cards.`
 - Deposit preview template: `{percent}% of this mark is {amount}. Not charged.`
 
 ## Footer
