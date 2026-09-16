@@ -14,6 +14,7 @@ import { GOAL_USD, PANELS, type Panel } from "./campaign";
 import { getDb } from "./db";
 import { intentBids, intentRevisions, type IntentBidRow } from "./db/schema";
 import { assertTradeAllowed } from "./banned-trades";
+import { assertFailedWinnerExclusiveLister } from "./failed-winner-offer";
 import {
   assertOperatorBanAllowed,
   listBanRules,
@@ -567,6 +568,22 @@ export async function placeIntentBid(
       ok: false,
       error: `Trade "${tradeLabel}" is already held by another brand. One brand per trade.`,
     };
+  }
+
+  // Slice 13.11 — vacant seat with live exclusive offer: only next compliant may list.
+  try {
+    const panelBids = await listBidsForPanel(input.panelId);
+    const panelMin = await minimumIntentUsd(input.panelId);
+    const exclusive = assertFailedWinnerExclusiveLister({
+      bids: panelBids,
+      userId: input.userId,
+      panelMinimumUsd: panelMin,
+    });
+    if (!exclusive.ok) {
+      return { ok: false, error: exclusive.error };
+    }
+  } catch {
+    return { ok: false, error: INTENT_WRITE_FAILED };
   }
 
   try {

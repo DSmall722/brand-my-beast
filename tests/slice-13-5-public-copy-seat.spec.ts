@@ -69,11 +69,14 @@ test.describe("slice 13.5: PUBLIC_COPY seat pack (no H1 rewrite)", () => {
     const offer = buildFailedWinnerOffer({
       lastMarkUsd: 2_500,
       panelMinimumUsd: 2_500,
+      offeredAt: "2026-09-16T12:00:00.000Z",
+      now: new Date("2026-09-16T12:00:00.000Z"),
     });
     const lead = failedWinnerOfferCopy(offer);
     expect(lead).toContain(formatUsd(offer.offerUsd));
     expect(lead).toContain(formatUsd(offer.lastMarkUsd));
     expect(lead.toLowerCase()).not.toMatch(/\blease\b/);
+    expect(PUBLIC_COPY.seat.failedWinnerExpired).toContain("No silent reopen");
   });
 
   test("homepage still shows locked H1", async ({ page }) => {

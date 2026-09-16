@@ -41,9 +41,11 @@ Next bid is current standing plus **$250 or 10%**, whichever is larger.
 - Miss $58,000 → every authorization released.
 - Fail brand check → that bid is void, next compliant standing bid is offered the panel at their last mark plus one increment. No silent reopen of the seat.
 
-### Failed-winner offer (slice 13.4)
+### Failed-winner offer (slice 13.4 / 13.11)
 
-When an approved standing mark fails brand / artwork check, the seat is **not** silently reopened. The next compliant listed bidder on that panel is offered the seat (failed-winner → waitlist / next-mark handoff). Banned trades stay banned. No Stripe capture on this path.
+When an approved standing mark fails brand / artwork check, the seat is **not** silently reopened. The next compliant outbid mark on that panel is offered the seat at their last mark plus one increment (failed-winner → waitlist / next-mark handoff). Banned trades stay banned. No Stripe capture on this path.
+
+**Timeout (slice 13.11):** each exclusive offer lasts **24 hours**. On a vacant seat after reject, the first compliant outbid mark’s window starts at that reject; when it expires, the next compliant mark gets a fresh 24 hours. Preferential listing is exclusive to the current offer target while the window is live — no silent reopen to everyone.
 
 ### One approved standing per panel (slice 13.4)
 
