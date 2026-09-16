@@ -171,7 +171,11 @@ export default async function PanelIntentPage({
           compact
         />
 
-        <PanelMockup panel={panel} raisedUsd={board.pledgedUsd} />
+        <PanelMockup
+          panel={panel}
+          raisedUsd={board.pledgedUsd}
+          standingBrand={holder?.brandLabel ?? null}
+        />
 
         <AdjacentNeighborsCard neighbors={adjacentNeighbors} />
         <NeighborComboCard lot={comboLotFor(panel.id)} />
