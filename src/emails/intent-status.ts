@@ -5,6 +5,7 @@
 
 import { BRAND, formatUsd } from "@/lib/campaign";
 import type { IntentBid } from "@/lib/intent";
+import { withCanSpamFooter } from "./can-spam";
 
 export type IntentStatusKind =
   | "listed"
@@ -17,6 +18,13 @@ export type EmailTemplate = {
   text: string;
 };
 
+function finish(subject: string, lines: string[]): EmailTemplate {
+  return {
+    subject,
+    text: withCanSpamFooter(lines.join("\n")),
+  };
+}
+
 export function intentStatusEmailTemplate(input: {
   kind: IntentStatusKind;
   bid: IntentBid;
@@ -28,43 +36,31 @@ export function intentStatusEmailTemplate(input: {
 
   switch (input.kind) {
     case "listed":
-      return {
-        subject: `Intent listed — ${panel} at ${mark}`,
-        text: [
-          `Your intent for ${brand} on ${panel} is listed at ${mark}.`,
-          "This is intent only. No card was charged.",
-          `— ${BRAND.name}`,
-        ].join("\n"),
-      };
+      return finish(`Intent listed — ${panel} at ${mark}`, [
+        `Your intent for ${brand} on ${panel} is listed at ${mark}.`,
+        "This is intent only. No card was charged.",
+        `— ${BRAND.name}`,
+      ]);
     case "outbid":
-      return {
-        subject: `Outbid on ${panel}`,
-        text: [
-          `Your standing mark on ${panel} (${brand}, ${mark}) was outbid.`,
-          "You can place a higher intent when you are ready. No card was charged.",
-          `— ${BRAND.name}`,
-        ].join("\n"),
-      };
+      return finish(`Outbid on ${panel}`, [
+        `Your standing mark on ${panel} (${brand}, ${mark}) was outbid.`,
+        "You can place a higher intent when you are ready. No card was charged.",
+        `— ${BRAND.name}`,
+      ]);
     case "approved":
-      return {
-        subject: `Intent approved — ${panel}`,
-        text: [
-          `Your intent for ${brand} on ${panel} at ${mark} was approved.`,
-          "Still intent only until the money path is live. No card was charged.",
-          `— ${BRAND.name}`,
-        ].join("\n"),
-      };
+      return finish(`Intent approved — ${panel}`, [
+        `Your intent for ${brand} on ${panel} at ${mark} was approved.`,
+        "Still intent only until the money path is live. No card was charged.",
+        `— ${BRAND.name}`,
+      ]);
     case "rejected": {
       const note = input.note?.trim();
-      return {
-        subject: `Intent rejected — ${panel}`,
-        text: [
-          `Your intent for ${brand} on ${panel} at ${mark} was rejected.`,
-          note ? `Operator note: ${note}` : "No operator note was attached.",
-          "No card was charged.",
-          `— ${BRAND.name}`,
-        ].join("\n"),
-      };
+      return finish(`Intent rejected — ${panel}`, [
+        `Your intent for ${brand} on ${panel} at ${mark} was rejected.`,
+        note ? `Operator note: ${note}` : "No operator note was attached.",
+        "No card was charged.",
+        `— ${BRAND.name}`,
+      ]);
     }
     default: {
       const _exhaustive: never = input.kind;

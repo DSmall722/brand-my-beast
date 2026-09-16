@@ -1,9 +1,11 @@
 /**
  * Slice 12.11 — operator digest email template (files under src/emails/).
+ * Slice 12.13 — CAN-SPAM footer on every mail.
  * Intent only. Does not post to X. CLOSE_AT stays null until set in code.
  */
 
 import { BRAND, formatUsd } from "@/lib/campaign";
+import { withCanSpamFooter } from "./can-spam";
 import type { EmailTemplate } from "./intent-status";
 
 export type OperatorDigestTemplateInput = {
@@ -25,20 +27,22 @@ export function operatorDigestEmailTemplate(
 ): EmailTemplate {
   return {
     subject: `${BRAND.name} digest — ${digest.pendingCount} pending / ${formatUsd(digest.pledgedUsd)} pledged`,
-    text: [
-      `${BRAND.name} operator digest`,
-      `Generated: ${digest.generatedAt}`,
-      "",
-      `Pending intents: ${digest.pendingCount}`,
-      `Waitlist signups: ${digest.waitlistCount}`,
-      `Pledged (approved): ${formatUsd(digest.pledgedUsd)}`,
-      `Short of floor (${formatUsd(digest.floorUsd)}): ${formatUsd(digest.shortfallFloorUsd)}`,
-      `Short of buyout (${formatUsd(digest.goalUsd)}): ${formatUsd(digest.shortfallGoalUsd)}`,
-      `Seated panels: ${digest.seatedPanels} / open seats: ${digest.openSeats}`,
-      `CLOSE_AT: ${digest.closeAt === null ? "null" : digest.closeAt}`,
-      "",
-      "Intent only. No cards charged. Does not post to X.",
-      `— ${BRAND.name} <${BRAND.email}>`,
-    ].join("\n"),
+    text: withCanSpamFooter(
+      [
+        `${BRAND.name} operator digest`,
+        `Generated: ${digest.generatedAt}`,
+        "",
+        `Pending intents: ${digest.pendingCount}`,
+        `Waitlist signups: ${digest.waitlistCount}`,
+        `Pledged (approved): ${formatUsd(digest.pledgedUsd)}`,
+        `Short of floor (${formatUsd(digest.floorUsd)}): ${formatUsd(digest.shortfallFloorUsd)}`,
+        `Short of buyout (${formatUsd(digest.goalUsd)}): ${formatUsd(digest.shortfallGoalUsd)}`,
+        `Seated panels: ${digest.seatedPanels} / open seats: ${digest.openSeats}`,
+        `CLOSE_AT: ${digest.closeAt === null ? "null" : digest.closeAt}`,
+        "",
+        "Intent only. No cards charged. Does not post to X.",
+        `— ${BRAND.name} <${BRAND.email}>`,
+      ].join("\n"),
+    ),
   };
 }
