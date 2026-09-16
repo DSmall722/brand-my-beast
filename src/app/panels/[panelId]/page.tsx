@@ -34,7 +34,6 @@ import {
   holdersOnAdjacentPanels,
   type AdjacentSeatHolder,
 } from "@/lib/panel-clash";
-import { PUBLIC_COPY } from "@/lib/public-copy";
 import { buildPublicSeatLog, formatSeatLogTime } from "@/lib/seat-log";
 import { seatExportPngPath } from "@/lib/seat-export-png";
 
