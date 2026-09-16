@@ -1,5 +1,6 @@
 import { ArrowFillButton } from "@/components/block/arrow-fill-button";
 import { PUBLIC_COPY } from "@/lib/public-copy";
+import { truckImgAlt } from "@/lib/truck-img-alt";
 
 /** Slice 7.1 — extracted from `src/app/page.tsx`. Copy unchanged. */
 export function HomeHeroSection() {
@@ -15,11 +16,13 @@ export function HomeHeroSection() {
             <img
               className="hero-truck-image"
               src="/hero-truck-preview.jpg"
-              alt={PUBLIC_COPY.hero.imageAlt}
+              alt={truckImgAlt("hero")}
               width={1280}
               height={720}
               decoding="async"
               fetchPriority="high"
+              data-testid="truck-img-hero"
+              data-truck-img="hero"
             />
           </a>
           <div className="hero-overlay">
