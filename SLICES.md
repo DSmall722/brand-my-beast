@@ -15,8 +15,8 @@ Updated: 2026-09-16
 - Coordinator may merge a PR that finishes exactly one unchecked slice, Playwright is green, and the merge gates below hold.
 - Judge PRs from git + `npm test` + `npm run build`. Do not use brandmybeast.com as a gate while the Vercel usage hold is on.
 
-**Now:** 12.34 Error boundary + branded 500 that is not a panel.
-**Last merged:** 12.33 (#190 print stylesheet for panel seats).
+**Now:** 12.35 Strip `console.log` from `src/` except test helpers.
+**Last merged:** 12.34 (#191 branded error boundary).
 
 ## Standing orders
 
@@ -74,7 +74,7 @@ Complete through 11.10 skipped (Vercel hold). Condensed ranges keep verify-map p
 - [x] 12.31 JSON-LD Organization + Offer on `/` from PUBLIC_COPY. No impression claims. (#188)
 - [x] 12.32 Canonical URL `https://brandmybeast.com`. (#189)
 - [x] 12.33 Print stylesheet for `/panels/[id]`. (#190)
-- [ ] 12.34 Error boundary + branded 500 that is not a panel.
+- [x] 12.34 Error boundary + branded 500 that is not a panel. (#191)
 - [ ] 12.35 Strip `console.log` from `src/` except test helpers.
 - [ ] 12.36 `globals.css` split: tokens / hero / board. No copy change.
 - [ ] 12.37 Prefetch `/panels/*` from homepage cards.
