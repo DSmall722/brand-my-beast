@@ -1,9 +1,21 @@
 import Link from "next/link";
-import { PANELS, formatUsd, isEtchable } from "@/lib/campaign";
+import { PANELS, formatUsd, isEtchable, type Panel } from "@/lib/campaign";
 import { PUBLIC_COPY } from "@/lib/public-copy";
 
-/** Slice 7.1 — extracted from `src/app/page.tsx`. Copy unchanged. */
-export function HomePanelsSection({ etchUnlocked }: { etchUnlocked: boolean }) {
+export type PanelCardStanding = {
+  brandLabel: string;
+  tradeLabel: string;
+  standingUsd: number;
+};
+
+/** Slice 7.1 / 10.9 — panel grid; cards show standing brand or Open. */
+export function HomePanelsSection({
+  etchUnlocked,
+  standingByPanel,
+}: {
+  etchUnlocked: boolean;
+  standingByPanel: ReadonlyMap<string, PanelCardStanding>;
+}) {
   return (
         <section
           className="shell section"
@@ -16,6 +28,10 @@ export function HomePanelsSection({ etchUnlocked }: { etchUnlocked: boolean }) {
             {PANELS.map((panel) => {
               const etchable = isEtchable(panel);
               const gloss = PUBLIC_COPY.panels.gloss[panel.id];
+              const standing = standingByPanel.get(panel.id) ?? null;
+              const standingLabel = standing
+                ? standing.brandLabel
+                : PUBLIC_COPY.panels.standingOpen;
               return (
                 <article
                   key={panel.id}
@@ -23,6 +39,7 @@ export function HomePanelsSection({ etchUnlocked }: { etchUnlocked: boolean }) {
                   data-testid={`panel-${panel.id}`}
                   data-etchable={etchable ? "true" : "false"}
                   data-etch-unlocked={etchUnlocked ? "true" : "false"}
+                  data-standing={standing ? "held" : "open"}
                 >
                   <Link
                     href={`/panels/${panel.id}`}
@@ -39,6 +56,12 @@ export function HomePanelsSection({ etchUnlocked }: { etchUnlocked: boolean }) {
                       {gloss ? (
                         <span className="panel-gloss"> ({gloss})</span>
                       ) : null}
+                    </div>
+                    <div
+                      className="panel-standing"
+                      data-testid={`panel-standing-${panel.id}`}
+                    >
+                      {standingLabel}
                     </div>
                     <div className="panel-meta">
                       Opens at {formatUsd(panel.openingUsd)}

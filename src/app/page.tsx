@@ -88,7 +88,10 @@ export default async function HomePage() {
           pledgedUsd={pledgedUsd}
           signedIn={Boolean(session?.user)}
         />
-        <HomePanelsSection etchUnlocked={etchUnlocked} />
+        <HomePanelsSection
+          etchUnlocked={etchUnlocked}
+          standingByPanel={standingHolders}
+        />
         <HomeStorySection />
         <HomeEtchSection />
         <HomeWreckSection />

@@ -629,6 +629,17 @@ a {
   width: fit-content;
 }
 
+.panel-standing {
+  margin-top: 0.35rem;
+  font-size: 0.95rem;
+  color: var(--steel-100);
+  letter-spacing: -0.01em;
+}
+
+.panel[data-standing="open"] .panel-standing {
+  color: var(--steel-400);
+}
+
 .panel-card-link:hover .panel-name {
   color: white;
   border-color: var(--signal);

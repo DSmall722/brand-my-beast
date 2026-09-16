@@ -68,6 +68,8 @@ export const PUBLIC_COPY = {
     lead: "Twelve seats. Opening prices below. Wrap means vinyl for twelve months, then it comes off. Can etch at $120k means that steel can take a permanent cut if the campaign owns the truck.",
     badgeEtch: "Can etch at $120k",
     badgeWrap: "Wrap only",
+    /** Slice 10.9 — panel card standing line when no mark holds. */
+    standingOpen: "Open.",
     gloss: PANEL_GLOSS,
   },
   howItWorks: {
