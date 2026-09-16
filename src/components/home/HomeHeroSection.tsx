@@ -1,4 +1,5 @@
 import { ArrowFillButton } from "@/components/block/arrow-fill-button";
+import { PanelBoardCallouts } from "@/components/PanelBoardCallouts";
 import { PUBLIC_COPY } from "@/lib/public-copy";
 import { truckImgAlt } from "@/lib/truck-img-alt";
 
@@ -25,6 +26,7 @@ export function HomeHeroSection() {
               data-truck-img="hero"
             />
           </a>
+          <PanelBoardCallouts surface="hero" />
           <div className="hero-overlay">
             <p className="hero-preview-label" data-testid="hero-preview-label">
               Board preview — bare stainless. Wrap and etch unlock later.

@@ -1,7 +1,10 @@
 "use client";
 
 import { useState } from "react";
+import { PanelBoardCallouts } from "@/components/PanelBoardCallouts";
 import { PANELS, type Panel } from "@/lib/campaign";
+import { BOARD_VIEW_OBJECT_POSITION } from "@/lib/panel-board";
+import { truckImgAlt } from "@/lib/truck-img-alt";
 import {
   TRUCK_VIEWS,
   TRUCK_VIEWS_LEAD,
@@ -10,7 +13,7 @@ import {
 } from "@/lib/truck-views";
 
 /**
- * Side / front / rear toggles with SVG seat hotspots.
+ * Side / front / rear toggles with stainless photo + numbered seats.
  * Empty seats render as raw 30X. Not a 360. Preview only.
  */
 export function TruckViewHotspots({
@@ -65,6 +68,19 @@ export function TruckViewHotspots({
       </div>
 
       <div className="truck-view-stage" data-testid="truck-view-stage">
+        {/* eslint-disable-next-line @next/next/no-img-element -- shared stainless still */}
+        <img
+          className="truck-view-photo"
+          src="/hero-truck-preview.jpg"
+          alt={truckImgAlt("hero")}
+          width={1280}
+          height={720}
+          decoding="async"
+          data-testid={`truck-img-board-${view}`}
+          data-truck-img={`board-${view}`}
+          style={{ objectPosition: BOARD_VIEW_OBJECT_POSITION[view] }}
+        />
+        <PanelBoardCallouts surface="view" view={view} />
         <svg
           className="truck-view-svg"
           viewBox="0 0 400 160"
