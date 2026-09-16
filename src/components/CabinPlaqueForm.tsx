@@ -1,6 +1,7 @@
 "use client";
 
 import { FormEvent, useState } from "react";
+import { cabinPlaqueUiAllowed } from "@/lib/cabin-plaque";
 
 type Status = "idle" | "loading" | "created" | "exists" | "error";
 
@@ -21,6 +22,10 @@ export function CabinPlaqueForm() {
   const [name, setName] = useState("");
   const [status, setStatus] = useState<Status>("idle");
   const [message, setMessage] = useState("");
+
+  if (!cabinPlaqueUiAllowed()) {
+    return null;
+  }
 
   async function onSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
