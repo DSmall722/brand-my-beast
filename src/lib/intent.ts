@@ -136,6 +136,26 @@ export function parseFloorSaveUsd(
 }
 
 /**
+ * Slice 12.6 — standing mark must be a whole dollar (integer). Empty → omit.
+ * Never a payment method.
+ */
+export function parseStandingUsd(
+  raw: unknown,
+): { ok: true; standingUsd: number | undefined } | { ok: false; error: string } {
+  if (raw == null || raw === "") {
+    return { ok: true, standingUsd: undefined };
+  }
+  const value = typeof raw === "number" ? raw : Number(String(raw).trim());
+  if (!Number.isFinite(value) || !Number.isInteger(value) || value <= 0) {
+    return {
+      ok: false,
+      error: "Standing mark must be a whole dollar amount.",
+    };
+  }
+  return { ok: true, standingUsd: value };
+}
+
+/**
  * Slice 12.5 — deposit is always round(standing * 0.20) via this helper.
  * Intent only on P2 — do not charge.
  */

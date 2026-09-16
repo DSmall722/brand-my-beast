@@ -27,6 +27,7 @@ import {
   normalizeTradeLabel,
   parseIdempotencyKey,
   parseProxyMaxUsd,
+  parseStandingUsd,
   type IntentBid,
   type IntentBidStatus,
   type IntentWriteErrorCode,
@@ -647,7 +648,23 @@ export async function placeIntentBid(
     }
 
     const minimum = await minimumIntentUsd(input.panelId);
+    if (input.standingUsd !== undefined && input.standingUsd !== null) {
+      const standingParsed = parseStandingUsd(input.standingUsd);
+      if (!standingParsed.ok) {
+        return { ok: false, error: standingParsed.error };
+      }
+    }
     const standingUsd = input.standingUsd ?? minimum;
+    if (
+      !Number.isFinite(standingUsd) ||
+      !Number.isInteger(standingUsd) ||
+      standingUsd <= 0
+    ) {
+      return {
+        ok: false,
+        error: "Standing mark must be a whole dollar amount.",
+      };
+    }
     if (standingUsd < minimum) {
       return { ok: false, error: `Mark must be at least ${minimum}.` };
     }
