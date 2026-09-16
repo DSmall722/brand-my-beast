@@ -40,6 +40,12 @@ test.describe("slice 13.36: download routes operator or owner", () => {
     expect(res.ok()).toBeTruthy();
   });
 
+  // Slice 6.1 (and peers) expect raised $0 — wipe standing after approve fixtures.
+  test.afterEach(async ({ request }) => {
+    const res = await request.post("/api/test/reset-intents");
+    expect(res.ok()).toBeTruthy();
+  });
+
   test("campaign money fences stay locked — CLOSE_AT null", () => {
     expect(FLOOR_USD).toBe(58_000);
     expect(GOAL_USD).toBe(120_000);
