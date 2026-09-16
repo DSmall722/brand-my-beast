@@ -538,11 +538,14 @@ test.describe("P2 panel intent + approvals", () => {
     await outbidViewer.goto("/panels/hood");
     const banner = outbidViewer.getByTestId("failed-winner-offer");
     await expect(banner).toBeVisible();
-    await expect(banner).toContainText("outbid");
+    await expect(banner).toContainText("Failed-winner");
     await expect(banner).toContainText("No silent reopen");
+    await expect(banner.getByTestId("failed-winner-offer-amount")).toContainText(
+      "Offer mark",
+    );
     await expect(
       outbidViewer.getByTestId("failed-winner-waitlist").getByRole("link", {
-        name: "waitlist",
+        name: /waitlist/i,
       }),
     ).toHaveAttribute("href", "/#waitlist");
     const html = await outbidViewer.content();
