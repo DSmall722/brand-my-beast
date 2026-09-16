@@ -8,6 +8,7 @@ import {
   type IntentStatusKind,
 } from "@/emails/intent-status";
 import type { IntentBid } from "@/lib/intent";
+import { appendMailDeadLetter } from "@/lib/mail-dead-letter";
 
 /** Payload Resend (or a test double) receives for intent status mail. */
 export type IntentStatusMailPayload = {
@@ -102,10 +103,23 @@ export async function notifyIntentStatus(input: {
   if (!to) return;
 
   const body = buildIntentStatusMail(input);
-  await mailer.send({
+  const payload = {
     from: resolveMagicLinkFrom(),
     to,
     subject: body.subject,
     text: body.text,
-  });
+  };
+  try {
+    await mailer.send(payload);
+  } catch (error) {
+    try {
+      await appendMailDeadLetter({
+        kind: "intent-status",
+        ...payload,
+        error,
+      });
+    } catch {
+      // Dead-letter write must not mask the original send failure path.
+    }
+  }
 }
