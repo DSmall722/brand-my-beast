@@ -17,6 +17,12 @@ export const FLOOR_USD = 58_000;
 /** Buyout. Immortal etch unlocks only at this mark. */
 export const GOAL_USD = 120_000;
 
+/**
+ * Slice 13.12 — hard ceiling for optional proxy max on a panel intent.
+ * Same dollar figure as GOAL_USD — not a third money number.
+ */
+export const PROXY_MAX_CAP_USD = GOAL_USD;
+
 /** Unset until P3 money path ships. Do not invent a close date. */
 export const CLOSE_AT: string | null = null;
 
