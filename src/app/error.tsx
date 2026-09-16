@@ -7,7 +7,7 @@ import { PUBLIC_COPY } from "@/lib/public-copy";
 
 /**
  * Slice 12.34 — branded 500 / error boundary.
- * Same stainless chrome as 404. Not a panel. No lease. No personal identity.
+ * Same stainless chrome as 404. Not a panel. No personal identity.
  */
 export default function Error({
   error,
