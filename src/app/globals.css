@@ -2007,6 +2007,16 @@ a {
   margin: 0.25rem 0 0;
 }
 
+.intent-edit-pending {
+  margin: 0.5rem 0 0.35rem;
+  display: grid;
+  gap: 0.35rem;
+}
+
+.intent-edit-form {
+  margin: 0;
+}
+
 .intent-compose {
   margin-bottom: 1.75rem;
 }

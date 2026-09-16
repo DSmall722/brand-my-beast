@@ -2,6 +2,7 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import { signOutAction } from "@/app/actions/auth";
 import { SiteChrome } from "@/components/SiteChrome";
+import { EditPendingIntentForm } from "@/components/EditPendingIntentForm";
 import { WithdrawPendingButton } from "@/components/WithdrawPendingButton";
 import { auth } from "@/lib/auth";
 import { isOperatorEmail } from "@/lib/auth/operator";
@@ -150,15 +151,23 @@ export default async function AccountPage() {
                       </p>
                     ) : null}
                     {bid.status === "listed" ? (
-                      <WithdrawPendingButton bidId={bid.id} />
+                      <>
+                        <EditPendingIntentForm
+                          bidId={bid.id}
+                          brandLabel={bid.brandLabel}
+                          tradeLabel={bid.tradeLabel}
+                          artworkUrl={bid.artworkUrl}
+                        />
+                        <WithdrawPendingButton bidId={bid.id} />
+                      </>
                     ) : null}
                     {bid.status === "approved" ? (
                       <p
                         className="auth-hint"
                         data-testid={`account-approved-needs-operator-${bid.id}`}
                       >
-                        Approved needs operator. You cannot withdraw this
-                        intent.
+                        Approved needs operator. You cannot withdraw or edit
+                        this intent.
                       </p>
                     ) : null}
                     {bid.status === "rejected" && notes[bid.id]?.note ? (
