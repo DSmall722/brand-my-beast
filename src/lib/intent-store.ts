@@ -157,8 +157,17 @@ function staleWriteResult(): PlaceIntentResult {
   };
 }
 
-function nowIso(): string {
-  return new Date().toISOString();
+function nextUpdatedAt(previousIso?: string | null): Date {
+  const now = new Date();
+  if (previousIso == null || previousIso === "") return now;
+  const prevMs = Date.parse(previousIso);
+  if (!Number.isFinite(prevMs) || now.getTime() > prevMs) return now;
+  // Same-ms writes must still advance the optimistic-lock token (slice 12.2).
+  return new Date(prevMs + 1);
+}
+
+function nextUpdatedAtIso(previousIso?: string | null): string {
+  return nextUpdatedAt(previousIso).toISOString();
 }
 
 function assertFreshUpdatedAt(
@@ -492,7 +501,7 @@ export async function placeIntentBid(
           existing.userId === input.userId
         ) {
           existing.status = "withdrawn";
-          existing.updatedAt = nowIso();
+          existing.updatedAt = nextUpdatedAtIso(existing.updatedAt);
         }
       }
     } else {
@@ -502,7 +511,7 @@ export async function placeIntentBid(
       }
       await dbForWithdraw
         .update(intentBids)
-        .set({ status: "withdrawn", updatedAt: new Date() })
+        .set({ status: "withdrawn", updatedAt: nextUpdatedAt() })
         .where(
           and(
             eq(intentBids.panelId, input.panelId),
@@ -545,7 +554,7 @@ export async function placeIntentBid(
           depositUsd,
           status: "listed",
           createdAt: new Date().toISOString(),
-          updatedAt: nowIso(),
+          updatedAt: nextUpdatedAtIso(),
           artworkUrl,
           proxyMaxUsd: null,
           floorSaveUsd: y,
@@ -572,7 +581,7 @@ export async function placeIntentBid(
           artworkUrl,
           proxyMaxUsd: null,
           floorSaveUsd: y,
-          updatedAt: new Date(),
+          updatedAt: nextUpdatedAt(),
         })
         .returning();
       const floorRow = insertedFloor[0];
@@ -611,7 +620,7 @@ export async function placeIntentBid(
         ) {
           const snapshot: IntentBid = { ...existing };
           existing.status = "outbid";
-          existing.updatedAt = nowIso();
+          existing.updatedAt = nextUpdatedAtIso(existing.updatedAt);
           outbidTargets.push({ ...snapshot, status: "outbid" });
         }
       }
@@ -626,7 +635,7 @@ export async function placeIntentBid(
         depositUsd,
         status: "listed",
         createdAt: new Date().toISOString(),
-        updatedAt: nowIso(),
+        updatedAt: nextUpdatedAtIso(),
         artworkUrl,
         proxyMaxUsd,
         floorSaveUsd: null,
@@ -670,7 +679,7 @@ export async function placeIntentBid(
     // Floor-save rows stay listed — they do not hold the seat yet.
     const outbidOthers = db
       .update(intentBids)
-      .set({ status: "outbid", updatedAt: new Date() })
+      .set({ status: "outbid", updatedAt: nextUpdatedAt() })
       .where(
         and(
           eq(intentBids.panelId, input.panelId),
@@ -692,7 +701,7 @@ export async function placeIntentBid(
         artworkUrl,
         proxyMaxUsd,
         floorSaveUsd: null,
-        updatedAt: new Date(),
+        updatedAt: nextUpdatedAt(),
       })
       .returning();
 
@@ -792,14 +801,14 @@ export async function setIntentStatus(
           existing.status === "approved"
         ) {
           existing.status = "outbid";
-          existing.updatedAt = nowIso();
+          existing.updatedAt = nextUpdatedAtIso(existing.updatedAt);
           assertIntentOnly(existing);
           demoted.push({ ...existing });
         }
       }
     }
     bid.status = status;
-    bid.updatedAt = nowIso();
+    bid.updatedAt = nextUpdatedAtIso(bid.updatedAt);
     assertIntentOnly(bid);
     if (status === "approved" || status === "rejected") {
       await notifyIntentStatusSafe({
@@ -819,7 +828,18 @@ export async function setIntentStatus(
     return { ok: false, error: "Intent ledger is not configured." };
   }
 
-  const touchAt = new Date();
+  const existingRow = await db
+    .select()
+    .from(intentBids)
+    .where(eq(intentBids.id, bidId))
+    .limit(1);
+  const current = existingRow[0];
+  if (!current) return { ok: false, error: "Bid not found." };
+  const currentBid = rowToBid(current);
+  const stale = assertFreshUpdatedAt(currentBid, opts?.expectedUpdatedAt);
+  if (stale) return stale;
+
+  const touchAt = nextUpdatedAt(currentBid.updatedAt);
   const idLock =
     opts?.expectedUpdatedAt != null
       ? and(
@@ -829,16 +849,6 @@ export async function setIntentStatus(
       : eq(intentBids.id, bidId);
 
   if (status === "approved") {
-    const existing = await db
-      .select()
-      .from(intentBids)
-      .where(eq(intentBids.id, bidId))
-      .limit(1);
-    const current = existing[0];
-    if (!current) return { ok: false, error: "Bid not found." };
-    const currentBid = rowToBid(current);
-    const stale = assertFreshUpdatedAt(currentBid, opts?.expectedUpdatedAt);
-    if (stale) return stale;
     const ban = assertTradeAllowed({
       brandLabel: current.brandLabel,
       tradeLabel: current.tradeLabel,
@@ -1061,7 +1071,7 @@ export async function editPendingIntent(input: {
     live.brandLabel = brandLabel;
     live.tradeLabel = tradeLabel;
     live.artworkUrl = artworkUrl;
-    live.updatedAt = nowIso();
+    live.updatedAt = nextUpdatedAtIso(live.updatedAt);
     assertIntentOnly(live);
     return { ok: true, bid: live };
   }
@@ -1076,7 +1086,7 @@ export async function editPendingIntent(input: {
       brandLabel,
       tradeLabel,
       artworkUrl,
-      updatedAt: new Date(),
+      updatedAt: nextUpdatedAt(expectedUpdatedAt),
     })
     .where(
       and(

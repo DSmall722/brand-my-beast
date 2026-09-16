@@ -143,6 +143,7 @@ test.describe("slice 12.2: optimistic lock on updatedAt", () => {
     });
     expect(bump.ok).toBe(true);
     if (!bump.ok) return;
+    expect(bump.bid.updatedAt).not.toBe(token);
 
     const staleApprove = await setIntentStatus(listed.bid.id, "approved", {
       expectedUpdatedAt: token,
