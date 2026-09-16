@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { IntentArtworkPreview } from "@/components/IntentArtworkPreview";
+import { ShopCutFileChecklist } from "@/components/ShopCutFileChecklist";
 import {
   FLOOR_USD,
   GOAL_USD,
@@ -12,6 +13,7 @@ import { shopPdfPath } from "@/lib/shop-pdf";
 
 /**
  * Slice 8.7 — partner shop shows approved seats + art only.
+ * Slice 12.23 — cut-file checklist form lives here, not as a card on `/`.
  * No twelve-panel matrix. No public header link (HomeHeader).
  */
 export function WrapShopSheet({
@@ -21,6 +23,7 @@ export function WrapShopSheet({
 }) {
   return (
     <div className="wrap-shop-sheet" data-testid="wrap-shop-sheet">
+      <ShopCutFileChecklist />
       <section
         className="wrap-shop-rules"
         aria-labelledby="wrap-shop-rules-title"
