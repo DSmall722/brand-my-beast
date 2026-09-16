@@ -68,7 +68,10 @@ export function isCampaignShortOfFloor(pledgedUsd: number): boolean {
   return Number.isFinite(pledgedUsd) && pledgedUsd < FLOOR_USD;
 }
 
-/** Normalize bidder-named trade for collision checks. No public taxonomy. */
+/**
+ * Slice 12.7 — normalize bidder-named trade before exclusivity.
+ * Trim, lowercase, collapse whitespace. No public taxonomy.
+ */
 export function normalizeTradeLabel(raw: string): string {
   return raw.trim().toLowerCase().replace(/\s+/g, " ");
 }
