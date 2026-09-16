@@ -1,6 +1,6 @@
 "use client";
 
-import { FormEvent, useState } from "react";
+import { FormEvent, useEffect, useRef, useState } from "react";
 import { PUBLIC_COPY } from "@/lib/public-copy";
 
 type Status = "idle" | "loading" | "created" | "exists" | "error";
@@ -11,6 +11,13 @@ export function WaitlistForm() {
   const [email, setEmail] = useState("");
   const [status, setStatus] = useState<Status>("idle");
   const [message, setMessage] = useState("");
+  const statusRef = useRef<HTMLParagraphElement>(null);
+
+  // Slice 12.38 — restore focus to the status line after submit settles.
+  useEffect(() => {
+    if (status === "idle" || status === "loading") return;
+    statusRef.current?.focus();
+  }, [status]);
 
   async function onSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -83,9 +90,11 @@ export function WaitlistForm() {
         </button>
       </div>
       <p
+        ref={statusRef}
         id={WAITLIST_STATUS_ID}
         className={`waitlist-msg ${isError ? "is-error" : "is-ok"}`}
         role={isError ? "alert" : "status"}
+        tabIndex={-1}
         data-testid="waitlist-status"
       >
         {message || PUBLIC_COPY.waitlist.idleNote}
