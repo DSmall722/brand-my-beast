@@ -9,14 +9,14 @@ Updated: 2026-09-16
 
 - Next job = the first unchecked box, wave order. Do not skip. Do not start two boxes in one PR.
 - Exception 2026-09-16: **14.0** done for local preview. Resume Wave 12 from 12.29, then 13, then 14.1. No Wave 15 without a human message.
-- The PR that finishes a slice also flips that box `[ ]` → `[x]` and appends `(#NN)` on the same line.
+- The PR that finishes a slice also flips that box `[ ]` → `[x]` and appends `(#216)` on the same line.
 - Set **Now** and **Last merged** in this file in that same PR.
 - Do not add a new checkbox unless the human writes it here first. After Wave 14, idle. Do not open Wave 15 from FEATURES.md.
 - Coordinator may merge a PR that finishes exactly one unchecked slice, Playwright is green, and the merge gates below hold.
 - Judge PRs from git + `npm test` + `npm run build`. Do not use brandmybeast.com as a gate while the Vercel usage hold is on.
 
 **Now:** 13.10 Changelog file of last 20 merged slice ids.
-**Last merged:** 13.9 (#NN EMAIL-DNS SPF/DKIM/DMARC checklist).
+**Last merged:** 13.9 (#216 EMAIL-DNS SPF/DKIM/DMARC checklist).
 
 ## Standing orders
 
@@ -104,7 +104,7 @@ Do not start Wave 13 until 12.50 is checked. No Stripe. No CLOSE_AT.
 - [x] 13.6 FEATURES.md banner: “not the build order.” (#213)
 - [x] 13.7 `docs/P3-DAY.md` runbook. Checkboxes only. Does not set CLOSE_AT. (#214)
 - [x] 13.8 `docs/WRAP-SHOP.md` shortlist template. (#215)
-- [x] 13.9 `docs/EMAIL-DNS.md` SPF/DKIM/DMARC checklist for hello@. (#NN)
+- [x] 13.9 `docs/EMAIL-DNS.md` SPF/DKIM/DMARC checklist for hello@. (#216)
 - [ ] 13.10 Changelog file of last 20 merged slice ids.
 - [ ] 13.11–13.50 Remain as previously locked (auction correctness, shop, trust, ops freeze). See commit history if a line was abbreviated. Full text lives in git before this compaction. Coordinator must not invent Stripe or a close date.
 
