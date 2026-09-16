@@ -16,7 +16,7 @@ Updated: 2026-09-16
 - Judge PRs from git + `npm test` + `npm run build`. Do not use brandmybeast.com as a gate while the Vercel usage hold is on.
 
 **Now:** 13.25 Operator print view for one seat (13.23 + 8.6).
-**Last merged:** 13.24 (#TBD partner cannot see bidder email).
+**Last merged:** 13.24 (#232 partner cannot see bidder email).
 
 ## Standing orders
 
