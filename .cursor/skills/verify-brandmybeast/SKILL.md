@@ -1,6 +1,6 @@
 ---
 name: verify-brandmybeast
-description: "Drive the BrandMyBeast Next.js app locally the way a user does. Use when proving campaign locks, panel grid, etch lock, waitlist signup, panel intent / approvals, banned-copy rules, or the Waves 0–5 / 7–10 feature maps after a change."
+description: "Drive the BrandMyBeast Next.js app locally the way a user does. Use when proving campaign locks, panel grid, etch lock, waitlist signup, panel intent / approvals, banned-copy rules, or the Waves 0–5 / 7–10 / 12 feature maps after a change."
 ---
 
 # Verify BrandMyBeast
@@ -12,6 +12,9 @@ and `features/waves-0-5.md`. Slice 6.4 merge-gate: `tests/slice-6-4-verify-map.s
 
 **Feature map (Waves 7–10):** `features/waves-7-10.md` plus per-wave files.
 Slice 11.3 merge-gate: `tests/slice-11-3-verify-map.spec.ts`.
+
+**Feature map (Wave 12):** `features/waves-12.md` plus `wave12-money-ready.md`.
+Slice 12.47 merge-gate: `tests/slice-12-47-verify-map.spec.ts`.
 
 ## Launch
 
