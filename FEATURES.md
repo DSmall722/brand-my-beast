@@ -1,8 +1,10 @@
 # BrandMyBeast feature list
 
+> **Not the build order.** This file is a catalog. **`SLICES.md` is the only build order.** Do not open Wave 15 from here. Do not paste this list onto the public homepage.
+
 Ranked by importance. Importance = does this help hit **$58,000 by close**, then prove the miles after the truck exists. Close date is unset until the money path is live.
 
-Do not paste this list onto the public homepage. CAMPAIGN.md wins on money and identity.
+Do not paste this list onto the public homepage. CAMPAIGN.md wins on money and identity. Floor **$58,000**. Buyout **$120,000**. `CLOSE_AT` stays null until a human starts P3. No Stripe without a separate human message.
 
 ## Voice rules
 
