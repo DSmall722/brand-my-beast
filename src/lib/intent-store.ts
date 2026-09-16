@@ -18,6 +18,9 @@ import { assertFailedWinnerExclusiveLister } from "./failed-winner-offer";
 import {
   assertOperatorBanAllowed,
   listBanRules,
+  logBanListMatch,
+  matchesBanPattern,
+  type BanListRule,
 } from "./operator-ban-list";
 import { notifyIntentStatus } from "./intent-status-mail";
 import {
@@ -301,6 +304,50 @@ export async function listBidsWithStatus(
     .where(eq(intentBids.status, status))
     .orderBy(desc(intentBids.createdAt));
   return rows.map(rowToBid);
+}
+
+/**
+ * Slice 13.16 — ban-list change re-runs pending (listed) intents.
+ * Matching listed → rejected. Approved seats are never touched.
+ */
+export async function rejectListedMatchingBanRule(
+  rule: BanListRule,
+): Promise<{ rejectedIds: string[]; approvedLeftAlone: number }> {
+  const listed = await listBidsWithStatus("listed");
+  const approved = await listBidsWithStatus("approved");
+  const approvedLeftAlone = approved.filter((bid) =>
+    matchesBanPattern(bid.brandLabel, bid.tradeLabel, rule.pattern),
+  ).length;
+
+  const rejectedIds: string[] = [];
+  for (const bid of listed) {
+    if (!matchesBanPattern(bid.brandLabel, bid.tradeLabel, rule.pattern)) {
+      continue;
+    }
+    logBanListMatch({
+      rule,
+      brandLabel: bid.brandLabel,
+      tradeLabel: bid.tradeLabel,
+      context: "sweep",
+    });
+    const note = `Hard-reject: ban-list “${rule.pattern}” (rule ${rule.id}).`;
+    const status = await setIntentStatus(bid.id, "rejected", { note });
+    if (status.ok) {
+      rejectedIds.push(bid.id);
+    }
+  }
+
+  // Approved matching rows must still be approved after the sweep.
+  for (const bid of approved) {
+    const fresh = await getIntentBidById(bid.id);
+    if (fresh?.status !== "approved") {
+      throw new Error(
+        `Ban-list sweep must not touch approved seat ${bid.id}.`,
+      );
+    }
+  }
+
+  return { rejectedIds, approvedLeftAlone };
 }
 
 /** Approved + rejected intents, newest first — operator decided log. */
