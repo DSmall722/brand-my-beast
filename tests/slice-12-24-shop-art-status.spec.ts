@@ -84,6 +84,7 @@ test.describe("slice 12.24: partner shop art status marks", () => {
       brandLabel: "ArtMarkCo",
       tradeLabel: "art mark trade",
       standingUsd: 2_500,
+      artworkUrl: "https://cdn.example.com/artmark.svg",
     });
     expect(placed.ok).toBe(true);
     if (!placed.ok) return;
@@ -124,6 +125,9 @@ test.describe("slice 12.24: partner shop art status marks", () => {
     await page.getByTestId("intent-brand").fill("ReadyFixCo");
     await page.getByTestId("intent-trade").fill("ready vinyl");
     await page.getByTestId("intent-standing").fill("2500");
+    await page
+      .getByTestId("intent-artwork-url")
+      .fill("https://cdn.example.com/readyfix.svg");
     await page.getByTestId("intent-submit").click();
     await expect(page.getByTestId("intent-success")).toBeVisible({
       timeout: 15_000,
