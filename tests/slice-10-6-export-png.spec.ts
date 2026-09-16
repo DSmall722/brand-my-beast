@@ -87,7 +87,7 @@ test.describe("slice 10.6: export seat PNG", () => {
     ).toBe(false);
   });
 
-  test("API: anonymous 401; signed-in gets PNG for a seat", async ({
+  test("API: anonymous 401; non-owner 403; owner and operator get PNG", async ({
     browser,
     request,
   }) => {
@@ -98,32 +98,54 @@ test.describe("slice 10.6: export seat PNG", () => {
     // Still 401 when anonymous — auth before panel lookup is fine either way.
     expect([401, 404]).toContain(missing.status());
 
-    const page = await browser.newPage();
-    await signIn(page, "export106@example.com");
-    await page.goto("/panels/hood");
-    await expect(page.getByTestId("seat-export-png-link")).toBeVisible();
-    await expect(page.getByTestId("seat-export-png-link")).toHaveAttribute(
+    const stranger = await browser.newPage();
+    await signIn(stranger, "export106-stranger@example.com");
+    const denied = await stranger.request.get("/api/panels/hood/export");
+    expect(denied.status()).toBe(403);
+    await stranger.close();
+
+    const owner = await browser.newPage();
+    await signIn(owner, "export106-owner@example.com");
+    await owner.goto("/panels/hood");
+    await owner.getByTestId("intent-brand").fill("Export106Co");
+    await owner.getByTestId("intent-trade").fill("export vinyl");
+    await owner.getByTestId("intent-standing").fill("2500");
+    await owner.getByTestId("intent-submit").click();
+    await expect(owner.getByTestId("intent-success")).toBeVisible({
+      timeout: 10_000,
+    });
+    await expect(owner.getByTestId("seat-export-png-link")).toBeVisible();
+    await expect(owner.getByTestId("seat-export-png-link")).toHaveAttribute(
       "href",
       "/api/panels/hood/export",
     );
 
-    const res = await page.request.get("/api/panels/hood/export");
-    expect(res.ok()).toBeTruthy();
-    expect(res.headers()["content-type"]).toContain("image/png");
-    expect(res.headers()["content-disposition"]).toContain(
+    const ownerRes = await owner.request.get("/api/panels/hood/export");
+    expect(ownerRes.ok()).toBeTruthy();
+    expect(ownerRes.headers()["content-type"]).toContain("image/png");
+    expect(ownerRes.headers()["content-disposition"]).toContain(
       "brandmybeast-hood.png",
     );
-    const buf = Buffer.from(await res.body());
-    expect(buf.subarray(0, 8).equals(Buffer.from([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a]))).toBe(
-      true,
-    );
+    const buf = Buffer.from(await ownerRes.body());
+    expect(
+      buf
+        .subarray(0, 8)
+        .equals(Buffer.from([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a])),
+    ).toBe(true);
 
-    const html = await page.content();
+    const html = await owner.content();
     expect(html.toLowerCase()).not.toContain("permanent vinyl");
     expect(html.toLowerCase()).not.toMatch(/\blease\b/);
     expect(html).not.toContain("CLOSE_AT");
     expect(html).toContain("$58,000");
     expect(html).toContain("$120,000");
-    await page.close();
+    await owner.close();
+
+    const operator = await browser.newPage();
+    await signIn(operator, "operator@example.com");
+    const opRes = await operator.request.get("/api/panels/hood/export");
+    expect(opRes.ok()).toBeTruthy();
+    expect(opRes.headers()["content-type"]).toContain("image/png");
+    await operator.close();
   });
 });

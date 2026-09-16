@@ -1954,13 +1954,18 @@ export async function loadBoardIntentStats(): Promise<BoardIntentStats> {
 }
 
 /** Standing holder (highest listed/approved) per panel, if any. */
+export type StandingHolder = {
+  brandLabel: string;
+  tradeLabel: string;
+  standingUsd: number;
+  /** Slice 13.36 — seat owner userId for download gates. */
+  userId: string;
+};
+
 export async function loadStandingHoldersByPanel(): Promise<
-  Map<string, { brandLabel: string; tradeLabel: string; standingUsd: number }>
+  Map<string, StandingHolder>
 > {
-  const map = new Map<
-    string,
-    { brandLabel: string; tradeLabel: string; standingUsd: number }
-  >();
+  const map = new Map<string, StandingHolder>();
   for (const panel of PANELS) {
     const bids = await listBidsForPanel(panel.id);
     const active = bids
@@ -1976,6 +1981,7 @@ export async function loadStandingHoldersByPanel(): Promise<
         brandLabel: top.brandLabel,
         tradeLabel: top.tradeLabel,
         standingUsd: top.standingUsd,
+        userId: top.userId,
       });
     }
   }

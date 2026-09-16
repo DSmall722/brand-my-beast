@@ -1,6 +1,10 @@
 import { NextResponse } from "next/server";
 import { auth } from "@/lib/auth";
-import { isShopPartnerEmail } from "@/lib/auth/shop-partner";
+import {
+  canDownloadShopPdf,
+  forbiddenDownload,
+  unsignedDownload,
+} from "@/lib/download-auth";
 import {
   getIntentBidById,
   loadBoardIntentStats,
@@ -16,21 +20,23 @@ export const runtime = "nodejs";
 type RouteContext = { params: Promise<{ bidId: string }> };
 
 /**
- * Slice 8.6 — shop PDF for one approved seat.
- * Auth: SHOP_PARTNER_EMAILS (test: shop@example.com). No Imagine API.
+ * Slice 8.6 / 13.36 — shop PDF for one approved seat.
+ * Shop partner or operator. No Imagine API.
  */
 export async function GET(_request: Request, context: RouteContext) {
   const session = await auth();
   if (!session?.user) {
+    const denial = unsignedDownload();
     return NextResponse.json(
-      { ok: false, error: "Sign in required." },
-      { status: 401 },
+      { ok: false, error: denial.error },
+      { status: denial.status },
     );
   }
-  if (!isShopPartnerEmail(session.user.email)) {
+  if (!canDownloadShopPdf(session.user.email)) {
+    const denial = forbiddenDownload("Shop partners or operator only.");
     return NextResponse.json(
-      { ok: false, error: "Shop partners only." },
-      { status: 403 },
+      { ok: false, error: denial.error },
+      { status: denial.status },
     );
   }
 

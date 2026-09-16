@@ -1,6 +1,10 @@
 import { NextResponse } from "next/server";
 import { auth } from "@/lib/auth";
-import { isOperatorEmail } from "@/lib/auth/operator";
+import {
+  canDownloadOperatorCsv,
+  forbiddenDownload,
+  unsignedDownload,
+} from "@/lib/download-auth";
 import { listStandingIntents } from "@/lib/intent-store";
 import {
   buildOperatorCsv,
@@ -11,21 +15,23 @@ import { listWaitlistSignups } from "@/lib/waitlist";
 export const runtime = "nodejs";
 
 /**
- * Slice 8.4 — operator CSV of waitlist + standing intents.
- * Auth + OPERATOR_EMAILS. Not listed in robots/sitemap.
+ * Slice 8.4 / 13.36 — operator CSV of waitlist + standing intents.
+ * Operator only. Not listed in robots/sitemap.
  */
 export async function GET() {
   const session = await auth();
   if (!session?.user) {
+    const denial = unsignedDownload();
     return NextResponse.json(
-      { ok: false, error: "Sign in required." },
-      { status: 401 },
+      { ok: false, error: denial.error },
+      { status: denial.status },
     );
   }
-  if (!isOperatorEmail(session.user.email)) {
+  if (!canDownloadOperatorCsv(session.user.email)) {
+    const denial = forbiddenDownload("Operator only.");
     return NextResponse.json(
-      { ok: false, error: "Operator only." },
-      { status: 403 },
+      { ok: false, error: denial.error },
+      { status: denial.status },
     );
   }
 
