@@ -10,6 +10,7 @@ import {
 } from "@/lib/approval-note-store";
 import { appendOperatorAuditLog } from "@/lib/operator-audit-log";
 import { parseIntentArtwork } from "@/lib/intent-artwork";
+import { parseStandingUsd } from "@/lib/intent";
 import {
   editPendingIntent,
   placeIntentBid,
@@ -45,7 +46,11 @@ export async function submitIntentBid(
   const brandLabel = String(formData.get("brandLabel") ?? "");
   const tradeLabel = String(formData.get("tradeLabel") ?? "");
   const standingRaw = String(formData.get("standingUsd") ?? "").trim();
-  const standingUsd = standingRaw ? Number(standingRaw) : undefined;
+  const standingParsed = parseStandingUsd(standingRaw === "" ? null : standingRaw);
+  if (!standingParsed.ok) {
+    return { ok: false, error: standingParsed.error };
+  }
+  const standingUsd = standingParsed.standingUsd;
   const proxyRaw = String(formData.get("proxyMaxUsd") ?? "").trim();
   const proxyMaxUsd = proxyRaw === "" ? null : Number(proxyRaw);
   const asFloorSave =
