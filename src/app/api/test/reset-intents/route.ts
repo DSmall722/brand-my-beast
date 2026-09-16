@@ -5,6 +5,7 @@ import { resetCabinPlaqueStoreForTests } from "@/lib/cabin-plaque-store";
 import { resetCircuitStoryStoreForTests } from "@/lib/circuit-story-store";
 import { resetContentRightsStoreForTests } from "@/lib/content-rights-store";
 import { resetIntentStoreForTests } from "@/lib/intent-store";
+import { resetIntentRevisionsForTests } from "@/lib/intent-revision";
 import { resetMockupStoreForTests } from "@/lib/mockup-store";
 import { resetOperatorAuditLogForTests } from "@/lib/operator-audit-log";
 import { resetOperatorBanListForTests } from "@/lib/operator-ban-list";
@@ -25,6 +26,7 @@ export async function POST() {
   resetArtworkBlobStoreForTests();
   resetOperatorBanListForTests();
   resetOperatorAuditLogForTests();
+  resetIntentRevisionsForTests();
   await resetPanelExtensionStoreForTests();
   await resetMockupStoreForTests();
   await resetApprovalNoteStoreForTests();

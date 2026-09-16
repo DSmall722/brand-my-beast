@@ -11,13 +11,17 @@ import {
 } from "./artwork-blob";
 import { GOAL_USD, PANELS, type Panel } from "./campaign";
 import { getDb } from "./db";
-import { intentBids, type IntentBidRow } from "./db/schema";
+import { intentBids, intentRevisions, type IntentBidRow } from "./db/schema";
 import { assertTradeAllowed } from "./banned-trades";
 import {
   assertOperatorBanAllowed,
   listBanRules,
 } from "./operator-ban-list";
 import { notifyIntentStatus } from "./intent-status-mail";
+import {
+  appendIntentRevision,
+  resetIntentRevisionsForTests,
+} from "./intent-revision";
 import {
   assertIntentOnly,
   depositUsdForMark,
@@ -53,6 +57,21 @@ async function notifyIntentStatusSafe(
     await notifyIntentStatus(input);
   } catch {
     // Status / list already committed.
+  }
+}
+
+/** Slice 12.8 — revision failure must not undo a successful intent write. */
+async function recordIntentRevisionSafe(bid: IntentBid): Promise<void> {
+  try {
+    await appendIntentRevision({
+      bidId: bid.id,
+      brandLabel: bid.brandLabel,
+      tradeLabel: bid.tradeLabel,
+      standingUsd: bid.standingUsd,
+      artworkUrl: bid.artworkUrl,
+    });
+  } catch {
+    // Bid already listed / edited.
   }
 }
 
@@ -617,6 +636,7 @@ export async function placeIntentBid(
         assertIntentOnly(bid);
         memoryBids().push(bid);
         await notifyIntentStatusSafe({ kind: "listed", bid });
+        await recordIntentRevisionSafe(bid);
         return { ok: true, bid };
       }
       const dbFloor = getDb();
@@ -644,6 +664,7 @@ export async function placeIntentBid(
       if (!floorRow) return { ok: false, error: "Could not record intent." };
       const floorBid = rowToBid(floorRow);
       await notifyIntentStatusSafe({ kind: "listed", bid: floorBid });
+      await recordIntentRevisionSafe(floorBid);
       return { ok: true, bid: floorBid };
     }
 
@@ -727,6 +748,7 @@ export async function placeIntentBid(
       });
       const fresh =
         memoryBids().find((row) => row.id === bid.id) ?? bid;
+      await recordIntentRevisionSafe(fresh);
       return { ok: true, bid: { ...fresh } };
     }
 
@@ -799,6 +821,7 @@ export async function placeIntentBid(
       proxyDepth,
     });
     const fresh = (await getIntentBidById(bid.id)) ?? bid;
+    await recordIntentRevisionSafe(fresh);
     return { ok: true, bid: fresh };
   } catch {
     // Slice 6.5 — structured failure only; never claim the intent listed.
@@ -1147,6 +1170,7 @@ export async function editPendingIntent(input: {
     live.artworkUrl = artworkUrl;
     live.updatedAt = nextUpdatedAtIso(live.updatedAt);
     assertIntentOnly(live);
+    await recordIntentRevisionSafe(live);
     return { ok: true, bid: live };
   }
 
@@ -1183,17 +1207,20 @@ export async function editPendingIntent(input: {
   }
   const next = rowToBid(row);
   assertIntentOnly(next);
+  await recordIntentRevisionSafe(next);
   return { ok: true, bid: next };
 }
 
 export async function resetIntentStoreForTests(): Promise<void> {
   resetArtworkBlobStoreForTests();
+  resetIntentRevisionsForTests();
   if (useMemoryStore()) {
     globalForIntent.__bmbIntentBids = [];
     return;
   }
   const db = getDb();
   if (!db) return;
+  await db.delete(intentRevisions);
   await db.delete(intentBids);
 }
 
