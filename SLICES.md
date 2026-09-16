@@ -15,8 +15,8 @@ Updated: 2026-09-16
 - Coordinator may merge a PR that finishes exactly one unchecked slice, Playwright is green, and the merge gates below hold.
 - Judge PRs from git + `npm test` + `npm run build`. Do not use brandmybeast.com as a gate while the Vercel usage hold is on.
 
-**Now:** 13.10 Changelog file of last 20 merged slice ids.
-**Last merged:** 13.9 (#216 EMAIL-DNS SPF/DKIM/DMARC checklist).
+**Now:** 13.11 Failed-winner timeout: offer expires; next compliant mark; no silent reopen.
+**Last merged:** 13.10 (#NN CHANGELOG last 20 merged slice ids).
 
 ## Standing orders
 
@@ -105,8 +105,47 @@ Do not start Wave 13 until 12.50 is checked. No Stripe. No CLOSE_AT.
 - [x] 13.7 `docs/P3-DAY.md` runbook. Checkboxes only. Does not set CLOSE_AT. (#214)
 - [x] 13.8 `docs/WRAP-SHOP.md` shortlist template. (#215)
 - [x] 13.9 `docs/EMAIL-DNS.md` SPF/DKIM/DMARC checklist for hello@. (#216)
-- [ ] 13.10 Changelog file of last 20 merged slice ids.
-- [ ] 13.11–13.50 Remain as previously locked (auction correctness, shop, trust, ops freeze). See commit history if a line was abbreviated. Full text lives in git before this compaction. Coordinator must not invent Stripe or a close date.
+- [x] 13.10 Changelog file of last 20 merged slice ids. (#NN)
+- [ ] 13.11 Failed-winner timeout: offer expires; next compliant mark; no silent reopen.
+- [ ] 13.12 Proxy max cannot exceed a hard cap published in CAMPAIGN.md in that same PR.
+- [ ] 13.13 Floor-save cannot fire if pledged already >= $58,000.
+- [ ] 13.14 Withdraw of the only pending mark does not leave a ghost standing.
+- [ ] 13.15 Edit-while-pending increments the revision table (12.8).
+- [ ] 13.16 Ban-list change re-runs pending intents; approved seats stay.
+- [ ] 13.17 Whole-truck reject rolls back all twelve rows in one transaction.
+- [ ] 13.18 Outbid email includes next minimum (9.2).
+- [ ] 13.19 Operator cannot approve two brands on one panel even if they race.
+- [ ] 13.20 Playwright: failed-winner accepts → old winner is `outbid`, not deleted.
+- [ ] 13.21 Shop PDF embeds etch-lock state from pledged vs $120,000.
+- [ ] 13.22 `shop-ready` requires vector URL or Blob key, not a screenshot only.
+- [ ] 13.23 Winner packet includes wrap term start = install day, not close.
+- [ ] 13.24 Partner cannot see bidder email — only brand + trade + art.
+- [ ] 13.25 Operator print view for one seat (13.23 + 8.6).
+- [ ] 13.26 Art size cap documented (max bytes in RULES.md).
+- [ ] 13.27 Etch art rejected if linter fails; wrap art may still list.
+- [ ] 13.28 `/account/wins` empty state from PUBLIC_COPY.
+- [ ] 13.29 Certificate template exists as markdown only. No issued date until etch exists.
+- [ ] 13.30 Remove Cabin plaque form from any authenticated nav while `TRUCK_EXISTS` is false.
+- [ ] 13.31 Waitlist email domain blocklist (disposable) — operator editable.
+- [ ] 13.32 Same user cannot hold standing on all 12 panels unless whole-truck path.
+- [ ] 13.33 Rate-limit operator approve/reject.
+- [ ] 13.34 Magic-link request logs hashed email only (ties 12.41).
+- [ ] 13.35 CSP `form-action` self + Resend callback host (builds on 11.1).
+- [ ] 13.36 Download routes (CSV, PDF, PNG) require operator or owner. Playwright 401/403.
+- [ ] 13.37 `robots.txt` still excludes `/account`, `/signin`, `/operator`.
+- [ ] 13.38 Terms stub adds “intent is not a charge.”
+- [ ] 13.39 Privacy stub adds waitlist retention: until seats open or user deletes.
+- [ ] 13.40 No personal Gmail in `git grep` of `src/` + `*.md`.
+- [ ] 13.41 `prove-all.sh` includes 9.6–9.10 and 12.45–12.46.
+- [ ] 13.42 CI fails if `package.json` gains `stripe`.
+- [ ] 13.43 CI fails if `CLOSE_AT` is non-null.
+- [ ] 13.44 Drizzle journal checked in. No “push from laptop” as the only path.
+- [ ] 13.45 Operator health shows waitlist count + pending count + last digest time.
+- [ ] 13.46 Document how to run Playwright offline (memory mode).
+- [ ] 13.47 Verify-skill map Waves 9–13.
+- [ ] 13.48 Tag `wave-12-complete` after 12.50. Still no clock.
+- [ ] 13.49 Slice 11.10 remains human: one-line runbook “redeploy when Vercel hold lifts.”
+- [ ] 13.50 Stop line in SLICES: “Wave 15 is Stripe and needs a human message.”
 
 ## Wave 14 — launch readiness, no charge
 
