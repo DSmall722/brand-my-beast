@@ -56,7 +56,11 @@ export function EtchConstraintLinter() {
         <p className="auth-hint" data-testid="etch-lint-pass">
           Notes look etch-safe so far — still no capture.
         </p>
-      ) : null}
+      ) : (
+        <p className="auth-hint" data-testid="etch-lint-idle">
+          Etch art is rejected if the linter fails. Wrap art may still list.
+        </p>
+      )}
     </div>
   );
 }

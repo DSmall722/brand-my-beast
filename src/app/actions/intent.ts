@@ -27,6 +27,7 @@ import {
   assertEtchFinishAllowed,
   parseOperatorFinish,
 } from "@/lib/etch-approve-lock";
+import { assertEtchArtPassesLinter } from "@/lib/etch-linter";
 import { checkRateLimit } from "@/lib/rate-limit";
 
 export type IntentActionState = {
@@ -153,6 +154,11 @@ export async function decideIntentBid(
         pledgedUsd: board.pledgedUsd,
       });
       if (!etchGate.ok) return { ok: false, error: etchGate.error };
+
+      // Slice 13.27 — etch art notes must pass linter; wrap may still list.
+      const artNotes = String(formData.get("artNotes") ?? "");
+      const lintGate = assertEtchArtPassesLinter({ finish, artNotes });
+      if (!lintGate.ok) return { ok: false, error: lintGate.error };
     }
   }
 

@@ -1,7 +1,8 @@
 /**
  * Slice 3.4 — etch constraint linter (FEATURES P2 #18 / RULES.md).
  * RULES.md: 1-color, minimum stroke, no gradients, no 8-pt type.
- * Soft guidance only — no capture, no clock.
+ * Slice 13.27 — etch finish is rejected when lint severity is fail;
+ * wrap art may still list / approve.
  */
 
 export type EtchLintSeverity = "pass" | "warn" | "fail";
@@ -40,6 +41,9 @@ export const ETCH_CONSTRAINTS = [
     detail: "Reject type that cannot be lasered at speed.",
   },
 ] as const;
+
+export const ETCH_ART_LINTER_REJECT_ERROR =
+  "Etch art failed the linter. Wrap art may still list.";
 
 const FORBIDDEN =
   /\b(gradient|gradients|multi[\s-]?color|full[\s-]?color|cmyk|rgb|photo|photograph|8[\s-]?pt|8[\s-]?point|hairline|drop[\s-]?shadow)\b/i;
@@ -85,4 +89,24 @@ export function lintEtchArtNotes(artNotes: string): EtchLintReport {
   }
 
   return { severity: worst(issues), issues };
+}
+
+/**
+ * Slice 13.27 — hard gate for etch finish only.
+ * Wrap finish always passes so wrap art may still list / approve.
+ */
+export function assertEtchArtPassesLinter(input: {
+  finish: "wrap" | "etch";
+  artNotes: string;
+}): { ok: true } | { ok: false; error: string } {
+  if (input.finish !== "etch") return { ok: true };
+  const report = lintEtchArtNotes(input.artNotes);
+  if (report.severity !== "fail") return { ok: true };
+  const fail = report.issues.find((issue) => issue.severity === "fail");
+  return {
+    ok: false,
+    error: fail?.message
+      ? `${fail.message} Wrap art may still list.`
+      : ETCH_ART_LINTER_REJECT_ERROR,
+  };
 }
