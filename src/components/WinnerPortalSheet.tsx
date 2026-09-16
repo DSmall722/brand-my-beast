@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { GOAL_USD, PANELS, formatUsd, isEtchable } from "@/lib/campaign";
 import type { IntentBid } from "@/lib/intent";
+import { winnerPacketPath } from "@/lib/winner-packet";
 import {
   winnerPortalFactsVisible,
   winnerSeatsFor,
@@ -81,6 +82,14 @@ export function WinnerPortalSheet({
                     {panel && isEtchable(panel)
                       ? `Approved wrap · etchable at ${formatUsd(GOAL_USD)}`
                       : "Approved wrap only"}
+                  </p>
+                  <p className="auth-hint">
+                    <a
+                      href={winnerPacketPath(bid.id)}
+                      data-testid={`winner-packet-${bid.id}`}
+                    >
+                      Download winner packet
+                    </a>
                   </p>
                 </li>
               );
