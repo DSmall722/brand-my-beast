@@ -5,6 +5,7 @@ import { IntentArtworkPreview } from "@/components/IntentArtworkPreview";
 import { ArtworkApprovalChecklist } from "@/components/ArtworkApprovalChecklist";
 import { ImagineMockupControls } from "@/components/ImagineMockupControls";
 import { MockupQueue } from "@/components/MockupQueue";
+import { OperatorStatusPanel } from "@/components/OperatorStatusPanel";
 import { SiteChrome } from "@/components/SiteChrome";
 import { auth } from "@/lib/auth";
 import { isOperatorEmail } from "@/lib/auth/operator";
@@ -32,6 +33,7 @@ import {
   operatorCampaignLocks,
 } from "@/lib/operator-campaign-locks";
 import { OPERATOR_CSV_PATH } from "@/lib/operator-csv";
+import { loadOperatorStatus } from "@/lib/operator-status";
 
 type SearchParams = Promise<{ status?: string | string[] }>;
 
@@ -64,12 +66,14 @@ export default async function OperatorPage({
   const filter = parseOperatorFilter(params.status);
   const status = operatorFilterToStatus(filter);
 
-  const [pending, filtered, decided, mockupQueue] = await Promise.all([
-    listBidsPendingApproval(),
-    listBidsWithStatus(status),
-    listDecidedBids(),
-    listMockupQueue(),
-  ]);
+  const [pending, filtered, decided, mockupQueue, operatorStatus] =
+    await Promise.all([
+      listBidsPendingApproval(),
+      listBidsWithStatus(status),
+      listDecidedBids(),
+      listMockupQueue(),
+      loadOperatorStatus(),
+    ]);
   const mockups =
     filter === "pending"
       ? await listMockupsForBids(filtered.map((bid) => bid.id))
@@ -153,6 +157,8 @@ export default async function OperatorPage({
             </div>
           </dl>
         </aside>
+
+        <OperatorStatusPanel status={operatorStatus} />
 
         <MockupQueue mockups={mockupQueue} />
 
