@@ -5,6 +5,8 @@ import { PUBLIC_COPY } from "@/lib/public-copy";
 
 type Status = "idle" | "loading" | "created" | "exists" | "error";
 
+const WAITLIST_STATUS_ID = "waitlist-status";
+
 export function WaitlistForm() {
   const [email, setEmail] = useState("");
   const [status, setStatus] = useState<Status>("idle");
@@ -49,6 +51,7 @@ export function WaitlistForm() {
 
   const disabled = status === "loading";
   const showNext = status === "created" || status === "exists";
+  const isError = status === "error";
 
   return (
     <form
@@ -71,6 +74,8 @@ export function WaitlistForm() {
           onChange={(event) => setEmail(event.target.value)}
           placeholder={PUBLIC_COPY.waitlist.placeholder}
           disabled={disabled}
+          aria-invalid={isError ? true : undefined}
+          aria-describedby={WAITLIST_STATUS_ID}
           data-testid="waitlist-email"
         />
         <button type="submit" disabled={disabled} data-testid="waitlist-submit">
@@ -78,8 +83,9 @@ export function WaitlistForm() {
         </button>
       </div>
       <p
-        className={`waitlist-msg ${status === "error" ? "is-error" : "is-ok"}`}
-        role="status"
+        id={WAITLIST_STATUS_ID}
+        className={`waitlist-msg ${isError ? "is-error" : "is-ok"}`}
+        role={isError ? "alert" : "status"}
         data-testid="waitlist-status"
       >
         {message || PUBLIC_COPY.waitlist.idleNote}
