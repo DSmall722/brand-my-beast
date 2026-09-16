@@ -15,8 +15,8 @@ Updated: 2026-09-15
 - Coordinator may merge a PR that finishes exactly one unchecked slice, Playwright is green, and the merge gates below hold.
 - Judge PRs from git + `npm test` + `npm run build`. Do not use brandmybeast.com as a gate while the Vercel usage hold is on.
 
-**Now:** 12.6 Reject standing that is not an integer dollar.
-**Last merged:** 12.5 (#160 depositUsd via round(standing * 0.20) helper).
+**Now:** 12.7 Normalize trade strings before exclusivity check.
+**Last merged:** 12.6 (#161 reject non-integer standing dollars).
 
 ## Standing orders
 
@@ -143,7 +143,7 @@ Do not start Wave 12 until 11.10 is checked or skipped by the human. Still no St
 - [x] 12.3 Unique partial index: one `approved` row per `panelId`. (#158)
 - [x] 12.4 Idempotency key on intent POST. Replay does not double-list. (#159)
 - [x] 12.5 `depositUsd` always `round(standing * 0.20)` in one helper. Playwright lock. (#160)
-- [ ] 12.6 Reject standing that is not an integer dollar.
+- [x] 12.6 Reject standing that is not an integer dollar. (#161)
 - [ ] 12.7 Normalize trade strings before exclusivity check.
 - [ ] 12.8 Intent revision table: brand/trade/amount/art changes with timestamps.
 - [ ] 12.9 Soft-delete withdrawn rows. Never hard-delete an approved bid.
