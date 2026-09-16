@@ -1593,7 +1593,7 @@ export async function listWholeTruckSiblingBids(
 
 /**
  * Slice 13.17 — reject whole-truck rolls back all twelve rows in one
- * transaction. Still intent only — no card. CLOSE_AT untouched.
+ * transaction. Still intent only — no card. Campaign clock stays unset.
  */
 export async function rejectWholeTruckIntent(input: {
   bidId: string;
