@@ -115,7 +115,7 @@ If any gate fails: leave the PR unmerged and stop that slice.
 - [x] 10.3 Etch toggle disabled unless pledged >= $120,000. Playwright on the seat. (#138)
 - [x] 10.4 Mockup queue row. No billable Imagine call. (#139)
 - [x] 10.5 Wrap vs etch labels from PUBLIC_COPY only. No “permanent vinyl.” (#140)
-- [x] 10.6 Export one PNG per seat (auth-gated server route). (#TBD)
+- [x] 10.6 Export one PNG per seat (auth-gated server route). (#141)
 - [ ] 10.7 Mobile compositor: one view at a time. Playwright 390px, wordmark not clipped.
 - [ ] 10.8 Every truck `<img>` alt comes from PUBLIC_COPY.
 - [ ] 10.9 Panel cards show standing brand or “Open.”
