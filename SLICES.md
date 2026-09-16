@@ -16,7 +16,7 @@ Updated: 2026-09-15
 - Judge PRs from git + `npm test` + `npm run build`. Do not use brandmybeast.com as a gate while the Vercel usage hold is on.
 
 **Now:** 11.1 CSP / security headers in `next.config`.
-**Last merged:** 10.10 (#TBD Neighbor combo is display only. Test there is no invented combo price).
+**Last merged:** 10.10 (#145 Neighbor combo is display only. Test there is no invented combo price).
 
 ## Standing orders
 
@@ -119,7 +119,7 @@ If any gate fails: leave the PR unmerged and stop that slice.
 - [x] 10.7 Mobile compositor: one view at a time. Playwright 390px, wordmark not clipped. (#142)
 - [x] 10.8 Every truck `<img>` alt comes from PUBLIC_COPY. (#143)
 - [x] 10.9 Panel cards show standing brand or “Open.” (#144)
-- [x] 10.10 Neighbor combo is display only. Test there is no invented combo price. (#TBD)
+- [x] 10.10 Neighbor combo is display only. Test there is no invented combo price. (#145)
 
 ## Wave 11 — harden in repo
 
