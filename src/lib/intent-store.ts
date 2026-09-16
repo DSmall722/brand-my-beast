@@ -834,6 +834,7 @@ export async function placeIntentBid(
           !isFloorSaveBid(existing)
         ) {
           const snapshot: IntentBid = { ...existing };
+          // Slice 13.20 — outbid is soft-status only; never hard-delete.
           existing.status = "outbid";
           existing.updatedAt = nextUpdatedAtIso(existing.updatedAt);
           outbidTargets.push({ ...snapshot, status: "outbid" });
