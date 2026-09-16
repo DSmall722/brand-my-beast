@@ -2,6 +2,7 @@ import { HomeEtchSection } from "@/components/home/HomeEtchSection";
 import { HomeFooter } from "@/components/home/HomeFooter";
 import { HomeHeader } from "@/components/home/HomeHeader";
 import { HomeHeroSection } from "@/components/home/HomeHeroSection";
+import { HomeJsonLd } from "@/components/home/HomeJsonLd";
 import { HomeMoneySection } from "@/components/home/HomeMoneySection";
 import { HomePanelsSection } from "@/components/home/HomePanelsSection";
 import { HomeQuestionsSection } from "@/components/home/HomeQuestionsSection";
@@ -64,6 +65,7 @@ export default async function HomePage() {
 
   return (
     <>
+      <HomeJsonLd />
       <HomeSkipLink />
       <HomeHeader />
 
