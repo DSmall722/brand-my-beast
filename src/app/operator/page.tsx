@@ -4,6 +4,7 @@ import { ApprovalButtons } from "@/components/ApprovalButtons";
 import { IntentArtworkPreview } from "@/components/IntentArtworkPreview";
 import { ArtworkApprovalChecklist } from "@/components/ArtworkApprovalChecklist";
 import { ImagineMockupControls } from "@/components/ImagineMockupControls";
+import { MockupQueue } from "@/components/MockupQueue";
 import { SiteChrome } from "@/components/SiteChrome";
 import { auth } from "@/lib/auth";
 import { isOperatorEmail } from "@/lib/auth/operator";
@@ -18,7 +19,7 @@ import {
   listBidsWithStatus,
   listDecidedBids,
 } from "@/lib/intent-store";
-import { listMockupsForBids } from "@/lib/mockup-store";
+import { listMockupQueue, listMockupsForBids } from "@/lib/mockup-store";
 import {
   OPERATOR_FILTERS,
   operatorFilterLabel,
@@ -63,10 +64,11 @@ export default async function OperatorPage({
   const filter = parseOperatorFilter(params.status);
   const status = operatorFilterToStatus(filter);
 
-  const [pending, filtered, decided] = await Promise.all([
+  const [pending, filtered, decided, mockupQueue] = await Promise.all([
     listBidsPendingApproval(),
     listBidsWithStatus(status),
     listDecidedBids(),
+    listMockupQueue(),
   ]);
   const mockups =
     filter === "pending"
@@ -151,6 +153,8 @@ export default async function OperatorPage({
             </div>
           </dl>
         </aside>
+
+        <MockupQueue mockups={mockupQueue} />
 
         <nav
           className="operator-filters"
