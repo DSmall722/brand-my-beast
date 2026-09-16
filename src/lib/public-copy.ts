@@ -211,6 +211,9 @@ export const PUBLIC_COPY = {
     /** Slice 13.11 — offer window elapsed; cascade to next compliant. */
     failedWinnerExpired:
       "Failed-winner offer expired. Next compliant mark is up. No silent reopen.",
+    /** Slice 13.28 — /account/wins empty state. */
+    winsEmpty:
+      "No approved seats yet. Operator approval on a listed intent opens this sheet. Still no card charge.",
   },
   /** Intent failure strings (not homepage PUBLIC_COPY.md sections). */
   intent: {

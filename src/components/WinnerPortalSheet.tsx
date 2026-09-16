@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { GOAL_USD, PANELS, formatUsd, isEtchable } from "@/lib/campaign";
 import type { IntentBid } from "@/lib/intent";
+import { PUBLIC_COPY } from "@/lib/public-copy";
 import { winnerPacketPath } from "@/lib/winner-packet";
 import {
   winnerPortalFactsVisible,
@@ -45,8 +46,7 @@ export function WinnerPortalSheet({
         </h2>
         {approvedOnly.length === 0 ? (
           <p className="empty-state" data-testid="winner-portal-empty">
-            No approved seats yet. Operator approval on a listed intent opens
-            this sheet. Still no card charge.
+            {PUBLIC_COPY.seat.winsEmpty}
           </p>
         ) : (
           <ul
