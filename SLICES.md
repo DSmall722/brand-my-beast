@@ -15,8 +15,8 @@ Updated: 2026-09-16
 - Coordinator may merge a PR that finishes exactly one unchecked slice, Playwright is green, and the merge gates below hold.
 - Judge PRs from git + `npm test` + `npm run build`. Do not use brandmybeast.com as a gate while the Vercel usage hold is on.
 
-**Now:** 13.1 PROCESS.md: coordinator reads SLICES Waves 7–14; live site is not a gate while the Vercel hold is on.
-**Last merged:** 12.50 (#207 intent-complete freeze tag — CLOSE_AT null).
+**Now:** 13.2 ARCHITECTURE.md: Postgres + Blob + Resend mock; no Stripe box.
+**Last merged:** 13.1 (#208 PROCESS.md SLICES Waves 7–14; live site not a gate).
 
 ## Standing orders
 
@@ -96,7 +96,7 @@ Complete through 11.10 skipped (Vercel hold). Condensed ranges keep verify-map p
 
 Do not start Wave 13 until 12.50 is checked. No Stripe. No CLOSE_AT.
 
-- [ ] 13.1 PROCESS.md: coordinator reads SLICES Waves 7–14; live site is not a gate while the Vercel hold is on.
+- [x] 13.1 PROCESS.md: coordinator reads SLICES Waves 7–14; live site is not a gate while the Vercel hold is on. (#208)
 - [ ] 13.2 ARCHITECTURE.md: Postgres + Blob + Resend mock; no Stripe box.
 - [ ] 13.3 CAMPAIGN.md links `CONTRACT.md` for wreck text. Money table stays $58,000 / $120,000.
 - [ ] 13.4 RULES.md adds failed-winner + one-approved-per-panel.
