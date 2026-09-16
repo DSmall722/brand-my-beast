@@ -15,8 +15,8 @@ Updated: 2026-09-15
 - Coordinator may merge a PR that finishes exactly one unchecked slice, Playwright is green, and the merge gates below hold.
 - Judge PRs from git + `npm test` + `npm run build`. Do not use brandmybeast.com as a gate while the Vercel usage hold is on.
 
-**Now:** 12.14 Waitlist double-opt-in token.
-**Last merged:** 12.13 (#168 CAN-SPAM stub footer on every mail).
+**Now:** 12.15 Account export JSON. Auth-gated.
+**Last merged:** 12.14 (#169 waitlist double-opt-in confirm token).
 
 ## Standing orders
 
@@ -151,7 +151,7 @@ Do not start Wave 12 until 11.10 is checked or skipped by the human. Still no St
 - [x] 12.11 Email templates as files under `src/emails/`. (#166)
 - [x] 12.12 Dead-letter table for failed Resend sends. Operator can retry. (#167)
 - [x] 12.13 Unsubscribe + physical address line on every mail (CAN-SPAM stub). (#168)
-- [ ] 12.14 Waitlist double-opt-in token.
+- [x] 12.14 Waitlist double-opt-in token. (#169)
 - [ ] 12.15 Account export JSON. Auth-gated.
 - [ ] 12.16 Account delete: anonymize user id on bids, keep public standing amounts.
 - [ ] 12.17 Sign-in page copy from PUBLIC_COPY. No “test login” string in live mode.

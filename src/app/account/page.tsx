@@ -7,6 +7,7 @@ import { WithdrawPendingButton } from "@/components/WithdrawPendingButton";
 import { auth } from "@/lib/auth";
 import { isOperatorEmail } from "@/lib/auth/operator";
 import { isShopPartnerEmail } from "@/lib/auth/shop-partner";
+import { ACCOUNT_EXPORT_PATH } from "@/lib/account-export";
 import {
   DEPOSIT_PERCENT,
   FLOOR_USD,
@@ -273,6 +274,14 @@ export default async function AccountPage() {
         </section>
 
         <div className="auth-actions">
+          <a
+            className="btn btn-ghost"
+            href={ACCOUNT_EXPORT_PATH}
+            download
+            data-testid="account-export-download"
+          >
+            Download account JSON
+          </a>
           <Link
             className="btn btn-signal"
             href="/panels/hood"
