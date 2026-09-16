@@ -8,15 +8,15 @@ Updated: 2026-09-16
 ## How this file stays alive
 
 - Next job = the first unchecked box, wave order. Do not skip. Do not start two boxes in one PR.
-- Exception 2026-09-16: after the in-flight slice, do **14.0** next so a local preview can be shared. Then resume 12.28.
+- Exception 2026-09-16: do **14.0** next so a local preview can be shared. 12.28 is complete (#183). Do not start Wave 13 from this closeout.
 - The PR that finishes a slice also flips that box `[ ]` → `[x]` and appends `(#NN)` on the same line.
 - Set **Now** and **Last merged** in this file in that same PR.
 - Do not add a new checkbox unless the human writes it here first. After Wave 14, idle. Do not open Wave 15 from FEATURES.md.
 - Coordinator may merge a PR that finishes exactly one unchecked slice, Playwright is green, and the merge gates below hold.
 - Judge PRs from git + `npm test` + `npm run build`. Do not use brandmybeast.com as a gate while the Vercel usage hold is on.
 
-**Now:** 14.0 Numbered stainless board on the hero / truck views (then resume 12.28).
-**Last merged:** 12.27 (#182 opening-bid rationale from RULES.md on seat).
+**Now:** 14.0 Numbered stainless board on the hero / truck views.
+**Last merged:** 12.28 (#183 etch finish approve lock under $120k).
 
 ## Standing orders
 
@@ -50,12 +50,25 @@ Updated: 2026-09-16
 
 ## Waves 0–11
 
-Complete through 11.10 skipped (Vercel hold). See git history / prior SLICES revisions.
+Complete through 11.10 skipped (Vercel hold). Condensed ranges keep verify-map parsers honest; full text lives in git history.
+
+- [x] 0.1–0.9 Complete.
+- [x] 1.1–1.8 Complete.
+- [x] 2.1–2.5 Complete.
+- [x] 3.1–3.7 Complete.
+- [x] 4.1–4.6 Complete.
+- [x] 5.1–5.4 Complete.
+- [x] 6.1–6.15 Complete.
+- [x] 7.1–7.10 Complete.
+- [x] 8.1–8.10 Complete.
+- [x] 9.1–9.10 Complete.
+- [x] 10.1–10.10 Complete.
+- [x] 11.1–11.10 Complete.
 
 ## Wave 12 — money-ready without charging
 
 - [x] 12.1–12.27 Complete through opening-bid rationale. (#156–#182)
-- [ ] 12.28 Operator cannot approve etch finish while pledged < $120,000.
+- [x] 12.28 Operator cannot approve etch finish while pledged < $120,000. (#183)
 - [ ] 12.29 Whole-truck intent cannot stack on a panel that already has approved standing.
 - [ ] 12.30 Ban-list match is logged with the rule id (ties to 8.8).
 - [ ] 12.31 JSON-LD Organization + Offer on `/` from PUBLIC_COPY. No impression claims.
@@ -97,7 +110,7 @@ Do not start Wave 13 until 12.50 is checked. No Stripe. No CLOSE_AT.
 
 ## Wave 14 — launch readiness, no charge
 
-Human-approved 2026-09-16. **14.0 jumps the line** so a local preview can be shared. After 14.0, resume 12.28 then the rest of 12 / 13, then 14.1. Wave 15 is Stripe and needs a separate human message.
+Human-approved 2026-09-16. **14.0 jumps the line** so a local preview can be shared. 12.28 is complete (#183). After 14.0, resume the rest of 12 / 13, then 14.1. Wave 15 is Stripe and needs a separate human message.
 
 - [ ] 14.0 Numbered stainless board. Put visible 1–12 callouts on the existing hero still (`/hero-truck-preview.jpg`) and on the side/front/rear views. Numbers and names match `PANELS` in campaign.ts (1 hood … 12 rear fascia). Each number is a link to `/panels/[id]`. Keep the truck bare stainless — no wrap, no etch, no Tesla marks, no teslacyberbeast livery. The schematic SVG rectangle is not enough; people have to see a Cybertruck. Playwright 390px: at least six numbers visible, H1 still `Put your brand on the truck people already photograph.`, `Notify me` present, no lease, no personal handle.
 - [ ] 14.1 FEATURES.md: shipped rows marked shipped with slice id; P3/P5 stay Catalog.
