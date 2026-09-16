@@ -12,6 +12,7 @@ import { TruckViewHotspots } from "@/components/TruckViewHotspots";
 import { SiteChrome } from "@/components/SiteChrome";
 import { auth } from "@/lib/auth";
 import { DEPOSIT_PERCENT, FLOOR_USD, GOAL_USD, PANELS, formatUsd, isEtchable } from "@/lib/campaign";
+import { OPENING_BID_RATIONALE } from "@/lib/opening-bid-rationale";
 import { comboLotFor } from "@/lib/combo-lots";
 import { minIncrementUsd } from "@/lib/intent";
 import {
@@ -233,6 +234,13 @@ export default async function PanelIntentPage({
             </dd>
           </div>
         </dl>
+        <p
+          className="auth-hint"
+          data-testid="opening-bid-rationale"
+          data-source="RULES.md"
+        >
+          {OPENING_BID_RATIONALE}
+        </p>
         <p className="auth-hint" data-testid="seat-next-minimum-rule">
           {seatOpen
             ? `Seat open — next minimum is the opening mark ${formatUsd(minimum)}. Still intent only — no card.`
