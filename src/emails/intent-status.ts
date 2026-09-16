@@ -29,6 +29,8 @@ export function intentStatusEmailTemplate(input: {
   kind: IntentStatusKind;
   bid: IntentBid;
   note?: string;
+  /** Slice 13.18 / 9.2 — next seat minimum after this outbid. */
+  nextMinimumUsd?: number;
 }): EmailTemplate {
   const panel = input.bid.panelId;
   const mark = formatUsd(input.bid.standingUsd);
@@ -41,12 +43,20 @@ export function intentStatusEmailTemplate(input: {
         "This is intent only. No card was charged.",
         `— ${BRAND.name}`,
       ]);
-    case "outbid":
+    case "outbid": {
+      const nextMin =
+        input.nextMinimumUsd != null && Number.isFinite(input.nextMinimumUsd)
+          ? formatUsd(input.nextMinimumUsd)
+          : null;
       return finish(`Outbid on ${panel}`, [
         `Your standing mark on ${panel} (${brand}, ${mark}) was outbid.`,
-        "You can place a higher intent when you are ready. No card was charged.",
+        nextMin
+          ? `Next minimum to reclaim the seat: ${nextMin}.`
+          : "You can place a higher intent when you are ready.",
+        "No card was charged.",
         `— ${BRAND.name}`,
       ]);
+    }
     case "approved":
       return finish(`Intent approved — ${panel}`, [
         `Your intent for ${brand} on ${panel} at ${mark} was approved.`,

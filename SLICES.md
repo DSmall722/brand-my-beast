@@ -15,8 +15,8 @@ Updated: 2026-09-16
 - Coordinator may merge a PR that finishes exactly one unchecked slice, Playwright is green, and the merge gates below hold.
 - Judge PRs from git + `npm test` + `npm run build`. Do not use brandmybeast.com as a gate while the Vercel usage hold is on.
 
-**Now:** 13.18 Outbid email includes next minimum (9.2).
-**Last merged:** 13.17 (#225 whole-truck reject rolls back all twelve rows).
+**Now:** 13.19 Operator cannot approve two brands on one panel even if they race.
+**Last merged:** 13.18 (#226 outbid email includes next minimum).
 
 ## Standing orders
 
@@ -113,7 +113,7 @@ Do not start Wave 13 until 12.50 is checked. No Stripe. No CLOSE_AT.
 - [x] 13.15 Edit-while-pending increments the revision table (12.8). (#222)
 - [x] 13.16 Ban-list change re-runs pending intents; approved seats stay. (#223)
 - [x] 13.17 Whole-truck reject rolls back all twelve rows in one transaction. (#225)
-- [ ] 13.18 Outbid email includes next minimum (9.2).
+- [x] 13.18 Outbid email includes next minimum (9.2). (#226)
 - [ ] 13.19 Operator cannot approve two brands on one panel even if they race.
 - [ ] 13.20 Playwright: failed-winner accepts → old winner is `outbid`, not deleted.
 - [ ] 13.21 Shop PDF embeds etch-lock state from pledged vs $120,000.
