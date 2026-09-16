@@ -91,6 +91,10 @@ test.describe("slice 7.3: test API blocked in production", () => {
       join(process.cwd(), "src/app/api/test/seed-buyout/route.ts"),
       "utf8",
     );
+    const seedOpen = readFileSync(
+      join(process.cwd(), "src/app/api/test/seed-open-panels/route.ts"),
+      "utf8",
+    );
     const magicLinkRate = readFileSync(
       join(process.cwd(), "src/app/api/test/magic-link-rate/route.ts"),
       "utf8",
@@ -100,6 +104,7 @@ test.describe("slice 7.3: test API blocked in production", () => {
       reset,
       panelExt,
       seedBuyout,
+      seedOpen,
       magicLinkRate,
     ]) {
       expect(src).toContain('from "@/lib/test-api-gate"');
