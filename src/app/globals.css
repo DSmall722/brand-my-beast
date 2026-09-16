@@ -2003,6 +2003,10 @@ a {
   margin: 0.35rem 0 0;
 }
 
+.intent-withdraw {
+  margin: 0.25rem 0 0;
+}
+
 .intent-compose {
   margin-bottom: 1.75rem;
 }
