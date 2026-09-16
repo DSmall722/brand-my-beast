@@ -7,6 +7,10 @@ import { EditPendingIntentForm } from "@/components/EditPendingIntentForm";
 import { WithdrawPendingButton } from "@/components/WithdrawPendingButton";
 import { auth } from "@/lib/auth";
 import { isOperatorEmail } from "@/lib/auth/operator";
+import {
+  ACCOUNT_SESSION_IDLE_COPY,
+  SESSION_MAX_AGE_DAYS,
+} from "@/lib/auth/session";
 import { isShopPartnerEmail } from "@/lib/auth/shop-partner";
 import { ACCOUNT_EXPORT_PATH } from "@/lib/account-export";
 import {
@@ -89,6 +93,14 @@ export default async function AccountPage() {
         <p className="auth-hint" data-testid="intent-only-note">
           Pick a panel to list an intent mark. No Stripe capture, no close clock
           on this path. Waitlist signup on the board still does not charge cards.
+        </p>
+
+        <p
+          className="auth-hint"
+          data-testid="account-session-idle"
+          data-session-max-age-days={String(SESSION_MAX_AGE_DAYS)}
+        >
+          {ACCOUNT_SESSION_IDLE_COPY}
         </p>
 
         <p className="auth-hint" data-testid="waitlist-intent-glue">

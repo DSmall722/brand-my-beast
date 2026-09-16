@@ -17,6 +17,7 @@ import {
   resolveAuthMode,
   resolveMagicLinkFrom,
 } from "./mode";
+import { SESSION_MAX_AGE_SECONDS } from "./session";
 
 function buildProviders(): Provider[] {
   const providers: Provider[] = [];
@@ -101,7 +102,11 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
   providers: buildProviders(),
   secret: authSecretOrThrow(),
   trustHost: true,
-  session: { strategy: "jwt" },
+  session: {
+    strategy: "jwt",
+    /** Slice 12.18 — documented max-age (see `./session`). */
+    maxAge: SESSION_MAX_AGE_SECONDS,
+  },
   pages: {
     signIn: "/signin",
     verifyRequest: "/signin/check-email",
