@@ -192,6 +192,23 @@ export const PUBLIC_COPY = {
     checkEmailSuccess:
       "If that address is valid, a sign-in link is on the way. The link expires soon. No card is charged on this path.",
   },
+  /**
+   * Slice 13.5 — seat pack (withdraw / failed-winner / deposit preview).
+   * Not homepage. Do not rewrite hero H1.
+   */
+  seat: {
+    withdrawSuccess: "Intent withdrawn. Still not charged.",
+    withdrawButton: "Withdraw pending intent",
+    failedWinnerWaitlist:
+      "Stay on the waitlist. This page does not charge cards.",
+    /** `{percent}` `{amount}` filled by deposit-preview helper. */
+    depositPreviewTemplate: "{percent}% of this mark is {amount}. Not charged.",
+    /**
+     * `{amount}` `{last}` filled by failed-winner-offer helper.
+     */
+    failedWinnerLeadTemplate:
+      "Failed-winner offer: re-list at {amount} — your last mark {last} + one increment (max($250, 10%)). Still not charged. No silent reopen.",
+  },
   /** Intent failure strings (not homepage PUBLIC_COPY.md sections). */
   intent: {
     rateLimited:
