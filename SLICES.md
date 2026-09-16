@@ -15,8 +15,8 @@ Updated: 2026-09-16
 - Coordinator may merge a PR that finishes exactly one unchecked slice, Playwright is green, and the merge gates below hold.
 - Judge PRs from git + `npm test` + `npm run build`. Do not use brandmybeast.com as a gate while the Vercel usage hold is on.
 
-**Now:** 13.15 Edit-while-pending increments the revision table (12.8).
-**Last merged:** 13.14 (#221 withdraw leaves no ghost standing).
+**Now:** 13.16 Ban-list change re-runs pending intents; approved seats stay.
+**Last merged:** 13.15 (#222 edit-pending increments revision table).
 
 ## Standing orders
 
@@ -110,7 +110,7 @@ Do not start Wave 13 until 12.50 is checked. No Stripe. No CLOSE_AT.
 - [x] 13.12 Proxy max cannot exceed a hard cap published in CAMPAIGN.md in that same PR. (#219)
 - [x] 13.13 Floor-save cannot fire if pledged already >= $58,000. (#220)
 - [x] 13.14 Withdraw of the only pending mark does not leave a ghost standing. (#221)
-- [ ] 13.15 Edit-while-pending increments the revision table (12.8).
+- [x] 13.15 Edit-while-pending increments the revision table (12.8). (#222)
 - [ ] 13.16 Ban-list change re-runs pending intents; approved seats stay.
 - [ ] 13.17 Whole-truck reject rolls back all twelve rows in one transaction.
 - [ ] 13.18 Outbid email includes next minimum (9.2).
