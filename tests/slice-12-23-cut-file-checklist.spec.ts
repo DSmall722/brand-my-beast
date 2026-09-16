@@ -98,6 +98,12 @@ test.describe("slice 12.23: shop cut-file checklist form", () => {
     await expect(page.getByTestId("shop-cut-file-fence")).toContainText(
       "Auction clock stays unset",
     );
+    await expect(page.getByTestId("shop-cut-file-fence")).toContainText(
+      "No card capture",
+    );
+    await expect(page.getByTestId("shop-cut-file-fence")).not.toContainText(
+      "Stripe",
+    );
 
     for (const item of SHOP_CUT_FILE_CHECKLIST) {
       const box = page.getByTestId(`shop-cut-check-${item.id}`);

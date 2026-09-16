@@ -49,5 +49,5 @@ export function assertShopCutFileChecklistDoesNotSetCloseAt(
 }
 
 export function shopCutFileChecklistFenceCopy(): string {
-  return `Cut-file prep only. Floor ${formatUsd(FLOOR_USD)}. Buyout ${formatUsd(GOAL_USD)}. No Stripe capture. Auction clock stays unset.`;
+  return `Cut-file prep only. Floor ${formatUsd(FLOOR_USD)}. Buyout ${formatUsd(GOAL_USD)}. No card capture. Auction clock stays unset.`;
 }
