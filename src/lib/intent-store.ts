@@ -1311,10 +1311,11 @@ export function isWholeTruckIntentOpen(pledgedUsd: number): boolean {
 }
 
 /**
- * Slice 4.5 — whole-truck $120,000 intent.
- * Releases standing holders on every panel, then lists the same brand on
- * all twelve seats at $10,000 each (intent only — not charged).
- * Rejects when public pledged standing is already at buyout.
+ * Slice 4.5 / 12.29 — whole-truck $120,000 intent.
+ * Lists the same brand on all twelve seats at $10,000 each (intent only —
+ * not charged). Releases listed (pending) marks so the field can clear.
+ * Rejects when any panel already has approved standing (12.29 — no stack).
+ * Rejects when public pledged standing is already at buyout (9.5).
  */
 export async function placeWholeTruckIntent(
   input: PlaceWholeTruckInput,
@@ -1347,11 +1348,23 @@ export async function placeWholeTruckIntent(
     return { ok: false, error: ban.error };
   }
 
-  // Release standing winners so one brand can take every panel.
+  // Slice 12.29 — cannot stack whole-truck on approved standing seats.
+  for (const panel of PANELS) {
+    const approvedCount = await countApprovedStandingForPanel(panel.id);
+    if (approvedCount > 0) {
+      return {
+        ok: false,
+        error:
+          "Whole-truck intent cannot stack on a panel that already has approved standing.",
+      };
+    }
+  }
+
+  // Release listed (not approved) marks so one brand can take every panel.
   for (const panel of PANELS) {
     const bids = await listBidsForPanel(panel.id);
     for (const bid of bids) {
-      if (bid.status === "listed" || bid.status === "approved") {
+      if (bid.status === "listed") {
         const released = await setIntentStatus(bid.id, "withdrawn");
         if (!released.ok) {
           return { ok: false, error: released.error };

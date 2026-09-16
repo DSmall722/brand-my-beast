@@ -636,16 +636,15 @@ test.describe("intent store memory ledger", () => {
     expect(isWholeTruckIntentOpen(0)).toBe(true);
     expect(isWholeTruckIntentOpen(GOAL_USD)).toBe(false);
 
-    const prior = await placeIntentBid({
+    const priorListed = await placeIntentBid({
       panelId: "hood",
-      userId: "prior_holder",
-      brandLabel: "Prior Co",
-      tradeLabel: "prior snacks",
+      userId: "prior_listed",
+      brandLabel: "Listed Co",
+      tradeLabel: "listed snacks",
       standingUsd: 2500,
     });
-    expect(prior.ok).toBeTruthy();
-    if (!prior.ok) return;
-    await setIntentStatus(prior.bid.id, "approved");
+    expect(priorListed.ok).toBeTruthy();
+    if (!priorListed.ok) return;
 
     const whole = await placeWholeTruckIntent({
       userId: "whole_truck_user",
@@ -665,7 +664,7 @@ test.describe("intent store memory ledger", () => {
     }
 
     const priorAfter = (await listBidsForPanel("hood")).find(
-      (bid) => bid.id === prior.bid.id,
+      (bid) => bid.id === priorListed.bid.id,
     );
     expect(priorAfter?.status).toBe("withdrawn");
 
@@ -690,6 +689,40 @@ test.describe("intent store memory ledger", () => {
     expect(blocked.ok).toBeFalsy();
     if (blocked.ok) return;
     expect(blocked.error).toMatch(/already met|\$120,000/i);
+  });
+
+  test("slice 12.29: whole-truck cannot stack on approved standing", async () => {
+    process.env.INTENT_MODE = "memory";
+    await resetIntentStoreForTests();
+
+    const prior = await placeIntentBid({
+      panelId: "hood",
+      userId: "prior_holder",
+      brandLabel: "Prior Co",
+      tradeLabel: "prior snacks",
+      standingUsd: 2500,
+    });
+    expect(prior.ok).toBeTruthy();
+    if (!prior.ok) return;
+    await setIntentStatus(prior.bid.id, "approved");
+
+    const whole = await placeWholeTruckIntent({
+      userId: "whole_truck_user",
+      brandLabel: "Fleet Co",
+      tradeLabel: "fleet tools",
+    });
+    expect(whole.ok).toBeFalsy();
+    if (whole.ok) return;
+    expect(whole.error).toMatch(/cannot stack|approved standing/i);
+
+    const priorAfter = (await listBidsForPanel("hood")).find(
+      (bid) => bid.id === prior.bid.id,
+    );
+    expect(priorAfter?.status).toBe("approved");
+
+    const board = await loadBoardIntentStats();
+    expect(board.pledgedUsd).toBe(2500);
+    expect(board.seatedPanels).toBe(1);
   });
 
 test.describe("honest shortfall math (no clock)", () => {
