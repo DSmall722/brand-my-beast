@@ -49,7 +49,7 @@ test.describe("P1 waitlist campaign locks", () => {
     await expect(page.getByTestId("brand-wordmark")).toHaveText("BrandMyBeast");
     const heroTruck = page.getByTestId("hero-truck-preview");
     await expect(heroTruck).toBeVisible();
-    await expect(heroTruck).toHaveAttribute("href", "#panels");
+    await expect(heroTruck).toHaveAttribute("href", "/panels/hood");
     await expect(heroTruck.locator("img")).toHaveAttribute(
       "src",
       "/hero-truck-preview.jpg",
