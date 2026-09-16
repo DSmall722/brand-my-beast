@@ -9,7 +9,7 @@ import {
   formatUsd,
   isEtchable,
 } from "@/lib/campaign";
-import type { IntentBid } from "@/lib/intent";
+import type { PartnerShopSeat } from "@/lib/partner-shop-seat";
 import type { ShopArtStatus } from "@/lib/shop-art-status";
 import { shopPdfPath } from "@/lib/shop-pdf";
 
@@ -17,13 +17,14 @@ import { shopPdfPath } from "@/lib/shop-pdf";
  * Slice 8.7 — partner shop shows approved seats + art only.
  * Slice 12.23 — cut-file checklist form lives here, not as a card on `/`.
  * Slice 12.24 — partner marks art shop-ready / needs-fix.
+ * Slice 13.24 — brand + trade + art only; never bidder email / userId.
  * No twelve-panel matrix. No public header link (HomeHeader).
  */
 export function WrapShopSheet({
   approved,
   artStatuses = {},
 }: {
-  approved: readonly IntentBid[];
+  approved: readonly PartnerShopSeat[];
   artStatuses?: Record<string, ShopArtStatus>;
 }) {
   return (
@@ -51,6 +52,9 @@ export function WrapShopSheet({
             Campaign floor {formatUsd(FLOOR_USD)}. Still no card charge on this
             path.
           </li>
+          <li data-testid="wrap-rule-no-email">
+            Brand + trade + art only. No bidder email on this sheet.
+          </li>
         </ul>
       </section>
 
@@ -71,57 +75,57 @@ export function WrapShopSheet({
             className="intent-list wrap-shop-approved-list"
             data-testid="wrap-shop-approved-list"
           >
-            {approved.map((bid) => {
-              const panel = PANELS.find((row) => row.id === bid.panelId);
+            {approved.map((seat) => {
+              const panel = PANELS.find((row) => row.id === seat.panelId);
               const etchable = panel ? isEtchable(panel) : false;
-              const artStatus = artStatuses[bid.id] ?? "unset";
+              const artStatus = artStatuses[seat.bidId] ?? "unset";
               return (
                 <li
-                  key={bid.id}
+                  key={seat.bidId}
                   className="intent-row"
-                  data-testid={`wrap-approved-${bid.id}`}
+                  data-testid={`wrap-approved-${seat.bidId}`}
                 >
                   <div className="intent-row-main">
                     <strong>
-                      <Link href={`/panels/${bid.panelId}`}>
-                        {panel?.name ?? bid.panelId}
+                      <Link href={`/panels/${seat.panelId}`}>
+                        {panel?.name ?? seat.panelId}
                       </Link>
                       {" · "}
-                      {bid.brandLabel}
+                      {seat.brandLabel}
                       {" · "}
-                      {bid.tradeLabel}
+                      {seat.tradeLabel}
                     </strong>
                     <span className="intent-mark">
-                      {formatUsd(bid.standingUsd)}
+                      {formatUsd(seat.standingUsd)}
                     </span>
                   </div>
                   <p
                     className="auth-hint"
-                    data-testid={`wrap-approved-finish-${bid.id}`}
+                    data-testid={`wrap-approved-finish-${seat.bidId}`}
                   >
                     {etchable
                       ? `Wrap · etchable at ${formatUsd(GOAL_USD)}`
                       : "Wrap only"}
                   </p>
-                  {bid.artworkUrl ? (
+                  {seat.artworkUrl ? (
                     <IntentArtworkPreview
-                      artworkUrl={bid.artworkUrl}
-                      bidId={bid.id}
+                      artworkUrl={seat.artworkUrl}
+                      bidId={seat.bidId}
                     />
                   ) : (
                     <p
                       className="auth-hint"
-                      data-testid={`wrap-approved-no-art-${bid.id}`}
+                      data-testid={`wrap-approved-no-art-${seat.bidId}`}
                     >
                       No artwork attached.
                     </p>
                   )}
-                  <ShopArtStatusControls bidId={bid.id} status={artStatus} />
+                  <ShopArtStatusControls bidId={seat.bidId} status={artStatus} />
                   <p className="auth-hint">
                     Approved — wrap sheet only.{" "}
                     <a
-                      href={shopPdfPath(bid.id)}
-                      data-testid={`wrap-shop-pdf-${bid.id}`}
+                      href={shopPdfPath(seat.bidId)}
+                      data-testid={`wrap-shop-pdf-${seat.bidId}`}
                     >
                       Download seat PDF
                     </a>
