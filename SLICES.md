@@ -15,8 +15,8 @@ Updated: 2026-09-15
 - Coordinator may merge a PR that finishes exactly one unchecked slice, Playwright is green, and the merge gates below hold.
 - Judge PRs from git + `npm test` + `npm run build`. Do not use brandmybeast.com as a gate while the Vercel usage hold is on.
 
-**Now:** 11.6 Neon PITR runbook markdown in repo. No dashboard clicks.
-**Last merged:** 11.5 (#150 operator status panel: DB ping + waitlist count).
+**Now:** 11.7 a11y: reject-note required announced; waitlist errors linked to the field.
+**Last merged:** 11.6 (#151 Neon PITR runbook markdown in repo).
 
 ## Standing orders
 
@@ -128,7 +128,7 @@ If any gate fails: leave the PR unmerged and stop that slice.
 - [x] 11.3 verify-brandmybeast feature map covers Waves 7–10. (#148)
 - [x] 11.4 Playwright: 50 unique waitlist inserts in memory mode, no 500s. (#149)
 - [x] 11.5 Operator status panel: DB ping + waitlist count. No public URL. (#150)
-- [ ] 11.6 Neon PITR runbook markdown in repo. No dashboard clicks.
+- [x] 11.6 Neon PITR runbook markdown in repo. No dashboard clicks. (#151)
 - [ ] 11.7 a11y: reject-note required announced; waitlist errors linked to the field.
 - [ ] 11.8 Pre-P3 checklist component on `/operator` (LLC, terms, Resend, Stripe not wired). Checkboxes do not set CLOSE_AT.
 - [ ] 11.9 `vercel.json` stays main-only. Do not add preview deploys or extra projects.
