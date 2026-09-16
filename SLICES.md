@@ -15,8 +15,8 @@ Updated: 2026-09-16
 - Coordinator may merge a PR that finishes exactly one unchecked slice, Playwright is green, and the merge gates below hold.
 - Judge PRs from git + `npm test` + `npm run build`. Do not use brandmybeast.com as a gate while the Vercel usage hold is on.
 
-**Now:** 13.38 Terms stub adds “intent is not a charge.”
-**Last merged:** 13.37 (#PR robots.txt excludes /account /signin /operator).
+**Now:** 13.39 Privacy stub adds waitlist retention: until seats open or user deletes.
+**Last merged:** 13.38 (#PR Terms stub adds intent is not a charge).
 
 ## Standing orders
 
@@ -132,8 +132,8 @@ Do not start Wave 13 until 12.50 is checked. No Stripe. No CLOSE_AT.
 - [x] 13.34 Magic-link request logs hashed email only (ties 12.41). (#242)
 - [x] 13.35 CSP `form-action` self + Resend callback host (builds on 11.1). (#243)
 - [x] 13.36 Download routes (CSV, PDF, PNG) require operator or owner. Playwright 401/403. (#244)
-- [x] 13.37 `robots.txt` still excludes `/account`, `/signin`, `/operator`. (#PR)
-- [ ] 13.38 Terms stub adds “intent is not a charge.”
+- [x] 13.37 `robots.txt` still excludes `/account`, `/signin`, `/operator`. (#245)
+- [x] 13.38 Terms stub adds “intent is not a charge.” (#PR)
 - [ ] 13.39 Privacy stub adds waitlist retention: until seats open or user deletes.
 - [ ] 13.40 No personal Gmail in `git grep` of `src/` + `*.md`.
 - [ ] 13.41 `prove-all.sh` includes 9.6–9.10 and 12.45–12.46.
