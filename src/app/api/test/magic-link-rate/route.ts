@@ -4,10 +4,12 @@ import {
   checkMagicLinkRateLimit,
   clientIpFromRequest,
 } from "@/lib/rate-limit";
+import { logMagicLinkRequest } from "@/lib/structured-log";
 import { testApiBlockedResponse } from "@/lib/test-api-gate";
 
 /**
  * Slice 11.2 test harness — trip magic-link rate limit without Resend.
+ * Slice 13.34 — also records hashed-email structured log (no raw email).
  * 404 in production.
  */
 export async function POST(request: Request) {
@@ -34,6 +36,7 @@ export async function POST(request: Request) {
 
   const limited = checkMagicLinkRateLimit(email, clientIpFromRequest(request));
   if (!limited.ok) {
+    logMagicLinkRequest(email, "rate_limited");
     return Response.json(
       {
         ok: false,
@@ -45,6 +48,7 @@ export async function POST(request: Request) {
     );
   }
 
+  logMagicLinkRequest(email, "requested");
   return Response.json({
     ok: true,
     emailed: false,

@@ -15,8 +15,8 @@ Updated: 2026-09-16
 - Coordinator may merge a PR that finishes exactly one unchecked slice, Playwright is green, and the merge gates below hold.
 - Judge PRs from git + `npm test` + `npm run build`. Do not use brandmybeast.com as a gate while the Vercel usage hold is on.
 
-**Now:** 13.34 Magic-link request logs hashed email only (ties 12.41).
-**Last merged:** 13.33 (#241 rate-limit operator approve/reject).
+**Now:** 13.35 CSP `form-action` self + Resend callback host (builds on 11.1).
+**Last merged:** 13.34 (#TBD magic-link request logs hashed email only).
 
 ## Standing orders
 
@@ -129,7 +129,7 @@ Do not start Wave 13 until 12.50 is checked. No Stripe. No CLOSE_AT.
 - [x] 13.31 Waitlist email domain blocklist (disposable) — operator editable. (#239)
 - [x] 13.32 Same user cannot hold standing on all 12 panels unless whole-truck path. (#240)
 - [x] 13.33 Rate-limit operator approve/reject. (#241)
-- [ ] 13.34 Magic-link request logs hashed email only (ties 12.41).
+- [x] 13.34 Magic-link request logs hashed email only (ties 12.41). (#TBD)
 - [ ] 13.35 CSP `form-action` self + Resend callback host (builds on 11.1).
 - [ ] 13.36 Download routes (CSV, PDF, PNG) require operator or owner. Playwright 401/403.
 - [ ] 13.37 `robots.txt` still excludes `/account`, `/signin`, `/operator`.
