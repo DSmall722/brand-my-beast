@@ -16,7 +16,7 @@ Updated: 2026-09-15
 - Judge PRs from git + `npm test` + `npm run build`. Do not use brandmybeast.com as a gate while the Vercel usage hold is on.
 
 **Now:** 10.5 Wrap vs etch labels from PUBLIC_COPY only. No “permanent vinyl.”
-**Last merged:** 10.4 (#TBD Mockup queue row. No billable Imagine call).
+**Last merged:** 10.4 (#139 Mockup queue row. No billable Imagine call).
 
 ## Standing orders
 
