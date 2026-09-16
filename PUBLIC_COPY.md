@@ -139,6 +139,7 @@ Slice **13.5**. Panel / account strings only. Do **not** rewrite the homepage H1
 - Failed-winner expired (13.11): `Failed-winner offer expired. Next compliant mark is up. No silent reopen.`
 - Failed-winner waitlist note: `Stay on the waitlist. This page does not charge cards.`
 - Deposit preview template: `{percent}% of this mark is {amount}. Not charged.`
+- Wins empty (13.28): `No approved seats yet. Operator approval on a listed intent opens this sheet. Still no card charge.`
 
 ## Footer
 
