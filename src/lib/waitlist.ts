@@ -7,6 +7,7 @@ import { BRAND } from "./campaign";
 import { getDb } from "./db";
 import { waitlistSignups } from "./db/schema";
 import { appendMailDeadLetter } from "./mail-dead-letter";
+import { outboundMailEnvelope } from "./mail-envelope";
 import { PUBLIC_COPY } from "./public-copy";
 
 export const waitlistEmailSchema = z
@@ -38,6 +39,7 @@ export type WaitlistRow = {
 /** Payload Resend (or a test double) receives on waitlist insert. */
 export type WaitlistNotifyPayload = {
   from: string;
+  replyTo: string;
   to: string;
   subject: string;
   text: string;
@@ -142,8 +144,7 @@ async function notifyConfirmLink(
   const mailer = resolveMailer(key);
   if (!mailer) return;
 
-  const from =
-    process.env.RESEND_FROM ?? `${BRAND.name} <${BRAND.email}>`;
+  const { from, replyTo } = outboundMailEnvelope();
   const body = waitlistConfirmEmailTemplate({
     email,
     confirmUrl: waitlistConfirmUrl(token),
@@ -152,6 +153,7 @@ async function notifyConfirmLink(
   try {
     await mailer.send({
       from,
+      replyTo,
       to: email,
       subject: body.subject,
       text: body.text,
@@ -161,6 +163,7 @@ async function notifyConfirmLink(
       await appendMailDeadLetter({
         kind: "waitlist",
         from,
+        replyTo,
         to: email,
         subject: body.subject,
         text: body.text,
@@ -181,14 +184,14 @@ async function notifyOperator(email: string): Promise<void> {
   const mailer = resolveMailer(key);
   if (!mailer) return;
 
-  const from =
-    process.env.RESEND_FROM ?? `${BRAND.name} <${BRAND.email}>`;
+  const { from, replyTo } = outboundMailEnvelope();
   const to = process.env.WAITLIST_NOTIFY_TO ?? BRAND.email;
   const body = waitlistOperatorEmailTemplate(email);
 
   try {
     await mailer.send({
       from,
+      replyTo,
       to,
       subject: body.subject,
       text: body.text,
@@ -198,6 +201,7 @@ async function notifyOperator(email: string): Promise<void> {
       await appendMailDeadLetter({
         kind: "waitlist",
         from,
+        replyTo,
         to,
         subject: body.subject,
         text: body.text,

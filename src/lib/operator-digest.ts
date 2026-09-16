@@ -1,5 +1,4 @@
 import { Resend } from "resend";
-import { resolveMagicLinkFrom } from "@/lib/auth/mode";
 import {
   BRAND,
   CLOSE_AT,
@@ -14,11 +13,13 @@ import {
   loadBoardIntentStats,
 } from "@/lib/intent-store";
 import { appendMailDeadLetter } from "@/lib/mail-dead-letter";
+import { outboundMailEnvelope } from "@/lib/mail-envelope";
 import { listWaitlistSignups } from "@/lib/waitlist";
 
 /** Payload Resend (or a test double) receives for the operator digest. */
 export type OperatorDigestMailPayload = {
   from: string;
+  replyTo: string;
   to: string;
   subject: string;
   text: string;
@@ -127,12 +128,13 @@ export async function sendOperatorDigest(
 
   const recipients = operatorDigestRecipients();
   const mail = operatorDigestEmailTemplate(snapshot);
-  const from = resolveMagicLinkFrom();
+  const { from, replyTo } = outboundMailEnvelope();
 
   let sent = 0;
   for (const to of recipients) {
     const payload = {
       from,
+      replyTo,
       to,
       subject: mail.subject,
       text: mail.text,

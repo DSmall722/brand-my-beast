@@ -135,6 +135,7 @@ test.describe("slice 8.2: operator digest + cron route", () => {
     expect(sent).toHaveLength(1);
     expect(sent[0]!.to).toBe("hello@brandmybeast.com");
     expect(sent[0]!.from).toContain("hello@brandmybeast.com");
+    expect(sent[0]!.replyTo).toBe("hello@brandmybeast.com");
     expect(sent[0]!.text.toLowerCase()).not.toMatch(/\blease\b/);
   });
 

@@ -7,6 +7,7 @@ import { and, desc, eq } from "drizzle-orm";
 import { Resend } from "resend";
 import { getDb } from "./db";
 import { mailDeadLetters } from "./db/schema";
+import { MAIL_REPLY_TO } from "./mail-envelope";
 
 export type MailDeadLetterKind =
   | "intent-status"
@@ -30,6 +31,7 @@ export type MailDeadLetter = {
 
 export type MailDeadLetterPayload = {
   from: string;
+  replyTo: string;
   to: string;
   subject: string;
   text: string;
@@ -111,6 +113,8 @@ function parseStatus(raw: string): MailDeadLetterStatus {
 export async function appendMailDeadLetter(input: {
   kind: MailDeadLetterKind;
   from: string;
+  /** Slice 12.20 — accepted for call-site parity; retry always uses hello@. */
+  replyTo?: string;
   to: string;
   subject: string;
   text: string;
@@ -234,6 +238,7 @@ export async function retryMailDeadLetter(
   try {
     await mailer.send({
       from: row.fromAddress,
+      replyTo: MAIL_REPLY_TO,
       to: row.toAddress,
       subject: row.subject,
       text: row.bodyText,
