@@ -2,7 +2,7 @@
 
 CAMPAIGN.md wins if this file and another file disagree on money or identity.
 
-Updated: 2026-09-13
+Updated: 2026-09-16
 
 ## Inventory
 
@@ -40,6 +40,14 @@ Next bid is current standing plus **$250 or 10%**, whichever is larger.
 - Outbid → prior authorization released.
 - Miss $58,000 → every authorization released.
 - Fail brand check → that bid is void, next compliant standing bid is offered the panel at their last mark plus one increment. No silent reopen of the seat.
+
+### Failed-winner offer (slice 13.4)
+
+When an approved standing mark fails brand / artwork check, the seat is **not** silently reopened. The next compliant listed bidder on that panel is offered the seat (failed-winner → waitlist / next-mark handoff). Banned trades stay banned. No Stripe capture on this path.
+
+### One approved standing per panel (slice 13.4)
+
+At most **one** `approved` intent per `panelId` at a time. Approving a new mark demotes any prior approved on that panel to outbid. The DB unique partial index and app demotion (Wave 12) enforce this — do not invent a second standing brand on the same seat.
 
 Do not take live money on `localStorage`. The static prototype is a brochure.
 
