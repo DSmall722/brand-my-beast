@@ -117,6 +117,8 @@ test.describe("slice 8.4: operator CSV export", () => {
           createdAt: "2026-01-01T00:00:00.000Z",
           userId: null,
           source: "homepage",
+          confirmToken: null,
+          confirmedAt: "2026-01-01T00:05:00.000Z",
         },
       ],
       intents: [

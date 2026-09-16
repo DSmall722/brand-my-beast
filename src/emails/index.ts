@@ -9,6 +9,7 @@ export {
   type IntentStatusKind,
 } from "./intent-status";
 export { waitlistOperatorEmailTemplate } from "./waitlist-operator";
+export { waitlistConfirmEmailTemplate } from "./waitlist-confirm";
 export { operatorDigestEmailTemplate } from "./operator-digest";
 export {
   CAN_SPAM_PHYSICAL_ADDRESS,
