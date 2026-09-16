@@ -132,6 +132,10 @@ export default async function OperatorPage({
             Mail dead-letter
           </Link>
           {" · "}
+          <Link href="/operator/health" data-testid="operator-health-link">
+            Health
+          </Link>
+          {" · "}
           <a
             href={OPERATOR_CSV_PATH}
             data-testid="operator-csv-download"
