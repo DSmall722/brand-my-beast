@@ -16,7 +16,7 @@ Updated: 2026-09-16
 - Judge PRs from git + `npm test` + `npm run build`. Do not use brandmybeast.com as a gate while the Vercel usage hold is on.
 
 **Now:** 13.15 Edit-while-pending increments the revision table (12.8).
-**Last merged:** 13.14 (#NN withdraw leaves no ghost standing).
+**Last merged:** 13.14 (#221 withdraw leaves no ghost standing).
 
 ## Standing orders
 
@@ -109,7 +109,7 @@ Do not start Wave 13 until 12.50 is checked. No Stripe. No CLOSE_AT.
 - [x] 13.11 Failed-winner timeout: offer expires; next compliant mark; no silent reopen. (#218)
 - [x] 13.12 Proxy max cannot exceed a hard cap published in CAMPAIGN.md in that same PR. (#219)
 - [x] 13.13 Floor-save cannot fire if pledged already >= $58,000. (#220)
-- [x] 13.14 Withdraw of the only pending mark does not leave a ghost standing. (#NN)
+- [x] 13.14 Withdraw of the only pending mark does not leave a ghost standing. (#221)
 - [ ] 13.15 Edit-while-pending increments the revision table (12.8).
 - [ ] 13.16 Ban-list change re-runs pending intents; approved seats stay.
 - [ ] 13.17 Whole-truck reject rolls back all twelve rows in one transaction.
