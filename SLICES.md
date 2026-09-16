@@ -8,15 +8,15 @@ Updated: 2026-09-16
 ## How this file stays alive
 
 - Next job = the first unchecked box, wave order. Do not skip. Do not start two boxes in one PR.
-- Exception 2026-09-16: do **14.0** next so a local preview can be shared. 12.28 is complete (#183). Do not start Wave 13 from this closeout.
+- Exception 2026-09-16: **14.0** done for local preview. Resume Wave 12 from 12.29, then 13, then 14.1. No Wave 15 without a human message.
 - The PR that finishes a slice also flips that box `[ ]` → `[x]` and appends `(#NN)` on the same line.
 - Set **Now** and **Last merged** in this file in that same PR.
 - Do not add a new checkbox unless the human writes it here first. After Wave 14, idle. Do not open Wave 15 from FEATURES.md.
 - Coordinator may merge a PR that finishes exactly one unchecked slice, Playwright is green, and the merge gates below hold.
 - Judge PRs from git + `npm test` + `npm run build`. Do not use brandmybeast.com as a gate while the Vercel usage hold is on.
 
-**Now:** 14.0 Numbered stainless board on the hero / truck views.
-**Last merged:** 12.28 (#183 etch finish approve lock under $120k).
+**Now:** 12.29 Whole-truck intent cannot stack on a panel that already has approved standing.
+**Last merged:** 14.0 (#185 numbered stainless board on hero / truck views).
 
 ## Standing orders
 
@@ -110,9 +110,9 @@ Do not start Wave 13 until 12.50 is checked. No Stripe. No CLOSE_AT.
 
 ## Wave 14 — launch readiness, no charge
 
-Human-approved 2026-09-16. **14.0 jumps the line** so a local preview can be shared. 12.28 is complete (#183). After 14.0, resume the rest of 12 / 13, then 14.1. Wave 15 is Stripe and needs a separate human message.
+Human-approved 2026-09-16. **14.0** shipped for local preview (#185). Resume the rest of 12 / 13, then 14.1. Wave 15 is Stripe and needs a separate human message.
 
-- [ ] 14.0 Numbered stainless board. Put visible 1–12 callouts on the existing hero still (`/hero-truck-preview.jpg`) and on the side/front/rear views. Numbers and names match `PANELS` in campaign.ts (1 hood … 12 rear fascia). Each number is a link to `/panels/[id]`. Keep the truck bare stainless — no wrap, no etch, no Tesla marks, no teslacyberbeast livery. The schematic SVG rectangle is not enough; people have to see a Cybertruck. Playwright 390px: at least six numbers visible, H1 still `Put your brand on the truck people already photograph.`, `Notify me` present, no lease, no personal handle.
+- [x] 14.0 Numbered stainless board. Put visible 1–12 callouts on the existing hero still (`/hero-truck-preview.jpg`) and on the side/front/rear views. Numbers and names match `PANELS` in campaign.ts (1 hood … 12 rear fascia). Each number is a link to `/panels/[id]`. Keep the truck bare stainless — no wrap, no etch, no Tesla marks, no teslacyberbeast livery. The schematic SVG rectangle is not enough; people have to see a Cybertruck. Playwright 390px: at least six numbers visible, H1 still `Put your brand on the truck people already photograph.`, `Notify me` present, no lease, no personal handle. (#185)
 - [ ] 14.1 FEATURES.md: shipped rows marked shipped with slice id; P3/P5 stay Catalog.
 - [ ] 14.2 ARCHITECTURE.md: Postgres + Blob + Resend mock. Stripe box = “not wired.”
 - [ ] 14.3 PROCESS.md: Now = first unchecked SLICES box; live URL is not a gate.

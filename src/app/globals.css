@@ -201,6 +201,68 @@ a {
   z-index: 2;
 }
 
+/* Slice 14.0 — numbered 1–12 stainless board callouts on the hero still. */
+.panel-board {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.panel-board-callout {
+  pointer-events: auto;
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 2rem;
+  height: 2rem;
+  margin: 0;
+  transform: translate(-50%, -50%);
+  display: inline-grid;
+  place-items: center;
+  border-radius: 999px;
+  border: 1.5px solid color-mix(in oklab, var(--signal) 70%, white);
+  background: color-mix(in oklab, #0c0e11 72%, transparent);
+  color: var(--signal);
+  text-decoration: none;
+  font-family: var(--font-display, "Bebas Neue", Impact, sans-serif);
+  font-size: 0.95rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  line-height: 1;
+  box-shadow: 0 0 0 1px color-mix(in oklab, #07090c 55%, transparent);
+  transition:
+    transform 160ms ease,
+    background 160ms ease,
+    border-color 160ms ease;
+}
+
+.panel-board-callout:hover,
+.panel-board-callout:focus-visible {
+  background: color-mix(in oklab, var(--signal) 22%, #0c0e11);
+  border-color: var(--signal);
+  transform: translate(-50%, -50%) scale(1.08);
+  outline: none;
+}
+
+.panel-board-callout:focus-visible {
+  box-shadow:
+    0 0 0 2px #07090c,
+    0 0 0 4px var(--signal);
+}
+
+.panel-board-callout-n {
+  translate: 0 0.5px;
+}
+
+@media (max-width: 720px) {
+  .panel-board-callout {
+    width: 1.65rem;
+    height: 1.65rem;
+    font-size: 0.8rem;
+  }
+}
+
 .hero::after {
   content: "";
   position: absolute;
@@ -226,7 +288,7 @@ a {
 
 .hero-overlay {
   position: relative;
-  z-index: 2;
+  z-index: 3;
   width: min(1120px, calc(100% - 2rem));
   margin-inline: auto;
   padding: 5.5rem 0 2.75rem;
@@ -2693,31 +2755,48 @@ a {
   color: var(--signal);
 }
 .truck-view-stage {
+  position: relative;
   border: 1px solid color-mix(in oklab, white 12%, transparent);
   border-radius: 8px;
-  padding: 0.75rem;
+  padding: 0;
+  overflow: hidden;
   background:
     linear-gradient(160deg, #1a2028 0%, #0e1218 55%, #151b22 100%);
 }
-.truck-view-svg {
+.truck-view-photo {
   display: block;
   width: 100%;
   height: auto;
-  max-height: 220px;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  vertical-align: middle;
+}
+.truck-view-stage .panel-board-view {
+  inset: 0;
+  z-index: 2;
+}
+.truck-view-svg {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  display: block;
+  width: 100%;
+  height: 100%;
+  max-height: none;
 }
 .truck-view-body,
 .truck-view-cab {
-  fill: color-mix(in oklab, var(--steel-300) 22%, transparent);
-  stroke: color-mix(in oklab, var(--steel-100) 35%, transparent);
-  stroke-width: 1.2;
+  fill: transparent;
+  stroke: transparent;
+  stroke-width: 0;
 }
 .truck-hotspot {
   stroke-width: 1.5;
   transition: fill 120ms ease, stroke 120ms ease;
 }
 .truck-hotspot.is-raw {
-  fill: color-mix(in oklab, var(--steel-100) 18%, transparent);
-  stroke: var(--steel-300);
+  fill: color-mix(in oklab, var(--steel-100) 8%, transparent);
+  stroke: color-mix(in oklab, var(--steel-100) 45%, transparent);
 }
 .truck-hotspot.is-held {
   fill: color-mix(in oklab, var(--signal) 28%, transparent);
@@ -2729,13 +2808,17 @@ a {
 }
 a:hover .truck-hotspot.is-raw,
 a:focus-visible .truck-hotspot.is-raw {
-  fill: color-mix(in oklab, var(--steel-100) 32%, transparent);
+  fill: color-mix(in oklab, var(--steel-100) 22%, transparent);
   stroke: var(--steel-100);
 }
 .truck-view-legend {
-  margin: 0.65rem 0 0;
+  position: relative;
+  z-index: 4;
+  margin: 0;
+  padding: 0.65rem 0.75rem;
   font-size: 0.85rem;
   color: var(--steel-400);
+  background: color-mix(in oklab, #0e1218 88%, transparent);
 }
 
 /* Slice 6.13 — branded 404 */
