@@ -61,6 +61,10 @@ test.describe("slice 11.1: CSP / security headers", () => {
     expect(securityHeaderValue("Content-Security-Policy")).toContain(
       "default-src 'self'",
     );
+    // Slice 13.35 — form-action keeps 'self' and adds Resend callback host.
+    expect(securityHeaderValue("Content-Security-Policy")).toContain(
+      "form-action 'self' https://brandmybeast.com",
+    );
     const cfg = readFileSync(join(process.cwd(), "next.config.ts"), "utf8");
     expect(cfg).toContain("SECURITY_HEADERS");
     expect(cfg).toContain("headers()");
