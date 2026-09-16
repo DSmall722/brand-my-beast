@@ -15,8 +15,8 @@ Updated: 2026-09-16
 - Coordinator may merge a PR that finishes exactly one unchecked slice, Playwright is green, and the merge gates below hold.
 - Judge PRs from git + `npm test` + `npm run build`. Do not use brandmybeast.com as a gate while the Vercel usage hold is on.
 
-**Now:** 12.48 `package.json` license + engines. No new runtime.
-**Last merged:** 12.47 (#204 Wave 12 verify-skill map).
+**Now:** 12.49 SECURITY.md: report to `hello@`. No personal inbox.
+**Last merged:** 12.48 (#205 package.json license + engines).
 
 ## Standing orders
 
@@ -88,7 +88,7 @@ Complete through 11.10 skipped (Vercel hold). Condensed ranges keep verify-map p
 - [x] 12.45 Playwright: concurrent two bidders on hood, only one approved standing. (#202)
 - [x] 12.46 Playwright: reject without note fails; with note succeeds. (#203)
 - [x] 12.47 Verify-skill map for Wave 12. (#204)
-- [ ] 12.48 `package.json` license + engines. No new runtime.
+- [x] 12.48 `package.json` license + engines. No new runtime. (#205)
 - [ ] 12.49 SECURITY.md: report to `hello@`. No personal inbox.
 - [ ] 12.50 Pre-P3 freeze tag `intent-complete`. Does not set CLOSE_AT. Does not add Stripe.
 
