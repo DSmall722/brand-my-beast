@@ -16,7 +16,7 @@ Updated: 2026-09-16
 - Judge PRs from git + `npm test` + `npm run build`. Do not use brandmybeast.com as a gate while the Vercel usage hold is on.
 
 **Now:** 13.24 Partner cannot see bidder email — only brand + trade + art.
-**Last merged:** 13.23 (#TBD winner packet wrap term start = install day).
+**Last merged:** 13.23 (#231 winner packet wrap term start = install day).
 
 ## Standing orders
 
