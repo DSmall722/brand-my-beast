@@ -2,7 +2,7 @@
 
 This is the operating system for Cursor Projects + pstack. Product lock is `CAMPAIGN.md`. Stack lock is `ARCHITECTURE.md`. Stop rules are `AGENTS.md`.
 
-Updated: 2026-09-13
+Updated: 2026-09-16
 
 ## What “dock” means here
 
@@ -41,9 +41,18 @@ Pin these files in the Project Context pane. Coordinator reads them every turn.
 | `RULES.md` | Panels, 20% deposit, etch lock. |
 | `ARCHITECTURE.md` | Stack and P0–P3. |
 | `PROCESS.md` | This file. How work is delegated. |
-| `FEATURES.md` | Backlog. Never render on the public site. |
+| `SLICES.md` | **Only build order.** Now = first unchecked box. Waves 7–14 are in scope for the coordinator. |
+| `FEATURES.md` | Backlog catalog only. Never render on the public site. Never treat as the build order. |
 
 Agents may write into a Project-only `notes.md` and `internal/`. Humans do not treat those as product lock.
+
+## Build order (slice 13.1)
+
+- Coordinator reads **`SLICES.md` Waves 7–14** for what to do next. The next job is the first unchecked box.
+- `FEATURES.md` is a catalog, not a queue. Do not open Wave 15 from it.
+- **Live site is not a gate** while the Vercel usage hold is on (`docs/VERCEL-HOLD.md`). Do not use `brandmybeast.com` to judge merge readiness. Judge from git + `npm test` / Playwright + `npm run build`.
+- Ignore Vercel preview / usage-limit status contexts when Playwright is green.
+- Floor **$58,000**. Buyout **$120,000**. `CLOSE_AT` stays null until a human starts P3. No Stripe without a separate human message.
 
 ## How a unit of work runs
 
@@ -72,8 +81,9 @@ Agents may write into a Project-only `notes.md` and `internal/`. Humans do not t
 
 On:
 
-- Watch PRs on `DSmall722/brand-my-beast`. Fix CI. Merge when tests are green **and** the Project run has explicit merge authority; otherwise leave for human.
-- Daily: `/maintain-verification-skill` against `.cursor/skills/verify-brandmybeast/` (run `scripts/prove-all.sh` for the live pass).
+- Watch PRs on `DSmall722/brand-my-beast`. Fix CI. Merge when **Playwright is green**, SLICES has the finished box checked, and the Project run has merge authority; otherwise leave for human.
+- While the Vercel usage hold is on: **do not** treat the live URL or Vercel deploy status as a merge gate.
+- Daily: `/maintain-verification-skill` against `.cursor/skills/verify-brandmybeast/` (run `scripts/prove-all.sh` for the live pass when a local server is up — not brandmybeast.com during the hold).
 
 Off:
 
@@ -81,12 +91,13 @@ Off:
 - Do not tweet from `@BrandMyBeast`.
 - Do not capture cards.
 - Do not move Vercel nameservers.
+- Do not clear the Vercel usage hold / buy credits from an agent.
 
 ## Human clicks to stand the dock up (once)
 
 1. Cursor → left nav → **Projects** → New Project → **BrandMyBeast**.
 2. Attach GitHub repo `DSmall722/brand-my-beast`.
-3. Project Context → add the six files in the table above.
+3. Project Context → add the files in the table above (include `SLICES.md`).
 4. In a local Cursor chat on that repo: `/add-plugin pstack` then `/setup-pstack`. That helps **you**. Cloud agents still need the vendor step in job 1.
 5. First message to the coordinator:
 
