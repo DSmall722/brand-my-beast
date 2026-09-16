@@ -1,15 +1,16 @@
 /**
- * Process-local fixed-window limiter for waitlist + intent POSTs (slice 6.6).
- * Ephemeral throttle state only — not a durable ledger (6.7 gates Production memory for waitlist/intent).
+ * Process-local fixed-window limiter for waitlist + intent + magic-link POSTs.
+ * Ephemeral throttle state only — not a durable ledger (6.7 gates Production memory).
  */
 
-export type RateLimitScope = "waitlist" | "intent";
+export type RateLimitScope = "waitlist" | "intent" | "magic-link";
 
 type Bucket = { count: number; windowStart: number };
 
 type TestConfig = {
   waitlistMax: number;
   intentMax: number;
+  magicLinkMax: number;
   windowMs: number;
 };
 
@@ -32,21 +33,42 @@ function envInt(name: string, fallback: number): number {
   return Number.isFinite(n) && n > 0 ? Math.floor(n) : fallback;
 }
 
+function maxForScope(scope: RateLimitScope, test: TestConfig): number {
+  switch (scope) {
+    case "waitlist":
+      return test.waitlistMax;
+    case "intent":
+      return test.intentMax;
+    case "magic-link":
+      return test.magicLinkMax;
+    default: {
+      const _exhaustive: never = scope;
+      return _exhaustive;
+    }
+  }
+}
+
 function limits(scope: RateLimitScope): { max: number; windowMs: number } {
   const test = globalStore.__bmbRateLimitTestConfig;
   if (test) {
     return {
-      max: scope === "waitlist" ? test.waitlistMax : test.intentMax,
+      max: maxForScope(scope, test),
       windowMs: test.windowMs,
     };
   }
-  return {
-    max:
-      scope === "waitlist"
-        ? envInt("RATE_LIMIT_WAITLIST_MAX", 60)
-        : envInt("RATE_LIMIT_INTENT_MAX", 60),
-    windowMs: envInt("RATE_LIMIT_WINDOW_MS", 60_000),
-  };
+  const windowMs = envInt("RATE_LIMIT_WINDOW_MS", 60_000);
+  switch (scope) {
+    case "waitlist":
+      return { max: envInt("RATE_LIMIT_WAITLIST_MAX", 60), windowMs };
+    case "intent":
+      return { max: envInt("RATE_LIMIT_INTENT_MAX", 60), windowMs };
+    case "magic-link":
+      return { max: envInt("RATE_LIMIT_MAGIC_LINK_MAX", 10), windowMs };
+    default: {
+      const _exhaustive: never = scope;
+      return _exhaustive;
+    }
+  }
 }
 
 export type RateLimitResult =
@@ -89,6 +111,7 @@ export function configureRateLimitForTests(
   config: {
     waitlistMax: number;
     intentMax: number;
+    magicLinkMax?: number;
     windowMs?: number;
   } | null,
 ): void {
@@ -98,17 +121,40 @@ export function configureRateLimitForTests(
     globalStore.__bmbRateLimitTestConfig = {
       waitlistMax: config.waitlistMax,
       intentMax: config.intentMax,
+      magicLinkMax: config.magicLinkMax ?? config.intentMax,
       windowMs: config.windowMs ?? 60_000,
     };
   }
   buckets().clear();
 }
 
-export function clientIpFromRequest(request: Request): string {
-  const forwarded = request.headers.get("x-forwarded-for");
+export function clientIpFromHeaders(headers: {
+  get(name: string): string | null;
+}): string {
+  const forwarded = headers.get("x-forwarded-for");
   if (forwarded) {
     const first = forwarded.split(",")[0]?.trim();
     if (first) return first;
   }
-  return request.headers.get("x-real-ip")?.trim() || "unknown";
+  return headers.get("x-real-ip")?.trim() || "unknown";
+}
+
+export function clientIpFromRequest(request: Request): string {
+  return clientIpFromHeaders(request.headers);
+}
+
+/** Slice 11.2 — magic-link rate-limit copy. Never claims signed in. */
+export const MAGIC_LINK_RATE_LIMITED =
+  "Too many sign-in link attempts. No email was sent. Wait a moment and try again.";
+
+export function magicLinkRateKey(email: string, ip: string): string {
+  return `email:${email.trim().toLowerCase()}|ip:${ip.trim() || "unknown"}`;
+}
+
+/** Shared gate for the magic-link action and CI harness. */
+export function checkMagicLinkRateLimit(
+  email: string,
+  ip: string,
+): RateLimitResult {
+  return checkRateLimit("magic-link", magicLinkRateKey(email, ip));
 }

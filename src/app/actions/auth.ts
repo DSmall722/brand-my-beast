@@ -1,7 +1,13 @@
 "use server";
 
 import { AuthError } from "next-auth";
+import { headers } from "next/headers";
 import { signIn, signOut } from "@/lib/auth";
+import {
+  MAGIC_LINK_RATE_LIMITED,
+  checkMagicLinkRateLimit,
+  clientIpFromHeaders,
+} from "@/lib/rate-limit";
 
 export type SignInState = {
   ok: boolean;
@@ -40,6 +46,13 @@ export async function signInWithMagicLink(
 
   if (!email || !email.includes("@")) {
     return { ok: false, error: "Enter a valid email." };
+  }
+
+  const hdrs = await headers();
+  const ip = clientIpFromHeaders(hdrs);
+  const limited = checkMagicLinkRateLimit(email, ip);
+  if (!limited.ok) {
+    return { ok: false, error: MAGIC_LINK_RATE_LIMITED };
   }
 
   try {
