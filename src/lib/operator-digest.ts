@@ -5,10 +5,10 @@ import {
   CLOSE_AT,
   FLOOR_USD,
   GOAL_USD,
-  formatUsd,
   shortfallToFloorUsd,
   shortfallToGoalUsd,
 } from "@/lib/campaign";
+import { operatorDigestEmailTemplate } from "@/emails/operator-digest";
 import {
   listBidsPendingApproval,
   loadBoardIntentStats,
@@ -96,21 +96,7 @@ export async function buildOperatorDigest(): Promise<OperatorDigest> {
 }
 
 export function formatOperatorDigestText(digest: OperatorDigest): string {
-  return [
-    `${BRAND.name} operator digest`,
-    `Generated: ${digest.generatedAt}`,
-    "",
-    `Pending intents: ${digest.pendingCount}`,
-    `Waitlist signups: ${digest.waitlistCount}`,
-    `Pledged (approved): ${formatUsd(digest.pledgedUsd)}`,
-    `Short of floor (${formatUsd(digest.floorUsd)}): ${formatUsd(digest.shortfallFloorUsd)}`,
-    `Short of buyout (${formatUsd(digest.goalUsd)}): ${formatUsd(digest.shortfallGoalUsd)}`,
-    `Seated panels: ${digest.seatedPanels} / open seats: ${digest.openSeats}`,
-    `CLOSE_AT: ${digest.closeAt === null ? "null" : digest.closeAt}`,
-    "",
-    "Intent only. No cards charged. Does not post to X.",
-    `— ${BRAND.name} <${BRAND.email}>`,
-  ].join("\n");
+  return operatorDigestEmailTemplate(digest).text;
 }
 
 export function operatorDigestRecipients(
@@ -139,13 +125,17 @@ export async function sendOperatorDigest(
   }
 
   const recipients = operatorDigestRecipients();
-  const text = formatOperatorDigestText(snapshot);
+  const mail = operatorDigestEmailTemplate(snapshot);
   const from = resolveMagicLinkFrom();
-  const subject = `${BRAND.name} digest — ${snapshot.pendingCount} pending / ${formatUsd(snapshot.pledgedUsd)} pledged`;
 
   let sent = 0;
   for (const to of recipients) {
-    await mailer.send({ from, to, subject, text });
+    await mailer.send({
+      from,
+      to,
+      subject: mail.subject,
+      text: mail.text,
+    });
     sent += 1;
   }
   return { sent, skipped: false, digest: snapshot };

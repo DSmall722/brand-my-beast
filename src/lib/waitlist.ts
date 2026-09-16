@@ -1,6 +1,7 @@
 import { desc, eq } from "drizzle-orm";
 import { Resend } from "resend";
 import { z } from "zod";
+import { waitlistOperatorEmailTemplate } from "@/emails/waitlist-operator";
 import { BRAND } from "./campaign";
 import { getDb } from "./db";
 import { waitlistSignups } from "./db/schema";
@@ -108,12 +109,13 @@ async function notifyOperator(email: string): Promise<void> {
   const from =
     process.env.RESEND_FROM ?? `${BRAND.name} <${BRAND.email}>`;
   const to = process.env.WAITLIST_NOTIFY_TO ?? BRAND.email;
+  const body = waitlistOperatorEmailTemplate(email);
 
   await mailer.send({
     from,
     to,
-    subject: `Waitlist: ${email}`,
-    text: `${email} joined the BrandMyBeast waitlist.`,
+    subject: body.subject,
+    text: body.text,
   });
 }
 
