@@ -1,9 +1,12 @@
 import { eq } from "drizzle-orm";
 import { Resend } from "resend";
 import { resolveMagicLinkFrom } from "@/lib/auth/mode";
-import { BRAND, formatUsd } from "@/lib/campaign";
 import { getDb } from "@/lib/db";
 import { authUsers } from "@/lib/db/schema";
+import {
+  intentStatusEmailTemplate,
+  type IntentStatusKind,
+} from "@/emails/intent-status";
 import type { IntentBid } from "@/lib/intent";
 
 /** Payload Resend (or a test double) receives for intent status mail. */
@@ -18,11 +21,7 @@ export type IntentStatusMailer = {
   send: (payload: IntentStatusMailPayload) => Promise<unknown>;
 };
 
-export type IntentStatusKind =
-  | "listed"
-  | "outbid"
-  | "approved"
-  | "rejected";
+export type { IntentStatusKind };
 
 const globalStore = globalThis as typeof globalThis & {
   __bmbIntentStatusMailer?: IntentStatusMailer | null;
@@ -83,55 +82,7 @@ export function buildIntentStatusMail(input: {
   bid: IntentBid;
   note?: string;
 }): { subject: string; text: string } {
-  const panel = input.bid.panelId;
-  const mark = formatUsd(input.bid.standingUsd);
-  const brand = input.bid.brandLabel;
-
-  switch (input.kind) {
-    case "listed":
-      return {
-        subject: `Intent listed — ${panel} at ${mark}`,
-        text: [
-          `Your intent for ${brand} on ${panel} is listed at ${mark}.`,
-          "This is intent only. No card was charged.",
-          `— ${BRAND.name}`,
-        ].join("\n"),
-      };
-    case "outbid":
-      return {
-        subject: `Outbid on ${panel}`,
-        text: [
-          `Your standing mark on ${panel} (${brand}, ${mark}) was outbid.`,
-          "You can place a higher intent when you are ready. No card was charged.",
-          `— ${BRAND.name}`,
-        ].join("\n"),
-      };
-    case "approved":
-      return {
-        subject: `Intent approved — ${panel}`,
-        text: [
-          `Your intent for ${brand} on ${panel} at ${mark} was approved.`,
-          "Still intent only until the money path is live. No card was charged.",
-          `— ${BRAND.name}`,
-        ].join("\n"),
-      };
-    case "rejected": {
-      const note = input.note?.trim();
-      return {
-        subject: `Intent rejected — ${panel}`,
-        text: [
-          `Your intent for ${brand} on ${panel} at ${mark} was rejected.`,
-          note ? `Operator note: ${note}` : "No operator note was attached.",
-          "No card was charged.",
-          `— ${BRAND.name}`,
-        ].join("\n"),
-      };
-    }
-    default: {
-      const _exhaustive: never = input.kind;
-      return _exhaustive;
-    }
-  }
+  return intentStatusEmailTemplate(input);
 }
 
 /**

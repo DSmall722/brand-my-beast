@@ -15,8 +15,8 @@ Updated: 2026-09-15
 - Coordinator may merge a PR that finishes exactly one unchecked slice, Playwright is green, and the merge gates below hold.
 - Judge PRs from git + `npm test` + `npm run build`. Do not use brandmybeast.com as a gate while the Vercel usage hold is on.
 
-**Now:** 12.10 Seed script: 12 open panels, zero standing. CI only.
-**Last merged:** 12.9 (#164 soft-delete withdrawn; never hard-delete approved).
+**Now:** 12.11 Email templates as files under `src/emails/`.
+**Last merged:** 12.10 (#165 seed 12 open panels, zero standing).
 
 ## Standing orders
 
@@ -147,7 +147,7 @@ Do not start Wave 12 until 11.10 is checked or skipped by the human. Still no St
 - [x] 12.7 Normalize trade strings before exclusivity check. (#162)
 - [x] 12.8 Intent revision table: brand/trade/amount/art changes with timestamps. (#163)
 - [x] 12.9 Soft-delete withdrawn rows. Never hard-delete an approved bid. (#164)
-- [ ] 12.10 Seed script: 12 open panels, zero standing. CI only.
+- [x] 12.10 Seed script: 12 open panels, zero standing. CI only. (#165)
 - [ ] 12.11 Email templates as files under `src/emails/`.
 - [ ] 12.12 Dead-letter table for failed Resend sends. Operator can retry.
 - [ ] 12.13 Unsubscribe + physical address line on every mail (CAN-SPAM stub).
