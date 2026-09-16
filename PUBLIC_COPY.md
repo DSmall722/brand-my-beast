@@ -114,6 +114,18 @@ Money facts from CAMPAIGN.md only. Plain English. Not a full contract.
 - Success: `You are on the list. We will email when bidding opens.`
 - Already: `That email is already on the list.`
 
+## Sign in
+
+Not homepage. Same voice. No “test login” string when Auth is live.
+
+- Heading: `Sign in`
+- Lead: `Accounts unlock intent marks on panels. This page does not charge cards.`
+- Magic-link hint: `We email a one-time link. No password. This page does not charge cards.`
+- Magic-link button: `Email me a sign-in link`
+- Credentials button: `Sign in`
+- Missing-providers lead: `Live sign-in is on, but no providers are configured yet. The operator needs AUTH_SECRET, AUTH_URL, RESEND_API_KEY, and DATABASE_URL.`
+- Test-mode hint (AUTH_MODE=test only): `CI path: use any @example.com email and the test password.`
+
 ## Footer
 
 - `BrandMyBeast · @BrandMyBeast · hello@brandmybeast.com`

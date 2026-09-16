@@ -5,6 +5,7 @@ import {
   signInWithMagicLink,
   type SignInState,
 } from "@/app/actions/auth";
+import { PUBLIC_COPY } from "@/lib/public-copy";
 
 const initial: SignInState = { ok: false };
 
@@ -13,6 +14,7 @@ export function MagicLinkSignInForm({ callbackUrl }: { callbackUrl: string }) {
     signInWithMagicLink,
     initial,
   );
+  const submitLabel = PUBLIC_COPY.signIn.magicLinkButton;
 
   return (
     <form
@@ -40,7 +42,7 @@ export function MagicLinkSignInForm({ callbackUrl }: { callbackUrl: string }) {
         disabled={pending}
         data-testid="magic-link-submit"
       >
-        {pending ? "Sending link…" : "Email me a sign-in link"}
+        {pending ? "Sending link…" : submitLabel}
       </button>
       {state.error ? (
         <p className="auth-error" data-testid="magic-link-error" role="alert">

@@ -5,6 +5,7 @@ import {
   signInWithTestCredentials,
   type SignInState,
 } from "@/app/actions/auth";
+import { PUBLIC_COPY } from "@/lib/public-copy";
 
 const initial: SignInState = { ok: false };
 
@@ -13,6 +14,7 @@ export function TestSignInForm({ callbackUrl }: { callbackUrl: string }) {
     signInWithTestCredentials,
     initial,
   );
+  const submitLabel = PUBLIC_COPY.signIn.credentialsButton;
 
   return (
     <form
@@ -52,7 +54,7 @@ export function TestSignInForm({ callbackUrl }: { callbackUrl: string }) {
         disabled={pending}
         data-testid="signin-submit"
       >
-        {pending ? "Signing in…" : "Sign in"}
+        {pending ? "Signing in…" : submitLabel}
       </button>
       {state.error ? (
         <p className="auth-error" data-testid="signin-error" role="alert">

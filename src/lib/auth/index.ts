@@ -26,7 +26,7 @@ function buildProviders(): Provider[] {
     providers.push(
       Credentials({
         id: "test-login",
-        name: "Test login",
+        name: "CI credentials",
         credentials: {
           email: { label: "Email", type: "email" },
           password: { label: "Password", type: "password" },
