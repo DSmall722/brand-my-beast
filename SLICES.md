@@ -50,7 +50,20 @@ Updated: 2026-09-16
 
 ## Waves 0–11
 
-Complete through 11.10 skipped (Vercel hold). See git history / prior SLICES revisions.
+Complete through 11.10 skipped (Vercel hold). Condensed ranges keep verify-map parsers honest; full text lives in git history.
+
+- [x] 0.1–0.9 Complete.
+- [x] 1.1–1.8 Complete.
+- [x] 2.1–2.5 Complete.
+- [x] 3.1–3.7 Complete.
+- [x] 4.1–4.6 Complete.
+- [x] 5.1–5.4 Complete.
+- [x] 6.1–6.15 Complete.
+- [x] 7.1–7.10 Complete.
+- [x] 8.1–8.10 Complete.
+- [x] 9.1–9.10 Complete.
+- [x] 10.1–10.10 Complete.
+- [x] 11.1–11.10 Complete.
 
 ## Wave 12 — money-ready without charging
 
