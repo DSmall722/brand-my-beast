@@ -10,7 +10,7 @@ import {
   formatUsd,
 } from "../src/lib/campaign";
 import { parseProxyMaxUsd } from "../src/lib/intent";
-import { placeIntentBid } from "../src/lib/intent-store";
+import { placeIntentBid, resetIntentStoreForTests } from "../src/lib/intent-store";
 
 /**
  * Slice 13.12 — proxy max hard cap = buyout $120,000 (published in CAMPAIGN.md).
@@ -19,6 +19,8 @@ test.describe("slice 13.12: proxy max hard cap", () => {
   test.describe.configure({ mode: "serial" });
 
   test.beforeEach(async ({ request }) => {
+    process.env.INTENT_MODE = "memory";
+    await resetIntentStoreForTests();
     const res = await request.post("/api/test/reset-intents");
     expect(res.ok()).toBeTruthy();
   });

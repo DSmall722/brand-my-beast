@@ -16,7 +16,11 @@ import {
   nextCompliantFailedWinnerMark,
   resolveFailedWinnerOfferForViewer,
 } from "../src/lib/failed-winner-offer";
-import { placeIntentBid, setIntentStatus } from "../src/lib/intent-store";
+import {
+  placeIntentBid,
+  resetIntentStoreForTests,
+  setIntentStatus,
+} from "../src/lib/intent-store";
 
 function bid(partial: Partial<IntentBid> & Pick<IntentBid, "id" | "userId" | "standingUsd" | "status">): IntentBid {
   return {
@@ -42,6 +46,8 @@ test.describe("slice 13.11: failed-winner timeout", () => {
   test.describe.configure({ mode: "serial" });
 
   test.beforeEach(async ({ request }) => {
+    process.env.INTENT_MODE = "memory";
+    await resetIntentStoreForTests();
     const res = await request.post("/api/test/reset-intents");
     expect(res.ok()).toBeTruthy();
   });

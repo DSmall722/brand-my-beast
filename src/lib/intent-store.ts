@@ -964,6 +964,22 @@ export async function setIntentStatus(
   status: Extract<IntentBidStatus, "approved" | "rejected" | "withdrawn">,
   opts?: { note?: string; expectedUpdatedAt?: string },
 ): Promise<PlaceIntentResult> {
+  // Slice 13.17 — whole-truck reject rolls back all twelve rows together.
+  if (status === "rejected") {
+    const siblings = await listWholeTruckSiblingBids(bidId);
+    if (siblings) {
+      const rolled = await rejectWholeTruckIntent({
+        bidId,
+        note: opts?.note ?? "",
+      });
+      if (!rolled.ok) return { ok: false, error: rolled.error };
+      const primary =
+        rolled.bids.find((row) => row.id === bidId) ?? rolled.bids[0];
+      if (!primary) return { ok: false, error: "Bid not found." };
+      return { ok: true, bid: primary };
+    }
+  }
+
   if (useMemoryStore()) {
     const bid = memoryBids().find((row) => row.id === bidId);
     if (!bid) return { ok: false, error: "Bid not found." };
@@ -1543,6 +1559,155 @@ export async function placeWholeTruckIntent(
   }
 
   return { ok: true, bids: placed };
+}
+
+/**
+ * Slice 13.17 — detect a whole-truck set: same user/brand/trade at
+ * WHOLE_TRUCK_PANEL_USD on all twelve panels (listed).
+ */
+export async function listWholeTruckSiblingBids(
+  bidId: string,
+): Promise<IntentBid[] | null> {
+  const bid = await getIntentBidById(bidId);
+  if (!bid) return null;
+  if (bid.standingUsd !== WHOLE_TRUCK_PANEL_USD) return null;
+  if (bid.status !== "listed" && bid.status !== "rejected") return null;
+
+  const tradeKey = normalizeTradeLabel(bid.tradeLabel);
+  const siblings: IntentBid[] = [];
+  for (const panel of PANELS) {
+    const bids = await listBidsForPanel(panel.id);
+    const match = bids.find(
+      (row) =>
+        row.userId === bid.userId &&
+        row.brandLabel === bid.brandLabel &&
+        normalizeTradeLabel(row.tradeLabel) === tradeKey &&
+        row.standingUsd === WHOLE_TRUCK_PANEL_USD &&
+        (row.status === "listed" || row.id === bid.id),
+    );
+    if (!match) return null;
+    siblings.push(match);
+  }
+  return siblings.length === PANELS.length ? siblings : null;
+}
+
+/**
+ * Slice 13.17 — reject whole-truck rolls back all twelve rows in one
+ * transaction. Still intent only — no card. Campaign clock stays unset.
+ */
+export async function rejectWholeTruckIntent(input: {
+  bidId: string;
+  note: string;
+}): Promise<
+  | { ok: true; bids: IntentBid[] }
+  | { ok: false; error: string }
+> {
+  const siblings = await listWholeTruckSiblingBids(input.bidId);
+  if (!siblings) {
+    return { ok: false, error: "Not a whole-truck listed set." };
+  }
+
+  const note = input.note.trim();
+  if (!note) {
+    return { ok: false, error: "Reject note is required." };
+  }
+
+  if (useMemoryStore()) {
+    const snapshots = siblings.map((row) => ({ ...row }));
+    const rejected: IntentBid[] = [];
+    try {
+      for (const row of siblings) {
+        const live = memoryBids().find((b) => b.id === row.id);
+        if (!live || live.status !== "listed") {
+          throw new Error("Whole-truck row missing or not listed.");
+        }
+        live.status = "rejected";
+        live.updatedAt = nextUpdatedAtIso(live.updatedAt);
+        assertIntentOnly(live);
+        rejected.push({ ...live });
+      }
+      for (const bid of rejected) {
+        await notifyIntentStatusSafe({
+          kind: "rejected",
+          bid,
+          note,
+        });
+        logIntentStatusChange({
+          bidId: bid.id,
+          panelId: bid.panelId,
+          status: "rejected",
+          userId: bid.userId,
+        });
+      }
+      return { ok: true, bids: rejected };
+    } catch (err) {
+      for (const snap of snapshots) {
+        const live = memoryBids().find((b) => b.id === snap.id);
+        if (live) {
+          live.status = snap.status;
+          live.updatedAt = snap.updatedAt;
+        }
+      }
+      return {
+        ok: false,
+        error:
+          err instanceof Error
+            ? err.message
+            : "Whole-truck reject rolled back.",
+      };
+    }
+  }
+
+  const db = getDb();
+  if (!db) {
+    return { ok: false, error: "Intent ledger is not configured." };
+  }
+
+  const touchAt = nextUpdatedAt();
+  // Neon batch requires a non-empty tuple; map() alone is `T[]`.
+  const [firstSibling, ...restSiblings] = siblings;
+  if (!firstSibling) {
+    return { ok: false, error: "Not a whole-truck listed set." };
+  }
+  const rejectRow = (row: IntentBid) =>
+    db
+      .update(intentBids)
+      .set({ status: "rejected", updatedAt: touchAt })
+      .where(
+        and(eq(intentBids.id, row.id), eq(intentBids.status, "listed")),
+      )
+      .returning();
+  const results = await db.batch([
+    rejectRow(firstSibling),
+    ...restSiblings.map(rejectRow),
+  ]);
+  const rejected: IntentBid[] = [];
+  for (const rows of results) {
+    const row = rows[0];
+    if (!row) {
+      return {
+        ok: false,
+        error: "Whole-truck reject could not update all twelve rows.",
+      };
+    }
+    rejected.push(rowToBid(row));
+  }
+  if (rejected.length !== PANELS.length) {
+    return {
+      ok: false,
+      error: "Whole-truck reject could not update all twelve rows.",
+    };
+  }
+  for (const bid of rejected) {
+    await notifyIntentStatusSafe({ kind: "rejected", bid, note });
+    logIntentStatusChange({
+      bidId: bid.id,
+      panelId: bid.panelId,
+      status: "rejected",
+      userId: bid.userId,
+    });
+  }
+  return { ok: true, bids: rejected };
 }
 
 export type BoardIntentStats = {
