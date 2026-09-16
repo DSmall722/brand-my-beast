@@ -27,6 +27,11 @@ test.describe("slice 10.3: etch toggle locked under buyout", () => {
     expect(res.ok()).toBeTruthy();
   });
 
+  test.afterEach(async ({ request }) => {
+    const res = await request.post("/api/test/reset-intents");
+    expect(res.ok()).toBeTruthy();
+  });
+
   test("campaign money fences stay locked — CLOSE_AT null", () => {
     expect(FLOOR_USD).toBe(58_000);
     expect(GOAL_USD).toBe(120_000);
@@ -115,5 +120,9 @@ test.describe("slice 10.3: etch toggle locked under buyout", () => {
     expect(html).not.toContain("CLOSE_AT");
     expect(html).toContain("$58,000");
     expect(html).toContain("$120,000");
+
+    // Clear buyout seed so later suites still see pledged $0.
+    const reset = await request.post("/api/test/reset-intents");
+    expect(reset.ok()).toBeTruthy();
   });
 });
