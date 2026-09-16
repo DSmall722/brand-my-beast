@@ -44,7 +44,9 @@ export function HomePanelsSection({
                   <Link
                     href={`/panels/${panel.id}`}
                     className="panel-card-link"
+                    prefetch={true}
                     data-testid={`panel-link-${panel.id}`}
+                    data-prefetch-panel={panel.id}
                   >
                     <div
                       className="panel-face"
