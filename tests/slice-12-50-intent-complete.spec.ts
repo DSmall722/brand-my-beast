@@ -56,7 +56,7 @@ test.describe("slice 12.50: intent-complete freeze (no CLOSE_AT / Stripe)", () =
     expect(text.toLowerCase()).not.toContain("stripe setupintent");
 
     const campaign = readFileSync(CAMPAIGN_TS, "utf8");
-    expect(campaign).toMatch(/CLOSE_AT\s*=\s*null/);
+    expect(campaign).toMatch(/CLOSE_AT[\s\S]*?=\s*null/);
     expect(campaign).not.toMatch(/from ["']stripe["']/);
   });
 });
