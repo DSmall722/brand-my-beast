@@ -72,7 +72,10 @@ export function TermsStubBody() {
       <p data-testid="terms-independent">{PUBLIC_COPY.footer.independent}</p>
       <p data-testid="terms-intent">
         {buying?.a} Cards are not charged until the money path is live. The
-        current page only records intent.
+        current page only records intent.{" "}
+        <span data-testid="terms-intent-not-charge">
+          {PUBLIC_COPY.footer.intentNotACharge}
+        </span>
       </p>
       <p data-testid="terms-floor">
         Floor {formatUsd(FLOOR_USD)}. {miss?.a}

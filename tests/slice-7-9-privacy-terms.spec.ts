@@ -91,6 +91,10 @@ test.describe("slice 7.9: privacy and terms stubs", () => {
     await expect(page.getByTestId("terms-intent")).toContainText(
       "Cards are not charged until the money path is live",
     );
+    // Slice 13.38 — exact phrase locked on the terms stub.
+    await expect(page.getByTestId("terms-intent-not-charge")).toHaveText(
+      PUBLIC_COPY.footer.intentNotACharge,
+    );
     await expect(page.getByTestId("terms-clock")).toContainText("null");
     await expect(page.getByTestId("terms-contact")).toContainText(BRAND.email);
     const html = (await page.content()).toLowerCase();
