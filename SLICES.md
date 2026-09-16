@@ -16,7 +16,7 @@ Updated: 2026-09-15
 - Judge PRs from git + `npm test` + `npm run build`. Do not use brandmybeast.com as a gate while the Vercel usage hold is on.
 
 **Now:** 10.7 Mobile compositor: one view at a time. Playwright 390px, wordmark not clipped.
-**Last merged:** 10.6 (#TBD Export one PNG per seat (auth-gated server route)).
+**Last merged:** 10.6 (#141 Export one PNG per seat (auth-gated server route)).
 
 ## Standing orders
 
