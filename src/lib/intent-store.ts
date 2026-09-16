@@ -22,11 +22,13 @@ import {
   assertIntentOnly,
   depositUsdForMark,
   isFloorSaveBid,
+  INTENT_STALE_WRITE,
   nextStandingUsd,
   normalizeTradeLabel,
   parseProxyMaxUsd,
   type IntentBid,
   type IntentBidStatus,
+  type IntentWriteErrorCode,
   type UserId,
 } from "./intent";
 
@@ -109,6 +111,7 @@ function rowToBid(row: IntentBidRow): IntentBid {
     depositUsd: row.depositUsd,
     status: parseStatus(row.status),
     createdAt: row.createdAt.toISOString(),
+    updatedAt: row.updatedAt.toISOString(),
     artworkUrl: row.artworkUrl ?? null,
     proxyMaxUsd: row.proxyMaxUsd ?? null,
     floorSaveUsd: row.floorSaveUsd ?? null,
@@ -141,7 +144,31 @@ type PlaceIntentOptions = {
 
 export type PlaceIntentResult =
   | { ok: true; bid: IntentBid }
-  | { ok: false; error: string };
+  | { ok: false; error: string; code?: IntentWriteErrorCode };
+
+const STALE_WRITE_MESSAGE =
+  "This intent changed. Reload and try again.";
+
+function staleWriteResult(): PlaceIntentResult {
+  return {
+    ok: false,
+    code: INTENT_STALE_WRITE,
+    error: STALE_WRITE_MESSAGE,
+  };
+}
+
+function nowIso(): string {
+  return new Date().toISOString();
+}
+
+function assertFreshUpdatedAt(
+  bid: IntentBid,
+  expectedUpdatedAt: string | undefined,
+): PlaceIntentResult | null {
+  if (expectedUpdatedAt == null) return null;
+  if (bid.updatedAt !== expectedUpdatedAt) return staleWriteResult();
+  return null;
+}
 
 export async function listBidsForPanel(panelId: string): Promise<IntentBid[]> {
   if (useMemoryStore()) {
@@ -465,6 +492,7 @@ export async function placeIntentBid(
           existing.userId === input.userId
         ) {
           existing.status = "withdrawn";
+          existing.updatedAt = nowIso();
         }
       }
     } else {
@@ -474,7 +502,7 @@ export async function placeIntentBid(
       }
       await dbForWithdraw
         .update(intentBids)
-        .set({ status: "withdrawn" })
+        .set({ status: "withdrawn", updatedAt: new Date() })
         .where(
           and(
             eq(intentBids.panelId, input.panelId),
@@ -517,6 +545,7 @@ export async function placeIntentBid(
           depositUsd,
           status: "listed",
           createdAt: new Date().toISOString(),
+          updatedAt: nowIso(),
           artworkUrl,
           proxyMaxUsd: null,
           floorSaveUsd: y,
@@ -543,6 +572,7 @@ export async function placeIntentBid(
           artworkUrl,
           proxyMaxUsd: null,
           floorSaveUsd: y,
+          updatedAt: new Date(),
         })
         .returning();
       const floorRow = insertedFloor[0];
@@ -581,6 +611,7 @@ export async function placeIntentBid(
         ) {
           const snapshot: IntentBid = { ...existing };
           existing.status = "outbid";
+          existing.updatedAt = nowIso();
           outbidTargets.push({ ...snapshot, status: "outbid" });
         }
       }
@@ -595,6 +626,7 @@ export async function placeIntentBid(
         depositUsd,
         status: "listed",
         createdAt: new Date().toISOString(),
+        updatedAt: nowIso(),
         artworkUrl,
         proxyMaxUsd,
         floorSaveUsd: null,
@@ -638,7 +670,7 @@ export async function placeIntentBid(
     // Floor-save rows stay listed — they do not hold the seat yet.
     const outbidOthers = db
       .update(intentBids)
-      .set({ status: "outbid" })
+      .set({ status: "outbid", updatedAt: new Date() })
       .where(
         and(
           eq(intentBids.panelId, input.panelId),
@@ -660,6 +692,7 @@ export async function placeIntentBid(
         artworkUrl,
         proxyMaxUsd,
         floorSaveUsd: null,
+        updatedAt: new Date(),
       })
       .returning();
 
@@ -737,11 +770,13 @@ async function runProxyMaxAgent(input: {
 export async function setIntentStatus(
   bidId: string,
   status: Extract<IntentBidStatus, "approved" | "rejected" | "withdrawn">,
-  opts?: { note?: string },
+  opts?: { note?: string; expectedUpdatedAt?: string },
 ): Promise<PlaceIntentResult> {
   if (useMemoryStore()) {
     const bid = memoryBids().find((row) => row.id === bidId);
     if (!bid) return { ok: false, error: "Bid not found." };
+    const stale = assertFreshUpdatedAt(bid, opts?.expectedUpdatedAt);
+    if (stale) return stale;
     const demoted: IntentBid[] = [];
     if (status === "approved") {
       const ban = assertTradeAllowed({
@@ -757,12 +792,14 @@ export async function setIntentStatus(
           existing.status === "approved"
         ) {
           existing.status = "outbid";
+          existing.updatedAt = nowIso();
           assertIntentOnly(existing);
           demoted.push({ ...existing });
         }
       }
     }
     bid.status = status;
+    bid.updatedAt = nowIso();
     assertIntentOnly(bid);
     if (status === "approved" || status === "rejected") {
       await notifyIntentStatusSafe({
@@ -782,6 +819,15 @@ export async function setIntentStatus(
     return { ok: false, error: "Intent ledger is not configured." };
   }
 
+  const touchAt = new Date();
+  const idLock =
+    opts?.expectedUpdatedAt != null
+      ? and(
+          eq(intentBids.id, bidId),
+          eq(intentBids.updatedAt, new Date(opts.expectedUpdatedAt)),
+        )
+      : eq(intentBids.id, bidId);
+
   if (status === "approved") {
     const existing = await db
       .select()
@@ -790,6 +836,9 @@ export async function setIntentStatus(
       .limit(1);
     const current = existing[0];
     if (!current) return { ok: false, error: "Bid not found." };
+    const currentBid = rowToBid(current);
+    const stale = assertFreshUpdatedAt(currentBid, opts?.expectedUpdatedAt);
+    if (stale) return stale;
     const ban = assertTradeAllowed({
       brandLabel: current.brandLabel,
       tradeLabel: current.tradeLabel,
@@ -810,7 +859,7 @@ export async function setIntentStatus(
     // Slice 12.1 — demote prior approved + approve in one Neon HTTP batch txn.
     const demotePrior = db
       .update(intentBids)
-      .set({ status: "outbid" })
+      .set({ status: "outbid", updatedAt: touchAt })
       .where(
         and(
           eq(intentBids.panelId, current.panelId),
@@ -820,12 +869,15 @@ export async function setIntentStatus(
       );
     const approveThis = db
       .update(intentBids)
-      .set({ status: "approved" })
-      .where(eq(intentBids.id, bidId))
+      .set({ status: "approved", updatedAt: touchAt })
+      .where(idLock)
       .returning();
     const [, updated] = await db.batch([demotePrior, approveThis]);
     const row = updated[0];
-    if (!row) return { ok: false, error: "Bid not found." };
+    if (!row) {
+      if (opts?.expectedUpdatedAt != null) return staleWriteResult();
+      return { ok: false, error: "Bid not found." };
+    }
     const bid = rowToBid(row);
     await notifyIntentStatusSafe({
       kind: "approved",
@@ -843,11 +895,14 @@ export async function setIntentStatus(
 
   const updated = await db
     .update(intentBids)
-    .set({ status })
-    .where(eq(intentBids.id, bidId))
+    .set({ status, updatedAt: touchAt })
+    .where(idLock)
     .returning();
   const row = updated[0];
-  if (!row) return { ok: false, error: "Bid not found." };
+  if (!row) {
+    if (opts?.expectedUpdatedAt != null) return staleWriteResult();
+    return { ok: false, error: "Bid not found." };
+  }
   const bid = rowToBid(row);
   if (status === "rejected") {
     await notifyIntentStatusSafe({
@@ -874,6 +929,7 @@ export async function countApprovedStandingForPanel(
 export async function withdrawPendingIntent(input: {
   bidId: string;
   userId: UserId;
+  expectedUpdatedAt?: string;
 }): Promise<PlaceIntentResult> {
   const bid = await getIntentBidById(input.bidId);
   if (!bid) return { ok: false, error: "Bid not found." };
@@ -892,7 +948,9 @@ export async function withdrawPendingIntent(input: {
       error: "Only pending (listed) intents can be withdrawn.",
     };
   }
-  return setIntentStatus(bid.id, "withdrawn");
+  return setIntentStatus(bid.id, "withdrawn", {
+    expectedUpdatedAt: input.expectedUpdatedAt ?? bid.updatedAt,
+  });
 }
 
 /**
@@ -905,6 +963,8 @@ export async function editPendingIntent(input: {
   brandLabel: string;
   tradeLabel: string;
   artworkUrl?: string | null;
+  /** Slice 12.2 — must match the row the caller read. */
+  expectedUpdatedAt?: string;
 }): Promise<PlaceIntentResult> {
   const bid = await getIntentBidById(input.bidId);
   if (!bid) return { ok: false, error: "Bid not found." };
@@ -923,6 +983,10 @@ export async function editPendingIntent(input: {
       error: "Only pending (listed) intents can be edited.",
     };
   }
+
+  const expectedUpdatedAt = input.expectedUpdatedAt ?? bid.updatedAt;
+  const stale = assertFreshUpdatedAt(bid, expectedUpdatedAt);
+  if (stale) return stale;
 
   const brandLabel = input.brandLabel.trim();
   if (brandLabel.length < 2 || brandLabel.length > 80) {
@@ -984,11 +1048,22 @@ export async function editPendingIntent(input: {
   }
 
   if (useMemoryStore()) {
-    bid.brandLabel = brandLabel;
-    bid.tradeLabel = tradeLabel;
-    bid.artworkUrl = artworkUrl;
-    assertIntentOnly(bid);
-    return { ok: true, bid };
+    // Re-check after validation — another writer may have bumped updatedAt.
+    const live = memoryBids().find((row) => row.id === bid.id);
+    if (!live || live.status !== "listed") {
+      return {
+        ok: false,
+        error: "Only pending (listed) intents can be edited.",
+      };
+    }
+    const again = assertFreshUpdatedAt(live, expectedUpdatedAt);
+    if (again) return again;
+    live.brandLabel = brandLabel;
+    live.tradeLabel = tradeLabel;
+    live.artworkUrl = artworkUrl;
+    live.updatedAt = nowIso();
+    assertIntentOnly(live);
+    return { ok: true, bid: live };
   }
 
   const db = getDb();
@@ -997,13 +1072,26 @@ export async function editPendingIntent(input: {
   }
   const updated = await db
     .update(intentBids)
-    .set({ brandLabel, tradeLabel, artworkUrl })
+    .set({
+      brandLabel,
+      tradeLabel,
+      artworkUrl,
+      updatedAt: new Date(),
+    })
     .where(
-      and(eq(intentBids.id, bid.id), eq(intentBids.status, "listed")),
+      and(
+        eq(intentBids.id, bid.id),
+        eq(intentBids.status, "listed"),
+        eq(intentBids.updatedAt, new Date(expectedUpdatedAt)),
+      ),
     )
     .returning();
   const row = updated[0];
   if (!row) {
+    const latest = await getIntentBidById(bid.id);
+    if (latest && latest.updatedAt !== expectedUpdatedAt) {
+      return staleWriteResult();
+    }
     return {
       ok: false,
       error: "Only pending (listed) intents can be edited.",

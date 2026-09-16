@@ -38,6 +38,10 @@ export const intentBids = pgTable(
     createdAt: timestamp("created_at", { withTimezone: true })
       .defaultNow()
       .notNull(),
+    /** Slice 12.2 — optimistic lock token; bump on every write. */
+    updatedAt: timestamp("updated_at", { withTimezone: true })
+      .defaultNow()
+      .notNull(),
     /** http(s) or /api/artwork/{id}. Never a data: URL (slice 8.5). */
     artworkUrl: text("artwork_url"),
     /** Optional proxy ceiling (slice 9.1). Intent only — never a card. */

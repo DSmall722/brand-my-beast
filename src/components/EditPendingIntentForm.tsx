@@ -15,11 +15,14 @@ export function EditPendingIntentForm({
   brandLabel,
   tradeLabel,
   artworkUrl,
+  updatedAt,
 }: {
   bidId: string;
   brandLabel: string;
   tradeLabel: string;
   artworkUrl: string | null;
+  /** Slice 12.2 — optimistic lock token from the row the user loaded. */
+  updatedAt: string;
 }) {
   const [state, action, pending] = useActionState(
     editPendingIntentBid,
@@ -89,6 +92,7 @@ export function EditPendingIntentForm({
       </p>
       <form action={action} className="auth-form intent-edit-form">
         <input type="hidden" name="bidId" value={bidId} />
+        <input type="hidden" name="expectedUpdatedAt" value={updatedAt} />
         <label className="auth-label" htmlFor={`edit-brand-${bidId}`}>
           Brand label
         </label>

@@ -198,6 +198,7 @@ test.describe("slice 8.1: intent status emails mock Resend", () => {
       depositUsd: 500,
       status: "listed" as const,
       createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
       artworkUrl: null,
       proxyMaxUsd: null,
       floorSaveUsd: null,
