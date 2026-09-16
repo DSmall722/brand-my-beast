@@ -135,12 +135,15 @@ export function parseFloorSaveUsd(
   return { ok: true, floorSaveUsd: value };
 }
 
-/** 20% of the listed mark. Intent only on P2 — do not charge. */
+/**
+ * Slice 12.5 — deposit is always round(standing * 0.20) via this helper.
+ * Intent only on P2 — do not charge.
+ */
 export function depositUsdForMark(markUsd: number): number {
   if (!Number.isFinite(markUsd) || markUsd <= 0) {
     throw new Error("markUsd must be a positive finite number");
   }
-  return Math.ceil((markUsd * DEPOSIT_PERCENT) / 100);
+  return Math.round(markUsd * (DEPOSIT_PERCENT / 100));
 }
 
 export function assertIntentOnly(bid: IntentBid): void {

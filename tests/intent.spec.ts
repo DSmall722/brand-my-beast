@@ -237,9 +237,11 @@ test.describe("P2 intent math (no capture)", () => {
     expect(nextStandingUsd(3000)).toBe(3300);
   });
 
-  test("deposit is 20% of the mark, rounded up", () => {
+  test("deposit is 20% of the mark, rounded", () => {
     expect(depositUsdForMark(2500)).toBe(500);
-    expect(depositUsdForMark(1001)).toBe(201);
+    expect(depositUsdForMark(1001)).toBe(200);
+    expect(depositUsdForMark(1000)).toBe(200);
+    expect(depositUsdForMark(3)).toBe(1);
   });
 
   test("intent bid shape rejects stripe capture fields", () => {
