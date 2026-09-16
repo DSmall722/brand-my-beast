@@ -15,8 +15,8 @@ Updated: 2026-09-15
 - Coordinator may merge a PR that finishes exactly one unchecked slice, Playwright is green, and the merge gates below hold.
 - Judge PRs from git + `npm test` + `npm run build`. Do not use brandmybeast.com as a gate while the Vercel usage hold is on.
 
-**Now:** 11.10 BLOCKED — skip note if Vercel hold still on; else redeploy note only.
-**Last merged:** 11.9 (#154 vercel.json stays main-only).
+**Now:** 12.1 Place + outbid + approve in one DB transaction. No double standing on a panel.
+**Last merged:** 11.10 (#155 Vercel hold note — redeploy when the hold lifts; skipped while hold is on).
 
 ## Standing orders
 
@@ -132,7 +132,7 @@ If any gate fails: leave the PR unmerged and stop that slice.
 - [x] 11.7 a11y: reject-note required announced; waitlist errors linked to the field. (#152)
 - [x] 11.8 Pre-P3 checklist component on `/operator` (LLC, terms, Resend, Stripe not wired). Checkboxes do not set CLOSE_AT. (#153)
 - [x] 11.9 `vercel.json` stays main-only. Do not add preview deploys or extra projects. (#154)
-- [ ] 11.10 BLOCKED until the human clears the Vercel usage hold. Repo note only: “redeploy when the hold lifts.” No app change. No Stripe. No CLOSE_AT.
+- [x] 11.10 BLOCKED until the human clears the Vercel usage hold. Repo note only: “redeploy when the hold lifts.” No app change. No Stripe. No CLOSE_AT. (skipped — hold still on; see `docs/VERCEL-HOLD.md`) (#155)
 
 ## Wave 12 — money-ready without charging
 
