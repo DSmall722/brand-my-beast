@@ -118,6 +118,28 @@ export const operatorAuditLog = pgTable(
 );
 
 /**
+ * Slice 12.8 — brand / trade / amount / art snapshots with timestamps.
+ * Intent only — never a charge receipt.
+ */
+export const intentRevisions = pgTable(
+  "intent_revisions",
+  {
+    id: text("id").primaryKey(),
+    bidId: text("bid_id").notNull(),
+    brandLabel: text("brand_label").notNull(),
+    tradeLabel: text("trade_label").notNull(),
+    standingUsd: integer("standing_usd").notNull(),
+    artworkUrl: text("artwork_url"),
+    createdAt: timestamp("created_at", { withTimezone: true })
+      .defaultNow()
+      .notNull(),
+  },
+  (table) => [
+    index("intent_revisions_bid_id_idx").on(table.bidId),
+    index("intent_revisions_created_at_idx").on(table.createdAt),
+  ],
+);
+/**
  * Slice 9.3 — per-panel soft-close extension. Not a campaign CLOSE_AT.
  */
 export const panelExtensions = pgTable("panel_extensions", {
@@ -191,5 +213,7 @@ export type OperatorBanListRow = typeof operatorBanList.$inferSelect;
 export type NewOperatorBanListRow = typeof operatorBanList.$inferInsert;
 export type OperatorAuditLogRow = typeof operatorAuditLog.$inferSelect;
 export type NewOperatorAuditLogRow = typeof operatorAuditLog.$inferInsert;
+export type IntentRevisionRow = typeof intentRevisions.$inferSelect;
+export type NewIntentRevisionRow = typeof intentRevisions.$inferInsert;
 export type PanelExtensionRow = typeof panelExtensions.$inferSelect;
 export type NewPanelExtensionRow = typeof panelExtensions.$inferInsert;
