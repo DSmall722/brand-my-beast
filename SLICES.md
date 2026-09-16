@@ -15,8 +15,8 @@ Updated: 2026-09-15
 - Coordinator may merge a PR that finishes exactly one unchecked slice, Playwright is green, and the merge gates below hold.
 - Judge PRs from git + `npm test` + `npm run build`. Do not use brandmybeast.com as a gate while the Vercel usage hold is on.
 
-**Now:** 12.16 Account delete: anonymize user id on bids, keep public standing amounts.
-**Last merged:** 12.15 (#170 account export JSON, auth-gated).
+**Now:** 12.17 Sign-in page copy from PUBLIC_COPY. No “test login” string in live mode.
+**Last merged:** 12.16 (#171 account delete anonymizes bid user ids).
 
 ## Standing orders
 
@@ -153,7 +153,7 @@ Do not start Wave 12 until 11.10 is checked or skipped by the human. Still no St
 - [x] 12.13 Unsubscribe + physical address line on every mail (CAN-SPAM stub). (#168)
 - [x] 12.14 Waitlist double-opt-in token. (#169)
 - [x] 12.15 Account export JSON. Auth-gated. (#170)
-- [ ] 12.16 Account delete: anonymize user id on bids, keep public standing amounts.
+- [x] 12.16 Account delete: anonymize user id on bids, keep public standing amounts. (#171)
 - [ ] 12.17 Sign-in page copy from PUBLIC_COPY. No “test login” string in live mode.
 - [ ] 12.18 Session max-age documented + idle timeout copy on `/account`.
 - [ ] 12.19 Magic-link consumed-once test.

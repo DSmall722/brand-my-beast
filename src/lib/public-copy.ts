@@ -171,6 +171,23 @@ export const PUBLIC_COPY = {
     rateLimited:
       "Too many attempts. You are not on the list. Wait a moment and try again.",
   },
+  /**
+   * Slice 12.17 — /signin copy. Not a homepage section.
+   * Live mode HTML must never contain the string “test login”.
+   */
+  signIn: {
+    heading: "Sign in",
+    lead: "Accounts unlock intent marks on panels. This page does not charge cards.",
+    magicLinkHint:
+      "We email a one-time link. No password. This page does not charge cards.",
+    magicLinkButton: "Email me a sign-in link",
+    credentialsButton: "Sign in",
+    missingProvidersLead:
+      "Live sign-in is on, but no providers are configured yet. The operator needs AUTH_SECRET, AUTH_URL, RESEND_API_KEY, and DATABASE_URL.",
+    /** AUTH_MODE=test only — never render under live. */
+    testHint:
+      "CI path: use any @example.com email and the test password.",
+  },
   /** Intent failure strings (not homepage PUBLIC_COPY.md sections). */
   intent: {
     rateLimited:

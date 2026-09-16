@@ -4,9 +4,14 @@ import { MagicLinkSignInForm } from "@/components/MagicLinkSignInForm";
 import { TestSignInForm } from "@/components/TestSignInForm";
 import { auth, signIn } from "@/lib/auth";
 import { enabledAuthProviders, resolveAuthMode } from "@/lib/auth/mode";
+import { PUBLIC_COPY } from "@/lib/public-copy";
 
 type SearchParams = Promise<{ callbackUrl?: string }>;
 
+/**
+ * Slice 12.17 — sign-in copy from PUBLIC_COPY.
+ * Live mode HTML never shows the CI credentials hatch label.
+ */
 export default async function SignInPage({
   searchParams,
 }: {
@@ -30,20 +35,20 @@ export default async function SignInPage({
   const hasGithub = providers.includes("github");
   const liveMissingProviders =
     mode === "live" && !hasResend && !hasGithub && !hasTest;
+  const copy = PUBLIC_COPY.signIn;
 
   return (
-    <main className="shell auth-page">
+    <main className="shell auth-page" data-testid="signin-page" data-auth-mode={mode}>
       <p className="eyebrow">BrandMyBeast</p>
-      <h1>Sign in</h1>
-      <p className="section-lead">
-        Accounts unlock intent marks on panels. No cards are charged on this
-        path.
+      <h1>{copy.heading}</h1>
+      <p className="section-lead" data-testid="signin-lead">
+        {copy.lead}
       </p>
 
       {hasTest ? (
         <>
           <p className="auth-hint" data-testid="test-login-hint">
-            Test mode: use any <code>@example.com</code> email and password{" "}
+            {copy.testHint}{" "}
             <code>{process.env.AUTH_TEST_PASSWORD ?? "test"}</code>.
           </p>
           <TestSignInForm callbackUrl={callbackUrl} />
@@ -53,7 +58,7 @@ export default async function SignInPage({
       {hasResend ? (
         <>
           <p className="auth-hint" data-testid="magic-link-hint">
-            Production sign-in: we email a one-time link. No password. No card.
+            {copy.magicLinkHint}
           </p>
           <MagicLinkSignInForm callbackUrl={callbackUrl} />
         </>
@@ -79,9 +84,8 @@ export default async function SignInPage({
 
       {liveMissingProviders ? (
         <div className="auth-missing" data-testid="auth-secrets-missing">
-          <p>
-            Live Auth.js is on, but no providers are configured yet. The
-            operator needs these Vercel env vars:
+          <p data-testid="signin-missing-providers-lead">
+            {copy.missingProvidersLead}
           </p>
           <ul>
             <li>
@@ -101,11 +105,6 @@ export default async function SignInPage({
               <code>DATABASE_URL</code> (Auth.js verification tokens)
             </li>
           </ul>
-          <p>
-            Or set <code>AUTH_MODE=test</code> /{" "}
-            <code>AUTH_ENABLE_TEST_LOGIN=1</code> for the credentials path used
-            in CI.
-          </p>
         </div>
       ) : null}
 
