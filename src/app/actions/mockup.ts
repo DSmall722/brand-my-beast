@@ -7,6 +7,7 @@ import {
   assertEtchFinishAllowed,
   parseOperatorFinish,
 } from "@/lib/etch-approve-lock";
+import { assertEtchArtPassesLinter } from "@/lib/etch-linter";
 import { loadBoardIntentStats } from "@/lib/intent-store";
 import type { ImagineMockup } from "@/lib/mockup";
 import { queueImagineMockup } from "@/lib/mockup-store";
@@ -37,6 +38,10 @@ export async function queueImagineMockupAction(
       pledgedUsd: board.pledgedUsd,
     });
     if (!etchGate.ok) return { ok: false, error: etchGate.error };
+
+    const artNotes = String(formData.get("artNotes") ?? "");
+    const lintGate = assertEtchArtPassesLinter({ finish, artNotes });
+    if (!lintGate.ok) return { ok: false, error: lintGate.error };
   }
 
   const result = await queueImagineMockup({ bidId, finish });

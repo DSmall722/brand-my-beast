@@ -82,7 +82,30 @@ export function ApprovalButtons({
               Etch finish stays locked while pledged is under{" "}
               {formatUsd(GOAL_USD)}.
             </p>
-          ) : null}
+          ) : (
+            <>
+              <label className="auth-label" htmlFor={`etch-art-notes-${bidId}`}>
+                Etch art notes
+              </label>
+              <textarea
+                id={`etch-art-notes-${bidId}`}
+                name="artNotes"
+                form={`approval-approve-${bidId}`}
+                className="auth-input approval-note"
+                rows={2}
+                maxLength={400}
+                placeholder="1-color brief — no gradients / photo / 8-pt type"
+                data-testid={`approval-etch-art-notes-${bidId}`}
+              />
+              <p
+                className="auth-hint"
+                data-testid={`approval-etch-lint-hint-${bidId}`}
+              >
+                Etch art is rejected if the linter fails. Wrap art may still
+                list.
+              </p>
+            </>
+          )}
         </div>
       ) : null}
       <div className="approval-action-row">
