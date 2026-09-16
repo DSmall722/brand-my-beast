@@ -16,7 +16,7 @@ Updated: 2026-09-16
 - Judge PRs from git + `npm test` + `npm run build`. Do not use brandmybeast.com as a gate while the Vercel usage hold is on.
 
 **Now:** 13.21 Shop PDF embeds etch-lock state from pledged vs $120,000.
-**Last merged:** 13.20 (#TBD failed-winner accept leaves old winner outbid).
+**Last merged:** 13.20 (#228 failed-winner accept leaves old winner outbid).
 
 ## Standing orders
 
