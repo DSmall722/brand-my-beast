@@ -9,6 +9,11 @@ import {
   formatUsd,
   isEtchable,
 } from "@/lib/campaign";
+import {
+  canDownloadSeatPng,
+  forbiddenDownload,
+  unsignedDownload,
+} from "@/lib/download-auth";
 import { loadStandingHoldersByPanel } from "@/lib/intent-store";
 import {
   seatExportFinishBadge,
@@ -21,14 +26,16 @@ export const runtime = "nodejs";
 type RouteContext = { params: Promise<{ panelId: string }> };
 
 /**
- * Slice 10.6 — one PNG per seat. Signed-in only. Preview composite — not billed.
+ * Slice 10.6 / 13.36 — one PNG per seat.
+ * Operator or standing seat owner. Preview composite — not billed.
  */
 export async function GET(_request: Request, context: RouteContext) {
   const session = await auth();
   if (!session?.user) {
+    const denial = unsignedDownload();
     return NextResponse.json(
-      { ok: false, error: "Sign in required." },
-      { status: 401 },
+      { ok: false, error: denial.error },
+      { status: denial.status },
     );
   }
 
@@ -44,6 +51,21 @@ export async function GET(_request: Request, context: RouteContext) {
 
   const holders = await loadStandingHoldersByPanel();
   const holder = holders.get(panel.id);
+  const allowed = canDownloadSeatPng({
+    email: session.user.email,
+    userId: session.user.id,
+    ownerUserId: holder?.userId ?? null,
+  });
+  if (!allowed) {
+    const denial = forbiddenDownload(
+      "Seat PNG is only for the standing owner or the operator.",
+    );
+    return NextResponse.json(
+      { ok: false, error: denial.error },
+      { status: denial.status },
+    );
+  }
+
   const brandLabel = seatExportStandingLabel(holder?.brandLabel ?? null);
   const finishBadge = seatExportFinishBadge(isEtchable(panel));
   const filename = seatExportPngFilename(panel.id);
