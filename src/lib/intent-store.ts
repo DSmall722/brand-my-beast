@@ -1228,8 +1228,9 @@ export async function hardDeleteIntentBid(
 }
 
 /**
- * Slice 9.8 — owner may edit brand / trade / art while listed (pending) only.
- * Standing amount unchanged. Approved needs operator.
+ * Slice 9.8 / 13.15 — owner may edit brand / trade / art while listed (pending)
+ * only. Standing amount unchanged. Each successful edit appends an intent
+ * revision row (12.8). Approved needs operator.
  */
 export async function editPendingIntent(input: {
   bidId: string;
