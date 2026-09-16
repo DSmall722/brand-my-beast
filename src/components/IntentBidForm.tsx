@@ -32,6 +32,7 @@ export function IntentBidForm({
   suggestedTrade?: string;
 }) {
   const [state, action, pending] = useActionState(submitIntentBid, initial);
+  const [idempotencyKey] = useState(() => crypto.randomUUID());
   const [brand, setBrand] = useState(suggestedBrand);
   const standingDefault = Math.max(
     minimumUsd,
@@ -91,6 +92,12 @@ export function IntentBidForm({
   return (
     <form action={action} className="auth-form" data-testid="intent-bid-form">
       <input type="hidden" name="panelId" value={panelId} />
+      <input
+        type="hidden"
+        name="idempotencyKey"
+        value={idempotencyKey}
+        data-testid="intent-idempotency-key"
+      />
       <HometownLaneTags />
       <label className="auth-label" htmlFor="brandLabel">
         Brand label
