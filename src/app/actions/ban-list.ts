@@ -5,6 +5,7 @@ import { auth } from "@/lib/auth";
 import { isOperatorEmail } from "@/lib/auth/operator";
 import {
   addBanRule,
+  logBanListMatch,
   matchesBanPattern,
 } from "@/lib/operator-ban-list";
 import { appendOperatorAuditLog } from "@/lib/operator-audit-log";
@@ -43,7 +44,13 @@ export async function submitBanRule(
     if (
       matchesBanPattern(bid.brandLabel, bid.tradeLabel, result.rule.pattern)
     ) {
-      const note = `Hard-reject: ban-list “${result.rule.pattern}”.`;
+      logBanListMatch({
+        rule: result.rule,
+        brandLabel: bid.brandLabel,
+        tradeLabel: bid.tradeLabel,
+        context: "sweep",
+      });
+      const note = `Hard-reject: ban-list “${result.rule.pattern}” (rule ${result.rule.id}).`;
       const status = await setIntentStatus(bid.id, "rejected", { note });
       if (status.ok) {
         const saved = await saveApprovalNote({

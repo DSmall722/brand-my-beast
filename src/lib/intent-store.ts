@@ -524,7 +524,12 @@ export async function placeIntentBid(
 
   try {
     const rules = await listBanRules();
-    const opBan = assertOperatorBanAllowed({ brandLabel, tradeLabel, rules });
+    const opBan = assertOperatorBanAllowed({
+      brandLabel,
+      tradeLabel,
+      rules,
+      context: "place",
+    });
     if (!opBan.ok) {
       return { ok: false, error: opBan.error };
     }
@@ -1181,7 +1186,12 @@ export async function editPendingIntent(input: {
   }
   try {
     const rules = await listBanRules();
-    const opBan = assertOperatorBanAllowed({ brandLabel, tradeLabel, rules });
+    const opBan = assertOperatorBanAllowed({
+      brandLabel,
+      tradeLabel,
+      rules,
+      context: "edit",
+    });
     if (!opBan.ok) {
       return { ok: false, error: opBan.error };
     }
