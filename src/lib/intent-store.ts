@@ -633,9 +633,10 @@ export async function placeIntentBid(
         ),
       );
 
-    // Neon HTTP: sequential outbid then insert (no interactive txn).
+    // Slice 12.1 — Neon HTTP has no interactive txn; db.batch runs a
+    // non-interactive Postgres transaction (outbid + insert together).
     // Floor-save rows stay listed — they do not hold the seat yet.
-    await db
+    const outbidOthers = db
       .update(intentBids)
       .set({ status: "outbid" })
       .where(
@@ -646,8 +647,7 @@ export async function placeIntentBid(
           isNull(intentBids.floorSaveUsd),
         ),
       );
-
-    const inserted = await db
+    const insertListed = db
       .insert(intentBids)
       .values({
         panelId: panel.id,
@@ -662,6 +662,8 @@ export async function placeIntentBid(
         floorSaveUsd: null,
       })
       .returning();
+
+    const [, inserted] = await db.batch([outbidOthers, insertListed]);
 
     const row = inserted[0];
     if (!row) return { ok: false, error: "Could not record intent." };
@@ -740,12 +742,25 @@ export async function setIntentStatus(
   if (useMemoryStore()) {
     const bid = memoryBids().find((row) => row.id === bidId);
     if (!bid) return { ok: false, error: "Bid not found." };
+    const demoted: IntentBid[] = [];
     if (status === "approved") {
       const ban = assertTradeAllowed({
         brandLabel: bid.brandLabel,
         tradeLabel: bid.tradeLabel,
       });
       if (!ban.ok) return { ok: false, error: ban.error };
+      // Slice 12.1 — at most one approved standing per panel.
+      for (const existing of memoryBids()) {
+        if (
+          existing.id !== bidId &&
+          existing.panelId === bid.panelId &&
+          existing.status === "approved"
+        ) {
+          existing.status = "outbid";
+          assertIntentOnly(existing);
+          demoted.push({ ...existing });
+        }
+      }
     }
     bid.status = status;
     assertIntentOnly(bid);
@@ -755,6 +770,9 @@ export async function setIntentStatus(
         bid: { ...bid },
         note: opts?.note,
       });
+    }
+    for (const prior of demoted) {
+      await notifyIntentStatusSafe({ kind: "outbid", bid: prior });
     }
     return { ok: true, bid };
   }
@@ -777,6 +795,50 @@ export async function setIntentStatus(
       tradeLabel: current.tradeLabel,
     });
     if (!ban.ok) return { ok: false, error: ban.error };
+
+    const priorApproved = await db
+      .select()
+      .from(intentBids)
+      .where(
+        and(
+          eq(intentBids.panelId, current.panelId),
+          eq(intentBids.status, "approved"),
+          ne(intentBids.id, bidId),
+        ),
+      );
+
+    // Slice 12.1 — demote prior approved + approve in one Neon HTTP batch txn.
+    const demotePrior = db
+      .update(intentBids)
+      .set({ status: "outbid" })
+      .where(
+        and(
+          eq(intentBids.panelId, current.panelId),
+          eq(intentBids.status, "approved"),
+          ne(intentBids.id, bidId),
+        ),
+      );
+    const approveThis = db
+      .update(intentBids)
+      .set({ status: "approved" })
+      .where(eq(intentBids.id, bidId))
+      .returning();
+    const [, updated] = await db.batch([demotePrior, approveThis]);
+    const row = updated[0];
+    if (!row) return { ok: false, error: "Bid not found." };
+    const bid = rowToBid(row);
+    await notifyIntentStatusSafe({
+      kind: "approved",
+      bid,
+      note: opts?.note,
+    });
+    for (const prior of priorApproved) {
+      await notifyIntentStatusSafe({
+        kind: "outbid",
+        bid: { ...rowToBid(prior), status: "outbid" },
+      });
+    }
+    return { ok: true, bid };
   }
 
   const updated = await db
@@ -787,7 +849,7 @@ export async function setIntentStatus(
   const row = updated[0];
   if (!row) return { ok: false, error: "Bid not found." };
   const bid = rowToBid(row);
-  if (status === "approved" || status === "rejected") {
+  if (status === "rejected") {
     await notifyIntentStatusSafe({
       kind: status,
       bid,
@@ -795,6 +857,14 @@ export async function setIntentStatus(
     });
   }
   return { ok: true, bid };
+}
+
+/** Slice 12.1 — approved standing count for one panel (must be 0 or 1). */
+export async function countApprovedStandingForPanel(
+  panelId: string,
+): Promise<number> {
+  const bids = await listBidsForPanel(panelId);
+  return bids.filter((bid) => bid.status === "approved").length;
 }
 
 /**
