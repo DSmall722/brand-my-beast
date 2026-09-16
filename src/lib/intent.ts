@@ -36,6 +36,11 @@ export type IntentBid = {
    */
   updatedAt: string;
   /**
+   * Slice 12.4 — client idempotency key. Replay with the same key returns
+   * the original listed bid instead of double-listing.
+   */
+  idempotencyKey: string | null;
+  /**
    * Optional art on the mark: https URL or data:image upload.
    * Intent only — never a charge receipt.
    */
@@ -163,4 +168,27 @@ export function isStaleWriteError(result: {
   error?: string;
 }): result is { ok: false; code: typeof INTENT_STALE_WRITE; error: string } {
   return result.ok === false && result.code === INTENT_STALE_WRITE;
+}
+
+/**
+ * Slice 12.4 — idempotency key from the intent form. Empty → null (new list).
+ * Opaque client token; never a payment method.
+ */
+export function parseIdempotencyKey(
+  raw: unknown,
+): { ok: true; idempotencyKey: string | null } | { ok: false; error: string } {
+  if (raw == null || raw === "") {
+    return { ok: true, idempotencyKey: null };
+  }
+  const value = String(raw).trim();
+  if (value.length < 8 || value.length > 128) {
+    return {
+      ok: false,
+      error: "Idempotency key must be 8–128 characters.",
+    };
+  }
+  if (/\s/.test(value)) {
+    return { ok: false, error: "Idempotency key must not contain spaces." };
+  }
+  return { ok: true, idempotencyKey: value };
 }

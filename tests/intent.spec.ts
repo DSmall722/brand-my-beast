@@ -257,6 +257,7 @@ test.describe("P2 intent math (no capture)", () => {
       artworkUrl: null,
       proxyMaxUsd: null,
       floorSaveUsd: null,
+      idempotencyKey: null,
     };
     assertIntentOnly(bid);
     expect(() =>

@@ -53,6 +53,10 @@ export const intentBids = pgTable(
      * Null = normal standing intent.
      */
     floorSaveUsd: integer("floor_save_usd"),
+    /**
+     * Slice 12.4 — client idempotency key. Replay returns the same bid.
+     */
+    idempotencyKey: text("idempotency_key"),
   },
   (table) => [
     index("intent_bids_panel_id_idx").on(table.panelId),
@@ -62,6 +66,10 @@ export const intentBids = pgTable(
     uniqueIndex("intent_bids_one_approved_per_panel_idx")
       .on(table.panelId)
       .where(sql`${table.status} = 'approved'`),
+    /** Slice 12.4 — one bid per non-null idempotency key. */
+    uniqueIndex("intent_bids_idempotency_key_uidx")
+      .on(table.idempotencyKey)
+      .where(sql`${table.idempotencyKey} IS NOT NULL`),
   ],
 );
 

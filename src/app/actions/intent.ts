@@ -58,6 +58,8 @@ export async function submitIntentBid(
   });
   if (!artwork.ok) return { ok: false, error: artwork.error };
 
+  const idempotencyKey = String(formData.get("idempotencyKey") ?? "").trim();
+
   if (asFloorSave) {
     if (standingUsd == null || !Number.isFinite(standingUsd)) {
       return { ok: false, error: "Floor-save mark Y is required." };
@@ -75,6 +77,7 @@ export async function submitIntentBid(
       proxyMaxUsd: asFloorSave ? null : proxyMaxUsd,
       floorSaveUsd: asFloorSave ? standingUsd : null,
       artworkUrl: artwork.artworkUrl,
+      idempotencyKey: idempotencyKey || null,
     });
   } catch {
     return {

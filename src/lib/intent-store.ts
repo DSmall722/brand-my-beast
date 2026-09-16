@@ -25,6 +25,7 @@ import {
   INTENT_STALE_WRITE,
   nextStandingUsd,
   normalizeTradeLabel,
+  parseIdempotencyKey,
   parseProxyMaxUsd,
   type IntentBid,
   type IntentBidStatus,
@@ -112,6 +113,7 @@ function rowToBid(row: IntentBidRow): IntentBid {
     status: parseStatus(row.status),
     createdAt: row.createdAt.toISOString(),
     updatedAt: row.updatedAt.toISOString(),
+    idempotencyKey: row.idempotencyKey ?? null,
     artworkUrl: row.artworkUrl ?? null,
     proxyMaxUsd: row.proxyMaxUsd ?? null,
     floorSaveUsd: row.floorSaveUsd ?? null,
@@ -135,6 +137,10 @@ export type PlaceIntentInput = {
    * Stored, not charged. Does not displace standing holders.
    */
   floorSaveUsd?: number | null;
+  /**
+   * Slice 12.4 — client idempotency key. Replay returns the first bid.
+   */
+  idempotencyKey?: string | null;
 };
 
 type PlaceIntentOptions = {
@@ -420,12 +426,59 @@ async function listHoldingBids(): Promise<IntentBid[]> {
 const INTENT_WRITE_FAILED =
   "Could not record intent. Try again. No intent was saved.";
 
+async function findBidByIdempotencyKey(
+  key: string,
+): Promise<IntentBid | null> {
+  if (useMemoryStore()) {
+    return (
+      memoryBids().find((bid) => bid.idempotencyKey === key) ?? null
+    );
+  }
+  const db = getDb();
+  if (!db) {
+    throw new Error("Intent ledger requires DATABASE_URL.");
+  }
+  const rows = await db
+    .select()
+    .from(intentBids)
+    .where(eq(intentBids.idempotencyKey, key))
+    .limit(1);
+  const row = rows[0];
+  return row ? rowToBid(row) : null;
+}
+
 export async function placeIntentBid(
   input: PlaceIntentInput,
   opts?: PlaceIntentOptions,
 ): Promise<PlaceIntentResult> {
   const panel = panelById(input.panelId);
   if (!panel) return { ok: false, error: "Unknown panel." };
+
+  const keyParsed = parseIdempotencyKey(
+    input.idempotencyKey === undefined ? null : input.idempotencyKey,
+  );
+  if (!keyParsed.ok) {
+    return { ok: false, error: keyParsed.error };
+  }
+  const idempotencyKey = keyParsed.idempotencyKey;
+
+  // Slice 12.4 — replay with the same key returns the original bid.
+  if (idempotencyKey) {
+    try {
+      const prior = await findBidByIdempotencyKey(idempotencyKey);
+      if (prior) {
+        if (prior.userId !== input.userId) {
+          return {
+            ok: false,
+            error: "Idempotency key already used by another account.",
+          };
+        }
+        return { ok: true, bid: prior };
+      }
+    } catch {
+      return { ok: false, error: INTENT_WRITE_FAILED };
+    }
+  }
 
   const brandLabel = input.brandLabel.trim();
   if (brandLabel.length < 2 || brandLabel.length > 80) {
@@ -558,6 +611,7 @@ export async function placeIntentBid(
           artworkUrl,
           proxyMaxUsd: null,
           floorSaveUsd: y,
+          idempotencyKey,
         };
         assertIntentOnly(bid);
         memoryBids().push(bid);
@@ -582,6 +636,7 @@ export async function placeIntentBid(
           proxyMaxUsd: null,
           floorSaveUsd: y,
           updatedAt: nextUpdatedAt(),
+          idempotencyKey,
         })
         .returning();
       const floorRow = insertedFloor[0];
@@ -639,6 +694,7 @@ export async function placeIntentBid(
         artworkUrl,
         proxyMaxUsd,
         floorSaveUsd: null,
+        idempotencyKey,
       };
       assertIntentOnly(bid);
       memoryBids().push(bid);
@@ -702,6 +758,7 @@ export async function placeIntentBid(
         proxyMaxUsd,
         floorSaveUsd: null,
         updatedAt: nextUpdatedAt(),
+        idempotencyKey,
       })
       .returning();
 
