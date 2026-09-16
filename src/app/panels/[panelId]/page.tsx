@@ -16,8 +16,8 @@ import { OPENING_BID_RATIONALE } from "@/lib/opening-bid-rationale";
 import { comboLotFor } from "@/lib/combo-lots";
 import { minIncrementUsd } from "@/lib/intent";
 import {
-  buildFailedWinnerOffer,
   failedWinnerOfferCopy,
+  resolveFailedWinnerOfferForViewer,
 } from "@/lib/failed-winner-offer";
 import { intentStatusClass, intentStatusLabel } from "@/lib/intent-labels";
 import {
@@ -75,30 +75,16 @@ export default async function PanelIntentPage({
   const occupiedPanelIds = [...holdersRaw.keys()];
   const etchable = isEtchable(panel);
   const viewerId = session?.user?.id;
-  const viewerOutbidBids = viewerId
-    ? bids
-        .filter((bid) => bid.userId === viewerId && bid.status === "outbid")
-        .slice()
-        .sort((a, b) => b.createdAt.localeCompare(a.createdAt))
-    : [];
-  const viewerHasActive = Boolean(
-    viewerId &&
-      bids.some(
-        (bid) =>
-          bid.userId === viewerId &&
-          (bid.status === "listed" || bid.status === "approved"),
-      ),
-  );
-  // Slice 9.6 — offer only while outbid with no active re-list (no silent reopen).
-  const viewerOutbid =
-    !viewerHasActive && viewerOutbidBids[0] ? viewerOutbidBids[0] : null;
+  // Slice 9.6 / 13.11 — live offer only inside TTL; else next compliant / expired.
+  const failedWinner = resolveFailedWinnerOfferForViewer({
+    bids,
+    viewerId,
+    panelMinimumUsd: minimum,
+  });
+  const viewerOutbid = failedWinner.viewerOutbid;
   const viewerWasOutbid = Boolean(viewerOutbid);
-  const failedWinnerOffer = viewerOutbid
-    ? buildFailedWinnerOffer({
-        lastMarkUsd: viewerOutbid.standingUsd,
-        panelMinimumUsd: minimum,
-      })
-    : null;
+  const failedWinnerOffer = failedWinner.offer;
+  const failedWinnerExpired = failedWinner.expiredForViewer;
   const holder = bids.find(
     (bid) => bid.status === "listed" || bid.status === "approved",
   );
@@ -285,6 +271,7 @@ export default async function PanelIntentPage({
             data-testid="failed-winner-offer"
             data-last-mark={failedWinnerOffer.lastMarkUsd}
             data-offer={failedWinnerOffer.offerUsd}
+            data-expires-at={failedWinnerOffer.expiresAt}
           >
             <p data-testid="failed-winner-offer-copy">
               {failedWinnerOfferCopy(failedWinnerOffer)}
@@ -296,6 +283,21 @@ export default async function PanelIntentPage({
               {PUBLIC_COPY.seat.failedWinnerWaitlist}{" "}
               <Link href="/#waitlist">Waitlist</Link> — submit below to accept
               the offer. No silent reopen.
+            </p>
+          </aside>
+        ) : null}
+
+        {viewerWasOutbid && failedWinnerExpired && !failedWinnerOffer ? (
+          <aside
+            className="failed-winner-banner"
+            data-testid="failed-winner-offer-expired"
+          >
+            <p data-testid="failed-winner-expired-copy">
+              {PUBLIC_COPY.seat.failedWinnerExpired}
+            </p>
+            <p data-testid="failed-winner-waitlist">
+              {PUBLIC_COPY.seat.failedWinnerWaitlist}{" "}
+              <Link href="/#waitlist">Waitlist</Link>
             </p>
           </aside>
         ) : null}

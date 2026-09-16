@@ -208,6 +208,9 @@ export const PUBLIC_COPY = {
      */
     failedWinnerLeadTemplate:
       "Failed-winner offer: re-list at {amount} — your last mark {last} + one increment (max($250, 10%)). Still not charged. No silent reopen.",
+    /** Slice 13.11 — offer window elapsed; cascade to next compliant. */
+    failedWinnerExpired:
+      "Failed-winner offer expired. Next compliant mark is up. No silent reopen.",
   },
   /** Intent failure strings (not homepage PUBLIC_COPY.md sections). */
   intent: {

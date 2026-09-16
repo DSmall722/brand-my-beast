@@ -15,8 +15,8 @@ Updated: 2026-09-16
 - Coordinator may merge a PR that finishes exactly one unchecked slice, Playwright is green, and the merge gates below hold.
 - Judge PRs from git + `npm test` + `npm run build`. Do not use brandmybeast.com as a gate while the Vercel usage hold is on.
 
-**Now:** 13.11 Failed-winner timeout: offer expires; next compliant mark; no silent reopen.
-**Last merged:** 13.10 (#217 CHANGELOG last 20 merged slice ids).
+**Now:** 13.12 Proxy max cannot exceed a hard cap published in CAMPAIGN.md in that same PR.
+**Last merged:** 13.11 (#218 failed-winner timeout / next compliant).
 
 ## Standing orders
 
@@ -106,7 +106,7 @@ Do not start Wave 13 until 12.50 is checked. No Stripe. No CLOSE_AT.
 - [x] 13.8 `docs/WRAP-SHOP.md` shortlist template. (#215)
 - [x] 13.9 `docs/EMAIL-DNS.md` SPF/DKIM/DMARC checklist for hello@. (#216)
 - [x] 13.10 Changelog file of last 20 merged slice ids. (#217)
-- [ ] 13.11 Failed-winner timeout: offer expires; next compliant mark; no silent reopen.
+- [x] 13.11 Failed-winner timeout: offer expires; next compliant mark; no silent reopen. (#218)
 - [ ] 13.12 Proxy max cannot exceed a hard cap published in CAMPAIGN.md in that same PR.
 - [ ] 13.13 Floor-save cannot fire if pledged already >= $58,000.
 - [ ] 13.14 Withdraw of the only pending mark does not leave a ghost standing.

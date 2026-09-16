@@ -67,13 +67,18 @@ test.describe("slice 9.6: failed-winner offer", () => {
     const offer = buildFailedWinnerOffer({
       lastMarkUsd: 2500,
       panelMinimumUsd: 2750,
+      offeredAt: "2026-09-16T12:00:00.000Z",
+      now: new Date("2026-09-16T12:00:00.000Z"),
     });
     expect(offer.offerUsd).toBe(2750);
     expect(offer.fromLastIncrementOnly).toBe(true);
+    expect(offer.expired).toBe(false);
 
     const raisedMin = buildFailedWinnerOffer({
       lastMarkUsd: 2500,
       panelMinimumUsd: 3025,
+      offeredAt: "2026-09-16T12:00:00.000Z",
+      now: new Date("2026-09-16T12:00:00.000Z"),
     });
     expect(raisedMin.offerUsd).toBe(3025);
     expect(raisedMin.fromLastIncrementOnly).toBe(false);
