@@ -42,7 +42,7 @@ test.describe("slice 7.8: robots + sitemap public surface only", () => {
     );
   });
 
-  test("robots.txt allows / and /panels/; disallows /operator", async ({
+  test("robots.txt allows / and /panels/; disallows private boards", async ({
     request,
   }) => {
     const res = await request.get("/robots.txt");
@@ -50,6 +50,9 @@ test.describe("slice 7.8: robots + sitemap public surface only", () => {
     const body = await res.text();
     expect(body).toMatch(/Allow:\s*\/\b/);
     expect(body).toMatch(/Allow:\s*\/panels\//);
+    // Slice 13.37 — account + signin join operator on the disallow list.
+    expect(body).toMatch(/Disallow:\s*\/account/);
+    expect(body).toMatch(/Disallow:\s*\/signin/);
     expect(body).toMatch(/Disallow:\s*\/operator/);
     expect(body).toContain("https://brandmybeast.com/sitemap.xml");
     expect(body.toLowerCase()).not.toMatch(/\blease\b/);
@@ -84,6 +87,8 @@ test.describe("slice 7.8: robots + sitemap public surface only", () => {
       "utf8",
     );
     expect(robots).toContain('"/operator"');
+    expect(robots).toContain('"/account"');
+    expect(robots).toContain('"/signin"');
     expect(robots).toContain('"/panels/"');
     expect(sitemap).toContain("PANELS");
     expect(sitemap).toContain("/panels/");
