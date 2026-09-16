@@ -3,7 +3,7 @@
  * No Stripe fields. Capture is P3. See P2.md and RULES.md.
  */
 
-import { DEPOSIT_PERCENT, FLOOR_USD, type Panel } from "./campaign";
+import { DEPOSIT_PERCENT, FLOOR_USD, PROXY_MAX_CAP_USD, type Panel } from "./campaign";
 
 /** Auth.js user id once wired. Opaque string until then. */
 export type UserId = string;
@@ -94,8 +94,9 @@ export function nextStandingUsd(currentStandingUsd: number): number {
 }
 
 /**
- * Slice 9.1 — optional proxy ceiling. Empty → null. Must be a whole dollar
- * amount at or above the listed mark. Never a payment method.
+ * Slice 9.1 / 13.12 — optional proxy ceiling. Empty → null. Must be a whole
+ * dollar amount at or above the listed mark and at most PROXY_MAX_CAP_USD
+ * ($120,000 buyout). Never a payment method.
  */
 export function parseProxyMaxUsd(
   raw: unknown,
@@ -118,6 +119,12 @@ export function parseProxyMaxUsd(
     return {
       ok: false,
       error: "Proxy max must be at least the intent mark.",
+    };
+  }
+  if (value > PROXY_MAX_CAP_USD) {
+    return {
+      ok: false,
+      error: `Proxy max cannot exceed $${PROXY_MAX_CAP_USD.toLocaleString("en-US")} (buyout cap).`,
     };
   }
   return { ok: true, proxyMaxUsd: value };

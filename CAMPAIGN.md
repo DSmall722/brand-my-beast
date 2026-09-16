@@ -53,6 +53,10 @@ At the $58,000 floor: $10,000 is reserved for wrap / install / removal. The rest
 
 20% to list a bid. Remainder if that bid wins. Lose the panel, fail brand check, or miss $58,000 → deposit released. Cards are not charged until the money path is live. The current static page only records intent.
 
+### Proxy max (slice 13.12)
+
+Optional proxy ceiling on a panel intent may not exceed **$120,000** (the buyout / `GOAL_USD`). Same number as the buyout — not a third money threshold. Still intent only; no card charge.
+
 ## Vehicle
 
 - Trim: **Cyberbeast only**. Miss $58,000 and the idea does not fall back to a cheaper Cybertruck.
