@@ -1664,16 +1664,23 @@ export async function rejectWholeTruckIntent(input: {
   }
 
   const touchAt = nextUpdatedAt();
-  const updates = siblings.map((row) =>
+  // Neon batch requires a non-empty tuple; map() alone is `T[]`.
+  const [firstSibling, ...restSiblings] = siblings;
+  if (!firstSibling) {
+    return { ok: false, error: "Not a whole-truck listed set." };
+  }
+  const rejectRow = (row: IntentBid) =>
     db
       .update(intentBids)
       .set({ status: "rejected", updatedAt: touchAt })
       .where(
         and(eq(intentBids.id, row.id), eq(intentBids.status, "listed")),
       )
-      .returning(),
-  );
-  const results = await db.batch(updates);
+      .returning();
+  const results = await db.batch([
+    rejectRow(firstSibling),
+    ...restSiblings.map(rejectRow),
+  ]);
   const rejected: IntentBid[] = [];
   for (const rows of results) {
     const row = rows[0];
