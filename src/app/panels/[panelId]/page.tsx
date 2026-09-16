@@ -33,6 +33,7 @@ import {
   type AdjacentSeatHolder,
 } from "@/lib/panel-clash";
 import { PUBLIC_COPY } from "@/lib/public-copy";
+import { buildPublicSeatLog, formatSeatLogTime } from "@/lib/seat-log";
 
 type Params = Promise<{ panelId: string }>;
 
@@ -99,6 +100,8 @@ export default async function PanelIntentPage({
   const holder = bids.find(
     (bid) => bid.status === "listed" || bid.status === "approved",
   );
+  const seatLog = buildPublicSeatLog(bids);
+
   const seatOpen = !holder;
   // Slice 9.2 — next minimum is standing + max($250, 10%) once a mark holds.
   const incrementUsd = seatOpen ? 0 : minIncrementUsd(standing);
@@ -328,6 +331,13 @@ export default async function PanelIntentPage({
                   <span className={intentStatusClass(bid.status)}>
                     {intentStatusLabel(bid.status)}
                   </span>
+                  <time
+                    className="auth-hint"
+                    dateTime={bid.createdAt}
+                    data-testid={`intent-time-${bid.id}`}
+                  >
+                    {formatSeatLogTime(bid.createdAt)}
+                  </time>
                   {bid.floorSaveUsd != null ? (
                     <span
                       className="auth-hint"
@@ -347,6 +357,57 @@ export default async function PanelIntentPage({
             ))}
           </ul>
         )}
+
+        <section
+          className="public-seat-log"
+          aria-labelledby="public-seat-log-title"
+          data-testid="public-seat-log"
+        >
+          <h2 id="public-seat-log-title" className="auth-subhead">
+            Seat log
+          </h2>
+          <p className="auth-hint" data-testid="public-seat-log-lead">
+            Public marks on this seat: amount and time only. No bidder email.
+            Still not charged.
+          </p>
+          {seatLog.length === 0 ? (
+            <p className="empty-state" data-testid="public-seat-log-empty">
+              No marks yet on this seat.
+            </p>
+          ) : (
+            <ol className="seat-log-list" data-testid="public-seat-log-list">
+              {seatLog.map((entry) => (
+                <li
+                  key={entry.bidId}
+                  className="seat-log-row"
+                  data-testid={`seat-log-row-${entry.bidId}`}
+                >
+                  <span
+                    className="intent-mark"
+                    data-testid={`seat-log-amount-${entry.bidId}`}
+                  >
+                    {entry.amountLabel}
+                  </span>
+                  <time
+                    dateTime={entry.createdAt}
+                    data-testid={`seat-log-time-${entry.bidId}`}
+                  >
+                    {entry.timeLabel}
+                  </time>
+                  <span
+                    className="auth-hint"
+                    data-testid={`seat-log-brand-${entry.bidId}`}
+                  >
+                    {entry.brandLabel}
+                  </span>
+                  <span className={intentStatusClass(entry.status)}>
+                    {intentStatusLabel(entry.status)}
+                  </span>
+                </li>
+              ))}
+            </ol>
+          )}
+        </section>
       </main>
     </>
   );
