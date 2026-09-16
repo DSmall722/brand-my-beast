@@ -187,6 +187,10 @@ export const PUBLIC_COPY = {
     /** AUTH_MODE=test only — never render under live. */
     testHint:
       "CI path: use any @example.com email and the test password.",
+    /** Slice 12.39 — /signin/check-email success line. */
+    checkEmailHeading: "Check your email",
+    checkEmailSuccess:
+      "If that address is valid, a sign-in link is on the way. The link expires soon. No card is charged on this path.",
   },
   /** Intent failure strings (not homepage PUBLIC_COPY.md sections). */
   intent: {
