@@ -15,8 +15,8 @@ Updated: 2026-09-16
 - Coordinator may merge a PR that finishes exactly one unchecked slice, Playwright is green, and the merge gates below hold.
 - Judge PRs from git + `npm test` + `npm run build`. Do not use brandmybeast.com as a gate while the Vercel usage hold is on.
 
-**Now:** 12.29 Whole-truck intent cannot stack on a panel that already has approved standing.
-**Last merged:** 14.0 (#185 numbered stainless board on hero / truck views).
+**Now:** 12.30 Ban-list match is logged with the rule id (ties to 8.8).
+**Last merged:** 12.29 (#186 whole-truck cannot stack on approved standing).
 
 ## Standing orders
 
@@ -69,7 +69,7 @@ Complete through 11.10 skipped (Vercel hold). Condensed ranges keep verify-map p
 
 - [x] 12.1–12.27 Complete through opening-bid rationale. (#156–#182)
 - [x] 12.28 Operator cannot approve etch finish while pledged < $120,000. (#183)
-- [ ] 12.29 Whole-truck intent cannot stack on a panel that already has approved standing.
+- [x] 12.29 Whole-truck intent cannot stack on a panel that already has approved standing. (#186)
 - [ ] 12.30 Ban-list match is logged with the rule id (ties to 8.8).
 - [ ] 12.31 JSON-LD Organization + Offer on `/` from PUBLIC_COPY. No impression claims.
 - [ ] 12.32 Canonical URL `https://brandmybeast.com`.
