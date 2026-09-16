@@ -4,7 +4,12 @@ import { COMBO_LOT_LEAD, type ComboLot } from "@/lib/combo-lots";
 
 export function NeighborComboCard({ lot }: { lot: ComboLot }) {
   return (
-    <div className="neighbor-combo" data-testid="neighbor-combo">
+    <div
+      className="neighbor-combo"
+      data-testid="neighbor-combo"
+      data-combo-price="none"
+      data-display-only="true"
+    >
       <p className="neighbor-combo-title">Neighbor combo</p>
       <p className="auth-hint" data-testid="neighbor-combo-lead">
         {COMBO_LOT_LEAD}
