@@ -517,7 +517,7 @@ test.describe("P2 panel intent + approvals", () => {
     await expect(first.getByTestId("intent-success")).toContainText(
       "not charged",
     );
-    await expect(first.getByTestId("failed-winner-waitlist")).toHaveCount(0);
+    await expect(first.getByTestId("failed-winner-offer")).toHaveCount(0);
     await first.close();
 
     const second = await browser.newPage();
@@ -536,13 +536,15 @@ test.describe("P2 panel intent + approvals", () => {
     const outbidViewer = await browser.newPage();
     await signIn(outbidViewer, "outbid-a@example.com");
     await outbidViewer.goto("/panels/hood");
-    const banner = outbidViewer.getByTestId("failed-winner-waitlist");
+    const banner = outbidViewer.getByTestId("failed-winner-offer");
     await expect(banner).toBeVisible();
     await expect(banner).toContainText("outbid");
-    await expect(banner.getByRole("link", { name: "waitlist" })).toHaveAttribute(
-      "href",
-      "/#waitlist",
-    );
+    await expect(banner).toContainText("No silent reopen");
+    await expect(
+      outbidViewer.getByTestId("failed-winner-waitlist").getByRole("link", {
+        name: "waitlist",
+      }),
+    ).toHaveAttribute("href", "/#waitlist");
     const html = await outbidViewer.content();
     expect(html.toLowerCase()).not.toMatch(/\blease\b/);
     expect(html).not.toContain("CLOSE_AT");

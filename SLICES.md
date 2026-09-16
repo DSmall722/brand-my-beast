@@ -15,8 +15,8 @@ Updated: 2026-09-15
 - Coordinator may merge a PR that finishes exactly one unchecked slice, Playwright is green, and the merge gates below hold.
 - Judge PRs from git + `npm test` + `npm run build`. Do not use brandmybeast.com as a gate while the Vercel usage hold is on.
 
-**Now:** 9.6 Failed-winner offer at last mark + one increment. No silent reopen.
-**Last merged:** 9.5 (#130 Hide whole-truck control when pledged >= $120,000).
+**Now:** 9.7 Withdraw intent while pending only. Approved needs operator.
+**Last merged:** 9.6 (#131 Failed-winner offer at last mark + one increment).
 
 ## Standing orders
 
@@ -102,7 +102,7 @@ If any gate fails: leave the PR unmerged and stop that slice.
 - [x] 9.3 `panelExtendedUntil` field. Do not set `CLOSE_AT`. (#128)
 - [x] 9.4 Floor-save intent row. (#129)
 - [x] 9.5 Hide whole-truck control when pledged >= $120,000. (#130)
-- [ ] 9.6 Failed-winner offer at last mark + one increment. No silent reopen.
+- [x] 9.6 Failed-winner offer at last mark + one increment. No silent reopen. (#131)
 - [ ] 9.7 Withdraw intent while pending only. Approved needs operator.
 - [ ] 9.8 Edit brand / trade / art while pending only.
 - [ ] 9.9 Public seat log: amount + time. No bidder email.

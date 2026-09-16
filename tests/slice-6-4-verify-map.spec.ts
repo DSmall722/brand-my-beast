@@ -32,8 +32,23 @@ function wave05IdsFromSlices(): string[] {
   const text = readFileSync(join(process.cwd(), "SLICES.md"), "utf8");
   const ids: string[] = [];
   for (const line of text.split("\n")) {
-    const match = line.match(/^- \[[ xX]\] ([0-5]\.\d+)\b/);
-    if (match) ids.push(match[1]!);
+    // Individual: `- [x] 0.3 …` or condensed Wave 13 lock: `- [x] 1.1–1.8 Complete.`
+    const range = line.match(
+      /^- \[[ xX]\] ([0-5])\.(\d+)[\u2013-]([0-5])\.(\d+)\b/,
+    );
+    if (range) {
+      const majorA = Number(range[1]);
+      const minorA = Number(range[2]);
+      const majorB = Number(range[3]);
+      const minorB = Number(range[4]);
+      if (majorA !== majorB || minorB < minorA) continue;
+      for (let m = minorA; m <= minorB; m += 1) {
+        ids.push(`${majorA}.${m}`);
+      }
+      continue;
+    }
+    const single = line.match(/^- \[[ xX]\] ([0-5]\.\d+)\b/);
+    if (single) ids.push(single[1]!);
   }
   return ids;
 }
