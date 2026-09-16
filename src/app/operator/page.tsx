@@ -125,6 +125,13 @@ export default async function OperatorPage({
             Ban list
           </Link>
           {" · "}
+          <Link
+            href="/operator/waitlist-domains"
+            data-testid="operator-waitlist-domains-link"
+          >
+            Waitlist domains
+          </Link>
+          {" · "}
           <Link href="/operator/audit" data-testid="operator-audit-link">
             Audit log
           </Link>

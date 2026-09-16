@@ -170,6 +170,9 @@ export const PUBLIC_COPY = {
     /** Slice 6.6 — never claim joined on 429. */
     rateLimited:
       "Too many attempts. You are not on the list. Wait a moment and try again.",
+    /** Slice 13.31 — disposable / blocked domain. */
+    domainBlocked:
+      "That email domain is blocked. You are not on the list. Use a lasting inbox.",
   },
   /**
    * Slice 12.17 — /signin copy. Not a homepage section.

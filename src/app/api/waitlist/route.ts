@@ -47,7 +47,7 @@ export async function POST(request: Request) {
 
   if (!result.ok) {
     const status =
-      result.code === "invalid"
+      result.code === "invalid" || result.code === "blocked"
         ? 400
         : result.code === "unavailable"
           ? 503
