@@ -2,7 +2,7 @@
 
 Read this before FEATURES.md, the prototype, or any old playbook. If another file disagrees with this one, this one wins.
 
-Updated: 2026-09-13
+Updated: 2026-09-16
 
 ## What this is
 
@@ -23,6 +23,10 @@ Not Tesla. Not teslacyberbeast.com.
 | **$120,000** | Campaign buys the truck. Home charger + install. Buffer. Immortal etch unlocks on the eight steel faces. |
 
 There is no Dual Motor. There is no Premium. There is no lease tier. The $40,000 lease product is dead. The word lease does not appear in public copy.
+
+### Wreck and refund text (slice 13.3)
+
+Long-form wreck / refund clauses live in **[`CONTRACT.md`](./CONTRACT.md)** (Campaign miss, wrap year cut short, Immortal etch already installed). This money table stays authoritative for thresholds: **$58,000** / **$120,000**. Do not invent a third number.
 
 Whole-truck buyout button: **$120,000**, one brand on every panel, etch on. Standing panel winners are released.
 
