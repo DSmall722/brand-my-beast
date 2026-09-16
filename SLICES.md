@@ -16,7 +16,7 @@ Updated: 2026-09-16
 - Judge PRs from git + `npm test` + `npm run build`. Do not use brandmybeast.com as a gate while the Vercel usage hold is on.
 
 **Now:** 13.20 Playwright: failed-winner accepts → old winner is `outbid`, not deleted.
-**Last merged:** 13.19 (#TBD concurrent brand approve race).
+**Last merged:** 13.19 (#227 concurrent brand approve race).
 
 ## Standing orders
 
