@@ -1,6 +1,5 @@
 import { eq } from "drizzle-orm";
 import { Resend } from "resend";
-import { resolveMagicLinkFrom } from "@/lib/auth/mode";
 import { getDb } from "@/lib/db";
 import { authUsers } from "@/lib/db/schema";
 import {
@@ -9,10 +8,12 @@ import {
 } from "@/emails/intent-status";
 import type { IntentBid } from "@/lib/intent";
 import { appendMailDeadLetter } from "@/lib/mail-dead-letter";
+import { outboundMailEnvelope } from "@/lib/mail-envelope";
 
 /** Payload Resend (or a test double) receives for intent status mail. */
 export type IntentStatusMailPayload = {
   from: string;
+  replyTo: string;
   to: string;
   subject: string;
   text: string;
@@ -103,8 +104,10 @@ export async function notifyIntentStatus(input: {
   if (!to) return;
 
   const body = buildIntentStatusMail(input);
+  const { from, replyTo } = outboundMailEnvelope();
   const payload = {
-    from: resolveMagicLinkFrom(),
+    from,
+    replyTo,
     to,
     subject: body.subject,
     text: body.text,

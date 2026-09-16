@@ -94,6 +94,7 @@ test.describe("slice 8.1: intent status emails mock Resend", () => {
     expect(sent).toHaveLength(1);
     expect(sent[0]!.to).toBe("first@example.com");
     expect(sent[0]!.from).toBe(MAGIC_LINK_FROM);
+    expect(sent[0]!.replyTo).toBe("hello@brandmybeast.com");
     expect(sent[0]!.subject.toLowerCase()).toContain("listed");
     expect(sent[0]!.text.toLowerCase()).toContain("intent only");
     expect(sent[0]!.text.toLowerCase()).not.toMatch(/\blease\b/);
