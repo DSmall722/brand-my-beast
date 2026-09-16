@@ -824,7 +824,12 @@ export async function placeIntentBid(
       memoryBids().push(bid);
       await notifyIntentStatusSafe({ kind: "listed", bid });
       for (const outbid of outbidTargets) {
-        await notifyIntentStatusSafe({ kind: "outbid", bid: outbid });
+        await notifyIntentStatusSafe({
+          kind: "outbid",
+          bid: outbid,
+          // Slice 13.18 / 9.2 — next min from the new listed standing.
+          nextMinimumUsd: nextStandingUsd(standingUsd),
+        });
       }
       await runProxyMaxAgent({
         panelId: input.panelId,
@@ -898,7 +903,12 @@ export async function placeIntentBid(
     }));
     await notifyIntentStatusSafe({ kind: "listed", bid });
     for (const outbid of outbidTargets) {
-      await notifyIntentStatusSafe({ kind: "outbid", bid: outbid });
+      await notifyIntentStatusSafe({
+        kind: "outbid",
+        bid: outbid,
+        // Slice 13.18 / 9.2 — next min from the new listed standing.
+        nextMinimumUsd: nextStandingUsd(standingUsd),
+      });
     }
     await runProxyMaxAgent({
       panelId: input.panelId,
@@ -1032,7 +1042,12 @@ export async function setIntentStatus(
         status: "outbid",
         userId: prior.userId,
       });
-      await notifyIntentStatusSafe({ kind: "outbid", bid: prior });
+      await notifyIntentStatusSafe({
+        kind: "outbid",
+        bid: prior,
+        // Slice 13.18 — demoted by approve; next min from new approved standing.
+        nextMinimumUsd: nextStandingUsd(bid.standingUsd),
+      });
     }
     return { ok: true, bid };
   }
@@ -1125,6 +1140,8 @@ export async function setIntentStatus(
       await notifyIntentStatusSafe({
         kind: "outbid",
         bid: priorBid,
+        // Slice 13.18 — demoted by approve; next min from new approved standing.
+        nextMinimumUsd: nextStandingUsd(bid.standingUsd),
       });
     }
     return { ok: true, bid };

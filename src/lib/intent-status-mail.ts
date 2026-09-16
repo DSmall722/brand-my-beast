@@ -83,6 +83,7 @@ export function buildIntentStatusMail(input: {
   kind: IntentStatusKind;
   bid: IntentBid;
   note?: string;
+  nextMinimumUsd?: number;
 }): { subject: string; text: string } {
   return intentStatusEmailTemplate(input);
 }
@@ -90,11 +91,13 @@ export function buildIntentStatusMail(input: {
 /**
  * Slice 8.1 — notify the bidder on listed / outbid / approved / rejected.
  * Missing key/mailer/email = no-op. Throws are swallowed by callers.
+ * Slice 13.18 — outbid includes next minimum (9.2) when provided.
  */
 export async function notifyIntentStatus(input: {
   kind: IntentStatusKind;
   bid: IntentBid;
   note?: string;
+  nextMinimumUsd?: number;
 }): Promise<void> {
   const key = process.env.RESEND_API_KEY;
   const mailer = resolveMailer(key);
