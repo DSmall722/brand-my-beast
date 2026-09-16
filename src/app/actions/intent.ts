@@ -13,12 +13,18 @@ import { parseIntentArtwork } from "@/lib/intent-artwork";
 import { parseStandingUsd } from "@/lib/intent";
 import {
   editPendingIntent,
+  getIntentBidById,
+  loadBoardIntentStats,
   placeIntentBid,
   placeWholeTruckIntent,
   setIntentStatus,
   withdrawPendingIntent,
 } from "@/lib/intent-store";
 import { GOAL_USD, PANELS, formatUsd } from "@/lib/campaign";
+import {
+  assertEtchFinishAllowed,
+  parseOperatorFinish,
+} from "@/lib/etch-approve-lock";
 import { PUBLIC_COPY } from "@/lib/public-copy";
 import { checkRateLimit } from "@/lib/rate-limit";
 
@@ -127,6 +133,27 @@ export async function decideIntentBid(
   const note = String(formData.get("note") ?? "");
   const noteGate = assertNoteRequiredForReject({ decision, note });
   if (!noteGate.ok) return { ok: false, error: noteGate.error };
+
+  if (decision === "approved") {
+    const finish = parseOperatorFinish(formData.get("finish"));
+    if (finish === "etch") {
+      const bid = await getIntentBidById(bidId);
+      if (!bid) return { ok: false, error: "Bid not found." };
+      const panel = PANELS.find((row) => row.id === bid.panelId);
+      if (!panel || panel.finishAtGoal !== "wrap_or_etch") {
+        return {
+          ok: false,
+          error: "This panel is wrap-only. Cannot approve etch finish.",
+        };
+      }
+      const board = await loadBoardIntentStats();
+      const etchGate = assertEtchFinishAllowed({
+        finish,
+        pledgedUsd: board.pledgedUsd,
+      });
+      if (!etchGate.ok) return { ok: false, error: etchGate.error };
+    }
+  }
 
   const result = await setIntentStatus(bidId, decision, { note });
   if (!result.ok) return { ok: false, error: result.error };

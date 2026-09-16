@@ -5,14 +5,27 @@ import {
   decideIntentBid,
   type IntentActionState,
 } from "@/app/actions/intent";
+import { GOAL_USD, formatUsd } from "@/lib/campaign";
 
 const initial: IntentActionState = { ok: false };
 
-export function ApprovalButtons({ bidId }: { bidId: string }) {
+/**
+ * Slice 12.28 — approve may choose etch finish only when pledged >= buyout.
+ */
+export function ApprovalButtons({
+  bidId,
+  etchable = false,
+  etchUnlocked = false,
+}: {
+  bidId: string;
+  etchable?: boolean;
+  etchUnlocked?: boolean;
+}) {
   const [state, action, pending] = useActionState(decideIntentBid, initial);
   const noteId = `approval-note-${bidId}`;
   const hintId = `approval-note-hint-${bidId}`;
   const errorId = `approval-error-${bidId}`;
+  const finishId = `approval-finish-${bidId}`;
   const noteDescribedBy = state.error ? `${hintId} ${errorId}` : hintId;
 
   return (
@@ -36,10 +49,49 @@ export function ApprovalButtons({ bidId }: { bidId: string }) {
         aria-describedby={noteDescribedBy}
         data-testid={`approval-note-${bidId}`}
       />
+      {etchable ? (
+        <div
+          className="approval-finish"
+          data-testid={`approval-finish-${bidId}`}
+          data-etch-unlocked={etchUnlocked ? "true" : "false"}
+        >
+          <label className="auth-label" htmlFor={finishId}>
+            Finish on approve
+          </label>
+          <select
+            id={finishId}
+            name="finish"
+            form={`approval-approve-${bidId}`}
+            className="auth-input"
+            defaultValue="wrap"
+            data-testid={`approval-finish-select-${bidId}`}
+          >
+            <option value="wrap">Wrap</option>
+            <option value="etch" disabled={!etchUnlocked}>
+              Etch
+              {!etchUnlocked
+                ? ` (locked under ${formatUsd(GOAL_USD)})`
+                : ""}
+            </option>
+          </select>
+          {!etchUnlocked ? (
+            <p
+              className="auth-hint"
+              data-testid={`approval-etch-locked-${bidId}`}
+            >
+              Etch finish stays locked while pledged is under{" "}
+              {formatUsd(GOAL_USD)}.
+            </p>
+          ) : null}
+        </div>
+      ) : null}
       <div className="approval-action-row">
-        <form action={action}>
+        <form id={`approval-approve-${bidId}`} action={action}>
           <input type="hidden" name="bidId" value={bidId} />
           <input type="hidden" name="decision" value="approved" />
+          {!etchable ? (
+            <input type="hidden" name="finish" value="wrap" />
+          ) : null}
           <button
             type="submit"
             className="btn btn-signal"

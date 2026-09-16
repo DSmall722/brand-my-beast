@@ -3,6 +3,11 @@
 import { revalidatePath } from "next/cache";
 import { auth } from "@/lib/auth";
 import { isOperatorEmail } from "@/lib/auth/operator";
+import {
+  assertEtchFinishAllowed,
+  parseOperatorFinish,
+} from "@/lib/etch-approve-lock";
+import { loadBoardIntentStats } from "@/lib/intent-store";
 import type { ImagineMockup } from "@/lib/mockup";
 import { queueImagineMockup } from "@/lib/mockup-store";
 
@@ -23,8 +28,16 @@ export async function queueImagineMockupAction(
   }
 
   const bidId = String(formData.get("bidId") ?? "");
-  const finishRaw = String(formData.get("finish") ?? "wrap");
-  const finish = finishRaw === "etch" ? "etch" : "wrap";
+  const finish = parseOperatorFinish(formData.get("finish"));
+
+  if (finish === "etch") {
+    const board = await loadBoardIntentStats();
+    const etchGate = assertEtchFinishAllowed({
+      finish,
+      pledgedUsd: board.pledgedUsd,
+    });
+    if (!etchGate.ok) return { ok: false, error: etchGate.error };
+  }
 
   const result = await queueImagineMockup({ bidId, finish });
   if (!result.ok) return { ok: false, error: result.error };
