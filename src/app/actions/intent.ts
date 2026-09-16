@@ -14,6 +14,7 @@ import { parseStandingUsd } from "@/lib/intent";
 import {
   editPendingIntent,
   getIntentBidById,
+  listWholeTruckSiblingBids,
   loadBoardIntentStats,
   placeIntentBid,
   placeWholeTruckIntent,
@@ -155,13 +156,26 @@ export async function decideIntentBid(
     }
   }
 
+  // Slice 13.17 — capture siblings before reject mutates status.
+  const wholeTruckSiblings =
+    decision === "rejected"
+      ? await listWholeTruckSiblingBids(bidId)
+      : null;
+
   const result = await setIntentStatus(bidId, decision, { note });
   if (!result.ok) return { ok: false, error: result.error };
 
+  const noteTargets = wholeTruckSiblings ?? [result.bid];
   let noteId: string | null = null;
   if (note.trim() || decision === "rejected") {
-    const saved = await saveApprovalNote({ bidId, decision, note });
-    noteId = saved.id;
+    for (const target of noteTargets) {
+      const saved = await saveApprovalNote({
+        bidId: target.id,
+        decision,
+        note,
+      });
+      if (target.id === bidId) noteId = saved.id;
+    }
   }
 
   await appendOperatorAuditLog({
@@ -175,9 +189,17 @@ export async function decideIntentBid(
   revalidatePath("/operator");
   revalidatePath("/operator/approvals");
   revalidatePath("/operator/audit");
-  revalidatePath(`/panels/${result.bid.panelId}`);
   revalidatePath("/account");
-  return { ok: true, message: `Bid ${decision}.` };
+  for (const target of noteTargets) {
+    revalidatePath(`/panels/${target.panelId}`);
+  }
+  return {
+    ok: true,
+    message:
+      wholeTruckSiblings != null
+        ? `Whole-truck bid ${decision} (12 panels).`
+        : `Bid ${decision}.`,
+  };
 }
 
 /** Read helper for account / decided log (server components). */
