@@ -37,6 +37,7 @@ export function TruckViewHotspots({
       }
       data-testid="truck-view-hotspots"
       data-view={view}
+      data-one-view="true"
     >
       <p className="auth-hint truck-view-lead" data-testid="truck-view-lead">
         {TRUCK_VIEWS_LEAD}

@@ -1853,6 +1853,43 @@ a {
   min-height: 8.5rem;
 }
 
+/* Slice 10.7 — mobile compositor: one view at a time; no clipped wordmark. */
+@media (max-width: 480px) {
+  .dirty-clean-pair {
+    display: flex;
+    gap: 0.5rem;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .dirty-clean-pair .pair-half {
+    flex: 0 0 100%;
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
+  }
+
+  .truck-view-hotspots,
+  .panel-mockup.stainless-compositor,
+  .truck-view-stage {
+    max-width: 100%;
+    overflow-x: clip;
+  }
+
+  .truck-view-toolbar,
+  .compositor-toolbar,
+  .compositor-conditions {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .site-header .wordmark {
+    max-width: 100%;
+    overflow: visible;
+    white-space: nowrap;
+  }
+}
+
 .panel-mockup[data-finish="etch"] {
   background:
     radial-gradient(
