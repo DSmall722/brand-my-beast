@@ -16,7 +16,7 @@ Updated: 2026-09-16
 - Judge PRs from git + `npm test` + `npm run build`. Do not use brandmybeast.com as a gate while the Vercel usage hold is on.
 
 **Now:** 13.28 `/account/wins` empty state from PUBLIC_COPY.
-**Last merged:** 13.27 (#TBD etch art rejected if linter fails).
+**Last merged:** 13.27 (#235 etch art rejected if linter fails).
 
 ## Standing orders
 
@@ -122,7 +122,7 @@ Do not start Wave 13 until 12.50 is checked. No Stripe. No CLOSE_AT.
 - [x] 13.24 Partner cannot see bidder email — only brand + trade + art. (#232)
 - [x] 13.25 Operator print view for one seat (13.23 + 8.6). (#233)
 - [x] 13.26 Art size cap documented (max bytes in RULES.md). (#234)
-- [x] 13.27 Etch art rejected if linter fails; wrap art may still list. (#TBD)
+- [x] 13.27 Etch art rejected if linter fails; wrap art may still list. (#235)
 - [ ] 13.28 `/account/wins` empty state from PUBLIC_COPY.
 - [ ] 13.29 Certificate template exists as markdown only. No issued date until etch exists.
 - [ ] 13.30 Remove Cabin plaque form from any authenticated nav while `TRUCK_EXISTS` is false.
