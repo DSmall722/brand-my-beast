@@ -1646,6 +1646,21 @@ a {
   text-transform: uppercase;
 }
 
+.panel-mockup-standing-brand {
+  display: block;
+  margin-top: 0.2rem;
+  font-family: var(--font-display), Syne, system-ui, sans-serif;
+  font-size: clamp(1.05rem, 2.4vw, 1.45rem);
+  letter-spacing: -0.03em;
+}
+
+.panel-mockup-standing-brand.is-open {
+  color: var(--steel-400);
+  font-size: 0.95rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
 .panel-mockup-finish {
   display: block;
   margin-top: 0.45rem;

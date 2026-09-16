@@ -26,6 +26,27 @@ import {
 
 type FinishMode = CompositorFinish;
 
+function CompositorStandingBrand({
+  brand,
+  testId,
+}: {
+  brand: string | null;
+  testId: string;
+}) {
+  return (
+    <span
+      className={
+        brand
+          ? "panel-mockup-standing-brand"
+          : "panel-mockup-standing-brand is-open"
+      }
+      data-testid={testId}
+    >
+      {brand ?? "Open seat"}
+    </span>
+  );
+}
+
 /**
  * PROCESS-safe stainless compositor: CSS preview of wrap vs etch on the steel
  * face, plus day/night/wet/dirty condition shaders and a dirty-vs-clean pair.
@@ -34,10 +55,13 @@ type FinishMode = CompositorFinish;
 export function PanelMockup({
   panel,
   raisedUsd = 0,
+  standingBrand = null,
 }: {
   panel: Panel;
   /** Board pledged intent total. Etch controls need buyout. */
   raisedUsd?: number;
+  /** Slice 10.2 — standing brand on the face, not only a typed preview. */
+  standingBrand?: string | null;
 }) {
   const etchable = isEtchable(panel);
   const etchOn = etchControlsEnabled(panel, raisedUsd);
@@ -45,6 +69,7 @@ export function PanelMockup({
   const [condition, setCondition] = useState<FinishCondition>("day");
   const [pair, setPair] = useState(false);
   const showingEtch = etchOn && mode === "etch";
+  const brandOnFace = standingBrand?.trim() ? standingBrand.trim() : null;
 
   return (
     <div
@@ -163,6 +188,10 @@ export function PanelMockup({
           >
             <div className="panel-mockup-face" aria-hidden="true">
               <span className="panel-mockup-label">{panel.name}</span>
+              <CompositorStandingBrand
+                brand={brandOnFace}
+                testId="compositor-standing-brand-clean"
+              />
               <span className="compositor-condition-label">Clean</span>
               <span
                 className="compositor-shader"
@@ -178,6 +207,10 @@ export function PanelMockup({
           >
             <div className="panel-mockup-face" aria-hidden="true">
               <span className="panel-mockup-label">{panel.name}</span>
+              <CompositorStandingBrand
+                brand={brandOnFace}
+                testId="compositor-standing-brand-dirty"
+              />
               <span className="compositor-condition-label">Dirty</span>
               <span
                 className="compositor-shader"
@@ -190,6 +223,10 @@ export function PanelMockup({
       ) : (
       <div className="panel-mockup-face" aria-hidden="true">
         <span className="panel-mockup-label">{panel.name}</span>
+        <CompositorStandingBrand
+          brand={brandOnFace}
+          testId="compositor-standing-brand"
+        />
         <span
           className="panel-mockup-finish"
           data-testid="compositor-finish-label"
