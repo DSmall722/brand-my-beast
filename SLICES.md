@@ -15,8 +15,8 @@ Updated: 2026-09-15
 - Coordinator may merge a PR that finishes exactly one unchecked slice, Playwright is green, and the merge gates below hold.
 - Judge PRs from git + `npm test` + `npm run build`. Do not use brandmybeast.com as a gate while the Vercel usage hold is on.
 
-**Now:** 12.12 Dead-letter table for failed Resend sends. Operator can retry.
-**Last merged:** 12.11 (#166 email templates under src/emails/).
+**Now:** 12.13 Unsubscribe + physical address line on every mail (CAN-SPAM stub).
+**Last merged:** 12.12 (#167 mail dead-letter; operator retry).
 
 ## Standing orders
 
@@ -149,7 +149,7 @@ Do not start Wave 12 until 11.10 is checked or skipped by the human. Still no St
 - [x] 12.9 Soft-delete withdrawn rows. Never hard-delete an approved bid. (#164)
 - [x] 12.10 Seed script: 12 open panels, zero standing. CI only. (#165)
 - [x] 12.11 Email templates as files under `src/emails/`. (#166)
-- [ ] 12.12 Dead-letter table for failed Resend sends. Operator can retry.
+- [x] 12.12 Dead-letter table for failed Resend sends. Operator can retry. (#167)
 - [ ] 12.13 Unsubscribe + physical address line on every mail (CAN-SPAM stub).
 - [ ] 12.14 Waitlist double-opt-in token.
 - [ ] 12.15 Account export JSON. Auth-gated.
