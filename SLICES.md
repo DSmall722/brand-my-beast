@@ -16,7 +16,7 @@ Updated: 2026-09-16
 - Judge PRs from git + `npm test` + `npm run build`. Do not use brandmybeast.com as a gate while the Vercel usage hold is on.
 
 **Now:** 13.31 Waitlist email domain blocklist (disposable) — operator editable.
-**Last merged:** 13.30 (#TBD cabin plaque off auth nav while TRUCK_EXISTS false).
+**Last merged:** 13.30 (#238 cabin plaque off auth nav while TRUCK_EXISTS false).
 
 ## Standing orders
 
@@ -125,7 +125,7 @@ Do not start Wave 13 until 12.50 is checked. No Stripe. No CLOSE_AT.
 - [x] 13.27 Etch art rejected if linter fails; wrap art may still list. (#235)
 - [x] 13.28 `/account/wins` empty state from PUBLIC_COPY. (#236)
 - [x] 13.29 Certificate template exists as markdown only. No issued date until etch exists. (#237)
-- [x] 13.30 Remove Cabin plaque form from any authenticated nav while `TRUCK_EXISTS` is false. (#TBD)
+- [x] 13.30 Remove Cabin plaque form from any authenticated nav while `TRUCK_EXISTS` is false. (#238)
 - [ ] 13.31 Waitlist email domain blocklist (disposable) — operator editable.
 - [ ] 13.32 Same user cannot hold standing on all 12 panels unless whole-truck path.
 - [ ] 13.33 Rate-limit operator approve/reject.
