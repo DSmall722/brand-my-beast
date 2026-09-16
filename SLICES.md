@@ -119,7 +119,7 @@ Do not start Wave 13 until 12.50 is checked. No Stripe. No CLOSE_AT.
 - [x] 13.21 Shop PDF embeds etch-lock state from pledged vs $120,000. (#229)
 - [x] 13.22 `shop-ready` requires vector URL or Blob key, not a screenshot only. (#230)
 - [x] 13.23 Winner packet includes wrap term start = install day, not close. (#231)
-- [x] 13.24 Partner cannot see bidder email — only brand + trade + art. (#TBD)
+- [x] 13.24 Partner cannot see bidder email — only brand + trade + art. (#232)
 - [ ] 13.25 Operator print view for one seat (13.23 + 8.6).
 - [ ] 13.26 Art size cap documented (max bytes in RULES.md).
 - [ ] 13.27 Etch art rejected if linter fails; wrap art may still list.
