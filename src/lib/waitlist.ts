@@ -471,3 +471,32 @@ export function resetWaitlistStoreForTests(): void {
   memoryStore().clear();
   globalStore.__bmbWaitlistMailer = null;
 }
+
+/**
+ * Slice 12.16 — detach account from waitlist rows (clear userId only).
+ * Email row stays for operator; no tweet / no Stripe.
+ */
+export async function detachWaitlistUserId(userId: string): Promise<number> {
+  const trimmed = userId.trim();
+  if (!trimmed) return 0;
+
+  if (useMemoryStore()) {
+    let count = 0;
+    const store = memoryStore();
+    for (const [email, row] of store) {
+      if (row.userId !== trimmed) continue;
+      store.set(email, { ...row, userId: null });
+      count += 1;
+    }
+    return count;
+  }
+
+  const db = getDb();
+  if (!db) return 0;
+  const updated = await db
+    .update(waitlistSignups)
+    .set({ userId: null })
+    .where(eq(waitlistSignups.userId, trimmed))
+    .returning({ email: waitlistSignups.email });
+  return updated.length;
+}
