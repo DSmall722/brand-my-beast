@@ -15,8 +15,8 @@ Updated: 2026-09-16
 - Coordinator may merge a PR that finishes exactly one unchecked slice, Playwright is green, and the merge gates below hold.
 - Judge PRs from git + `npm test` + `npm run build`. Do not use brandmybeast.com as a gate while the Vercel usage hold is on.
 
-**Now:** 13.9 `docs/EMAIL-DNS.md` SPF/DKIM/DMARC checklist for hello@.
-**Last merged:** 13.8 (#215 WRAP-SHOP shortlist template).
+**Now:** 13.10 Changelog file of last 20 merged slice ids.
+**Last merged:** 13.9 (#NN EMAIL-DNS SPF/DKIM/DMARC checklist).
 
 ## Standing orders
 
@@ -104,7 +104,7 @@ Do not start Wave 13 until 12.50 is checked. No Stripe. No CLOSE_AT.
 - [x] 13.6 FEATURES.md banner: “not the build order.” (#213)
 - [x] 13.7 `docs/P3-DAY.md` runbook. Checkboxes only. Does not set CLOSE_AT. (#214)
 - [x] 13.8 `docs/WRAP-SHOP.md` shortlist template. (#215)
-- [ ] 13.9 `docs/EMAIL-DNS.md` SPF/DKIM/DMARC checklist for hello@.
+- [x] 13.9 `docs/EMAIL-DNS.md` SPF/DKIM/DMARC checklist for hello@. (#NN)
 - [ ] 13.10 Changelog file of last 20 merged slice ids.
 - [ ] 13.11–13.50 Remain as previously locked (auction correctness, shop, trust, ops freeze). See commit history if a line was abbreviated. Full text lives in git before this compaction. Coordinator must not invent Stripe or a close date.
 
