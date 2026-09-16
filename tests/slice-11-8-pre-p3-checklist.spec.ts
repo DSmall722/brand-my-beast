@@ -68,9 +68,9 @@ test.describe("slice 11.8: Pre-P3 checklist on /operator", () => {
 
     const panel = page.getByTestId("pre-p3-checklist");
     await expect(panel).toBeVisible();
-    await expect(panel).toHaveAttribute("data-close-at", "null");
+    await expect(panel).toHaveAttribute("data-auction-clock", "unset");
     await expect(page.getByTestId("pre-p3-close-at-fence")).toContainText(
-      "CLOSE_AT stays unset",
+      "Auction clock stays unset",
     );
     await expect(page.getByTestId("pre-p3-close-at-fence")).toContainText(
       "$58,000",
@@ -86,12 +86,13 @@ test.describe("slice 11.8: Pre-P3 checklist on /operator", () => {
       await expect(box).toBeChecked();
     }
 
-    await expect(panel).toHaveAttribute("data-close-at", "null");
+    await expect(panel).toHaveAttribute("data-auction-clock", "unset");
     expect(CLOSE_AT).toBeNull();
 
     const html = await page.content();
     expect(html.toLowerCase()).not.toMatch(/\blease\b/);
     expect(html.toLowerCase()).not.toContain("gmail.com");
-    expect(html).not.toContain("CLOSE_AT=");
+    expect(html).not.toContain("CLOSE_AT");
+    expect(html.toLowerCase()).not.toContain("close_at");
   });
 });

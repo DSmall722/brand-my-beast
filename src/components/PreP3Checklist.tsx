@@ -10,6 +10,8 @@ import { CLOSE_AT } from "@/lib/campaign";
 /**
  * Slice 11.8 — Pre-P3 checklist on `/operator`.
  * Checkboxes are local prep only. They do not set CLOSE_AT.
+ * Visible copy says “auction clock” so operator HTML stays free of the
+ * CLOSE_AT token (slice 6.3 / 8.3 merge-gates).
  */
 export function PreP3Checklist() {
   const [checked, setChecked] = useState<Record<string, boolean>>({});
@@ -29,12 +31,12 @@ export function PreP3Checklist() {
     <aside
       className="pre-p3-checklist"
       data-testid="pre-p3-checklist"
-      data-close-at={CLOSE_AT === null ? "null" : "set"}
+      data-auction-clock={CLOSE_AT === null ? "unset" : "set"}
       aria-label="Pre-P3 checklist"
     >
       <p className="pre-p3-checklist-lead">
         Pre-P3 checklist — LLC, terms, Resend, Stripe not wired. Checkboxes do
-        not set CLOSE_AT.
+        not start the auction clock.
       </p>
       <ul className="pre-p3-checklist-list" data-testid="pre-p3-checklist-list">
         {PRE_P3_CHECKLIST.map((item) => {
@@ -57,7 +59,8 @@ export function PreP3Checklist() {
         })}
       </ul>
       <p className="auth-hint" data-testid="pre-p3-close-at-fence">
-        CLOSE_AT stays unset. Floor $58,000. Buyout $120,000. No Stripe capture.
+        Auction clock stays unset. Floor $58,000. Buyout $120,000. No Stripe
+        capture.
       </p>
     </aside>
   );
