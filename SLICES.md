@@ -115,7 +115,7 @@ Do not start Wave 13 until 12.50 is checked. No Stripe. No CLOSE_AT.
 - [x] 13.17 Whole-truck reject rolls back all twelve rows in one transaction. (#225)
 - [x] 13.18 Outbid email includes next minimum (9.2). (#226)
 - [x] 13.19 Operator cannot approve two brands on one panel even if they race.
-- [x] 13.20 Playwright: failed-winner accepts → old winner is `outbid`, not deleted.
+- [x] 13.20 Playwright: failed-winner accepts → old winner is `outbid`, not deleted. (#228)
 - [ ] 13.21 Shop PDF embeds etch-lock state from pledged vs $120,000.
 - [ ] 13.22 `shop-ready` requires vector URL or Blob key, not a screenshot only.
 - [ ] 13.23 Winner packet includes wrap term start = install day, not close.
