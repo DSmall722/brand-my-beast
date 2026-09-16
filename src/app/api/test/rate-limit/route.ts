@@ -37,6 +37,7 @@ export async function POST(request: Request) {
         waitlistMax?: unknown;
         intentMax?: unknown;
         magicLinkMax?: unknown;
+        operatorDecideMax?: unknown;
         windowMs?: unknown;
       };
     }).configure;
@@ -44,6 +45,10 @@ export async function POST(request: Request) {
     const intentMax = Number(cfg.intentMax);
     const magicLinkMax =
       cfg.magicLinkMax === undefined ? undefined : Number(cfg.magicLinkMax);
+    const operatorDecideMax =
+      cfg.operatorDecideMax === undefined
+        ? undefined
+        : Number(cfg.operatorDecideMax);
     const windowMs =
       cfg.windowMs === undefined ? undefined : Number(cfg.windowMs);
     if (
@@ -66,11 +71,24 @@ export async function POST(request: Request) {
         { status: 400 },
       );
     }
+    if (
+      operatorDecideMax !== undefined &&
+      (!Number.isFinite(operatorDecideMax) || operatorDecideMax < 1)
+    ) {
+      return Response.json(
+        { ok: false, error: "operatorDecideMax must be a positive number" },
+        { status: 400 },
+      );
+    }
     configureRateLimitForTests({
       waitlistMax: Math.floor(waitlistMax),
       intentMax: Math.floor(intentMax),
       magicLinkMax:
         magicLinkMax !== undefined ? Math.floor(magicLinkMax) : undefined,
+      operatorDecideMax:
+        operatorDecideMax !== undefined
+          ? Math.floor(operatorDecideMax)
+          : undefined,
       windowMs:
         windowMs !== undefined && Number.isFinite(windowMs) && windowMs > 0
           ? Math.floor(windowMs)

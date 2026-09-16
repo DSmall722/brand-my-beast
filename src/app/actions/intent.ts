@@ -28,7 +28,11 @@ import {
   parseOperatorFinish,
 } from "@/lib/etch-approve-lock";
 import { assertEtchArtPassesLinter } from "@/lib/etch-linter";
-import { checkRateLimit } from "@/lib/rate-limit";
+import {
+  OPERATOR_DECIDE_RATE_LIMITED,
+  checkOperatorDecideRateLimit,
+  checkRateLimit,
+} from "@/lib/rate-limit";
 
 export type IntentActionState = {
   ok: boolean;
@@ -124,6 +128,12 @@ export async function decideIntentBid(
   const session = await auth();
   if (!session?.user?.email || !isOperatorEmail(session.user.email)) {
     return { ok: false, error: "Operator access required." };
+  }
+
+  // Slice 13.33 — rate-limit operator approve/reject.
+  const limited = checkOperatorDecideRateLimit(session.user.email);
+  if (!limited.ok) {
+    return { ok: false, error: OPERATOR_DECIDE_RATE_LIMITED };
   }
 
   const bidId = String(formData.get("bidId") ?? "");

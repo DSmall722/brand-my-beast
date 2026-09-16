@@ -1,9 +1,14 @@
 /**
- * Process-local fixed-window limiter for waitlist + intent + magic-link POSTs.
+ * Process-local fixed-window limiter for waitlist + intent + magic-link +
+ * operator decide POSTs.
  * Ephemeral throttle state only — not a durable ledger (6.7 gates Production memory).
  */
 
-export type RateLimitScope = "waitlist" | "intent" | "magic-link";
+export type RateLimitScope =
+  | "waitlist"
+  | "intent"
+  | "magic-link"
+  | "operator-decide";
 
 type Bucket = { count: number; windowStart: number };
 
@@ -11,6 +16,7 @@ type TestConfig = {
   waitlistMax: number;
   intentMax: number;
   magicLinkMax: number;
+  operatorDecideMax: number;
   windowMs: number;
 };
 
@@ -41,6 +47,8 @@ function maxForScope(scope: RateLimitScope, test: TestConfig): number {
       return test.intentMax;
     case "magic-link":
       return test.magicLinkMax;
+    case "operator-decide":
+      return test.operatorDecideMax;
     default: {
       const _exhaustive: never = scope;
       return _exhaustive;
@@ -64,6 +72,8 @@ function limits(scope: RateLimitScope): { max: number; windowMs: number } {
       return { max: envInt("RATE_LIMIT_INTENT_MAX", 60), windowMs };
     case "magic-link":
       return { max: envInt("RATE_LIMIT_MAGIC_LINK_MAX", 10), windowMs };
+    case "operator-decide":
+      return { max: envInt("RATE_LIMIT_OPERATOR_DECIDE_MAX", 30), windowMs };
     default: {
       const _exhaustive: never = scope;
       return _exhaustive;
@@ -112,6 +122,7 @@ export function configureRateLimitForTests(
     waitlistMax: number;
     intentMax: number;
     magicLinkMax?: number;
+    operatorDecideMax?: number;
     windowMs?: number;
   } | null,
 ): void {
@@ -122,6 +133,7 @@ export function configureRateLimitForTests(
       waitlistMax: config.waitlistMax,
       intentMax: config.intentMax,
       magicLinkMax: config.magicLinkMax ?? config.intentMax,
+      operatorDecideMax: config.operatorDecideMax ?? config.intentMax,
       windowMs: config.windowMs ?? 60_000,
     };
   }
@@ -157,4 +169,19 @@ export function checkMagicLinkRateLimit(
   ip: string,
 ): RateLimitResult {
   return checkRateLimit("magic-link", magicLinkRateKey(email, ip));
+}
+
+/**
+ * Slice 13.33 — operator approve/reject rate-limit copy.
+ * Never claims a decision landed.
+ */
+export const OPERATOR_DECIDE_RATE_LIMITED =
+  "Too many operator decisions. No approve or reject was recorded. Wait a moment and try again.";
+
+export function operatorDecideRateKey(email: string): string {
+  return `operator:${email.trim().toLowerCase() || "unknown"}`;
+}
+
+export function checkOperatorDecideRateLimit(email: string): RateLimitResult {
+  return checkRateLimit("operator-decide", operatorDecideRateKey(email));
 }
