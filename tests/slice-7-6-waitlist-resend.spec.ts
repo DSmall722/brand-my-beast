@@ -57,7 +57,7 @@ test.describe("slice 7.6: waitlist Resend notifies hello@", () => {
     );
   });
 
-  test("created signup notifies hello@ via mocked Resend", async () => {
+  test("created signup sends confirm mail to the subscriber", async () => {
     const sent: WaitlistNotifyPayload[] = [];
     setWaitlistMailerForTests({
       send: async (payload) => {
@@ -71,10 +71,10 @@ test.describe("slice 7.6: waitlist Resend notifies hello@", () => {
     const result = await joinWaitlist(email);
     expect(result).toEqual({ ok: true, status: "created" });
     expect(sent).toHaveLength(1);
-    expect(sent[0]!.to).toBe(BRAND.email);
-    expect(sent[0]!.to).toBe("hello@brandmybeast.com");
+    expect(sent[0]!.to).toBe(email);
     expect(sent[0]!.from).toContain(BRAND.email);
-    expect(sent[0]!.subject).toContain(email);
+    expect(sent[0]!.subject.toLowerCase()).toMatch(/confirm/);
+    expect(sent[0]!.text).toContain("/waitlist/confirm?token=");
     expect(sent[0]!.text).toContain(email);
   });
 

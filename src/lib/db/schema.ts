@@ -11,16 +11,28 @@ import {
   uuid,
 } from "drizzle-orm/pg-core";
 
-export const waitlistSignups = pgTable("waitlist_signups", {
-  id: uuid("id").defaultRandom().primaryKey(),
-  email: text("email").notNull().unique(),
-  createdAt: timestamp("created_at", { withTimezone: true })
-    .defaultNow()
-    .notNull(),
-  source: text("source").notNull().default("p1-waitlist"),
-  /** Set when the waitlist email signs in — row is never deleted (slice 5.3). */
-  userId: text("user_id"),
-});
+export const waitlistSignups = pgTable(
+  "waitlist_signups",
+  {
+    id: uuid("id").defaultRandom().primaryKey(),
+    email: text("email").notNull().unique(),
+    createdAt: timestamp("created_at", { withTimezone: true })
+      .defaultNow()
+      .notNull(),
+    source: text("source").notNull().default("p1-waitlist"),
+    /** Set when the waitlist email signs in — row is never deleted (slice 5.3). */
+    userId: text("user_id"),
+    /** Slice 12.14 — double-opt-in token until confirmed. */
+    confirmToken: text("confirm_token"),
+    /** Slice 12.14 — set when the confirm link is opened. */
+    confirmedAt: timestamp("confirmed_at", { withTimezone: true }),
+  },
+  (table) => [
+    uniqueIndex("waitlist_signups_confirm_token_uidx")
+      .on(table.confirmToken)
+      .where(sql`${table.confirmToken} IS NOT NULL`),
+  ],
+);
 
 /**
  * Soft-auction intent ledger. No Stripe / capture columns — P2 only.
