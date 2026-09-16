@@ -15,8 +15,8 @@ Updated: 2026-09-15
 - Coordinator may merge a PR that finishes exactly one unchecked slice, Playwright is green, and the merge gates below hold.
 - Judge PRs from git + `npm test` + `npm run build`. Do not use brandmybeast.com as a gate while the Vercel usage hold is on.
 
-**Now:** 11.8 Pre-P3 checklist component on `/operator` (LLC, terms, Resend, Stripe not wired). Checkboxes do not set CLOSE_AT.
-**Last merged:** 11.7 (#152 a11y reject-note + waitlist field errors).
+**Now:** 11.9 `vercel.json` stays main-only. Do not add preview deploys or extra projects.
+**Last merged:** 11.8 (Pre-P3 checklist on /operator).
 
 ## Standing orders
 
@@ -130,7 +130,7 @@ If any gate fails: leave the PR unmerged and stop that slice.
 - [x] 11.5 Operator status panel: DB ping + waitlist count. No public URL. (#150)
 - [x] 11.6 Neon PITR runbook markdown in repo. No dashboard clicks. (#151)
 - [x] 11.7 a11y: reject-note required announced; waitlist errors linked to the field. (#152)
-- [ ] 11.8 Pre-P3 checklist component on `/operator` (LLC, terms, Resend, Stripe not wired). Checkboxes do not set CLOSE_AT.
+- [x] 11.8 Pre-P3 checklist component on `/operator` (LLC, terms, Resend, Stripe not wired). Checkboxes do not set CLOSE_AT.
 - [ ] 11.9 `vercel.json` stays main-only. Do not add preview deploys or extra projects.
 - [ ] 11.10 BLOCKED until the human clears the Vercel usage hold. Repo note only: “redeploy when the hold lifts.” No app change. No Stripe. No CLOSE_AT.
 

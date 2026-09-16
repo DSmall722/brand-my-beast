@@ -6,6 +6,7 @@ import { ArtworkApprovalChecklist } from "@/components/ArtworkApprovalChecklist"
 import { ImagineMockupControls } from "@/components/ImagineMockupControls";
 import { MockupQueue } from "@/components/MockupQueue";
 import { OperatorStatusPanel } from "@/components/OperatorStatusPanel";
+import { PreP3Checklist } from "@/components/PreP3Checklist";
 import { SiteChrome } from "@/components/SiteChrome";
 import { auth } from "@/lib/auth";
 import { isOperatorEmail } from "@/lib/auth/operator";
@@ -159,6 +160,8 @@ export default async function OperatorPage({
         </aside>
 
         <OperatorStatusPanel status={operatorStatus} />
+
+        <PreP3Checklist />
 
         <MockupQueue mockups={mockupQueue} />
 
