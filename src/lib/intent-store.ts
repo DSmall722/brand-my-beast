@@ -1261,7 +1261,7 @@ export async function setIntentStatus(
     }
     const twelfth = assertMayApproveTwelfthPanel({
       holders: holdersForGate,
-      bid: current,
+      bid: currentBid,
     });
     if (!twelfth.ok) return { ok: false, error: twelfth.error };
 
