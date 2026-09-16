@@ -15,8 +15,8 @@ Updated: 2026-09-16
 - Coordinator may merge a PR that finishes exactly one unchecked slice, Playwright is green, and the merge gates below hold.
 - Judge PRs from git + `npm test` + `npm run build`. Do not use brandmybeast.com as a gate while the Vercel usage hold is on.
 
-**Now:** 12.41 Structured log line on waitlist insert + intent status change. No PII beyond email hash.
-**Last merged:** 12.40 (#197 vapor imports gated on TRUCK_EXISTS).
+**Now:** 12.42 `/operator/health` last-migration name from Drizzle.
+**Last merged:** 12.41 (#198 structured waitlist + intent status logs).
 
 ## Standing orders
 
@@ -81,7 +81,7 @@ Complete through 11.10 skipped (Vercel hold). Condensed ranges keep verify-map p
 - [x] 12.38 Focus restore after waitlist submit. (#195)
 - [x] 12.39 `/signin/check-email` uses PUBLIC_COPY success line. (#196)
 - [x] 12.40 Remove dead vapor component imports when `TRUCK_EXISTS` is false. (#197)
-- [ ] 12.41 Structured log line on waitlist insert + intent status change. No PII beyond email hash.
+- [x] 12.41 Structured log line on waitlist insert + intent status change. No PII beyond email hash. (#198)
 - [ ] 12.42 `/operator/health` last-migration name from Drizzle.
 - [ ] 12.43 Drizzle migrate runbook in repo.
 - [ ] 12.44 Backup restore drill doc (Neon PITR) next to 11.6.

@@ -23,6 +23,7 @@ import {
   appendIntentRevision,
   resetIntentRevisionsForTests,
 } from "./intent-revision";
+import { logIntentStatusChange } from "./structured-log";
 import {
   assertIntentOnly,
   depositUsdForMark,
@@ -925,6 +926,12 @@ export async function setIntentStatus(
     }
     bid.updatedAt = nextUpdatedAtIso(bid.updatedAt);
     assertIntentOnly(bid);
+    logIntentStatusChange({
+      bidId: bid.id,
+      panelId: bid.panelId,
+      status,
+      userId: bid.userId,
+    });
     if (status === "approved" || status === "rejected") {
       await notifyIntentStatusSafe({
         kind: status,
@@ -933,6 +940,12 @@ export async function setIntentStatus(
       });
     }
     for (const prior of demoted) {
+      logIntentStatusChange({
+        bidId: prior.id,
+        panelId: prior.panelId,
+        status: "outbid",
+        userId: prior.userId,
+      });
       await notifyIntentStatusSafe({ kind: "outbid", bid: prior });
     }
     return { ok: true, bid };
@@ -1009,10 +1022,23 @@ export async function setIntentStatus(
       bid,
       note: opts?.note,
     });
+    logIntentStatusChange({
+      bidId: bid.id,
+      panelId: bid.panelId,
+      status: "approved",
+      userId: bid.userId,
+    });
     for (const prior of priorApproved) {
+      const priorBid = { ...rowToBid(prior), status: "outbid" as const };
+      logIntentStatusChange({
+        bidId: priorBid.id,
+        panelId: priorBid.panelId,
+        status: "outbid",
+        userId: priorBid.userId,
+      });
       await notifyIntentStatusSafe({
         kind: "outbid",
-        bid: { ...rowToBid(prior), status: "outbid" },
+        bid: priorBid,
       });
     }
     return { ok: true, bid };
@@ -1033,6 +1059,12 @@ export async function setIntentStatus(
     return { ok: false, error: "Bid not found." };
   }
   const bid = rowToBid(row);
+  logIntentStatusChange({
+    bidId: bid.id,
+    panelId: bid.panelId,
+    status,
+    userId: bid.userId,
+  });
   if (status === "rejected") {
     await notifyIntentStatusSafe({
       kind: status,
