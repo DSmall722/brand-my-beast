@@ -123,7 +123,7 @@ Do not start Wave 13 until 12.50 is checked. No Stripe. No CLOSE_AT.
 - [x] 13.25 Operator print view for one seat (13.23 + 8.6). (#233)
 - [x] 13.26 Art size cap documented (max bytes in RULES.md). (#234)
 - [x] 13.27 Etch art rejected if linter fails; wrap art may still list. (#235)
-- [x] 13.28 `/account/wins` empty state from PUBLIC_COPY. (#TBD)
+- [x] 13.28 `/account/wins` empty state from PUBLIC_COPY. (#236)
 - [ ] 13.29 Certificate template exists as markdown only. No issued date until etch exists.
 - [ ] 13.30 Remove Cabin plaque form from any authenticated nav while `TRUCK_EXISTS` is false.
 - [ ] 13.31 Waitlist email domain blocklist (disposable) — operator editable.
