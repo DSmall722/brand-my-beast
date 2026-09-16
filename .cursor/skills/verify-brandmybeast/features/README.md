@@ -1,12 +1,13 @@
 # BrandMyBeast verification map
 
 Maintained source for verifying user-facing waitlist + intent behavior across
-**Waves 0–5** and **Waves 7–10** (SLICES.md). Read this index before driving
+**Waves 0–5**, **Waves 7–10**, and **Wave 12** (SLICES.md). Read this index before driving
 the app, then open the matching feature file.
 
 Slice **6.4** requires this map to name every Wave 0–5 surface and point at
 the skill recipe and/or Playwright suite that proves it. Slice **11.3** extends
-the same map to every Wave 7–10 surface. Money fences stay
+the same map to every Wave 7–10 surface. Slice **12.47** extends it to every
+Wave 12 surface (`12.1`…`12.50`). Money fences stay
 `FLOOR_USD=58000`, `GOAL_USD=120000`, `CLOSE_AT=null`.
 
 ## Baseline preconditions
@@ -60,10 +61,23 @@ Hardening gate for this extension:
 
 - This map ↔ Waves 7–10 → `tests/slice-11-3-verify-map.spec.ts`
 
+## Wave 12 map
+
+Canonical id → file index: [waves-12.md](./waves-12.md) (every `12.1`…`12.50`).
+
+| Wave | Feature file | Live lever |
+|---|---|---|
+| 12 — money-ready without charging | [wave12-money-ready.md](./wave12-money-ready.md) | `tests/slice-12-*.spec.ts` |
+
+Hardening gate for this extension:
+
+- This map ↔ Wave 12 → `tests/slice-12-47-verify-map.spec.ts`
+
 ## Features (detail)
 
 - [Waves 0–5 id index](./waves-0-5.md)
 - [Waves 7–10 id index](./waves-7-10.md)
+- [Wave 12 id index](./waves-12.md)
 - [Wave 0 slices 0.1–0.9](./wave0-slices.md)
 - [Campaign board](./campaign-board.md)
 - [Panel grid](./panel-grid.md)
@@ -78,6 +92,7 @@ Hardening gate for this extension:
 - [Wave 8 operator day](./wave8-operator-day.md)
 - [Wave 9 auction mechanics](./wave9-auction-mechanics.md)
 - [Wave 10 compositor](./wave10-compositor.md)
+- [Wave 12 money-ready](./wave12-money-ready.md)
 - [Panel intent (P2 soft auction)](./panel-intent.md)
 
 ## Maintain hook
