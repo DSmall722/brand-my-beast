@@ -86,6 +86,8 @@ async function recordIntentRevisionSafe(bid: IntentBid): Promise<void> {
 
 const globalForIntent = globalThis as typeof globalThis & {
   __bmbIntentBids?: IntentBid[];
+  /** Slice 13.19 — serialize memory-mode approves per panel. */
+  __bmbPanelApproveLocks?: Map<string, Promise<unknown>>;
 };
 
 function memoryBids(): IntentBid[] {
@@ -93,6 +95,41 @@ function memoryBids(): IntentBid[] {
     globalForIntent.__bmbIntentBids = [];
   }
   return globalForIntent.__bmbIntentBids;
+}
+
+function panelApproveLocks(): Map<string, Promise<unknown>> {
+  if (!globalForIntent.__bmbPanelApproveLocks) {
+    globalForIntent.__bmbPanelApproveLocks = new Map();
+  }
+  return globalForIntent.__bmbPanelApproveLocks;
+}
+
+/**
+ * Slice 13.19 — operator cannot approve two brands on one panel even if they
+ * race. Memory mode serializes approves per panelId; Postgres relies on the
+ * unique partial index + demote batch (12.1 / 12.3).
+ */
+async function withPanelApproveLock<T>(
+  panelId: string,
+  fn: () => Promise<T>,
+): Promise<T> {
+  const locks = panelApproveLocks();
+  const previous = locks.get(panelId) ?? Promise.resolve();
+  let release!: () => void;
+  const gate = new Promise<void>((resolve) => {
+    release = resolve;
+  });
+  const chained = previous.catch(() => undefined).then(() => gate);
+  locks.set(panelId, chained);
+  await previous.catch(() => undefined);
+  try {
+    return await fn();
+  } finally {
+    release();
+    if (locks.get(panelId) === chained) {
+      locks.delete(panelId);
+    }
+  }
 }
 
 type IntentStoreEnv = {
@@ -995,27 +1032,69 @@ export async function setIntentStatus(
     if (!bid) return { ok: false, error: "Bid not found." };
     const stale = assertFreshUpdatedAt(bid, opts?.expectedUpdatedAt);
     if (stale) return stale;
-    const demoted: IntentBid[] = [];
+
     if (status === "approved") {
-      const ban = assertTradeAllowed({
-        brandLabel: bid.brandLabel,
-        tradeLabel: bid.tradeLabel,
-      });
-      if (!ban.ok) return { ok: false, error: ban.error };
-      // Slice 12.1 — at most one approved standing per panel.
-      for (const existing of memoryBids()) {
-        if (
-          existing.id !== bidId &&
-          existing.panelId === bid.panelId &&
-          existing.status === "approved"
-        ) {
-          existing.status = "outbid";
-          existing.updatedAt = nextUpdatedAtIso(existing.updatedAt);
-          assertIntentOnly(existing);
-          demoted.push({ ...existing });
+      // Slice 13.19 — serialize concurrent brand approves on one panel.
+      return withPanelApproveLock(bid.panelId, async () => {
+        const live = memoryBids().find((row) => row.id === bidId);
+        if (!live) return { ok: false, error: "Bid not found." };
+        const staleInside = assertFreshUpdatedAt(
+          live,
+          opts?.expectedUpdatedAt,
+        );
+        if (staleInside) return staleInside;
+
+        const ban = assertTradeAllowed({
+          brandLabel: live.brandLabel,
+          tradeLabel: live.tradeLabel,
+        });
+        if (!ban.ok) return { ok: false, error: ban.error };
+
+        const demoted: IntentBid[] = [];
+        // Slice 12.1 — at most one approved standing per panel.
+        for (const existing of memoryBids()) {
+          if (
+            existing.id !== bidId &&
+            existing.panelId === live.panelId &&
+            existing.status === "approved"
+          ) {
+            existing.status = "outbid";
+            existing.updatedAt = nextUpdatedAtIso(existing.updatedAt);
+            assertIntentOnly(existing);
+            demoted.push({ ...existing });
+          }
         }
-      }
+        live.status = "approved";
+        live.updatedAt = nextUpdatedAtIso(live.updatedAt);
+        assertIntentOnly(live);
+        logIntentStatusChange({
+          bidId: live.id,
+          panelId: live.panelId,
+          status: "approved",
+          userId: live.userId,
+        });
+        await notifyIntentStatusSafe({
+          kind: "approved",
+          bid: { ...live },
+          note: opts?.note,
+        });
+        for (const prior of demoted) {
+          logIntentStatusChange({
+            bidId: prior.id,
+            panelId: prior.panelId,
+            status: "outbid",
+            userId: prior.userId,
+          });
+          await notifyIntentStatusSafe({
+            kind: "outbid",
+            bid: prior,
+            nextMinimumUsd: nextStandingUsd(live.standingUsd),
+          });
+        }
+        return { ok: true, bid: { ...live } };
+      });
     }
+
     bid.status = status;
     if (status === "withdrawn") {
       bid.deletedAt = new Date().toISOString();
@@ -1028,25 +1107,11 @@ export async function setIntentStatus(
       status,
       userId: bid.userId,
     });
-    if (status === "approved" || status === "rejected") {
+    if (status === "rejected") {
       await notifyIntentStatusSafe({
         kind: status,
         bid: { ...bid },
         note: opts?.note,
-      });
-    }
-    for (const prior of demoted) {
-      logIntentStatusChange({
-        bidId: prior.id,
-        panelId: prior.panelId,
-        status: "outbid",
-        userId: prior.userId,
-      });
-      await notifyIntentStatusSafe({
-        kind: "outbid",
-        bid: prior,
-        // Slice 13.18 — demoted by approve; next min from new approved standing.
-        nextMinimumUsd: nextStandingUsd(bid.standingUsd),
       });
     }
     return { ok: true, bid };
@@ -1469,6 +1534,7 @@ export async function resetIntentStoreForTests(): Promise<void> {
   resetIntentRevisionsForTests();
   if (useMemoryStore()) {
     globalForIntent.__bmbIntentBids = [];
+    globalForIntent.__bmbPanelApproveLocks = new Map();
     return;
   }
   const db = getDb();
