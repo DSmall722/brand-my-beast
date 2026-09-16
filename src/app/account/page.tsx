@@ -2,6 +2,7 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import { signOutAction } from "@/app/actions/auth";
 import { SiteChrome } from "@/components/SiteChrome";
+import { DeleteAccountButton } from "@/components/DeleteAccountButton";
 import { EditPendingIntentForm } from "@/components/EditPendingIntentForm";
 import { WithdrawPendingButton } from "@/components/WithdrawPendingButton";
 import { auth } from "@/lib/auth";
@@ -338,6 +339,7 @@ export default async function AccountPage() {
               Sign out
             </button>
           </form>
+          <DeleteAccountButton />
         </div>
       </main>
     </>

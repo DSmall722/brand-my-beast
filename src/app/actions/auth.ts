@@ -2,12 +2,14 @@
 
 import { AuthError } from "next-auth";
 import { headers } from "next/headers";
-import { signIn, signOut } from "@/lib/auth";
+import { auth, signIn, signOut } from "@/lib/auth";
+import { anonymizeIntentBidsForUser } from "@/lib/intent-store";
 import {
   MAGIC_LINK_RATE_LIMITED,
   checkMagicLinkRateLimit,
   clientIpFromHeaders,
 } from "@/lib/rate-limit";
+import { detachWaitlistUserId } from "@/lib/waitlist";
 
 export type SignInState = {
   ok: boolean;
@@ -74,4 +76,33 @@ export async function signInWithMagicLink(
 
 export async function signOutAction(): Promise<void> {
   await signOut({ redirectTo: "/" });
+}
+
+export type DeleteAccountState = {
+  ok: boolean;
+  error?: string;
+};
+
+/**
+ * Slice 12.16 — anonymize bid user ids, keep public standing amounts, sign out.
+ */
+export async function deleteAccountAction(
+  _prev: DeleteAccountState,
+  _formData: FormData,
+): Promise<DeleteAccountState> {
+  const session = await auth();
+  if (!session?.user?.id) {
+    return { ok: false, error: "Sign in required." };
+  }
+
+  const userId = session.user.id;
+  try {
+    await anonymizeIntentBidsForUser(userId);
+    await detachWaitlistUserId(userId);
+  } catch {
+    return { ok: false, error: "Account delete failed. Standing amounts were not cleared." };
+  }
+
+  await signOut({ redirectTo: "/" });
+  return { ok: true };
 }

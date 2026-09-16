@@ -9,6 +9,7 @@ import {
   persistArtworkForLedger,
   resetArtworkBlobStoreForTests,
 } from "./artwork-blob";
+import { anonymizedUserId, isAnonymizedUserId } from "./account-delete";
 import { GOAL_USD, PANELS, type Panel } from "./campaign";
 import { getDb } from "./db";
 import { intentBids, intentRevisions, type IntentBidRow } from "./db/schema";
@@ -1445,5 +1446,52 @@ export async function loadStandingHoldersByPanel(): Promise<
     }
   }
   return map;
+}
+
+/**
+ * Slice 12.16 — account delete. Replace owner userId with an opaque token.
+ * Standing amounts / brand / status stay so the public board does not shrink.
+ */
+export async function anonymizeIntentBidsForUser(
+  userId: UserId,
+): Promise<{ ok: true; anonymizedUserId: string; count: number }> {
+  const trimmed = userId.trim();
+  if (!trimmed || isAnonymizedUserId(trimmed)) {
+    return {
+      ok: true,
+      anonymizedUserId: trimmed || anonymizedUserId("unknown"),
+      count: 0,
+    };
+  }
+
+  const nextUserId = anonymizedUserId(trimmed);
+  const touchAt = nextUpdatedAt();
+
+  if (useMemoryStore()) {
+    let count = 0;
+    for (const bid of memoryBids()) {
+      if (bid.userId !== trimmed) continue;
+      bid.userId = nextUserId;
+      bid.updatedAt = touchAt.toISOString();
+      count += 1;
+    }
+    return { ok: true, anonymizedUserId: nextUserId, count };
+  }
+
+  const db = getDb();
+  if (!db) {
+    throw new Error("Intent ledger requires DATABASE_URL.");
+  }
+  const updated = await db
+    .update(intentBids)
+    .set({ userId: nextUserId, updatedAt: touchAt })
+    .where(eq(intentBids.userId, trimmed))
+    .returning({ id: intentBids.id });
+
+  return {
+    ok: true,
+    anonymizedUserId: nextUserId,
+    count: updated.length,
+  };
 }
 
