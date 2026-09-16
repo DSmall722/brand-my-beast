@@ -8,6 +8,9 @@ import { FLOOR_USD, GOAL_USD, TRUCK_EXISTS, formatUsd } from "@/lib/campaign";
 import { getContentRightsForUser } from "@/lib/content-rights-store";
 import { listApprovedBidsForUser } from "@/lib/intent-store";
 
+/**
+ * Slice 12.21 — `/account/wins` lists only this user's approved standing seats.
+ */
 export default async function WinnerPortalPage() {
   const session = await auth();
   if (!session?.user) {

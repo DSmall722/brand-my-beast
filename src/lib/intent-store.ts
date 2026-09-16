@@ -38,6 +38,7 @@ import {
   type IntentWriteErrorCode,
   type UserId,
 } from "./intent";
+import { winnerSeatsFor } from "./winner-portal";
 
 /** Slice 9.1 — cap mutual proxy wars (still no card). */
 const MAX_PROXY_DEPTH = 48;
@@ -392,12 +393,12 @@ export async function listBidsForUser(userId: UserId): Promise<IntentBid[]> {
   return rows.map(rowToBid);
 }
 
-/** Approved seats for one bidder — winner portal. */
+/** Slice 12.21 — approved seats for one bidder only (winner portal). */
 export async function listApprovedBidsForUser(
   userId: UserId,
 ): Promise<IntentBid[]> {
   const bids = await listBidsForUser(userId);
-  return bids.filter((bid) => bid.status === "approved");
+  return winnerSeatsFor(bids);
 }
 
 export async function standingForPanel(panelId: string): Promise<number> {
