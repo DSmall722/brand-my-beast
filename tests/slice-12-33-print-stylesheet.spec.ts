@@ -39,12 +39,15 @@ test.describe("slice 12.33: panel print stylesheet", () => {
   });
 
   test("globals.css ships @media print rules for panel seats", () => {
-    const css = readFileSync(join(process.cwd(), "src/app/globals.css"), "utf8");
-    expect(css).toContain("Slice 12.33");
-    expect(css).toMatch(/@media\s+print/);
-    expect(css).toContain(".panel-intent.public-seat");
-    expect(css).toContain(".site-header");
-    expect(css.toLowerCase()).not.toMatch(/\blease\b/);
+    const board = readFileSync(
+      join(process.cwd(), "src/app/styles/board.css"),
+      "utf8",
+    );
+    expect(board).toContain("Slice 12.33");
+    expect(board).toMatch(/@media\s+print/);
+    expect(board).toContain(".panel-intent.public-seat");
+    expect(board).toContain(".site-header");
+    expect(board.toLowerCase()).not.toMatch(/\blease\b/);
   });
 
   test("panel page is marked for print sheet", async ({ page }) => {

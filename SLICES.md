@@ -15,8 +15,8 @@ Updated: 2026-09-16
 - Coordinator may merge a PR that finishes exactly one unchecked slice, Playwright is green, and the merge gates below hold.
 - Judge PRs from git + `npm test` + `npm run build`. Do not use brandmybeast.com as a gate while the Vercel usage hold is on.
 
-**Now:** 12.36 `globals.css` split: tokens / hero / board. No copy change.
-**Last merged:** 12.35 (#192 no console.log in src except test helpers).
+**Now:** 12.37 Prefetch `/panels/*` from homepage cards.
+**Last merged:** 12.36 (#193 globals.css split tokens/hero/board).
 
 ## Standing orders
 
@@ -76,7 +76,7 @@ Complete through 11.10 skipped (Vercel hold). Condensed ranges keep verify-map p
 - [x] 12.33 Print stylesheet for `/panels/[id]`. (#190)
 - [x] 12.34 Error boundary + branded 500 that is not a panel. (#191)
 - [x] 12.35 Strip `console.log` from `src/` except test helpers. (#192)
-- [ ] 12.36 `globals.css` split: tokens / hero / board. No copy change.
+- [x] 12.36 `globals.css` split: tokens / hero / board. No copy change. (#193)
 - [ ] 12.37 Prefetch `/panels/*` from homepage cards.
 - [ ] 12.38 Focus restore after waitlist submit.
 - [ ] 12.39 `/signin/check-email` uses PUBLIC_COPY success line.

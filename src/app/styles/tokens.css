@@ -1,0 +1,150 @@
+/* Slice 12.36 — design tokens + base chrome */
+:root {
+  --steel-950: #0c0e11;
+  --steel-900: #14181e;
+  --steel-800: #1e252e;
+  --steel-500: #6b7787;
+  --steel-400: #8b96a5;
+  --steel-300: #b7c0cc;
+  --steel-100: #e8edf3;
+  --signal: #d6ff3f;
+  --signal-ink: #12160a;
+  --warn: #ff6b3d;
+  --hairline: color-mix(in oklab, white 14%, transparent);
+  --glow: color-mix(in oklab, var(--signal) 22%, transparent);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  color: var(--steel-100);
+  font-family: var(--font-body), "IBM Plex Sans", system-ui, sans-serif;
+  background:
+    radial-gradient(1200px 600px at 80% -10%, var(--glow), transparent 55%),
+    radial-gradient(
+      900px 500px at -10% 20%,
+      color-mix(in oklab, #4d6bff 16%, transparent),
+      transparent 50%
+    ),
+    linear-gradient(165deg, var(--steel-950), var(--steel-900) 45%, #10151c);
+  background-attachment: fixed;
+}
+
+a {
+  color: inherit;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Slice 6.8 — skip link; visible on keyboard focus only. */
+.skip-link {
+  position: absolute;
+  left: 1rem;
+  top: 0;
+  z-index: 100;
+  padding: 0.65rem 1rem;
+  border-radius: 0.5rem;
+  background: var(--signal);
+  color: var(--signal-ink);
+  font-weight: 600;
+  text-decoration: none;
+  transform: translateY(-120%);
+  transition: transform 120ms ease;
+}
+
+.skip-link:focus {
+  outline: 2px solid white;
+  outline-offset: 2px;
+}
+
+.skip-link:focus-visible {
+  transform: translateY(0.85rem);
+}
+
+.shell {
+  width: min(1120px, calc(100% - 2rem));
+  margin-inline: auto;
+}
+
+.site-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 1.25rem 0 0;
+}
+
+.header-nav {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 1rem;
+  min-width: 0;
+}
+
+.auth-nav {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.nav-button {
+  background: none;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+  font: inherit;
+}
+
+.wordmark {
+  font-family: var(--font-display), Syne, system-ui, sans-serif;
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  font-size: 1.15rem;
+  text-transform: uppercase;
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+
+.nav-link {
+  color: var(--steel-300);
+  text-decoration: none;
+  font-size: 0.95rem;
+  border-bottom: 1px solid transparent;
+  transition:
+    color 160ms ease,
+    border-color 160ms ease;
+}
+
+.nav-link:hover {
+  color: white;
+  border-color: var(--signal);
+}
+
+.nav-link:focus-visible,
+.nav-button:focus-visible,
+.wordmark:focus-visible {
+  outline: 2px solid var(--signal);
+  outline-offset: 3px;
+  color: white;
+}
+
