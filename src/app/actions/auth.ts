@@ -9,6 +9,7 @@ import {
   checkMagicLinkRateLimit,
   clientIpFromHeaders,
 } from "@/lib/rate-limit";
+import { logMagicLinkRequest } from "@/lib/structured-log";
 import { detachWaitlistUserId } from "@/lib/waitlist";
 
 export type SignInState = {
@@ -54,8 +55,13 @@ export async function signInWithMagicLink(
   const ip = clientIpFromHeaders(hdrs);
   const limited = checkMagicLinkRateLimit(email, ip);
   if (!limited.ok) {
+    // Slice 13.34 — hashed email only; never log the raw address.
+    logMagicLinkRequest(email, "rate_limited");
     return { ok: false, error: MAGIC_LINK_RATE_LIMITED };
   }
+
+  // Slice 13.34 — hashed email only; never log the raw address.
+  logMagicLinkRequest(email, "requested");
 
   try {
     await signIn("resend", {

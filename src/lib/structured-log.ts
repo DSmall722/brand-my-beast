@@ -1,5 +1,6 @@
 /**
  * Slice 12.41 — structured ops logs. No PII beyond a short email hash.
+ * Slice 13.34 — magic-link request logs hashed email only.
  */
 
 import { createHash } from "node:crypto";
@@ -21,7 +22,17 @@ export type IntentStatusLog = {
   userHash: string;
 };
 
-export type StructuredLogEntry = WaitlistInsertLog | IntentStatusLog;
+export type MagicLinkRequestLog = {
+  at: string;
+  event: "magic-link.request";
+  emailHash: string;
+  status: "requested" | "rate_limited";
+};
+
+export type StructuredLogEntry =
+  | WaitlistInsertLog
+  | IntentStatusLog
+  | MagicLinkRequestLog;
 
 const globalLog = globalThis as typeof globalThis & {
   __bmbStructuredLogs?: StructuredLogEntry[];
@@ -73,6 +84,19 @@ export function logIntentStatusChange(input: {
     status: input.status,
     userHash: hashEmailForLog(input.userId),
   }) as IntentStatusLog;
+}
+
+/** Slice 13.34 — magic-link request: hashed email only, never raw. */
+export function logMagicLinkRequest(
+  email: string,
+  status: MagicLinkRequestLog["status"] = "requested",
+): MagicLinkRequestLog {
+  return push({
+    at: new Date().toISOString(),
+    event: "magic-link.request",
+    emailHash: hashEmailForLog(email),
+    status,
+  }) as MagicLinkRequestLog;
 }
 
 export function listStructuredLogsForTests(): readonly StructuredLogEntry[] {
