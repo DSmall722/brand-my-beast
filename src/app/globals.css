@@ -2864,3 +2864,51 @@ a:focus-visible .truck-hotspot.is-raw {
   margin-top: auto;
 }
 
+
+/* Slice 12.33 — print stylesheet for /panels/[id] */
+@media print {
+  .site-header,
+  .site-chrome,
+  .site-footer,
+  .hero-actions,
+  .truck-view-toolbar,
+  .truck-view-hotspots,
+  .intent-bid-form,
+  form,
+  .btn,
+  .panel-board,
+  .hometown-lane-tags,
+  .neighbor-combo,
+  .adjacent-clash,
+  .failed-winner-offer,
+  .seat-export-png,
+  .seat-export-png-signin,
+  [data-testid="intent-signin-needed"],
+  [data-testid="public-seat-waitlist-cta"] {
+    display: none !important;
+  }
+
+  body {
+    background: #fff;
+    color: #111;
+  }
+
+  .panel-intent.public-seat {
+    max-width: 100%;
+    margin: 0;
+    padding: 0;
+  }
+
+  .panel-intent h1,
+  .panel-intent .section-lead,
+  .panel-intent .public-seat-status,
+  .panel-intent .panel-stats,
+  .panel-intent .intent-only-banner {
+    break-inside: avoid;
+  }
+
+  .panel-intent a {
+    color: #111;
+    text-decoration: none;
+  }
+}

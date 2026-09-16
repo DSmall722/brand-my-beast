@@ -115,6 +115,7 @@ export default async function PanelIntentPage({
         id="main-content"
         className="shell auth-page panel-intent public-seat"
         data-testid="panel-intent-page"
+        data-print-sheet="panels"
       >
         <p className="eyebrow">
           <Link href="/#panels">Panels</Link>
