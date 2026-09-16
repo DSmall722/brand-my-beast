@@ -7,9 +7,9 @@ export function HomeHeroSection() {
         <section className="hero" aria-labelledby="hero-title">
           <a
             className="hero-truck-link"
-            href="#panels"
+            href="/panels/hood"
             data-testid="hero-truck-preview"
-            aria-label="Board preview — jump to the twelve panels"
+            aria-label="Board preview — open the Hood seat"
           >
             {/* eslint-disable-next-line @next/next/no-img-element -- static hero still in /public */}
             <img
@@ -37,7 +37,11 @@ export function HomeHeroSection() {
               >
                 {PUBLIC_COPY.hero.primaryCta}
               </ArrowFillButton>
-              <a className="btn btn-ghost" href="#panels">
+              <a
+                className="btn btn-ghost"
+                href="/panels/hood"
+                data-testid="hero-secondary-cta"
+              >
                 {PUBLIC_COPY.hero.secondaryCta}
               </a>
             </div>

@@ -15,8 +15,8 @@ Updated: 2026-09-15
 - Coordinator may merge a PR that finishes exactly one unchecked slice, Playwright is green, and the merge gates below hold.
 - Judge PRs from git + `npm test` + `npm run build`. Do not use brandmybeast.com as a gate while the Vercel usage hold is on.
 
-**Now:** 10.1 Hero / hotspot links go to `/panels/[id]`, not only `#panels`.
-**Last merged:** 9.10 (#135 Playwright: pledged dollars = sum of approved standing only).
+**Now:** 10.2 Seat compositor renders the standing brand, not only a typed preview.
+**Last merged:** 10.1 (#136 Hero / hotspot links go to `/panels/[id]`, not only `#panels`).
 
 ## Standing orders
 
@@ -110,7 +110,7 @@ If any gate fails: leave the PR unmerged and stop that slice.
 
 ## Wave 10 — compositor people will trust
 
-- [ ] 10.1 Hero / hotspot links go to `/panels/[id]`, not only `#panels`.
+- [x] 10.1 Hero / hotspot links go to `/panels/[id]`, not only `#panels`. (#136)
 - [ ] 10.2 Seat compositor renders the standing brand, not only a typed preview.
 - [ ] 10.3 Etch toggle disabled unless pledged >= $120,000. Playwright on the seat.
 - [ ] 10.4 Mockup queue row. No billable Imagine call.
