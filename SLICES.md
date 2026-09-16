@@ -15,8 +15,8 @@ Updated: 2026-09-15
 - Coordinator may merge a PR that finishes exactly one unchecked slice, Playwright is green, and the merge gates below hold.
 - Judge PRs from git + `npm test` + `npm run build`. Do not use brandmybeast.com as a gate while the Vercel usage hold is on.
 
-**Now:** 12.22 Winner packet markdown: panel, brand, wrap vs etch, 12-month term.
-**Last merged:** 12.21 (#176 `/account/wins` approved seats only).
+**Now:** 12.23 Shop cut-file checklist as a form, not a card on `/`.
+**Last merged:** 12.22 (#177 winner packet markdown).
 
 ## Standing orders
 
@@ -159,7 +159,7 @@ Do not start Wave 12 until 11.10 is checked or skipped by the human. Still no St
 - [x] 12.19 Magic-link consumed-once test. (#174)
 - [x] 12.20 From/reply-to both `hello@brandmybeast.com`. Unit assert. (#175)
 - [x] 12.21 `/account/wins` lists only approved standing seats for that user. (#176)
-- [ ] 12.22 Winner packet markdown: panel, brand, wrap vs etch, 12-month term.
+- [x] 12.22 Winner packet markdown: panel, brand, wrap vs etch, 12-month term. (#177)
 - [ ] 12.23 Shop cut-file checklist as a form, not a card on `/`.
 - [ ] 12.24 Partner can mark art `shop-ready` / `needs-fix`.
 - [ ] 12.25 Contract markdown template from CAMPAIGN wreck rules. Not a signature product.
