@@ -135,19 +135,78 @@ export function assertOperatorBanAllowed(input: {
   brandLabel: string;
   tradeLabel: string;
   rules: readonly BanListRule[];
+  /** Where the match was checked (place / edit / sweep). */
+  context?: string;
 }): { ok: true } | { ok: false; error: string; rule: BanListRule } {
   for (const rule of input.rules) {
     if (matchesBanPattern(input.brandLabel, input.tradeLabel, rule.pattern)) {
+      logBanListMatch({
+        rule,
+        brandLabel: input.brandLabel,
+        tradeLabel: input.tradeLabel,
+        context: input.context ?? "assert",
+      });
       return {
         ok: false,
         rule,
-        error: `Hard-reject: ban-list “${rule.pattern}”. Matching intents cannot list.`,
+        error: `Hard-reject: ban-list “${rule.pattern}” (rule ${rule.id}). Matching intents cannot list.`,
       };
     }
   }
   return { ok: true };
 }
 
+/** Slice 12.30 — structured ban-list match log keyed by rule id. */
+export type BanListMatchLog = {
+  at: string;
+  ruleId: string;
+  pattern: string;
+  brandLabel: string;
+  tradeLabel: string;
+  context: string;
+};
+
+const globalBanLog = globalThis as typeof globalThis & {
+  __bmbBanListMatchLogs?: BanListMatchLog[];
+};
+
+function banMatchLogs(): BanListMatchLog[] {
+  if (!globalBanLog.__bmbBanListMatchLogs) {
+    globalBanLog.__bmbBanListMatchLogs = [];
+  }
+  return globalBanLog.__bmbBanListMatchLogs;
+}
+
+export function logBanListMatch(input: {
+  rule: BanListRule;
+  brandLabel: string;
+  tradeLabel: string;
+  context: string;
+}): BanListMatchLog {
+  const entry: BanListMatchLog = {
+    at: new Date().toISOString(),
+    ruleId: input.rule.id,
+    pattern: input.rule.pattern,
+    brandLabel: input.brandLabel.trim(),
+    tradeLabel: input.tradeLabel.trim(),
+    context: input.context,
+  };
+  const logs = banMatchLogs();
+  logs.push(entry);
+  if (logs.length > 200) logs.splice(0, logs.length - 200);
+  console.info("[ban-list-match]", JSON.stringify(entry));
+  return entry;
+}
+
+export function listBanListMatchLogsForTests(): readonly BanListMatchLog[] {
+  return banMatchLogs().slice();
+}
+
+export function resetBanListMatchLogsForTests(): void {
+  banMatchLogs().length = 0;
+}
+
 export function resetOperatorBanListForTests(): void {
   memoryRules().length = 0;
+  resetBanListMatchLogsForTests();
 }
