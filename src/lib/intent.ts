@@ -74,6 +74,14 @@ export function isCampaignShortOfFloor(pledgedUsd: number): boolean {
 }
 
 /**
+ * Slice 13.13 — floor-save may fire only while pledged is still under $58,000.
+ * Same predicate as isCampaignShortOfFloor; named for the fire gate.
+ */
+export function canFireFloorSave(pledgedUsd: number): boolean {
+  return isCampaignShortOfFloor(pledgedUsd);
+}
+
+/**
  * Slice 12.7 — normalize bidder-named trade before exclusivity.
  * Trim, lowercase, collapse whitespace. No public taxonomy.
  */

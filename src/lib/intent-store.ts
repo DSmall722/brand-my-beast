@@ -27,6 +27,7 @@ import {
 import { logIntentStatusChange } from "./structured-log";
 import {
   assertIntentOnly,
+  canFireFloorSave,
   depositUsdForMark,
   isFloorSaveBid,
   INTENT_STALE_WRITE,
@@ -627,6 +628,15 @@ export async function placeIntentBid(
 
     // Slice 9.4 — floor-save: store raise-to Y if short of $58k. No outbid. No card.
     if (asFloorSave) {
+      const board = await loadBoardIntentStats();
+      // Slice 13.13 — cannot list/fire when pledged already at floor.
+      if (!canFireFloorSave(board.pledgedUsd)) {
+        return {
+          ok: false,
+          error:
+            "Floor-save cannot fire when pledged is already at or above $58,000.",
+        };
+      }
       const y = input.floorSaveUsd as number;
       if (!Number.isFinite(y) || !Number.isInteger(y) || y <= 0) {
         return {
@@ -1098,6 +1108,46 @@ export async function countApprovedStandingForPanel(
 ): Promise<number> {
   const bids = await listBidsForPanel(panelId);
   return bids.filter((bid) => bid.status === "approved").length;
+}
+
+/**
+ * Slice 13.13 — fire a listed floor-save into a normal standing mark at Y.
+ * Refuses when public pledged is already >= $58,000. Still intent only — no card.
+ */
+export async function fireFloorSaveBid(input: {
+  bidId: string;
+}): Promise<PlaceIntentResult> {
+  const bid = await getIntentBidById(input.bidId);
+  if (!bid) return { ok: false, error: "Bid not found." };
+  if (!isFloorSaveBid(bid) || bid.floorSaveUsd == null) {
+    return { ok: false, error: "Not a floor-save intent." };
+  }
+  if (bid.status !== "listed") {
+    return { ok: false, error: "Only listed floor-save intents can fire." };
+  }
+
+  let board: BoardIntentStats;
+  try {
+    board = await loadBoardIntentStats();
+  } catch {
+    return { ok: false, error: INTENT_WRITE_FAILED };
+  }
+  if (!canFireFloorSave(board.pledgedUsd)) {
+    return {
+      ok: false,
+      error:
+        "Floor-save cannot fire when pledged is already at or above $58,000.",
+    };
+  }
+
+  return placeIntentBid({
+    panelId: bid.panelId,
+    userId: bid.userId,
+    brandLabel: bid.brandLabel,
+    tradeLabel: bid.tradeLabel,
+    standingUsd: bid.floorSaveUsd,
+    artworkUrl: bid.artworkUrl,
+  });
 }
 
 /**
