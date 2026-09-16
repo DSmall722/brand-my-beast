@@ -20,7 +20,7 @@ export function ApprovalButtons({ bidId }: { bidId: string }) {
       <label className="auth-label" htmlFor={noteId}>
         Operator note
       </label>
-      <p id={hintId} className="sr-only" data-testid={`approval-note-hint-${bidId}`}>
+      <p id={hintId} className="sr-only" data-testid={`note-required-hint-${bidId}`}>
         Required on reject. Optional on approve.
       </p>
       <textarea

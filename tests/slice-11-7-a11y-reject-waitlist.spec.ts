@@ -27,6 +27,12 @@ async function resetServerIntents(request: APIRequestContext) {
  * Slice 11.7 — reject-note required announced; waitlist errors linked to field.
  */
 test.describe("slice 11.7: a11y reject-note + waitlist field errors", () => {
+  test.describe.configure({ mode: "serial" });
+
+  test.beforeEach(async ({ request }) => {
+    await request.post("/api/test/reset-intents");
+  });
+
   test("campaign money fences stay locked", () => {
     expect(FLOOR_USD).toBe(58_000);
     expect(GOAL_USD).toBe(120_000);
@@ -86,11 +92,12 @@ test.describe("slice 11.7: a11y reject-note + waitlist field errors", () => {
   }) => {
     await resetServerIntents(request);
 
+    const stamp = Date.now();
     const bidder = await browser.newPage();
-    await signIn(bidder, "slice117-bidder@example.com");
-    await bidder.goto("/panels/hood");
-    await bidder.getByTestId("intent-brand").fill("Slice Eleven Seven Co");
-    await bidder.getByTestId("intent-trade").fill("Circuit A11y");
+    await signIn(bidder, `slice117-bidder-${stamp}@example.com`);
+    await bidder.goto("/panels/tailgate");
+    await bidder.getByTestId("intent-brand").fill(`Slice Eleven Seven ${stamp}`);
+    await bidder.getByTestId("intent-trade").fill(`A11y Trade ${stamp}`);
     await bidder.getByTestId("intent-submit").click();
     await expect(bidder.getByTestId("intent-success")).toContainText(
       "not charged",
@@ -102,14 +109,14 @@ test.describe("slice 11.7: a11y reject-note + waitlist field errors", () => {
     await signIn(operator, "operator@example.com");
     await operator.goto("/operator");
     await expect(operator.getByTestId("approvals-list")).toContainText(
-      "Slice Eleven Seven Co",
+      `Slice Eleven Seven ${stamp}`,
     );
 
     const note = operator.locator('textarea[data-testid^="approval-note-"]').first();
     await expect(note).toHaveAttribute("aria-required", "true");
     await expect(note).toHaveAttribute("aria-describedby", /approval-note-hint-/);
 
-    await operator.locator('[data-testid^="reject-"]').first().click();
+    await operator.locator('button[data-testid^="reject-"]').first().click();
     const error = operator.locator('[data-testid^="approval-error-"]').first();
     await expect(error).toBeVisible();
     await expect(error).toHaveAttribute("role", "alert");
