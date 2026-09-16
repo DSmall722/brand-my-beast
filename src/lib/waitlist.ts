@@ -9,6 +9,7 @@ import { waitlistSignups } from "./db/schema";
 import { appendMailDeadLetter } from "./mail-dead-letter";
 import { outboundMailEnvelope } from "./mail-envelope";
 import { PUBLIC_COPY } from "./public-copy";
+import { logWaitlistInsert } from "./structured-log";
 
 export const waitlistEmailSchema = z
   .string()
@@ -283,6 +284,7 @@ export async function joinWaitlist(rawEmail: string): Promise<WaitlistResult> {
   }
 
   if (saved.ok && saved.status === "created" && confirmToken) {
+    logWaitlistInsert(email);
     try {
       await notifyConfirmLink(email, confirmToken);
     } catch {
