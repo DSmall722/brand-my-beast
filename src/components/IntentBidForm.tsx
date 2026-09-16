@@ -9,6 +9,7 @@ import { AdjacentClashHint } from "@/components/AdjacentClashHint";
 import { HighwayLegibilityHint } from "@/components/HighwayLegibilityHint";
 import { HometownLaneTags } from "@/components/HometownLaneTags";
 import { formatUsd } from "@/lib/campaign";
+import { tryDepositPreviewCopy } from "@/lib/deposit-preview";
 import { ARTWORK_MAX_DATA_URL_CHARS } from "@/lib/intent-artwork";
 import type { AdjacentSeatHolder } from "@/lib/panel-clash";
 import { PUBLIC_COPY } from "@/lib/public-copy";
@@ -38,10 +39,12 @@ export function IntentBidForm({
     minimumUsd,
     suggestedStandingUsd ?? minimumUsd,
   );
+  const [standingUsd, setStandingUsd] = useState(standingDefault);
   const [artworkUrl, setArtworkUrl] = useState("");
   const [artworkUpload, setArtworkUpload] = useState("");
   const [uploadName, setUploadName] = useState("");
   const [localError, setLocalError] = useState<string | null>(null);
+  const depositPreview = tryDepositPreviewCopy(standingUsd);
 
   function onFileChange(file: File | null) {
     setLocalError(null);
@@ -148,10 +151,14 @@ export function IntentBidForm({
         type="number"
         min={minimumUsd}
         step={1}
-        defaultValue={standingDefault}
+        value={standingUsd}
         required
         data-testid="intent-standing"
         className="auth-input"
+        onChange={(e) => {
+          const next = Number(e.target.value);
+          setStandingUsd(Number.isFinite(next) ? next : 0);
+        }}
       />
       {suggestedStandingUsd != null ? (
         <p className="auth-hint" data-testid="intent-failed-winner-prefill">
@@ -159,9 +166,18 @@ export function IntentBidForm({
           still submit — no silent reopen. Not charged.
         </p>
       ) : null}
+      {depositPreview ? (
+        <p
+          className="auth-hint"
+          data-testid="intent-deposit-preview"
+          data-deposit-mark={standingUsd}
+        >
+          {depositPreview}
+        </p>
+      ) : null}
       <p className="auth-hint" data-testid="intent-amount-note">
         Amount is intent only. Minimum {formatUsd(minimumUsd)}. This page does
-        not charge — the 20% deposit is shown later, never captured on P2.
+        not charge cards — deposit is preview only on P2.
       </p>
       <p className="auth-hint" data-testid="intent-increment-rule">
         Next intent must be at least standing + max($250, 10%). The minimum
