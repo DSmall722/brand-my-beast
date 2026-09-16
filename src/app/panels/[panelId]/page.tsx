@@ -34,6 +34,7 @@ import {
 } from "@/lib/panel-clash";
 import { PUBLIC_COPY } from "@/lib/public-copy";
 import { buildPublicSeatLog, formatSeatLogTime } from "@/lib/seat-log";
+import { seatExportPngPath } from "@/lib/seat-export-png";
 
 type Params = Promise<{ panelId: string }>;
 
@@ -176,6 +177,25 @@ export default async function PanelIntentPage({
           raisedUsd={board.pledgedUsd}
           standingBrand={holder?.brandLabel ?? null}
         />
+
+        {session?.user ? (
+          <p className="auth-hint" data-testid="seat-export-png">
+            <a
+              href={seatExportPngPath(panel.id)}
+              data-testid="seat-export-png-link"
+            >
+              Download seat PNG
+            </a>
+            {" — preview only. Not charged."}
+          </p>
+        ) : (
+          <p className="auth-hint" data-testid="seat-export-png-signin">
+            <Link href={`/signin?callbackUrl=/panels/${panel.id}`}>
+              Sign in
+            </Link>{" "}
+            to download a seat PNG preview. Still no card charge.
+          </p>
+        )}
 
         <AdjacentNeighborsCard neighbors={adjacentNeighbors} />
         <NeighborComboCard lot={comboLotFor(panel.id)} />
