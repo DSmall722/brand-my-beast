@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { IntentArtworkPreview } from "@/components/IntentArtworkPreview";
+import { ShopArtStatusControls } from "@/components/ShopArtStatusControls";
 import { ShopCutFileChecklist } from "@/components/ShopCutFileChecklist";
 import {
   FLOOR_USD,
@@ -9,17 +10,21 @@ import {
   isEtchable,
 } from "@/lib/campaign";
 import type { IntentBid } from "@/lib/intent";
+import type { ShopArtStatus } from "@/lib/shop-art-status";
 import { shopPdfPath } from "@/lib/shop-pdf";
 
 /**
  * Slice 8.7 — partner shop shows approved seats + art only.
  * Slice 12.23 — cut-file checklist form lives here, not as a card on `/`.
+ * Slice 12.24 — partner marks art shop-ready / needs-fix.
  * No twelve-panel matrix. No public header link (HomeHeader).
  */
 export function WrapShopSheet({
   approved,
+  artStatuses = {},
 }: {
   approved: readonly IntentBid[];
+  artStatuses?: Record<string, ShopArtStatus>;
 }) {
   return (
     <div className="wrap-shop-sheet" data-testid="wrap-shop-sheet">
@@ -69,6 +74,7 @@ export function WrapShopSheet({
             {approved.map((bid) => {
               const panel = PANELS.find((row) => row.id === bid.panelId);
               const etchable = panel ? isEtchable(panel) : false;
+              const artStatus = artStatuses[bid.id] ?? "unset";
               return (
                 <li
                   key={bid.id}
@@ -110,6 +116,7 @@ export function WrapShopSheet({
                       No artwork attached.
                     </p>
                   )}
+                  <ShopArtStatusControls bidId={bid.id} status={artStatus} />
                   <p className="auth-hint">
                     Approved — wrap sheet only.{" "}
                     <a

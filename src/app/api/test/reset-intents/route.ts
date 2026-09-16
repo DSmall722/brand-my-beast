@@ -12,6 +12,7 @@ import { resetMailDeadLettersForTests } from "@/lib/mail-dead-letter";
 import { resetOperatorBanListForTests } from "@/lib/operator-ban-list";
 import { resetPanelExtensionStoreForTests } from "@/lib/panel-extension-store";
 import { resetRateLimitForTests } from "@/lib/rate-limit";
+import { resetShopArtStatusStoreForTests } from "@/lib/shop-art-status-store";
 import { resetSightingStoreForTests } from "@/lib/sighting-store";
 import { testApiBlockedResponse } from "@/lib/test-api-gate";
 
@@ -31,6 +32,7 @@ export async function POST() {
   resetIntentRevisionsForTests();
   await resetPanelExtensionStoreForTests();
   await resetMockupStoreForTests();
+  await resetShopArtStatusStoreForTests();
   await resetApprovalNoteStoreForTests();
   await resetCabinPlaqueStoreForTests();
   await resetContentRightsStoreForTests();

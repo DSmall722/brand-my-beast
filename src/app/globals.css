@@ -2327,6 +2327,17 @@ a {
   margin-top: 0.2rem;
 }
 
+.shop-art-status {
+  margin: 0.55rem 0;
+}
+
+.shop-art-status-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 0.35rem;
+}
+
 .approval-list .approval-card {
   display: grid;
   gap: 0.85rem;
