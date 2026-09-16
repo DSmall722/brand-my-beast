@@ -116,6 +116,19 @@ export const operatorBanList = pgTable("operator_ban_list", {
 });
 
 /**
+ * Slice 13.31 — operator-editable waitlist disposable-domain blocklist.
+ * Built-in defaults live in code; this table holds operator additions.
+ */
+export const waitlistDomainBlocklist = pgTable("waitlist_domain_blocklist", {
+  id: text("id").primaryKey(),
+  domain: text("domain").notNull().unique(),
+  note: text("note").notNull().default(""),
+  createdAt: timestamp("created_at", { withTimezone: true })
+    .defaultNow()
+    .notNull(),
+});
+
+/**
  * Slice 8.9 — audit log on approve / reject (who, when, note id).
  */
 export const operatorAuditLog = pgTable(
@@ -254,6 +267,10 @@ export type ArtworkBlobRow = typeof artworkBlobs.$inferSelect;
 export type NewArtworkBlobRow = typeof artworkBlobs.$inferInsert;
 export type OperatorBanListRow = typeof operatorBanList.$inferSelect;
 export type NewOperatorBanListRow = typeof operatorBanList.$inferInsert;
+export type WaitlistDomainBlocklistRow =
+  typeof waitlistDomainBlocklist.$inferSelect;
+export type NewWaitlistDomainBlocklistRow =
+  typeof waitlistDomainBlocklist.$inferInsert;
 export type OperatorAuditLogRow = typeof operatorAuditLog.$inferSelect;
 export type NewOperatorAuditLogRow = typeof operatorAuditLog.$inferInsert;
 export type IntentRevisionRow = typeof intentRevisions.$inferSelect;

@@ -10,6 +10,7 @@ import { appendMailDeadLetter } from "./mail-dead-letter";
 import { outboundMailEnvelope } from "./mail-envelope";
 import { PUBLIC_COPY } from "./public-copy";
 import { logWaitlistInsert } from "./structured-log";
+import { findWaitlistDomainBlock } from "./waitlist-domain-blocklist";
 
 export const waitlistEmailSchema = z
   .string()
@@ -20,7 +21,11 @@ export const waitlistEmailSchema = z
 
 export type WaitlistResult =
   | { ok: true; status: "created" | "exists" }
-  | { ok: false; error: string; code: "invalid" | "unavailable" | "failed" };
+  | {
+      ok: false;
+      error: string;
+      code: "invalid" | "unavailable" | "failed" | "blocked";
+    };
 
 export type WaitlistConfirmResult =
   | { ok: true; email: string; status: "confirmed" | "already" }
@@ -227,6 +232,15 @@ export async function joinWaitlist(rawEmail: string): Promise<WaitlistResult> {
   }
 
   const email = parsed.data;
+  const blocked = await findWaitlistDomainBlock(email);
+  if (blocked) {
+    return {
+      ok: false,
+      error: PUBLIC_COPY.waitlist.domainBlocked,
+      code: "blocked",
+    };
+  }
+
   let saved: WaitlistResult;
   let confirmToken: string | null = null;
 

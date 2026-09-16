@@ -15,6 +15,7 @@ import { resetRateLimitForTests } from "@/lib/rate-limit";
 import { resetShopArtStatusStoreForTests } from "@/lib/shop-art-status-store";
 import { resetSightingStoreForTests } from "@/lib/sighting-store";
 import { testApiBlockedResponse } from "@/lib/test-api-gate";
+import { resetWaitlistDomainBlocklistForTests } from "@/lib/waitlist-domain-blocklist";
 
 /** Slice 7.3 — 404 when VERCEL_ENV or NODE_ENV is production. */
 export async function POST() {
@@ -27,6 +28,7 @@ export async function POST() {
   await resetIntentStoreForTests();
   resetArtworkBlobStoreForTests();
   resetOperatorBanListForTests();
+  resetWaitlistDomainBlocklistForTests();
   resetOperatorAuditLogForTests();
   resetMailDeadLettersForTests();
   resetIntentRevisionsForTests();
