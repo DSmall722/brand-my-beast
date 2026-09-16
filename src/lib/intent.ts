@@ -56,6 +56,11 @@ export type IntentBid = {
    * Stored, not charged. Does not displace standing holders until fired.
    */
   floorSaveUsd: number | null;
+  /**
+   * Slice 12.9 — soft-delete timestamp. Set when status becomes withdrawn.
+   * Approved rows are never hard-deleted.
+   */
+  deletedAt: string | null;
 };
 
 /** True when the row is a floor-save conditional (slice 9.4). */

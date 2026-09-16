@@ -57,11 +57,16 @@ export const intentBids = pgTable(
      * Slice 12.4 — client idempotency key. Replay returns the same bid.
      */
     idempotencyKey: text("idempotency_key"),
+    /**
+     * Slice 12.9 — soft-delete when withdrawn. Approved is never hard-deleted.
+     */
+    deletedAt: timestamp("deleted_at", { withTimezone: true }),
   },
   (table) => [
     index("intent_bids_panel_id_idx").on(table.panelId),
     index("intent_bids_status_idx").on(table.status),
     index("intent_bids_trade_label_idx").on(table.tradeLabel),
+    index("intent_bids_deleted_at_idx").on(table.deletedAt),
     /** Slice 12.3 — at most one approved standing seat per panel. */
     uniqueIndex("intent_bids_one_approved_per_panel_idx")
       .on(table.panelId)
