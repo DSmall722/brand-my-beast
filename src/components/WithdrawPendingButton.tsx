@@ -5,6 +5,7 @@ import {
   withdrawIntentBid,
   type IntentActionState,
 } from "@/app/actions/intent";
+import { PUBLIC_COPY } from "@/lib/public-copy";
 
 const initial: IntentActionState = { ok: false };
 
@@ -33,7 +34,7 @@ export function WithdrawPendingButton({
           disabled={pending}
           data-testid={`intent-withdraw-submit-${bidId}`}
         >
-          Withdraw pending intent
+          {PUBLIC_COPY.seat.withdrawButton}
         </button>
       </form>
       {state.error ? (

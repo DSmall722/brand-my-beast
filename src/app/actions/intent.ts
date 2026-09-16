@@ -21,11 +21,11 @@ import {
   withdrawPendingIntent,
 } from "@/lib/intent-store";
 import { GOAL_USD, PANELS, formatUsd } from "@/lib/campaign";
+import { PUBLIC_COPY } from "@/lib/public-copy";
 import {
   assertEtchFinishAllowed,
   parseOperatorFinish,
 } from "@/lib/etch-approve-lock";
-import { PUBLIC_COPY } from "@/lib/public-copy";
 import { checkRateLimit } from "@/lib/rate-limit";
 
 export type IntentActionState = {
@@ -212,7 +212,7 @@ export async function withdrawIntentBid(
   revalidatePath("/operator/approvals");
   return {
     ok: true,
-    message: "Intent withdrawn. Still not charged.",
+    message: PUBLIC_COPY.seat.withdrawSuccess,
   };
 }
 

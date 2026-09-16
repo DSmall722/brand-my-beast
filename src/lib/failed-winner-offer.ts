@@ -5,6 +5,7 @@
 
 import { formatUsd } from "./campaign";
 import { nextStandingUsd } from "./intent";
+import { PUBLIC_COPY } from "./public-copy";
 
 export type FailedWinnerOffer = {
   lastMarkUsd: number;
@@ -35,5 +36,7 @@ export function buildFailedWinnerOffer(input: {
 }
 
 export function failedWinnerOfferCopy(offer: FailedWinnerOffer): string {
-  return `Failed-winner offer: re-list at ${formatUsd(offer.offerUsd)} — your last mark ${formatUsd(offer.lastMarkUsd)} + one increment (max($250, 10%)). Still not charged. No silent reopen.`;
+  return PUBLIC_COPY.seat.failedWinnerLeadTemplate
+    .replace("{amount}", formatUsd(offer.offerUsd))
+    .replace("{last}", formatUsd(offer.lastMarkUsd));
 }

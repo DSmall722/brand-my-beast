@@ -128,6 +128,17 @@ Not homepage. Same voice. No “test login” string when Auth is live.
 - Check-email heading: `Check your email`
 - Check-email success: `If that address is valid, a sign-in link is on the way. The link expires soon. No card is charged on this path.`
 
+## Seat pack (not homepage H1)
+
+Slice **13.5**. Panel / account strings only. Do **not** rewrite the homepage H1
+(`Put your brand on the truck people already photograph.`).
+
+- Withdraw success: `Intent withdrawn. Still not charged.`
+- Withdraw button: `Withdraw pending intent`
+- Failed-winner lead: `Failed-winner offer: re-list at {amount} — your last mark {last} + one increment (max($250, 10%)). Still not charged. No silent reopen.`
+- Failed-winner waitlist note: `Stay on the waitlist. This page does not charge cards.`
+- Deposit preview template: `{percent}% of this mark is {amount}. Not charged.`
+
 ## Footer
 
 - `BrandMyBeast · @BrandMyBeast · hello@brandmybeast.com`

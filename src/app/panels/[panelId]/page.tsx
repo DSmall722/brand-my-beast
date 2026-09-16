@@ -28,6 +28,7 @@ import {
   standingForPanel,
 } from "@/lib/intent-store";
 import { panelExtendedUntilCopy } from "@/lib/panel-extension";
+import { PUBLIC_COPY } from "@/lib/public-copy";
 import { getPanelExtendedUntil } from "@/lib/panel-extension-store";
 import {
   holdersOnAdjacentPanels,
@@ -293,10 +294,9 @@ export default async function PanelIntentPage({
               Offer mark {formatUsd(failedWinnerOffer.offerUsd)}
             </p>
             <p data-testid="failed-winner-waitlist">
-              You were outbid on this panel. Or stay on the{" "}
-              <Link href="/#waitlist">waitlist</Link> for a second look if this
-              seat opens — still no card charge. Submit below to accept the
-              offer — no silent reopen.
+              {PUBLIC_COPY.seat.failedWinnerWaitlist}{" "}
+              <Link href="/#waitlist">Waitlist</Link> — submit below to accept
+              the offer. No silent reopen.
             </p>
           </aside>
         ) : null}
