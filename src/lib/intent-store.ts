@@ -213,6 +213,10 @@ export type PlaceIntentInput = {
 type PlaceIntentOptions = {
   /** Internal — proxy agent recursion depth. */
   proxyDepth?: number;
+  /**
+   * Slice 13.32 — allow listing the 12th panel only on the whole-truck path.
+   */
+  wholeTruckPath?: boolean;
 };
 
 export type PlaceIntentResult =
@@ -511,6 +515,86 @@ export async function minimumIntentUsd(panelId: string): Promise<number> {
 
 const HOLDING_STATUSES: readonly IntentBidStatus[] = ["listed", "approved"] as const;
 
+/** Slice 13.32 — single-panel path cannot cover every seat. */
+export const ALL_PANELS_STANDING_ERROR =
+  "Same user cannot hold standing on all 12 panels unless the whole-truck path.";
+
+/** Distinct panels where this user holds listed/approved (non floor-save) marks. */
+export function distinctHoldingPanelIdsForUser(
+  bids: readonly IntentBid[],
+  userId: string,
+): Set<string> {
+  const panels = new Set<string>();
+  for (const bid of bids) {
+    if (bid.userId !== userId) continue;
+    if (!(HOLDING_STATUSES as readonly string[]).includes(bid.status)) continue;
+    if (isFloorSaveBid(bid)) continue;
+    panels.add(bid.panelId);
+  }
+  return panels;
+}
+
+/**
+ * Slice 13.32 — whole-truck path = $10k marks on every panel for same
+ * user/brand/trade (listed or approved).
+ */
+export function isWholeTruckPathCoverage(
+  bids: readonly IntentBid[],
+  bid: Pick<
+    IntentBid,
+    "userId" | "brandLabel" | "tradeLabel" | "standingUsd"
+  >,
+): boolean {
+  if (bid.standingUsd !== WHOLE_TRUCK_PANEL_USD) return false;
+  const tradeKey = normalizeTradeLabel(bid.tradeLabel);
+  for (const panel of PANELS) {
+    const match = bids.find(
+      (row) =>
+        row.panelId === panel.id &&
+        row.userId === bid.userId &&
+        row.brandLabel === bid.brandLabel &&
+        normalizeTradeLabel(row.tradeLabel) === tradeKey &&
+        row.standingUsd === WHOLE_TRUCK_PANEL_USD &&
+        (row.status === "listed" || row.status === "approved"),
+    );
+    if (!match) return false;
+  }
+  return true;
+}
+
+function assertMayAddHoldingPanel(input: {
+  holders: readonly IntentBid[];
+  userId: string;
+  panelId: string;
+  wholeTruckPath?: boolean;
+}): { ok: true } | { ok: false; error: string } {
+  if (input.wholeTruckPath) return { ok: true };
+  const held = distinctHoldingPanelIdsForUser(input.holders, input.userId);
+  if (held.has(input.panelId)) return { ok: true };
+  if (held.size >= PANELS.length - 1) {
+    return { ok: false, error: ALL_PANELS_STANDING_ERROR };
+  }
+  return { ok: true };
+}
+
+function assertMayApproveTwelfthPanel(input: {
+  holders: readonly IntentBid[];
+  bid: IntentBid;
+}): { ok: true } | { ok: false; error: string } {
+  const approvedPanels = new Set<string>();
+  for (const row of input.holders) {
+    if (row.userId !== input.bid.userId) continue;
+    if (row.status !== "approved") continue;
+    if (row.id === input.bid.id) continue;
+    if (isFloorSaveBid(row)) continue;
+    approvedPanels.add(row.panelId);
+  }
+  if (approvedPanels.has(input.bid.panelId)) return { ok: true };
+  if (approvedPanels.size < PANELS.length - 1) return { ok: true };
+  if (isWholeTruckPathCoverage(input.holders, input.bid)) return { ok: true };
+  return { ok: false, error: ALL_PANELS_STANDING_ERROR };
+}
+
 async function listHoldingBids(): Promise<IntentBid[]> {
   if (useMemoryStore()) {
     return memoryBids().filter((bid) =>
@@ -649,6 +733,17 @@ export async function placeIntentBid(
       ok: false,
       error: `Trade "${tradeLabel}" is already held by another brand. One brand per trade.`,
     };
+  }
+
+  // Slice 13.32 — single-panel path cannot cover all twelve seats.
+  const allPanelsGate = assertMayAddHoldingPanel({
+    holders,
+    userId: input.userId,
+    panelId: input.panelId,
+    wholeTruckPath: opts?.wholeTruckPath,
+  });
+  if (!allPanelsGate.ok) {
+    return { ok: false, error: allPanelsGate.error };
   }
 
   // Slice 13.11 — vacant seat with live exclusive offer: only next compliant may list.
@@ -1051,6 +1146,13 @@ export async function setIntentStatus(
         });
         if (!ban.ok) return { ok: false, error: ban.error };
 
+        // Slice 13.32 — twelfth approved seat only via whole-truck path.
+        const twelfth = assertMayApproveTwelfthPanel({
+          holders: memoryBids(),
+          bid: live,
+        });
+        if (!twelfth.ok) return { ok: false, error: twelfth.error };
+
         const demoted: IntentBid[] = [];
         // Slice 12.1 — at most one approved standing per panel.
         for (const existing of memoryBids()) {
@@ -1149,6 +1251,19 @@ export async function setIntentStatus(
       tradeLabel: current.tradeLabel,
     });
     if (!ban.ok) return { ok: false, error: ban.error };
+
+    // Slice 13.32 — twelfth approved seat only via whole-truck path.
+    let holdersForGate: IntentBid[];
+    try {
+      holdersForGate = await listHoldingBids();
+    } catch {
+      return { ok: false, error: INTENT_WRITE_FAILED };
+    }
+    const twelfth = assertMayApproveTwelfthPanel({
+      holders: holdersForGate,
+      bid: current,
+    });
+    if (!twelfth.ok) return { ok: false, error: twelfth.error };
 
     const priorApproved = await db
       .select()
@@ -1628,14 +1743,17 @@ export async function placeWholeTruckIntent(
 
   const placed: IntentBid[] = [];
   for (const panel of PANELS) {
-    const result = await placeIntentBid({
-      panelId: panel.id,
-      userId: input.userId,
-      brandLabel,
-      tradeLabel,
-      standingUsd: WHOLE_TRUCK_PANEL_USD,
-      artworkUrl: input.artworkUrl,
-    });
+    const result = await placeIntentBid(
+      {
+        panelId: panel.id,
+        userId: input.userId,
+        brandLabel,
+        tradeLabel,
+        standingUsd: WHOLE_TRUCK_PANEL_USD,
+        artworkUrl: input.artworkUrl,
+      },
+      { wholeTruckPath: true },
+    );
     if (!result.ok) {
       return { ok: false, error: result.error };
     }
