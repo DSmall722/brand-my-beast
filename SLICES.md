@@ -15,8 +15,8 @@ Updated: 2026-09-15
 - Coordinator may merge a PR that finishes exactly one unchecked slice, Playwright is green, and the merge gates below hold.
 - Judge PRs from git + `npm test` + `npm run build`. Do not use brandmybeast.com as a gate while the Vercel usage hold is on.
 
-**Now:** 11.4 Playwright: 50 unique waitlist inserts in memory mode, no 500s.
-**Last merged:** 11.3 (#148 verify-brandmybeast feature map Waves 7–10).
+**Now:** 11.5 Operator status panel: DB ping + waitlist count. No public URL.
+**Last merged:** 11.4 (#149 50 unique waitlist inserts in memory mode).
 
 ## Standing orders
 
@@ -126,7 +126,7 @@ If any gate fails: leave the PR unmerged and stop that slice.
 - [x] 11.1 CSP / security headers in `next.config`. (#146)
 - [x] 11.2 Rate-limit magic-link POST. (#147)
 - [x] 11.3 verify-brandmybeast feature map covers Waves 7–10. (#148)
-- [ ] 11.4 Playwright: 50 unique waitlist inserts in memory mode, no 500s.
+- [x] 11.4 Playwright: 50 unique waitlist inserts in memory mode, no 500s. (#149)
 - [ ] 11.5 Operator status panel: DB ping + waitlist count. No public URL.
 - [ ] 11.6 Neon PITR runbook markdown in repo. No dashboard clicks.
 - [ ] 11.7 a11y: reject-note required announced; waitlist errors linked to the field.
