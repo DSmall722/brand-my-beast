@@ -15,8 +15,8 @@ Updated: 2026-09-15
 - Coordinator may merge a PR that finishes exactly one unchecked slice, Playwright is green, and the merge gates below hold.
 - Judge PRs from git + `npm test` + `npm run build`. Do not use brandmybeast.com as a gate while the Vercel usage hold is on.
 
-**Now:** 9.10 Playwright: pledged dollars = sum of approved standing only.
-**Last merged:** 9.9 (#134 Public seat log: amount + time. No bidder email).
+**Now:** 10.1 Hero / hotspot links go to `/panels/[id]`, not only `#panels`.
+**Last merged:** 9.10 (#135 Playwright: pledged dollars = sum of approved standing only).
 
 ## Standing orders
 
@@ -106,7 +106,7 @@ If any gate fails: leave the PR unmerged and stop that slice.
 - [x] 9.7 Withdraw intent while pending only. Approved needs operator. (#132)
 - [x] 9.8 Edit brand / trade / art while pending only. (#133)
 - [x] 9.9 Public seat log: amount + time. No bidder email. (#134)
-- [ ] 9.10 Playwright: pledged dollars = sum of approved standing only.
+- [x] 9.10 Playwright: pledged dollars = sum of approved standing only. (#135)
 
 ## Wave 10 — compositor people will trust
 
