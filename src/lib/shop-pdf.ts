@@ -30,10 +30,37 @@ export type ShopPdfSeat = {
   standingUsd: number;
   finish: ShopPdfFinish;
   finishLabel: string;
+  /** Slice 13.21 — board pledged used for etch-lock (vs GOAL_USD). */
+  pledgedUsd: number;
+  /** Slice 13.21 — machine-readable etch lock from pledged vs buyout. */
+  etchLock: "locked" | "unlocked" | "wrap_only";
+  etchLockLabel: string;
   artworkUrl: string | null;
   floorUsd: number;
   goalUsd: number;
 };
+
+export function shopPdfEtchLockState(
+  panel: Panel,
+  pledgedUsd: number,
+): { etchLock: ShopPdfSeat["etchLock"]; etchLockLabel: string } {
+  if (!isEtchable(panel)) {
+    return {
+      etchLock: "wrap_only",
+      etchLockLabel: "Wrap-only panel — no etch path.",
+    };
+  }
+  if (isEtchUnlocked(pledgedUsd)) {
+    return {
+      etchLock: "unlocked",
+      etchLockLabel: `Etch unlocked — pledged ${formatUsd(pledgedUsd)} meets buyout ${formatUsd(GOAL_USD)}.`,
+    };
+  }
+  return {
+    etchLock: "locked",
+    etchLockLabel: `Etch locked — pledged ${formatUsd(pledgedUsd)} under buyout ${formatUsd(GOAL_USD)}.`,
+  };
+}
 
 export function shopPdfFinishForPanel(
   panel: Panel,
@@ -69,6 +96,10 @@ export function shopPdfSeatFromApproved(input: {
     panel,
     input.pledgedUsd,
   );
+  const { etchLock, etchLockLabel } = shopPdfEtchLockState(
+    panel,
+    input.pledgedUsd,
+  );
   return {
     ok: true,
     seat: {
@@ -80,6 +111,9 @@ export function shopPdfSeatFromApproved(input: {
       standingUsd: input.bid.standingUsd,
       finish,
       finishLabel,
+      pledgedUsd: input.pledgedUsd,
+      etchLock,
+      etchLockLabel,
       artworkUrl: input.bid.artworkUrl,
       floorUsd: FLOOR_USD,
       goalUsd: GOAL_USD,
@@ -114,6 +148,11 @@ function pdfLines(seat: ShopPdfSeat): string[] {
     `Trade: ${seat.tradeLabel}`,
     `Standing mark: ${formatUsd(seat.standingUsd)}`,
     `Finish: ${seat.finishLabel}`,
+    `Finish code: ${seat.finish}`,
+    // Slice 13.21 — etch-lock state from pledged vs $120,000.
+    `Etch lock: ${seat.etchLock}`,
+    seat.etchLockLabel,
+    `Pledged standing: ${formatUsd(seat.pledgedUsd)}`,
     `Artwork: ${seat.artworkUrl ?? "(none attached)"}`,
     "",
     `Floor ${formatUsd(seat.floorUsd)}. Buyout ${formatUsd(seat.goalUsd)}.`,
