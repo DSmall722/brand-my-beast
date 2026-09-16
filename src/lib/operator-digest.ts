@@ -13,6 +13,7 @@ import {
   listBidsPendingApproval,
   loadBoardIntentStats,
 } from "@/lib/intent-store";
+import { appendMailDeadLetter } from "@/lib/mail-dead-letter";
 import { listWaitlistSignups } from "@/lib/waitlist";
 
 /** Payload Resend (or a test double) receives for the operator digest. */
@@ -130,13 +131,26 @@ export async function sendOperatorDigest(
 
   let sent = 0;
   for (const to of recipients) {
-    await mailer.send({
+    const payload = {
       from,
       to,
       subject: mail.subject,
       text: mail.text,
-    });
-    sent += 1;
+    };
+    try {
+      await mailer.send(payload);
+      sent += 1;
+    } catch (error) {
+      try {
+        await appendMailDeadLetter({
+          kind: "operator-digest",
+          ...payload,
+          error,
+        });
+      } catch {
+        // Dead-letter write is best-effort.
+      }
+    }
   }
   return { sent, skipped: false, digest: snapshot };
 }

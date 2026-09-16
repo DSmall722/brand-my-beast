@@ -144,6 +144,32 @@ export const intentRevisions = pgTable(
     index("intent_revisions_created_at_idx").on(table.createdAt),
   ],
 );
+
+/**
+ * Slice 12.12 — failed Resend payloads for operator retry.
+ * Intent / notify only — never a charge receipt.
+ */
+export const mailDeadLetters = pgTable(
+  "mail_dead_letters",
+  {
+    id: text("id").primaryKey(),
+    kind: text("kind").notNull(),
+    fromAddress: text("from_address").notNull(),
+    toAddress: text("to_address").notNull(),
+    subject: text("subject").notNull(),
+    bodyText: text("body_text").notNull(),
+    error: text("error").notNull(),
+    status: text("status").notNull().default("pending"),
+    createdAt: timestamp("created_at", { withTimezone: true })
+      .defaultNow()
+      .notNull(),
+    retriedAt: timestamp("retried_at", { withTimezone: true }),
+  },
+  (table) => [
+    index("mail_dead_letters_status_idx").on(table.status),
+    index("mail_dead_letters_created_at_idx").on(table.createdAt),
+  ],
+);
 /**
  * Slice 9.3 — per-panel soft-close extension. Not a campaign CLOSE_AT.
  */
@@ -220,5 +246,7 @@ export type OperatorAuditLogRow = typeof operatorAuditLog.$inferSelect;
 export type NewOperatorAuditLogRow = typeof operatorAuditLog.$inferInsert;
 export type IntentRevisionRow = typeof intentRevisions.$inferSelect;
 export type NewIntentRevisionRow = typeof intentRevisions.$inferInsert;
+export type MailDeadLetterRow = typeof mailDeadLetters.$inferSelect;
+export type NewMailDeadLetterRow = typeof mailDeadLetters.$inferInsert;
 export type PanelExtensionRow = typeof panelExtensions.$inferSelect;
 export type NewPanelExtensionRow = typeof panelExtensions.$inferInsert;

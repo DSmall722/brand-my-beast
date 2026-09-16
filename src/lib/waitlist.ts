@@ -5,6 +5,7 @@ import { waitlistOperatorEmailTemplate } from "@/emails/waitlist-operator";
 import { BRAND } from "./campaign";
 import { getDb } from "./db";
 import { waitlistSignups } from "./db/schema";
+import { appendMailDeadLetter } from "./mail-dead-letter";
 import { PUBLIC_COPY } from "./public-copy";
 
 export const waitlistEmailSchema = z
@@ -111,12 +112,27 @@ async function notifyOperator(email: string): Promise<void> {
   const to = process.env.WAITLIST_NOTIFY_TO ?? BRAND.email;
   const body = waitlistOperatorEmailTemplate(email);
 
-  await mailer.send({
-    from,
-    to,
-    subject: body.subject,
-    text: body.text,
-  });
+  try {
+    await mailer.send({
+      from,
+      to,
+      subject: body.subject,
+      text: body.text,
+    });
+  } catch (error) {
+    try {
+      await appendMailDeadLetter({
+        kind: "waitlist",
+        from,
+        to,
+        subject: body.subject,
+        text: body.text,
+        error,
+      });
+    } catch {
+      // Dead-letter write is best-effort.
+    }
+  }
 }
 
 /**
