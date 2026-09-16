@@ -12,10 +12,13 @@ const initial: MockupActionState = { ok: false };
 export function ImagineMockupControls({
   bidId,
   etchable,
+  etchUnlocked = false,
   mockup,
 }: {
   bidId: string;
   etchable: boolean;
+  /** Slice 12.28 — etch queue locked while pledged < buyout. */
+  etchUnlocked?: boolean;
   mockup: ImagineMockup | null;
 }) {
   const [state, action, pending] = useActionState(
@@ -23,6 +26,7 @@ export function ImagineMockupControls({
     initial,
   );
   const current = state.mockup ?? mockup;
+  const canQueueEtch = etchable && etchUnlocked;
 
   return (
     <div
@@ -69,11 +73,13 @@ export function ImagineMockupControls({
         <button
           type="submit"
           className="btn btn-ghost"
-          disabled={pending || !etchable}
+          disabled={pending || !canQueueEtch}
           title={
-            etchable
-              ? "Etch placeholder — unlocks for real at buyout"
-              : "Wrap-only panel"
+            !etchable
+              ? "Wrap-only panel"
+              : !etchUnlocked
+                ? "Etch locked until pledged hits buyout"
+                : "Etch placeholder — unlocks for real at buyout"
           }
           data-testid={`imagine-queue-etch-${bidId}`}
         >

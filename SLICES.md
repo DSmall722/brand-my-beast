@@ -15,8 +15,8 @@ Updated: 2026-09-15
 - Coordinator may merge a PR that finishes exactly one unchecked slice, Playwright is green, and the merge gates below hold.
 - Judge PRs from git + `npm test` + `npm run build`. Do not use brandmybeast.com as a gate while the Vercel usage hold is on.
 
-**Now:** 12.27 Opening-bid rationale one-liner on the seat from RULES.md only.
-**Last merged:** 12.26 (#181 live deposit preview on the seat form).
+**Now:** 12.28 Operator cannot approve etch finish while pledged < $120,000.
+**Last merged:** 12.27 (#182 opening-bid rationale from RULES.md on seat).
 
 ## Standing orders
 
@@ -164,7 +164,7 @@ Do not start Wave 12 until 11.10 is checked or skipped by the human. Still no St
 - [x] 12.24 Partner can mark art `shop-ready` / `needs-fix`. (#179)
 - [x] 12.25 Contract markdown template from CAMPAIGN wreck rules. Not a signature product. (#180)
 - [x] 12.26 Deposit preview on the seat: “20% of this mark is $X. Not charged.” (#181)
-- [ ] 12.27 Opening-bid rationale one-liner on the seat from RULES.md only.
+- [x] 12.27 Opening-bid rationale one-liner on the seat from RULES.md only. (#182)
 - [ ] 12.28 Operator cannot approve etch finish while pledged < $120,000.
 - [ ] 12.29 Whole-truck intent cannot stack on a panel that already has approved standing.
 - [ ] 12.30 Ban-list match is logged with the rule id (ties to 8.8).

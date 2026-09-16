@@ -10,7 +10,7 @@ import { PreP3Checklist } from "@/components/PreP3Checklist";
 import { SiteChrome } from "@/components/SiteChrome";
 import { auth } from "@/lib/auth";
 import { isOperatorEmail } from "@/lib/auth/operator";
-import { formatUsd, isEtchable, PANELS } from "@/lib/campaign";
+import { formatUsd, isEtchUnlocked, isEtchable, PANELS } from "@/lib/campaign";
 import { listApprovalNotesForBids } from "@/lib/approval-note-store";
 import {
   intentStatusClass,
@@ -20,6 +20,7 @@ import {
   listBidsPendingApproval,
   listBidsWithStatus,
   listDecidedBids,
+  loadBoardIntentStats,
 } from "@/lib/intent-store";
 import { listMockupQueue, listMockupsForBids } from "@/lib/mockup-store";
 import {
@@ -67,14 +68,16 @@ export default async function OperatorPage({
   const filter = parseOperatorFilter(params.status);
   const status = operatorFilterToStatus(filter);
 
-  const [pending, filtered, decided, mockupQueue, operatorStatus] =
+  const [pending, filtered, decided, mockupQueue, operatorStatus, board] =
     await Promise.all([
       listBidsPendingApproval(),
       listBidsWithStatus(status),
       listDecidedBids(),
       listMockupQueue(),
       loadOperatorStatus(),
+      loadBoardIntentStats(),
     ]);
+  const etchUnlocked = isEtchUnlocked(board.pledgedUsd);
   const mockups =
     filter === "pending"
       ? await listMockupsForBids(filtered.map((bid) => bid.id))
@@ -242,10 +245,15 @@ export default async function OperatorPage({
                     <ImagineMockupControls
                       bidId={bid.id}
                       etchable={etchable}
+                      etchUnlocked={etchUnlocked}
                       mockup={mockups[bid.id] ?? null}
                     />
                   </div>
-                  <ApprovalButtons bidId={bid.id} />
+                  <ApprovalButtons
+                    bidId={bid.id}
+                    etchable={etchable}
+                    etchUnlocked={etchUnlocked}
+                  />
                 </li>
               );
             })}
