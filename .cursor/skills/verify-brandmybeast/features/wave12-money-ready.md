@@ -56,7 +56,7 @@ P3. No Stripe. No `CLOSE_AT`. No personal identity strings.
 | 12.47 This verify-skill map | `tests/slice-12-47-verify-map.spec.ts` |
 | 12.48 `package.json` license + engines | `tests/slice-12-48-license-engines.spec.ts` |
 | 12.49 SECURITY.md → `hello@` | `tests/slice-12-49-security-md.spec.ts` |
-| 12.50 Pre-P3 freeze tag `intent-complete` | SLICES 12.50 (pending) — does not set CLOSE_AT / Stripe |
+| 12.50 Pre-P3 freeze tag `intent-complete` | `tests/slice-12-50-intent-complete.spec.ts` — does not set CLOSE_AT / Stripe |
 
 ## Money fences
 

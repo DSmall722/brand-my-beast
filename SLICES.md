@@ -15,8 +15,8 @@ Updated: 2026-09-16
 - Coordinator may merge a PR that finishes exactly one unchecked slice, Playwright is green, and the merge gates below hold.
 - Judge PRs from git + `npm test` + `npm run build`. Do not use brandmybeast.com as a gate while the Vercel usage hold is on.
 
-**Now:** 12.50 Pre-P3 freeze tag `intent-complete`. Does not set CLOSE_AT. Does not add Stripe.
-**Last merged:** 12.49 (#206 SECURITY.md → hello@).
+**Now:** 13.1 PROCESS.md: coordinator reads SLICES Waves 7–14; live site is not a gate while the Vercel hold is on.
+**Last merged:** 12.50 (#207 intent-complete freeze tag — CLOSE_AT null).
 
 ## Standing orders
 
@@ -90,7 +90,7 @@ Complete through 11.10 skipped (Vercel hold). Condensed ranges keep verify-map p
 - [x] 12.47 Verify-skill map for Wave 12. (#204)
 - [x] 12.48 `package.json` license + engines. No new runtime. (#205)
 - [x] 12.49 SECURITY.md: report to `hello@`. No personal inbox. (#206)
-- [ ] 12.50 Pre-P3 freeze tag `intent-complete`. Does not set CLOSE_AT. Does not add Stripe.
+- [x] 12.50 Pre-P3 freeze tag `intent-complete`. Does not set CLOSE_AT. Does not add Stripe. (#207)
 
 ## Wave 13 — docs freeze + auction correctness
 
