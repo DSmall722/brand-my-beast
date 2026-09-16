@@ -2251,6 +2251,51 @@ a {
   display: inline-flex;
 }
 
+.mockup-queue {
+  margin: 1.25rem 0 1.5rem;
+  display: grid;
+  gap: 0.55rem;
+}
+
+.mockup-queue h2 {
+  margin: 0;
+  font-family: var(--font-display), Syne, system-ui, sans-serif;
+  font-size: 1.15rem;
+  letter-spacing: -0.02em;
+}
+
+.mockup-queue-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0.45rem;
+}
+
+.mockup-queue-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.5rem 1rem;
+  padding: 0.7rem 0.85rem;
+  border: 1px solid var(--hairline);
+  border-radius: 0.55rem;
+  background: color-mix(in oklab, var(--steel-900) 55%, transparent);
+}
+
+.mockup-queue-row-main {
+  display: grid;
+  gap: 0.15rem;
+}
+
+.mockup-queue-badge {
+  font-size: 0.7rem;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--steel-400);
+}
+
 .panel-face {
   height: 3.25rem;
   margin: -0.15rem 0 0.75rem;

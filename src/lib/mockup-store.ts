@@ -33,6 +33,13 @@ export async function listMockupsForBids(
   return out;
 }
 
+/** Slice 10.4 — operator mockup queue rows, newest first. No Imagine API. */
+export async function listMockupQueue(): Promise<ImagineMockup[]> {
+  return [...mockupMap().values()].sort((a, b) =>
+    b.createdAt.localeCompare(a.createdAt),
+  );
+}
+
 export type QueueMockupResult =
   | { ok: true; mockup: ImagineMockup }
   | { ok: false; error: string };
