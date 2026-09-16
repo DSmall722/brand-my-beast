@@ -1,4 +1,5 @@
 import type { AdapterAccountType } from "@auth/core/adapters";
+import { sql } from "drizzle-orm";
 import {
   index,
   integer,
@@ -6,6 +7,7 @@ import {
   primaryKey,
   text,
   timestamp,
+  uniqueIndex,
   uuid,
 } from "drizzle-orm/pg-core";
 
@@ -56,6 +58,10 @@ export const intentBids = pgTable(
     index("intent_bids_panel_id_idx").on(table.panelId),
     index("intent_bids_status_idx").on(table.status),
     index("intent_bids_trade_label_idx").on(table.tradeLabel),
+    /** Slice 12.3 — at most one approved standing seat per panel. */
+    uniqueIndex("intent_bids_one_approved_per_panel_idx")
+      .on(table.panelId)
+      .where(sql`${table.status} = 'approved'`),
   ],
 );
 

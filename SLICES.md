@@ -15,8 +15,8 @@ Updated: 2026-09-15
 - Coordinator may merge a PR that finishes exactly one unchecked slice, Playwright is green, and the merge gates below hold.
 - Judge PRs from git + `npm test` + `npm run build`. Do not use brandmybeast.com as a gate while the Vercel usage hold is on.
 
-**Now:** 12.2 Optimistic lock on `intent_bids.updatedAt`. Second writer gets a typed error.
-**Last merged:** 12.1 (#156 place+outbid+approve without double standing).
+**Now:** 12.3 Unique partial index: one `approved` row per `panelId`.
+**Last merged:** 12.2 (#157 optimistic lock on intent updatedAt).
 
 ## Standing orders
 
@@ -139,7 +139,7 @@ If any gate fails: leave the PR unmerged and stop that slice.
 Do not start Wave 12 until 11.10 is checked or skipped by the human. Still no Stripe. Still no CLOSE_AT.
 
 - [x] 12.1 Place + outbid + approve in one DB transaction. No double standing on a panel. (#156)
-- [ ] 12.2 Optimistic lock on `intent_bids.updatedAt`. Second writer gets a typed error.
+- [x] 12.2 Optimistic lock on `intent_bids.updatedAt`. Second writer gets a typed error. (#157)
 - [ ] 12.3 Unique partial index: one `approved` row per `panelId`.
 - [ ] 12.4 Idempotency key on intent POST. Replay does not double-list.
 - [ ] 12.5 `depositUsd` always `round(standing * 0.20)` in one helper. Playwright lock.
