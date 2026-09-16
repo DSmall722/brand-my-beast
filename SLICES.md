@@ -15,8 +15,8 @@ Updated: 2026-09-16
 - Coordinator may merge a PR that finishes exactly one unchecked slice, Playwright is green, and the merge gates below hold.
 - Judge PRs from git + `npm test` + `npm run build`. Do not use brandmybeast.com as a gate while the Vercel usage hold is on.
 
-**Now:** 13.7 `docs/P3-DAY.md` runbook. Checkboxes only. Does not set CLOSE_AT.
-**Last merged:** 13.6 (#213 FEATURES.md not the build order).
+**Now:** 13.8 `docs/WRAP-SHOP.md` shortlist template.
+**Last merged:** 13.7 (#214 P3-DAY runbook checkboxes; CLOSE_AT unset).
 
 ## Standing orders
 
@@ -102,7 +102,7 @@ Do not start Wave 13 until 12.50 is checked. No Stripe. No CLOSE_AT.
 - [x] 13.4 RULES.md adds failed-winner + one-approved-per-panel. (#211)
 - [x] 13.5 PUBLIC_COPY seat pack: withdraw, failed-winner, deposit preview. Do not rewrite the homepage H1. (#212)
 - [x] 13.6 FEATURES.md banner: “not the build order.” (#213)
-- [ ] 13.7 `docs/P3-DAY.md` runbook. Checkboxes only. Does not set CLOSE_AT.
+- [x] 13.7 `docs/P3-DAY.md` runbook. Checkboxes only. Does not set CLOSE_AT. (#214)
 - [ ] 13.8 `docs/WRAP-SHOP.md` shortlist template.
 - [ ] 13.9 `docs/EMAIL-DNS.md` SPF/DKIM/DMARC checklist for hello@.
 - [ ] 13.10 Changelog file of last 20 merged slice ids.
