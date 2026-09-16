@@ -10,8 +10,12 @@ import {
 } from "../src/lib/campaign";
 
 /**
- * Slice 11.9 — vercel.json stays main-only.
- * Do not add preview deploys or extra Vercel projects.
+ * Slice 11.9 — vercel.json git deploy policy; no preview / cron / nested projects.
+ * Dual-accept (Hobby hold vs restore):
+ *   - hold-mode: `deploymentEnabled === false` (all auto Git deploys off)
+ *   - restore:   `{ "*": false, "main": true }` (main-only)
+ * Accepting both shapes keeps this lock green after restore without a
+ * follow-up test rewrite. See docs/VERCEL-HOLD.md restore checklist.
  */
 test.describe("slice 11.9: vercel.json stays main-only", () => {
   test("campaign money fences stay locked", () => {
@@ -39,7 +43,7 @@ test.describe("slice 11.9: vercel.json stays main-only", () => {
     );
   });
 
-  test("vercel.json enables main only; no preview / cron / extra project files", () => {
+  test("vercel.json is hold-mode pause or main-only; no preview / cron / nested", () => {
     const root = process.cwd();
     const vercelPath = join(root, "vercel.json");
     expect(existsSync(vercelPath)).toBe(true);
@@ -49,10 +53,15 @@ test.describe("slice 11.9: vercel.json stays main-only", () => {
       crons?: unknown;
     };
     const enabled = config.git?.deploymentEnabled;
-    expect(enabled && typeof enabled === "object").toBe(true);
-    if (!enabled || typeof enabled !== "object") return;
-    expect(enabled["*"]).toBe(false);
-    expect(enabled.main).toBe(true);
+    // Dual-accept: full pause (hold) OR main-only (post-restore).
+    if (enabled === false) {
+      expect(enabled).toBe(false);
+    } else {
+      expect(enabled && typeof enabled === "object").toBe(true);
+      if (!enabled || typeof enabled !== "object") return;
+      expect(enabled["*"]).toBe(false);
+      expect(enabled.main).toBe(true);
+    }
     expect(config.crons).toBeUndefined();
 
     // One vercel.json at repo root — no nested project configs.
