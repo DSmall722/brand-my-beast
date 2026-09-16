@@ -76,6 +76,7 @@ One brand per trade. If two bidders sell the same thing, they fight for one seat
 - Wrap: full color, shop-ready vector.
 - Etch: 1-color, minimum stroke, no gradients, no 8-pt type. Reject art that cannot be lasered.
 - Approval thread before the vinyl cutter or the laser sees a file.
+- **Size cap (slice 13.26):** intent uploads max **90,000 bytes** (~90KB decoded). Enforced as 120,000 data-URL characters in `intent-artwork.ts` (`ARTWORK_MAX_UPLOAD_BYTES` / `ARTWORK_MAX_DATA_URL_CHARS`). External artwork URL max 2,000 characters. Oversize uploads are rejected — still intent only, no card charge.
 
 ## What winners do not get
 

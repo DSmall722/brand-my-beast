@@ -15,8 +15,8 @@ Updated: 2026-09-16
 - Coordinator may merge a PR that finishes exactly one unchecked slice, Playwright is green, and the merge gates below hold.
 - Judge PRs from git + `npm test` + `npm run build`. Do not use brandmybeast.com as a gate while the Vercel usage hold is on.
 
-**Now:** 13.26 Art size cap documented (max bytes in RULES.md).
-**Last merged:** 13.25 (#233 operator print view for one seat).
+**Now:** 13.27 Etch art rejected if linter fails; wrap art may still list.
+**Last merged:** 13.26 (#234 art size cap documented in RULES.md).
 
 ## Standing orders
 
@@ -121,7 +121,7 @@ Do not start Wave 13 until 12.50 is checked. No Stripe. No CLOSE_AT.
 - [x] 13.23 Winner packet includes wrap term start = install day, not close. (#231)
 - [x] 13.24 Partner cannot see bidder email — only brand + trade + art. (#232)
 - [x] 13.25 Operator print view for one seat (13.23 + 8.6). (#233)
-- [ ] 13.26 Art size cap documented (max bytes in RULES.md).
+- [x] 13.26 Art size cap documented (max bytes in RULES.md). (#234)
 - [ ] 13.27 Etch art rejected if linter fails; wrap art may still list.
 - [ ] 13.28 `/account/wins` empty state from PUBLIC_COPY.
 - [ ] 13.29 Certificate template exists as markdown only. No issued date until etch exists.
