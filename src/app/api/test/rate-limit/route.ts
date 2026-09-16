@@ -36,11 +36,14 @@ export async function POST(request: Request) {
       configure: {
         waitlistMax?: unknown;
         intentMax?: unknown;
+        magicLinkMax?: unknown;
         windowMs?: unknown;
       };
     }).configure;
     const waitlistMax = Number(cfg.waitlistMax);
     const intentMax = Number(cfg.intentMax);
+    const magicLinkMax =
+      cfg.magicLinkMax === undefined ? undefined : Number(cfg.magicLinkMax);
     const windowMs =
       cfg.windowMs === undefined ? undefined : Number(cfg.windowMs);
     if (
@@ -54,9 +57,20 @@ export async function POST(request: Request) {
         { status: 400 },
       );
     }
+    if (
+      magicLinkMax !== undefined &&
+      (!Number.isFinite(magicLinkMax) || magicLinkMax < 1)
+    ) {
+      return Response.json(
+        { ok: false, error: "magicLinkMax must be a positive number" },
+        { status: 400 },
+      );
+    }
     configureRateLimitForTests({
       waitlistMax: Math.floor(waitlistMax),
       intentMax: Math.floor(intentMax),
+      magicLinkMax:
+        magicLinkMax !== undefined ? Math.floor(magicLinkMax) : undefined,
       windowMs:
         windowMs !== undefined && Number.isFinite(windowMs) && windowMs > 0
           ? Math.floor(windowMs)
