@@ -20,7 +20,10 @@ import {
 } from "@/lib/finish-conditions";
 import {
   STAINLESS_COMPOSITOR_LEAD,
+  compositorEtchMarkLabel,
   compositorFinishLabel,
+  compositorModeLabel,
+  compositorWrapFilmLabel,
   type CompositorFinish,
 } from "@/lib/stainless-compositor";
 
@@ -109,7 +112,7 @@ export function PanelMockup({
           aria-pressed={mode === "wrap"}
           onClick={() => setMode("wrap")}
         >
-          Wrap
+          {compositorModeLabel("wrap")}
         </button>
         <button
           type="button"
@@ -130,7 +133,7 @@ export function PanelMockup({
             if (etchOn) setMode("etch");
           }}
         >
-          Etch
+          {compositorModeLabel("etch")}
         </button>
       </div>
 
@@ -244,14 +247,14 @@ export function PanelMockup({
             className="compositor-etch-mark"
             data-testid="compositor-etch-mark"
           >
-            Laser on stainless
+            {compositorEtchMarkLabel()}
           </span>
         ) : (
           <span
             className="compositor-wrap-film"
             data-testid="compositor-wrap-film"
           >
-            Vinyl film layer
+            {compositorWrapFilmLabel()}
           </span>
         )}
         <span

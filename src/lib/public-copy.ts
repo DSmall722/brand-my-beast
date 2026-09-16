@@ -186,6 +186,19 @@ export const PUBLIC_COPY = {
     setTail:
       "That is a seat extension only — not a campaign close date. This page does not charge cards.",
   },
+  /**
+   * Slice 10.5 — wrap vs etch labels on the seat compositor.
+   * Immortal = etch. Never “permanent vinyl.” Not a homepage PUBLIC_COPY.md section.
+   */
+  compositor: {
+    modeWrap: "Wrap",
+    modeEtch: "Etch",
+    finishWrapEtchable: "Wrap on steel · etch at buyout",
+    finishWrapOnly: "Wrap only",
+    finishEtch: "Immortal etch preview · unlocks at $120,000",
+    wrapFilm: "Vinyl film layer",
+    etchMark: "Laser on stainless",
+  },
   footer: {
     line: "BrandMyBeast · @BrandMyBeast · hello@brandmybeast.com",
     independent: "Independent. Not Tesla.",
