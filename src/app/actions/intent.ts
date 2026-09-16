@@ -163,9 +163,11 @@ export async function withdrawIntentBid(
   const bidId = String(formData.get("bidId") ?? "");
   if (!bidId) return { ok: false, error: "Missing intent id." };
 
+  const expectedUpdatedAt = String(formData.get("expectedUpdatedAt") ?? "");
   const result = await withdrawPendingIntent({
     bidId,
     userId: session.user.id,
+    expectedUpdatedAt: expectedUpdatedAt || undefined,
   });
   if (!result.ok) return { ok: false, error: result.error };
 
@@ -194,6 +196,7 @@ export async function editPendingIntentBid(
 
   const brandLabel = String(formData.get("brandLabel") ?? "");
   const tradeLabel = String(formData.get("tradeLabel") ?? "");
+  const expectedUpdatedAt = String(formData.get("expectedUpdatedAt") ?? "");
   const artwork = parseIntentArtwork({
     artworkUrl: String(formData.get("artworkUrl") ?? ""),
     artworkUpload: String(formData.get("artworkUpload") ?? ""),
@@ -215,6 +218,7 @@ export async function editPendingIntentBid(
       : artwork.artworkUrl !== null
         ? artwork.artworkUrl
         : undefined,
+    expectedUpdatedAt: expectedUpdatedAt || undefined,
   });
   if (!result.ok) return { ok: false, error: result.error };
 

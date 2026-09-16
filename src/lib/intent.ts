@@ -31,6 +31,11 @@ export type IntentBid = {
   status: IntentBidStatus;
   createdAt: string;
   /**
+   * Slice 12.2 — optimistic lock token. Writers pass the value they read;
+   * a mismatch returns `stale_write`.
+   */
+  updatedAt: string;
+  /**
    * Optional art on the mark: https URL or data:image upload.
    * Intent only — never a charge receipt.
    */
@@ -146,4 +151,16 @@ export function assertIntentOnly(bid: IntentBid): void {
   ) {
     throw new Error("P2 IntentBid must not carry Stripe capture fields");
   }
+}
+
+/** Slice 12.2 — typed optimistic-lock failure. */
+export const INTENT_STALE_WRITE = "stale_write" as const;
+export type IntentWriteErrorCode = typeof INTENT_STALE_WRITE;
+
+export function isStaleWriteError(result: {
+  ok: boolean;
+  code?: string;
+  error?: string;
+}): result is { ok: false; code: typeof INTENT_STALE_WRITE; error: string } {
+  return result.ok === false && result.code === INTENT_STALE_WRITE;
 }

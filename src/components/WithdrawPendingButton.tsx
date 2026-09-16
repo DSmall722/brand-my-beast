@@ -9,7 +9,14 @@ import {
 const initial: IntentActionState = { ok: false };
 
 /** Slice 9.7 — withdraw pending (listed) intent. Approved has no control. */
-export function WithdrawPendingButton({ bidId }: { bidId: string }) {
+export function WithdrawPendingButton({
+  bidId,
+  updatedAt,
+}: {
+  bidId: string;
+  /** Slice 12.2 — optimistic lock token from the row the user loaded. */
+  updatedAt: string;
+}) {
   const [state, action, pending] = useActionState(withdrawIntentBid, initial);
 
   return (
@@ -19,6 +26,7 @@ export function WithdrawPendingButton({ bidId }: { bidId: string }) {
     >
       <form action={action}>
         <input type="hidden" name="bidId" value={bidId} />
+        <input type="hidden" name="expectedUpdatedAt" value={updatedAt} />
         <button
           type="submit"
           className="btn btn-ghost"

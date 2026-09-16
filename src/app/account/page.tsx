@@ -157,8 +157,12 @@ export default async function AccountPage() {
                           brandLabel={bid.brandLabel}
                           tradeLabel={bid.tradeLabel}
                           artworkUrl={bid.artworkUrl}
+                          updatedAt={bid.updatedAt}
                         />
-                        <WithdrawPendingButton bidId={bid.id} />
+                        <WithdrawPendingButton
+                          bidId={bid.id}
+                          updatedAt={bid.updatedAt}
+                        />
                       </>
                     ) : null}
                     {bid.status === "approved" ? (
