@@ -14,6 +14,7 @@ import {
   placeIntentBid,
   placeWholeTruckIntent,
   setIntentStatus,
+  withdrawPendingIntent,
 } from "@/lib/intent-store";
 import { GOAL_USD, PANELS, formatUsd } from "@/lib/campaign";
 import { PUBLIC_COPY } from "@/lib/public-copy";
@@ -146,6 +147,35 @@ export async function decideIntentBid(
 /** Read helper for account / decided log (server components). */
 export async function loadApprovalNote(bidId: string) {
   return getApprovalNote(bidId);
+}
+
+/** Slice 9.7 — owner withdraws a pending (listed) intent only. */
+export async function withdrawIntentBid(
+  _prev: IntentActionState,
+  formData: FormData,
+): Promise<IntentActionState> {
+  const session = await auth();
+  if (!session?.user?.id) {
+    return { ok: false, error: "Sign in to withdraw an intent." };
+  }
+
+  const bidId = String(formData.get("bidId") ?? "");
+  if (!bidId) return { ok: false, error: "Missing intent id." };
+
+  const result = await withdrawPendingIntent({
+    bidId,
+    userId: session.user.id,
+  });
+  if (!result.ok) return { ok: false, error: result.error };
+
+  revalidatePath("/account");
+  revalidatePath(`/panels/${result.bid.panelId}`);
+  revalidatePath("/operator");
+  revalidatePath("/operator/approvals");
+  return {
+    ok: true,
+    message: "Intent withdrawn. Still not charged.",
+  };
 }
 
 export async function submitWholeTruckIntent(

@@ -2,6 +2,7 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import { signOutAction } from "@/app/actions/auth";
 import { SiteChrome } from "@/components/SiteChrome";
+import { WithdrawPendingButton } from "@/components/WithdrawPendingButton";
 import { auth } from "@/lib/auth";
 import { isOperatorEmail } from "@/lib/auth/operator";
 import { isShopPartnerEmail } from "@/lib/auth/shop-partner";
@@ -146,6 +147,18 @@ export default async function AccountPage() {
                         next open panel, or{" "}
                         <Link href={`/panels/${bid.panelId}`}>re-list higher</Link>
                         .
+                      </p>
+                    ) : null}
+                    {bid.status === "listed" ? (
+                      <WithdrawPendingButton bidId={bid.id} />
+                    ) : null}
+                    {bid.status === "approved" ? (
+                      <p
+                        className="auth-hint"
+                        data-testid={`account-approved-needs-operator-${bid.id}`}
+                      >
+                        Approved needs operator. You cannot withdraw this
+                        intent.
                       </p>
                     ) : null}
                     {bid.status === "rejected" && notes[bid.id]?.note ? (

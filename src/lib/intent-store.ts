@@ -797,6 +797,34 @@ export async function setIntentStatus(
   return { ok: true, bid };
 }
 
+/**
+ * Slice 9.7 — owner may withdraw while status is listed (pending) only.
+ * Approved needs operator. Soft-status to withdrawn — never hard-delete.
+ */
+export async function withdrawPendingIntent(input: {
+  bidId: string;
+  userId: UserId;
+}): Promise<PlaceIntentResult> {
+  const bid = await getIntentBidById(input.bidId);
+  if (!bid) return { ok: false, error: "Bid not found." };
+  if (bid.userId !== input.userId) {
+    return { ok: false, error: "You can only withdraw your own intent." };
+  }
+  if (bid.status === "approved") {
+    return {
+      ok: false,
+      error: "Approved needs operator. You cannot withdraw this intent.",
+    };
+  }
+  if (bid.status !== "listed") {
+    return {
+      ok: false,
+      error: "Only pending (listed) intents can be withdrawn.",
+    };
+  }
+  return setIntentStatus(bid.id, "withdrawn");
+}
+
 export async function resetIntentStoreForTests(): Promise<void> {
   resetArtworkBlobStoreForTests();
   if (useMemoryStore()) {
