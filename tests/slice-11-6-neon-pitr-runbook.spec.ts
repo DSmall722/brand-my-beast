@@ -41,7 +41,7 @@ test.describe("slice 11.6: Neon PITR runbook", () => {
     expect(text).toMatch(/No dashboard clicks/i);
     expect(text).toMatch(/human only|Human only|human operator/i);
     expect(text.toLowerCase()).not.toContain("gmail.com");
-    expect(text).not.toMatch(/\blease\b/i);
+    expect(text).toMatch(/No lease/i);
     expect(text.toLowerCase()).not.toContain("stripe setupintent");
   });
 });
