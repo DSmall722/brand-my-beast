@@ -15,8 +15,8 @@ Updated: 2026-09-16
 - Coordinator may merge a PR that finishes exactly one unchecked slice, Playwright is green, and the merge gates below hold.
 - Judge PRs from git + `npm test` + `npm run build`. Do not use brandmybeast.com as a gate while the Vercel usage hold is on.
 
-**Now:** 13.23 Winner packet includes wrap term start = install day, not close.
-**Last merged:** 13.22 (#230 shop-ready requires vector URL or Blob key).
+**Now:** 13.24 Partner cannot see bidder email — only brand + trade + art.
+**Last merged:** 13.23 (#TBD winner packet wrap term start = install day).
 
 ## Standing orders
 
@@ -118,7 +118,7 @@ Do not start Wave 13 until 12.50 is checked. No Stripe. No CLOSE_AT.
 - [x] 13.20 Playwright: failed-winner accepts → old winner is `outbid`, not deleted. (#228)
 - [x] 13.21 Shop PDF embeds etch-lock state from pledged vs $120,000. (#229)
 - [x] 13.22 `shop-ready` requires vector URL or Blob key, not a screenshot only. (#230)
-- [ ] 13.23 Winner packet includes wrap term start = install day, not close.
+- [x] 13.23 Winner packet includes wrap term start = install day, not close. (#TBD)
 - [ ] 13.24 Partner cannot see bidder email — only brand + trade + art.
 - [ ] 13.25 Operator print view for one seat (13.23 + 8.6).
 - [ ] 13.26 Art size cap documented (max bytes in RULES.md).
