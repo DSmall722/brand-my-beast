@@ -2,7 +2,8 @@
 
 Slice **11.6**. Repo-only runbook. **No dashboard clicks from agents or CI.**
 A human operator follows this when Production Postgres needs point-in-time
-recovery. Slice **12.44** will add a restore-drill checklist beside this file.
+recovery. Slice **12.44** adds the restore-drill checklist beside this file
+(`docs/NEON-PITR-DRILL.md`).
 
 Money fences (do not invent a third number):
 
@@ -59,5 +60,5 @@ These steps are documentation. They are not automation.
 
 - `ARCHITECTURE.md` — Postgres + Drizzle production stack
 - `CAMPAIGN.md` / `RULES.md` — money and refund rules that survive a restore
-- SLICES **12.44** — backup restore drill doc next to this file
+- SLICES **12.44** — `docs/NEON-PITR-DRILL.md` restore-drill checklist next to this file
 - SLICES **11.10** — redeploy when the Vercel hold lifts (human)

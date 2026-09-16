@@ -15,8 +15,8 @@ Updated: 2026-09-16
 - Coordinator may merge a PR that finishes exactly one unchecked slice, Playwright is green, and the merge gates below hold.
 - Judge PRs from git + `npm test` + `npm run build`. Do not use brandmybeast.com as a gate while the Vercel usage hold is on.
 
-**Now:** 12.44 Backup restore drill doc (Neon PITR) next to 11.6.
-**Last merged:** 12.43 (#200 Drizzle migrate runbook).
+**Now:** 12.45 Playwright: concurrent two bidders on hood, only one approved standing.
+**Last merged:** 12.44 (#201 Neon PITR restore drill checklist).
 
 ## Standing orders
 
@@ -84,7 +84,7 @@ Complete through 11.10 skipped (Vercel hold). Condensed ranges keep verify-map p
 - [x] 12.41 Structured log line on waitlist insert + intent status change. No PII beyond email hash. (#198)
 - [x] 12.42 `/operator/health` last-migration name from Drizzle. (#199)
 - [x] 12.43 Drizzle migrate runbook in repo. (#200)
-- [ ] 12.44 Backup restore drill doc (Neon PITR) next to 11.6.
+- [x] 12.44 Backup restore drill doc (Neon PITR) next to 11.6. (#201)
 - [ ] 12.45 Playwright: concurrent two bidders on hood, only one approved standing.
 - [ ] 12.46 Playwright: reject without note fails; with note succeeds.
 - [ ] 12.47 Verify-skill map for Wave 12.
