@@ -260,6 +260,7 @@ test.describe("P2 intent math (no capture)", () => {
       proxyMaxUsd: null,
       floorSaveUsd: null,
       idempotencyKey: null,
+      deletedAt: null,
     };
     assertIntentOnly(bid);
     expect(() =>

@@ -3,7 +3,7 @@
  * Intent only — never stores Stripe/capture fields. See P2.md.
  */
 
-import { and, asc, desc, eq, inArray, isNull, ne } from "drizzle-orm";
+import { and, asc, desc, eq, inArray, isNotNull, isNull, ne } from "drizzle-orm";
 import {
   assertLedgerArtworkUrl,
   persistArtworkForLedger,
@@ -137,6 +137,7 @@ function rowToBid(row: IntentBidRow): IntentBid {
     artworkUrl: row.artworkUrl ?? null,
     proxyMaxUsd: row.proxyMaxUsd ?? null,
     floorSaveUsd: row.floorSaveUsd ?? null,
+    deletedAt: row.deletedAt ? row.deletedAt.toISOString() : null,
   };
   assertIntentOnly(bid);
   return bid;
@@ -574,6 +575,7 @@ export async function placeIntentBid(
           existing.userId === input.userId
         ) {
           existing.status = "withdrawn";
+          existing.deletedAt = new Date().toISOString();
           existing.updatedAt = nextUpdatedAtIso(existing.updatedAt);
         }
       }
@@ -584,7 +586,11 @@ export async function placeIntentBid(
       }
       await dbForWithdraw
         .update(intentBids)
-        .set({ status: "withdrawn", updatedAt: nextUpdatedAt() })
+        .set({
+          status: "withdrawn",
+          deletedAt: nextUpdatedAt(),
+          updatedAt: nextUpdatedAt(),
+        })
         .where(
           and(
             eq(intentBids.panelId, input.panelId),
@@ -632,6 +638,7 @@ export async function placeIntentBid(
           proxyMaxUsd: null,
           floorSaveUsd: y,
           idempotencyKey,
+          deletedAt: null,
         };
         assertIntentOnly(bid);
         memoryBids().push(bid);
@@ -733,6 +740,7 @@ export async function placeIntentBid(
         proxyMaxUsd,
         floorSaveUsd: null,
         idempotencyKey,
+        deletedAt: null,
       };
       assertIntentOnly(bid);
       memoryBids().push(bid);
@@ -905,6 +913,9 @@ export async function setIntentStatus(
       }
     }
     bid.status = status;
+    if (status === "withdrawn") {
+      bid.deletedAt = new Date().toISOString();
+    }
     bid.updatedAt = nextUpdatedAtIso(bid.updatedAt);
     assertIntentOnly(bid);
     if (status === "approved" || status === "rejected") {
@@ -1002,7 +1013,11 @@ export async function setIntentStatus(
 
   const updated = await db
     .update(intentBids)
-    .set({ status, updatedAt: touchAt })
+    .set(
+      status === "withdrawn"
+        ? { status, updatedAt: touchAt, deletedAt: touchAt }
+        : { status, updatedAt: touchAt },
+    )
     .where(idLock)
     .returning();
   const row = updated[0];
@@ -1058,6 +1073,56 @@ export async function withdrawPendingIntent(input: {
   return setIntentStatus(bid.id, "withdrawn", {
     expectedUpdatedAt: input.expectedUpdatedAt ?? bid.updatedAt,
   });
+}
+
+/**
+ * Slice 12.9 — hard-delete guard. Soft-deleted (withdrawn) rows may be
+ * purged; approved standing seats must never be hard-deleted.
+ */
+export async function hardDeleteIntentBid(
+  bidId: string,
+): Promise<{ ok: true } | { ok: false; error: string }> {
+  const bid = await getIntentBidById(bidId);
+  if (!bid) return { ok: false, error: "Bid not found." };
+  if (bid.status === "approved") {
+    return {
+      ok: false,
+      error: "Never hard-delete an approved bid.",
+    };
+  }
+  if (bid.status !== "withdrawn" || !bid.deletedAt) {
+    return {
+      ok: false,
+      error: "Only soft-deleted withdrawn rows can be hard-deleted.",
+    };
+  }
+
+  if (useMemoryStore()) {
+    const rows = memoryBids();
+    const idx = rows.findIndex((row) => row.id === bidId);
+    if (idx < 0) return { ok: false, error: "Bid not found." };
+    rows.splice(idx, 1);
+    return { ok: true };
+  }
+
+  const db = getDb();
+  if (!db) {
+    return { ok: false, error: "Intent ledger is not configured." };
+  }
+  const removed = await db
+    .delete(intentBids)
+    .where(
+      and(
+        eq(intentBids.id, bidId),
+        eq(intentBids.status, "withdrawn"),
+        isNotNull(intentBids.deletedAt),
+      ),
+    )
+    .returning();
+  if (!removed[0]) {
+    return { ok: false, error: "Bid not found." };
+  }
+  return { ok: true };
 }
 
 /**
