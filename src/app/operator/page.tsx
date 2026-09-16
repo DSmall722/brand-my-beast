@@ -35,6 +35,7 @@ import {
   operatorCampaignLocks,
 } from "@/lib/operator-campaign-locks";
 import { OPERATOR_CSV_PATH } from "@/lib/operator-csv";
+import { operatorPrintPath } from "@/lib/operator-print-seat";
 import { loadOperatorStatus } from "@/lib/operator-status";
 
 type SearchParams = Promise<{ status?: string | string[] }>;
@@ -294,6 +295,16 @@ export default async function OperatorPage({
                       {note.note}
                     </p>
                   ) : null}
+                  {bid.status === "approved" ? (
+                    <p className="auth-hint">
+                      <Link
+                        href={operatorPrintPath(bid.id)}
+                        data-testid={`operator-print-link-${bid.id}`}
+                      >
+                        Print seat
+                      </Link>
+                    </p>
+                  ) : null}
                 </li>
               );
             })}
@@ -345,6 +356,16 @@ export default async function OperatorPage({
                           data-testid={`decided-note-${bid.id}`}
                         >
                           {note.note}
+                        </p>
+                      ) : null}
+                      {bid.status === "approved" ? (
+                        <p className="auth-hint">
+                          <Link
+                            href={operatorPrintPath(bid.id)}
+                            data-testid={`decided-print-link-${bid.id}`}
+                          >
+                            Print seat
+                          </Link>
                         </p>
                       ) : null}
                     </li>

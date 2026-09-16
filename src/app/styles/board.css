@@ -2470,3 +2470,44 @@ a:focus-visible .truck-hotspot.is-raw {
     text-decoration: none;
   }
 }
+
+/* Slice 13.25 — operator seat print view */
+.operator-print-page .operator-print-dl {
+  display: grid;
+  gap: 0.75rem;
+  margin: 1.5rem 0;
+}
+
+.operator-print-page .operator-print-row {
+  display: grid;
+  grid-template-columns: 10rem 1fr;
+  gap: 0.5rem 1rem;
+  border-bottom: 1px solid color-mix(in srgb, currentColor 18%, transparent);
+  padding-bottom: 0.5rem;
+}
+
+.operator-print-page .operator-print-row dt {
+  font-weight: 600;
+}
+
+@media print {
+  .operator-print-page .no-print,
+  .operator-print-page ~ .site-footer,
+  body:has(.operator-print-page) .site-header,
+  body:has(.operator-print-page) .site-chrome {
+    display: none !important;
+  }
+
+  .operator-print-page {
+    max-width: 100%;
+    margin: 0;
+    padding: 0;
+    color: #111;
+    background: #fff;
+  }
+
+  .operator-print-page a {
+    color: #111;
+    text-decoration: none;
+  }
+}
