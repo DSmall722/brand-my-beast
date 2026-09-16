@@ -8,8 +8,10 @@ import { HomePanelsSection } from "@/components/home/HomePanelsSection";
 import { HomeQuestionsSection } from "@/components/home/HomeQuestionsSection";
 import { HomeSkipLink } from "@/components/home/HomeSkipLink";
 import { HomeStorySection } from "@/components/home/HomeStorySection";
-import { HomeTruckExistsBoard } from "@/components/home/HomeTruckExistsBoard";
-import { HomeTruckExistsCommunity } from "@/components/home/HomeTruckExistsCommunity";
+import {
+  TruckExistsBoardSlot,
+  TruckExistsCommunitySlot,
+} from "@/components/home/truck-exists-sections";
 import { HomeTruckViewsSection } from "@/components/home/HomeTruckViewsSection";
 import { HomeWaitlistSection } from "@/components/home/HomeWaitlistSection";
 import { HomeWreckSection } from "@/components/home/HomeWreckSection";
@@ -26,14 +28,11 @@ import {
   shortfallToFloorUsd,
   shortfallToGoalUsd,
 } from "@/lib/campaign";
-import { listCircuitStoryRequests } from "@/lib/circuit-story-store";
-import { listEventRequests } from "@/lib/event-request-store";
 import {
   loadBoardIntentStats,
   loadStandingHoldersByPanel,
 } from "@/lib/intent-store";
 import { PUBLIC_COPY } from "@/lib/public-copy";
-import { listSightings } from "@/lib/sighting-store";
 
 /** Board stats read the intent ledger; keep dynamic so build does not SSG against DB. */
 export const dynamic = "force-dynamic";
@@ -43,11 +42,6 @@ export default async function HomePage() {
   const board = await loadBoardIntentStats();
   const standingHolders = await loadStandingHoldersByPanel();
   const occupiedPanelIds = [...standingHolders.keys()];
-  const circuitStories = TRUCK_EXISTS
-    ? await listCircuitStoryRequests()
-    : [];
-  const sightings = TRUCK_EXISTS ? await listSightings() : [];
-  const eventRequests = TRUCK_EXISTS ? await listEventRequests() : [];
   const pledgedUsd = board.pledgedUsd;
   const floorLabel = formatUsd(FLOOR_USD);
   const goalLabel = formatUsd(GOAL_USD);
@@ -98,14 +92,9 @@ export default async function HomePage() {
         <HomeEtchSection />
         <HomeWreckSection />
         <HomeQuestionsSection />
-        <HomeTruckExistsBoard truckExists={TRUCK_EXISTS} />
+        <TruckExistsBoardSlot />
         <HomeWaitlistSection />
-        <HomeTruckExistsCommunity
-          truckExists={TRUCK_EXISTS}
-          circuitStories={circuitStories}
-          sightings={sightings}
-          eventRequests={eventRequests}
-        />
+        <TruckExistsCommunitySlot />
       </main>
 
       <HomeFooter />
