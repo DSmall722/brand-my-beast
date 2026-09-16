@@ -54,7 +54,7 @@ P3. No Stripe. No `CLOSE_AT`. No personal identity strings.
 | 12.45 Concurrent hood → one approved | `tests/slice-12-45-concurrent-hood.spec.ts` |
 | 12.46 Reject without note fails | `tests/slice-12-46-reject-note.spec.ts` |
 | 12.47 This verify-skill map | `tests/slice-12-47-verify-map.spec.ts` |
-| 12.48 `package.json` license + engines | SLICES 12.48 (pending) |
+| 12.48 `package.json` license + engines | `tests/slice-12-48-license-engines.spec.ts` |
 | 12.49 SECURITY.md → `hello@` | SLICES 12.49 (pending) |
 | 12.50 Pre-P3 freeze tag `intent-complete` | SLICES 12.50 (pending) — does not set CLOSE_AT / Stripe |
 
