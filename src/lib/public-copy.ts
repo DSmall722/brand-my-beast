@@ -229,6 +229,9 @@ export const PUBLIC_COPY = {
   intent: {
     rateLimited:
       "Too many intent attempts. No new intent was listed. Wait a moment and try again.",
+    /** Slice 14.17 — SEATS_OPEN=false. Not a close date. */
+    seatsClosedWaitlistOnly:
+      "Seats are not open for intent marks. Join the waitlist only. This page does not charge cards.",
   },
   /**
    * Slice 9.3 — per-seat soft-close extension. Never a campaign CLOSE_AT.

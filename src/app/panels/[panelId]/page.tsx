@@ -18,6 +18,7 @@ import {
   FLOOR_USD,
   GOAL_USD,
   PANELS,
+  SEATS_OPEN,
   formatUsd,
   isEtchable,
 } from "@/lib/campaign";
@@ -354,6 +355,7 @@ export default async function PanelIntentPage({
               suggestedStandingUsd={failedWinnerOffer?.offerUsd}
               suggestedBrand={viewerOutbid?.brandLabel ?? ""}
               suggestedTrade={viewerOutbid?.tradeLabel ?? ""}
+              seatsOpen={SEATS_OPEN}
             />
           </section>
         ) : (

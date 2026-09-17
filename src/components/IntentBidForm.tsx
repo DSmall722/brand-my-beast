@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useActionState, useState } from "react";
 import {
   submitIntentBid,
@@ -13,6 +14,7 @@ import { tryDepositPreviewCopy } from "@/lib/deposit-preview";
 import { ARTWORK_MAX_DATA_URL_CHARS } from "@/lib/intent-artwork";
 import type { AdjacentSeatHolder } from "@/lib/panel-clash";
 import { PUBLIC_COPY } from "@/lib/public-copy";
+import { intentFormMode, intentWaitlistOnlyCopy } from "@/lib/seats-open";
 
 const initial: IntentActionState = { ok: false };
 
@@ -23,6 +25,7 @@ export function IntentBidForm({
   suggestedStandingUsd,
   suggestedBrand = "",
   suggestedTrade = "",
+  seatsOpen = true,
 }: {
   panelId: string;
   minimumUsd: number;
@@ -31,6 +34,8 @@ export function IntentBidForm({
   suggestedStandingUsd?: number;
   suggestedBrand?: string;
   suggestedTrade?: string;
+  /** Slice 14.17 — when false, form is waitlist-only (not CLOSE_AT). */
+  seatsOpen?: boolean;
 }) {
   const [state, action, pending] = useActionState(submitIntentBid, initial);
   const [idempotencyKey] = useState(() => crypto.randomUUID());
@@ -45,6 +50,25 @@ export function IntentBidForm({
   const [uploadName, setUploadName] = useState("");
   const [localError, setLocalError] = useState<string | null>(null);
   const depositPreview = tryDepositPreviewCopy(standingUsd);
+
+  if (intentFormMode(seatsOpen) === "waitlist-only") {
+    return (
+      <div
+        className="auth-hint"
+        data-testid="intent-waitlist-only"
+        data-seats-open="false"
+      >
+        <p data-testid="intent-waitlist-only-copy">
+          {intentWaitlistOnlyCopy()}
+        </p>
+        <p>
+          <Link href="/#waitlist" data-testid="intent-waitlist-only-link">
+            Join the waitlist
+          </Link>
+        </p>
+      </div>
+    );
+  }
 
   function onFileChange(file: File | null) {
     setLocalError(null);
@@ -93,7 +117,12 @@ export function IntentBidForm({
   }
 
   return (
-    <form action={action} className="auth-form" data-testid="intent-bid-form">
+    <form
+      action={action}
+      className="auth-form"
+      data-testid="intent-bid-form"
+      data-seats-open="true"
+    >
       <input type="hidden" name="panelId" value={panelId} />
       <input
         type="hidden"
