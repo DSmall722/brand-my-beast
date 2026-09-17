@@ -36,6 +36,11 @@ async function signIn(page: Page, email: string) {
 }
 
 test.describe("slice 14.17: SEATS_OPEN flag waitlist-only intent form", () => {
+  test.beforeEach(async ({ request }) => {
+    const res = await request.post("/api/test/reset-intents");
+    expect(res.ok()).toBeTruthy();
+  });
+
   test("campaign money fences stay locked — CLOSE_AT null", () => {
     expect(FLOOR_USD).toBe(58_000);
     expect(GOAL_USD).toBe(120_000);

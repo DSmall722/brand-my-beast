@@ -49,6 +49,10 @@ export async function POST() {
   await resetCircuitStoryStoreForTests();
   const { resetSightingStoreForTests } = await import("@/lib/sighting-store");
   await resetSightingStoreForTests();
+  const { resetSeatsOpenOverrideForTests } = await import(
+    "@/lib/seats-open-store"
+  );
+  resetSeatsOpenOverrideForTests();
   resetRateLimitForTests();
   resetLastOperatorDigestAtForTests();
   return Response.json({ ok: true, capture: false, closeAt: null });

@@ -6,6 +6,7 @@ import { ArtworkApprovalChecklist } from "@/components/ArtworkApprovalChecklist"
 import { ImagineMockupControls } from "@/components/ImagineMockupControls";
 import { MockupQueue } from "@/components/MockupQueue";
 import { OperatorStatusPanel } from "@/components/OperatorStatusPanel";
+import { OperatorSeatsOpenToggle } from "@/components/OperatorSeatsOpenToggle";
 import { PreP3Checklist } from "@/components/PreP3Checklist";
 import { SiteChrome } from "@/components/SiteChrome";
 import { auth } from "@/lib/auth";
@@ -37,6 +38,7 @@ import {
 import { OPERATOR_CSV_PATH } from "@/lib/operator-csv";
 import { operatorPrintPath } from "@/lib/operator-print-seat";
 import { loadOperatorStatus } from "@/lib/operator-status";
+import { resolveSeatsOpen } from "@/lib/seats-open";
 
 type SearchParams = Promise<{ status?: string | string[] }>;
 
@@ -177,6 +179,8 @@ export default async function OperatorPage({
             </div>
           </dl>
         </aside>
+
+        <OperatorSeatsOpenToggle seatsOpen={resolveSeatsOpen()} />
 
         <OperatorStatusPanel status={operatorStatus} />
 
