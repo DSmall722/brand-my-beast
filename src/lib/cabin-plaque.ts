@@ -1,6 +1,6 @@
 /**
  * Cabin plaque name line. Not a panel bid. No price — CAMPAIGN has none.
- * Slice 13.30 — UI / authenticated nav stay dark while TRUCK_EXISTS is false.
+ * Slice 13.30 / 14.12 — UI / authenticated nav stay dark while TRUCK_EXISTS is false.
  */
 
 import { FLOOR_USD, GOAL_USD, TRUCK_EXISTS, formatUsd } from "./campaign";
