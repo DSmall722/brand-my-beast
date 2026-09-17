@@ -7,11 +7,25 @@ import { FLOOR_USD, GOAL_USD, formatUsd } from "@/lib/campaign";
 import { OPERATOR_CSV_PATH } from "@/lib/operator-csv";
 import { listWaitlistSignups } from "@/lib/waitlist";
 
+type SearchParams = Promise<Record<string, string | string[] | undefined>>;
+
+function wholeTruckFilter(
+  raw: string | string[] | undefined,
+): "all" | "yes" | "no" {
+  const value = Array.isArray(raw) ? raw[0] : raw;
+  if (value === "yes" || value === "no") return value;
+  return "all";
+}
+
 /**
  * Slice 7.5 — operator-only waitlist roster.
- * Auth + OPERATOR_EMAILS. No public header link. No export to X.
+ * Slice 16.0f — Whole-truck column + optional filter. No public header link.
  */
-export default async function OperatorWaitlistPage() {
+export default async function OperatorWaitlistPage({
+  searchParams,
+}: {
+  searchParams: SearchParams;
+}) {
   const session = await auth();
   if (!session?.user) {
     redirect("/signin?callbackUrl=/operator/waitlist");
@@ -36,7 +50,15 @@ export default async function OperatorWaitlistPage() {
     );
   }
 
-  const rows = await listWaitlistSignups();
+  const params = await searchParams;
+  const filter = wholeTruckFilter(params.wholeTruck);
+  const allRows = await listWaitlistSignups();
+  const rows =
+    filter === "all"
+      ? allRows
+      : allRows.filter((row) =>
+          filter === "yes" ? row.wantWholeTruck : !row.wantWholeTruck,
+        );
 
   return (
     <>
@@ -45,6 +67,7 @@ export default async function OperatorWaitlistPage() {
         id="main-content"
         className="shell auth-page"
         data-testid="operator-waitlist"
+        data-whole-truck-filter={filter}
       >
         <p className="eyebrow">Operator</p>
         <h1>Waitlist signups</h1>
@@ -65,6 +88,36 @@ export default async function OperatorWaitlistPage() {
           >
             Download CSV
           </a>
+        </p>
+
+        <p
+          className="auth-hint"
+          data-testid="operator-waitlist-whole-truck-filter"
+        >
+          Whole-truck:{" "}
+          <Link
+            href="/operator/waitlist"
+            data-testid="operator-waitlist-filter-all"
+            aria-current={filter === "all" ? "page" : undefined}
+          >
+            All
+          </Link>
+          {" · "}
+          <Link
+            href="/operator/waitlist?wholeTruck=yes"
+            data-testid="operator-waitlist-filter-yes"
+            aria-current={filter === "yes" ? "page" : undefined}
+          >
+            Yes
+          </Link>
+          {" · "}
+          <Link
+            href="/operator/waitlist?wholeTruck=no"
+            data-testid="operator-waitlist-filter-no"
+            aria-current={filter === "no" ? "page" : undefined}
+          >
+            No
+          </Link>
         </p>
 
         <p
@@ -93,6 +146,7 @@ export default async function OperatorWaitlistPage() {
                 key={row.email}
                 className="decided-row"
                 data-testid={`operator-waitlist-row-${row.email}`}
+                data-want-whole-truck={row.wantWholeTruck ? "true" : "false"}
               >
                 <div className="decided-row-main">
                   <strong data-testid="operator-waitlist-email">
@@ -100,6 +154,12 @@ export default async function OperatorWaitlistPage() {
                   </strong>
                   <span className="auth-hint" data-testid="operator-waitlist-source">
                     {row.source}
+                  </span>
+                  <span
+                    className="auth-hint"
+                    data-testid="operator-waitlist-whole-truck"
+                  >
+                    Whole-truck: {row.wantWholeTruck ? "Yes" : "No"}
                   </span>
                   <time
                     className="auth-hint"
