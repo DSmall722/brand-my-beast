@@ -14,8 +14,8 @@ Updated: 2026-09-17
 - Set **Now** and **Last merged** in this file in that same PR.
 - Judge PRs from git + `npm test` + `npm run build`. Do not use brandmybeast.com as a merge gate.
 
-**Now:** 16.0b PUBLIC_COPY waitlist checkbox strings: label `I want the whole truck`, hint `This is interest, not a $120,000 bid. Nothing is charged.` Add to PUBLIC_COPY.md. No H1 rewrite.
-**Last merged:** 16.0a Hide whole-truck sign-in and form from public `/`.
+**Now:** 16.0c Drizzle: `waitlist_signups.want_whole_truck` boolean default false. Memory store in CI gets the same field. No pledged math change.
+**Last merged:** 16.0b PUBLIC_COPY waitlist checkbox strings.
 
 ## Standing orders
 
@@ -169,7 +169,7 @@ Clock unset.
 Waitlist stays the public product. Do not flip SEATS_OPEN.
 
 - [x] 16.0a Hide `WholeTruckIntentForm` and the `whole-truck-signin` link from `HomeMoneySection`. Keep the $120,000 buyout cell and vault marks. Keep a short whole-truck *explanation* from PUBLIC_COPY (heading + lead only). No button. No `/signin?callbackUrl=/#money`. Playwright: `/` has no `whole-truck-signin`, no `whole-truck-intent-form`, H1 unchanged, `Notify me` present.
-- [ ] 16.0b PUBLIC_COPY waitlist checkbox strings: label `I want the whole truck`, hint `This is interest, not a $120,000 bid. Nothing is charged.` Add to PUBLIC_COPY.md. No H1 rewrite.
+- [x] 16.0b PUBLIC_COPY waitlist checkbox strings: label `I want the whole truck`, hint `This is interest, not a $120,000 bid. Nothing is charged.` Add to PUBLIC_COPY.md. No H1 rewrite.
 - [ ] 16.0c Drizzle: `waitlist_signups.want_whole_truck` boolean default false. Memory store in CI gets the same field. No pledged math change.
 - [ ] 16.0d `POST /api/waitlist` accepts optional `wantWholeTruck`. Invalid email still 400. Created/exists still 201. Field does not flow into `loadBoardIntentStats`.
 - [ ] 16.0e `WaitlistForm` renders the checkbox. POST body includes it. Playwright: checkbox + submit still 201; pledged on `/` stays `$0`.
