@@ -202,6 +202,11 @@ export const PUBLIC_COPY = {
    * Not homepage. Do not rewrite hero H1.
    */
   seat: {
+    /**
+     * Slice 14.7 — seat rationale only (RULES.md Inventory). Not homepage H1.
+     */
+    openingRationale:
+      "Opening marks start the seat. The floor is not the sum of openings — bidding has to carry the board to $58,000.",
     withdrawSuccess: "Intent withdrawn. Still not charged.",
     withdrawButton: "Withdraw pending intent",
     failedWinnerWaitlist:
