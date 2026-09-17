@@ -18,6 +18,7 @@ import { shopPdfPath } from "@/lib/shop-pdf";
  * Slice 12.23 — cut-file checklist form lives here, not as a card on `/`.
  * Slice 12.24 — partner marks art shop-ready / needs-fix.
  * Slice 13.24 — brand + trade + art only; never bidder email / userId.
+ * Slice 14.13 — no weekly mileage ledger / city time-in-market heatmap cards.
  * No twelve-panel matrix. No public header link (HomeHeader).
  */
 export function WrapShopSheet({
