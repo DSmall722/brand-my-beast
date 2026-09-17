@@ -12,7 +12,9 @@ import { MAIL_REPLY_TO } from "./mail-envelope";
 export type MailDeadLetterKind =
   | "intent-status"
   | "waitlist"
-  | "operator-digest";
+  | "operator-digest"
+  /** Slice 14.39 — Resend email.bounced webhook. */
+  | "bounce";
 
 export type MailDeadLetterStatus = "pending" | "sent";
 
@@ -51,6 +53,7 @@ const KINDS: readonly MailDeadLetterKind[] = [
   "intent-status",
   "waitlist",
   "operator-digest",
+  "bounce",
 ] as const;
 
 const globalStore = globalThis as typeof globalThis & {
