@@ -5,6 +5,7 @@ Users see twelve stainless panel seats. Eight etchable faces stay locked until b
 ## Sub-features
 
 - `panels-count` renders exactly twelve cards.
+- `panels-index` shows the same 1–12 index as hero callouts (`data-panel-n`, `panel-index-<id>`).
 - `panels-etch-lock` marks etchable panels locked under buyout while raised is below `$120,000`.
 - `panels-wrap-only` marks non-etchable panels with a `Wrap` badge.
 
@@ -21,6 +22,7 @@ Preconditions:
 
 - **Open panels.** Go to `/#panels`. Run `page.goto("/#panels")`.
 - **Count cards.** Assert `panel-grid` contains 12 `article` nodes.
+- **Match hero indexes.** For each board mark, card `data-panel-n` and `panel-index-<id>` text equal hero callout `data-panel-n` (1 hood … 12 rear fascia).
 - **Check etchable locks.** For each etchable panel id, assert `data-etchable="true"`, `data-etch-unlocked="false"`, and `etch-lock-<id>` textContent equals `Etch at $120k`.
 - **Check wrap-only.** For non-etchable panels, assert visible badge text `Wrap`.
 - **Proof.** Screenshot `artifacts/<run-id>/panel-grid.png`.
