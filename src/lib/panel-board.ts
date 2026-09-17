@@ -106,6 +106,21 @@ export function panelBoardMarksForView(
   return PANEL_BOARD_MARKS.filter((mark) => mark.views[view] != null);
 }
 
+/** Mark for a panel id. Numbers match hero callouts (1 hood … 12 rear fascia). */
+export function panelBoardMarkFor(panelId: string): PanelBoardMark {
+  const mark = PANEL_BOARD_MARKS.find((row) => row.panelId === panelId);
+  if (!mark) {
+    throw new Error(`panel-board: missing mark for ${panelId}`);
+  }
+  return mark;
+}
+
+/** Slice 16.2 — seat page H1: `3 · Driver door`. */
+export function panelSeatH1(panel: Pick<Panel, "id" | "name">): string {
+  const mark = panelBoardMarkFor(panel.id);
+  return `${mark.n} · ${panel.name}`;
+}
+
 export function panelBoardIsComplete(): boolean {
   if (PANEL_BOARD_MARKS.length !== 12) return false;
   if (PANEL_BOARD_MARKS[0]?.panelId !== "hood") return false;
