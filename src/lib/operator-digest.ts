@@ -14,6 +14,7 @@ import {
 } from "@/lib/intent-store";
 import { appendMailDeadLetter } from "@/lib/mail-dead-letter";
 import { outboundMailEnvelope } from "@/lib/mail-envelope";
+import { recordOperatorDigestSentAt } from "@/lib/operator-status";
 import { listWaitlistSignups } from "@/lib/waitlist";
 
 /** Payload Resend (or a test double) receives for the operator digest. */
@@ -123,6 +124,8 @@ export async function sendOperatorDigest(
   const key = process.env.RESEND_API_KEY;
   const mailer = resolveMailer(key);
   if (!mailer) {
+    // Still stamp the clock so /operator/health shows last digest attempt.
+    recordOperatorDigestSentAt(snapshot.generatedAt);
     return { sent: 0, skipped: true, digest: snapshot };
   }
 
@@ -154,6 +157,7 @@ export async function sendOperatorDigest(
       }
     }
   }
+  recordOperatorDigestSentAt(snapshot.generatedAt);
   return { sent, skipped: false, digest: snapshot };
 }
 

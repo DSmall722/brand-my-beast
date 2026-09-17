@@ -15,8 +15,8 @@ Updated: 2026-09-16
 - Coordinator may merge a PR that finishes exactly one unchecked slice, Playwright is green, and the merge gates below hold.
 - Judge PRs from git + `npm test` + `npm run build`. Do not use brandmybeast.com as a gate while the Vercel usage hold is on.
 
-**Now:** 13.45 Operator health shows waitlist count + pending count + last digest time.
-**Last merged:** 13.44 (#252 drizzle journal checked in).
+**Now:** 13.46 Document how to run Playwright offline (memory mode).
+**Last merged:** 13.45 (#PENDING operator health waitlist/pending/digest).
 
 ## Standing orders
 
@@ -58,7 +58,7 @@ Complete. 11.10 skipped (Vercel hold). 12.50 tagged intent-complete. 14.0 number
 ## Wave 13 — docs freeze + auction correctness
 
 - [x] 13.1–13.44 Complete. (#208–#252)
-- [ ] 13.45 Operator health shows waitlist count + pending count + last digest time.
+- [x] 13.45 Operator health shows waitlist count + pending count + last digest time. (#PENDING)
 - [ ] 13.46 Document how to run Playwright offline (memory mode).
 - [ ] 13.47 Verify-skill map Waves 9–13.
 - [ ] 13.48 Tag `wave-12-complete` after 12.50. Still no clock.
