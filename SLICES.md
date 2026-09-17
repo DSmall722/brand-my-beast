@@ -16,7 +16,7 @@ Updated: 2026-09-16
 - Judge PRs from git + `npm test` + `npm run build`. Do not use brandmybeast.com as a gate while the Vercel usage hold is on.
 
 **Now:** 14.26 Failed-winner offer cannot target a banned trade.
-**Last merged:** 14.25 (Sign-out on `/account` uses PUBLIC_COPY).
+**Last merged:** 14.25 (#283 Sign-out on `/account` uses PUBLIC_COPY).
 
 ## Standing orders
 
