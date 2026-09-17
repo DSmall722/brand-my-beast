@@ -18,7 +18,7 @@ human message (`docs/WAVE-15-STOP.md`).
 | 14.7 | PUBLIC_COPY seat rationale only | `tests/slice-14-7-public-copy-seat.spec.ts` |
 | 14.8 | Delete FEATURES rows that contradict CAMPAIGN | `tests/slice-14-8-features-contradict.spec.ts` |
 | 14.9 | docs/STATUS.md floor / buyout / CLOSE_AT null | `tests/slice-14-9-status-md.spec.ts` |
-| 14.10 | Kill leftover telegram lines in .md | `tests/slice-14-10-telegram.spec.ts` |
+| 14.10 | Kill leftover chat-ops lines in .md (history note only) | `tests/slice-14-10-*.spec.ts` |
 | 14.11 | TRUCK_EXISTS=false import gate | `tests/slice-14-11-truck-exists-imports.spec.ts` |
 | 14.12 | /account nav hides Cabin plaque | `tests/slice-14-12-account-plaque-nav.spec.ts` |
 | 14.13 | /partner has no mileage / heatmap cards | `tests/slice-14-13-partner-no-mileage.spec.ts` |
