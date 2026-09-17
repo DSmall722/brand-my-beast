@@ -8,10 +8,10 @@ Updated: 2026-09-16
 ## How this file stays alive
 
 - Next job = the first unchecked box, wave order. Do not skip. Do not start two boxes in one PR.
-- Exception 2026-09-16: **14.0** done for local preview. Resume Wave 12 from 12.29, then 13, then 14.1. No Wave 15 without a human message.
-- The PR that finishes a slice also flips that box `[ ]` → `[x]` and appends `(#216)` on the same line.
+- After 13.50, do 14.1–14.50, then Wave 16. Do not start Wave 15 (Stripe) without a human message.
+- The PR that finishes a slice also flips that box `[ ]` → `[x]` and appends `(#NN)` on the same line.
 - Set **Now** and **Last merged** in this file in that same PR.
-- Do not add a new checkbox unless the human writes it here first. After Wave 14, idle. Do not open Wave 15 from FEATURES.md.
+- Do not add a new checkbox unless the human writes it here first. After Wave 16, idle.
 - Coordinator may merge a PR that finishes exactly one unchecked slice, Playwright is green, and the merge gates below hold.
 - Judge PRs from git + `npm test` + `npm run build`. Do not use brandmybeast.com as a gate while the Vercel usage hold is on.
 
@@ -38,6 +38,7 @@ Updated: 2026-09-16
 - LLC paperwork
 - Moving Vercel nameservers
 - Clearing the Vercel usage hold / buying more credits
+- Wave 15 (money path)
 
 ## Merge gate (all must be true)
 
@@ -48,110 +49,27 @@ Updated: 2026-09-16
 - PR does not add a new public homepage section for P3–P5
 - This file has the finished box checked in the same PR
 
-## Waves 0–11
+## Waves 0–12
 
-Complete through 11.10 skipped (Vercel hold). Condensed ranges keep verify-map parsers honest; full text lives in git history.
+Complete. 11.10 skipped (Vercel hold). 12.50 tagged intent-complete. 14.0 numbered board shipped (#185).
 
-- [x] 0.1–0.9 Complete.
-- [x] 1.1–1.8 Complete.
-- [x] 2.1–2.5 Complete.
-- [x] 3.1–3.7 Complete.
-- [x] 4.1–4.6 Complete.
-- [x] 5.1–5.4 Complete.
-- [x] 6.1–6.15 Complete.
-- [x] 7.1–7.10 Complete.
-- [x] 8.1–8.10 Complete.
-- [x] 9.1–9.10 Complete.
-- [x] 10.1–10.10 Complete.
-- [x] 11.1–11.10 Complete.
-
-## Wave 12 — money-ready without charging
-
-- [x] 12.1–12.27 Complete through opening-bid rationale. (#156–#182)
-- [x] 12.28 Operator cannot approve etch finish while pledged < $120,000. (#183)
-- [x] 12.29 Whole-truck intent cannot stack on a panel that already has approved standing. (#186)
-- [x] 12.30 Ban-list match is logged with the rule id (ties to 8.8). (#187)
-- [x] 12.31 JSON-LD Organization + Offer on `/` from PUBLIC_COPY. No impression claims. (#188)
-- [x] 12.32 Canonical URL `https://brandmybeast.com`. (#189)
-- [x] 12.33 Print stylesheet for `/panels/[id]`. (#190)
-- [x] 12.34 Error boundary + branded 500 that is not a panel. (#191)
-- [x] 12.35 Strip `console.log` from `src/` except test helpers. (#192)
-- [x] 12.36 `globals.css` split: tokens / hero / board. No copy change. (#193)
-- [x] 12.37 Prefetch `/panels/*` from homepage cards. (#194)
-- [x] 12.38 Focus restore after waitlist submit. (#195)
-- [x] 12.39 `/signin/check-email` uses PUBLIC_COPY success line. (#196)
-- [x] 12.40 Remove dead vapor component imports when `TRUCK_EXISTS` is false. (#197)
-- [x] 12.41 Structured log line on waitlist insert + intent status change. No PII beyond email hash. (#198)
-- [x] 12.42 `/operator/health` last-migration name from Drizzle. (#199)
-- [x] 12.43 Drizzle migrate runbook in repo. (#200)
-- [x] 12.44 Backup restore drill doc (Neon PITR) next to 11.6. (#201)
-- [x] 12.45 Playwright: concurrent two bidders on hood, only one approved standing. (#202)
-- [x] 12.46 Playwright: reject without note fails; with note succeeds. (#203)
-- [x] 12.47 Verify-skill map for Wave 12. (#204)
-- [x] 12.48 `package.json` license + engines. No new runtime. (#205)
-- [x] 12.49 SECURITY.md: report to `hello@`. No personal inbox. (#206)
-- [x] 12.50 Pre-P3 freeze tag `intent-complete`. Does not set CLOSE_AT. Does not add Stripe. (#207)
+- [x] 0.1–12.50 Complete.
 
 ## Wave 13 — docs freeze + auction correctness
 
-Do not start Wave 13 until 12.50 is checked. No Stripe. No CLOSE_AT.
-
-- [x] 13.1 PROCESS.md: coordinator reads SLICES Waves 7–14; live site is not a gate while the Vercel hold is on. (#208)
-- [x] 13.2 ARCHITECTURE.md: Postgres + Blob + Resend mock; no Stripe box. (#209)
-- [x] 13.3 CAMPAIGN.md links `CONTRACT.md` for wreck text. Money table stays $58,000 / $120,000. (#210)
-- [x] 13.4 RULES.md adds failed-winner + one-approved-per-panel. (#211)
-- [x] 13.5 PUBLIC_COPY seat pack: withdraw, failed-winner, deposit preview. Do not rewrite the homepage H1. (#212)
-- [x] 13.6 FEATURES.md banner: “not the build order.” (#213)
-- [x] 13.7 `docs/P3-DAY.md` runbook. Checkboxes only. Does not set CLOSE_AT. (#214)
-- [x] 13.8 `docs/WRAP-SHOP.md` shortlist template. (#215)
-- [x] 13.9 `docs/EMAIL-DNS.md` SPF/DKIM/DMARC checklist for hello@. (#216)
-- [x] 13.10 Changelog file of last 20 merged slice ids. (#217)
-- [x] 13.11 Failed-winner timeout: offer expires; next compliant mark; no silent reopen. (#218)
-- [x] 13.12 Proxy max cannot exceed a hard cap published in CAMPAIGN.md in that same PR. (#219)
-- [x] 13.13 Floor-save cannot fire if pledged already >= $58,000. (#220)
-- [x] 13.14 Withdraw of the only pending mark does not leave a ghost standing. (#221)
-- [x] 13.15 Edit-while-pending increments the revision table (12.8). (#222)
-- [x] 13.16 Ban-list change re-runs pending intents; approved seats stay. (#223)
-- [x] 13.17 Whole-truck reject rolls back all twelve rows in one transaction. (#225)
-- [x] 13.18 Outbid email includes next minimum (9.2). (#226)
-- [x] 13.19 Operator cannot approve two brands on one panel even if they race. (#227)
-- [x] 13.20 Playwright: failed-winner accepts → old winner is `outbid`, not deleted. (#228)
-- [x] 13.21 Shop PDF embeds etch-lock state from pledged vs $120,000. (#229)
-- [x] 13.22 `shop-ready` requires vector URL or Blob key, not a screenshot only. (#230)
-- [x] 13.23 Winner packet includes wrap term start = install day, not close. (#231)
-- [x] 13.24 Partner cannot see bidder email — only brand + trade + art. (#232)
-- [x] 13.25 Operator print view for one seat (13.23 + 8.6). (#233)
-- [x] 13.26 Art size cap documented (max bytes in RULES.md). (#234)
-- [x] 13.27 Etch art rejected if linter fails; wrap art may still list. (#235)
-- [x] 13.28 `/account/wins` empty state from PUBLIC_COPY. (#236)
-- [x] 13.29 Certificate template exists as markdown only. No issued date until etch exists. (#237)
-- [x] 13.30 Remove Cabin plaque form from any authenticated nav while `TRUCK_EXISTS` is false. (#238)
-- [x] 13.31 Waitlist email domain blocklist (disposable) — operator editable. (#239)
-- [x] 13.32 Same user cannot hold standing on all 12 panels unless whole-truck path. (#240)
-- [x] 13.33 Rate-limit operator approve/reject. (#241)
-- [x] 13.34 Magic-link request logs hashed email only (ties 12.41). (#242)
-- [x] 13.35 CSP `form-action` self + Resend callback host (builds on 11.1). (#243)
-- [x] 13.36 Download routes (CSV, PDF, PNG) require operator or owner. Playwright 401/403. (#244)
-- [x] 13.37 `robots.txt` still excludes `/account`, `/signin`, `/operator`. (#245)
-- [x] 13.38 Terms stub adds “intent is not a charge.” (#246)
-- [x] 13.39 Privacy stub adds waitlist retention: until seats open or user deletes. (#247)
-- [x] 13.40 No personal Gmail in `git grep` of `src/` + `*.md`. (#248)
-- [x] 13.41 `prove-all.sh` includes 9.6–9.10 and 12.45–12.46. (#249)
-- [x] 13.42 CI fails if `package.json` gains `stripe`. (#250)
-- [x] 13.43 CI fails if `CLOSE_AT` is non-null. (#251)
-- [x] 13.44 Drizzle journal checked in. No “push from laptop” as the only path. (#252)
+- [x] 13.1–13.44 Complete. (#208–#252)
 - [ ] 13.45 Operator health shows waitlist count + pending count + last digest time.
 - [ ] 13.46 Document how to run Playwright offline (memory mode).
 - [ ] 13.47 Verify-skill map Waves 9–13.
 - [ ] 13.48 Tag `wave-12-complete` after 12.50. Still no clock.
 - [ ] 13.49 Slice 11.10 remains human: one-line runbook “redeploy when Vercel hold lifts.”
-- [ ] 13.50 Stop line in SLICES: “Wave 15 is Stripe and needs a human message.”
+- [ ] 13.50 Stop line in SLICES: Wave 15 is Stripe and needs a human message.
 
 ## Wave 14 — launch readiness, no charge
 
-Human-approved 2026-09-16. **14.0** shipped for local preview (#185). Resume the rest of 12 / 13, then 14.1. Wave 15 is Stripe and needs a separate human message.
+14.0 shipped (#185). Do 14.1 after 13.50. Wave 15 is Stripe. Wave 16 is next after 14.50.
 
-- [x] 14.0 Numbered stainless board. Put visible 1–12 callouts on the existing hero still (`/hero-truck-preview.jpg`) and on the side/front/rear views. Numbers and names match `PANELS` in campaign.ts (1 hood … 12 rear fascia). Each number is a link to `/panels/[id]`. Keep the truck bare stainless — no wrap, no etch, no Tesla marks, no teslacyberbeast livery. The schematic SVG rectangle is not enough; people have to see a Cybertruck. Playwright 390px: at least six numbers visible, H1 still `Put your brand on the truck people already photograph.`, `Notify me` present, no lease, no personal handle. (#185)
+- [x] 14.0 Numbered stainless board. (#185)
 - [ ] 14.1 FEATURES.md: shipped rows marked shipped with slice id; P3/P5 stay Catalog.
 - [ ] 14.2 ARCHITECTURE.md: Postgres + Blob + Resend mock. Stripe box = “not wired.”
 - [ ] 14.3 PROCESS.md: Now = first unchecked SLICES box; live URL is not a gate.
@@ -203,7 +121,77 @@ Human-approved 2026-09-16. **14.0** shipped for local preview (#185). Resume the
 - [ ] 14.49 Local demo seed: 3 pending, 1 approved, 1 outbid. CI only.
 - [ ] 14.50 Stop line: Wave 15 is Stripe / CLOSE_AT / first tweet and needs a human message.
 
-## After Wave 14
+## Wave 16 — shareable board + freeze polish
 
-Idle on polish / a11y / verify-skill. Do not open Wave 15 from FEATURES.md.
+Human-approved 2026-09-16. Do not start until 14.50 is checked. No Stripe. No CLOSE_AT. No tweet. No live-URL gate. Wave 15 stays human-only money.
+
+### Numbered board people can send
+
+- [ ] 16.1 Homepage panel cards show the same 1–12 index as the hero callouts.
+- [ ] 16.2 Seat page H1 includes the number (`3 · Driver door`).
+- [ ] 16.3 Number map legend under the hero: `1 Hood … 12 Rear fascia` from PANELS only.
+- [ ] 16.4 Playwright 390px: numbers 1, 3, 5, 9 visible and not clipped by the wordmark.
+- [ ] 16.5 Playwright 1280px: all twelve numbers present in the DOM.
+- [ ] 16.6 Front / side / rear views use the same number as the hero, not a second index.
+- [ ] 16.7 Occupied seats keep the number and add `Held` — still no wrap art on the photo.
+- [ ] 16.8 `docs/LOCAL-PREVIEW.md`: `npm i && npm run dev` is how friends see the real page while Vercel is on hold.
+- [ ] 16.9 Hero still ships a 1280-wide and a 640-wide asset. No Tesla CDN.
+- [ ] 16.10 Callout hit area ≥44px. Keyboard focus ring visible.
+
+### Copy / docs that still drift
+
+- [ ] 16.11 README “How to look at this” points at 16.8. No brandmybeast.com as the demo.
+- [ ] 16.12 PUBLIC_COPY panel lead mentions “numbers on the truck match the cards.” No H1 rewrite.
+- [ ] 16.13 RULES.md lists the 1–12 order next to panel ids.
+- [ ] 16.14 CAMPAIGN.md inventory table includes the number column. Dollars unchanged.
+- [ ] 16.15 FEATURES.md “numbered board” row marked shipped with 14.0 / 16.x.
+- [ ] 16.16 `docs/STATUS.md` last-slice line updates from SLICES Now (no hand edit of money).
+- [ ] 16.17 Kill any leftover “Wave 6 idle” sentence in PROCESS.md.
+- [ ] 16.18 ARCHITECTURE.md diagram includes numbered overlay, not only the schematic SVG.
+- [ ] 16.19 Press-kit fact sheet (14.20) includes the 1–12 list.
+- [ ] 16.20 `/llms.txt` includes floor, buyout, twelve numbered seats, no close date.
+
+### Auction leftovers
+
+- [ ] 16.21 Seat log shows panel number + amount + ET time.
+- [ ] 16.22 Operator list columns: #, panel, brand, trade, amount, status.
+- [ ] 16.23 CSV export includes panel number.
+- [ ] 16.24 Shop PDF title is `Seat 03 — Driver door` not only the slug.
+- [ ] 16.25 Whole-truck intent copy lists 1–12 as the package.
+- [ ] 16.26 Failed-winner email subject includes panel number.
+- [ ] 16.27 Ban-list UI shows which panel numbers were blocked in the last run.
+- [ ] 16.28 Playwright: card `#3` and hero callout `3` both go to `/panels/driver-door`.
+- [ ] 16.29 Opening prices on cards stay `formatUsd` from campaign.ts.
+- [ ] 16.30 Etch badge still `Can etch at $120k` from PUBLIC_COPY. No new money number.
+
+### Share / ops
+
+- [ ] 16.31 `npm run preview:share` script prints the local URL and “not the live domain.”
+- [ ] 16.32 OG image for `/` includes the wordmark + stainless still. No wrap.
+- [ ] 16.33 OG image for `/panels/[id]` includes the number + name.
+- [ ] 16.34 `robots.txt` comment: production may be stale while Vercel hold is on. No app behavior change.
+- [ ] 16.35 Health panel shows `SEATS_OPEN` once 14.17 exists, else `unset`.
+- [ ] 16.36 Screenshot fixture: 390 and 1280 hero stored under `tests/fixtures/board/` for visual diff.
+- [ ] 16.37 Visual diff fails CI only if numbers disappear, not on font kerning.
+- [ ] 16.38 Reduce-motion: callouts stay visible with no animation.
+- [ ] 16.39 Contrast: number badge vs stainless still meets 4.5:1.
+- [ ] 16.40 No personal Gmail / @NardLion regression grep (ties 14.44).
+
+### Freeze
+
+- [ ] 16.41 Verify-skill map Wave 16.
+- [ ] 16.42 `prove-all.sh` includes 16.4, 16.5, 16.28.
+- [ ] 16.43 Tag `wave-14-complete` after 14.50. No clock.
+- [ ] 16.44 Tag `wave-16-complete` after 16.43. No clock.
+- [ ] 16.45 CI still fails on `stripe` in package.json.
+- [ ] 16.46 CI still fails if CLOSE_AT is non-null.
+- [ ] 16.47 docs/VERCEL-HOLD.md date bump only.
+- [ ] 16.48 Local seed includes numbered standing on seat 1 and 9.
+- [ ] 16.49 Counsel ZIP lists seats by number.
+- [ ] 16.50 Stop line: after Wave 16, idle. Wave 15 is still Stripe and needs a human message.
+
+## After Wave 16
+
+Idle on polish / a11y / verify-skill.
 Wave 15 is Stripe / CLOSE_AT / first tweet and waits for an explicit human message.
+Do not open Wave 17 from FEATURES.md.
