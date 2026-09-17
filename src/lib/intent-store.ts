@@ -1064,6 +1064,7 @@ export async function placeIntentBid(
 /**
  * Slice 9.1 — when a listed mark outbids holders with a proxy ceiling,
  * the agent steps standing + max($250, 10%) up to proxyMax. Still no card.
+ * Slice 14.27 — withdrawn bids never feed the proxy agent (ceiling cleared).
  */
 async function runProxyMaxAgent(input: {
   panelId: string;
@@ -1075,18 +1076,30 @@ async function runProxyMaxAgent(input: {
   if (input.outbidTargets.length === 0) return;
 
   const next = nextStandingUsd(input.listed.standingUsd);
-  const able = input.outbidTargets.filter(
-    (target) =>
-      target.userId !== input.listed.userId &&
-      target.proxyMaxUsd != null &&
-      target.proxyMaxUsd >= next,
-  );
+  const able: { target: IntentBid; ceiling: number }[] = [];
+  for (const target of input.outbidTargets) {
+    if (target.userId === input.listed.userId) continue;
+    if (target.status === "withdrawn" || target.deletedAt) continue;
+    // Live row may have been withdrawn (and proxy cleared) since the snapshot.
+    const live = await getIntentBidById(target.id);
+    if (
+      live &&
+      (live.status === "withdrawn" ||
+        live.deletedAt != null ||
+        live.proxyMaxUsd == null)
+    ) {
+      continue;
+    }
+    const ceiling = live?.proxyMaxUsd ?? target.proxyMaxUsd;
+    if (ceiling == null || ceiling < next) continue;
+    able.push({ target, ceiling });
+  }
   if (able.length === 0) return;
 
   able.sort((a, b) => {
-    const byMax = (b.proxyMaxUsd ?? 0) - (a.proxyMaxUsd ?? 0);
+    const byMax = b.ceiling - a.ceiling;
     if (byMax !== 0) return byMax;
-    return b.createdAt.localeCompare(a.createdAt);
+    return b.target.createdAt.localeCompare(a.target.createdAt);
   });
   const agent = able[0];
   if (!agent) return;
@@ -1094,12 +1107,12 @@ async function runProxyMaxAgent(input: {
   await placeIntentBid(
     {
       panelId: input.panelId,
-      userId: agent.userId,
-      brandLabel: agent.brandLabel,
-      tradeLabel: agent.tradeLabel,
+      userId: agent.target.userId,
+      brandLabel: agent.target.brandLabel,
+      tradeLabel: agent.target.tradeLabel,
       standingUsd: next,
-      artworkUrl: agent.artworkUrl,
-      proxyMaxUsd: agent.proxyMaxUsd,
+      artworkUrl: agent.target.artworkUrl,
+      proxyMaxUsd: agent.ceiling,
     },
     { proxyDepth: input.proxyDepth + 1 },
   );
@@ -1203,7 +1216,9 @@ export async function setIntentStatus(
 
     bid.status = status;
     if (status === "withdrawn") {
+      // Slice 14.27 — clear proxy ceiling so it cannot fire after withdraw.
       bid.deletedAt = new Date().toISOString();
+      bid.proxyMaxUsd = null;
     }
     bid.updatedAt = nextUpdatedAtIso(bid.updatedAt);
     assertIntentOnly(bid);
@@ -1335,7 +1350,13 @@ export async function setIntentStatus(
     .update(intentBids)
     .set(
       status === "withdrawn"
-        ? { status, updatedAt: touchAt, deletedAt: touchAt }
+        ? {
+            status,
+            updatedAt: touchAt,
+            deletedAt: touchAt,
+            // Slice 14.27 — clear proxy ceiling on withdraw.
+            proxyMaxUsd: null,
+          }
         : { status, updatedAt: touchAt },
     )
     .where(idLock)
