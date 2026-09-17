@@ -46,9 +46,16 @@ test.describe("slice 12.34: branded error boundary", () => {
     expect(src).toContain("This is not a panel.");
     expect(src).toContain("retry");
     expect(src).toContain("BRAND.name");
-    expect(src).toContain("PUBLIC_COPY.footer.line");
+    expect(src).toContain("SiteChromeFooter");
     expect(src.toLowerCase()).not.toMatch(/\blease\b/);
     expect(src).not.toMatch(/@gmail\.com/);
+
+    const footer = readFileSync(
+      join(process.cwd(), "src/components/SiteChromeFooter.tsx"),
+      "utf8",
+    );
+    expect(footer).toContain("PUBLIC_COPY.footer.line");
+    expect(footer).toContain("PUBLIC_COPY.footer.independent");
   });
 
   test("homepage still healthy with error boundary present", async ({

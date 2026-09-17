@@ -2,12 +2,14 @@
 
 import Link from "next/link";
 import { useEffect } from "react";
+import { SiteChromeFooter } from "@/components/SiteChromeFooter";
 import { BRAND } from "@/lib/campaign";
 import { PUBLIC_COPY } from "@/lib/public-copy";
 
 /**
  * Slice 12.34 — branded 500 / error boundary.
  * Same stainless chrome as 404. Not a panel. No personal identity.
+ * Slice 14.24 — footer strings shared with not-found via SiteChromeFooter.
  */
 export default function Error({
   error,
@@ -64,12 +66,10 @@ export default function Error({
         </div>
       </main>
 
-      <footer className="shell site-footer">
-        <div data-testid="error-footer-line">{PUBLIC_COPY.footer.line}</div>
-        <p className="fine-print" data-testid="error-footer-independent">
-          {PUBLIC_COPY.footer.independent}
-        </p>
-      </footer>
+      <SiteChromeFooter
+        lineTestId="error-footer-line"
+        independentTestId="error-footer-independent"
+      />
     </div>
   );
 }
