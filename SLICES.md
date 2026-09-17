@@ -16,7 +16,7 @@ Updated: 2026-09-16
 - Judge PRs from git + `npm test` + `npm run build`. Do not use brandmybeast.com as a gate while the Vercel usage hold is on.
 
 **Now:** 14.13 `/partner` has no mileage / heatmap cards.
-**Last merged:** 14.12 (/account nav has no Cabin plaque while truck missing).
+**Last merged:** 14.12 (#270 gate cabin plaque off /account nav while truck missing).
 
 ## Standing orders
 
@@ -119,7 +119,7 @@ Complete through 11.10 skipped (Vercel hold). Condensed ranges keep verify-map p
 - [x] 14.9 `docs/STATUS.md`: floor, buyout, CLOSE_AT null, Vercel hold, last slice id. (#267)
 - [x] 14.10 Kill leftover telegram lines in `.md` except a history note. (#268)
 - [x] 14.11 `TRUCK_EXISTS=false` must not import plaque / sighting / circuit / Season 2 modules. (#269)
-- [x] 14.12 `/account` nav has no Cabin plaque while the truck does not exist.
+- [x] 14.12 `/account` nav has no Cabin plaque while the truck does not exist. (#270)
 - [ ] 14.13 `/partner` has no mileage / heatmap cards.
 - [ ] 14.14 Playwright: homepage HTML has no “Season 2”, “Clemson Saturday”, or “48-state.”
 - [ ] 14.15 Drop unused card components if unreferenced.
