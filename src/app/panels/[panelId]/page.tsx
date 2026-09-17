@@ -18,7 +18,6 @@ import {
   FLOOR_USD,
   GOAL_USD,
   PANELS,
-  SEATS_OPEN,
   formatUsd,
   isEtchable,
 } from "@/lib/campaign";
@@ -47,6 +46,7 @@ import {
 } from "@/lib/panel-clash";
 import { buildPublicSeatLog, formatSeatLogTime } from "@/lib/seat-log";
 import { seatExportPngPath } from "@/lib/seat-export-png";
+import { resolveSeatsOpen } from "@/lib/seats-open";
 
 type Params = Promise<{ panelId: string }>;
 
@@ -355,7 +355,7 @@ export default async function PanelIntentPage({
               suggestedStandingUsd={failedWinnerOffer?.offerUsd}
               suggestedBrand={viewerOutbid?.brandLabel ?? ""}
               suggestedTrade={viewerOutbid?.tradeLabel ?? ""}
-              seatsOpen={SEATS_OPEN}
+              seatsOpen={resolveSeatsOpen()}
             />
           </section>
         ) : (
