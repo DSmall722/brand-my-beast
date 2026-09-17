@@ -16,7 +16,7 @@ Updated: 2026-09-16
 - Judge PRs from git + `npm test` + `npm run build`. Do not use brandmybeast.com as a gate while the Vercel usage hold is on.
 
 **Now:** 14.42 Counsel export ZIP of CONTRACT + standing table. No emails in the ZIP.
-**Last merged:** 14.41 Maintenance flag: `/` stays up, intent POST returns “not taking marks.”
+**Last merged:** 14.41 (#299 Maintenance flag: `/` stays up, intent POST returns “not taking marks.”).
 
 ## Standing orders
 
@@ -148,7 +148,7 @@ Complete through 11.10 skipped (Vercel hold). Condensed ranges keep verify-map p
 - [x] 14.38 CODEOWNERS or a doc: CAMPAIGN.md, SLICES.md, campaign.ts are human-sensitive. (#296)
 - [x] 14.39 Resend webhook route for bounces → dead-letter. No live hook required to merge. (#297)
 - [x] 14.40 `List-Unsubscribe` header on waitlist mail. (#298)
-- [x] 14.41 Maintenance flag: `/` stays up, intent POST returns “not taking marks.”
+- [x] 14.41 Maintenance flag: `/` stays up, intent POST returns “not taking marks.” (#299)
 - [ ] 14.42 Counsel export ZIP of CONTRACT + standing table. No emails in the ZIP.
 - [ ] 14.43 Playwright journey: waitlist → sign-in (test) → hood intent → approve → `/account/wins`.
 - [ ] 14.44 CI grep: fail on personal Gmail and personal handle.
