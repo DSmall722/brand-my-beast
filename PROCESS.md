@@ -20,7 +20,7 @@ Not Docker. **Cursor Projects** (left nav, launched Sep 2026).
 | App | Next.js App Router, TypeScript, Tailwind |
 | Data | Postgres + Drizzle |
 | Postgres host | **Vercel Postgres** (domain already on Vercel). Swap only with a PR that updates this line. |
-| Money | Stripe SetupIntent. Capture after close if $58,000 hits. |
+| Money | Stripe — **not wired.** Wave 15 needs a human message. Do not set `CLOSE_AT`. |
 | Mail | Resend from `hello@brandmybeast.com` |
 | Host | Vercel, `brandmybeast.com` |
 | Tests | Playwright, then a project-local `verify-brandmybeast` skill |
@@ -41,18 +41,20 @@ Pin these files in the Project Context pane. Coordinator reads them every turn.
 | `RULES.md` | Panels, 20% deposit, etch lock. |
 | `ARCHITECTURE.md` | Stack and P0–P3. |
 | `PROCESS.md` | This file. How work is delegated. |
-| `SLICES.md` | **Only build order.** Now = first unchecked box. Waves 7–14 are in scope for the coordinator. |
+| `SLICES.md` | **Only build order.** **Now** = first unchecked box (slice 14.3). Waves 7–14 are in scope for the coordinator; after 14.50 continue Wave 16. Do not start Wave 15 without a human message. |
 | `FEATURES.md` | Backlog catalog only. Never render on the public site. Never treat as the build order. |
 
 Agents may write into a Project-only `notes.md` and `internal/`. Humans do not treat those as product lock.
 
-## Build order (slice 13.1)
+## Build order (slices 13.1 / 14.3)
 
-- Coordinator reads **`SLICES.md` Waves 7–14** for what to do next. The next job is the first unchecked box.
+- **Now** = the first unchecked box in **`SLICES.md`**. That line is the only next job. Do not skip. Do not start two boxes in one PR.
+- Coordinator reads **`SLICES.md` Waves 7–14** for what to do next (Wave 16 after 14.50; Wave 15 is human-only).
 - `FEATURES.md` is a catalog, not a queue. Do not open Wave 15 from it.
-- **Live site is not a gate** while the Vercel usage hold is on (`docs/VERCEL-HOLD.md`). Do not use `brandmybeast.com` to judge merge readiness. Judge from git + `npm test` / Playwright + `npm run build`.
+- **Live URL is not a gate.** While the Vercel usage hold is on (`docs/VERCEL-HOLD.md`), do not use `brandmybeast.com` (or any live deploy) to judge merge readiness. Judge from git + `npm test` / Playwright + `npm run build`.
+- **Live site is not a gate** — same rule, restated for slice 13.1 compatibility.
 - Ignore Vercel preview / usage-limit status contexts when Playwright is green.
-- Floor **$58,000**. Buyout **$120,000**. `CLOSE_AT` stays null until a human starts P3. No Stripe without a separate human message.
+- Floor **$58,000**. Buyout **$120,000**. `CLOSE_AT` stays null until a human starts P3. No Stripe without a separate human message. Do not start the 30-day clock.
 
 ## How a unit of work runs
 
