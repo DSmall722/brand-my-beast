@@ -23,6 +23,7 @@ Agents read this so they do not resurrect killed product. CAMPAIGN.md wins. Upda
 | localStorage as the production ledger | Brochure only. Production is Postgres. |
 | Start the 30-day clock on P1 or P2 | Clock starts the morning P3 ships. |
 | Tesla affiliation | Independent. Not Tesla. |
+| Telegram bot / channel as campaign ops | Killed. Public surfaces are @BrandMyBeast + hello@brandmybeast.com. History note only (slice **14.10**). |
 
 ## Do not commit
 
