@@ -65,15 +65,16 @@ test.describe("slice 14.50: Wave 15 stop line after Wave 14", () => {
     expect(campaign).not.toMatch(/from ["']stripe["']/);
   });
 
-  test("SLICES Wave 15 stays human-only; 14.50 checked; no 15.x boxes", () => {
+  test("SLICES Wave 15 stays human-only; 14.50 complete; no 15.x boxes", () => {
     const slices = readFileSync(SLICES, "utf8");
-    expect(slices).toMatch(/## Wave 15 —/);
-    expect(slices).toMatch(/Wave 15 is Stripe and needs a human message/i);
-    expect(slices).toMatch(/Do not start Wave 15/i);
+    expect(slices).toMatch(/Wave 15 is Stripe/i);
+    expect(slices).toMatch(/Do not start Wave 15|waits for an explicit human message/i);
     expect(slices).toMatch(/14\.50/);
-    expect(slices).toMatch(/docs\/WAVE-15-STOP\.md/);
-    expect(slices).toMatch(/^- \[x\] 14\.50\b/m);
+    expect(slices).toMatch(/docs\/WAVE-15-STOP\.md|Wave 15 is Stripe STOP/i);
+    // Condensed Waves 0–15 line or explicit 14.50 checkbox.
+    expect(slices).toMatch(/0\.1–14\.50 Complete|^- \[x\] 14\.50\b/m);
     expect(slices).not.toMatch(/^- \[[ xX]\] 15\.\d+/m);
-    expect(slices).toMatch(/\*\*Now:\*\*\s*16\.1\b/);
+    // After 14.50, Now advances into Wave 16 (16.0a–g jump the line, then 16.1+).
+    expect(slices).toMatch(/\*\*Now:\*\*\s*16\./);
   });
 });

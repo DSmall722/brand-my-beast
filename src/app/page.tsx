@@ -15,7 +15,6 @@ import {
 import { HomeTruckViewsSection } from "@/components/home/HomeTruckViewsSection";
 import { HomeWaitlistSection } from "@/components/home/HomeWaitlistSection";
 import { HomeWreckSection } from "@/components/home/HomeWreckSection";
-import { auth } from "@/lib/auth";
 import {
   CLOSE_AT,
   FLOOR_USD,
@@ -38,7 +37,6 @@ import { PUBLIC_COPY } from "@/lib/public-copy";
 export const dynamic = "force-dynamic";
 
 export default async function HomePage() {
-  const session = await auth();
   const board = await loadBoardIntentStats();
   const standingHolders = await loadStandingHoldersByPanel();
   const occupiedPanelIds = [...standingHolders.keys()];
@@ -82,7 +80,6 @@ export default async function HomePage() {
           shortfallGoal={shortfallGoal}
           openSeats={board.openSeats}
           pledgedUsd={pledgedUsd}
-          signedIn={Boolean(session?.user)}
         />
         <HomePanelsSection
           etchUnlocked={etchUnlocked}
