@@ -1205,6 +1205,14 @@ export async function setIntentStatus(
     const stale = assertFreshUpdatedAt(bid, opts?.expectedUpdatedAt);
     if (stale) return stale;
 
+    // Slice 14.30 — forcing withdraw of an approved seat requires a note.
+    if (status === "withdrawn" && bid.status === "approved") {
+      const note = (opts?.note ?? "").trim();
+      if (note.length < 3) {
+        return { ok: false, error: FORCE_WITHDRAW_APPROVED_NOTE_ERROR };
+      }
+    }
+
     if (status === "approved") {
       // Slice 13.19 — serialize concurrent brand approves on one panel.
       return withPanelApproveLock(bid.panelId, async () => {
@@ -1313,6 +1321,14 @@ export async function setIntentStatus(
   const currentBid = rowToBid(current);
   const stale = assertFreshUpdatedAt(currentBid, opts?.expectedUpdatedAt);
   if (stale) return stale;
+
+  // Slice 14.30 — forcing withdraw of an approved seat requires a note.
+  if (status === "withdrawn" && currentBid.status === "approved") {
+    const note = (opts?.note ?? "").trim();
+    if (note.length < 3) {
+      return { ok: false, error: FORCE_WITHDRAW_APPROVED_NOTE_ERROR };
+    }
+  }
 
   const touchAt = nextUpdatedAt(currentBid.updatedAt);
   const idLock =
@@ -1526,6 +1542,36 @@ export async function withdrawPendingIntent(input: {
     };
   }
   return setIntentStatus(bid.id, "withdrawn", {
+    expectedUpdatedAt: input.expectedUpdatedAt ?? bid.updatedAt,
+  });
+}
+
+/**
+ * Slice 14.30 — operator force-withdraw of an approved seat.
+ * Requires a short note. Soft-status to withdrawn — never hard-delete.
+ */
+export const FORCE_WITHDRAW_APPROVED_NOTE_ERROR =
+  "Forcing withdraw of an approved seat requires an operator note.";
+
+export async function forceWithdrawApprovedSeat(input: {
+  bidId: string;
+  note: string;
+  expectedUpdatedAt?: string;
+}): Promise<PlaceIntentResult> {
+  const bid = await getIntentBidById(input.bidId);
+  if (!bid) return { ok: false, error: "Bid not found." };
+  if (bid.status !== "approved") {
+    return {
+      ok: false,
+      error: "Only approved seats can be force-withdrawn by the operator.",
+    };
+  }
+  const note = input.note.trim();
+  if (note.length < 3) {
+    return { ok: false, error: FORCE_WITHDRAW_APPROVED_NOTE_ERROR };
+  }
+  return setIntentStatus(bid.id, "withdrawn", {
+    note,
     expectedUpdatedAt: input.expectedUpdatedAt ?? bid.updatedAt,
   });
 }
