@@ -50,8 +50,8 @@ test.describe("slice 13.44: Drizzle journal checked in", () => {
     const journal = readDrizzleJournal();
     expect(journal.dialect).toBe("postgresql");
     expect(journal.entries.length).toBe(listDrizzleMigrationFiles().length);
-    expect(journal.entries.length).toBeGreaterThanOrEqual(19);
-    expect(journal.entries.at(-1)?.tag).toBe("0019_waitlist_domain_blocklist");
+    expect(journal.entries.length).toBeGreaterThanOrEqual(20);
+    expect(journal.entries.at(-1)?.tag).toBe("0020_waitlist_want_whole_truck");
   });
 
   test("runbook says journal is checked in; laptop db:push is not the only path", () => {
