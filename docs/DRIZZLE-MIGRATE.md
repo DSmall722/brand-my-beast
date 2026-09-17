@@ -1,6 +1,7 @@
 # Drizzle migrate runbook — BrandMyBeast
 
-Slice **12.43**. Repo-only runbook for applying SQL under `drizzle/` to Neon.
+Slice **12.43** (runbook) + **13.44** (checked-in journal). Repo-only path for
+applying SQL under `drizzle/` to Neon.
 **No dashboard clicks from agents or CI.** A human operator runs migrations
 against Production when a new numbered `.sql` file lands on `main`.
 
@@ -15,11 +16,17 @@ Money fences (do not invent a third number):
 
 - Schema source of truth: `src/lib/db/schema.ts`
 - Numbered SQL migrations: `drizzle/0001_*.sql` … (see `/operator/health`)
+- **Migration journal (slice 13.44):** `drizzle/meta/_journal.json` — checked
+  into git. Every on-disk `drizzle/NNNN_*.sql` tag must appear here. This is
+  what `drizzle-orm` `readMigrationFiles` / migrate needs. **`db:push` from a
+  laptop is not the production path** and must not be the only way schema
+  reaches Neon.
 - Local scripts in `package.json`:
-  - `npm run db:generate` — `drizzle-kit generate` (dev only; review the diff)
+  - `npm run db:generate` — `drizzle-kit generate` (dev only; review the diff
+    **and** commit the new `.sql` plus the updated `_journal.json`)
   - `npm run db:push` — `drizzle-kit push` (dev / empty branch only)
-- Production applies the checked-in SQL files. Do not rely on `db:push` for
-  Production while waitlist or approved standing exist.
+- Production applies the checked-in SQL files via the journal order. Do not
+  rely on `db:push` for Production while waitlist or approved standing exist.
 
 ## Preconditions (human)
 
@@ -62,6 +69,7 @@ These steps are documentation. They are not automation.
 ## Related
 
 - `/operator/health` — last migration name (slice **12.42**)
+- `drizzle/meta/_journal.json` — checked-in migrate order (slice **13.44**)
 - `docs/NEON-PITR.md` — restore when a migration goes wrong (slice **11.6**)
 - SLICES **12.44** — backup restore drill checklist next to PITR
 - `ARCHITECTURE.md` — Postgres + Drizzle production stack
