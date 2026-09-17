@@ -15,8 +15,8 @@ Updated: 2026-09-16
 - Coordinator may merge a PR that finishes exactly one unchecked slice, Playwright is green, and the merge gates below hold.
 - Judge PRs from git + `npm test` + `npm run build`. Do not use brandmybeast.com as a gate while the Vercel usage hold is on.
 
-**Now:** 13.50 Stop line in SLICES: Wave 15 is Stripe and needs a human message.
-**Last merged:** 13.49 (#257 11.10 remains human redeploy runbook).
+**Now:** 14.1 FEATURES.md: shipped rows marked shipped with slice id; P3/P5 stay Catalog.
+**Last merged:** 13.50 (#PENDING Wave 15 stop line).
 
 ## Standing orders
 
@@ -101,7 +101,7 @@ Complete through 11.10 skipped (Vercel hold). Condensed ranges keep verify-map p
 - [x] 13.47 Verify-skill map Waves 9–13. (#255)
 - [x] 13.48 Tag `wave-12-complete` after 12.50. Still no clock. (#256)
 - [x] 13.49 Slice 11.10 remains human: one-line runbook “redeploy when Vercel hold lifts.” (#257)
-- [ ] 13.50 Stop line in SLICES: Wave 15 is Stripe and needs a human message.
+- [x] 13.50 Stop line in SLICES: Wave 15 is Stripe and needs a human message. (#PENDING)
 
 ## Wave 14 — launch readiness, no charge
 
@@ -158,6 +158,16 @@ Complete through 11.10 skipped (Vercel hold). Condensed ranges keep verify-map p
 - [ ] 14.48 Refresh `docs/VERCEL-HOLD.md` date only. Do not buy credits.
 - [ ] 14.49 Local demo seed: 3 pending, 1 approved, 1 outbid. CI only.
 - [ ] 14.50 Stop line: Wave 15 is Stripe / CLOSE_AT / first tweet and needs a human message.
+
+## Wave 15 — Stripe / money path (human only — STOP)
+
+**Stop line (slice 13.50):** Wave 15 is Stripe and needs a human message.
+
+Do not start Wave 15. Do not wire Stripe. Do not set `CLOSE_AT`. Do not tweet
+from @BrandMyBeast. Do not capture cards. See `docs/WAVE-15-STOP.md`.
+
+After Wave 13, agents continue **14.1–14.50**, then Wave **16**. Wave 15 waits
+for an explicit human message. Floor **$58,000**. Buyout **$120,000**. Clock unset.
 
 ## Wave 16 — shareable board + freeze polish
 

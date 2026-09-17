@@ -56,7 +56,7 @@ set `CLOSE_AT`, do not wire Stripe, leave `vercel.json` hold-mode alone.
 | 13.47 Verify-skill map Waves 9–13 | `tests/slice-13-47-verify-map.spec.ts` |
 | 13.48 Tag `wave-12-complete` after 12.50 | `tests/slice-13-48-wave-12-complete.spec.ts` + `docs/WAVE-12-COMPLETE.md` |
 | 13.49 11.10 human redeploy-when-hold-lifts note | `tests/slice-13-49-vercel-hold-redeploy.spec.ts` + `docs/VERCEL-HOLD.md` |
-| 13.50 Stop line: Wave 15 needs human | `SLICES.md` standing orders |
+| 13.50 Stop line: Wave 15 needs human | `tests/slice-13-50-wave-15-stop.spec.ts` + `docs/WAVE-15-STOP.md` |
 
 ## Money fences
 
