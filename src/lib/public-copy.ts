@@ -196,6 +196,8 @@ export const PUBLIC_COPY = {
     checkEmailHeading: "Check your email",
     checkEmailSuccess:
       "If that address is valid, a sign-in link is on the way. The link expires soon. No card is charged on this path.",
+    /** Slice 14.25 — /account sign-out button. Not homepage. */
+    signOut: "Sign out",
   },
   /**
    * Slice 13.5 — seat pack (withdraw / failed-winner / deposit preview).
