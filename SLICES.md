@@ -16,7 +16,7 @@ Updated: 2026-09-16
 - Judge PRs from git + `npm test` + `npm run build`. Do not use brandmybeast.com as a gate while the Vercel usage hold is on.
 
 **Now:** 14.35 Public log timestamps are America/New_York, labeled ET.
-**Last merged:** 14.34 Next-minimum display uses integer dollars only.
+**Last merged:** 14.34 (#292 Next-minimum display uses integer dollars only).
 
 ## Standing orders
 
@@ -141,7 +141,7 @@ Complete through 11.10 skipped (Vercel hold). Condensed ranges keep verify-map p
 - [x] 14.31 Standing brand change after approve is forbidden. (#289)
 - [x] 14.32 Playwright: `SEATS_OPEN=false` → intent POST 403, waitlist still 201. (#290)
 - [x] 14.33 Deposit preview uses the same helper as 12.5. (#291)
-- [x] 14.34 Next-minimum display uses integer dollars only.
+- [x] 14.34 Next-minimum display uses integer dollars only. (#292)
 - [ ] 14.35 Public log timestamps are America/New_York, labeled ET.
 - [ ] 14.36 `engines` + license in package.json if 12.48 did not land.
 - [ ] 14.37 Pinned `npm audit` script. No new runtime.
