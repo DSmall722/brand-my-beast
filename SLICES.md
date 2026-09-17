@@ -16,7 +16,7 @@ Updated: 2026-09-16
 - Judge PRs from git + `npm test` + `npm run build`. Do not use brandmybeast.com as a gate while the Vercel usage hold is on.
 
 **Now:** 14.15 Drop unused card components if unreferenced.
-**Last merged:** 14.14 (homepage HTML bans Season 2 / Clemson Saturday / 48-state).
+**Last merged:** 14.14 (#272 ban Season 2 / Clemson / 48-state from homepage HTML).
 
 ## Standing orders
 
