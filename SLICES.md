@@ -16,7 +16,7 @@ Updated: 2026-09-16
 - Judge PRs from git + `npm test` + `npm run build`. Do not use brandmybeast.com as a gate while the Vercel usage hold is on.
 
 **Now:** 14.6 RULES.md table of statuses: pending / approved / rejected / outbid / withdrawn.
-**Last merged:** 14.5 (#PENDING CAMPAIGN stack matches ARCHITECTURE).
+**Last merged:** 14.5 (#263 CAMPAIGN stack matches ARCHITECTURE).
 
 ## Standing orders
 
@@ -112,7 +112,7 @@ Complete through 11.10 skipped (Vercel hold). Condensed ranges keep verify-map p
 - [x] 14.2 ARCHITECTURE.md: Postgres + Blob + Resend mock. Stripe box = “not wired.” (#260)
 - [x] 14.3 PROCESS.md: Now = first unchecked SLICES box; live URL is not a gate. (#261)
 - [x] 14.4 README one-pager: what the repo is, what it is not. (#262)
-- [x] 14.5 CAMPAIGN.md current-stack sentence matches ARCHITECTURE. Numbers unchanged. (#PENDING)
+- [x] 14.5 CAMPAIGN.md current-stack sentence matches ARCHITECTURE. Numbers unchanged. (#263)
 - [ ] 14.6 RULES.md table of statuses: pending / approved / rejected / outbid / withdrawn.
 - [ ] 14.7 PUBLIC_COPY seat rationale only. No H1 rewrite.
 - [ ] 14.8 Delete FEATURES rows that contradict CAMPAIGN (lease, $40k, cheaper trim).
