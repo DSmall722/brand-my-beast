@@ -1,11 +1,12 @@
 import { TRUCK_EXISTS } from "@/lib/campaign";
 
 /**
- * Slice 12.40 / 14.11 — vapor P3–P5 boards stay out of the home module graph
- * while TRUCK_EXISTS is false. Dynamic imports are intentional: a static
+ * Slice 12.40 / 14.11 / 14.14 — vapor P3–P5 boards stay out of the home module
+ * graph while TRUCK_EXISTS is false. Dynamic imports are intentional: a static
  * import of HomeTruckExistsBoard / Community would pull Season 2, sighting,
- * circuit, plaque, etc. into every home render even when those sections
- * return null.
+ * circuit, plaque, Clemson Saturday, etc. into every home render even when
+ * those sections return null. Homepage HTML must not contain “Season 2”,
+ * “Clemson Saturday”, or “48-state” while the truck is missing.
  */
 
 export async function TruckExistsBoardSlot() {
