@@ -15,8 +15,8 @@ Updated: 2026-09-16
 - Coordinator may merge a PR that finishes exactly one unchecked slice, Playwright is green, and the merge gates below hold.
 - Judge PRs from git + `npm test` + `npm run build`. Do not use brandmybeast.com as a gate while the Vercel usage hold is on.
 
-**Now:** 13.42 CI fails if `package.json` gains `stripe`.
-**Last merged:** 13.41 (#249 prove-all includes 9.6–9.10 and 12.45–12.46).
+**Now:** 13.43 CI fails if `CLOSE_AT` is non-null.
+**Last merged:** 13.42 (#250 no-stripe package.json CI).
 
 ## Standing orders
 
@@ -137,7 +137,7 @@ Do not start Wave 13 until 12.50 is checked. No Stripe. No CLOSE_AT.
 - [x] 13.39 Privacy stub adds waitlist retention: until seats open or user deletes. (#247)
 - [x] 13.40 No personal Gmail in `git grep` of `src/` + `*.md`. (#248)
 - [x] 13.41 `prove-all.sh` includes 9.6–9.10 and 12.45–12.46. (#249)
-- [ ] 13.42 CI fails if `package.json` gains `stripe`.
+- [x] 13.42 CI fails if `package.json` gains `stripe`. (#250)
 - [ ] 13.43 CI fails if `CLOSE_AT` is non-null.
 - [ ] 13.44 Drizzle journal checked in. No “push from laptop” as the only path.
 - [ ] 13.45 Operator health shows waitlist count + pending count + last digest time.
