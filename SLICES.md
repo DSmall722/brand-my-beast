@@ -15,8 +15,8 @@ Updated: 2026-09-16
 - Coordinator may merge a PR that finishes exactly one unchecked slice, Playwright is green, and the merge gates below hold.
 - Judge PRs from git + `npm test` + `npm run build`. Do not use brandmybeast.com as a gate while the Vercel usage hold is on.
 
-**Now:** 14.29 Whole-truck pending blocks new single-panel intents on those seats until decided.
-**Last merged:** 14.28 (#286 Floor-save does not raise a rejected mark).
+**Now:** 14.30 Operator note required when forcing a withdraw of an approved seat.
+**Last merged:** 14.29 (#287 Whole-truck pending blocks new single-panel intents on those seats until decided).
 
 ## Standing orders
 
@@ -136,7 +136,7 @@ Complete through 11.10 skipped (Vercel hold). Condensed ranges keep verify-map p
 - [x] 14.26 Failed-winner offer cannot target a banned trade. (#284)
 - [x] 14.27 Proxy max ignored after the bidder withdraws. (#285)
 - [x] 14.28 Floor-save does not raise a rejected mark.
-- [ ] 14.29 Whole-truck pending blocks new single-panel intents on those seats until decided.
+- [x] 14.29 Whole-truck pending blocks new single-panel intents on those seats until decided. (#287)
 - [ ] 14.30 Operator note required when forcing a withdraw of an approved seat.
 - [ ] 14.31 Standing brand change after approve is forbidden.
 - [ ] 14.32 Playwright: `SEATS_OPEN=false` → intent POST 403, waitlist still 201.

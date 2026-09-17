@@ -519,6 +519,13 @@ const HOLDING_STATUSES: readonly IntentBidStatus[] = ["listed", "approved"] as c
 export const ALL_PANELS_STANDING_ERROR =
   "Same user cannot hold standing on all 12 panels unless the whole-truck path.";
 
+/**
+ * Slice 14.29 — pending whole-truck listed set covers the seat.
+ * Single-panel place is blocked until the set is decided.
+ */
+export const WHOLE_TRUCK_PENDING_ERROR =
+  "A whole-truck intent is pending on this seat. Wait until it is decided.";
+
 /** Distinct panels where this user holds listed/approved (non floor-save) marks. */
 export function distinctHoldingPanelIdsForUser(
   bids: readonly IntentBid[],
@@ -560,6 +567,51 @@ export function isWholeTruckPathCoverage(
     if (!match) return false;
   }
   return true;
+}
+
+/**
+ * Slice 14.29 — pending whole-truck = $10k listed on every panel for same
+ * user/brand/trade. Approved counts as decided, so it does not block.
+ */
+export function isPendingWholeTruckCoverage(
+  bids: readonly IntentBid[],
+  bid: Pick<
+    IntentBid,
+    "userId" | "brandLabel" | "tradeLabel" | "standingUsd"
+  >,
+): boolean {
+  if (bid.standingUsd !== WHOLE_TRUCK_PANEL_USD) return false;
+  const tradeKey = normalizeTradeLabel(bid.tradeLabel);
+  for (const panel of PANELS) {
+    const match = bids.find(
+      (row) =>
+        row.panelId === panel.id &&
+        row.userId === bid.userId &&
+        row.brandLabel === bid.brandLabel &&
+        normalizeTradeLabel(row.tradeLabel) === tradeKey &&
+        row.standingUsd === WHOLE_TRUCK_PANEL_USD &&
+        row.status === "listed",
+    );
+    if (!match) return false;
+  }
+  return true;
+}
+
+/** Slice 14.29 — true when a pending whole-truck set covers this panel. */
+export function panelBlockedByPendingWholeTruck(
+  holders: readonly IntentBid[],
+  panelId: string,
+): boolean {
+  const onPanel = holders.filter(
+    (row) =>
+      row.panelId === panelId &&
+      row.status === "listed" &&
+      row.standingUsd === WHOLE_TRUCK_PANEL_USD,
+  );
+  for (const bid of onPanel) {
+    if (isPendingWholeTruckCoverage(holders, bid)) return true;
+  }
+  return false;
 }
 
 function assertMayAddHoldingPanel(input: {
@@ -733,6 +785,14 @@ export async function placeIntentBid(
       ok: false,
       error: `Trade "${tradeLabel}" is already held by another brand. One brand per trade.`,
     };
+  }
+
+  // Slice 14.29 — pending whole-truck blocks new single-panel intents.
+  if (
+    !opts?.wholeTruckPath &&
+    panelBlockedByPendingWholeTruck(holders, input.panelId)
+  ) {
+    return { ok: false, error: WHOLE_TRUCK_PENDING_ERROR };
   }
 
   // Slice 13.32 — single-panel path cannot cover all twelve seats.
