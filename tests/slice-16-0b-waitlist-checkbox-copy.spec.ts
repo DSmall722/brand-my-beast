@@ -65,8 +65,7 @@ test.describe("slice 16.0b: PUBLIC_COPY waitlist whole-truck checkbox copy", () 
     await page.goto("/");
     await expect(page.getByRole("heading", { level: 1 })).toHaveText(LOCKED_H1);
     await expect(page.getByRole("button", { name: "Notify me" })).toBeVisible();
-    // Checkbox wires in 16.0e — copy-only slice must not render it yet.
-    await expect(page.getByTestId("waitlist-want-whole-truck")).toHaveCount(0);
+    // 16.0e wires the checkbox; 16.0b only locked the copy strings.
     const html = await page.content();
     expect(html.toLowerCase()).not.toMatch(/\blease\b/);
     expect(html).toContain("$58,000");

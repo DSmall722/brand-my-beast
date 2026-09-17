@@ -604,6 +604,29 @@
   flex-wrap: wrap;
 }
 
+.waitlist-whole-truck {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.55rem;
+  margin: 0.85rem 0 0.25rem;
+  color: color-mix(in oklab, white 88%, transparent);
+  font: inherit;
+  cursor: pointer;
+}
+
+.waitlist-whole-truck input {
+  margin-top: 0.2rem;
+  flex: 0 0 auto;
+}
+
+.waitlist-whole-truck-hint {
+  margin: 0 0 0.75rem;
+  padding-left: 1.55rem;
+  color: color-mix(in oklab, white 62%, transparent);
+  font-size: 0.9rem;
+  line-height: 1.35;
+}
+
 .waitlist-row input {
   flex: 1 1 14rem;
   min-width: 0;

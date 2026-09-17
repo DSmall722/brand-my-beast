@@ -6,9 +6,11 @@ import { PUBLIC_COPY } from "@/lib/public-copy";
 type Status = "idle" | "loading" | "created" | "exists" | "error";
 
 const WAITLIST_STATUS_ID = "waitlist-status";
+const WAITLIST_WHOLE_TRUCK_HINT_ID = "waitlist-want-whole-truck-hint";
 
 export function WaitlistForm() {
   const [email, setEmail] = useState("");
+  const [wantWholeTruck, setWantWholeTruck] = useState(false);
   const [status, setStatus] = useState<Status>("idle");
   const [message, setMessage] = useState("");
   const statusRef = useRef<HTMLParagraphElement>(null);
@@ -28,7 +30,7 @@ export function WaitlistForm() {
       const response = await fetch("/api/waitlist", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email }),
+        body: JSON.stringify({ email, wantWholeTruck }),
       });
       const data = (await response.json()) as {
         ok?: boolean;
@@ -50,6 +52,7 @@ export function WaitlistForm() {
           : PUBLIC_COPY.waitlist.success,
       );
       setEmail("");
+      setWantWholeTruck(false);
     } catch {
       setStatus("error");
       setMessage(PUBLIC_COPY.waitlist.failed);
@@ -89,6 +92,27 @@ export function WaitlistForm() {
           {status === "loading" ? "Notifying…" : PUBLIC_COPY.waitlist.button}
         </button>
       </div>
+      {/* Slice 16.0e — whole-truck interest checkbox. Not pledged. */}
+      <label className="waitlist-whole-truck" htmlFor="waitlist-want-whole-truck">
+        <input
+          id="waitlist-want-whole-truck"
+          name="wantWholeTruck"
+          type="checkbox"
+          checked={wantWholeTruck}
+          onChange={(event) => setWantWholeTruck(event.target.checked)}
+          disabled={disabled}
+          aria-describedby={WAITLIST_WHOLE_TRUCK_HINT_ID}
+          data-testid="waitlist-want-whole-truck"
+        />
+        <span>{PUBLIC_COPY.waitlist.wholeTruckCheckboxLabel}</span>
+      </label>
+      <p
+        id={WAITLIST_WHOLE_TRUCK_HINT_ID}
+        className="waitlist-whole-truck-hint"
+        data-testid="waitlist-want-whole-truck-hint"
+      >
+        {PUBLIC_COPY.waitlist.wholeTruckCheckboxHint}
+      </p>
       <p
         ref={statusRef}
         id={WAITLIST_STATUS_ID}
