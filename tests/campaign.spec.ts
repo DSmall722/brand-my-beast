@@ -420,9 +420,9 @@ test.describe("P1 waitlist campaign locks", () => {
       "href",
       "/#panels",
     );
-    await expect(page.getByTestId("waitlist-signin-intent")).toHaveAttribute(
-      "href",
-      "/signin?callbackUrl=/panels/hood",
+    await expect(page.getByTestId("waitlist-signin-intent")).toHaveCount(0);
+    await expect(page.getByTestId("waitlist-next")).toContainText(
+      "stay on the list",
     );
     await expect(page.getByTestId("waitlist-next")).toContainText(
       "cards are not charged yet",

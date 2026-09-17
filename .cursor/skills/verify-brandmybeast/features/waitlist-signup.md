@@ -7,7 +7,7 @@ Users leave an email so BrandMyBeast can notify them when soft auction seats ope
 - `waitlist-create` accepts a new email and reports created.
 - `waitlist-exists` reports an email already on the list.
 - `waitlist-ui` updates `waitlist-status` after submit.
-- `waitlist-next` offers browse-panels and sign-in-to-list-intent CTAs after join.
+- `waitlist-next` offers browse-panels and stay-on-the-list after join (no sign-in-to-list-intent CTA — slice 16.0g).
 
 ## How to get to it (user POV)
 
@@ -24,7 +24,7 @@ Preconditions:
 - **Create via API.** `POST /api/waitlist` with `{ "email": "<unique>@example.com" }`. Expect status `201` and `{ ok: true, status: "created" }`.
 - **Exists via API.** Repeat the same POST. Expect status `200` and `{ ok: true, status: "exists" }`.
 - **UI exists path.** Fill `waitlist-email`, click `waitlist-submit`. Expect `waitlist-status` to contain `already on the list`.
-- **Next-step CTA.** Expect `waitlist-next` visible with `waitlist-browse-panels` → `/#panels` and `waitlist-signin-intent` → `/signin?callbackUrl=/panels/hood`. Copy must mention no Stripe capture.
+- **Next-step CTA.** Expect `waitlist-next` visible with `waitlist-browse-panels` → `/#panels` and stay-on-the-list copy. `waitlist-signin-intent` must be absent (16.0g). Copy must mention cards are not charged yet.
 - **Proof.** Save response JSON under `artifacts/<run-id>/waitlist.json` and screenshot `waitlist.png`.
 
 Or run:

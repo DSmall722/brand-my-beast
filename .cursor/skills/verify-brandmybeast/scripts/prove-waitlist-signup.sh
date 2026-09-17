@@ -71,16 +71,17 @@ await page.getByTestId("waitlist-next").waitFor();
 const browseHref = await page
   .getByTestId("waitlist-browse-panels")
   .getAttribute("href");
-const signinHref = await page
-  .getByTestId("waitlist-signin-intent")
-  .getAttribute("href");
+const signinCount = await page.getByTestId("waitlist-signin-intent").count();
 if (browseHref !== "/#panels") {
   throw new Error(`bad browse href: ${browseHref}`);
 }
-if (signinHref !== "/signin?callbackUrl=/panels/hood") {
-  throw new Error(`bad signin href: ${signinHref}`);
+if (signinCount !== 0) {
+  throw new Error(`waitlist-signin-intent should be gone (16.0g), got ${signinCount}`);
 }
 const nextText = await page.getByTestId("waitlist-next").innerText();
+if (!/stay on the list/i.test(nextText)) {
+  throw new Error(`waitlist-next missing stay-on-list: ${nextText}`);
+}
 if (!/cards are not charged yet/i.test(nextText)) {
   throw new Error(`waitlist-next missing charge disclaimer: ${nextText}`);
 }
@@ -88,7 +89,7 @@ await page.screenshot({ path: `${out}/waitlist.png`, fullPage: false });
 fs.writeFileSync(
   `${out}/waitlist.json`,
   JSON.stringify(
-    { email, created, exists, invalid, statusText, browseHref, signinHref, nextText },
+    { email, created, exists, invalid, statusText, browseHref, signinCount, nextText },
     null,
     2,
   ) + "\n",
