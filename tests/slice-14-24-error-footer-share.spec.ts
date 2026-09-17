@@ -11,6 +11,7 @@ import {
 import { findCloseAtViolations } from "../src/lib/close-at-null";
 import { findStripePackagesInRootPackageJson } from "../src/lib/no-stripe-package";
 import { PUBLIC_COPY } from "../src/lib/public-copy";
+import { vercelJsonIsHoldOrMainOnlyRestore } from "../src/lib/vercel-git-deploy";
 import {
   SITE_CHROME_FOOTER_INDEPENDENT,
   SITE_CHROME_FOOTER_LINE,
@@ -38,10 +39,7 @@ test.describe("slice 14.24: 404 and 500 share footer strings", () => {
   });
 
   test("vercel.json hold-mode stays deploymentEnabled false", () => {
-    const vercel = JSON.parse(
-      readFileSync(join(ROOT, "vercel.json"), "utf8"),
-    ) as { git?: { deploymentEnabled?: boolean } };
-    expect(vercel.git?.deploymentEnabled).toBe(false);
+    expect(vercelJsonIsHoldOrMainOnlyRestore()).toBe(true);
   });
 
   test("SiteChromeFooter is the single PUBLIC_COPY footer source", () => {

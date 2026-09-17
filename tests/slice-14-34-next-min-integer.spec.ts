@@ -12,6 +12,7 @@ import {
 import { findCloseAtViolations } from "../src/lib/close-at-null";
 import { minIncrementUsd, nextStandingUsd } from "../src/lib/intent";
 import { findStripePackagesInRootPackageJson } from "../src/lib/no-stripe-package";
+import { vercelJsonIsHoldOrMainOnlyRestore } from "../src/lib/vercel-git-deploy";
 
 /**
  * Slice 14.34 — Next-minimum display uses integer dollars only.
@@ -50,10 +51,7 @@ test.describe("slice 14.34: next-minimum display integer dollars only", () => {
   });
 
   test("vercel.json hold-mode stays deploymentEnabled false", () => {
-    const vercel = JSON.parse(
-      readFileSync(join(ROOT, "vercel.json"), "utf8"),
-    ) as { git?: { deploymentEnabled?: boolean } };
-    expect(vercel.git?.deploymentEnabled).toBe(false);
+    expect(vercelJsonIsHoldOrMainOnlyRestore()).toBe(true);
   });
 
   test("nextStandingUsd and formatIntegerUsd stay whole dollars", () => {

@@ -1,5 +1,3 @@
-import { readFileSync } from "node:fs";
-import { join } from "node:path";
 import { expect, test } from "@playwright/test";
 import {
   BRAND,
@@ -16,13 +14,12 @@ import {
 } from "../src/lib/maintenance";
 import { findStripePackagesInRootPackageJson } from "../src/lib/no-stripe-package";
 import { PUBLIC_COPY } from "../src/lib/public-copy";
+import { vercelJsonIsHoldOrMainOnlyRestore } from "../src/lib/vercel-git-deploy";
 
 /**
  * Slice 14.41 — Maintenance flag: `/` stays up, intent POST returns
  * “not taking marks.” CLOSE_AT null. No Stripe. Hold-mode untouched.
  */
-
-const ROOT = process.cwd();
 
 test.describe("slice 14.41: maintenance flag — / up, intent not taking marks", () => {
   test.describe.configure({ mode: "serial" });
@@ -54,10 +51,7 @@ test.describe("slice 14.41: maintenance flag — / up, intent not taking marks",
   });
 
   test("vercel.json hold-mode stays deploymentEnabled false", () => {
-    const vercel = JSON.parse(
-      readFileSync(join(ROOT, "vercel.json"), "utf8"),
-    ) as { git?: { deploymentEnabled?: boolean } };
-    expect(vercel.git?.deploymentEnabled).toBe(false);
+    expect(vercelJsonIsHoldOrMainOnlyRestore()).toBe(true);
   });
 
   test("copy says not taking marks; payload code is maintenance", () => {

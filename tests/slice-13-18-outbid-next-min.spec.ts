@@ -10,6 +10,7 @@ import {
 } from "../src/lib/campaign";
 import { intentStatusEmailTemplate } from "../src/emails/intent-status";
 import { nextStandingUsd, type IntentBid } from "../src/lib/intent";
+import { vercelJsonIsHoldOrMainOnlyRestore } from "../src/lib/vercel-git-deploy";
 import {
   buildIntentStatusMail,
   resetIntentStatusMailerForTests,
@@ -87,11 +88,7 @@ test.describe("slice 13.18: outbid email includes next minimum", () => {
   });
 
   test("vercel.json hold-mode stays deploymentEnabled false", () => {
-    const raw = readFileSync(join(process.cwd(), "vercel.json"), "utf8");
-    const cfg = JSON.parse(raw) as {
-      git?: { deploymentEnabled?: boolean | Record<string, boolean> };
-    };
-    expect(cfg.git?.deploymentEnabled).toBe(false);
+    expect(vercelJsonIsHoldOrMainOnlyRestore()).toBe(true);
   });
 
   test("template includes next minimum from 9.2 math", () => {

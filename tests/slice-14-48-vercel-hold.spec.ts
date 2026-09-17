@@ -10,6 +10,7 @@ import {
 } from "../src/lib/campaign";
 import { findCloseAtViolations } from "../src/lib/close-at-null";
 import { findStripePackagesInRootPackageJson } from "../src/lib/no-stripe-package";
+import { vercelJsonIsHoldOrMainOnlyRestore } from "../src/lib/vercel-git-deploy";
 
 /**
  * Slice 14.48 — Refresh docs/VERCEL-HOLD.md date only. Do not buy credits.
@@ -33,10 +34,7 @@ test.describe("slice 14.48: VERCEL-HOLD.md date refresh only", () => {
   });
 
   test("vercel.json hold-mode stays deploymentEnabled false", () => {
-    const vercel = JSON.parse(
-      readFileSync(join(process.cwd(), "vercel.json"), "utf8"),
-    ) as { git?: { deploymentEnabled?: boolean } };
-    expect(vercel.git?.deploymentEnabled).toBe(false);
+    expect(vercelJsonIsHoldOrMainOnlyRestore()).toBe(true);
   });
 
   test("VERCEL-HOLD.md has 14.48 date bump and still forbids buying credits", () => {

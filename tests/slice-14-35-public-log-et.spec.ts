@@ -14,6 +14,7 @@ import {
   resetIntentStoreForTests,
 } from "../src/lib/intent-store";
 import { findStripePackagesInRootPackageJson } from "../src/lib/no-stripe-package";
+import { vercelJsonIsHoldOrMainOnlyRestore } from "../src/lib/vercel-git-deploy";
 import {
   SEAT_LOG_TIME_ZONE,
   buildPublicSeatLog,
@@ -60,10 +61,7 @@ test.describe("slice 14.35: public seat log timestamps America/New_York ET", () 
   });
 
   test("vercel.json hold-mode stays deploymentEnabled false", () => {
-    const vercel = JSON.parse(
-      readFileSync(join(ROOT, "vercel.json"), "utf8"),
-    ) as { git?: { deploymentEnabled?: boolean } };
-    expect(vercel.git?.deploymentEnabled).toBe(false);
+    expect(vercelJsonIsHoldOrMainOnlyRestore()).toBe(true);
   });
 
   test("formatSeatLogTime uses America/New_York and labels ET", () => {

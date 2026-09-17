@@ -16,6 +16,7 @@ import {
   readDrizzleJournal,
 } from "../src/lib/drizzle-migrations";
 import { findStripePackagesInRootPackageJson } from "../src/lib/no-stripe-package";
+import { vercelJsonIsHoldOrMainOnlyRestore } from "../src/lib/vercel-git-deploy";
 
 /**
  * Slice 13.44 — Drizzle journal checked in.
@@ -40,10 +41,7 @@ test.describe("slice 13.44: Drizzle journal checked in", () => {
   });
 
   test("vercel.json hold-mode stays deploymentEnabled false", () => {
-    const vercel = JSON.parse(
-      readFileSync(join(process.cwd(), "vercel.json"), "utf8"),
-    ) as { git?: { deploymentEnabled?: boolean } };
-    expect(vercel.git?.deploymentEnabled).toBe(false);
+    expect(vercelJsonIsHoldOrMainOnlyRestore()).toBe(true);
   });
 
   test("drizzle/meta/_journal.json exists and matches every SQL tag", () => {

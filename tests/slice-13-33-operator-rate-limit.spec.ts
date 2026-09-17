@@ -19,6 +19,7 @@ import {
   configureRateLimitForTests,
   resetRateLimitForTests,
 } from "../src/lib/rate-limit";
+import { vercelJsonIsHoldOrMainOnlyRestore } from "../src/lib/vercel-git-deploy";
 
 /**
  * Slice 13.33 — rate-limit operator approve/reject.
@@ -91,10 +92,7 @@ test.describe("slice 13.33: rate-limit operator approve/reject", () => {
   });
 
   test("vercel.json hold-mode stays deploymentEnabled false", () => {
-    const vercel = JSON.parse(
-      readFileSync(join(process.cwd(), "vercel.json"), "utf8"),
-    ) as { git?: { deploymentEnabled?: boolean } };
-    expect(vercel.git?.deploymentEnabled).toBe(false);
+    expect(vercelJsonIsHoldOrMainOnlyRestore()).toBe(true);
   });
 
   test("unit: operator-decide copy never claims a decision; limiter trips", () => {

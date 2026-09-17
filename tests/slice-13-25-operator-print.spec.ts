@@ -2,6 +2,7 @@ import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import { expect, test, type APIRequestContext, type Page } from "@playwright/test";
 import { isOperatorEmail } from "../src/lib/auth/operator";
+import { vercelJsonIsHoldOrMainOnlyRestore } from "../src/lib/vercel-git-deploy";
 import {
   BRAND,
   CLOSE_AT,
@@ -76,11 +77,7 @@ test.describe("slice 13.25: operator print seat view", () => {
   });
 
   test("vercel.json hold-mode stays deploymentEnabled false", () => {
-    const raw = readFileSync(join(process.cwd(), "vercel.json"), "utf8");
-    const cfg = JSON.parse(raw) as {
-      git?: { deploymentEnabled?: boolean | Record<string, boolean> };
-    };
-    expect(cfg.git?.deploymentEnabled).toBe(false);
+    expect(vercelJsonIsHoldOrMainOnlyRestore()).toBe(true);
   });
 
   test("board.css ships operator print rules", () => {

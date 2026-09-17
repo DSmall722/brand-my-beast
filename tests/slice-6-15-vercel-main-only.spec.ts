@@ -9,6 +9,10 @@ import {
   formatUsd,
 } from "../src/lib/campaign";
 import { PUBLIC_COPY } from "../src/lib/public-copy";
+import {
+  isVercelGitHoldOrMainOnlyRestore,
+  vercelJsonIsHoldOrMainOnlyRestore,
+} from "../src/lib/vercel-git-deploy";
 
 /**
  * Slice 6.15 — vercel.json git deploy policy (repo-side).
@@ -59,6 +63,8 @@ test.describe("slice 6.15: vercel main-only deploys", () => {
     if (!enabled || typeof enabled !== "object") return;
     expect(enabled["*"]).toBe(false);
     expect(enabled.main).toBe(true);
+    expect(vercelJsonIsHoldOrMainOnlyRestore()).toBe(true);
+    expect(isVercelGitHoldOrMainOnlyRestore(true)).toBe(false);
   });
 
   test("homepage still matches PUBLIC_COPY H1 and Notify me", async ({

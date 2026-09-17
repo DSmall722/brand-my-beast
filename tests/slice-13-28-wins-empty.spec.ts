@@ -9,6 +9,7 @@ import {
   formatUsd,
 } from "../src/lib/campaign";
 import { PUBLIC_COPY } from "../src/lib/public-copy";
+import { vercelJsonIsHoldOrMainOnlyRestore } from "../src/lib/vercel-git-deploy";
 
 async function signIn(page: Page, email: string) {
   await page.context().clearCookies();
@@ -55,11 +56,7 @@ test.describe("slice 13.28: wins empty state from PUBLIC_COPY", () => {
   });
 
   test("vercel.json hold-mode stays deploymentEnabled false", () => {
-    const raw = readFileSync(join(process.cwd(), "vercel.json"), "utf8");
-    const cfg = JSON.parse(raw) as {
-      git?: { deploymentEnabled?: boolean | Record<string, boolean> };
-    };
-    expect(cfg.git?.deploymentEnabled).toBe(false);
+    expect(vercelJsonIsHoldOrMainOnlyRestore()).toBe(true);
   });
 
   test("PUBLIC_COPY.seat.winsEmpty matches PUBLIC_COPY.md", () => {

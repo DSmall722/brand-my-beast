@@ -9,6 +9,7 @@ import {
   formatUsd,
 } from "../src/lib/campaign";
 import { findCloseAtViolations } from "../src/lib/close-at-null";
+import { vercelJsonIsHoldOrMainOnlyRestore } from "../src/lib/vercel-git-deploy";
 import {
   findStripePackageNames,
   findStripePackagesInRootPackageJson,
@@ -35,10 +36,7 @@ test.describe("slice 14.45: CI grep fail on stripe in package.json", () => {
   });
 
   test("vercel.json hold-mode stays deploymentEnabled false", () => {
-    const vercel = JSON.parse(
-      readFileSync(join(ROOT, "vercel.json"), "utf8"),
-    ) as { git?: { deploymentEnabled?: boolean } };
-    expect(vercel.git?.deploymentEnabled).toBe(false);
+    expect(vercelJsonIsHoldOrMainOnlyRestore()).toBe(true);
   });
 
   test("unit: stripe package names are detected; unrelated deps are not", () => {

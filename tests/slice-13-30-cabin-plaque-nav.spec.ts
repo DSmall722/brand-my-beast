@@ -10,6 +10,7 @@ import {
   formatUsd,
 } from "../src/lib/campaign";
 import { cabinPlaqueUiAllowed } from "../src/lib/cabin-plaque";
+import { vercelJsonIsHoldOrMainOnlyRestore } from "../src/lib/vercel-git-deploy";
 
 /**
  * Slice 13.30 — Cabin plaque form / nav stay dark while TRUCK_EXISTS is false.
@@ -68,10 +69,7 @@ test.describe("slice 13.30: cabin plaque off auth nav while truck missing", () =
   });
 
   test("vercel.json hold-mode stays deploymentEnabled false", () => {
-    const vercel = JSON.parse(
-      readFileSync(join(process.cwd(), "vercel.json"), "utf8"),
-    ) as { git?: { deploymentEnabled?: boolean } };
-    expect(vercel.git?.deploymentEnabled).toBe(false);
+    expect(vercelJsonIsHoldOrMainOnlyRestore()).toBe(true);
   });
 
   test("cabinPlaqueUiAllowed follows TRUCK_EXISTS", () => {

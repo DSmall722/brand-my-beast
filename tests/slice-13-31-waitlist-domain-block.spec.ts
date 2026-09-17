@@ -9,6 +9,7 @@ import {
   formatUsd,
 } from "../src/lib/campaign";
 import { PUBLIC_COPY } from "../src/lib/public-copy";
+import { vercelJsonIsHoldOrMainOnlyRestore } from "../src/lib/vercel-git-deploy";
 import {
   joinWaitlist,
   resetWaitlistStoreForTests,
@@ -71,10 +72,7 @@ test.describe("slice 13.31: waitlist domain blocklist", () => {
   });
 
   test("vercel.json hold-mode stays deploymentEnabled false", () => {
-    const vercel = JSON.parse(
-      readFileSync(join(process.cwd(), "vercel.json"), "utf8"),
-    ) as { git?: { deploymentEnabled?: boolean } };
-    expect(vercel.git?.deploymentEnabled).toBe(false);
+    expect(vercelJsonIsHoldOrMainOnlyRestore()).toBe(true);
   });
 
   test("built-in disposables block joinWaitlist; company mail may join", async () => {

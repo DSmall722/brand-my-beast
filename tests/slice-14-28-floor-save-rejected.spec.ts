@@ -19,6 +19,7 @@ import {
   setIntentStatus,
 } from "../src/lib/intent-store";
 import { findStripePackagesInRootPackageJson } from "../src/lib/no-stripe-package";
+import { vercelJsonIsHoldOrMainOnlyRestore } from "../src/lib/vercel-git-deploy";
 
 /**
  * Slice 14.28 — Floor-save does not raise a rejected mark.
@@ -47,10 +48,7 @@ test.describe("slice 14.28: floor-save does not raise a rejected mark", () => {
   });
 
   test("vercel.json hold-mode stays deploymentEnabled false", () => {
-    const vercel = JSON.parse(
-      readFileSync(join(process.cwd(), "vercel.json"), "utf8"),
-    ) as { git?: { deploymentEnabled?: boolean } };
-    expect(vercel.git?.deploymentEnabled).toBe(false);
+    expect(vercelJsonIsHoldOrMainOnlyRestore()).toBe(true);
   });
 
   test("fireFloorSaveBid refuses rejected floor-save; mark stays rejected", async () => {

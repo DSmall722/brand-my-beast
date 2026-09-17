@@ -6,6 +6,19 @@ Slice **14.48** refreshes this note’s date only. Do not buy credits.
 
 **Updated:** 2026-09-17 (14.48 date bump only).
 
+## Hold lifted (2026-09-17)
+
+Human authorized the restore checklist below. `vercel.json` is main-only:
+
+`"git": { "deploymentEnabled": { "*": false, "main": true } }`
+
+The hold-lift merge does not auto-deploy while the old config is still
+`deploymentEnabled: false`. Production is redeployed once after that merge.
+Do not buy credits. No Stripe. Auction clock stays unset. Floor **$58,000** /
+buyout **$120,000**.
+
+The one-line runbook below is the 11.10 / 13.49 / 14.48 historical note.
+
 ## One-line runbook (human)
 
 **Redeploy when the hold lifts.**

@@ -14,6 +14,7 @@ import {
   resetMailDeadLettersForTests,
 } from "../src/lib/mail-dead-letter";
 import { findStripePackagesInRootPackageJson } from "../src/lib/no-stripe-package";
+import { vercelJsonIsHoldOrMainOnlyRestore } from "../src/lib/vercel-git-deploy";
 import {
   RESEND_BOUNCE_EVENT,
   handleResendBounceWebhookBody,
@@ -57,10 +58,7 @@ test.describe("slice 14.39: Resend bounce webhook → dead-letter", () => {
   });
 
   test("vercel.json hold-mode stays deploymentEnabled false", () => {
-    const vercel = JSON.parse(
-      readFileSync(join(ROOT, "vercel.json"), "utf8"),
-    ) as { git?: { deploymentEnabled?: boolean } };
-    expect(vercel.git?.deploymentEnabled).toBe(false);
+    expect(vercelJsonIsHoldOrMainOnlyRestore()).toBe(true);
   });
 
   test("unit: bounce body appends dead-letter; other events ignored", async () => {

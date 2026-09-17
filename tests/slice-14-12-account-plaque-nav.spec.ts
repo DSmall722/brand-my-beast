@@ -12,6 +12,7 @@ import {
 import { cabinPlaqueUiAllowed } from "../src/lib/cabin-plaque";
 import { findCloseAtViolations } from "../src/lib/close-at-null";
 import { findStripePackagesInRootPackageJson } from "../src/lib/no-stripe-package";
+import { vercelJsonIsHoldOrMainOnlyRestore } from "../src/lib/vercel-git-deploy";
 
 /**
  * Slice 14.12 — `/account` nav has no Cabin plaque while the truck does not
@@ -59,10 +60,7 @@ test.describe("slice 14.12: /account nav has no cabin plaque while truck missing
   });
 
   test("vercel.json hold-mode stays deploymentEnabled false", () => {
-    const vercel = JSON.parse(
-      readFileSync(join(ROOT, "vercel.json"), "utf8"),
-    ) as { git?: { deploymentEnabled?: boolean } };
-    expect(vercel.git?.deploymentEnabled).toBe(false);
+    expect(vercelJsonIsHoldOrMainOnlyRestore()).toBe(true);
   });
 
   test("TRUCK_EXISTS false; cabinPlaqueUiAllowed stays dark", () => {

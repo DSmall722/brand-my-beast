@@ -1,5 +1,3 @@
-import { readFileSync } from "node:fs";
-import { join } from "node:path";
 import { expect, test, type Page } from "@playwright/test";
 import {
   BRAND,
@@ -21,6 +19,7 @@ import {
   readContractMarkdown,
 } from "../src/lib/counsel-export";
 import { findStripePackagesInRootPackageJson } from "../src/lib/no-stripe-package";
+import { vercelJsonIsHoldOrMainOnlyRestore } from "../src/lib/vercel-git-deploy";
 import {
   placeIntentBid,
   resetIntentStoreForTests,
@@ -31,8 +30,6 @@ import {
  * Slice 14.42 — Counsel export ZIP of CONTRACT + standing table.
  * No emails in the ZIP. CLOSE_AT null. No Stripe. Hold-mode untouched.
  */
-
-const ROOT = process.cwd();
 
 async function signIn(page: Page, email: string) {
   await page.context().clearCookies();
@@ -71,10 +68,7 @@ test.describe("slice 14.42: counsel ZIP CONTRACT + standing, no emails", () => {
   });
 
   test("vercel.json hold-mode stays deploymentEnabled false", () => {
-    const vercel = JSON.parse(
-      readFileSync(join(ROOT, "vercel.json"), "utf8"),
-    ) as { git?: { deploymentEnabled?: boolean } };
-    expect(vercel.git?.deploymentEnabled).toBe(false);
+    expect(vercelJsonIsHoldOrMainOnlyRestore()).toBe(true);
   });
 
   test("standing CSV has no email/userId; ZIP embeds CONTRACT + table", async () => {

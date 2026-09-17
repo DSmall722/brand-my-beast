@@ -12,6 +12,7 @@ import {
   buildFailedWinnerOffer,
 } from "../src/lib/failed-winner-offer";
 import { nextStandingUsd } from "../src/lib/intent";
+import { vercelJsonIsHoldOrMainOnlyRestore } from "../src/lib/vercel-git-deploy";
 import {
   getIntentBidById,
   listBidsForPanel,
@@ -58,11 +59,7 @@ test.describe("slice 13.20: failed-winner accept leaves old winner outbid", () =
   });
 
   test("vercel.json hold-mode stays deploymentEnabled false", () => {
-    const raw = readFileSync(join(process.cwd(), "vercel.json"), "utf8");
-    const cfg = JSON.parse(raw) as {
-      git?: { deploymentEnabled?: boolean | Record<string, boolean> };
-    };
-    expect(cfg.git?.deploymentEnabled).toBe(false);
+    expect(vercelJsonIsHoldOrMainOnlyRestore()).toBe(true);
   });
 
   test("accepting failed-winner offer outbids prior holder without delete", async () => {
