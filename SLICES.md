@@ -16,7 +16,7 @@ Updated: 2026-09-16
 - Judge PRs from git + `npm test` + `npm run build`. Do not use brandmybeast.com as a gate while the Vercel usage hold is on.
 
 **Now:** 14.14 Playwright: homepage HTML has no “Season 2”, “Clemson Saturday”, or “48-state.”
-**Last merged:** 14.13 (/partner has no mileage / heatmap cards).
+**Last merged:** 14.13 (#271 ban mileage and heatmap cards on /partner).
 
 ## Standing orders
 
