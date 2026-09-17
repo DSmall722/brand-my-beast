@@ -12,6 +12,7 @@ import { resetMailDeadLettersForTests } from "@/lib/mail-dead-letter";
 import { resetOperatorBanListForTests } from "@/lib/operator-ban-list";
 import { resetPanelExtensionStoreForTests } from "@/lib/panel-extension-store";
 import { resetRateLimitForTests } from "@/lib/rate-limit";
+import { resetLastOperatorDigestAtForTests } from "@/lib/operator-status";
 import { resetShopArtStatusStoreForTests } from "@/lib/shop-art-status-store";
 import { resetSightingStoreForTests } from "@/lib/sighting-store";
 import { testApiBlockedResponse } from "@/lib/test-api-gate";
@@ -41,5 +42,6 @@ export async function POST() {
   await resetCircuitStoryStoreForTests();
   await resetSightingStoreForTests();
   resetRateLimitForTests();
+  resetLastOperatorDigestAtForTests();
   return Response.json({ ok: true, capture: false, closeAt: null });
 }
