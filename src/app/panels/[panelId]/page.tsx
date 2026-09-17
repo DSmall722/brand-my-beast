@@ -18,6 +18,7 @@ import {
   FLOOR_USD,
   GOAL_USD,
   PANELS,
+  formatIntegerUsd,
   formatUsd,
   isEtchable,
 } from "@/lib/campaign";
@@ -248,12 +249,12 @@ export default async function PanelIntentPage({
           </div>
           <div>
             <dt>Min next</dt>
-            <dd data-testid="panel-minimum">{formatUsd(minimum)}</dd>
+            <dd data-testid="panel-minimum">{formatIntegerUsd(minimum)}</dd>
           </div>
           <div>
             <dt>Increment</dt>
             <dd data-testid="panel-increment">
-              {seatOpen ? "—" : formatUsd(incrementUsd)}
+              {seatOpen ? "—" : formatIntegerUsd(incrementUsd)}
             </dd>
           </div>
           <div>
@@ -273,8 +274,8 @@ export default async function PanelIntentPage({
         </p>
         <p className="auth-hint" data-testid="seat-next-minimum-rule">
           {seatOpen
-            ? `Seat open — next minimum is the opening mark ${formatUsd(minimum)}. Still intent only — no card.`
-            : `Next minimum is standing + max($250, 10%) = ${formatUsd(minimum)}. Still intent only — no card.`}
+            ? `Seat open — next minimum is the opening mark ${formatIntegerUsd(minimum)}. Still intent only — no card.`
+            : `Next minimum is standing + max($250, 10%) = ${formatIntegerUsd(minimum)}. Still intent only — no card.`}
         </p>
 
         <aside
