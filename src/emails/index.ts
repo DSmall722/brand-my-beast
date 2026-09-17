@@ -17,5 +17,6 @@ export {
   CAN_SPAM_PHYSICAL_ADDRESS,
   CAN_SPAM_UNSUBSCRIBE_PATH,
   CAN_SPAM_UNSUBSCRIBE_URL,
+  waitlistListUnsubscribeHeaders,
   withCanSpamFooter,
 } from "./can-spam";
