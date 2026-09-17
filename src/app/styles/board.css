@@ -242,11 +242,22 @@
 }
 
 .panel-name {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 0.4rem;
   font-family: var(--font-display), Syne, system-ui, sans-serif;
   font-size: 1.15rem;
   letter-spacing: -0.03em;
   border-bottom: 1px solid color-mix(in oklab, var(--signal) 50%, transparent);
   width: fit-content;
+}
+
+.panel-index {
+  color: var(--signal);
+  font-variant-numeric: tabular-nums;
+  font-weight: 700;
+  min-width: 1.15rem;
 }
 
 .panel-standing {
