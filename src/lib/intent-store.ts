@@ -1394,7 +1394,11 @@ export async function countApprovedStandingForPanel(
 /**
  * Slice 13.13 — fire a listed floor-save into a normal standing mark at Y.
  * Refuses when public pledged is already >= $58,000. Still intent only — no card.
+ * Slice 14.28 — rejected floor-save marks cannot fire / be raised.
  */
+export const FLOOR_SAVE_REJECTED_ERROR =
+  "Floor-save cannot raise a rejected mark.";
+
 export async function fireFloorSaveBid(input: {
   bidId: string;
 }): Promise<PlaceIntentResult> {
@@ -1402,6 +1406,10 @@ export async function fireFloorSaveBid(input: {
   if (!bid) return { ok: false, error: "Bid not found." };
   if (!isFloorSaveBid(bid) || bid.floorSaveUsd == null) {
     return { ok: false, error: "Not a floor-save intent." };
+  }
+  // Slice 14.28 — rejected marks stay rejected; never fire into standing.
+  if (bid.status === "rejected") {
+    return { ok: false, error: FLOOR_SAVE_REJECTED_ERROR };
   }
   if (bid.status !== "listed") {
     return { ok: false, error: "Only listed floor-save intents can fire." };
