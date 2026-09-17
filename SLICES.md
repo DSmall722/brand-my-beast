@@ -16,7 +16,7 @@ Updated: 2026-09-16
 - Judge PRs from git + `npm test` + `npm run build`. Do not use brandmybeast.com as a gate while the Vercel usage hold is on.
 
 **Now:** 14.29 Whole-truck pending blocks new single-panel intents on those seats until decided.
-**Last merged:** 14.28 (Floor-save does not raise a rejected mark).
+**Last merged:** 14.28 (#286 Floor-save does not raise a rejected mark).
 
 ## Standing orders
 
