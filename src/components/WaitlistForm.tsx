@@ -130,13 +130,7 @@ export function WaitlistForm() {
             browse panels
           </a>
           {" · "}
-          <a
-            href="/signin?callbackUrl=/panels/hood"
-            data-testid="waitlist-signin-intent"
-          >
-            sign in to list an intent
-          </a>
-          . Intent only — cards are not charged yet.
+          stay on the list. Intent only — cards are not charged yet.
         </p>
       ) : null}
     </form>
