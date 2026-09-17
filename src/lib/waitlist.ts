@@ -3,6 +3,7 @@ import { Resend } from "resend";
 import { z } from "zod";
 import { waitlistConfirmEmailTemplate } from "@/emails/waitlist-confirm";
 import { waitlistOperatorEmailTemplate } from "@/emails/waitlist-operator";
+import { waitlistListUnsubscribeHeaders } from "@/emails/can-spam";
 import { BRAND } from "./campaign";
 import { getDb } from "./db";
 import { waitlistSignups } from "./db/schema";
@@ -49,6 +50,8 @@ export type WaitlistNotifyPayload = {
   to: string;
   subject: string;
   text: string;
+  /** Slice 14.40 — List-Unsubscribe headers on subscriber waitlist mail. */
+  headers?: Record<string, string>;
 };
 
 export type WaitlistMailer = {
@@ -140,6 +143,7 @@ function useMemoryStore(): boolean {
 
 /**
  * Slice 12.14 — confirm-link mail to the subscriber (double opt-in).
+ * Slice 14.40 — List-Unsubscribe headers on this waitlist mail.
  * Missing key / mailer = no-op.
  */
 async function notifyConfirmLink(
@@ -163,6 +167,7 @@ async function notifyConfirmLink(
       to: email,
       subject: body.subject,
       text: body.text,
+      headers: waitlistListUnsubscribeHeaders(),
     });
   } catch (error) {
     try {

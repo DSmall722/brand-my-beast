@@ -1,6 +1,7 @@
 /**
  * Slice 12.13 — CAN-SPAM stub footer for every outbound mail.
  * Unsubscribe link + physical address line. No personal home address.
+ * Slice 14.40 — List-Unsubscribe / List-Unsubscribe-Post header helpers.
  */
 
 import { BRAND } from "@/lib/campaign";
@@ -26,4 +27,16 @@ export function withCanSpamFooter(text: string): string {
     `Unsubscribe: ${CAN_SPAM_UNSUBSCRIBE_URL}`,
     CAN_SPAM_PHYSICAL_ADDRESS,
   ].join("\n");
+}
+
+/**
+ * Slice 14.40 — RFC 2369 / 8058 headers for waitlist mail.
+ * One-click POST target is the public unsubscribe stub URL.
+ */
+export function waitlistListUnsubscribeHeaders(): Record<string, string> {
+  const mailto = `mailto:${BRAND.email}?subject=unsubscribe`;
+  return {
+    "List-Unsubscribe": `<${CAN_SPAM_UNSUBSCRIBE_URL}>, <${mailto}>`,
+    "List-Unsubscribe-Post": "List-Unsubscribe=One-Click",
+  };
 }
