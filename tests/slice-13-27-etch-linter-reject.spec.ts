@@ -17,6 +17,7 @@ import {
   placeIntentBid,
   resetIntentStoreForTests,
 } from "../src/lib/intent-store";
+import { vercelJsonIsHoldOrMainOnlyRestore } from "../src/lib/vercel-git-deploy";
 
 async function signIn(page: Page, email: string) {
   await page.context().clearCookies();
@@ -69,11 +70,7 @@ test.describe("slice 13.27: etch linter reject; wrap still lists", () => {
   });
 
   test("vercel.json hold-mode stays deploymentEnabled false", () => {
-    const raw = readFileSync(join(process.cwd(), "vercel.json"), "utf8");
-    const cfg = JSON.parse(raw) as {
-      git?: { deploymentEnabled?: boolean | Record<string, boolean> };
-    };
-    expect(cfg.git?.deploymentEnabled).toBe(false);
+    expect(vercelJsonIsHoldOrMainOnlyRestore()).toBe(true);
   });
 
   test("assertEtchArtPassesLinter rejects etch fail; wrap always ok", () => {

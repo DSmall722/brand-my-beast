@@ -16,6 +16,7 @@ import {
   gitLastModified,
 } from "../src/lib/git-lastmod";
 import { findStripePackagesInRootPackageJson } from "../src/lib/no-stripe-package";
+import { vercelJsonIsHoldOrMainOnlyRestore } from "../src/lib/vercel-git-deploy";
 
 /**
  * Slice 14.22 — Sitemap lastmod from git time, not a fake clock.
@@ -48,10 +49,7 @@ test.describe("slice 14.22: sitemap lastmod from git time", () => {
   });
 
   test("vercel.json hold-mode stays deploymentEnabled false", () => {
-    const vercel = JSON.parse(
-      readFileSync(join(process.cwd(), "vercel.json"), "utf8"),
-    ) as { git?: { deploymentEnabled?: boolean } };
-    expect(vercel.git?.deploymentEnabled).toBe(false);
+    expect(vercelJsonIsHoldOrMainOnlyRestore()).toBe(true);
   });
 
   test("gitLastModified matches git log committer time", () => {

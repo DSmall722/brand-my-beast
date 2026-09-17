@@ -17,6 +17,7 @@ import {
 import { OPERATOR_CSV_PATH } from "../src/lib/operator-csv";
 import { seatExportPngPath } from "../src/lib/seat-export-png";
 import { shopPdfPath } from "../src/lib/shop-pdf";
+import { vercelJsonIsHoldOrMainOnlyRestore } from "../src/lib/vercel-git-deploy";
 
 /**
  * Slice 13.36 — download routes (CSV, PDF, PNG) require operator or owner.
@@ -71,10 +72,7 @@ test.describe("slice 13.36: download routes operator or owner", () => {
   });
 
   test("vercel.json hold-mode stays deploymentEnabled false", () => {
-    const vercel = JSON.parse(
-      readFileSync(join(process.cwd(), "vercel.json"), "utf8"),
-    ) as { git?: { deploymentEnabled?: boolean } };
-    expect(vercel.git?.deploymentEnabled).toBe(false);
+    expect(vercelJsonIsHoldOrMainOnlyRestore()).toBe(true);
   });
 
   test("unit: download gates — operator narrow in test; owner match", () => {

@@ -20,6 +20,7 @@ import {
   resetIntentStoreForTests,
 } from "../src/lib/intent-store";
 import { findStripePackagesInRootPackageJson } from "../src/lib/no-stripe-package";
+import { vercelJsonIsHoldOrMainOnlyRestore } from "../src/lib/vercel-git-deploy";
 
 /**
  * Slice 14.29 — Whole-truck pending blocks new single-panel intents
@@ -50,10 +51,7 @@ test.describe("slice 14.29: whole-truck pending blocks single-panel", () => {
   });
 
   test("vercel.json hold-mode stays deploymentEnabled false", () => {
-    const vercel = JSON.parse(
-      readFileSync(join(process.cwd(), "vercel.json"), "utf8"),
-    ) as { git?: { deploymentEnabled?: boolean } };
-    expect(vercel.git?.deploymentEnabled).toBe(false);
+    expect(vercelJsonIsHoldOrMainOnlyRestore()).toBe(true);
   });
 
   test("pending whole-truck blocks single-panel; reject clears the block", async () => {

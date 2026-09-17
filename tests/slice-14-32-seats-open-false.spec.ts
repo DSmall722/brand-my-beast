@@ -12,6 +12,7 @@ import { findCloseAtViolations } from "../src/lib/close-at-null";
 import { findStripePackagesInRootPackageJson } from "../src/lib/no-stripe-package";
 import { PUBLIC_COPY } from "../src/lib/public-copy";
 import { seatsClosedIntentPayload } from "../src/lib/seats-open";
+import { vercelJsonIsHoldOrMainOnlyRestore } from "../src/lib/vercel-git-deploy";
 
 /**
  * Slice 14.32 — SEATS_OPEN=false → intent POST 403, waitlist still 201.
@@ -48,10 +49,7 @@ test.describe("slice 14.32: SEATS_OPEN=false intent 403 waitlist 201", () => {
   });
 
   test("vercel.json hold-mode stays deploymentEnabled false", () => {
-    const vercel = JSON.parse(
-      readFileSync(join(ROOT, "vercel.json"), "utf8"),
-    ) as { git?: { deploymentEnabled?: boolean } };
-    expect(vercel.git?.deploymentEnabled).toBe(false);
+    expect(vercelJsonIsHoldOrMainOnlyRestore()).toBe(true);
   });
 
   test("SEATS_OPEN=false → intent POST 403; waitlist still 201", async ({

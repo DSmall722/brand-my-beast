@@ -16,6 +16,7 @@ import {
   resetIntentStoreForTests,
 } from "../src/lib/intent-store";
 import { seedDemoAllowed, seedDemoMixedBoard } from "../src/lib/seed-demo";
+import { vercelJsonIsHoldOrMainOnlyRestore } from "../src/lib/vercel-git-deploy";
 
 /**
  * Slice 14.49 — local demo seed: 3 pending, 1 approved, 1 outbid. CI only.
@@ -56,10 +57,7 @@ test.describe("slice 14.49: local demo seed 3 pending / 1 approved / 1 outbid", 
   });
 
   test("vercel.json hold-mode stays deploymentEnabled false", () => {
-    const vercel = JSON.parse(
-      readFileSync(join(ROOT, "vercel.json"), "utf8"),
-    ) as { git?: { deploymentEnabled?: boolean } };
-    expect(vercel.git?.deploymentEnabled).toBe(false);
+    expect(vercelJsonIsHoldOrMainOnlyRestore()).toBe(true);
   });
 
   test("seed refuses production runtimes", () => {

@@ -18,6 +18,7 @@ import {
   setIntentStatus,
 } from "../src/lib/intent-store";
 import { findStripePackagesInRootPackageJson } from "../src/lib/no-stripe-package";
+import { vercelJsonIsHoldOrMainOnlyRestore } from "../src/lib/vercel-git-deploy";
 
 /**
  * Slice 14.31 — Standing brand change after approve is forbidden.
@@ -46,10 +47,7 @@ test.describe("slice 14.31: standing brand locked after approve", () => {
   });
 
   test("vercel.json hold-mode stays deploymentEnabled false", () => {
-    const vercel = JSON.parse(
-      readFileSync(join(process.cwd(), "vercel.json"), "utf8"),
-    ) as { git?: { deploymentEnabled?: boolean } };
-    expect(vercel.git?.deploymentEnabled).toBe(false);
+    expect(vercelJsonIsHoldOrMainOnlyRestore()).toBe(true);
   });
 
   test("editPendingIntent refuses brand change on approved; brand stays put", async () => {

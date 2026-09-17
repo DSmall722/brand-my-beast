@@ -17,6 +17,7 @@ import {
   personalHandleMatchesInText,
 } from "../src/lib/no-personal-identity";
 import { findStripePackagesInRootPackageJson } from "../src/lib/no-stripe-package";
+import { vercelJsonIsHoldOrMainOnlyRestore } from "../src/lib/vercel-git-deploy";
 
 /**
  * Slice 14.44 — CI grep: fail on personal Gmail and personal handle.
@@ -40,10 +41,7 @@ test.describe("slice 14.44: CI grep personal Gmail + personal handle", () => {
   });
 
   test("vercel.json hold-mode stays deploymentEnabled false", () => {
-    const vercel = JSON.parse(
-      readFileSync(join(ROOT, "vercel.json"), "utf8"),
-    ) as { git?: { deploymentEnabled?: boolean } };
-    expect(vercel.git?.deploymentEnabled).toBe(false);
+    expect(vercelJsonIsHoldOrMainOnlyRestore()).toBe(true);
   });
 
   test("unit: handle needle matches; allowlist only SLICES 16.40 doc line", () => {

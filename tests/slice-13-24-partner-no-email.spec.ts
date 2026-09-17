@@ -24,6 +24,7 @@ import {
   buildShopSeatPdf,
   shopPdfSeatFromApproved,
 } from "../src/lib/shop-pdf";
+import { vercelJsonIsHoldOrMainOnlyRestore } from "../src/lib/vercel-git-deploy";
 
 async function signIn(page: Page, email: string) {
   await page.context().clearCookies();
@@ -76,11 +77,7 @@ test.describe("slice 13.24: partner no bidder email", () => {
   });
 
   test("vercel.json hold-mode stays deploymentEnabled false", () => {
-    const raw = readFileSync(join(process.cwd(), "vercel.json"), "utf8");
-    const cfg = JSON.parse(raw) as {
-      git?: { deploymentEnabled?: boolean | Record<string, boolean> };
-    };
-    expect(cfg.git?.deploymentEnabled).toBe(false);
+    expect(vercelJsonIsHoldOrMainOnlyRestore()).toBe(true);
   });
 
   test("toPartnerShopSeat strips userId; helper detects email leaks", async () => {

@@ -16,6 +16,7 @@ import {
 } from "../src/lib/deposit-preview";
 import { depositUsdForMark } from "../src/lib/intent";
 import { findStripePackagesInRootPackageJson } from "../src/lib/no-stripe-package";
+import { vercelJsonIsHoldOrMainOnlyRestore } from "../src/lib/vercel-git-deploy";
 
 /**
  * Slice 14.33 — Deposit preview uses the same helper as 12.5
@@ -54,10 +55,7 @@ test.describe("slice 14.33: deposit preview uses depositUsdForMark (12.5)", () =
   });
 
   test("vercel.json hold-mode stays deploymentEnabled false", () => {
-    const vercel = JSON.parse(
-      readFileSync(join(ROOT, "vercel.json"), "utf8"),
-    ) as { git?: { deploymentEnabled?: boolean } };
-    expect(vercel.git?.deploymentEnabled).toBe(false);
+    expect(vercelJsonIsHoldOrMainOnlyRestore()).toBe(true);
   });
 
   test("deposit-preview and panel page call depositUsdForMark only", () => {

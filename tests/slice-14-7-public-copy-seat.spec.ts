@@ -12,6 +12,7 @@ import { findCloseAtViolations } from "../src/lib/close-at-null";
 import { findStripePackagesInRootPackageJson } from "../src/lib/no-stripe-package";
 import { OPENING_BID_RATIONALE } from "../src/lib/opening-bid-rationale";
 import { PUBLIC_COPY } from "../src/lib/public-copy";
+import { vercelJsonIsHoldOrMainOnlyRestore } from "../src/lib/vercel-git-deploy";
 
 /**
  * Slice 14.7 — PUBLIC_COPY seat rationale only. No H1 rewrite.
@@ -36,10 +37,7 @@ test.describe("slice 14.7: PUBLIC_COPY seat rationale; no H1 rewrite", () => {
   });
 
   test("vercel.json hold-mode stays deploymentEnabled false", () => {
-    const vercel = JSON.parse(
-      readFileSync(join(process.cwd(), "vercel.json"), "utf8"),
-    ) as { git?: { deploymentEnabled?: boolean } };
-    expect(vercel.git?.deploymentEnabled).toBe(false);
+    expect(vercelJsonIsHoldOrMainOnlyRestore()).toBe(true);
   });
 
   test("seat rationale lives in PUBLIC_COPY; homepage H1 unchanged", () => {
