@@ -14,6 +14,13 @@ Public mail: **hello@brandmybeast.com**
 Domain: **brandmybeast.com**
 Not Tesla. Not teslacyberbeast.com.
 
+### Current stack (slice 14.5)
+
+Matches **`ARCHITECTURE.md`** — numbers in this file stay locked and unchanged:
+Next.js App Router + Postgres/Drizzle + Vercel Blob + Resend (mock in CI).
+Stripe is **not wired**. `CLOSE_AT` stays null. Do not start the 30-day clock.
+Detail lives in `ARCHITECTURE.md`; this sentence is the campaign-side pointer only.
+
 ## Money (locked 2026-09-13)
 
 | Threshold | What happens |
