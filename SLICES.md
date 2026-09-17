@@ -15,8 +15,8 @@ Updated: 2026-09-16
 - Coordinator may merge a PR that finishes exactly one unchecked slice, Playwright is green, and the merge gates below hold.
 - Judge PRs from git + `npm test` + `npm run build`. Do not use brandmybeast.com as a gate while the Vercel usage hold is on.
 
-**Now:** 13.44 Drizzle journal checked in. No “push from laptop” as the only path.
-**Last merged:** 13.43 (#PENDING CLOSE_AT null CI gate).
+**Now:** 13.45 Operator health shows waitlist count + pending count + last digest time.
+**Last merged:** 13.44 (#PENDING drizzle journal checked in).
 
 ## Standing orders
 
@@ -138,8 +138,8 @@ Do not start Wave 13 until 12.50 is checked. No Stripe. No CLOSE_AT.
 - [x] 13.40 No personal Gmail in `git grep` of `src/` + `*.md`. (#248)
 - [x] 13.41 `prove-all.sh` includes 9.6–9.10 and 12.45–12.46. (#249)
 - [x] 13.42 CI fails if `package.json` gains `stripe`. (#250)
-- [x] 13.43 CI fails if `CLOSE_AT` is non-null. (#PENDING)
-- [ ] 13.44 Drizzle journal checked in. No “push from laptop” as the only path.
+- [x] 13.43 CI fails if `CLOSE_AT` is non-null. (#251)
+- [x] 13.44 Drizzle journal checked in. No “push from laptop” as the only path. (#PENDING)
 - [ ] 13.45 Operator health shows waitlist count + pending count + last digest time.
 - [ ] 13.46 Document how to run Playwright offline (memory mode).
 - [ ] 13.47 Verify-skill map Waves 9–13.
