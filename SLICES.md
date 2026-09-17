@@ -15,8 +15,8 @@ Updated: 2026-09-16
 - Coordinator may merge a PR that finishes exactly one unchecked slice, Playwright is green, and the merge gates below hold.
 - Judge PRs from git + `npm test` + `npm run build`. Do not use brandmybeast.com as a gate while the Vercel usage hold is on.
 
-**Now:** 14.48 Refresh `docs/VERCEL-HOLD.md` date only. Do not buy credits.
-**Last merged:** 14.47 Tag `wave-13-complete` after 13.50. No clock.
+**Now:** 14.49 Local demo seed: 3 pending, 1 approved, 1 outbid. CI only.
+**Last merged:** 14.48 Refresh `docs/VERCEL-HOLD.md` date only. Do not buy credits.
 
 ## Standing orders
 
@@ -154,8 +154,8 @@ Complete through 11.10 skipped (Vercel hold). Condensed ranges keep verify-map p
 - [x] 14.44 CI grep: fail on personal Gmail and personal handle. (#302)
 - [x] 14.45 CI grep: fail on `stripe` in package.json. (#303)
 - [x] 14.46 Verify-skill map Wave 14. (#304)
-- [x] 14.47 Tag `wave-13-complete` after 13.50. No clock.
-- [ ] 14.48 Refresh `docs/VERCEL-HOLD.md` date only. Do not buy credits.
+- [x] 14.47 Tag `wave-13-complete` after 13.50. No clock. (#305)
+- [x] 14.48 Refresh `docs/VERCEL-HOLD.md` date only. Do not buy credits.
 - [ ] 14.49 Local demo seed: 3 pending, 1 approved, 1 outbid. CI only.
 - [ ] 14.50 Stop line: Wave 15 is Stripe / CLOSE_AT / first tweet and needs a human message.
 
