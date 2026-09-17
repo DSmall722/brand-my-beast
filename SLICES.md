@@ -15,8 +15,8 @@ Updated: 2026-09-16
 - Coordinator may merge a PR that finishes exactly one unchecked slice, Playwright is green, and the merge gates below hold.
 - Judge PRs from git + `npm test` + `npm run build`. Do not use brandmybeast.com as a gate while the Vercel usage hold is on.
 
-**Now:** 14.24 404 and 500 share footer strings.
-**Last merged:** 14.23 (#281 favicon 32/180 only if missing).
+**Now:** 14.25 Sign-out on `/account` uses PUBLIC_COPY.
+**Last merged:** 14.24 (#282 404 and 500 share footer strings).
 
 ## Standing orders
 
@@ -131,7 +131,7 @@ Complete through 11.10 skipped (Vercel hold). Condensed ranges keep verify-map p
 - [x] 14.21 `/llms.txt` with PUBLIC_COPY facts only. (#279)
 - [x] 14.22 Sitemap lastmod from git time, not a fake clock. (#280)
 - [x] 14.23 Favicon 32/180 only if missing. (#281)
-- [ ] 14.24 404 and 500 share footer strings.
+- [x] 14.24 404 and 500 share footer strings. (#282)
 - [ ] 14.25 Sign-out on `/account` uses PUBLIC_COPY.
 - [ ] 14.26 Failed-winner offer cannot target a banned trade.
 - [ ] 14.27 Proxy max ignored after the bidder withdraws.
