@@ -1,27 +1,43 @@
 /**
  * Slice 9.9 — public seat log: amount + time. No bidder email / user id.
+ * Slice 14.35 — display times are America/New_York, labeled ET.
  */
 
 import { formatUsd } from "./campaign";
 import type { IntentBid } from "./intent";
 
+/** Public seat log display timezone (Eastern). */
+export const SEAT_LOG_TIME_ZONE = "America/New_York" as const;
+
 export type PublicSeatLogEntry = {
   bidId: string;
   amountUsd: number;
   amountLabel: string;
-  /** ISO-8601 UTC from the ledger. */
+  /** ISO-8601 UTC from the ledger (machine-readable dateTime). */
   createdAt: string;
-  /** Compact UTC display for the public seat (no email). */
+  /** America/New_York display labeled ET (no email). */
   timeLabel: string;
   brandLabel: string;
   status: IntentBid["status"];
 };
 
-/** Format ledger time for the public seat log (UTC, no bidder identity). */
+/**
+ * Format ledger time for the public seat log.
+ * Slice 14.35 — America/New_York, labeled ET. No bidder identity.
+ */
 export function formatSeatLogTime(iso: string): string {
   const d = new Date(iso);
   if (Number.isNaN(d.getTime())) return iso;
-  return d.toISOString().replace(/\.\d{3}Z$/, "Z");
+  const formatted = new Intl.DateTimeFormat("en-US", {
+    timeZone: SEAT_LOG_TIME_ZONE,
+    year: "numeric",
+    month: "short",
+    day: "numeric",
+    hour: "numeric",
+    minute: "2-digit",
+    hour12: true,
+  }).format(d);
+  return `${formatted} ET`;
 }
 
 /**
