@@ -63,9 +63,12 @@ test.describe("slice 9.9: public seat log", () => {
   });
 
   test("unit: seat log is amount + time; never email fields", async () => {
+    // 12:34 UTC on 2026-09-16 → 8:34 AM Eastern (EDT).
     expect(formatSeatLogTime("2026-09-16T12:34:56.789Z")).toBe(
-      "2026-09-16T12:34:56Z",
+      "Sep 16, 2026, 8:34 AM ET",
     );
+    expect(formatSeatLogTime("2026-09-16T12:34:56.789Z")).toMatch(/\bET\b/);
+    expect(formatSeatLogTime("2026-09-16T12:34:56.789Z")).not.toMatch(/Z$/);
 
     const placed = await placeIntentBid({
       panelId: "hood",
@@ -82,6 +85,7 @@ test.describe("slice 9.9: public seat log", () => {
     expect(log[0]?.amountLabel).toBe("$3,000");
     expect(log[0]?.amountUsd).toBe(3000);
     expect(log[0]?.timeLabel).toBe(formatSeatLogTime(placed.bid.createdAt));
+    expect(log[0]?.timeLabel).toMatch(/\bET\b/);
     expect(log[0]?.brandLabel).toBe("Seat Log Co");
     const serialized = JSON.stringify(log);
     expect(serialized).not.toContain("seatlog-secret-user");
@@ -121,7 +125,8 @@ test.describe("slice 9.9: public seat log", () => {
     const timeText = await bidder
       .getByTestId(`seat-log-time-${bidId}`)
       .textContent();
-    expect(timeText).toMatch(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z$/);
+    expect(timeText).toMatch(/\bET\b/);
+    expect(timeText).not.toMatch(/Z$/);
     await expect(bidder.getByTestId(`intent-time-${bidId}`)).toHaveText(
       timeText!,
     );
