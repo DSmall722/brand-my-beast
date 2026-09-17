@@ -119,6 +119,7 @@ test.describe("slice 8.4: operator CSV export", () => {
           source: "homepage",
           confirmToken: null,
           confirmedAt: "2026-01-01T00:05:00.000Z",
+          wantWholeTruck: false,
         },
       ],
       intents: [

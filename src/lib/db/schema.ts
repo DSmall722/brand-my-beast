@@ -1,6 +1,7 @@
 import type { AdapterAccountType } from "@auth/core/adapters";
 import { sql } from "drizzle-orm";
 import {
+  boolean,
   index,
   integer,
   pgTable,
@@ -26,6 +27,8 @@ export const waitlistSignups = pgTable(
     confirmToken: text("confirm_token"),
     /** Slice 12.14 — set when the confirm link is opened. */
     confirmedAt: timestamp("confirmed_at", { withTimezone: true }),
+    /** Slice 16.0c — whole-truck interest. Not pledged. Default false. */
+    wantWholeTruck: boolean("want_whole_truck").notNull().default(false),
   },
   (table) => [
     uniqueIndex("waitlist_signups_confirm_token_uidx")
