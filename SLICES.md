@@ -15,8 +15,8 @@ Updated: 2026-09-16
 - Coordinator may merge a PR that finishes exactly one unchecked slice, Playwright is green, and the merge gates below hold.
 - Judge PRs from git + `npm test` + `npm run build`. Do not use brandmybeast.com as a gate while the Vercel usage hold is on.
 
-**Now:** 14.20 Press kit folder: avi, header, one stainless still, one-paragraph fact sheet. No wrap-as-delivered.
-**Last merged:** 14.19 (#277 seats-open email template; do not send from agent).
+**Now:** 14.21 `/llms.txt` with PUBLIC_COPY facts only.
+**Last merged:** 14.20 (#278 press kit: avi, header, stainless still, fact sheet).
 
 ## Standing orders
 
@@ -127,7 +127,7 @@ Complete through 11.10 skipped (Vercel hold). Condensed ranges keep verify-map p
 - [x] 14.17 `SEATS_OPEN=false` flag, separate from `CLOSE_AT`. When false, intent form says waitlist only. (#275)
 - [x] 14.18 Operator toggle for `SEATS_OPEN` does not set a date. (#276)
 - [x] 14.19 “Seats open” email template exists. Do not send it from the agent. (#277)
-- [ ] 14.20 Press kit folder: avi, header, one stainless still, one-paragraph fact sheet. No wrap-as-delivered.
+- [x] 14.20 Press kit folder: avi, header, one stainless still, one-paragraph fact sheet. No wrap-as-delivered. (#278)
 - [ ] 14.21 `/llms.txt` with PUBLIC_COPY facts only.
 - [ ] 14.22 Sitemap lastmod from git time, not a fake clock.
 - [ ] 14.23 Favicon 32/180 only if missing.
