@@ -33,6 +33,7 @@ import {
   checkOperatorDecideRateLimit,
   checkRateLimit,
 } from "@/lib/rate-limit";
+import { resolveSeatsOpen } from "@/lib/seats-open";
 
 export type IntentActionState = {
   ok: boolean;
@@ -47,6 +48,11 @@ export async function submitIntentBid(
   const session = await auth();
   if (!session?.user?.id) {
     return { ok: false, error: "Sign in to place an intent mark." };
+  }
+
+  // Slice 14.32 — seats closed: waitlist only (matches API 403).
+  if (!resolveSeatsOpen()) {
+    return { ok: false, error: PUBLIC_COPY.intent.seatsClosedWaitlistOnly };
   }
 
   const limited = checkRateLimit("intent", `user:${session.user.id}`);
@@ -312,6 +318,11 @@ export async function submitWholeTruckIntent(
   const session = await auth();
   if (!session?.user?.id) {
     return { ok: false, error: "Sign in to list a whole-truck intent." };
+  }
+
+  // Slice 14.32 — seats closed: waitlist only (matches API 403).
+  if (!resolveSeatsOpen()) {
+    return { ok: false, error: PUBLIC_COPY.intent.seatsClosedWaitlistOnly };
   }
 
   const limited = checkRateLimit("intent", `user:${session.user.id}`);

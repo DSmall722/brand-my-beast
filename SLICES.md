@@ -15,8 +15,8 @@ Updated: 2026-09-16
 - Coordinator may merge a PR that finishes exactly one unchecked slice, Playwright is green, and the merge gates below hold.
 - Judge PRs from git + `npm test` + `npm run build`. Do not use brandmybeast.com as a gate while the Vercel usage hold is on.
 
-**Now:** 14.32 Playwright: `SEATS_OPEN=false` → intent POST 403, waitlist still 201.
-**Last merged:** 14.31 (#289 Standing brand change after approve is forbidden).
+**Now:** 14.33 Deposit preview uses the same helper as 12.5.
+**Last merged:** 14.32 Playwright: `SEATS_OPEN=false` → intent POST 403, waitlist still 201.
 
 ## Standing orders
 
@@ -139,7 +139,7 @@ Complete through 11.10 skipped (Vercel hold). Condensed ranges keep verify-map p
 - [x] 14.29 Whole-truck pending blocks new single-panel intents on those seats until decided. (#287)
 - [x] 14.30 Operator note required when forcing a withdraw of an approved seat. (#288)
 - [x] 14.31 Standing brand change after approve is forbidden. (#289)
-- [ ] 14.32 Playwright: `SEATS_OPEN=false` → intent POST 403, waitlist still 201.
+- [x] 14.32 Playwright: `SEATS_OPEN=false` → intent POST 403, waitlist still 201.
 - [ ] 14.33 Deposit preview uses the same helper as 12.5.
 - [ ] 14.34 Next-minimum display uses integer dollars only.
 - [ ] 14.35 Public log timestamps are America/New_York, labeled ET.

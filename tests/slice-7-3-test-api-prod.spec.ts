@@ -99,6 +99,10 @@ test.describe("slice 7.3: test API blocked in production", () => {
       join(process.cwd(), "src/app/api/test/magic-link-rate/route.ts"),
       "utf8",
     );
+    const seatsOpen = readFileSync(
+      join(process.cwd(), "src/app/api/test/seats-open/route.ts"),
+      "utf8",
+    );
     for (const src of [
       rateLimit,
       reset,
@@ -106,6 +110,7 @@ test.describe("slice 7.3: test API blocked in production", () => {
       seedBuyout,
       seedOpen,
       magicLinkRate,
+      seatsOpen,
     ]) {
       expect(src).toContain('from "@/lib/test-api-gate"');
       expect(src).toContain("testApiBlockedResponse()");

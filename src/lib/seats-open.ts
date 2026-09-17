@@ -5,6 +5,7 @@ import { getSeatsOpenOverride } from "./seats-open-store";
 /**
  * Slice 14.17 / 14.18 — SEATS_OPEN gates intent listing UI.
  * Operator override (14.18) wins over env. Never touches CLOSE_AT or a date.
+ * Slice 14.32 — API intent POST returns 403 when closed; waitlist stays 201.
  */
 
 export type IntentFormMode = "list" | "waitlist-only";
@@ -28,6 +29,19 @@ export function seatsOpenIsSeparateFromCloseAt(): boolean {
 
 export function intentWaitlistOnlyCopy(): string {
   return PUBLIC_COPY.intent.seatsClosedWaitlistOnly;
+}
+
+/** Slice 14.32 — JSON body for intent POST when seats are closed. */
+export function seatsClosedIntentPayload(): {
+  ok: false;
+  error: string;
+  code: "seats_closed";
+} {
+  return {
+    ok: false,
+    error: intentWaitlistOnlyCopy(),
+    code: "seats_closed",
+  };
 }
 
 /** Operator toggle must never carry a date field. */
