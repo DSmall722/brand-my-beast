@@ -234,6 +234,9 @@ export const PUBLIC_COPY = {
     /** Slice 14.17 — SEATS_OPEN=false. Not a close date. */
     seatsClosedWaitlistOnly:
       "Seats are not open for intent marks. Join the waitlist only. This page does not charge cards.",
+    /** Slice 14.41 — MAINTENANCE=true. Homepage stays up. Not a close date. */
+    maintenanceNotTakingMarks:
+      "Not taking marks. The board is up; intent listing is paused for maintenance. Still no card charge.",
   },
   /**
    * Slice 9.3 — per-seat soft-close extension. Never a campaign CLOSE_AT.
