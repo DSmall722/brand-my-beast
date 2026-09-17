@@ -15,8 +15,8 @@ Updated: 2026-09-16
 - Coordinator may merge a PR that finishes exactly one unchecked slice, Playwright is green, and the merge gates below hold.
 - Judge PRs from git + `npm test` + `npm run build`. Do not use brandmybeast.com as a gate while the Vercel usage hold is on.
 
-**Now:** 13.46 Document how to run Playwright offline (memory mode).
-**Last merged:** 13.45 (#253 operator health waitlist/pending/digest).
+**Now:** 13.47 Verify-skill map Waves 9–13.
+**Last merged:** 13.46 (#PENDING Playwright offline memory mode).
 
 ## Standing orders
 
@@ -97,7 +97,7 @@ Complete through 11.10 skipped (Vercel hold). Condensed ranges keep verify-map p
 
 - [x] 13.1–13.44 Complete. (#208–#252)
 - [x] 13.45 Operator health shows waitlist count + pending count + last digest time. (#253)
-- [ ] 13.46 Document how to run Playwright offline (memory mode).
+- [x] 13.46 Document how to run Playwright offline (memory mode). (#PENDING)
 - [ ] 13.47 Verify-skill map Waves 9–13.
 - [ ] 13.48 Tag `wave-12-complete` after 12.50. Still no clock.
 - [ ] 13.49 Slice 11.10 remains human: one-line runbook “redeploy when Vercel hold lifts.”
