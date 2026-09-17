@@ -36,6 +36,7 @@ import {
   minimumIntentUsd,
   standingForPanel,
 } from "@/lib/intent-store";
+import { listBanRules } from "@/lib/operator-ban-list";
 import { panelExtendedUntilCopy } from "@/lib/panel-extension";
 import { panelOpenGraphTitle } from "@/lib/panel-open-graph";
 import { PUBLIC_COPY } from "@/lib/public-copy";
@@ -114,10 +115,13 @@ export default async function PanelIntentPage({
   const etchable = isEtchable(panel);
   const viewerId = session?.user?.id;
   // Slice 9.6 / 13.11 — live offer only inside TTL; else next compliant / expired.
+  // Slice 14.26 — banned trades (static + operator list) never get the offer.
+  const operatorBanRules = await listBanRules();
   const failedWinner = resolveFailedWinnerOfferForViewer({
     bids,
     viewerId,
     panelMinimumUsd: minimum,
+    operatorBanRules,
   });
   const viewerOutbid = failedWinner.viewerOutbid;
   const viewerWasOutbid = Boolean(viewerOutbid);
