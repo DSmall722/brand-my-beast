@@ -1,7 +1,8 @@
 /**
- * Slice 13.42 — CI fails if package.json gains a stripe dependency.
+ * Slice 13.42 / 14.45 — CI fails if package.json gains a stripe dependency.
  * Scans dependency / devDependency / optionalDependency / peerDependency keys.
  * Prose mentions of Stripe in docs are out of scope; this gate is package.json only.
+ * Package script: `npm run grep:stripe` → scripts/grep-stripe-package.mjs.
  * Does not set CLOSE_AT. Does not wire Stripe.
  */
 
