@@ -15,8 +15,8 @@ Updated: 2026-09-16
 - Coordinator may merge a PR that finishes exactly one unchecked slice, Playwright is green, and the merge gates below hold.
 - Judge PRs from git + `npm test` + `npm run build`. Do not use brandmybeast.com as a gate while the Vercel usage hold is on.
 
-**Now:** 14.44 CI grep: fail on personal Gmail and personal handle.
-**Last merged:** 14.43 (#301 Playwright journey: waitlist → sign-in → hood intent → approve → `/account/wins`).
+**Now:** 14.45 CI grep: fail on `stripe` in package.json.
+**Last merged:** 14.44 CI grep: fail on personal Gmail and personal handle.
 
 ## Standing orders
 
@@ -151,7 +151,7 @@ Complete through 11.10 skipped (Vercel hold). Condensed ranges keep verify-map p
 - [x] 14.41 Maintenance flag: `/` stays up, intent POST returns “not taking marks.” (#299)
 - [x] 14.42 Counsel export ZIP of CONTRACT + standing table. No emails in the ZIP. (#300)
 - [x] 14.43 Playwright journey: waitlist → sign-in (test) → hood intent → approve → `/account/wins`. (#301)
-- [ ] 14.44 CI grep: fail on personal Gmail and personal handle.
+- [x] 14.44 CI grep: fail on personal Gmail and personal handle.
 - [ ] 14.45 CI grep: fail on `stripe` in package.json.
 - [ ] 14.46 Verify-skill map Wave 14.
 - [ ] 14.47 Tag `wave-13-complete` after 13.50. No clock.
