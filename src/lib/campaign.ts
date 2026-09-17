@@ -27,6 +27,14 @@ export const PROXY_MAX_CAP_USD = GOAL_USD;
 export const CLOSE_AT: string | null = null;
 
 /**
+ * Slice 14.17 — seats accepting panel intents. Separate from CLOSE_AT.
+ * Default open when unset. Set SEATS_OPEN=false (or 0) to show waitlist-only
+ * on the intent form. Does not set a close date or start the 30-day clock.
+ */
+export const SEATS_OPEN =
+  process.env.SEATS_OPEN !== "false" && process.env.SEATS_OPEN !== "0";
+
+/**
  * Truck / order exists. Empty P3–P5 boards stay hidden on /, /account, and
  * /partner while false. Flip via TRUCK_EXISTS=true only after a real order
  * path exists — never invent a VIN.

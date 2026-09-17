@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useActionState } from "react";
 import {
   submitWholeTruckIntent,
@@ -7,20 +8,46 @@ import {
 } from "@/app/actions/intent";
 import { GOAL_USD, formatUsd } from "@/lib/campaign";
 import { PUBLIC_COPY } from "@/lib/public-copy";
+import { intentFormMode, intentWaitlistOnlyCopy } from "@/lib/seats-open";
 
 const initial: IntentActionState = { ok: false };
 
-export function WholeTruckIntentForm() {
+export function WholeTruckIntentForm({
+  seatsOpen = true,
+}: {
+  /** Slice 14.17 — when false, waitlist-only (not CLOSE_AT). */
+  seatsOpen?: boolean;
+}) {
   const [state, action, pending] = useActionState(
     submitWholeTruckIntent,
     initial,
   );
+
+  if (intentFormMode(seatsOpen) === "waitlist-only") {
+    return (
+      <div
+        className="auth-hint"
+        data-testid="whole-truck-waitlist-only"
+        data-seats-open="false"
+      >
+        <p data-testid="whole-truck-waitlist-only-copy">
+          {intentWaitlistOnlyCopy()}
+        </p>
+        <p>
+          <Link href="/#waitlist" data-testid="whole-truck-waitlist-only-link">
+            Join the waitlist
+          </Link>
+        </p>
+      </div>
+    );
+  }
 
   return (
     <form
       action={action}
       className="auth-form"
       data-testid="whole-truck-intent-form"
+      data-seats-open="true"
     >
       <label className="auth-label" htmlFor="whole-truck-brand">
         Brand label

@@ -1,5 +1,5 @@
 import { WholeTruckIntentForm } from "@/components/WholeTruckIntentForm";
-import { FLOOR_USD, GOAL_USD, PANELS, formatUsd } from "@/lib/campaign";
+import { FLOOR_USD, GOAL_USD, PANELS, SEATS_OPEN, formatUsd } from "@/lib/campaign";
 import { isWholeTruckIntentOpen } from "@/lib/intent-store";
 import { PUBLIC_COPY } from "@/lib/public-copy";
 
@@ -165,7 +165,7 @@ export function HomeMoneySection({
                 {PUBLIC_COPY.board.wholeTruckLead}
               </p>
               {signedIn ? (
-                <WholeTruckIntentForm />
+                <WholeTruckIntentForm seatsOpen={SEATS_OPEN} />
               ) : (
                 <a
                   className="btn btn-signal"
