@@ -113,6 +113,10 @@ Money facts from CAMPAIGN.md only. Plain English. Not a full contract.
 - Idle note: `We only email when seats open.`
 - Success: `You are on the list. We will email when bidding opens.`
 - Already: `That email is already on the list.`
+- Whole-truck checkbox label (slice 16.0b): `I want the whole truck`
+- Whole-truck checkbox hint (slice 16.0b): `This is interest, not a $120,000 bid. Nothing is charged.`
+
+Do **not** rewrite the homepage H1 for 16.0b. Checkbox wires in later slices.
 
 ## Sign in
 

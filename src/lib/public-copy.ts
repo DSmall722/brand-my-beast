@@ -175,6 +175,10 @@ export const PUBLIC_COPY = {
     /** Slice 13.31 — disposable / blocked domain. */
     domainBlocked:
       "That email domain is blocked. You are not on the list. Use a lasting inbox.",
+    /** Slice 16.0b — interest checkbox copy. Not pledged. Not on the vault bar. */
+    wholeTruckCheckboxLabel: "I want the whole truck",
+    wholeTruckCheckboxHint:
+      "This is interest, not a $120,000 bid. Nothing is charged.",
   },
   /**
    * Slice 12.17 — /signin copy. Not a homepage section.
