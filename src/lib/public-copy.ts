@@ -251,5 +251,7 @@ export const PUBLIC_COPY = {
   footer: {
     line: "BrandMyBeast · @BrandMyBeast · hello@brandmybeast.com",
     independent: "Independent. Not Tesla.",
+    /** Slice 13.38 — terms stub. Intent listing is not a card charge. */
+    intentNotACharge: "Intent is not a charge.",
   },
 } as const;
