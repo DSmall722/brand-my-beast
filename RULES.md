@@ -57,6 +57,18 @@ Withdrawing the only pending (`listed`) mark returns the seat standing to that p
 
 Do not take live money on `localStorage`. The static prototype is a brochure.
 
+## Intent statuses (slice 14.6)
+
+| Status | Meaning |
+|---|---|
+| **pending** | Listed mark awaiting operator decision (`listed` in the ledger). Counts toward nothing until approved. |
+| **approved** | Standing brand on that panel. At most one per `panelId`. |
+| **rejected** | Operator (or ban-list sweep) refused the mark. Note required. |
+| **outbid** | A higher compliant mark took the seat, or a new approve demoted prior standing. |
+| **withdrawn** | Bidder pulled a pending mark. Soft-delete only — no ghost standing. |
+
+Statuses are intent-only. No Stripe capture. `CLOSE_AT` stays null. Floor **$58,000**. Buyout **$120,000**.
+
 ## Soft close
 
 A bid in the last 5 minutes on a panel extends **that panel** by 5 minutes. The campaign close still hard-stops at the published timestamp.
