@@ -14,8 +14,8 @@ Updated: 2026-09-17
 - Set **Now** and **Last merged** in this file in that same PR.
 - Judge PRs from git + `npm test` + `npm run build`. Do not use brandmybeast.com as a merge gate.
 
-**Now:** 16.0f `/operator/waitlist` shows a Whole-truck column. Filter optional. No public header link.
-**Last merged:** 16.0e `WaitlistForm` renders the checkbox. POST body includes it.
+**Now:** 16.0g Drop the post-submit line `sign in to list an intent` on the waitlist form (`waitlist-signin-intent`). Next link is browse panels and/or stay on the list. Playwright: that testid is gone from `/`.
+**Last merged:** 16.0f `/operator/waitlist` shows a Whole-truck column. Filter optional.
 
 ## Standing orders
 
@@ -172,8 +172,8 @@ Waitlist stays the public product. Do not flip SEATS_OPEN.
 - [x] 16.0b PUBLIC_COPY waitlist checkbox strings: label `I want the whole truck`, hint `This is interest, not a $120,000 bid. Nothing is charged.` Add to PUBLIC_COPY.md. No H1 rewrite. (#311)
 - [x] 16.0c Drizzle: `waitlist_signups.want_whole_truck` boolean default false. Memory store in CI gets the same field. No pledged math change. (#312)
 - [x] 16.0d `POST /api/waitlist` accepts optional `wantWholeTruck`. Invalid email still 400. Created/exists still 201. Field does not flow into `loadBoardIntentStats`. (#313)
-- [x] 16.0e `WaitlistForm` renders the checkbox. POST body includes it. Playwright: checkbox + submit still 201; pledged on `/` stays `$0`.
-- [ ] 16.0f `/operator/waitlist` shows a Whole-truck column. Filter optional. No public header link.
+- [x] 16.0e `WaitlistForm` renders the checkbox. POST body includes it. Playwright: checkbox + submit still 201; pledged on `/` stays `$0`. (#314)
+- [x] 16.0f `/operator/waitlist` shows a Whole-truck column. Filter optional. No public header link.
 - [ ] 16.0g Drop the post-submit line `sign in to list an intent` on the waitlist form (`waitlist-signin-intent`). Next link is browse panels and/or stay on the list. Playwright: that testid is gone from `/`.
 - [ ] 16.1 Homepage panel cards show the same 1–12 index as the hero callouts.
 - [ ] 16.2–16.50 Remain as previously locked (numbered board, docs, freeze). No Stripe. No CLOSE_AT. No SEATS_OPEN flip.
