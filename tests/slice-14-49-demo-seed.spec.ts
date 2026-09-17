@@ -34,6 +34,13 @@ test.describe("slice 14.49: local demo seed 3 pending / 1 approved / 1 outbid", 
     expect(res.ok()).toBeTruthy();
   });
 
+  test.afterEach(async ({ request }) => {
+    // Do not leave approved standing on the shared CI memory board.
+    await resetIntentStoreForTests();
+    const res = await request.post("/api/test/reset-intents");
+    expect(res.ok()).toBeTruthy();
+  });
+
   test("campaign money fences stay locked — CLOSE_AT null", () => {
     expect(FLOOR_USD).toBe(58_000);
     expect(GOAL_USD).toBe(120_000);
