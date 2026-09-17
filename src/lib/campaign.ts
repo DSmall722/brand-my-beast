@@ -35,6 +35,14 @@ export const SEATS_OPEN =
   process.env.SEATS_OPEN !== "false" && process.env.SEATS_OPEN !== "0";
 
 /**
+ * Slice 14.41 — site maintenance. Homepage stays up; intent POST refuses
+ * with “not taking marks.” Default off when unset. Separate from CLOSE_AT
+ * and SEATS_OPEN. Does not start the 30-day clock.
+ */
+export const MAINTENANCE =
+  process.env.MAINTENANCE === "true" || process.env.MAINTENANCE === "1";
+
+/**
  * Truck / order exists. Empty P3–P5 boards stay hidden on /, /account, and
  * /partner while false. Flip via TRUCK_EXISTS=true only after a real order
  * path exists — never invent a VIN.
