@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { signOutAction } from "@/app/actions/auth";
+import { AccountTruckExistsNavSlot } from "@/components/account/account-truck-exists-nav";
 import { SiteChrome } from "@/components/SiteChrome";
 import { DeleteAccountButton } from "@/components/DeleteAccountButton";
 import { EditPendingIntentForm } from "@/components/EditPendingIntentForm";
@@ -286,7 +287,9 @@ export default async function AccountPage() {
           })()}
         </section>
 
-        <div className="auth-actions">
+        <AccountTruckExistsNavSlot />
+
+        <div className="auth-actions" data-testid="account-nav">
           <a
             className="btn btn-ghost"
             href={ACCOUNT_EXPORT_PATH}
