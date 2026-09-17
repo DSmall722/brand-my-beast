@@ -40,16 +40,17 @@ test.describe("slice 13.2: ARCHITECTURE.md stack without Stripe box", () => {
     );
   });
 
-  test("ARCHITECTURE.md names Postgres, Blob, Resend mock; no Stripe stack row", () => {
+  test("ARCHITECTURE.md names Postgres, Blob, Resend mock; Stripe not wired", () => {
     expect(existsSync(ARCH)).toBe(true);
     const text = readFileSync(ARCH, "utf8");
     expect(text).toContain("13.2");
     expect(text).toMatch(/Postgres/i);
     expect(text).toMatch(/Blob/i);
     expect(text).toMatch(/Resend mock|mailer double/i);
-    expect(text).toMatch(/No Stripe box/i);
-    // Stack table must not list Stripe as a locked Money layer.
+    // Slice 14.2 adds an explicit Stripe row; it must stay "not wired".
+    expect(text).toMatch(/not wired/i);
     const stackSection = text.split("## Phases")[0] ?? text;
+    expect(stackSection).toMatch(/^\| Stripe \|.*not wired/m);
     expect(stackSection).not.toMatch(/^\| Money \| Stripe/m);
     expect(text).toMatch(/\$58,000|FLOOR_USD/);
     expect(text).toMatch(/\$120,000|GOAL_USD/);

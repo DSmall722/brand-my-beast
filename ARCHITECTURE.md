@@ -10,7 +10,7 @@ Updated: 2026-09-16
 
 GitHub `DSmall722/brand-my-beast` is the harness source of truth. Seed it with these markdown files before generating verification skills.
 
-## Production stack (locked) — slice 13.2
+## Production stack (locked) — slices 13.2 / 14.2
 
 | Layer | Choice |
 |---|---|
@@ -18,6 +18,7 @@ GitHub `DSmall722/brand-my-beast` is the harness source of truth. Seed it with t
 | Data | **Postgres + Drizzle** (`DATABASE_URL` / Neon). Memory mode for CI only. |
 | Blobs | **Vercel Blob** (or compatible) for artwork bytes — see artwork blob store. |
 | Mail | **Resend** from `hello@brandmybeast.com`. CI uses an injected **Resend mock** / mailer double — never send live mail from agents. |
+| Stripe | **not wired.** No SetupIntent, no capture, no `stripe` package. Wave 15 needs a human message. |
 | Host | Vercel, domain already on Vercel DNS (usage hold: live URL is not a merge gate — `docs/VERCEL-HOLD.md`) |
 | Tests | Playwright, driven by pstack verification skills |
 | Agents | Cursor Projects coordinator + `/poteto-mode` after skills exist |
@@ -25,7 +26,7 @@ GitHub `DSmall722/brand-my-beast` is the harness source of truth. Seed it with t
 
 Do not build a second framework. Do not put the auction ledger in `localStorage` or a client JSON file.
 
-**No Stripe box in this stack table.** Charging / SetupIntent is Wave 15 and needs a separate human message. `package.json` has no `stripe` dependency. `CLOSE_AT` stays null until a human starts P3.
+The Stripe box above stays **not wired** until a human opens Wave 15. `package.json` has no `stripe` dependency. `CLOSE_AT` stays null until a human starts P3. Do not start the 30-day clock from this file.
 
 Money fences: floor **$58,000**, buyout **$120,000**. No lease. No cheaper trim.
 
