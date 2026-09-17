@@ -15,8 +15,8 @@ Updated: 2026-09-16
 - Coordinator may merge a PR that finishes exactly one unchecked slice, Playwright is green, and the merge gates below hold.
 - Judge PRs from git + `npm test` + `npm run build`. Do not use brandmybeast.com as a gate while the Vercel usage hold is on.
 
-**Now:** 14.9 `docs/STATUS.md`: floor, buyout, CLOSE_AT null, Vercel hold, last slice id.
-**Last merged:** 14.8 (#266 FEATURES drops lease/$40k/cheaper-trim rows).
+**Now:** 14.10 Kill leftover telegram lines in `.md` except a history note.
+**Last merged:** 14.9 (#PENDING docs/STATUS.md snapshot).
 
 ## Standing orders
 
@@ -116,7 +116,7 @@ Complete through 11.10 skipped (Vercel hold). Condensed ranges keep verify-map p
 - [x] 14.6 RULES.md table of statuses: pending / approved / rejected / outbid / withdrawn. (#264)
 - [x] 14.7 PUBLIC_COPY seat rationale only. No H1 rewrite. (#265)
 - [x] 14.8 Delete FEATURES rows that contradict CAMPAIGN (lease, $40k, cheaper trim). (#266)
-- [ ] 14.9 `docs/STATUS.md`: floor, buyout, CLOSE_AT null, Vercel hold, last slice id.
+- [x] 14.9 `docs/STATUS.md`: floor, buyout, CLOSE_AT null, Vercel hold, last slice id. (#PENDING)
 - [ ] 14.10 Kill leftover telegram lines in `.md` except a history note.
 - [ ] 14.11 `TRUCK_EXISTS=false` must not import plaque / sighting / circuit / Season 2 modules.
 - [ ] 14.12 `/account` nav has no Cabin plaque while the truck does not exist.
