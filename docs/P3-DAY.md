@@ -32,5 +32,6 @@ Stripe from this checklist. Floor **$58,000**. Buyout **$120,000**. No lease.
 ## Related
 
 - `docs/INTENT-COMPLETE.md` — Wave 12 freeze tag
+- `docs/WAVE-12-COMPLETE.md` — Wave 12 complete bookmark (slice 13.48; still no clock)
 - `docs/DRIZZLE-MIGRATE.md` / `docs/NEON-PITR.md` — data path
 - `SLICES.md` — only build order

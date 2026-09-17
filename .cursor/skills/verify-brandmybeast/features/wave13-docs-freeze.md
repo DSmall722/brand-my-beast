@@ -54,7 +54,7 @@ set `CLOSE_AT`, do not wire Stripe, leave `vercel.json` hold-mode alone.
 | 13.45 operator health waitlist pending digest | `tests/slice-13-45-operator-health.spec.ts` |
 | 13.46 Playwright offline memory-mode docs | `tests/slice-13-46-playwright-offline.spec.ts` |
 | 13.47 Verify-skill map Waves 9–13 | `tests/slice-13-47-verify-map.spec.ts` |
-| 13.48 Tag `wave-12-complete` after 12.50 | `SLICES.md` / git tag (no CLOSE_AT) |
+| 13.48 Tag `wave-12-complete` after 12.50 | `tests/slice-13-48-wave-12-complete.spec.ts` + `docs/WAVE-12-COMPLETE.md` |
 | 13.49 11.10 human redeploy-when-hold-lifts note | `tests/slice-11-10-vercel-hold-note.spec.ts` |
 | 13.50 Stop line: Wave 15 needs human | `SLICES.md` standing orders |
 
