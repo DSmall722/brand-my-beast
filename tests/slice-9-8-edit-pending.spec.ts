@@ -101,7 +101,7 @@ test.describe("slice 9.8: edit pending brand / trade / art", () => {
     });
     expect(blocked.ok).toBeFalsy();
     if (blocked.ok) return;
-    expect(blocked.error).toMatch(/Approved needs operator/i);
+    expect(blocked.error).toMatch(/Standing brand change after approve/i);
     const after = await getIntentBidById(listed.bid.id);
     expect(after?.brandLabel).toBe("Edit Alpha Renamed");
     expect(after?.status).toBe("approved");

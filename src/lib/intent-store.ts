@@ -1629,8 +1629,12 @@ export async function hardDeleteIntentBid(
 /**
  * Slice 9.8 / 13.15 — owner may edit brand / trade / art while listed (pending)
  * only. Standing amount unchanged. Each successful edit appends an intent
- * revision row (12.8). Approved needs operator.
+ * revision row (12.8).
+ * Slice 14.31 — standing brand change after approve is forbidden.
  */
+export const STANDING_BRAND_LOCKED_ERROR =
+  "Standing brand change after approve is forbidden.";
+
 export async function editPendingIntent(input: {
   bidId: string;
   userId: UserId;
@@ -1646,10 +1650,8 @@ export async function editPendingIntent(input: {
     return { ok: false, error: "You can only edit your own intent." };
   }
   if (bid.status === "approved") {
-    return {
-      ok: false,
-      error: "Approved needs operator. You cannot edit this intent.",
-    };
+    // Slice 14.31 — approved standing brand is immutable.
+    return { ok: false, error: STANDING_BRAND_LOCKED_ERROR };
   }
   if (bid.status !== "listed") {
     return {
@@ -1730,6 +1732,9 @@ export async function editPendingIntent(input: {
     // Re-check after validation — another writer may have bumped updatedAt.
     const live = memoryBids().find((row) => row.id === bid.id);
     if (!live || live.status !== "listed") {
+      if (live?.status === "approved") {
+        return { ok: false, error: STANDING_BRAND_LOCKED_ERROR };
+      }
       return {
         ok: false,
         error: "Only pending (listed) intents can be edited.",
