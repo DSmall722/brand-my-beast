@@ -15,8 +15,8 @@ Updated: 2026-09-16
 - Coordinator may merge a PR that finishes exactly one unchecked slice, Playwright is green, and the merge gates below hold.
 - Judge PRs from git + `npm test` + `npm run build`. Do not use brandmybeast.com as a gate while the Vercel usage hold is on.
 
-**Now:** 14.15 Drop unused card components if unreferenced.
-**Last merged:** 14.14 (#272 ban Season 2 / Clemson / 48-state from homepage HTML).
+**Now:** 14.16 Per-panel Open Graph title `{Panel} — BrandMyBeast`.
+**Last merged:** 14.15 (drop unused card components if unreferenced — inventory clean).
 
 ## Standing orders
 
@@ -122,7 +122,7 @@ Complete through 11.10 skipped (Vercel hold). Condensed ranges keep verify-map p
 - [x] 14.12 `/account` nav has no Cabin plaque while the truck does not exist. (#270)
 - [x] 14.13 `/partner` has no mileage / heatmap cards. (#271)
 - [x] 14.14 Playwright: homepage HTML has no “Season 2”, “Clemson Saturday”, or “48-state.” (#272)
-- [ ] 14.15 Drop unused card components if unreferenced.
+- [x] 14.15 Drop unused card components if unreferenced.
 - [ ] 14.16 Per-panel Open Graph title `{Panel} — BrandMyBeast`.
 - [ ] 14.17 `SEATS_OPEN=false` flag, separate from `CLOSE_AT`. When false, intent form says waitlist only.
 - [ ] 14.18 Operator toggle for `SEATS_OPEN` does not set a date.
