@@ -15,8 +15,8 @@ Updated: 2026-09-16
 - Coordinator may merge a PR that finishes exactly one unchecked slice, Playwright is green, and the merge gates below hold.
 - Judge PRs from git + `npm test` + `npm run build`. Do not use brandmybeast.com as a gate while the Vercel usage hold is on.
 
-**Now:** 14.50 Stop line: Wave 15 is Stripe / CLOSE_AT / first tweet and needs a human message.
-**Last merged:** 14.49 Local demo seed: 3 pending, 1 approved, 1 outbid. CI only.
+**Now:** 16.1 Homepage panel cards show the same 1–12 index as the hero callouts.
+**Last merged:** 14.50 Stop line: Wave 15 is Stripe / CLOSE_AT / first tweet and needs a human message.
 
 ## Standing orders
 
@@ -156,12 +156,12 @@ Complete through 11.10 skipped (Vercel hold). Condensed ranges keep verify-map p
 - [x] 14.46 Verify-skill map Wave 14. (#304)
 - [x] 14.47 Tag `wave-13-complete` after 13.50. No clock. (#305)
 - [x] 14.48 Refresh `docs/VERCEL-HOLD.md` date only. Do not buy credits. (#306)
-- [x] 14.49 Local demo seed: 3 pending, 1 approved, 1 outbid. CI only.
-- [ ] 14.50 Stop line: Wave 15 is Stripe / CLOSE_AT / first tweet and needs a human message.
+- [x] 14.49 Local demo seed: 3 pending, 1 approved, 1 outbid. CI only. (#307)
+- [x] 14.50 Stop line: Wave 15 is Stripe / CLOSE_AT / first tweet and needs a human message.
 
 ## Wave 15 — Stripe / money path (human only — STOP)
 
-**Stop line (slice 13.50):** Wave 15 is Stripe and needs a human message.
+**Stop line (slices 13.50 / 14.50):** Wave 15 is Stripe and needs a human message.
 
 Do not start Wave 15. Do not wire Stripe. Do not set `CLOSE_AT`. Do not tweet
 from @BrandMyBeast. Do not capture cards. See `docs/WAVE-15-STOP.md`.
