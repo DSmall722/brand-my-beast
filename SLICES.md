@@ -16,7 +16,7 @@ Updated: 2026-09-16
 - Judge PRs from git + `npm test` + `npm run build`. Do not use brandmybeast.com as a gate while the Vercel usage hold is on.
 
 **Now:** 13.49 Slice 11.10 remains human: one-line runbook “redeploy when Vercel hold lifts.”
-**Last merged:** 13.48 (#PENDING Tag `wave-12-complete` after 12.50).
+**Last merged:** 13.48 (#256 Tag `wave-12-complete` after 12.50).
 
 ## Standing orders
 
@@ -99,7 +99,7 @@ Complete through 11.10 skipped (Vercel hold). Condensed ranges keep verify-map p
 - [x] 13.45 Operator health shows waitlist count + pending count + last digest time. (#253)
 - [x] 13.46 Document how to run Playwright offline (memory mode). (#254)
 - [x] 13.47 Verify-skill map Waves 9–13. (#255)
-- [x] 13.48 Tag `wave-12-complete` after 12.50. Still no clock. (#PENDING)
+- [x] 13.48 Tag `wave-12-complete` after 12.50. Still no clock. (#256)
 - [ ] 13.49 Slice 11.10 remains human: one-line runbook “redeploy when Vercel hold lifts.”
 - [ ] 13.50 Stop line in SLICES: Wave 15 is Stripe and needs a human message.
 
