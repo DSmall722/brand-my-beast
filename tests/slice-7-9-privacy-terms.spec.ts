@@ -72,6 +72,10 @@ test.describe("slice 7.9: privacy and terms stubs", () => {
     await expect(page.getByTestId("privacy-waitlist")).toContainText(
       PUBLIC_COPY.waitlist.idleNote,
     );
+    // Slice 13.39 — waitlist retention locked on the privacy stub.
+    await expect(page.getByTestId("privacy-waitlist-retention")).toHaveText(
+      PUBLIC_COPY.waitlist.retention,
+    );
     await expect(page.getByTestId("privacy-independent")).toContainText(
       PUBLIC_COPY.footer.independent,
     );

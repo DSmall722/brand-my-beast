@@ -161,6 +161,8 @@ export const PUBLIC_COPY = {
     placeholder: "you@company.com",
     button: "Notify me",
     idleNote: "We only email when seats open.",
+    /** Slice 13.39 — privacy stub waitlist retention. */
+    retention: "Waitlist retention: until seats open or user deletes.",
     success: "You are on the list. We will email when bidding opens.",
     already: "That email is already on the list.",
     /** Slice 6.5 — never imply join when the write did not land. */

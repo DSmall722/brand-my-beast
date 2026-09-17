@@ -45,6 +45,9 @@ export function PrivacyStubBody() {
       <p data-testid="privacy-waitlist">
         {PUBLIC_COPY.waitlist.idleNote} {chargeQ?.a}
       </p>
+      <p data-testid="privacy-waitlist-retention">
+        {PUBLIC_COPY.waitlist.retention}
+      </p>
       <p data-testid="privacy-independent">
         {PUBLIC_COPY.footer.independent} {teslaQ?.a}
       </p>
