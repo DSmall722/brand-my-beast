@@ -16,7 +16,7 @@ Updated: 2026-09-16
 - Judge PRs from git + `npm test` + `npm run build`. Do not use brandmybeast.com as a gate while the Vercel usage hold is on.
 
 **Now:** 14.8 Delete FEATURES rows that contradict CAMPAIGN (lease, $40k, cheaper trim).
-**Last merged:** 14.7 (#PENDING PUBLIC_COPY seat rationale; no H1 rewrite).
+**Last merged:** 14.7 (#265 PUBLIC_COPY seat rationale; no H1 rewrite).
 
 ## Standing orders
 
@@ -114,7 +114,7 @@ Complete through 11.10 skipped (Vercel hold). Condensed ranges keep verify-map p
 - [x] 14.4 README one-pager: what the repo is, what it is not. (#262)
 - [x] 14.5 CAMPAIGN.md current-stack sentence matches ARCHITECTURE. Numbers unchanged. (#263)
 - [x] 14.6 RULES.md table of statuses: pending / approved / rejected / outbid / withdrawn. (#264)
-- [x] 14.7 PUBLIC_COPY seat rationale only. No H1 rewrite. (#PENDING)
+- [x] 14.7 PUBLIC_COPY seat rationale only. No H1 rewrite. (#265)
 - [ ] 14.8 Delete FEATURES rows that contradict CAMPAIGN (lease, $40k, cheaper trim).
 - [ ] 14.9 `docs/STATUS.md`: floor, buyout, CLOSE_AT null, Vercel hold, last slice id.
 - [ ] 14.10 Kill leftover telegram lines in `.md` except a history note.
