@@ -479,9 +479,15 @@ test.describe("P2 panel intent + approvals", () => {
     await bidderAgain.close();
   });
 
-  test("slice 2.3: banned trades hard-reject on the seat", async ({ page }) => {
+  test("slice 2.3: banned trades hard-reject on the seat", async ({
+    page,
+    request,
+  }) => {
+    // Parallel workers can flip seats closed; force list mode for this seat test.
+    await request.post("/api/test/seats-open", { data: { open: true } });
     await signIn(page, "banned@example.com");
     await page.goto("/panels/hood");
+    await expect(page.getByTestId("intent-brand")).toBeVisible();
     await page.getByTestId("intent-brand").fill("Ban Co");
     await page.getByTestId("intent-trade").fill("porn merch");
     await page.getByTestId("intent-submit").click();
@@ -499,10 +505,12 @@ test.describe("P2 panel intent + approvals", () => {
     await expect(page.getByTestId("intent-error")).toContainText("school-lot");
     await expect(page.getByTestId("intent-success")).toHaveCount(0);
 
-    await page.getByTestId("intent-trade").fill("cold brew");
+    // Unique brand/trade so a parallel hood listing cannot steal the seat.
+    await page.getByTestId("intent-brand").fill("Ban Co Cold");
+    await page.getByTestId("intent-trade").fill("cold brew 23");
     await page.getByTestId("intent-submit").click();
     await expect(page.getByTestId("intent-success")).toContainText("not charged");
-    await expect(page.getByTestId("intent-list")).toContainText("Ban Co");
+    await expect(page.getByTestId("intent-list")).toContainText("Ban Co Cold");
   });
 
   test("slice 1.6: outbid viewer sees failed-winner waitlist handoff", async ({

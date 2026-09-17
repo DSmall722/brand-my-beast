@@ -56,7 +56,7 @@ test.describe("slice 9.5: hide whole-truck at buyout", () => {
     expect(CLOSE_AT).toBeNull();
   });
 
-  test("homepage shows whole-truck control while pledged is under buyout", async ({
+  test("homepage shows whole-truck explanation while pledged is under buyout", async ({
     page,
   }) => {
     await page.goto("/#money");
@@ -64,6 +64,12 @@ test.describe("slice 9.5: hide whole-truck at buyout", () => {
     await expect(page.getByTestId("whole-truck-heading")).toHaveText(
       PUBLIC_COPY.board.wholeTruckHeading,
     );
+    await expect(page.getByTestId("whole-truck-lead")).toHaveText(
+      PUBLIC_COPY.board.wholeTruckLead,
+    );
+    // Slice 16.0a — heading + lead only; no public form or sign-in.
+    await expect(page.getByTestId("whole-truck-signin")).toHaveCount(0);
+    await expect(page.getByTestId("whole-truck-intent-form")).toHaveCount(0);
     await expect(page.getByTestId("whole-truck-met")).toHaveCount(0);
     const html = await page.content();
     expect(html.toLowerCase()).not.toMatch(/\blease\b/);

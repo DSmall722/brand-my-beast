@@ -80,9 +80,9 @@ test.describe("P1 waitlist campaign locks", () => {
     await expect(page.getByTestId("whole-truck-lead")).toHaveText(
       PUBLIC_COPY.board.wholeTruckLead,
     );
-    await expect(page.getByTestId("whole-truck-signin")).toHaveText(
-      PUBLIC_COPY.board.wholeTruckSignIn,
-    );
+    // Slice 16.0a — public `/` explanation only; no sign-in CTA / form.
+    await expect(page.getByTestId("whole-truck-signin")).toHaveCount(0);
+    await expect(page.getByTestId("whole-truck-intent-form")).toHaveCount(0);
     await expect(page.getByTestId("raised-label")).toHaveText(
       PUBLIC_COPY.board.raisedLabel,
     );

@@ -1,8 +1,6 @@
-import { WholeTruckIntentForm } from "@/components/WholeTruckIntentForm";
 import { FLOOR_USD, GOAL_USD, PANELS, formatUsd } from "@/lib/campaign";
 import { isWholeTruckIntentOpen } from "@/lib/intent-store";
 import { PUBLIC_COPY } from "@/lib/public-copy";
-import { resolveSeatsOpen } from "@/lib/seats-open";
 
 type HomeMoneySectionProps = {
   raisedLabel: string;
@@ -16,10 +14,13 @@ type HomeMoneySectionProps = {
   shortfallGoal: number;
   openSeats: number;
   pledgedUsd: number;
-  signedIn: boolean;
 };
 
-/** Slice 7.1 — extracted from `src/app/page.tsx`. Copy unchanged. */
+/**
+ * Slice 7.1 — extracted from `src/app/page.tsx`.
+ * Slice 16.0a — public `/` keeps whole-truck heading + lead only.
+ * No intent form. No whole-truck sign-in link. Waitlist stays.
+ */
 export function HomeMoneySection({
   raisedLabel,
   floorLabel,
@@ -32,7 +33,6 @@ export function HomeMoneySection({
   shortfallGoal,
   openSeats,
   pledgedUsd,
-  signedIn,
 }: HomeMoneySectionProps) {
   return (
         <section
@@ -165,17 +165,6 @@ export function HomeMoneySection({
               <p className="section-lead" data-testid="whole-truck-lead">
                 {PUBLIC_COPY.board.wholeTruckLead}
               </p>
-              {signedIn ? (
-                <WholeTruckIntentForm seatsOpen={resolveSeatsOpen()} />
-              ) : (
-                <a
-                  className="btn btn-signal"
-                  href="/signin?callbackUrl=/#money"
-                  data-testid="whole-truck-signin"
-                >
-                  {PUBLIC_COPY.board.wholeTruckSignIn}
-                </a>
-              )}
             </div>
           ) : (
             <p
