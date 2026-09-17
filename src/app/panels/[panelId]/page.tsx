@@ -1,4 +1,5 @@
 import Link from "next/link";
+import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import {
   AdjacentNeighborsCard,
@@ -11,7 +12,15 @@ import { PanelMockup } from "@/components/PanelMockup";
 import { TruckViewHotspots } from "@/components/TruckViewHotspots";
 import { SiteChrome } from "@/components/SiteChrome";
 import { auth } from "@/lib/auth";
-import { DEPOSIT_PERCENT, FLOOR_USD, GOAL_USD, PANELS, formatUsd, isEtchable } from "@/lib/campaign";
+import {
+  BRAND,
+  DEPOSIT_PERCENT,
+  FLOOR_USD,
+  GOAL_USD,
+  PANELS,
+  formatUsd,
+  isEtchable,
+} from "@/lib/campaign";
 import { OPENING_BID_RATIONALE } from "@/lib/opening-bid-rationale";
 import { comboLotFor } from "@/lib/combo-lots";
 import { minIncrementUsd } from "@/lib/intent";
@@ -28,6 +37,7 @@ import {
   standingForPanel,
 } from "@/lib/intent-store";
 import { panelExtendedUntilCopy } from "@/lib/panel-extension";
+import { panelOpenGraphTitle } from "@/lib/panel-open-graph";
 import { PUBLIC_COPY } from "@/lib/public-copy";
 import { getPanelExtendedUntil } from "@/lib/panel-extension-store";
 import {
@@ -38,6 +48,33 @@ import { buildPublicSeatLog, formatSeatLogTime } from "@/lib/seat-log";
 import { seatExportPngPath } from "@/lib/seat-export-png";
 
 type Params = Promise<{ panelId: string }>;
+
+/**
+ * Slice 14.16 — per-panel Open Graph title `{Panel} — BrandMyBeast`.
+ */
+export async function generateMetadata({
+  params,
+}: {
+  params: Params;
+}): Promise<Metadata> {
+  const { panelId } = await params;
+  const panel = PANELS.find((row) => row.id === panelId);
+  if (!panel) {
+    return { title: BRAND.name };
+  }
+  const title = panelOpenGraphTitle(panel);
+  return {
+    title,
+    openGraph: {
+      title,
+      siteName: BRAND.name,
+      type: "website",
+    },
+    twitter: {
+      title,
+    },
+  };
+}
 
 export default async function PanelIntentPage({
   params,
