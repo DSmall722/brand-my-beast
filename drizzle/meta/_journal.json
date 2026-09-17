@@ -134,6 +134,13 @@
       "when": 1789388280000,
       "tag": "0019_waitlist_domain_blocklist",
       "breakpoints": true
+    },
+    {
+      "idx": 19,
+      "version": "7",
+      "when": 1789388340000,
+      "tag": "0020_waitlist_want_whole_truck",
+      "breakpoints": true
     }
   ]
 }

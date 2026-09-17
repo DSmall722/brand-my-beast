@@ -41,6 +41,8 @@ export type WaitlistRow = {
   confirmToken: string | null;
   /** Slice 12.14 — set when double opt-in completes. */
   confirmedAt: string | null;
+  /** Slice 16.0c — whole-truck interest. Not pledged. Default false. */
+  wantWholeTruck: boolean;
 };
 
 /** Payload Resend (or a test double) receives on waitlist insert. */
@@ -92,6 +94,7 @@ function rowFromDb(row: typeof waitlistSignups.$inferSelect): WaitlistRow {
     source: row.source,
     confirmToken: row.confirmToken ?? null,
     confirmedAt: row.confirmedAt ? row.confirmedAt.toISOString() : null,
+    wantWholeTruck: row.wantWholeTruck === true,
   };
 }
 
@@ -263,6 +266,7 @@ export async function joinWaitlist(rawEmail: string): Promise<WaitlistResult> {
           source: "p1-waitlist",
           confirmToken,
           confirmedAt: null,
+          wantWholeTruck: false,
         });
         saved = { ok: true, status: "created" };
       }

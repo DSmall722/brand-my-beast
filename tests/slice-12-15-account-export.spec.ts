@@ -85,6 +85,7 @@ test.describe("slice 12.15: account export JSON", () => {
         source: "homepage",
         confirmToken: "secret-token-must-not-leak",
         confirmedAt: "2026-01-01T00:05:00.000Z",
+        wantWholeTruck: false,
       },
       intents: [listed.bid],
       exportedAt: "2026-09-16T12:00:00.000Z",
