@@ -16,7 +16,7 @@ Updated: 2026-09-16
 - Judge PRs from git + `npm test` + `npm run build`. Do not use brandmybeast.com as a gate while the Vercel usage hold is on.
 
 **Now:** 14.1 FEATURES.md: shipped rows marked shipped with slice id; P3/P5 stay Catalog.
-**Last merged:** 13.50 (#PENDING Wave 15 stop line).
+**Last merged:** 13.50 (#258 Wave 15 stop line).
 
 ## Standing orders
 
@@ -101,7 +101,7 @@ Complete through 11.10 skipped (Vercel hold). Condensed ranges keep verify-map p
 - [x] 13.47 Verify-skill map Waves 9–13. (#255)
 - [x] 13.48 Tag `wave-12-complete` after 12.50. Still no clock. (#256)
 - [x] 13.49 Slice 11.10 remains human: one-line runbook “redeploy when Vercel hold lifts.” (#257)
-- [x] 13.50 Stop line in SLICES: Wave 15 is Stripe and needs a human message. (#PENDING)
+- [x] 13.50 Stop line in SLICES: Wave 15 is Stripe and needs a human message. (#258)
 
 ## Wave 14 — launch readiness, no charge
 
