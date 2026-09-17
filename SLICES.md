@@ -16,7 +16,7 @@ Updated: 2026-09-16
 - Judge PRs from git + `npm test` + `npm run build`. Do not use brandmybeast.com as a gate while the Vercel usage hold is on.
 
 **Now:** 13.41 `prove-all.sh` includes 9.6–9.10 and 12.45–12.46.
-**Last merged:** 13.40 (#PR no personal Gmail in src + md).
+**Last merged:** 13.40 (#248 no personal Gmail in src + md).
 
 ## Standing orders
 
@@ -135,7 +135,7 @@ Do not start Wave 13 until 12.50 is checked. No Stripe. No CLOSE_AT.
 - [x] 13.37 `robots.txt` still excludes `/account`, `/signin`, `/operator`. (#245)
 - [x] 13.38 Terms stub adds “intent is not a charge.” (#246)
 - [x] 13.39 Privacy stub adds waitlist retention: until seats open or user deletes. (#247)
-- [x] 13.40 No personal Gmail in `git grep` of `src/` + `*.md`. (#PR)
+- [x] 13.40 No personal Gmail in `git grep` of `src/` + `*.md`. (#248)
 - [ ] 13.41 `prove-all.sh` includes 9.6–9.10 and 12.45–12.46.
 - [ ] 13.42 CI fails if `package.json` gains `stripe`.
 - [ ] 13.43 CI fails if `CLOSE_AT` is non-null.
