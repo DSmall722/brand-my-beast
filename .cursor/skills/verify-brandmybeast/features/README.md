@@ -1,14 +1,16 @@
 # BrandMyBeast verification map
 
 Maintained source for verifying user-facing waitlist + intent behavior across
-**Waves 0–5**, **Waves 7–10**, **Wave 12**, and **Waves 9–13** (SLICES.md). Read
-this index before driving the app, then open the matching feature file.
+**Waves 0–5**, **Waves 7–10**, **Wave 12**, **Waves 9–13**, and **Wave 14**
+(SLICES.md). Read this index before driving the app, then open the matching
+feature file.
 
 Slice **6.4** requires this map to name every Wave 0–5 surface and point at
 the skill recipe and/or Playwright suite that proves it. Slice **11.3** extends
 the same map to every Wave 7–10 surface. Slice **12.47** extends it to every
 Wave 12 surface (`12.1`…`12.50`). Slice **13.47** extends it to every Wave 9–13
-surface (`9.1`…`13.50`). Money fences stay
+surface (`9.1`…`13.50`). Slice **14.46** extends it to every Wave 14 surface
+(`14.0`…`14.50`). Money fences stay
 `FLOOR_USD=58000`, `GOAL_USD=120000`, `CLOSE_AT=null`.
 
 ## Baseline preconditions
@@ -90,12 +92,25 @@ Hardening gate for this extension:
 
 - This map ↔ Waves 9–13 → `tests/slice-13-47-verify-map.spec.ts`
 
+## Wave 14 map
+
+Canonical id → file index: [waves-14.md](./waves-14.md) (every `14.0`…`14.50`).
+
+| Wave | Feature file | Live lever |
+|---|---|---|
+| 14 — launch readiness, no charge | [wave14-launch-readiness.md](./wave14-launch-readiness.md) | `tests/slice-14-*.spec.ts` |
+
+Hardening gate for this extension:
+
+- This map ↔ Wave 14 → `tests/slice-14-46-verify-map.spec.ts`
+
 ## Features (detail)
 
 - [Waves 0–5 id index](./waves-0-5.md)
 - [Waves 7–10 id index](./waves-7-10.md)
 - [Wave 12 id index](./waves-12.md)
 - [Waves 9–13 id index](./waves-9-13.md)
+- [Wave 14 id index](./waves-14.md)
 - [Wave 0 slices 0.1–0.9](./wave0-slices.md)
 - [Campaign board](./campaign-board.md)
 - [Panel grid](./panel-grid.md)
@@ -113,6 +128,7 @@ Hardening gate for this extension:
 - [Wave 11 hardening](./wave11-hardening.md)
 - [Wave 12 money-ready](./wave12-money-ready.md)
 - [Wave 13 docs freeze](./wave13-docs-freeze.md)
+- [Wave 14 launch readiness](./wave14-launch-readiness.md)
 - [Panel intent (P2 soft auction)](./panel-intent.md)
 
 ## Maintain hook
