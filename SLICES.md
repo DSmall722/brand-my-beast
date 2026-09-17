@@ -15,8 +15,8 @@ Updated: 2026-09-16
 - Coordinator may merge a PR that finishes exactly one unchecked slice, Playwright is green, and the merge gates below hold.
 - Judge PRs from git + `npm test` + `npm run build`. Do not use brandmybeast.com as a gate while the Vercel usage hold is on.
 
-**Now:** 14.39 Resend webhook route for bounces → dead-letter. No live hook required to merge.
-**Last merged:** 14.38 (#296 Human-sensitive doc for CAMPAIGN.md, SLICES.md, campaign.ts).
+**Now:** 14.40 `List-Unsubscribe` header on waitlist mail.
+**Last merged:** 14.39 Resend bounce webhook → dead-letter.
 
 ## Standing orders
 
@@ -146,7 +146,7 @@ Complete through 11.10 skipped (Vercel hold). Condensed ranges keep verify-map p
 - [x] 14.36 `engines` + license in package.json if 12.48 did not land. (12.48 already landed #205) (#294)
 - [x] 14.37 Pinned `npm audit` script. No new runtime. (#295)
 - [x] 14.38 CODEOWNERS or a doc: CAMPAIGN.md, SLICES.md, campaign.ts are human-sensitive. (#296)
-- [ ] 14.39 Resend webhook route for bounces → dead-letter. No live hook required to merge.
+- [x] 14.39 Resend webhook route for bounces → dead-letter. No live hook required to merge.
 - [ ] 14.40 `List-Unsubscribe` header on waitlist mail.
 - [ ] 14.41 Maintenance flag: `/` stays up, intent POST returns “not taking marks.”
 - [ ] 14.42 Counsel export ZIP of CONTRACT + standing table. No emails in the ZIP.
