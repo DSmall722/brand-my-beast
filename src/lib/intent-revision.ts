@@ -43,6 +43,18 @@ export function intentRevisionUsesMemory(
   return !env.DATABASE_URL;
 }
 
+function nextRevisionCreatedAt(rows: IntentRevision[]): string {
+  const nowMs = Date.now();
+  // Memory rows are newest-first (unshift). Same-ms stamps would make
+  // ascending sort unstable relative to edit order (slice 13.15 flake).
+  let latestMs = 0;
+  for (const row of rows) {
+    const ms = Date.parse(row.createdAt);
+    if (Number.isFinite(ms) && ms > latestMs) latestMs = ms;
+  }
+  return new Date(Math.max(nowMs, latestMs + 1)).toISOString();
+}
+
 export async function appendIntentRevision(input: {
   bidId: string;
   brandLabel: string;
@@ -53,6 +65,7 @@ export async function appendIntentRevision(input: {
   if (!Number.isFinite(input.standingUsd) || !Number.isInteger(input.standingUsd)) {
     throw new Error("Revision standingUsd must be a whole dollar amount.");
   }
+  const rows = intentRevisionUsesMemory() ? memoryRows() : [];
   const row: IntentRevision = {
     id: crypto.randomUUID(),
     bidId: input.bidId,
@@ -60,7 +73,9 @@ export async function appendIntentRevision(input: {
     tradeLabel: input.tradeLabel,
     standingUsd: input.standingUsd,
     artworkUrl: input.artworkUrl ?? null,
-    createdAt: new Date().toISOString(),
+    createdAt: intentRevisionUsesMemory()
+      ? nextRevisionCreatedAt(rows)
+      : new Date().toISOString(),
   };
 
   if (intentRevisionUsesMemory()) {
