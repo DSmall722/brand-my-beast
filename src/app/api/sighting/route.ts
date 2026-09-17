@@ -1,10 +1,15 @@
 import { NextResponse } from "next/server";
-import { submitSighting } from "@/lib/sighting-store";
 import { truckMissingResponse } from "@/lib/truck-gate";
 
+/**
+ * Slice 14.11 — sighting-store stays out of the module graph while
+ * TRUCK_EXISTS is false. Dynamic import after the gate is intentional.
+ */
 export async function POST(request: Request) {
   const missing = truckMissingResponse();
   if (missing) return missing;
+
+  const { submitSighting } = await import("@/lib/sighting-store");
 
   let body: unknown;
   try {

@@ -15,8 +15,8 @@ Updated: 2026-09-16
 - Coordinator may merge a PR that finishes exactly one unchecked slice, Playwright is green, and the merge gates below hold.
 - Judge PRs from git + `npm test` + `npm run build`. Do not use brandmybeast.com as a gate while the Vercel usage hold is on.
 
-**Now:** 14.11 `TRUCK_EXISTS=false` must not import plaque / sighting / circuit / Season 2 modules.
-**Last merged:** 14.10 (#268 kill telegram lines except STALE history).
+**Now:** 14.12 `/account` nav has no Cabin plaque while the truck does not exist.
+**Last merged:** 14.11 (#269 gate plaque/sighting/circuit imports on TRUCK_EXISTS).
 
 ## Standing orders
 
@@ -118,7 +118,7 @@ Complete through 11.10 skipped (Vercel hold). Condensed ranges keep verify-map p
 - [x] 14.8 Delete FEATURES rows that contradict CAMPAIGN (lease, $40k, cheaper trim). (#266)
 - [x] 14.9 `docs/STATUS.md`: floor, buyout, CLOSE_AT null, Vercel hold, last slice id. (#267)
 - [x] 14.10 Kill leftover telegram lines in `.md` except a history note. (#268)
-- [ ] 14.11 `TRUCK_EXISTS=false` must not import plaque / sighting / circuit / Season 2 modules.
+- [x] 14.11 `TRUCK_EXISTS=false` must not import plaque / sighting / circuit / Season 2 modules. (#269)
 - [ ] 14.12 `/account` nav has no Cabin plaque while the truck does not exist.
 - [ ] 14.13 `/partner` has no mileage / heatmap cards.
 - [ ] 14.14 Playwright: homepage HTML has no “Season 2”, “Clemson Saturday”, or “48-state.”
