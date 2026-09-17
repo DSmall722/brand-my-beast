@@ -36,6 +36,7 @@ Updated: 2026-09-17
 - Moving Vercel nameservers / clearing the Vercel usage hold
 - Wave 15 (money path)
 - Flipping SEATS_OPEN to true on production (live-board day)
+- Wiring AUTH_SECRET / AUTH_URL / RESEND_API_KEY / RESEND_FROM / DATABASE_URL on Vercel production (17.4 hides the env list; it does not set secrets)
 
 ## Merge gate (all must be true)
 
@@ -67,7 +68,10 @@ Updated: 2026-09-17
 
 ## Wave 17 — phone + public-face correctness
 
-Do not start until 16.50 unless the operator skip-aheads. No Stripe. No CLOSE_AT.
+Human-requested 2026-09-17 from production iPhone Safari shots.
+Do not start until 16.50 unless the operator skip-aheads. No Stripe. No CLOSE_AT. No tweet.
+No invented front/rear photos. No hometown-lane restyle. Do not rewrite the homepage H1.
+Money stays `formatUsd(FLOOR_USD)` / `formatUsd(GOAL_USD)`.
 
 - [ ] 17.1 `TRUCK_VIEWS_LEAD` is a buyer sentence. No “prototype”, “hotspot”, or “30X”.
 - [ ] 17.2 `truckViewsCopyIsSafe()` requires floor + buyout + no lease / no CLOSE_AT.
@@ -79,7 +83,18 @@ Do not start until 16.50 unless the operator skip-aheads. No Stripe. No CLOSE_AT
 - [ ] 17.8 Front / Rear: hide the side-body SVG schematic. Same preview photo. No new stills.
 - [ ] 17.9 Playwright 390: hero H1 and callouts 2 / 3 / 5 / 7 do not overlap.
 - [ ] 17.10 Homepage `.panel-face` is not an empty black rectangle.
-- [ ] 17.11 Stop line: after 17.10, idle. Wave 15 is still Stripe and needs a human message.
+- [ ] 17.11 After 17.10 continue 17.12. Wave 15 is still Stripe and needs a human message.
+
+### Seat-page compositor (front-fascia review 2026-09-17)
+
+- [ ] 17.12 `STAINLESS_COMPOSITOR_LEAD`, `FINISH_CONDITIONS_LEAD`, and `DIRTY_CLEAN_PAIR_LEAD` are buyer sentences. No “compositor”, “shader”, “VIN”, or “Dirty vs clean pair” as body copy. Floor / buyout from `formatUsd`. Update `stainlessCompositorCopyIsSafe` / `finishConditionsCopyIsSafe` / `dirtyCleanPairCopyIsSafe` so they no longer require shader / toggle / VIN jargon.
+- [ ] 17.13 Wrap-only seats do not render the Etch tab. Etchable seats keep the locked tab until pledged ≥ `$120,000`. Copy stays “wrap only” / etch-lock sentence — not a disabled control on fascia / roof / bed.
+- [ ] 17.14 Public `/panels/[id]` HTML does not contain “Stripe” or “No Stripe capture.” Intent-only line stays. Vendor name stays out of buyer copy.
+- [ ] 17.15 Soft-close / extension block is hidden while `CLOSE_AT` is null and bidding is not open. Do not set a clock.
+- [ ] 17.16 Compositor `.panel-mockup-face` is not a striped empty well. Reuse the hero still with a crop, or drop the well. No invented wrap or etch photo.
+- [ ] 17.17 Seat-page board: the active polygon sits on the named panel (seat 2 on the front bumper), not floating off-frame. Complements 17.8. No new stills.
+- [ ] 17.18 Playwright: `/panels/front-fascia` HTML has no prototype / 30X / hotspot / shader / reserved VIN / Stripe. Opening still `$1,200`. Deposit still 20% of opening, not charged. Floor `$58,000`. Buyout `$120,000`.
+- [ ] 17.19 Stop line: after 17.18, idle on this wave. Wave 15 is still Stripe and needs a human message.
 
 ## After Wave 17
 
