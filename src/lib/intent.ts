@@ -107,16 +107,28 @@ export function normalizeTradeLabel(raw: string): string {
   return raw.trim().toLowerCase().replace(/\s+/g, " ");
 }
 
-/** Next bid = standing + max($250, 10% of standing). */
+/** Next bid = standing + max($250, 10% of standing). Whole dollars only. */
 export function minIncrementUsd(standingUsd: number): number {
-  if (!Number.isFinite(standingUsd) || standingUsd < 0) {
-    throw new Error("standingUsd must be a non-negative finite number");
+  if (
+    !Number.isFinite(standingUsd) ||
+    !Number.isInteger(standingUsd) ||
+    standingUsd < 0
+  ) {
+    throw new Error("standingUsd must be a non-negative integer dollar amount");
   }
   return Math.max(250, Math.ceil(standingUsd * 0.1));
 }
 
+/**
+ * Slice 9.2 / 14.34 — next minimum is standing + increment.
+ * Always a whole dollar amount for display and listing floors.
+ */
 export function nextStandingUsd(currentStandingUsd: number): number {
-  return currentStandingUsd + minIncrementUsd(currentStandingUsd);
+  const next = currentStandingUsd + minIncrementUsd(currentStandingUsd);
+  if (!Number.isInteger(next)) {
+    throw new Error("next minimum must be an integer dollar amount");
+  }
+  return next;
 }
 
 /**

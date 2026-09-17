@@ -164,6 +164,17 @@ export function formatUsd(amount: number): string {
   }).format(amount);
 }
 
+/**
+ * Slice 14.34 — next-minimum (and peer seat money labels) are whole dollars
+ * only. Rejects fractional amounts before formatUsd can round them.
+ */
+export function formatIntegerUsd(amount: number): string {
+  if (!Number.isFinite(amount) || !Number.isInteger(amount)) {
+    throw new Error("Amount must be an integer dollar value");
+  }
+  return formatUsd(amount);
+}
+
 export function moneyBandCopy(raisedUsd: number): string {
   if (raisedUsd < FLOOR_USD) {
     return "Full refund. No order. No wrap. No etch.";

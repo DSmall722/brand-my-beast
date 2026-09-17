@@ -9,7 +9,7 @@ import {
 import { AdjacentClashHint } from "@/components/AdjacentClashHint";
 import { HighwayLegibilityHint } from "@/components/HighwayLegibilityHint";
 import { HometownLaneTags } from "@/components/HometownLaneTags";
-import { formatUsd } from "@/lib/campaign";
+import { formatIntegerUsd, formatUsd } from "@/lib/campaign";
 import { tryDepositPreviewCopy } from "@/lib/deposit-preview";
 import { ARTWORK_MAX_DATA_URL_CHARS } from "@/lib/intent-artwork";
 import type { AdjacentSeatHolder } from "@/lib/panel-clash";
@@ -205,7 +205,7 @@ export function IntentBidForm({
         </p>
       ) : null}
       <p className="auth-hint" data-testid="intent-amount-note">
-        Amount is intent only. Minimum {formatUsd(minimumUsd)}. This page does
+        Amount is intent only. Minimum {formatIntegerUsd(minimumUsd)}. This page does
         not charge cards — deposit is preview only on P2.
       </p>
       <p className="auth-hint" data-testid="intent-increment-rule">
