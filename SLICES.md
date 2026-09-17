@@ -16,7 +16,7 @@ Updated: 2026-09-16
 - Judge PRs from git + `npm test` + `npm run build`. Do not use brandmybeast.com as a gate while the Vercel usage hold is on.
 
 **Now:** 13.46 Document how to run Playwright offline (memory mode).
-**Last merged:** 13.45 (#PENDING operator health waitlist/pending/digest).
+**Last merged:** 13.45 (#253 operator health waitlist/pending/digest).
 
 ## Standing orders
 
@@ -58,7 +58,7 @@ Complete. 11.10 skipped (Vercel hold). 12.50 tagged intent-complete. 14.0 number
 ## Wave 13 — docs freeze + auction correctness
 
 - [x] 13.1–13.44 Complete. (#208–#252)
-- [x] 13.45 Operator health shows waitlist count + pending count + last digest time. (#PENDING)
+- [x] 13.45 Operator health shows waitlist count + pending count + last digest time. (#253)
 - [ ] 13.46 Document how to run Playwright offline (memory mode).
 - [ ] 13.47 Verify-skill map Waves 9–13.
 - [ ] 13.48 Tag `wave-12-complete` after 12.50. Still no clock.
