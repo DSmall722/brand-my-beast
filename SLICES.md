@@ -16,7 +16,7 @@ Updated: 2026-09-16
 - Judge PRs from git + `npm test` + `npm run build`. Do not use brandmybeast.com as a gate while the Vercel usage hold is on.
 
 **Now:** 14.19 “Seats open” email template exists. Do not send it from the agent.
-**Last merged:** 14.18 (operator SEATS_OPEN toggle does not set a date).
+**Last merged:** 14.18 (#276 operator SEATS_OPEN toggle without a date).
 
 ## Standing orders
 
@@ -125,7 +125,7 @@ Complete through 11.10 skipped (Vercel hold). Condensed ranges keep verify-map p
 - [x] 14.15 Drop unused card components if unreferenced. (#273)
 - [x] 14.16 Per-panel Open Graph title `{Panel} — BrandMyBeast`. (#274)
 - [x] 14.17 `SEATS_OPEN=false` flag, separate from `CLOSE_AT`. When false, intent form says waitlist only. (#275)
-- [x] 14.18 Operator toggle for `SEATS_OPEN` does not set a date.
+- [x] 14.18 Operator toggle for `SEATS_OPEN` does not set a date. (#276)
 - [ ] 14.19 “Seats open” email template exists. Do not send it from the agent.
 - [ ] 14.20 Press kit folder: avi, header, one stainless still, one-paragraph fact sheet. No wrap-as-delivered.
 - [ ] 14.21 `/llms.txt` with PUBLIC_COPY facts only.
