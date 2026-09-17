@@ -95,6 +95,10 @@ test.describe("slice 7.3: test API blocked in production", () => {
       join(process.cwd(), "src/app/api/test/seed-open-panels/route.ts"),
       "utf8",
     );
+    const seedDemo = readFileSync(
+      join(process.cwd(), "src/app/api/test/seed-demo/route.ts"),
+      "utf8",
+    );
     const magicLinkRate = readFileSync(
       join(process.cwd(), "src/app/api/test/magic-link-rate/route.ts"),
       "utf8",
@@ -109,6 +113,7 @@ test.describe("slice 7.3: test API blocked in production", () => {
       panelExt,
       seedBuyout,
       seedOpen,
+      seedDemo,
       magicLinkRate,
       seatsOpen,
     ]) {
