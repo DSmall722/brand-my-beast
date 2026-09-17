@@ -16,7 +16,7 @@ Updated: 2026-09-16
 - Judge PRs from git + `npm test` + `npm run build`. Do not use brandmybeast.com as a gate while the Vercel usage hold is on.
 
 **Now:** 14.17 `SEATS_OPEN=false` flag, separate from `CLOSE_AT`. When false, intent form says waitlist only.
-**Last merged:** 14.16 (per-panel Open Graph title Panel — BrandMyBeast).
+**Last merged:** 14.16 (#274 per-panel Open Graph title Panel — BrandMyBeast).
 
 ## Standing orders
 
@@ -123,7 +123,7 @@ Complete through 11.10 skipped (Vercel hold). Condensed ranges keep verify-map p
 - [x] 14.13 `/partner` has no mileage / heatmap cards. (#271)
 - [x] 14.14 Playwright: homepage HTML has no “Season 2”, “Clemson Saturday”, or “48-state.” (#272)
 - [x] 14.15 Drop unused card components if unreferenced. (#273)
-- [x] 14.16 Per-panel Open Graph title `{Panel} — BrandMyBeast`.
+- [x] 14.16 Per-panel Open Graph title `{Panel} — BrandMyBeast`. (#274)
 - [ ] 14.17 `SEATS_OPEN=false` flag, separate from `CLOSE_AT`. When false, intent form says waitlist only.
 - [ ] 14.18 Operator toggle for `SEATS_OPEN` does not set a date.
 - [ ] 14.19 “Seats open” email template exists. Do not send it from the agent.
