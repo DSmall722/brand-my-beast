@@ -13,6 +13,7 @@
     "lint": "eslint",
     "test": "playwright test",
     "audit": "npm audit --audit-level=high",
+    "grep:identity": "node scripts/grep-personal-identity.mjs",
     "db:generate": "drizzle-kit generate",
     "db:push": "drizzle-kit push"
   },
