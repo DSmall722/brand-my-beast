@@ -6,6 +6,12 @@ import {
 } from "@/lib/rate-limit";
 import { joinWaitlist } from "@/lib/waitlist";
 
+function parseWantWholeTruck(body: unknown): boolean {
+  if (typeof body !== "object" || body === null) return false;
+  const raw = (body as { wantWholeTruck?: unknown }).wantWholeTruck;
+  return raw === true;
+}
+
 export async function POST(request: Request) {
   let body: unknown;
   try {
@@ -25,6 +31,8 @@ export async function POST(request: Request) {
       ? (body as { email: string }).email
       : "";
 
+  const wantWholeTruck = parseWantWholeTruck(body);
+
   const rateKey = email.trim()
     ? `email:${email.trim().toLowerCase()}`
     : `ip:${clientIpFromRequest(request)}`;
@@ -43,7 +51,7 @@ export async function POST(request: Request) {
     );
   }
 
-  const result = await joinWaitlist(email);
+  const result = await joinWaitlist(email, { wantWholeTruck });
 
   if (!result.ok) {
     const status =

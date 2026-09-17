@@ -232,14 +232,19 @@ async function notifyOperator(email: string): Promise<void> {
  * flip a successful insert into a false "could not save" (and must never
  * claim join when the write failed).
  * Slice 12.14 — create stores a confirm token; operator mail waits for confirm.
+ * Slice 16.0d — optional wantWholeTruck (interest only; not pledged).
  */
-export async function joinWaitlist(rawEmail: string): Promise<WaitlistResult> {
+export async function joinWaitlist(
+  rawEmail: string,
+  opts?: { wantWholeTruck?: boolean },
+): Promise<WaitlistResult> {
   const parsed = waitlistEmailSchema.safeParse(rawEmail);
   if (!parsed.success) {
     return { ok: false, error: "Enter a valid email.", code: "invalid" };
   }
 
   const email = parsed.data;
+  const wantWholeTruck = opts?.wantWholeTruck === true;
   const blocked = await findWaitlistDomainBlock(email);
   if (blocked) {
     return {
@@ -266,7 +271,7 @@ export async function joinWaitlist(rawEmail: string): Promise<WaitlistResult> {
           source: "p1-waitlist",
           confirmToken,
           confirmedAt: null,
-          wantWholeTruck: false,
+          wantWholeTruck,
         });
         saved = { ok: true, status: "created" };
       }
@@ -294,6 +299,7 @@ export async function joinWaitlist(rawEmail: string): Promise<WaitlistResult> {
           email,
           confirmToken,
           confirmedAt: null,
+          wantWholeTruck,
         });
         saved = { ok: true, status: "created" };
       }
