@@ -747,13 +747,16 @@ export async function placeIntentBid(
   }
 
   // Slice 13.11 — vacant seat with live exclusive offer: only next compliant may list.
+  // Slice 14.26 — exclusive target skips banned trades.
   try {
     const panelBids = await listBidsForPanel(input.panelId);
     const panelMin = await minimumIntentUsd(input.panelId);
+    const operatorBanRules = await listBanRules();
     const exclusive = assertFailedWinnerExclusiveLister({
       bids: panelBids,
       userId: input.userId,
       panelMinimumUsd: panelMin,
+      operatorBanRules,
     });
     if (!exclusive.ok) {
       return { ok: false, error: exclusive.error };

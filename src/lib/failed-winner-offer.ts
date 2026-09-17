@@ -2,6 +2,7 @@
  * Slice 9.6 / 13.11 — failed-winner offer: last mark + one increment.
  * Explicit offer only — expires after TTL, then next compliant mark.
  * No silent reopen. Still intent only — no card.
+ * Slice 14.26 — offer cannot target a banned trade (static + operator list).
  */
 
 import { formatUsd } from "./campaign";
@@ -10,10 +11,15 @@ import {
   type IntentBid,
 } from "./intent";
 import { findBannedTradeReason } from "./banned-trades";
+import { matchesBanPattern } from "./operator-ban-list";
 import { PUBLIC_COPY } from "./public-copy";
 
 /** Exclusive offer window after outbid / seat-open handoff (slice 13.11). */
 export const FAILED_WINNER_OFFER_TTL_MS = 24 * 60 * 60 * 1000;
+
+export type FailedWinnerBanRule = {
+  pattern: string;
+};
 
 export type FailedWinnerOffer = {
   lastMarkUsd: number;
@@ -31,6 +37,24 @@ export type FailedWinnerCandidate = {
   offer: FailedWinnerOffer;
   offeredAt: string;
 };
+
+/**
+ * Slice 14.26 — static CAMPAIGN bans + optional operator ban-list patterns.
+ * Failed-winner offers must not target these marks.
+ */
+export function isFailedWinnerTradeBanned(
+  brandLabel: string,
+  tradeLabel: string,
+  operatorRules: readonly FailedWinnerBanRule[] = [],
+): boolean {
+  if (findBannedTradeReason(brandLabel, tradeLabel)) return true;
+  for (const rule of operatorRules) {
+    if (matchesBanPattern(brandLabel, tradeLabel, rule.pattern)) {
+      return true;
+    }
+  }
+  return false;
+}
 
 export function failedWinnerOfferUsd(lastMarkUsd: number): number {
   return nextStandingUsd(lastMarkUsd);
@@ -115,7 +139,8 @@ export function latestRejectedAt(
 
 /**
  * Next compliant outbid mark with a live offer window.
- * Highest standing first; ties → oldest createdAt. Skips banned trades.
+ * Highest standing first; ties → oldest createdAt.
+ * Skips banned trades (slice 14.26 — static + operator ban-list).
  * On a vacant seat, expired windows cascade: the next mark’s 24h starts
  * when the prior mark’s window ended. Exhausted → null (no silent reopen).
  */
@@ -124,9 +149,11 @@ export function nextCompliantFailedWinnerMark(
   input: {
     panelMinimumUsd: number;
     now?: Date;
+    operatorBanRules?: readonly FailedWinnerBanRule[];
   },
 ): FailedWinnerCandidate | null {
   const now = input.now ?? new Date();
+  const banRules = input.operatorBanRules ?? [];
   const seatOpen = !bids.some(isHolding);
   const seatOpenedAt = seatOpen ? latestRejectedAt(bids) : null;
 
@@ -143,7 +170,11 @@ export function nextCompliantFailedWinnerMark(
   let cascadeHandoffAt: string | null = seatOpenedAt;
 
   for (const bid of candidates) {
-    if (findBannedTradeReason(bid.brandLabel, bid.tradeLabel)) continue;
+    if (
+      isFailedWinnerTradeBanned(bid.brandLabel, bid.tradeLabel, banRules)
+    ) {
+      continue;
+    }
     const offeredAt = seatOpen
       ? failedWinnerOfferedAt({
           bidUpdatedAt: bid.updatedAt,
@@ -173,12 +204,14 @@ export function nextCompliantFailedWinnerMark(
  * Live offer only for the exclusive next-compliant target (vacant seat) or
  * their own non-expired outbid window (occupied seat). Expired → no preferential
  * prefill; copy says offer expired / next compliant. No silent reopen.
+ * Slice 14.26 — banned trades never receive an offer.
  */
 export function resolveFailedWinnerOfferForViewer(input: {
   bids: readonly IntentBid[];
   viewerId: string | null | undefined;
   panelMinimumUsd: number;
   now?: Date;
+  operatorBanRules?: readonly FailedWinnerBanRule[];
 }): {
   viewerOutbid: IntentBid | null;
   offer: FailedWinnerOffer | null;
@@ -186,9 +219,11 @@ export function resolveFailedWinnerOfferForViewer(input: {
   expiredForViewer: boolean;
 } {
   const now = input.now ?? new Date();
+  const banRules = input.operatorBanRules ?? [];
   const exclusive = nextCompliantFailedWinnerMark(input.bids, {
     panelMinimumUsd: input.panelMinimumUsd,
     now,
+    operatorBanRules: banRules,
   });
   const viewerId = input.viewerId;
   if (!viewerId) {
@@ -227,9 +262,29 @@ export function resolveFailedWinnerOfferForViewer(input: {
     };
   }
 
+  // Slice 14.26 — banned trade marks get no preferential failed-winner offer.
+  if (
+    isFailedWinnerTradeBanned(
+      viewerOutbid.brandLabel,
+      viewerOutbid.tradeLabel,
+      banRules,
+    )
+  ) {
+    return {
+      viewerOutbid,
+      offer: null,
+      exclusive,
+      expiredForViewer: true,
+    };
+  }
+
   const seatOpen = !input.bids.some(isHolding);
   if (seatOpen) {
-    if (exclusive && exclusive.bid.userId === viewerId && !exclusive.offer.expired) {
+    if (
+      exclusive &&
+      exclusive.bid.userId === viewerId &&
+      !exclusive.offer.expired
+    ) {
       return {
         viewerOutbid: exclusive.bid,
         offer: exclusive.offer,
@@ -281,12 +336,14 @@ export function assertFailedWinnerExclusiveLister(input: {
   userId: string;
   panelMinimumUsd: number;
   now?: Date;
+  operatorBanRules?: readonly FailedWinnerBanRule[];
 }): { ok: true } | { ok: false; error: string } {
   const seatOpen = !input.bids.some(isHolding);
   if (!seatOpen) return { ok: true };
   const exclusive = nextCompliantFailedWinnerMark(input.bids, {
     panelMinimumUsd: input.panelMinimumUsd,
     now: input.now,
+    operatorBanRules: input.operatorBanRules,
   });
   if (!exclusive || exclusive.offer.expired) return { ok: true };
   if (exclusive.bid.userId === input.userId) return { ok: true };
