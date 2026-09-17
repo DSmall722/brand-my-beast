@@ -127,6 +127,7 @@ Not homepage. Same voice. No “test login” string when Auth is live.
 - Test-mode hint (AUTH_MODE=test only): `CI path: use any @example.com email and the test password.`
 - Check-email heading: `Check your email`
 - Check-email success: `If that address is valid, a sign-in link is on the way. The link expires soon. No card is charged on this path.`
+- Sign-out button (slice **14.25**, `/account`): `Sign out`
 
 ## Seat pack (not homepage H1)
 

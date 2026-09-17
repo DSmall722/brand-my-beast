@@ -25,6 +25,7 @@ import {
 import { listApprovalNotesForBids } from "@/lib/approval-note-store";
 import { intentStatusClass, intentStatusLabel } from "@/lib/intent-labels";
 import { listBidsForUser } from "@/lib/intent-store";
+import { PUBLIC_COPY } from "@/lib/public-copy";
 import { attachWaitlistAccount } from "@/lib/waitlist";
 
 export default async function AccountPage() {
@@ -351,7 +352,7 @@ export default async function AccountPage() {
               className="btn btn-ghost"
               data-testid="account-signout"
             >
-              Sign out
+              {PUBLIC_COPY.signIn.signOut}
             </button>
           </form>
           <DeleteAccountButton />
