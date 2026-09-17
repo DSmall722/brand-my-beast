@@ -15,8 +15,8 @@ Updated: 2026-09-16
 - Coordinator may merge a PR that finishes exactly one unchecked slice, Playwright is green, and the merge gates below hold.
 - Judge PRs from git + `npm test` + `npm run build`. Do not use brandmybeast.com as a gate while the Vercel usage hold is on.
 
-**Now:** 14.1 FEATURES.md: shipped rows marked shipped with slice id; P3/P5 stay Catalog.
-**Last merged:** 13.50 (#258 Wave 15 stop line).
+**Now:** 14.2 ARCHITECTURE.md: Postgres + Blob + Resend mock. Stripe box = “not wired.”
+**Last merged:** 14.1 (#259 FEATURES shipped markers; P3/P5 Catalog).
 
 ## Standing orders
 
@@ -108,7 +108,7 @@ Complete through 11.10 skipped (Vercel hold). Condensed ranges keep verify-map p
 14.0 shipped (#185). Do 14.1 after 13.50. Wave 15 is Stripe. Wave 16 is next after 14.50.
 
 - [x] 14.0 Numbered stainless board. (#185)
-- [ ] 14.1 FEATURES.md: shipped rows marked shipped with slice id; P3/P5 stay Catalog.
+- [x] 14.1 FEATURES.md: shipped rows marked shipped with slice id; P3/P5 stay Catalog. (#259)
 - [ ] 14.2 ARCHITECTURE.md: Postgres + Blob + Resend mock. Stripe box = “not wired.”
 - [ ] 14.3 PROCESS.md: Now = first unchecked SLICES box; live URL is not a gate.
 - [ ] 14.4 README one-pager: what the repo is, what it is not.
