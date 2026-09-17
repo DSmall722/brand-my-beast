@@ -1,10 +1,27 @@
 # BrandMyBeast
 
-Auction of 12 stainless panels on a Tesla Cybertruck Cyberbeast that is not ordered until the board clears.
+Slice **14.4** — one-pager. What this repo is, and what it is not.
 
 Public: [@BrandMyBeast](https://x.com/brandmybeast) · hello@brandmybeast.com · https://brandmybeast.com
 
 Not affiliated with Tesla, Inc.
+
+## What this repo is
+
+- The **harness + Next.js app** for an all-or-nothing auction of **12 stainless panels** on a **Cyberbeast** that does not exist until the board clears the floor.
+- **`SLICES.md`** is the only build order. **Now** = the first unchecked box.
+- Product lock: **`CAMPAIGN.md`**. Stack lock: **`ARCHITECTURE.md`**. Stop rules: **`AGENTS.md`**.
+- Intent-only soft auction today: waitlist, Auth.js magic link, panel intents, operator approvals. Playwright is the merge gate.
+- Money fences: floor **$58,000**, buyout **$120,000**. `CLOSE_AT` is **null**. Stripe is **not wired**.
+
+## What this repo is not
+
+- Not a live card-capture auction. No Stripe SetupIntent until Wave 15 (human message).
+- Not a countdown with a close date. Do not start the 30-day clock from an agent.
+- Not a lease product. Not Dual Motor / Premium fallback. Cyberbeast or refund.
+- Not a place to put `FEATURES.md` on the homepage. FEATURES is a catalog only.
+- Not proof the truck exists. Hero is bare stainless preview; wrap/etch are not “as delivered.”
+- Not a live-URL merge gate while the Vercel usage hold is on (`docs/VERCEL-HOLD.md`).
 
 ## Source of truth (read these first)
 
@@ -14,7 +31,7 @@ Not affiliated with Tesla, Inc.
 | [CAMPAIGN.md](./CAMPAIGN.md) | Money, identity, route, term. Wins conflicts. |
 | [SLICES.md](./SLICES.md) | **What to build next.** Living queue. Not FEATURES.md. |
 | [RULES.md](./RULES.md) | Panels, increments, etch, refunds |
-| [ARCHITECTURE.md](./ARCHITECTURE.md) | Stack and phases P0–P3 |
+| [ARCHITECTURE.md](./ARCHITECTURE.md) | Stack and phases P0–P3 (Stripe = not wired) |
 | [PROCESS.md](./PROCESS.md) | Cursor Projects dock + pstack loop |
 | [FEATURES.md](./FEATURES.md) | Idea catalog. Not a build order. Not for the homepage |
 | [IDENTITY.md](./IDENTITY.md) | Public vs private surfaces |
