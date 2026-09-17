@@ -1,7 +1,7 @@
 /**
  * Slice 12.26 — live deposit preview copy on the seat form.
  * Slice 13.5 — template from PUBLIC_COPY.seat.
- * Always via depositUsdForMark. Intent only — not charged.
+ * Slice 14.33 — always via depositUsdForMark (12.5). Intent only — not charged.
  */
 
 import { DEPOSIT_PERCENT, formatUsd } from "./campaign";

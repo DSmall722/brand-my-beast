@@ -23,7 +23,7 @@ import {
 } from "@/lib/campaign";
 import { OPENING_BID_RATIONALE } from "@/lib/opening-bid-rationale";
 import { comboLotFor } from "@/lib/combo-lots";
-import { minIncrementUsd } from "@/lib/intent";
+import { depositUsdForMark, minIncrementUsd } from "@/lib/intent";
 import {
   failedWinnerOfferCopy,
   resolveFailedWinnerOfferForViewer,
@@ -259,7 +259,8 @@ export default async function PanelIntentPage({
           <div>
             <dt>Deposit shown</dt>
             <dd data-testid="panel-deposit-shown">
-              {DEPOSIT_PERCENT}% (not charged)
+              {DEPOSIT_PERCENT}% · {formatUsd(depositUsdForMark(standing))}{" "}
+              (not charged)
             </dd>
           </div>
         </dl>
