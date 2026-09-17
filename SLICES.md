@@ -15,8 +15,8 @@ Updated: 2026-09-16
 - Coordinator may merge a PR that finishes exactly one unchecked slice, Playwright is green, and the merge gates below hold.
 - Judge PRs from git + `npm test` + `npm run build`. Do not use brandmybeast.com as a gate while the Vercel usage hold is on.
 
-**Now:** 14.37 Pinned `npm audit` script. No new runtime.
-**Last merged:** 14.36 (#294 engines + license; 12.48 already landed).
+**Now:** 14.38 CODEOWNERS or a doc: CAMPAIGN.md, SLICES.md, campaign.ts are human-sensitive.
+**Last merged:** 14.37 Pinned `npm audit` script. No new runtime.
 
 ## Standing orders
 
@@ -144,7 +144,7 @@ Complete through 11.10 skipped (Vercel hold). Condensed ranges keep verify-map p
 - [x] 14.34 Next-minimum display uses integer dollars only. (#292)
 - [x] 14.35 Public log timestamps are America/New_York, labeled ET. (#293)
 - [x] 14.36 `engines` + license in package.json if 12.48 did not land. (12.48 already landed #205) (#294)
-- [ ] 14.37 Pinned `npm audit` script. No new runtime.
+- [x] 14.37 Pinned `npm audit` script. No new runtime.
 - [ ] 14.38 CODEOWNERS or a doc: CAMPAIGN.md, SLICES.md, campaign.ts are human-sensitive.
 - [ ] 14.39 Resend webhook route for bounces → dead-letter. No live hook required to merge.
 - [ ] 14.40 `List-Unsubscribe` header on waitlist mail.
