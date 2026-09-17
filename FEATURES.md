@@ -26,6 +26,17 @@ P1 close-night: proxy bid, soft-close (5 min), floor-save, buyout freeze.
 P3 after the floor: order tracker, VIN reveal, mileage ledger. (**Catalog**)
 P5 month 12: matching rights, Season 2. (**Catalog**)
 
+## Deleted contradictions (slice 14.8)
+
+These ideas **contradict `CAMPAIGN.md`**. They are **not** backlog rows. Do not revive them here — history lives in `STALE.md`.
+
+| Killed idea | Why |
+|---|---|
+| $40,000 lease + wrap floor | Floor is **$58,000** order + wrap. The word **lease** is banned in public copy. |
+| Dual Motor / Premium fallback if the floor misses | **Cyberbeast or refund.** No cheaper trim. |
+
+Floor **$58,000**. Buyout **$120,000**. `CLOSE_AT` null. No Stripe without a human message. No 30-day clock from this file.
+
 ## Ranked backlog (50)
 
 1 P0 Escrow cockpit — 20% Stripe hold, release if floor + approved + ordered. — **Catalog** (Wave 15 / human)
