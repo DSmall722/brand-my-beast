@@ -12,6 +12,7 @@
     "start": "next start",
     "lint": "eslint",
     "test": "playwright test",
+    "audit": "npm audit --audit-level=high",
     "db:generate": "drizzle-kit generate",
     "db:push": "drizzle-kit push"
   },
