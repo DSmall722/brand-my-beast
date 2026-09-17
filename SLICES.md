@@ -3,17 +3,17 @@
 CAMPAIGN.md wins money and identity. FEATURES.md is a catalog. **This file is the only build order.**
 PUBLIC_COPY.md wins public homepage wording. Do not invent a warmer variant.
 
-Updated: 2026-09-16
+Updated: 2026-09-17
 
 ## How this file stays alive
 
 - Next job = the first unchecked box, wave order. Do not skip. Do not start two boxes in one PR.
-- After 13.50, do 14.1–14.50, then Wave 16. Do not start Wave 15 (Stripe) without a human message.
+- After 13.50, do 14.1–14.50, then Wave 16, then Wave 17. Do not start Wave 15 (Stripe) without a human message.
 - The PR that finishes a slice also flips that box `[ ]` → `[x]` and appends `(#NN)` on the same line.
 - Set **Now** and **Last merged** in this file in that same PR.
-- Do not add a new checkbox unless the human writes it here first. After Wave 16, idle.
+- Do not add a new checkbox unless the human writes it here first. After Wave 17, idle.
 - Coordinator may merge a PR that finishes exactly one unchecked slice, Playwright is green, and the merge gates below hold.
-- Judge PRs from git + `npm test` + `npm run build`. Do not use brandmybeast.com as a gate while the Vercel usage hold is on.
+- Judge PRs from git + `npm test` + `npm run build`. Do not use brandmybeast.com as a merge gate.
 
 **Now:** 16.1 Homepage panel cards show the same 1–12 index as the hero callouts.
 **Last merged:** 14.50 Stop line: Wave 15 is Stripe / CLOSE_AT / first tweet and needs a human message.
@@ -39,6 +39,7 @@ Updated: 2026-09-16
 - Moving Vercel nameservers
 - Clearing the Vercel usage hold / buying more credits
 - Wave 15 (money path)
+- Wiring AUTH_SECRET / AUTH_URL / RESEND_API_KEY / RESEND_FROM / DATABASE_URL on Vercel production (17.4 hides the env list; it does not set secrets)
 
 ## Merge gate (all must be true)
 
@@ -166,7 +167,7 @@ Complete through 11.10 skipped (Vercel hold). Condensed ranges keep verify-map p
 Do not start Wave 15. Do not wire Stripe. Do not set `CLOSE_AT`. Do not tweet
 from @BrandMyBeast. Do not capture cards. See `docs/WAVE-15-STOP.md`.
 
-After Wave 13, agents continue **14.1–14.50**, then Wave **16**. Wave 15 waits
+After Wave 13, agents continue **14.1–14.50**, then Wave **16**, then Wave **17**. Wave 15 waits
 for an explicit human message. Floor **$58,000**. Buyout **$120,000**. Clock unset.
 
 ## Wave 16 — shareable board + freeze polish
@@ -236,10 +237,34 @@ Human-approved 2026-09-16. Do not start until 14.50 is checked. No Stripe. No CL
 - [ ] 16.47 docs/VERCEL-HOLD.md date bump only.
 - [ ] 16.48 Local seed includes numbered standing on seat 1 and 9.
 - [ ] 16.49 Counsel ZIP lists seats by number.
-- [ ] 16.50 Stop line: after Wave 16, idle. Wave 15 is still Stripe and needs a human message.
+- [ ] 16.50 Stop line: after Wave 16 continue Wave 17. Wave 15 is still Stripe and needs a human message.
 
-## After Wave 16
+## Wave 17 — phone + public-face correctness
+
+Human-requested 2026-09-17 from production iPhone Safari shots of brandmybeast.com.
+Do not start until Wave 16 Now has moved through 16.1–16.50 unless the operator says skip-ahead.
+No Stripe. No CLOSE_AT. No tweet. No invented front/rear photos. No hometown-lane restyle.
+Money stays `formatUsd(FLOOR_USD)` / `formatUsd(GOAL_USD)`. Do not rewrite the homepage H1.
+
+### Public copy leaks
+
+- [ ] 17.1 `TRUCK_VIEWS_LEAD` is a buyer sentence. No “prototype”, “hotspot”, or “30X”. Floor and buyout from `formatUsd`.
+- [ ] 17.2 `truckViewsCopyIsSafe()` requires floor + buyout + no lease / no CLOSE_AT. Stop requiring hotspot / 30X / 360.
+- [ ] 17.3 `TruckViewHotspots` legend + aria: `Open seat` · `Held = standing intent`. Drop Raw 30X / Not a 360 from visible UI.
+- [ ] 17.4 `/signin` when live and no providers: buyer empty state + waitlist link (`data-testid="signin-not-open"`). Env-var list only when mode !== live. Wiring AUTH_* on Vercel is human-only.
+- [ ] 17.5 `PUBLIC_COPY.signIn.notOpenYet` + matching line in PUBLIC_COPY.md. No env key names in the public string.
+
+### Phone layout
+
+- [ ] 17.6 `hero.css` ≤720px: stack caption / H1 / lead / CTAs under the photo. Drop `max-height: calc(100svh - 5.5rem)`.
+- [ ] 17.7 `viewport-fit=cover` + `env(safe-area-inset-*)` on header, hero actions, and page bottom. Wordmark and “Get on the list” clear iOS chrome.
+- [ ] 17.8 Front / Rear: hide the side-body SVG schematic. Caption that it is the same preview photo. No new stills.
+- [ ] 17.9 Playwright 390: hero H1 and callouts 2 / 3 / 5 / 7 do not overlap (complements 16.4).
+- [ ] 17.10 Homepage `.panel-face` is not an empty black rectangle. Reuse the hero still with a crop, or drop the slot. The 1–12 index still ships in 16.1.
+- [ ] 17.11 Stop line: after 17.10, idle on this wave. Wave 15 is still Stripe and needs a human message.
+
+## After Wave 17
 
 Idle on polish / a11y / verify-skill.
 Wave 15 is Stripe / CLOSE_AT / first tweet and waits for an explicit human message.
-Do not open Wave 17 from FEATURES.md.
+Do not open Wave 18 from FEATURES.md.
