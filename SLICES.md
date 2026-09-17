@@ -49,11 +49,49 @@ Updated: 2026-09-16
 - PR does not add a new public homepage section for P3–P5
 - This file has the finished box checked in the same PR
 
-## Waves 0–12
+## Waves 0–11
 
-Complete. 11.10 skipped (Vercel hold). 12.50 tagged intent-complete. 14.0 numbered board shipped (#185).
+Complete through 11.10 skipped (Vercel hold). Condensed ranges keep verify-map parsers honest; full text lives in git history.
 
-- [x] 0.1–12.50 Complete.
+- [x] 0.1–0.9 Complete.
+- [x] 1.1–1.8 Complete.
+- [x] 2.1–2.5 Complete.
+- [x] 3.1–3.7 Complete.
+- [x] 4.1–4.6 Complete.
+- [x] 5.1–5.4 Complete.
+- [x] 6.1–6.15 Complete.
+- [x] 7.1–7.10 Complete.
+- [x] 8.1–8.10 Complete.
+- [x] 9.1–9.10 Complete.
+- [x] 10.1–10.10 Complete.
+- [x] 11.1–11.10 Complete.
+
+## Wave 12 — money-ready without charging
+
+- [x] 12.1–12.27 Complete through opening-bid rationale. (#156–#182)
+- [x] 12.28 Operator cannot approve etch finish while pledged < $120,000. (#183)
+- [x] 12.29 Whole-truck intent cannot stack on a panel that already has approved standing. (#186)
+- [x] 12.30 Ban-list match is logged with the rule id (ties to 8.8). (#187)
+- [x] 12.31 JSON-LD Organization + Offer on `/` from PUBLIC_COPY. No impression claims. (#188)
+- [x] 12.32 Canonical URL `https://brandmybeast.com`. (#189)
+- [x] 12.33 Print stylesheet for `/panels/[id]`. (#190)
+- [x] 12.34 Error boundary + branded 500 that is not a panel. (#191)
+- [x] 12.35 Strip `console.log` from `src/` except test helpers. (#192)
+- [x] 12.36 `globals.css` split: tokens / hero / board. No copy change. (#193)
+- [x] 12.37 Prefetch `/panels/*` from homepage cards. (#194)
+- [x] 12.38 Focus restore after waitlist submit. (#195)
+- [x] 12.39 `/signin/check-email` uses PUBLIC_COPY success line. (#196)
+- [x] 12.40 Remove dead vapor component imports when `TRUCK_EXISTS` is false. (#197)
+- [x] 12.41 Structured log line on waitlist insert + intent status change. No PII beyond email hash. (#198)
+- [x] 12.42 `/operator/health` last-migration name from Drizzle. (#199)
+- [x] 12.43 Drizzle migrate runbook in repo. (#200)
+- [x] 12.44 Backup restore drill doc (Neon PITR) next to 11.6. (#201)
+- [x] 12.45 Playwright: concurrent two bidders on hood, only one approved standing. (#202)
+- [x] 12.46 Playwright: reject without note fails; with note succeeds. (#203)
+- [x] 12.47 Verify-skill map for Wave 12. (#204)
+- [x] 12.48 `package.json` license + engines. No new runtime. (#205)
+- [x] 12.49 SECURITY.md: report to `hello@`. No personal inbox. (#206)
+- [x] 12.50 Pre-P3 freeze tag `intent-complete`. Does not set CLOSE_AT. Does not add Stripe. (#207)
 
 ## Wave 13 — docs freeze + auction correctness
 
