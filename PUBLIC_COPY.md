@@ -130,8 +130,13 @@ Not homepage. Same voice. No “test login” string when Auth is live.
 
 ## Seat pack (not homepage H1)
 
-Slice **13.5**. Panel / account strings only. Do **not** rewrite the homepage H1
+Slice **13.5** / **14.7**. Panel / account strings only. Do **not** rewrite the homepage H1
 (`Put your brand on the truck people already photograph.`).
+
+Seat rationale only (slice **14.7**) — opening-bid one-liner from RULES.md Inventory.
+Not a homepage hero rewrite:
+
+- Opening rationale: `Opening marks start the seat. The floor is not the sum of openings — bidding has to carry the board to $58,000.`
 
 - Withdraw success: `Intent withdrawn. Still not charged.`
 - Withdraw button: `Withdraw pending intent`

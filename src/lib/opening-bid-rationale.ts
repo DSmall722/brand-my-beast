@@ -1,15 +1,11 @@
 /**
- * Slice 12.27 — opening-bid rationale one-liner on the seat.
- * RULES.md only. No invented pricing story.
+ * Slice 12.27 / 14.7 — opening-bid rationale one-liner on the seat.
+ * PUBLIC_COPY.seat.openingRationale (RULES.md Inventory). Not homepage H1.
  */
 
-import { FLOOR_USD, formatUsd } from "./campaign";
+import { PUBLIC_COPY } from "./public-copy";
 
-/**
- * RULES.md Inventory: “The floor is not the sum of openings.
- * Bidding has to carry the board to $58,000.”
- */
-export const OPENING_BID_RATIONALE =
-  `Opening marks start the seat. The floor is not the sum of openings — bidding has to carry the board to ${formatUsd(FLOOR_USD)}.`;
+export const OPENING_BID_RATIONALE = PUBLIC_COPY.seat.openingRationale;
 
+/** Content still sourced from RULES.md Inventory; PUBLIC_COPY holds the string. */
 export const OPENING_BID_RATIONALE_SOURCE = "RULES.md" as const;
