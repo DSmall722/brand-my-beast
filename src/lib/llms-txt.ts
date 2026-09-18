@@ -1,9 +1,10 @@
 import { BRAND, CLOSE_AT, formatUsd, FLOOR_USD, GOAL_USD } from "./campaign";
+import { PANEL_BOARD_MARKS, panelLegendLabel } from "./panel-board";
 import { PUBLIC_COPY } from "./public-copy";
 
 /**
- * Slice 14.21 — `/llms.txt` body from PUBLIC_COPY facts only.
- * No invented marketing copy. No close date. No Stripe. No lease.
+ * Slice 14.21 / 16.20 — `/llms.txt` from PUBLIC_COPY plus the 1–12 seats.
+ * Floor and buyout only. No close date. No Stripe. No lease.
  */
 export function buildLlmsTxt(): string {
   const lines: string[] = [
@@ -47,6 +48,9 @@ export function buildLlmsTxt(): string {
     // Campaign locks — same numbers PUBLIC_COPY already prints; CLOSE_AT fence.
     `Floor ${formatUsd(FLOOR_USD)}. Buyout ${formatUsd(GOAL_USD)}.`,
     `CLOSE_AT is ${CLOSE_AT === null ? "null" : CLOSE_AT}.`,
+    "No close date.",
+    "Twelve numbered seats",
+    ...PANEL_BOARD_MARKS.map((mark) => panelLegendLabel(mark)),
     "",
   ];
 
