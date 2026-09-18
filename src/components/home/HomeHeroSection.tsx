@@ -1,11 +1,13 @@
 import { ArrowFillButton } from "@/components/block/arrow-fill-button";
 import { PanelBoardCallouts } from "@/components/PanelBoardCallouts";
+import { PANEL_BOARD_MARKS, panelLegendLabel } from "@/lib/panel-board";
 import { PUBLIC_COPY } from "@/lib/public-copy";
 import { truckImgAlt } from "@/lib/truck-img-alt";
 
-/** Slice 7.1 — extracted from `src/app/page.tsx`. Copy unchanged. */
+/** Slice 7.1 / 16.3 — hero still plus number map from PANELS. */
 export function HomeHeroSection() {
   return (
+    <>
         <section className="hero" aria-labelledby="hero-title">
           <a
             className="hero-truck-link"
@@ -52,5 +54,27 @@ export function HomeHeroSection() {
             </div>
           </div>
         </section>
+        <nav
+          className="shell panel-number-legend"
+          aria-label="Panel number map"
+          data-testid="panel-number-legend"
+        >
+          <ol>
+            {PANEL_BOARD_MARKS.map((mark) => (
+              <li key={mark.panelId}>
+                <a
+                  href={`/panels/${mark.panelId}`}
+                  data-testid={`panel-legend-${mark.n}`}
+                  data-panel-id={mark.panelId}
+                  data-panel-n={String(mark.n)}
+                >
+                  {panelLegendLabel(mark)}
+                </a>
+              </li>
+            ))}
+          </ol>
+        </nav>
+    </>
   );
 }
+

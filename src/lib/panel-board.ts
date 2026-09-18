@@ -121,6 +121,11 @@ export function panelSeatH1(panel: Pick<Panel, "id" | "name">): string {
   return `${mark.n} · ${panel.name}`;
 }
 
+/** Slice 16.3 — legend item: `1 Hood` (number + PANELS name, no extra copy). */
+export function panelLegendLabel(mark: Pick<PanelBoardMark, "n" | "name">): string {
+  return `${mark.n} ${mark.name}`;
+}
+
 export function panelBoardIsComplete(): boolean {
   if (PANEL_BOARD_MARKS.length !== 12) return false;
   if (PANEL_BOARD_MARKS[0]?.panelId !== "hood") return false;

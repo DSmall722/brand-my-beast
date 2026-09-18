@@ -291,3 +291,32 @@
   }
 }
 
+/* Slice 16.3 — number map under the hero. Labels come from PANELS only. */
+.panel-number-legend {
+  padding-top: 0.85rem;
+  padding-bottom: 0.85rem;
+  border-bottom: 1px solid var(--hairline);
+}
+
+.panel-number-legend ol {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem 0.9rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.panel-number-legend a {
+  color: var(--steel-100);
+  text-decoration: none;
+  font-size: 0.92rem;
+}
+
+.panel-number-legend a:hover,
+.panel-number-legend a:focus-visible {
+  color: white;
+  outline: 2px solid var(--signal);
+  outline-offset: 2px;
+}
+
