@@ -6,8 +6,10 @@ import {
   CLOSE_AT,
   FLOOR_USD,
   GOAL_USD,
+  PANELS,
   formatUsd,
 } from "../src/lib/campaign";
+import { panelSeatH1 } from "../src/lib/panel-board";
 
 /**
  * Slice 12.33 — print stylesheet for `/panels/[id]`.
@@ -56,7 +58,15 @@ test.describe("slice 12.33: panel print stylesheet", () => {
       "data-print-sheet",
       "panels",
     );
-    await expect(page.getByRole("heading", { level: 1 })).toHaveText("Hood");
+    const hood = PANELS.find((row) => row.id === "hood");
+    expect(hood).toBeTruthy();
+    await expect(page.getByRole("heading", { level: 1 })).toHaveText(
+      panelSeatH1(hood!),
+    );
+    await expect(page.getByTestId("panel-seat-h1")).toHaveAttribute(
+      "data-panel-n",
+      "1",
+    );
     const html = (await page.content()).toLowerCase();
     expect(html).not.toMatch(/\blease\b/);
     expect(html).not.toMatch(/@gmail\.com/);
