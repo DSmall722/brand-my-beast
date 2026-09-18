@@ -14,8 +14,8 @@ Updated: 2026-09-17
 - Set **Now** and **Last merged** in this file in that same PR.
 - Judge PRs from git + `npm test` + `npm run build`. Do not use brandmybeast.com as a merge gate.
 
-**Now:** 16.20 `/llms.txt` includes floor, buyout, twelve numbered seats, no close date.
-**Last merged:** 16.19 Press-kit fact sheet (14.20) includes the 1–12 list.
+**Now:** 16.21 Seat log shows panel number + amount + ET time.
+**Last merged:** 16.20 `/llms.txt` includes floor, buyout, twelve numbered seats, no close date.
 
 ## Standing orders
 
@@ -194,8 +194,9 @@ Waitlist stays the public product. Do not flip SEATS_OPEN.
 - [x] 16.17 Kill any leftover “Wave 6 idle” sentence in PROCESS.md. (#333)
 - [x] 16.18 ARCHITECTURE.md diagram includes numbered overlay, not only the schematic SVG. (#334)
 - [x] 16.19 Press-kit fact sheet (14.20) includes the 1–12 list. (#335)
-- [ ] 16.20 `/llms.txt` includes floor, buyout, twelve numbered seats, no close date.
-- [ ] 16.21–16.50 Remain as previously locked (numbered board, docs, freeze). No Stripe. No CLOSE_AT. No SEATS_OPEN flip.
+- [x] 16.20 `/llms.txt` includes floor, buyout, twelve numbered seats, no close date. (#336)
+- [ ] 16.21 Seat log shows panel number + amount + ET time.
+- [ ] 16.22–16.50 Remain as previously locked (numbered board, docs, freeze). No Stripe. No CLOSE_AT. No SEATS_OPEN flip.
 
 ## Wave 17 — phone + public-face correctness
 
