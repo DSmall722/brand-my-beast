@@ -178,7 +178,7 @@ Waitlist stays the public product. Do not flip SEATS_OPEN.
 - [x] 16.1 Homepage panel cards show the same 1–12 index as the hero callouts. (#317)
 - [x] 16.2 Seat page H1 includes the number (`3 · Driver door`). (#318)
 - [x] 16.3 Number map legend under the hero: `1 Hood … 12 Rear fascia` from PANELS only. (#319)
-- [x] 16.4 Playwright 390px: numbers 1, 3, 5, 9 visible and not clipped by the wordmark.
+- [x] 16.4 Playwright 390px: numbers 1, 3, 5, 9 visible and not clipped by the wordmark. (#320)
 - [ ] 16.5 Playwright 1280px: all twelve numbers present in the DOM.
 - [ ] 16.6–16.50 Remain as previously locked (numbered board, docs, freeze). No Stripe. No CLOSE_AT. No SEATS_OPEN flip.
 
