@@ -1,6 +1,8 @@
 import { ArrowFillButton } from "@/components/block/arrow-fill-button";
 import { PanelBoardCallouts } from "@/components/PanelBoardCallouts";
 import {
+  HERO_STILL_NARROW,
+  HERO_STILL_NARROW_MEDIA,
   HERO_STILL_SIZES,
   HERO_STILL_SRCSET,
   HERO_STILL_WIDE,
@@ -25,19 +27,25 @@ export function HomeHeroSection({
             aria-label="Board preview — open the Hood seat"
           >
             {/* eslint-disable-next-line @next/next/no-img-element -- local 1280 + 640 stills in /public */}
-            <img
-              className="hero-truck-image"
-              src={HERO_STILL_WIDE.src}
-              srcSet={HERO_STILL_SRCSET}
-              sizes={HERO_STILL_SIZES}
-              alt={truckImgAlt("hero")}
-              width={HERO_STILL_WIDE.width}
-              height={HERO_STILL_WIDE.height}
-              decoding="async"
-              fetchPriority="high"
-              data-testid="truck-img-hero"
-              data-truck-img="hero"
-            />
+            <picture>
+              <source
+                media={HERO_STILL_NARROW_MEDIA}
+                srcSet={HERO_STILL_NARROW.src}
+              />
+              <img
+                className="hero-truck-image"
+                src={HERO_STILL_WIDE.src}
+                srcSet={HERO_STILL_SRCSET}
+                sizes={HERO_STILL_SIZES}
+                alt={truckImgAlt("hero")}
+                width={HERO_STILL_WIDE.width}
+                height={HERO_STILL_WIDE.height}
+                decoding="async"
+                fetchPriority="high"
+                data-testid="truck-img-hero"
+                data-truck-img="hero"
+              />
+            </picture>
           </a>
           <PanelBoardCallouts
             surface="hero"

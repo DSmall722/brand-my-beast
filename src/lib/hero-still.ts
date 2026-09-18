@@ -16,7 +16,9 @@ export const HERO_STILL_NARROW = {
 } as const;
 
 /** Phones under the hero CSS break get the 640 file. Wider viewports get 1280. */
-export const HERO_STILL_SIZES = "(max-width: 720px) 640px, 1280px";
+export const HERO_STILL_NARROW_MEDIA = "(max-width: 720px)";
+
+export const HERO_STILL_SIZES = `${HERO_STILL_NARROW_MEDIA} 640px, 1280px`;
 
 export const HERO_STILL_SRCSET = `${HERO_STILL_NARROW.src} ${HERO_STILL_NARROW.width}w, ${HERO_STILL_WIDE.src} ${HERO_STILL_WIDE.width}w`;
 

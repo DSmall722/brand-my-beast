@@ -21,6 +21,12 @@
   color: inherit;
 }
 
+.hero-truck-link picture {
+  position: absolute;
+  inset: 0;
+  display: block;
+}
+
 .hero-truck-image {
   position: absolute;
   inset: 0;

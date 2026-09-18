@@ -122,12 +122,14 @@ test.describe("slice 16.9: hero 1280 and 640 stills, no Tesla CDN", () => {
     await page.setViewportSize({ width: 390, height: 844 });
     await page.goto("/");
     const phoneImg = page.getByTestId("truck-img-hero");
-    await phoneImg.evaluate((el: HTMLImageElement) =>
-      el.decode().catch(() => undefined),
-    );
-    const phoneSrc = await phoneImg.evaluate(
-      (el: HTMLImageElement) => el.currentSrc,
-    );
-    expect(phoneSrc.endsWith(HERO_STILL_NARROW.src)).toBe(true);
+    await expect
+      .poll(() =>
+        phoneImg.evaluate((el: HTMLImageElement) => el.currentSrc),
+      )
+      .toMatch(
+        new RegExp(
+          `${HERO_STILL_NARROW.src.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}$`,
+        ),
+      );
   });
 });
