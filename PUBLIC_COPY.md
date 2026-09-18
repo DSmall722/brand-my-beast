@@ -55,7 +55,7 @@ Locked: 2026-09-14 — desire first, then the deal, then the catch.
 ## Twelve panels
 
 - Heading: `The twelve panels`
-- Lead: `Twelve seats. Opening prices below. Wrap means vinyl for twelve months, then it comes off. Can etch at $120k means that steel can take a permanent cut if the campaign owns the truck.`
+- Lead: `Twelve seats. Opening prices below. Wrap means vinyl for twelve months, then it comes off. Can etch at $120k means that steel can take a permanent cut if the campaign owns the truck. The numbers on the truck match the cards.`
 - Badge etch: `Can etch at $120k`
 - Badge wrap: `Wrap only`
 
