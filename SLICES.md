@@ -14,8 +14,8 @@ Updated: 2026-09-17
 - Set **Now** and **Last merged** in this file in that same PR.
 - Judge PRs from git + `npm test` + `npm run build`. Do not use brandmybeast.com as a merge gate.
 
-**Now:** 16.30 Etch badge still `Can etch at $120k` from PUBLIC_COPY. No new money number.
-**Last merged:** 16.29 Opening prices on cards stay `formatUsd` from campaign.ts.
+**Now:** 16.31 `npm run preview:share` script prints the local URL and “not the live domain.”
+**Last merged:** 16.30 Etch badge still `Can etch at $120k` from PUBLIC_COPY. No new money number.
 
 ## Standing orders
 
@@ -204,8 +204,9 @@ Waitlist stays the public product. Do not flip SEATS_OPEN.
 - [x] 16.27 Ban-list UI shows which panel numbers were blocked in the last run. (#343)
 - [x] 16.28 Playwright: card `#3` and hero callout `3` both go to `/panels/driver-door`. (#344)
 - [x] 16.29 Opening prices on cards stay `formatUsd` from campaign.ts. (#345)
-- [ ] 16.30 Etch badge still `Can etch at $120k` from PUBLIC_COPY. No new money number.
-- [ ] 16.31–16.50 Remain as previously locked (numbered board, docs, freeze). No Stripe. No CLOSE_AT. No SEATS_OPEN flip.
+- [x] 16.30 Etch badge still `Can etch at $120k` from PUBLIC_COPY. No new money number.
+- [ ] 16.31 `npm run preview:share` script prints the local URL and “not the live domain.”
+- [ ] 16.32–16.50 Remain as previously locked (numbered board, docs, freeze). No Stripe. No CLOSE_AT. No SEATS_OPEN flip.
 
 ## Wave 17 — phone + public-face correctness
 
