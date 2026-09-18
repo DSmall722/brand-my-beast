@@ -1,9 +1,11 @@
 /**
- * Slice 8.4 — operator CSV of waitlist + standing intents.
+ * Slice 8.4 / 16.23 — operator CSV of waitlist + standing intents.
+ * `panel_number` sits beside `panel_id` (1–12). Waitlist rows leave it blank.
  * Pure builders only. Auth lives at the route boundary.
  */
 
 import type { IntentBid } from "./intent";
+import { panelBoardMarkFor } from "./panel-board";
 import type { WaitlistRow } from "./waitlist";
 
 /** Standing marks = listed (pending) or approved. Not outbid / rejected / withdrawn. */
@@ -32,6 +34,7 @@ export const OPERATOR_CSV_HEADERS = [
   "email",
   "source",
   "panel_id",
+  "panel_number",
   "brand",
   "trade",
   "standing_usd",
@@ -48,6 +51,7 @@ export type OperatorCsvRow = {
   email: string;
   source: string;
   panelId: string;
+  panelNumber: string;
   brand: string;
   trade: string;
   standingUsd: string;
@@ -63,6 +67,7 @@ export function waitlistToCsvRow(row: WaitlistRow): OperatorCsvRow {
     email: row.email,
     source: row.source,
     panelId: "",
+    panelNumber: "",
     brand: "",
     trade: "",
     standingUsd: "",
@@ -79,6 +84,7 @@ export function intentToCsvRow(bid: IntentBid): OperatorCsvRow {
     email: "",
     source: "",
     panelId: bid.panelId,
+    panelNumber: String(panelBoardMarkFor(bid.panelId).n),
     brand: bid.brandLabel,
     trade: bid.tradeLabel,
     standingUsd: String(bid.standingUsd),
@@ -95,6 +101,7 @@ function serializeRow(row: OperatorCsvRow): string {
     row.email,
     row.source,
     row.panelId,
+    row.panelNumber,
     row.brand,
     row.trade,
     row.standingUsd,
