@@ -1,10 +1,12 @@
 /**
  * Slice 9.9 — public seat log: amount + time. No bidder email / user id.
  * Slice 14.35 — display times are America/New_York, labeled ET.
+ * Slice 16.21 — each row also shows the panel number (1–12).
  */
 
 import { formatUsd } from "./campaign";
 import type { IntentBid } from "./intent";
+import { panelBoardMarkFor, panelLegendLabel } from "./panel-board";
 
 /** Public seat log display timezone (Eastern). */
 export const SEAT_LOG_TIME_ZONE = "America/New_York" as const;
@@ -17,6 +19,9 @@ export type PublicSeatLogEntry = {
   createdAt: string;
   /** America/New_York display labeled ET (no email). */
   timeLabel: string;
+  /** Board index 1–12. Same number as the hero callout. */
+  panelNumber: number;
+  panelNumberLabel: string;
   brandLabel: string;
   status: IntentBid["status"];
 };
@@ -50,13 +55,18 @@ export function buildPublicSeatLog(
   return bids
     .slice()
     .sort((a, b) => b.createdAt.localeCompare(a.createdAt))
-    .map((bid) => ({
-      bidId: bid.id,
-      amountUsd: bid.standingUsd,
-      amountLabel: formatUsd(bid.standingUsd),
-      createdAt: bid.createdAt,
-      timeLabel: formatSeatLogTime(bid.createdAt),
-      brandLabel: bid.brandLabel,
-      status: bid.status,
-    }));
+    .map((bid) => {
+      const mark = panelBoardMarkFor(bid.panelId);
+      return {
+        bidId: bid.id,
+        amountUsd: bid.standingUsd,
+        amountLabel: formatUsd(bid.standingUsd),
+        createdAt: bid.createdAt,
+        timeLabel: formatSeatLogTime(bid.createdAt),
+        panelNumber: mark.n,
+        panelNumberLabel: panelLegendLabel(mark),
+        brandLabel: bid.brandLabel,
+        status: bid.status,
+      };
+    });
 }
