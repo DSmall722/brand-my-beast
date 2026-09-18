@@ -77,13 +77,14 @@ test.describe("slice 14.20: press kit folder", () => {
     expect(text.toLowerCase()).not.toMatch(/wrap-as-delivered/);
     expect(text.toLowerCase()).not.toMatch(/\blease\b/);
     expect(text).not.toMatch(/@gmail\.com/);
-    // One substantive paragraph after the heading
+    // One campaign paragraph. Slice 16.19 adds the 1–12 board list after it.
     const body = text
       .split("\n")
       .map((line) => line.trim())
       .filter((line) => line.length > 0 && !line.startsWith("#"));
-    expect(body.length).toBe(1);
-    expect(body[0]!.length).toBeGreaterThan(120);
+    const paragraphs = body.filter((line) => !/^\d+\.\s+\S/.test(line));
+    expect(paragraphs.length).toBe(1);
+    expect(paragraphs[0]!.length).toBeGreaterThan(120);
 
     const readme = readFileSync(join(PRESS, "README.md"), "utf8");
     expect(readme.toLowerCase()).toContain("no wrap-as-delivered");
