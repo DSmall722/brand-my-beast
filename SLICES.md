@@ -185,7 +185,7 @@ Waitlist stays the public product. Do not flip SEATS_OPEN.
 - [x] 16.8 `docs/LOCAL-PREVIEW.md`: `npm i && npm run dev` is how friends see the real page while Vercel is on hold. (#324)
 - [x] 16.9 Hero still ships a 1280-wide and a 640-wide asset. No Tesla CDN. (#325)
 - [x] 16.10 Callout hit area ≥44px. Keyboard focus ring visible. (#326)
-- [x] 16.11 README “How to look at this” points at 16.8. No brandmybeast.com as the demo.
+- [x] 16.11 README “How to look at this” points at 16.8. No brandmybeast.com as the demo. (#327)
 - [ ] 16.12 PUBLIC_COPY panel lead mentions “numbers on the truck match the cards.” No H1 rewrite.
 - [ ] 16.13–16.50 Remain as previously locked (numbered board, docs, freeze). No Stripe. No CLOSE_AT. No SEATS_OPEN flip.
 
