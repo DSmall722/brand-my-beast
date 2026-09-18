@@ -6,6 +6,10 @@ Public: [@BrandMyBeast](https://x.com/brandmybeast) · hello@brandmybeast.com ·
 
 Not affiliated with Tesla, Inc.
 
+## How to look at this
+
+See [docs/LOCAL-PREVIEW.md](./docs/LOCAL-PREVIEW.md) (slice 16.8). `npm i && npm run dev` is how friends see the real page while Vercel is on hold. Not brandmybeast.com as the demo.
+
 ## What this repo is
 
 - The **harness + Next.js app** for an all-or-nothing auction of **12 stainless panels** on a **Cyberbeast** that does not exist until the board clears the floor.
