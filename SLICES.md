@@ -193,7 +193,7 @@ Waitlist stays the public product. Do not flip SEATS_OPEN.
 - [x] 16.16 `docs/STATUS.md` last-slice line updates from SLICES Now (no hand edit of money). (#332)
 - [x] 16.17 Kill any leftover “Wave 6 idle” sentence in PROCESS.md. (#333)
 - [x] 16.18 ARCHITECTURE.md diagram includes numbered overlay, not only the schematic SVG. (#334)
-- [x] 16.19 Press-kit fact sheet (14.20) includes the 1–12 list.
+- [x] 16.19 Press-kit fact sheet (14.20) includes the 1–12 list. (#335)
 - [ ] 16.20 `/llms.txt` includes floor, buyout, twelve numbered seats, no close date.
 - [ ] 16.21–16.50 Remain as previously locked (numbered board, docs, freeze). No Stripe. No CLOSE_AT. No SEATS_OPEN flip.
 
