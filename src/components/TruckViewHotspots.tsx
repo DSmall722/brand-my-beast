@@ -80,7 +80,11 @@ export function TruckViewHotspots({
           data-truck-img={`board-${view}`}
           style={{ objectPosition: BOARD_VIEW_OBJECT_POSITION[view] }}
         />
-        <PanelBoardCallouts surface="view" view={view} />
+        <PanelBoardCallouts
+          surface="view"
+          view={view}
+          occupiedPanelIds={occupiedPanelIds}
+        />
         <svg
           className="truck-view-svg"
           viewBox="0 0 400 160"

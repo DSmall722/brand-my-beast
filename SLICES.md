@@ -14,8 +14,8 @@ Updated: 2026-09-17
 - Set **Now** and **Last merged** in this file in that same PR.
 - Judge PRs from git + `npm test` + `npm run build`. Do not use brandmybeast.com as a merge gate.
 
-**Now:** 16.7 Occupied seats keep the number and add `Held` — still no wrap art on the photo.
-**Last merged:** 16.6 Front / side / rear views use the same number as the hero, not a second index.
+**Now:** 16.8 `docs/LOCAL-PREVIEW.md`: `npm i && npm run dev` is how friends see the real page while Vercel is on hold.
+**Last merged:** 16.7 Occupied seats keep the number and add `Held` — still no wrap art on the photo.
 
 ## Standing orders
 
@@ -181,8 +181,9 @@ Waitlist stays the public product. Do not flip SEATS_OPEN.
 - [x] 16.4 Playwright 390px: numbers 1, 3, 5, 9 visible and not clipped by the wordmark. (#320)
 - [x] 16.5 Playwright 1280px: all twelve numbers present in the DOM. (#321)
 - [x] 16.6 Front / side / rear views use the same number as the hero, not a second index. (#322)
-- [ ] 16.7 Occupied seats keep the number and add `Held` — still no wrap art on the photo.
-- [ ] 16.8–16.50 Remain as previously locked (numbered board, docs, freeze). No Stripe. No CLOSE_AT. No SEATS_OPEN flip.
+- [x] 16.7 Occupied seats keep the number and add `Held` — still no wrap art on the photo.
+- [ ] 16.8 `docs/LOCAL-PREVIEW.md`: `npm i && npm run dev` is how friends see the real page while Vercel is on hold.
+- [ ] 16.9–16.50 Remain as previously locked (numbered board, docs, freeze). No Stripe. No CLOSE_AT. No SEATS_OPEN flip.
 
 ## Wave 17 — phone + public-face correctness
 

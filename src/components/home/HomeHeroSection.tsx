@@ -4,8 +4,12 @@ import { PANEL_BOARD_MARKS, panelLegendLabel } from "@/lib/panel-board";
 import { PUBLIC_COPY } from "@/lib/public-copy";
 import { truckImgAlt } from "@/lib/truck-img-alt";
 
-/** Slice 7.1 / 16.3 — hero still plus number map from PANELS. */
-export function HomeHeroSection() {
+/** Slice 7.1 / 16.3 / 16.7 — hero still plus number map. Held keeps the number. */
+export function HomeHeroSection({
+  occupiedPanelIds = [],
+}: {
+  occupiedPanelIds?: readonly string[];
+}) {
   return (
     <>
         <section className="hero" aria-labelledby="hero-title">
@@ -28,7 +32,10 @@ export function HomeHeroSection() {
               data-truck-img="hero"
             />
           </a>
-          <PanelBoardCallouts surface="hero" />
+          <PanelBoardCallouts
+            surface="hero"
+            occupiedPanelIds={occupiedPanelIds}
+          />
           <div className="hero-overlay">
             <p className="hero-preview-label" data-testid="hero-preview-label">
               Board preview — bare stainless. Wrap and etch unlock later.

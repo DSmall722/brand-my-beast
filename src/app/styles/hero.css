@@ -105,6 +105,23 @@
   translate: 0 0.5px;
 }
 
+.panel-board-callout-held {
+  position: absolute;
+  top: calc(100% + 2px);
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  line-height: 1;
+  color: #07090c;
+  background: var(--signal);
+  padding: 0.12rem 0.28rem;
+  white-space: nowrap;
+  pointer-events: none;
+}
+
 @media (max-width: 720px) {
   .panel-board-callout {
     width: 1.65rem;

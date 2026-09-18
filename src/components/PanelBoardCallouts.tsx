@@ -12,14 +12,17 @@ import type { TruckViewId } from "@/lib/truck-views";
 export function PanelBoardCallouts({
   surface,
   view,
+  occupiedPanelIds = [],
 }: {
   surface: "hero" | "view";
   view?: TruckViewId;
+  occupiedPanelIds?: readonly string[];
 }) {
   const marks: readonly PanelBoardMark[] =
     surface === "hero"
       ? PANEL_BOARD_MARKS
       : panelBoardMarksForView(view ?? "side");
+  const occupied = new Set(occupiedPanelIds);
 
   return (
     <div
@@ -39,10 +42,15 @@ export function PanelBoardCallouts({
         const pct =
           surface === "hero" ? mark.hero : mark.views[view ?? "side"];
         if (!pct) return null;
+        const held = occupied.has(mark.panelId);
         const testId =
           surface === "hero"
             ? `hero-panel-board-${mark.n}`
             : `view-panel-board-${view}-${mark.n}`;
+        const heldTestId =
+          surface === "hero"
+            ? `hero-panel-held-${mark.n}`
+            : `view-panel-held-${view}-${mark.n}`;
         return (
           <a
             key={`${surface}-${mark.panelId}`}
@@ -52,11 +60,19 @@ export function PanelBoardCallouts({
             data-testid={testId}
             data-panel-id={mark.panelId}
             data-panel-n={String(mark.n)}
-            aria-label={`${mark.n} ${mark.name}`}
+            data-held={held ? "true" : "false"}
+            aria-label={
+              held ? `${mark.n} ${mark.name} Held` : `${mark.n} ${mark.name}`
+            }
           >
             <span className="panel-board-callout-n" aria-hidden="true">
               {mark.n}
             </span>
+            {held ? (
+              <span className="panel-board-callout-held" data-testid={heldTestId}>
+                Held
+              </span>
+            ) : null}
           </a>
         );
       })}

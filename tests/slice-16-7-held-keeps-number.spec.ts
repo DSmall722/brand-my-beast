@@ -1,0 +1,115 @@
+import { expect, test, type Page } from "@playwright/test";
+import {
+  BRAND,
+  CLOSE_AT,
+  FLOOR_USD,
+  GOAL_USD,
+  formatUsd,
+} from "../src/lib/campaign";
+import { findCloseAtViolations } from "../src/lib/close-at-null";
+import { findStripePackagesInRootPackageJson } from "../src/lib/no-stripe-package";
+import { vercelJsonIsHoldOrMainOnlyRestore } from "../src/lib/vercel-git-deploy";
+
+/**
+ * Slice 16.7 — occupied seats keep the number and add Held.
+ * Photo stays the bare stainless still. No wrap art.
+ * CLOSE_AT null. No Stripe. No SEATS_OPEN flip.
+ */
+
+async function signIn(page: Page, email: string) {
+  await page.goto("/signin");
+  await page.getByTestId("signin-email").fill(email);
+  await page.getByTestId("signin-password").fill("test");
+  await page.getByTestId("signin-submit").click();
+  await expect(page.getByTestId("account-page")).toBeVisible();
+}
+
+test.describe("slice 16.7: held seats keep the number", () => {
+  test.describe.configure({ mode: "serial" });
+
+  test.beforeEach(async ({ request }) => {
+    const res = await request.post("/api/test/reset-intents");
+    expect(res.ok()).toBeTruthy();
+  });
+
+  test("campaign money fences stay locked — CLOSE_AT null", () => {
+    expect(FLOOR_USD).toBe(58_000);
+    expect(GOAL_USD).toBe(120_000);
+    expect(CLOSE_AT).toBeNull();
+    expect(findCloseAtViolations()).toEqual([]);
+    expect(BRAND.name).toBe("BrandMyBeast");
+    expect(formatUsd(FLOOR_USD)).toBe("$58,000");
+    expect(formatUsd(GOAL_USD)).toBe("$120,000");
+  });
+
+  test("package.json has no stripe", () => {
+    expect(findStripePackagesInRootPackageJson()).toEqual([]);
+  });
+
+  test("vercel.json is hold-mode or main-only restore", () => {
+    expect(vercelJsonIsHoldOrMainOnlyRestore()).toBe(true);
+  });
+
+  test("held hood keeps number 1 and Held; photo stays stainless", async ({
+    page,
+  }) => {
+    await signIn(page, "held167@example.com");
+    await page.goto("/panels/hood");
+    await page.getByTestId("intent-brand").fill("Held Number Co");
+    await page.getByTestId("intent-trade").fill("held vinyl");
+    await page.getByTestId("intent-standing").fill("2500");
+    await page.getByTestId("intent-submit").click();
+    await expect(page.getByTestId("intent-success")).toContainText(
+      "not charged",
+      { timeout: 10_000 },
+    );
+
+    await page.goto("/");
+    const hero = page.getByTestId("hero-panel-board-1");
+    await expect(hero).toHaveAttribute("data-panel-n", "1");
+    await expect(hero).toHaveAttribute("data-panel-id", "hood");
+    await expect(hero).toHaveAttribute("data-held", "true");
+    await expect(hero.locator(".panel-board-callout-n")).toHaveText("1");
+    await expect(page.getByTestId("hero-panel-held-1")).toHaveText("Held");
+
+    const open = page.getByTestId("hero-panel-board-3");
+    await expect(open).toHaveAttribute("data-panel-n", "3");
+    await expect(open).toHaveAttribute("data-held", "false");
+    await expect(page.getByTestId("hero-panel-held-3")).toHaveCount(0);
+
+    await page.getByTestId("truck-view-side").click();
+    const side = page.getByTestId("view-panel-board-side-1");
+    await expect(side).toHaveAttribute("data-panel-n", "1");
+    await expect(side.locator(".panel-board-callout-n")).toHaveText("1");
+    await expect(page.getByTestId("view-panel-held-side-1")).toHaveText("Held");
+
+    await expect(page.getByTestId("truck-img-hero")).toHaveAttribute(
+      "src",
+      "/hero-truck-preview.jpg",
+    );
+    await expect(page.getByTestId("truck-img-board-side")).toHaveAttribute(
+      "src",
+      "/hero-truck-preview.jpg",
+    );
+    const photos = page.locator(".hero img, .truck-view-stage img");
+    const photoCount = await photos.count();
+    expect(photoCount).toBeGreaterThan(0);
+    for (let i = 0; i < photoCount; i += 1) {
+      await expect(photos.nth(i)).toHaveAttribute(
+        "src",
+        "/hero-truck-preview.jpg",
+      );
+    }
+    await expect(
+      page.locator(".hero .compositor-etch-mark, .truck-view-stage .compositor-etch-mark"),
+    ).toHaveCount(0);
+
+    await expect(page.getByTestId("panel-index-hood")).toHaveText("1");
+
+    const html = await page.content();
+    expect(html.toLowerCase()).not.toMatch(/\blease\b/);
+    expect(html).not.toMatch(/@gmail\.com/i);
+    expect(html).toContain("$58,000");
+    expect(html).toContain("$120,000");
+  });
+});
