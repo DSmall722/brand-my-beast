@@ -14,8 +14,8 @@ Updated: 2026-09-17
 - Set **Now** and **Last merged** in this file in that same PR.
 - Judge PRs from git + `npm test` + `npm run build`. Do not use brandmybeast.com as a merge gate.
 
-**Now:** 16.24 Shop PDF title is `Seat 03 — Driver door` not only the slug.
-**Last merged:** 16.23 CSV export includes panel number.
+**Now:** 16.25 Whole-truck intent copy lists 1–12 as the package.
+**Last merged:** 16.24 Shop PDF title is `Seat 03 — Driver door` not only the slug.
 
 ## Standing orders
 
@@ -198,8 +198,9 @@ Waitlist stays the public product. Do not flip SEATS_OPEN.
 - [x] 16.21 Seat log shows panel number + amount + ET time. (#337)
 - [x] 16.22 Operator list columns: #, panel, brand, trade, amount, status. (#338)
 - [x] 16.23 CSV export includes panel number. (#339)
-- [ ] 16.24 Shop PDF title is `Seat 03 — Driver door` not only the slug.
-- [ ] 16.25–16.50 Remain as previously locked (numbered board, docs, freeze). No Stripe. No CLOSE_AT. No SEATS_OPEN flip.
+- [x] 16.24 Shop PDF title is `Seat 03 — Driver door` not only the slug. (#340)
+- [ ] 16.25 Whole-truck intent copy lists 1–12 as the package.
+- [ ] 16.26–16.50 Remain as previously locked (numbered board, docs, freeze). No Stripe. No CLOSE_AT. No SEATS_OPEN flip.
 
 ## Wave 17 — phone + public-face correctness
 
