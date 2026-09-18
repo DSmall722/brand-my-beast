@@ -196,7 +196,7 @@ Waitlist stays the public product. Do not flip SEATS_OPEN.
 - [x] 16.19 Press-kit fact sheet (14.20) includes the 1–12 list. (#335)
 - [x] 16.20 `/llms.txt` includes floor, buyout, twelve numbered seats, no close date. (#336)
 - [x] 16.21 Seat log shows panel number + amount + ET time. (#337)
-- [x] 16.22 Operator list columns: #, panel, brand, trade, amount, status.
+- [x] 16.22 Operator list columns: #, panel, brand, trade, amount, status. (#338)
 - [ ] 16.23 CSV export includes panel number.
 - [ ] 16.24–16.50 Remain as previously locked (numbered board, docs, freeze). No Stripe. No CLOSE_AT. No SEATS_OPEN flip.
 
