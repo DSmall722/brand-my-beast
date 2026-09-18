@@ -14,8 +14,8 @@ Updated: 2026-09-17
 - Set **Now** and **Last merged** in this file in that same PR.
 - Judge PRs from git + `npm test` + `npm run build`. Do not use brandmybeast.com as a merge gate.
 
-**Now:** 16.26 Failed-winner email subject includes panel number.
-**Last merged:** 16.25 Whole-truck intent copy lists 1–12 as the package.
+**Now:** 16.27 Ban-list UI shows which panel numbers were blocked in the last run.
+**Last merged:** 16.26 Failed-winner email subject includes panel number.
 
 ## Standing orders
 
@@ -200,8 +200,9 @@ Waitlist stays the public product. Do not flip SEATS_OPEN.
 - [x] 16.23 CSV export includes panel number. (#339)
 - [x] 16.24 Shop PDF title is `Seat 03 — Driver door` not only the slug. (#340)
 - [x] 16.25 Whole-truck intent copy lists 1–12 as the package. (#341)
-- [ ] 16.26 Failed-winner email subject includes panel number.
-- [ ] 16.27–16.50 Remain as previously locked (numbered board, docs, freeze). No Stripe. No CLOSE_AT. No SEATS_OPEN flip.
+- [x] 16.26 Failed-winner email subject includes panel number. (#342)
+- [ ] 16.27 Ban-list UI shows which panel numbers were blocked in the last run.
+- [ ] 16.28–16.50 Remain as previously locked (numbered board, docs, freeze). No Stripe. No CLOSE_AT. No SEATS_OPEN flip.
 
 ## Wave 17 — phone + public-face correctness
 
