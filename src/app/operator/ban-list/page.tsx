@@ -5,7 +5,7 @@ import { SiteChrome } from "@/components/SiteChrome";
 import { auth } from "@/lib/auth";
 import { isOperatorEmail } from "@/lib/auth/operator";
 import { FLOOR_USD, GOAL_USD, formatUsd } from "@/lib/campaign";
-import { listBanRules } from "@/lib/operator-ban-list";
+import { listBanRules, readBanListLastRun } from "@/lib/operator-ban-list";
 
 /**
  * Slice 8.8 — operator ban-list table. Auth + OPERATOR_EMAILS.
@@ -36,6 +36,12 @@ export default async function OperatorBanListPage() {
   }
 
   const rules = await listBanRules();
+  const lastRun = readBanListLastRun();
+  const lastRunLine = !lastRun
+    ? "No ban-list run yet."
+    : lastRun.blockedLabels.length === 0
+      ? "Last run blocked no panels."
+      : `Last run blocked ${lastRun.blockedLabels.join(", ")}.`;
 
   return (
     <>
@@ -59,6 +65,10 @@ export default async function OperatorBanListPage() {
         </p>
 
         <BanListForm />
+
+        <p className="auth-hint" data-testid="ban-last-run-stored">
+          {lastRunLine}
+        </p>
 
         <p className="approvals-count" data-testid="operator-ban-list-count">
           {rules.length === 0

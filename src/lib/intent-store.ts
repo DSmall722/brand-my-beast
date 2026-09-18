@@ -353,7 +353,11 @@ export async function listBidsWithStatus(
  */
 export async function rejectListedMatchingBanRule(
   rule: BanListRule,
-): Promise<{ rejectedIds: string[]; approvedLeftAlone: number }> {
+): Promise<{
+  rejectedIds: string[];
+  blockedPanelIds: string[];
+  approvedLeftAlone: number;
+}> {
   const listed = await listBidsWithStatus("listed");
   const approved = await listBidsWithStatus("approved");
   const approvedLeftAlone = approved.filter((bid) =>
@@ -361,6 +365,7 @@ export async function rejectListedMatchingBanRule(
   ).length;
 
   const rejectedIds: string[] = [];
+  const blockedPanelIds: string[] = [];
   for (const bid of listed) {
     if (!matchesBanPattern(bid.brandLabel, bid.tradeLabel, rule.pattern)) {
       continue;
@@ -375,6 +380,7 @@ export async function rejectListedMatchingBanRule(
     const status = await setIntentStatus(bid.id, "rejected", { note });
     if (status.ok) {
       rejectedIds.push(bid.id);
+      blockedPanelIds.push(bid.panelId);
     }
   }
 
@@ -388,7 +394,7 @@ export async function rejectListedMatchingBanRule(
     }
   }
 
-  return { rejectedIds, approvedLeftAlone };
+  return { rejectedIds, blockedPanelIds, approvedLeftAlone };
 }
 
 /** Approved + rejected intents, newest first — operator decided log. */
