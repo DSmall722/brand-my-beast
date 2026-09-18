@@ -9,7 +9,7 @@ Slice **14.9**. One-page status for agents and humans. Not a build order — **`
 | `CLOSE_AT` | **null** (do not start the 30-day clock) |
 | Stripe | **not wired** (Wave 15 needs a human message) |
 | Vercel usage hold | **lifted** — `vercel.json` `git.deploymentEnabled` main-only (`*`: false, `main`: true). See `docs/VERCEL-HOLD.md`. |
-| Last slice id | **14.9** (this file). Check **`SLICES.md`** → **Last merged** / **Now** for the live queue. |
+| Last slice id | **16.17** — copied from `SLICES.md` **Now**. Money rows are not hand-edited. |
 
 ## Merge gate (hold lifted — main-only)
 

@@ -14,8 +14,8 @@ Updated: 2026-09-17
 - Set **Now** and **Last merged** in this file in that same PR.
 - Judge PRs from git + `npm test` + `npm run build`. Do not use brandmybeast.com as a merge gate.
 
-**Now:** 16.16 `docs/STATUS.md` last-slice line updates from SLICES Now (no hand edit of money).
-**Last merged:** 16.15 FEATURES.md “numbered board” row marked shipped with 14.0 / 16.x.
+**Now:** 16.17 Kill any leftover “Wave 6 idle” sentence in PROCESS.md.
+**Last merged:** 16.16 `docs/STATUS.md` last-slice line updates from SLICES Now (no hand edit of money).
 
 ## Standing orders
 
@@ -190,8 +190,9 @@ Waitlist stays the public product. Do not flip SEATS_OPEN.
 - [x] 16.13 RULES.md lists the 1–12 order next to panel ids. (#329)
 - [x] 16.14 CAMPAIGN.md inventory table includes the number column. Dollars unchanged. (#330)
 - [x] 16.15 FEATURES.md “numbered board” row marked shipped with 14.0 / 16.x. (#331)
-- [ ] 16.16 `docs/STATUS.md` last-slice line updates from SLICES Now (no hand edit of money).
-- [ ] 16.17–16.50 Remain as previously locked (numbered board, docs, freeze). No Stripe. No CLOSE_AT. No SEATS_OPEN flip.
+- [x] 16.16 `docs/STATUS.md` last-slice line updates from SLICES Now (no hand edit of money).
+- [ ] 16.17 Kill any leftover “Wave 6 idle” sentence in PROCESS.md.
+- [ ] 16.18–16.50 Remain as previously locked (numbered board, docs, freeze). No Stripe. No CLOSE_AT. No SEATS_OPEN flip.
 
 ## Wave 17 — phone + public-face correctness
 
