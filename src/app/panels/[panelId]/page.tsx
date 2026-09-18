@@ -39,6 +39,7 @@ import {
 } from "@/lib/intent-store";
 import { listBanRules } from "@/lib/operator-ban-list";
 import { panelExtendedUntilCopy } from "@/lib/panel-extension";
+import { panelBoardMarkFor, panelSeatH1 } from "@/lib/panel-board";
 import { panelOpenGraphTitle } from "@/lib/panel-open-graph";
 import { PUBLIC_COPY } from "@/lib/public-copy";
 import { getPanelExtendedUntil } from "@/lib/panel-extension-store";
@@ -88,6 +89,7 @@ export default async function PanelIntentPage({
   const panel = PANELS.find((row) => row.id === panelId);
   if (!panel) notFound();
 
+  const boardMark = panelBoardMarkFor(panel.id);
   const session = await auth();
   const standing = await standingForPanel(panel.id);
   const minimum = await minimumIntentUsd(panel.id);
@@ -151,7 +153,9 @@ export default async function PanelIntentPage({
           {" · "}
           <span data-testid="public-seat-label">Public seat</span>
         </p>
-        <h1>{panel.name}</h1>
+        <h1 data-testid="panel-seat-h1" data-panel-n={String(boardMark.n)}>
+          {panelSeatH1(panel)}
+        </h1>
         <p className="section-lead">
           Opens at {formatUsd(panel.openingUsd)}. Current standing{" "}
           {formatUsd(standing)}.{" "}

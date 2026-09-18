@@ -14,8 +14,8 @@ Updated: 2026-09-17
 - Set **Now** and **Last merged** in this file in that same PR.
 - Judge PRs from git + `npm test` + `npm run build`. Do not use brandmybeast.com as a merge gate.
 
-**Now:** 16.2 Seat page H1 includes the number (`3 · Driver door`).
-**Last merged:** 16.1 Homepage panel cards show the same 1–12 index as the hero callouts.
+**Now:** 16.3 Number map legend under the hero: `1 Hood … 12 Rear fascia` from PANELS only.
+**Last merged:** 16.2 Seat page H1 includes the number (`3 · Driver door`).
 
 ## Standing orders
 
@@ -176,8 +176,9 @@ Waitlist stays the public product. Do not flip SEATS_OPEN.
 - [x] 16.0f `/operator/waitlist` shows a Whole-truck column. Filter optional. No public header link. (#315)
 - [x] 16.0g Drop the post-submit line `sign in to list an intent` on the waitlist form (`waitlist-signin-intent`). Next link is browse panels and/or stay on the list. Playwright: that testid is gone from `/`.
 - [x] 16.1 Homepage panel cards show the same 1–12 index as the hero callouts. (#317)
-- [ ] 16.2 Seat page H1 includes the number (`3 · Driver door`).
-- [ ] 16.3–16.50 Remain as previously locked (numbered board, docs, freeze). No Stripe. No CLOSE_AT. No SEATS_OPEN flip.
+- [x] 16.2 Seat page H1 includes the number (`3 · Driver door`). (#318)
+- [ ] 16.3 Number map legend under the hero: `1 Hood … 12 Rear fascia` from PANELS only.
+- [ ] 16.4–16.50 Remain as previously locked (numbered board, docs, freeze). No Stripe. No CLOSE_AT. No SEATS_OPEN flip.
 
 ## Wave 17 — phone + public-face correctness
 
