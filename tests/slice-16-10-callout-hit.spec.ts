@@ -80,7 +80,10 @@ test.describe("slice 16.10: callout hit area and focus ring", () => {
 
     const ring = await callout.evaluate((el) => {
       if (!(el instanceof HTMLElement)) throw new Error("callout missing");
-      el.focus({ focusVisible: true });
+      const opts: FocusOptions & { focusVisible?: boolean } = {
+        focusVisible: true,
+      };
+      el.focus(opts);
       const style = getComputedStyle(el);
       return {
         focusVisible: el.matches(":focus-visible"),
