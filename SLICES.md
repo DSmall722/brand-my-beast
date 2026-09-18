@@ -14,8 +14,8 @@ Updated: 2026-09-17
 - Set **Now** and **Last merged** in this file in that same PR.
 - Judge PRs from git + `npm test` + `npm run build`. Do not use brandmybeast.com as a merge gate.
 
-**Now:** 16.5 Playwright 1280px: all twelve numbers present in the DOM.
-**Last merged:** 16.4 Playwright 390px: numbers 1, 3, 5, 9 visible and not clipped by the wordmark.
+**Now:** 16.6 Front / side / rear views use the same number as the hero, not a second index.
+**Last merged:** 16.5 Playwright 1280px: all twelve numbers present in the DOM.
 
 ## Standing orders
 
@@ -179,8 +179,9 @@ Waitlist stays the public product. Do not flip SEATS_OPEN.
 - [x] 16.2 Seat page H1 includes the number (`3 · Driver door`). (#318)
 - [x] 16.3 Number map legend under the hero: `1 Hood … 12 Rear fascia` from PANELS only. (#319)
 - [x] 16.4 Playwright 390px: numbers 1, 3, 5, 9 visible and not clipped by the wordmark. (#320)
-- [ ] 16.5 Playwright 1280px: all twelve numbers present in the DOM.
-- [ ] 16.6–16.50 Remain as previously locked (numbered board, docs, freeze). No Stripe. No CLOSE_AT. No SEATS_OPEN flip.
+- [x] 16.5 Playwright 1280px: all twelve numbers present in the DOM.
+- [ ] 16.6 Front / side / rear views use the same number as the hero, not a second index.
+- [ ] 16.7–16.50 Remain as previously locked (numbered board, docs, freeze). No Stripe. No CLOSE_AT. No SEATS_OPEN flip.
 
 ## Wave 17 — phone + public-face correctness
 
