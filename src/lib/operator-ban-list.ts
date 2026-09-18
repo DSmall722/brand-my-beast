@@ -209,4 +209,39 @@ export function resetBanListMatchLogsForTests(): void {
 export function resetOperatorBanListForTests(): void {
   memoryRules().length = 0;
   resetBanListMatchLogsForTests();
+  clearBanListLastRun();
+}
+
+/** Slice 16.27 — panel numbers blocked by the latest ban-list sweep. */
+export type BanListLastRun = {
+  at: string;
+  pattern: string;
+  blockedLabels: readonly string[];
+};
+
+const globalLastRun = globalThis as typeof globalThis & {
+  __bmbBanListLastRun?: BanListLastRun | null;
+};
+
+export function recordBanListLastRun(run: BanListLastRun): BanListLastRun {
+  globalLastRun.__bmbBanListLastRun = {
+    at: run.at,
+    pattern: run.pattern,
+    blockedLabels: [...run.blockedLabels],
+  };
+  return globalLastRun.__bmbBanListLastRun;
+}
+
+export function readBanListLastRun(): BanListLastRun | null {
+  const run = globalLastRun.__bmbBanListLastRun;
+  if (!run) return null;
+  return {
+    at: run.at,
+    pattern: run.pattern,
+    blockedLabels: [...run.blockedLabels],
+  };
+}
+
+export function clearBanListLastRun(): void {
+  globalLastRun.__bmbBanListLastRun = null;
 }

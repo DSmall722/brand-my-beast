@@ -60,6 +60,13 @@ export function BanListForm() {
           {state.message}
         </p>
       ) : null}
+      {state.ok ? (
+        <p className="auth-hint" data-testid="ban-last-run-panels">
+          {state.blockedLabels && state.blockedLabels.length > 0
+            ? `Last run blocked ${state.blockedLabels.join(", ")}.`
+            : "Last run blocked no panels."}
+        </p>
+      ) : null}
     </form>
   );
 }

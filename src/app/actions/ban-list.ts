@@ -3,15 +3,18 @@
 import { revalidatePath } from "next/cache";
 import { auth } from "@/lib/auth";
 import { isOperatorEmail } from "@/lib/auth/operator";
-import { addBanRule } from "@/lib/operator-ban-list";
+import { addBanRule, recordBanListLastRun } from "@/lib/operator-ban-list";
 import { appendOperatorAuditLog } from "@/lib/operator-audit-log";
 import { rejectListedMatchingBanRule } from "@/lib/intent-store";
+import { panelBoardMarkFor, panelLegendLabel } from "@/lib/panel-board";
 import { saveApprovalNote } from "@/lib/approval-note-store";
 
 export type BanListActionState = {
   ok: boolean;
   error?: string;
   message?: string;
+  /** Slice 16.27 — board labels blocked by this sweep, number order. */
+  blockedLabels?: string[];
 };
 
 /**
@@ -50,14 +53,33 @@ export async function submitBanRule(
   }
 
   const rejected = sweep.rejectedIds.length;
+  const marks = [
+    ...new Map(
+      sweep.blockedPanelIds.map((panelId) => {
+        const mark = panelBoardMarkFor(panelId);
+        return [mark.n, mark] as const;
+      }),
+    ).values(),
+  ].sort((a, b) => a.n - b.n);
+  const blockedLabels = marks.map((mark) => panelLegendLabel(mark));
+  recordBanListLastRun({
+    at: new Date().toISOString(),
+    pattern: result.rule.pattern,
+    blockedLabels,
+  });
+  const blockedLine =
+    blockedLabels.length === 0
+      ? "Last run blocked no panels."
+      : `Last run blocked ${blockedLabels.join(", ")}.`;
   revalidatePath("/operator");
   revalidatePath("/operator/ban-list");
   revalidatePath("/operator/audit");
   return {
     ok: true,
+    blockedLabels,
     message:
       rejected === 0
-        ? `Ban “${result.rule.pattern}” added. No listed intents matched.`
-        : `Ban “${result.rule.pattern}” added. Hard-rejected ${rejected} listed intent${rejected === 1 ? "" : "s"}.`,
+        ? `Ban “${result.rule.pattern}” added. No listed intents matched. ${blockedLine}`
+        : `Ban “${result.rule.pattern}” added. Hard-rejected ${rejected} listed intent${rejected === 1 ? "" : "s"}. ${blockedLine}`,
   };
 }
