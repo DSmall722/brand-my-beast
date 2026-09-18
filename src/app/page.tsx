@@ -66,7 +66,7 @@ export default async function HomePage() {
         data-testid="home-main"
         data-truck-exists={TRUCK_EXISTS ? "true" : "false"}
       >
-        <HomeHeroSection />
+        <HomeHeroSection occupiedPanelIds={occupiedPanelIds} />
         <HomeTruckViewsSection occupiedPanelIds={occupiedPanelIds} />
         <HomeMoneySection
           raisedLabel={raisedLabel}
