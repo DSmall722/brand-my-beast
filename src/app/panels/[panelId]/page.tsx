@@ -450,8 +450,8 @@ export default async function PanelIntentPage({
             Seat log
           </h2>
           <p className="auth-hint" data-testid="public-seat-log-lead">
-            Public marks on this seat: amount and time (ET) only. No bidder
-            email. Still not charged.
+            Public marks on this seat: panel number, amount, and time (ET). No
+            bidder email. Still not charged.
           </p>
           {seatLog.length === 0 ? (
             <p className="empty-state" data-testid="public-seat-log-empty">
@@ -465,6 +465,12 @@ export default async function PanelIntentPage({
                   className="seat-log-row"
                   data-testid={`seat-log-row-${entry.bidId}`}
                 >
+                  <span
+                    className="auth-hint"
+                    data-testid={`seat-log-number-${entry.bidId}`}
+                  >
+                    {entry.panelNumberLabel}
+                  </span>
                   <span
                     className="intent-mark"
                     data-testid={`seat-log-amount-${entry.bidId}`}
