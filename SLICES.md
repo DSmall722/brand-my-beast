@@ -200,7 +200,7 @@ Waitlist stays the public product. Do not flip SEATS_OPEN.
 - [x] 16.23 CSV export includes panel number. (#339)
 - [x] 16.24 Shop PDF title is `Seat 03 — Driver door` not only the slug. (#340)
 - [x] 16.25 Whole-truck intent copy lists 1–12 as the package. (#341)
-- [x] 16.26 Failed-winner email subject includes panel number.
+- [x] 16.26 Failed-winner email subject includes panel number. (#342)
 - [ ] 16.27 Ban-list UI shows which panel numbers were blocked in the last run.
 - [ ] 16.28–16.50 Remain as previously locked (numbered board, docs, freeze). No Stripe. No CLOSE_AT. No SEATS_OPEN flip.
 
