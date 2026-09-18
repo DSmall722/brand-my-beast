@@ -202,7 +202,7 @@ Waitlist stays the public product. Do not flip SEATS_OPEN.
 - [x] 16.25 Whole-truck intent copy lists 1–12 as the package. (#341)
 - [x] 16.26 Failed-winner email subject includes panel number. (#342)
 - [x] 16.27 Ban-list UI shows which panel numbers were blocked in the last run. (#343)
-- [x] 16.28 Playwright: card `#3` and hero callout `3` both go to `/panels/driver-door`.
+- [x] 16.28 Playwright: card `#3` and hero callout `3` both go to `/panels/driver-door`. (#344)
 - [ ] 16.29 Opening prices on cards stay `formatUsd` from campaign.ts.
 - [ ] 16.30–16.50 Remain as previously locked (numbered board, docs, freeze). No Stripe. No CLOSE_AT. No SEATS_OPEN flip.
 
