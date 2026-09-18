@@ -5,6 +5,7 @@
 
 import { BRAND, formatUsd } from "@/lib/campaign";
 import type { IntentBid } from "@/lib/intent";
+import { panelBoardMarkFor } from "@/lib/panel-board";
 import { withCanSpamFooter } from "./can-spam";
 
 export type IntentStatusKind =
@@ -17,6 +18,12 @@ export type EmailTemplate = {
   subject: string;
   text: string;
 };
+
+/** Slice 16.26 — failed-winner (outbid) subject includes the board number. */
+export function failedWinnerEmailSubject(panelId: string): string {
+  const mark = panelBoardMarkFor(panelId);
+  return `Outbid on ${mark.n} · ${mark.name}`;
+}
 
 function finish(subject: string, lines: string[]): EmailTemplate {
   return {
@@ -48,7 +55,7 @@ export function intentStatusEmailTemplate(input: {
         input.nextMinimumUsd != null && Number.isFinite(input.nextMinimumUsd)
           ? formatUsd(input.nextMinimumUsd)
           : null;
-      return finish(`Outbid on ${panel}`, [
+      return finish(failedWinnerEmailSubject(input.bid.panelId), [
         `Your standing mark on ${panel} (${brand}, ${mark}) was outbid.`,
         nextMin
           ? `Next minimum to reclaim the seat: ${nextMin}.`
