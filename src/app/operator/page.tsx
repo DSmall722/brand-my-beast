@@ -5,6 +5,7 @@ import { IntentArtworkPreview } from "@/components/IntentArtworkPreview";
 import { ArtworkApprovalChecklist } from "@/components/ArtworkApprovalChecklist";
 import { ImagineMockupControls } from "@/components/ImagineMockupControls";
 import { MockupQueue } from "@/components/MockupQueue";
+import { OperatorBidColumns } from "@/components/OperatorBidColumns";
 import { OperatorStatusPanel } from "@/components/OperatorStatusPanel";
 import { OperatorSeatsOpenToggle } from "@/components/OperatorSeatsOpenToggle";
 import { PreP3Checklist } from "@/components/PreP3Checklist";
@@ -240,6 +241,7 @@ export default async function OperatorPage({
                   data-testid={`approval-row-${bid.id}`}
                 >
                   <div className="approval-card-body">
+                    <OperatorBidColumns bid={bid} />
                     <div className="approval-card-title">
                       <strong>{bid.brandLabel}</strong>
                       <span className="auth-hint">Trade: {bid.tradeLabel}</span>
@@ -289,6 +291,7 @@ export default async function OperatorPage({
                   data-testid={`operator-row-${bid.id}`}
                   data-status={bid.status}
                 >
+                  <OperatorBidColumns bid={bid} />
                   <div className="decided-row-main">
                     <strong>{bid.brandLabel}</strong>
                     <span className="auth-hint">
@@ -350,6 +353,7 @@ export default async function OperatorPage({
                       data-testid={`decided-row-${bid.id}`}
                       data-status={bid.status}
                     >
+                      <OperatorBidColumns bid={bid} />
                       <div className="decided-row-main">
                         <strong>{bid.brandLabel}</strong>
                         <span className="auth-hint">

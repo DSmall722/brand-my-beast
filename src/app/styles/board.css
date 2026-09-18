@@ -2016,6 +2016,33 @@
   text-decoration-color: color-mix(in oklab, var(--signal) 50%, transparent);
 }
 
+.operator-columns {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.35rem 0.75rem;
+  margin: 0 0 0.75rem;
+}
+
+.operator-columns div {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+  min-width: 0;
+}
+
+.operator-columns dt {
+  margin: 0;
+  font-size: 0.68rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--steel-300);
+}
+
+.operator-columns dd {
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+
 .imagine-mockup {
   margin-top: 0.85rem;
   display: grid;
