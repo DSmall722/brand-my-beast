@@ -1,10 +1,15 @@
 import { ArrowFillButton } from "@/components/block/arrow-fill-button";
 import { PanelBoardCallouts } from "@/components/PanelBoardCallouts";
+import {
+  HERO_STILL_SIZES,
+  HERO_STILL_SRCSET,
+  HERO_STILL_WIDE,
+} from "@/lib/hero-still";
 import { PANEL_BOARD_MARKS, panelLegendLabel } from "@/lib/panel-board";
 import { PUBLIC_COPY } from "@/lib/public-copy";
 import { truckImgAlt } from "@/lib/truck-img-alt";
 
-/** Slice 7.1 / 16.3 / 16.7 — hero still plus number map. Held keeps the number. */
+/** Slice 7.1 / 16.3 / 16.7 / 16.9 — hero still plus number map. Held keeps the number. */
 export function HomeHeroSection({
   occupiedPanelIds = [],
 }: {
@@ -19,13 +24,15 @@ export function HomeHeroSection({
             data-testid="hero-truck-preview"
             aria-label="Board preview — open the Hood seat"
           >
-            {/* eslint-disable-next-line @next/next/no-img-element -- static hero still in /public */}
+            {/* eslint-disable-next-line @next/next/no-img-element -- local 1280 + 640 stills in /public */}
             <img
               className="hero-truck-image"
-              src="/hero-truck-preview.jpg"
+              src={HERO_STILL_WIDE.src}
+              srcSet={HERO_STILL_SRCSET}
+              sizes={HERO_STILL_SIZES}
               alt={truckImgAlt("hero")}
-              width={1280}
-              height={720}
+              width={HERO_STILL_WIDE.width}
+              height={HERO_STILL_WIDE.height}
               decoding="async"
               fetchPriority="high"
               data-testid="truck-img-hero"
