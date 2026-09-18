@@ -51,6 +51,28 @@ Do not start the 30-day clock on P1 or P2.
 
 Verification skills should hit: panel hotspots, min increment, floor/goal math, deposit 20%, etch locked under $120k, no personal handle in rendered HTML.
 
+## Board diagram
+
+Hero and truck views draw two layers on the stainless still. The schematic SVG (`truck-view-svg`) is the body, cab, and hotspot polygons. The numbered overlay is `PanelBoardCallouts` from `PANEL_BOARD_MARKS` (1–12, same order as `PANELS`). This diagram is both layers — not only the schematic SVG.
+
+```text
+stainless still
+  schematic SVG
+  numbered overlay
+    1 Hood
+    2 Front fascia
+    3 Driver door
+    4 Passenger door
+    5 Driver bed
+    6 Passenger bed
+    7 Driver rear quarter
+    8 Passenger rear quarter
+    9 Tailgate
+    10 Tonneau
+    11 Roof
+    12 Rear fascia
+```
+
 ## Do not build yet
 
 - Impression dashboards
