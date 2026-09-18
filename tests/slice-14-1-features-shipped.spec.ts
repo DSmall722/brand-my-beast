@@ -71,7 +71,7 @@ test.describe("slice 14.1: FEATURES shipped markers; P3/P5 Catalog", () => {
     expect(text).toContain("$120,000");
     expect(text).toMatch(/CLOSE_AT/);
     expect(text).toMatch(/P3 and P5 stay Catalog/i);
-    expect(text).toMatch(/shipped \(14\.0\)/);
+    expect(text).toMatch(/shipped \(14\.0 \/ 16\.x\)/);
     expect(text.toLowerCase()).not.toContain("gmail.com");
     expect(text.toLowerCase()).not.toContain("stripe setupintent");
     expect(text).toMatch(/No Stripe without a separate human message/i);
