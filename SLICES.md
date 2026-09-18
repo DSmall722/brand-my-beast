@@ -14,8 +14,8 @@ Updated: 2026-09-17
 - Set **Now** and **Last merged** in this file in that same PR.
 - Judge PRs from git + `npm test` + `npm run build`. Do not use brandmybeast.com as a merge gate.
 
-**Now:** 16.29 Opening prices on cards stay `formatUsd` from campaign.ts.
-**Last merged:** 16.28 Playwright: card `#3` and hero callout `3` both go to `/panels/driver-door`.
+**Now:** 16.30 Etch badge still `Can etch at $120k` from PUBLIC_COPY. No new money number.
+**Last merged:** 16.29 Opening prices on cards stay `formatUsd` from campaign.ts.
 
 ## Standing orders
 
@@ -203,8 +203,9 @@ Waitlist stays the public product. Do not flip SEATS_OPEN.
 - [x] 16.26 Failed-winner email subject includes panel number. (#342)
 - [x] 16.27 Ban-list UI shows which panel numbers were blocked in the last run. (#343)
 - [x] 16.28 Playwright: card `#3` and hero callout `3` both go to `/panels/driver-door`. (#344)
-- [ ] 16.29 Opening prices on cards stay `formatUsd` from campaign.ts.
-- [ ] 16.30–16.50 Remain as previously locked (numbered board, docs, freeze). No Stripe. No CLOSE_AT. No SEATS_OPEN flip.
+- [x] 16.29 Opening prices on cards stay `formatUsd` from campaign.ts. (#345)
+- [ ] 16.30 Etch badge still `Can etch at $120k` from PUBLIC_COPY. No new money number.
+- [ ] 16.31–16.50 Remain as previously locked (numbered board, docs, freeze). No Stripe. No CLOSE_AT. No SEATS_OPEN flip.
 
 ## Wave 17 — phone + public-face correctness
 
