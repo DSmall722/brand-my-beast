@@ -64,6 +64,25 @@ At the $58,000 floor: $10,000 is reserved for wrap / install / removal. The rest
 
 Optional proxy ceiling on a panel intent may not exceed **$120,000** (the buyout / `GOAL_USD`). Same number as the buyout — not a third money threshold. Still intent only; no card charge.
 
+## Inventory
+
+Board index 1–12. Opening marks are the same dollars as `RULES.md`. Floor and buyout are not this table.
+
+| n | Panel | Opening |
+|---:|---|---:|
+| 1 | Hood | $2,500 |
+| 2 | Front fascia | $1,200 |
+| 3 | Driver door | $1,500 |
+| 4 | Passenger door | $1,500 |
+| 5 | Driver bed | $2,000 |
+| 6 | Passenger bed | $2,000 |
+| 7 | Driver rear quarter | $1,000 |
+| 8 | Passenger rear quarter | $1,000 |
+| 9 | Tailgate | $2,500 |
+| 10 | Tonneau | $800 |
+| 11 | Roof | $600 |
+| 12 | Rear fascia | $500 |
+
 ## Vehicle
 
 - Trim: **Cyberbeast only**. Miss $58,000 and the idea does not fall back to a cheaper Cybertruck.
