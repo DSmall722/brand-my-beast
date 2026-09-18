@@ -3,11 +3,19 @@
  * Do not invent warmer / closer / snarkier variants. CAMPAIGN.md wins money.
  */
 
+import { PANEL_BOARD_MARKS, panelLegendLabel } from "./panel-board";
+
 const PANEL_GLOSS: Readonly<Record<string, string>> = {
   tonneau: "bed cover",
   "front-fascia": "front bumper",
   "rear-fascia": "rear bumper",
 };
+
+/** Slice 16.25 — whole-truck package is the numbered board, 1 Hood through 12 Rear fascia. */
+export function wholeTruckPackageCopy(): string {
+  const labels = PANEL_BOARD_MARKS.map((mark) => panelLegendLabel(mark));
+  return `The package is ${labels.join(", ")}.`;
+}
 
 export const PUBLIC_COPY = {
   meta: {
@@ -48,8 +56,7 @@ export const PUBLIC_COPY = {
     vaultFloorMarkLabel: "Floor",
     vaultBuyoutMarkLabel: "Buyout",
     wholeTruckHeading: "Whole truck — $120,000",
-    wholeTruckLead:
-      "One brand on every panel. Etch on. Standing panel winners are released. Nothing is charged on this page.",
+    wholeTruckLead: `${wholeTruckPackageCopy()} One brand on every panel. Etch on. Standing panel winners are released. Nothing is charged on this page.`,
     wholeTruckAmountLabel: "Buyout mark",
     wholeTruckCta: "List a whole-truck intent",
     wholeTruckSignIn: "Sign in to list a whole-truck intent",

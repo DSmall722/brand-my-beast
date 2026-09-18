@@ -22,7 +22,7 @@ import {
   withdrawPendingIntent,
 } from "@/lib/intent-store";
 import { GOAL_USD, PANELS, formatUsd } from "@/lib/campaign";
-import { PUBLIC_COPY } from "@/lib/public-copy";
+import { PUBLIC_COPY, wholeTruckPackageCopy } from "@/lib/public-copy";
 import {
   assertEtchFinishAllowed,
   parseOperatorFinish,
@@ -356,6 +356,6 @@ export async function submitWholeTruckIntent(
 
   return {
     ok: true,
-    message: `Whole-truck intent listed at ${formatUsd(GOAL_USD)} across ${result.bids.length} panels (not charged).`,
+    message: `Whole-truck intent listed at ${formatUsd(GOAL_USD)}. ${wholeTruckPackageCopy()} Not charged.`,
   };
 }

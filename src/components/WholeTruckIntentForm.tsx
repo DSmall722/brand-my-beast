@@ -7,7 +7,7 @@ import {
   type IntentActionState,
 } from "@/app/actions/intent";
 import { GOAL_USD, formatUsd } from "@/lib/campaign";
-import { PUBLIC_COPY } from "@/lib/public-copy";
+import { PUBLIC_COPY, wholeTruckPackageCopy } from "@/lib/public-copy";
 import { intentFormMode, intentWaitlistOnlyCopy } from "@/lib/seats-open";
 
 const initial: IntentActionState = { ok: false };
@@ -79,6 +79,9 @@ export function WholeTruckIntentForm({
       />
       <p className="hint" data-testid="whole-truck-amount">
         {PUBLIC_COPY.board.wholeTruckAmountLabel}: {formatUsd(GOAL_USD)}
+      </p>
+      <p className="hint" data-testid="whole-truck-package">
+        {wholeTruckPackageCopy()}
       </p>
       <button
         type="submit"
