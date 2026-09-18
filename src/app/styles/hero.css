@@ -64,8 +64,9 @@
   position: absolute;
   left: 0;
   top: 0;
-  width: 2rem;
-  height: 2rem;
+  /* Slice 16.10 — 44px hit target on every viewport. Do not shrink. */
+  width: 44px;
+  height: 44px;
   margin: 0;
   transform: translate(-50%, -50%);
   display: inline-grid;
@@ -92,10 +93,12 @@
   background: color-mix(in oklab, var(--signal) 22%, #0c0e11);
   border-color: var(--signal);
   transform: translate(-50%, -50%) scale(1.08);
-  outline: none;
 }
 
 .panel-board-callout:focus-visible {
+  z-index: 3;
+  outline: 2px solid var(--signal);
+  outline-offset: 2px;
   box-shadow:
     0 0 0 2px #07090c,
     0 0 0 4px var(--signal);
@@ -120,14 +123,6 @@
   padding: 0.12rem 0.28rem;
   white-space: nowrap;
   pointer-events: none;
-}
-
-@media (max-width: 720px) {
-  .panel-board-callout {
-    width: 1.65rem;
-    height: 1.65rem;
-    font-size: 0.8rem;
-  }
 }
 
 .hero::after {

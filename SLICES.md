@@ -14,8 +14,8 @@ Updated: 2026-09-17
 - Set **Now** and **Last merged** in this file in that same PR.
 - Judge PRs from git + `npm test` + `npm run build`. Do not use brandmybeast.com as a merge gate.
 
-**Now:** 16.10 Callout hit area ≥44px. Keyboard focus ring visible.
-**Last merged:** 16.9 Hero still ships a 1280-wide and a 640-wide asset. No Tesla CDN.
+**Now:** 16.11 README “How to look at this” points at 16.8. No brandmybeast.com as the demo.
+**Last merged:** 16.10 Callout hit area ≥44px. Keyboard focus ring visible.
 
 ## Standing orders
 
@@ -184,8 +184,9 @@ Waitlist stays the public product. Do not flip SEATS_OPEN.
 - [x] 16.7 Occupied seats keep the number and add `Held` — still no wrap art on the photo. (#323)
 - [x] 16.8 `docs/LOCAL-PREVIEW.md`: `npm i && npm run dev` is how friends see the real page while Vercel is on hold. (#324)
 - [x] 16.9 Hero still ships a 1280-wide and a 640-wide asset. No Tesla CDN. (#325)
-- [ ] 16.10 Callout hit area ≥44px. Keyboard focus ring visible.
-- [ ] 16.11–16.50 Remain as previously locked (numbered board, docs, freeze). No Stripe. No CLOSE_AT. No SEATS_OPEN flip.
+- [x] 16.10 Callout hit area ≥44px. Keyboard focus ring visible. (#326)
+- [ ] 16.11 README “How to look at this” points at 16.8. No brandmybeast.com as the demo.
+- [ ] 16.12–16.50 Remain as previously locked (numbered board, docs, freeze). No Stripe. No CLOSE_AT. No SEATS_OPEN flip.
 
 ## Wave 17 — phone + public-face correctness
 
