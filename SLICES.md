@@ -189,7 +189,7 @@ Waitlist stays the public product. Do not flip SEATS_OPEN.
 - [x] 16.12 PUBLIC_COPY panel lead mentions “numbers on the truck match the cards.” No H1 rewrite. (#328)
 - [x] 16.13 RULES.md lists the 1–12 order next to panel ids. (#329)
 - [x] 16.14 CAMPAIGN.md inventory table includes the number column. Dollars unchanged. (#330)
-- [x] 16.15 FEATURES.md “numbered board” row marked shipped with 14.0 / 16.x.
+- [x] 16.15 FEATURES.md “numbered board” row marked shipped with 14.0 / 16.x. (#331)
 - [ ] 16.16 `docs/STATUS.md` last-slice line updates from SLICES Now (no hand edit of money).
 - [ ] 16.17–16.50 Remain as previously locked (numbered board, docs, freeze). No Stripe. No CLOSE_AT. No SEATS_OPEN flip.
 
