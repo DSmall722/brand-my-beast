@@ -14,8 +14,8 @@ Updated: 2026-09-17
 - Set **Now** and **Last merged** in this file in that same PR.
 - Judge PRs from git + `npm test` + `npm run build`. Do not use brandmybeast.com as a merge gate.
 
-**Now:** 16.13 RULES.md lists the 1–12 order next to panel ids.
-**Last merged:** 16.12 PUBLIC_COPY panel lead mentions “numbers on the truck match the cards.” No H1 rewrite.
+**Now:** 16.14 CAMPAIGN.md inventory table includes the number column. Dollars unchanged.
+**Last merged:** 16.13 RULES.md lists the 1–12 order next to panel ids.
 
 ## Standing orders
 
@@ -187,8 +187,9 @@ Waitlist stays the public product. Do not flip SEATS_OPEN.
 - [x] 16.10 Callout hit area ≥44px. Keyboard focus ring visible. (#326)
 - [x] 16.11 README “How to look at this” points at 16.8. No brandmybeast.com as the demo. (#327)
 - [x] 16.12 PUBLIC_COPY panel lead mentions “numbers on the truck match the cards.” No H1 rewrite. (#328)
-- [ ] 16.13 RULES.md lists the 1–12 order next to panel ids.
-- [ ] 16.14–16.50 Remain as previously locked (numbered board, docs, freeze). No Stripe. No CLOSE_AT. No SEATS_OPEN flip.
+- [x] 16.13 RULES.md lists the 1–12 order next to panel ids. (#329)
+- [ ] 16.14 CAMPAIGN.md inventory table includes the number column. Dollars unchanged.
+- [ ] 16.15–16.50 Remain as previously locked (numbered board, docs, freeze). No Stripe. No CLOSE_AT. No SEATS_OPEN flip.
 
 ## Wave 17 — phone + public-face correctness
 

@@ -6,22 +6,22 @@ Updated: 2026-09-16
 
 ## Inventory
 
-Twelve panels. Opening bids (minimum first mark):
+Twelve panels. Opening bids (minimum first mark). Board order is 1–12 next to each panel id:
 
-| Panel | Opening | Finish at floor | Finish if $120k hits |
-|---|---:|---|---|
-| Hood | $2,500 | wrap | wrap or etch |
-| Front fascia | $1,200 | wrap | wrap only |
-| Driver door | $1,500 | wrap | wrap or etch |
-| Passenger door | $1,500 | wrap | wrap or etch |
-| Driver bed | $2,000 | wrap | wrap or etch |
-| Passenger bed | $2,000 | wrap | wrap or etch |
-| Driver rear quarter | $1,000 | wrap | wrap or etch |
-| Passenger rear quarter | $1,000 | wrap | wrap or etch |
-| Tailgate | $2,500 | wrap | wrap or etch |
-| Tonneau | $800 | wrap | wrap only |
-| Roof | $600 | wrap | wrap only |
-| Rear fascia | $500 | wrap | wrap only |
+| n | Id | Panel | Opening | Finish at floor | Finish if $120k hits |
+|---:|---|---|---:|---|---|
+| 1 | `hood` | Hood | $2,500 | wrap | wrap or etch |
+| 2 | `front-fascia` | Front fascia | $1,200 | wrap | wrap only |
+| 3 | `driver-door` | Driver door | $1,500 | wrap | wrap or etch |
+| 4 | `passenger-door` | Passenger door | $1,500 | wrap | wrap or etch |
+| 5 | `driver-bed` | Driver bed | $2,000 | wrap | wrap or etch |
+| 6 | `passenger-bed` | Passenger bed | $2,000 | wrap | wrap or etch |
+| 7 | `driver-rear-quarter` | Driver rear quarter | $1,000 | wrap | wrap or etch |
+| 8 | `passenger-rear-quarter` | Passenger rear quarter | $1,000 | wrap | wrap or etch |
+| 9 | `tailgate` | Tailgate | $2,500 | wrap | wrap or etch |
+| 10 | `tonneau` | Tonneau | $800 | wrap | wrap only |
+| 11 | `roof` | Roof | $600 | wrap | wrap only |
+| 12 | `rear-fascia` | Rear fascia | $500 | wrap | wrap only |
 
 Opening sum ≈ $17,100. The floor is not the sum of openings. Bidding has to carry the board to $58,000.
 
