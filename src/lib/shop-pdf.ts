@@ -1,5 +1,6 @@
 /**
- * Slice 8.6 — shop PDF for one approved seat.
+ * Slice 8.6 / 16.24 — shop PDF for one approved seat.
+ * Document title is `Seat 03 — Driver door`, not only the panel slug.
  * Pure builder. No Imagine API. No Stripe. Helvetica-only PDF 1.4.
  */
 
@@ -13,6 +14,7 @@ import {
   type Panel,
 } from "./campaign";
 import type { IntentBid } from "./intent";
+import { panelBoardMarkFor } from "./panel-board";
 
 export const SHOP_PDF_PATH_PREFIX = "/api/partner/shop/pdf/";
 
@@ -125,6 +127,14 @@ export function shopPdfPath(bidId: string): string {
   return `${SHOP_PDF_PATH_PREFIX}${encodeURIComponent(bidId)}`;
 }
 
+/** Slice 16.24 — `Seat 03 — Driver door`. Zero-padded board number, not the slug. */
+export function shopPdfTitle(
+  seat: Pick<ShopPdfSeat, "panelId" | "panelName">,
+): string {
+  const n = String(panelBoardMarkFor(seat.panelId).n).padStart(2, "0");
+  return `Seat ${n} — ${seat.panelName}`;
+}
+
 export function shopPdfFilename(seat: ShopPdfSeat): string {
   const slug = `${seat.panelId}-${seat.brandLabel}`
     .toLowerCase()
@@ -140,6 +150,7 @@ function escapePdfText(value: string): string {
 
 function pdfLines(seat: ShopPdfSeat): string[] {
   return [
+    shopPdfTitle(seat),
     "BrandMyBeast — wrap shop seat ticket",
     "Intent only. No card charge. No Imagine API call.",
     "",
@@ -192,6 +203,9 @@ export function buildShopSeatPdf(seat: ShopPdfSeat): Uint8Array {
   objects.push(
     "5 0 obj\n<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>\nendobj\n",
   );
+  objects.push(
+    `6 0 obj\n<< /Title (${escapePdfText(shopPdfTitle(seat))}) >>\nendobj\n`,
+  );
 
   let body = "%PDF-1.4\n";
   const offsets: number[] = [0];
@@ -205,7 +219,7 @@ export function buildShopSeatPdf(seat: ShopPdfSeat): Uint8Array {
   for (let i = 1; i <= objects.length; i += 1) {
     body += `${String(offsets[i]).padStart(10, "0")} 00000 n \n`;
   }
-  body += `trailer\n<< /Size ${objects.length + 1} /Root 1 0 R >>\n`;
+  body += `trailer\n<< /Size ${objects.length + 1} /Root 1 0 R /Info 6 0 R >>\n`;
   body += `startxref\n${xrefStart}\n%%EOF\n`;
 
   // Guard fences in the payload itself.
