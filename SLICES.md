@@ -222,7 +222,7 @@ Waitlist stays the public product. Do not flip SEATS_OPEN.
 - [x] 16.45 CI still fails on `stripe` in package.json. (#362)
 - [x] 16.46 CI still fails if CLOSE_AT is non-null. (#363)
 - [x] 16.47 docs/VERCEL-HOLD.md date bump only. (#364)
-- [x] 16.48 Local seed includes numbered standing on seat 1 and 9.
+- [x] 16.48 Local seed includes numbered standing on seat 1 and 9. (#365)
 - [ ] 16.49 Counsel ZIP lists seats by number.
 - [ ] 16.50 Stop line: after Wave 16, idle. Wave 15 is still Stripe and needs a human message.
 
