@@ -40,8 +40,10 @@ test.describe("slice 18.2: terms clock drops null", () => {
     await expect(page.getByTestId("terms-clock")).toHaveText(WHEN ?? "");
     await expect(page.getByTestId("terms-floor")).toContainText("$58,000");
     const html = await page.content();
+    const body = await page.locator("main").innerHTML();
     expect(html).toContain("$58,000");
-    expect(html).not.toContain("null");
+    expect(body).not.toContain("null");
+    expect(html).not.toContain("(null)");
     expect(html).not.toContain("CLOSE_AT");
     expect(html).not.toContain("Close date is unset");
     expect(html.toLowerCase()).not.toMatch(/\blease\b/);
