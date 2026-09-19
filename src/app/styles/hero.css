@@ -131,6 +131,21 @@
   pointer-events: none;
 }
 
+/* Slice 16.38 — reduced motion keeps callouts visible and still. */
+@media (prefers-reduced-motion: reduce) {
+  .panel-board-callout,
+  .panel-board-callout:hover,
+  .panel-board-callout:focus-visible {
+    animation: none;
+    transition: none;
+  }
+
+  .panel-board-callout:hover,
+  .panel-board-callout:focus-visible {
+    transform: translate(-50%, -50%);
+  }
+}
+
 .hero::after {
   content: "";
   position: absolute;
