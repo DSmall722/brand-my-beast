@@ -114,27 +114,27 @@ export function PanelMockup({
         >
           {compositorModeLabel("wrap")}
         </button>
-        <button
-          type="button"
-          className={
-            mode === "etch" ? "compositor-tab is-active" : "compositor-tab"
-          }
-          data-testid="compositor-mode-etch"
-          aria-pressed={mode === "etch"}
-          disabled={!etchOn}
-          title={
-            !etchable
-              ? "This panel is wrap only"
-              : etchOn
+        {etchable ? (
+          <button
+            type="button"
+            className={
+              mode === "etch" ? "compositor-tab is-active" : "compositor-tab"
+            }
+            data-testid="compositor-mode-etch"
+            aria-pressed={mode === "etch"}
+            disabled={!etchOn}
+            title={
+              etchOn
                 ? `Etch unlocked at ${formatUsd(GOAL_USD)}`
                 : `Etch locked under ${formatUsd(GOAL_USD)}`
-          }
-          onClick={() => {
-            if (etchOn) setMode("etch");
-          }}
-        >
-          {compositorModeLabel("etch")}
-        </button>
+            }
+            onClick={() => {
+              if (etchOn) setMode("etch");
+            }}
+          >
+            {compositorModeLabel("etch")}
+          </button>
+        ) : null}
       </div>
 
       <p
