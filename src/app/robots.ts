@@ -16,12 +16,19 @@ export const ROBOTS_DISALLOW_PATHS = [
   "/operator/",
 ] as const;
 
+/** Slice 16.34 — comment only. Crawl rules stay the same. */
+export const ROBOTS_HOLD_COMMENT =
+  "# production may be stale while Vercel hold is on.";
+
 export default function robots(): MetadataRoute.Robots {
   return {
     rules: {
       userAgent: "*",
       allow: ["/", "/panels/"],
       disallow: [...ROBOTS_DISALLOW_PATHS],
+      other: {
+        [ROBOTS_HOLD_COMMENT]: " ",
+      },
     },
     sitemap: `${SITE}/sitemap.xml`,
   };
