@@ -256,14 +256,29 @@
 
 @media (max-width: 720px) {
   .hero {
-    /* Fill the remaining phone screen under the site header — not a second 100svh. */
-    min-height: calc(100svh - 5.5rem);
-    max-height: calc(100svh - 5.5rem);
-    overflow: hidden;
+    /* Slice 17.6 — caption, H1, lead, and CTAs stack under the photo. */
+    min-height: 0;
+    max-height: none;
+    overflow: visible;
+    align-content: start;
+    grid-template-rows: auto auto;
   }
 
   .hero-truck-link {
+    position: relative;
+    inset: auto;
+    grid-row: 1;
+    grid-column: 1;
+    height: min(36svh, 16.25rem);
+    min-height: 11rem;
     overflow: hidden;
+  }
+
+  .panel-board {
+    grid-row: 1;
+    grid-column: 1;
+    inset: 0;
+    height: auto;
   }
 
   .hero-truck-image {
@@ -278,7 +293,9 @@
   }
 
   .hero-overlay {
-    padding: 2.75rem 0 1.5rem;
+    grid-row: 2;
+    grid-column: 1;
+    padding: 0.85rem 0 1.15rem;
   }
 
   .hero-preview-label {
