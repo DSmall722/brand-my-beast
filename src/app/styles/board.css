@@ -1416,7 +1416,7 @@
   color: var(--steel-400);
 }
 
-.compositor-shader {
+.compositor-wash {
   pointer-events: none;
   position: absolute;
   inset: 0;
@@ -1426,7 +1426,7 @@
   transition: opacity 180ms ease, background 180ms ease;
 }
 
-.compositor-shader[data-condition="day"] {
+.compositor-wash[data-condition="day"] {
   background:
     radial-gradient(
       circle at 28% 18%,
@@ -1441,7 +1441,7 @@
   opacity: 0.5;
 }
 
-.compositor-shader[data-condition="night"] {
+.compositor-wash[data-condition="night"] {
   background:
     radial-gradient(
       circle at 70% 12%,
@@ -1457,7 +1457,7 @@
   opacity: 0.72;
 }
 
-.compositor-shader[data-condition="wet"] {
+.compositor-wash[data-condition="wet"] {
   background:
     repeating-linear-gradient(
       118deg,
@@ -1473,7 +1473,7 @@
   opacity: 0.45;
 }
 
-.compositor-shader[data-condition="dirty"] {
+.compositor-wash[data-condition="dirty"] {
   background:
     radial-gradient(
       circle at 20% 80%,
@@ -1532,7 +1532,7 @@
     scroll-snap-stop: always;
   }
 
-  .truck-view-hotspots,
+  .truck-view-seats,
   .panel-mockup.stainless-compositor,
   .truck-view-stage {
     max-width: 100%;
@@ -2339,11 +2339,11 @@
 }
 
 
-/* Slice 3.7 — side/front/rear SVG hotspots */
-.truck-view-hotspots {
+/* Slice 3.7 — side/front/rear SVG seats */
+.truck-view-seats {
   margin-top: 0.75rem;
 }
-.truck-view-hotspots-compact {
+.truck-view-seats-compact {
   margin-top: 0.5rem;
   margin-bottom: 1rem;
 }
@@ -2414,24 +2414,24 @@
   stroke: transparent;
   stroke-width: 0;
 }
-.truck-hotspot {
+.truck-seat {
   stroke-width: 1.5;
   transition: fill 120ms ease, stroke 120ms ease;
 }
-.truck-hotspot.is-raw {
+.truck-seat.is-raw {
   fill: color-mix(in oklab, var(--steel-100) 8%, transparent);
   stroke: color-mix(in oklab, var(--steel-100) 45%, transparent);
 }
-.truck-hotspot.is-held {
+.truck-seat.is-held {
   fill: color-mix(in oklab, var(--signal) 28%, transparent);
   stroke: var(--signal);
 }
-.truck-hotspot.is-active {
+.truck-seat.is-active {
   fill: color-mix(in oklab, var(--signal) 48%, transparent);
   stroke: var(--signal);
 }
-a:hover .truck-hotspot.is-raw,
-a:focus-visible .truck-hotspot.is-raw {
+a:hover .truck-seat.is-raw,
+a:focus-visible .truck-seat.is-raw {
   fill: color-mix(in oklab, var(--steel-100) 22%, transparent);
   stroke: var(--steel-100);
 }
@@ -2497,7 +2497,7 @@ a:focus-visible .truck-hotspot.is-raw {
   .site-footer,
   .hero-actions,
   .truck-view-toolbar,
-  .truck-view-hotspots,
+  .truck-view-seats,
   .intent-bid-form,
   form,
   .btn,

@@ -56,23 +56,23 @@ test.describe("slice 17.8: front and rear hide the side schematic", () => {
     await expect(page.locator(".truck-view-cab")).toHaveCount(1);
 
     await page.getByTestId("truck-view-front").click();
-    await expect(page.getByTestId("truck-view-hotspots")).toHaveAttribute(
+    await expect(page.getByTestId("truck-view-seats")).toHaveAttribute(
       "data-view",
       "front",
     );
     await expect(page.locator(".truck-view-body")).toHaveCount(0);
     await expect(page.locator(".truck-view-cab")).toHaveCount(0);
     await expect(photo).toHaveAttribute("src", STILL);
-    await expect(page.getByTestId("truck-hotspot-front-fascia")).toBeVisible();
+    await expect(page.getByTestId("truck-seat-front-fascia")).toBeVisible();
 
     await page.getByTestId("truck-view-rear").click();
-    await expect(page.getByTestId("truck-view-hotspots")).toHaveAttribute(
+    await expect(page.getByTestId("truck-view-seats")).toHaveAttribute(
       "data-view",
       "rear",
     );
     await expect(page.locator(".truck-view-body")).toHaveCount(0);
     await expect(page.locator(".truck-view-cab")).toHaveCount(0);
     await expect(photo).toHaveAttribute("src", STILL);
-    await expect(page.getByTestId("truck-hotspot-tailgate")).toBeVisible();
+    await expect(page.getByTestId("truck-seat-tailgate")).toBeVisible();
   });
 });

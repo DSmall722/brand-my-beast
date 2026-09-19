@@ -35,10 +35,10 @@ export function TruckViewHotspots({
     <div
       className={
         compact
-          ? "truck-view-hotspots truck-view-hotspots-compact"
-          : "truck-view-hotspots"
+          ? "truck-view-seats truck-view-seats-compact"
+          : "truck-view-seats"
       }
-      data-testid="truck-view-hotspots"
+      data-testid="truck-view-seats"
       data-view={view}
       data-one-view="true"
     >
@@ -90,7 +90,7 @@ export function TruckViewHotspots({
           viewBox="0 0 400 160"
           preserveAspectRatio="none"
           role="group"
-          aria-label={`${view} view of the board truck with panel hotspots`}
+          aria-label={`${view} view of the board truck with panel seats`}
           data-testid="truck-view-svg"
           data-view={view}
         >
@@ -122,7 +122,7 @@ export function TruckViewHotspots({
               <a
                 key={`${view}-${spot.panelId}`}
                 href={`/panels/${spot.panelId}`}
-                data-testid={`truck-hotspot-${spot.panelId}`}
+                data-testid={`truck-seat-${spot.panelId}`}
                 data-occupied={held ? "true" : "false"}
                 data-active={active ? "true" : "false"}
                 data-raw={held ? "false" : "true"}
@@ -135,10 +135,10 @@ export function TruckViewHotspots({
                 <polygon
                   className={
                     active
-                      ? "truck-hotspot is-active"
+                      ? "truck-seat is-active"
                       : held
-                        ? "truck-hotspot is-held"
-                        : "truck-hotspot is-raw"
+                        ? "truck-seat is-held"
+                        : "truck-seat is-raw"
                   }
                   points={spot.points}
                 />

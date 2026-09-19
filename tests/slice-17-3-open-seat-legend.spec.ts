@@ -42,7 +42,7 @@ test.describe("slice 17.3: open-seat legend drops 30X", () => {
     await expect(legend).toContainText("Held = standing intent");
     await expect(legend).not.toContainText("30X");
     await expect(legend).not.toContainText("Not a 360");
-    const hood = page.getByTestId("truck-hotspot-hood");
+    const hood = page.getByTestId("truck-seat-hood");
     const hoodOccupied = await hood.getAttribute("data-occupied");
     if (hoodOccupied === "true") {
       await expect(hood).toHaveAttribute(
@@ -55,7 +55,7 @@ test.describe("slice 17.3: open-seat legend drops 30X", () => {
     const hoodLabel = (await hood.getAttribute("aria-label")) ?? "";
     expect(hoodLabel).not.toMatch(/30X|Not a 360/);
     const empty = page
-      .locator('[data-testid^="truck-hotspot-"][data-occupied="false"]')
+      .locator('[data-testid^="truck-seat-"][data-occupied="false"]')
       .first();
     await expect(empty).toBeVisible();
     await expect(empty).toHaveAttribute("aria-label", /Open seat$/);

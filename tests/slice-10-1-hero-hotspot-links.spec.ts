@@ -58,7 +58,7 @@ test.describe("slice 10.1: hero and hotspot links open seats", () => {
       "href",
       "/panels/hood",
     );
-    await expect(page.getByTestId("truck-hotspot-hood")).toHaveAttribute(
+    await expect(page.getByTestId("truck-seat-hood")).toHaveAttribute(
       "href",
       "/panels/hood",
     );
@@ -68,7 +68,7 @@ test.describe("slice 10.1: hero and hotspot links open seats", () => {
     await expect(page.getByTestId("intent-signin-needed")).toBeVisible();
 
     await page.goto("/");
-    await page.getByTestId("truck-hotspot-hood").click();
+    await page.getByTestId("truck-seat-hood").click();
     await expect(page).toHaveURL(/\/panels\/hood$/);
 
     const html = await page.content();
