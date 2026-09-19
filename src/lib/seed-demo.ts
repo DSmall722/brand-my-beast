@@ -127,13 +127,15 @@ export async function seedDemoMixedBoard(): Promise<
     };
   }
 
-  const numberedStanding: NumberedStandingSeat[] = [
-    { panelId: "hood", status: "listed" },
-    { panelId: "tailgate", status: "listed" },
-  ].map((row) => {
-    const mark = panelBoardMarkFor(row.panelId);
-    return { n: mark.n, panelId: row.panelId, status: row.status };
-  });
+  const numberedStanding: NumberedStandingSeat[] = (
+    ["hood", "tailgate"] as const
+  ).map(
+    (panelId): NumberedStandingSeat => ({
+      n: panelBoardMarkFor(panelId).n,
+      panelId,
+      status: "listed",
+    }),
+  );
   if (numberedStanding[0]?.n !== 1 || numberedStanding[1]?.n !== 9) {
     return {
       ok: false,
