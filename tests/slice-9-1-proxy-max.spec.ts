@@ -219,7 +219,7 @@ test.describe("slice 9.1: proxy max agent", () => {
     expect(html).toContain("$58,000");
     expect(html).toContain("$120,000");
     await expect(page.getByTestId("intent-only-banner")).toContainText(
-      "No Stripe capture",
+      "Intent only",
     );
   });
 });

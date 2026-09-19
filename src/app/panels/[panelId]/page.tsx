@@ -296,8 +296,7 @@ export default async function PanelIntentPage({
         </aside>
 
         <p className="intent-banner" data-testid="intent-only-banner">
-          Intent only. Amount does not charge. No Stripe capture. No close
-          clock.
+          Intent only. Amount does not charge. No close clock.
         </p>
 
         <aside

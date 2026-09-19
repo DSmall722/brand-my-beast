@@ -185,7 +185,7 @@ test.describe("P2 panel intent + approvals", () => {
     );
     await expect(page.getByTestId("panel-stats")).toBeVisible();
     await expect(page.getByTestId("intent-only-banner")).toContainText(
-      "No Stripe capture",
+      "Intent only",
     );
     await expect(page.getByTestId("intent-signin-needed")).toBeVisible();
     const html = await page.content();
@@ -291,9 +291,6 @@ test.describe("P2 panel intent + approvals", () => {
     await page.goto("/panels/hood");
     await expect(page.getByTestId("intent-only-banner")).toContainText(
       "does not charge",
-    );
-    await expect(page.getByTestId("intent-only-banner")).toContainText(
-      "No Stripe capture",
     );
     await expect(page.getByTestId("panel-deposit-shown")).toContainText(
       "not charged",
