@@ -29,28 +29,17 @@ export function LegalStubShell({
 }
 
 export function PrivacyStubBody() {
-  const teslaQ = PUBLIC_COPY.questions.items.find(
-    (item) => item.q === "Is this Tesla?",
-  );
-  const chargeQ = PUBLIC_COPY.questions.items.find(
-    (item) => item.q === "Will I be charged if I join the list?",
-  );
-
   return (
     <>
       <p data-testid="privacy-contact">
         Contact:{" "}
         <a href={`mailto:${BRAND.email}`}>{BRAND.email}</a>
       </p>
-      <p data-testid="privacy-waitlist">
-        {PUBLIC_COPY.waitlist.idleNote} {chargeQ?.a}
-      </p>
+      <p data-testid="privacy-waitlist">{PUBLIC_COPY.waitlist.idleNote}</p>
       <p data-testid="privacy-waitlist-retention">
         {PUBLIC_COPY.waitlist.retention}
       </p>
-      <p data-testid="privacy-independent">
-        {PUBLIC_COPY.footer.independent} {teslaQ?.a}
-      </p>
+      <p data-testid="privacy-independent">{PUBLIC_COPY.footer.independent}</p>
       <p data-testid="privacy-identity">
         Public brand: {BRAND.name}. Public handle: {BRAND.handle}. Domain:{" "}
         {BRAND.domain}. Operator on this site is called {BRAND.operator}.
