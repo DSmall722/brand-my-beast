@@ -14,8 +14,8 @@ Updated: 2026-09-17
 - Set **Now** and **Last merged** in this file in that same PR.
 - Judge PRs from git + `npm test` + `npm run build`. Do not use brandmybeast.com as a merge gate.
 
-**Now:** 16.32 OG image for `/` includes the wordmark + stainless still. No wrap.
-**Last merged:** 16.31 `npm run preview:share` script prints the local URL and “not the live domain.”
+**Now:** 16.33 OG image for `/panels/[id]` includes the number + name.
+**Last merged:** 16.32 OG image for `/` includes the wordmark + stainless still. No wrap.
 
 ## Standing orders
 
@@ -206,8 +206,9 @@ Waitlist stays the public product. Do not flip SEATS_OPEN.
 - [x] 16.29 Opening prices on cards stay `formatUsd` from campaign.ts. (#345)
 - [x] 16.30 Etch badge still `Can etch at $120k` from PUBLIC_COPY. No new money number. (#346)
 - [x] 16.31 `npm run preview:share` script prints the local URL and “not the live domain.” (#347)
-- [ ] 16.32 OG image for `/` includes the wordmark + stainless still. No wrap.
-- [ ] 16.33–16.50 Remain as previously locked (numbered board, docs, freeze). No Stripe. No CLOSE_AT. No SEATS_OPEN flip.
+- [x] 16.32 OG image for `/` includes the wordmark + stainless still. No wrap. (#348)
+- [ ] 16.33 OG image for `/panels/[id]` includes the number + name.
+- [ ] 16.34–16.50 Remain as previously locked (numbered board, docs, freeze). No Stripe. No CLOSE_AT. No SEATS_OPEN flip.
 
 ## Wave 17 — phone + public-face correctness
 
