@@ -220,7 +220,7 @@ Waitlist stays the public product. Do not flip SEATS_OPEN.
 - [x] 16.43 Tag `wave-14-complete` after 14.50. No clock. (#360)
 - [x] 16.44 Tag `wave-16-complete` after 16.43. No clock. (#361)
 - [x] 16.45 CI still fails on `stripe` in package.json. (#362)
-- [x] 16.46 CI still fails if CLOSE_AT is non-null.
+- [x] 16.46 CI still fails if CLOSE_AT is non-null. (#363)
 - [ ] 16.47 docs/VERCEL-HOLD.md date bump only.
 - [ ] 16.48–16.50 Remain as previously locked (numbered board, docs, freeze). No Stripe. No CLOSE_AT. No SEATS_OPEN flip.
 
