@@ -7,6 +7,7 @@ import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import type { IntentBid } from "./intent";
 import { escapeCsvField } from "./operator-csv";
+import { panelBoardMarkFor } from "./panel-board";
 import { buildStoreZip } from "./store-zip";
 
 export const COUNSEL_ZIP_FILENAME = "brandmybeast-counsel.zip";
@@ -15,6 +16,7 @@ export const COUNSEL_CONTRACT_ENTRY = "CONTRACT.md";
 export const COUNSEL_STANDING_ENTRY = "standing-table.csv";
 
 export const COUNSEL_STANDING_HEADERS = [
+  "panel_number",
   "panel_id",
   "brand",
   "trade",
@@ -23,9 +25,10 @@ export const COUNSEL_STANDING_HEADERS = [
   "bid_id",
 ] as const;
 
-/** Standing row with no email / userId columns. */
+/** Standing row with no email / userId columns. Seat number is the board index. */
 export function standingBidToCounselRow(bid: IntentBid): string[] {
   return [
+    String(panelBoardMarkFor(bid.panelId).n),
     bid.panelId,
     bid.brandLabel,
     bid.tradeLabel,
