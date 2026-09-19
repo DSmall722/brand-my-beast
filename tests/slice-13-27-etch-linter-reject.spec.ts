@@ -130,7 +130,7 @@ test.describe("slice 13.27: etch linter reject; wrap still lists", () => {
     page,
   }) => {
     await page.goto("/panels/hood");
-    await expect(page.getByTestId("etch-constraint-linter")).toBeVisible();
+    await expect(page.getByTestId("etch-constraints")).toBeVisible();
     await expect(page.getByTestId("etch-lint-idle")).toContainText(
       /wrap art may still list/i,
     );

@@ -219,7 +219,7 @@ test.describe("P2 panel intent + approvals", () => {
       "data-etchable",
       "true",
     );
-    await expect(page.getByTestId("etch-constraint-linter")).toBeVisible();
+    await expect(page.getByTestId("etch-constraints")).toBeVisible();
     await expect(page.getByTestId("etch-constraint-list")).toBeVisible();
     await expect(page.getByTestId("etch-constraint-one-color")).toBeVisible();
     await expect(page.getByTestId("etch-constraint-no-gradients")).toBeVisible();
