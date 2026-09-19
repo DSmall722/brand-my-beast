@@ -51,7 +51,8 @@ test.describe("slice 14.21: /llms.txt PUBLIC_COPY facts only", () => {
     expect(body).toContain(PUBLIC_COPY.footer.line);
     expect(body).toContain("$58,000");
     expect(body).toContain("$120,000");
-    expect(body).toContain("CLOSE_AT is null");
+    expect(body).not.toContain("CLOSE_AT");
+    expect(body).not.toContain("null");
     expect(body).toContain(`https://${BRAND.domain}`);
     expect(body).toContain(BRAND.handle);
     expect(body).toContain(BRAND.email);

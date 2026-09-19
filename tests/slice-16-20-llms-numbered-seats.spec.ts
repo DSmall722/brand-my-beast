@@ -42,7 +42,8 @@ test.describe("slice 16.20: /llms.txt numbered seats", () => {
       `Floor ${formatUsd(FLOOR_USD)}. Buyout ${formatUsd(GOAL_USD)}.`,
     );
     expect(body).toContain("No close date.");
-    expect(body).toContain("CLOSE_AT is null");
+    expect(body).not.toContain("CLOSE_AT");
+    expect(body).not.toContain("null");
     expect(body).toContain("Twelve numbered seats");
     expect(PANEL_BOARD_MARKS).toHaveLength(12);
     for (const mark of PANEL_BOARD_MARKS) {
