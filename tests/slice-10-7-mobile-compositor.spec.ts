@@ -85,7 +85,7 @@ test.describe("slice 10.7: mobile compositor one view", () => {
     await expect(wordmark).toHaveText(BRAND.name);
     await expectUnclippedInViewport(page, wordmark);
 
-    const hotspots = page.getByTestId("truck-view-hotspots");
+    const hotspots = page.getByTestId("truck-view-seats");
     await expect(hotspots).toHaveAttribute("data-one-view", "true");
     await expect(page.getByTestId("truck-view-svg")).toHaveCount(1);
     await expect(hotspots).toHaveAttribute("data-view", "side");

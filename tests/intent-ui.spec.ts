@@ -104,7 +104,7 @@ test.describe("P2 panel intent + approvals", () => {
       "data-condition",
       "night",
     );
-    await expect(page.getByTestId("finish-condition-shader")).toHaveAttribute(
+    await expect(page.getByTestId("finish-condition-wash")).toHaveAttribute(
       "data-condition",
       "night",
     );
@@ -118,7 +118,7 @@ test.describe("P2 panel intent + approvals", () => {
       "data-condition",
       "dirty",
     );
-    await expect(page.getByTestId("finish-condition-shader")).toHaveAttribute(
+    await expect(page.getByTestId("finish-condition-wash")).toHaveAttribute(
       "data-condition",
       "dirty",
     );
@@ -145,11 +145,11 @@ test.describe("P2 panel intent + approvals", () => {
       "data-condition",
       "dirty",
     );
-    await expect(page.getByTestId("dirty-clean-clean-shader")).toHaveAttribute(
+    await expect(page.getByTestId("dirty-clean-clean-wash")).toHaveAttribute(
       "data-condition",
       "day",
     );
-    await expect(page.getByTestId("dirty-clean-dirty-shader")).toHaveAttribute(
+    await expect(page.getByTestId("dirty-clean-dirty-wash")).toHaveAttribute(
       "data-condition",
       "dirty",
     );
@@ -1159,7 +1159,7 @@ test.describe("P2 panel intent + approvals", () => {
       "night",
     );
     await page.getByTestId("finish-condition-wet").click();
-    await expect(page.getByTestId("finish-condition-shader")).toHaveAttribute(
+    await expect(page.getByTestId("finish-condition-wash")).toHaveAttribute(
       "data-condition",
       "wet",
     );
@@ -1227,12 +1227,12 @@ test.describe("P2 panel intent + approvals", () => {
     await aliceAgain.close();
   });
 
-  test("slice 3.7: side/front/rear SVG hotspots; empty seats raw 30X", async ({
+  test("slice 3.7: side/front/rear SVG seats; empty seats raw 30X", async ({
     page,
   }) => {
     await page.goto("/");
     await expect(page.getByTestId("truck-views-section")).toBeVisible();
-    await expect(page.getByTestId("truck-view-hotspots")).toBeVisible();
+    await expect(page.getByTestId("truck-view-seats")).toBeVisible();
     await expect(page.getByTestId("truck-view-lead")).toContainText("$58,000");
     await expect(page.getByTestId("truck-view-lead")).toContainText("$120,000");
     await expect(page.getByTestId("truck-view-lead")).not.toContainText("30X");
@@ -1240,26 +1240,26 @@ test.describe("P2 panel intent + approvals", () => {
       "aria-pressed",
       "true",
     );
-    await expect(page.getByTestId("truck-hotspot-hood")).toHaveAttribute(
+    await expect(page.getByTestId("truck-seat-hood")).toHaveAttribute(
       "data-raw",
       "true",
     );
     await page.getByTestId("truck-view-front").click();
-    await expect(page.getByTestId("truck-view-hotspots")).toHaveAttribute(
+    await expect(page.getByTestId("truck-view-seats")).toHaveAttribute(
       "data-view",
       "front",
     );
-    await expect(page.getByTestId("truck-hotspot-front-fascia")).toBeVisible();
+    await expect(page.getByTestId("truck-seat-front-fascia")).toBeVisible();
     await page.getByTestId("truck-view-rear").click();
-    await expect(page.getByTestId("truck-view-hotspots")).toHaveAttribute(
+    await expect(page.getByTestId("truck-view-seats")).toHaveAttribute(
       "data-view",
       "rear",
     );
-    await expect(page.getByTestId("truck-hotspot-tailgate")).toBeVisible();
-    await page.getByTestId("truck-hotspot-tailgate").click();
+    await expect(page.getByTestId("truck-seat-tailgate")).toBeVisible();
+    await page.getByTestId("truck-seat-tailgate").click();
     await expect(page).toHaveURL(/\/panels\/tailgate/);
-    await expect(page.getByTestId("truck-view-hotspots")).toBeVisible();
-    await expect(page.getByTestId("truck-hotspot-tailgate")).toHaveAttribute(
+    await expect(page.getByTestId("truck-view-seats")).toBeVisible();
+    await expect(page.getByTestId("truck-seat-tailgate")).toHaveAttribute(
       "data-active",
       "true",
     );

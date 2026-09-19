@@ -57,7 +57,7 @@ test.describe("slice 12.36: globals.css split tokens/hero/board", () => {
     expect(hero).toContain(".hero {");
     expect(hero).toContain(".hero-overlay");
     expect(board).toContain(".btn {");
-    expect(board).toContain(".truck-view-hotspots");
+    expect(board).toContain(".truck-view-seats");
     expect(tokens.toLowerCase()).not.toMatch(/\blease\b/);
     expect(hero.toLowerCase()).not.toMatch(/\blease\b/);
     expect(board.toLowerCase()).not.toMatch(/\blease\b/);

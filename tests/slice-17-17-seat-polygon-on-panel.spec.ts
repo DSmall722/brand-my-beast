@@ -71,7 +71,7 @@ test.describe("slice 17.17: seat 2 polygon on the bumper", () => {
     if (!photoBox) throw new Error("photo missing");
 
     const polygon = page.locator(
-      '[data-testid="truck-hotspot-front-fascia"] polygon',
+      '[data-testid="truck-seat-front-fascia"] polygon',
     );
     const sideCallout = page.getByTestId("view-panel-board-side-2");
     await expect(sideCallout).toBeVisible();
@@ -84,7 +84,7 @@ test.describe("slice 17.17: seat 2 polygon on the bumper", () => {
     await page.getByTestId("truck-view-front").click();
     await expect(photo).toHaveAttribute("src", STILL);
     const frontPoly = await page
-      .locator('[data-testid="truck-hotspot-front-fascia"] polygon')
+      .locator('[data-testid="truck-seat-front-fascia"] polygon')
       .boundingBox();
     const frontCallout = await page
       .getByTestId("view-panel-board-front-2")
