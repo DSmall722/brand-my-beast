@@ -233,7 +233,7 @@ Do not start until 16.50 unless skip-ahead. No Stripe. No CLOSE_AT.
 - [x] 17.1 `TRUCK_VIEWS_LEAD` is a buyer sentence. No “prototype”, “hotspot”, or “30X”. (#368)
 - [x] 17.2 `truckViewsCopyIsSafe()` requires floor + buyout + no lease / no CLOSE_AT. (#369)
 - [x] 17.3 Legend + aria: `Open seat` · `Held = standing intent`. Drop Raw 30X / Not a 360 from visible UI. (#370)
-- [x] 17.4 `/signin` live empty state + waitlist link. No env key names in public copy.
+- [x] 17.4 `/signin` live empty state + waitlist link. No env key names in public copy. (#371)
 - [ ] 17.5 `PUBLIC_COPY.signIn.notOpenYet` + matching PUBLIC_COPY.md line.
 - [ ] 17.6–17.11 Remain as previously locked (phone). No Stripe. No CLOSE_AT. No SEATS_OPEN flip.
 - [ ] 17.12–17.19 Seat compositor buyer copy as previously locked.
