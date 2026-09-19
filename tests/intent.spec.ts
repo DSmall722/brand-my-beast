@@ -988,8 +988,8 @@ test.describe("finish condition shaders (no capture)", () => {
 
   test("slice 3.6: finish toggles are shaders, not proof photos", () => {
     expect(finishConditionsCopyIsSafe()).toBe(true);
-    expect(FINISH_CONDITIONS_LEAD.toLowerCase()).toContain("toggle");
     expect(FINISH_CONDITIONS_LEAD.toLowerCase()).toContain("not proof");
+    expect(FINISH_CONDITIONS_LEAD.toLowerCase()).not.toContain("shader");
     expect(FINISH_CONDITIONS_LEAD).toContain("$58,000");
     expect(FINISH_CONDITIONS_LEAD).toContain("$120,000");
     expect(FINISH_CONDITIONS_LEAD.toLowerCase()).not.toMatch(/\blease\b/);
@@ -1654,7 +1654,7 @@ test.describe("dirty-vs-clean pair (preview only)", () => {
     expect(DIRTY_CLEAN_PAIR_LEAD).toContain("$120,000");
     expect(DIRTY_CLEAN_PAIR_LEAD.toLowerCase()).toContain("preview only");
     expect(DIRTY_CLEAN_PAIR_LEAD.toLowerCase()).toContain("not a photo");
-    expect(DIRTY_CLEAN_PAIR_LEAD.toLowerCase()).toContain("no reserved vin");
+    expect(DIRTY_CLEAN_PAIR_LEAD.toLowerCase()).not.toMatch(/\bvin\b/);
     expect(dirtyCleanPairCopyIsSafe()).toBe(true);
     expect(FLOOR_USD).toBe(58_000);
     expect(GOAL_USD).toBe(120_000);
