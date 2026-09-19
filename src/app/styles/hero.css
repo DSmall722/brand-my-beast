@@ -260,6 +260,7 @@
 @media (max-width: 720px) {
   .hero {
     /* Slice 17.6 — caption, H1, lead, and CTAs stack under the photo. */
+    --hero-photo-h: min(36svh, 16.25rem);
     min-height: 0;
     max-height: none;
     overflow: visible;
@@ -272,7 +273,7 @@
     inset: auto;
     grid-row: 1;
     grid-column: 1;
-    height: min(36svh, 16.25rem);
+    height: var(--hero-photo-h);
     min-height: 11rem;
     overflow: hidden;
   }
@@ -280,8 +281,12 @@
   .panel-board {
     grid-row: 1;
     grid-column: 1;
-    inset: 0;
-    height: auto;
+    top: 0;
+    right: 0;
+    bottom: auto;
+    left: 0;
+    height: var(--hero-photo-h);
+    min-height: 11rem;
   }
 
   .hero-truck-image {

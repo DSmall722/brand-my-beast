@@ -14,8 +14,8 @@ Updated: 2026-09-17
 - Set **Now** and **Last merged** in this file in that same PR.
 - Judge PRs from git + `npm test` + `npm run build`. Do not use brandmybeast.com as a merge gate.
 
-**Now:** 17.9 Playwright 390: hero H1 and callouts 2 / 3 / 5 / 7 do not overlap.
-**Last merged:** 17.8 Front / Rear: hide the side-body SVG schematic. Same preview photo. No new stills.
+**Now:** 17.10 Homepage `.panel-face` is not an empty black rectangle.
+**Last merged:** 17.9 Playwright 390: hero H1 and callouts 2 / 3 / 5 / 7 do not overlap.
 
 ## Standing orders
 
@@ -238,8 +238,9 @@ Do not start until 16.50 unless skip-ahead. No Stripe. No CLOSE_AT.
 - [x] 17.6 `hero.css` ≤720px: stack caption / H1 / lead / CTAs under the photo. (#373)
 - [x] 17.7 `viewport-fit=cover` + safe-area insets on header, hero actions, page bottom. (#374)
 - [x] 17.8 Front / Rear: hide the side-body SVG schematic. Same preview photo. No new stills. (#375)
-- [ ] 17.9 Playwright 390: hero H1 and callouts 2 / 3 / 5 / 7 do not overlap.
-- [ ] 17.10–17.11 Remain as previously locked (phone). No Stripe. No CLOSE_AT. No SEATS_OPEN flip.
+- [x] 17.9 Playwright 390: hero H1 and callouts 2 / 3 / 5 / 7 do not overlap.
+- [ ] 17.10 Homepage `.panel-face` is not an empty black rectangle.
+- [ ] 17.11 After 17.10 continue 17.12. Wave 15 is still Stripe and needs a human message.
 - [ ] 17.12–17.19 Seat compositor buyer copy as previously locked.
 
 ## After Wave 17
