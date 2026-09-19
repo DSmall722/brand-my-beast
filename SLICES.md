@@ -219,7 +219,7 @@ Waitlist stays the public product. Do not flip SEATS_OPEN.
 - [x] 16.42 `prove-all.sh` includes 16.4, 16.5, 16.28. (#359)
 - [x] 16.43 Tag `wave-14-complete` after 14.50. No clock. (#360)
 - [x] 16.44 Tag `wave-16-complete` after 16.43. No clock. (#361)
-- [x] 16.45 CI still fails on `stripe` in package.json.
+- [x] 16.45 CI still fails on `stripe` in package.json. (#362)
 - [ ] 16.46 CI still fails if CLOSE_AT is non-null.
 - [ ] 16.47–16.50 Remain as previously locked (numbered board, docs, freeze). No Stripe. No CLOSE_AT. No SEATS_OPEN flip.
 
