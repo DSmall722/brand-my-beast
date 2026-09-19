@@ -213,7 +213,7 @@ Waitlist stays the public product. Do not flip SEATS_OPEN.
 - [x] 16.36 Screenshot fixture: 390 and 1280 hero stored under `tests/fixtures/board/` for visual diff. (#353)
 - [x] 16.37 Visual diff fails CI only if numbers disappear, not on font kerning. (#354)
 - [x] 16.38 Reduce-motion: callouts stay visible with no animation. (#355)
-- [x] 16.39 Contrast: number badge vs stainless still meets 4.5:1.
+- [x] 16.39 Contrast: number badge vs stainless still meets 4.5:1. (#356)
 - [ ] 16.40 No personal Gmail / @NardLion regression grep (ties 14.44).
 - [ ] 16.41–16.50 Remain as previously locked (numbered board, docs, freeze). No Stripe. No CLOSE_AT. No SEATS_OPEN flip.
 
