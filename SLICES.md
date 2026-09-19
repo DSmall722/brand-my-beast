@@ -259,7 +259,7 @@ One small Playwright-gated change each. Do not start until 17.19 unless a human 
 - [x] 18.3 `/unsubscribe`: drop `Stub preference center` and `mailing address stub (set after LLC)`. Buyer unsubscribe + `hello@brandmybeast.com`. Physical line can stay BrandMyBeast / the operator / brandmybeast.com without Stub/LLC. Verify: page has no `Stub`, no `LLC`; still hello@; no `lease`. (#389)
 - [x] 18.4 `/waitlist/confirm` with no token: buyer empty state (link missing or expired), not `Missing confirm token.` Back to the board. Verify: `/waitlist/confirm` 200, no `Missing confirm token.`, no env keys, no `lease`. (#390)
 - [x] 18.5 `/llms.txt`: delete the `CLOSE_AT is null` line. Keep `Floor $58,000. Buyout $120,000.` and `No close date.` and the 1–12 list. Verify: body has those money lines, no `CLOSE_AT`, no `null`, no `lease`. (#391)
-- [x] 18.6 Seat hometown lead: drop `48-state`. Keep the circuit names. No hometown-lane restyle (17 lock). Verify: `/panels/hood` and `/panels/driver-door` HTML have no `48-state`; floor `$58,000`; etch still locked under `$120,000`.
+- [x] 18.6 Seat hometown lead: drop `48-state`. Keep the circuit names. No hometown-lane restyle (17 lock). Verify: `/panels/hood` and `/panels/driver-door` HTML have no `48-state`; floor `$58,000`; etch still locked under `$120,000`. (#392)
 - [ ] 18.7 Public seat HTML drops `optional lint`, `linter`, and `Neighbor combo later`. Keep the neighbor opening list (`formatUsd`). Verify: `/panels/hood` has none of those three; still `$58,000` / `$120,000`; no `lease`; FEATURES.md stays off `/`.
 
 ## After Wave 17
