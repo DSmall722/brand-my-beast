@@ -10,7 +10,14 @@ import {
   resetIntentStoreForTests,
   setIntentStatus,
 } from "./intent-store";
+import { panelBoardMarkFor } from "./panel-board";
 import { isProductionRuntime } from "./test-api-gate";
+
+export type NumberedStandingSeat = {
+  n: number;
+  panelId: string;
+  status: "listed";
+};
 
 export type SeedDemoResult = {
   ok: true;
@@ -18,6 +25,7 @@ export type SeedDemoResult = {
   approved: number;
   outbid: number;
   closeAt: null;
+  numberedStanding: readonly NumberedStandingSeat[];
 };
 
 export function seedDemoAllowed(
@@ -63,11 +71,11 @@ export async function seedDemoMixedBoard(): Promise<
       standingUsd: 1500,
     },
     {
-      panelId: "tonneau",
+      panelId: "tailgate",
       userId: "demo_pending_3",
       brandLabel: "Demo Pending Three",
       tradeLabel: "demo snacks c",
-      standingUsd: 800,
+      standingUsd: 2500,
     },
   ] as const;
 
@@ -119,11 +127,28 @@ export async function seedDemoMixedBoard(): Promise<
     };
   }
 
+  const numberedStanding: NumberedStandingSeat[] = (
+    ["hood", "tailgate"] as const
+  ).map(
+    (panelId): NumberedStandingSeat => ({
+      n: panelBoardMarkFor(panelId).n,
+      panelId,
+      status: "listed",
+    }),
+  );
+  if (numberedStanding[0]?.n !== 1 || numberedStanding[1]?.n !== 9) {
+    return {
+      ok: false,
+      error: "Numbered standing must be seat 1 and seat 9.",
+    };
+  }
+
   return {
     ok: true,
     pending,
     approved: approvedCount,
     outbid,
     closeAt: null,
+    numberedStanding,
   };
 }
