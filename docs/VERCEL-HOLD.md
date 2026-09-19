@@ -3,8 +3,9 @@
 Slice **11.10** (skipped while the usage hold is still on).
 Slice **13.49** restates that **11.10 remains human**.
 Slice **14.48** refreshes this note’s date only. Do not buy credits.
+Slice **16.47** refreshes this note’s date only. Do not buy credits.
 
-**Updated:** 2026-09-17 (14.48 date bump only).
+**Updated:** 2026-09-19 (16.47 date bump only).
 
 ## Hold lifted (2026-09-17)
 
