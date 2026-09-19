@@ -1236,9 +1236,9 @@ test.describe("P2 panel intent + approvals", () => {
     await page.goto("/");
     await expect(page.getByTestId("truck-views-section")).toBeVisible();
     await expect(page.getByTestId("truck-view-hotspots")).toBeVisible();
-    await expect(page.getByTestId("truck-view-lead")).toContainText("raw 30X");
-    await expect(page.getByTestId("truck-view-lead")).toContainText("Not a 360");
     await expect(page.getByTestId("truck-view-lead")).toContainText("$58,000");
+    await expect(page.getByTestId("truck-view-lead")).toContainText("$120,000");
+    await expect(page.getByTestId("truck-view-lead")).not.toContainText("30X");
     await expect(page.getByTestId("truck-view-side")).toHaveAttribute(
       "aria-pressed",
       "true",

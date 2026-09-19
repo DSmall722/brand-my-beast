@@ -14,8 +14,8 @@ Updated: 2026-09-17
 - Set **Now** and **Last merged** in this file in that same PR.
 - Judge PRs from git + `npm test` + `npm run build`. Do not use brandmybeast.com as a merge gate.
 
-**Now:** 17.1 `TRUCK_VIEWS_LEAD` is a buyer sentence. No “prototype”, “hotspot”, or “30X”.
-**Last merged:** 16.50 Stop line: after Wave 16, idle. Wave 15 is still Stripe and needs a human message.
+**Now:** 17.2 `truckViewsCopyIsSafe()` requires floor + buyout + no lease / no CLOSE_AT.
+**Last merged:** 17.1 `TRUCK_VIEWS_LEAD` is a buyer sentence. No “prototype”, “hotspot”, or “30X”.
 
 ## Standing orders
 
@@ -230,8 +230,9 @@ Waitlist stays the public product. Do not flip SEATS_OPEN.
 
 Do not start until 16.50 unless skip-ahead. No Stripe. No CLOSE_AT.
 
-- [ ] 17.1 `TRUCK_VIEWS_LEAD` is a buyer sentence. No “prototype”, “hotspot”, or “30X”.
-- [ ] 17.2–17.11 Remain as previously locked (phone, legend, sign-in). No Stripe. No CLOSE_AT. No SEATS_OPEN flip.
+- [x] 17.1 `TRUCK_VIEWS_LEAD` is a buyer sentence. No “prototype”, “hotspot”, or “30X”. (#368)
+- [ ] 17.2 `truckViewsCopyIsSafe()` requires floor + buyout + no lease / no CLOSE_AT.
+- [ ] 17.3–17.11 Remain as previously locked (phone, legend, sign-in). No Stripe. No CLOSE_AT. No SEATS_OPEN flip.
 - [ ] 17.12–17.19 Seat compositor buyer copy as previously locked.
 
 ## After Wave 17
