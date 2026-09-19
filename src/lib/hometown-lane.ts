@@ -18,10 +18,7 @@ export function hometownLaneLabels(): string[] {
 
 /** Guardrail for tests — labels must never carry banned circuit dumps. */
 export function hometownLaneCopyIsSafe(): boolean {
-  const blob = [
-    ...hometownLaneLabels(),
-    "Work circuit lanes — not a 48-state streak.",
-  ]
+  const blob = [...hometownLaneLabels(), "Work circuit lanes."]
     .join(" ")
     .toLowerCase();
   if (blob.includes("south carolina home loop")) return false;
