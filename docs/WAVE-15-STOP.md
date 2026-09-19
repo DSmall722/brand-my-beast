@@ -58,3 +58,9 @@ After 17.10 continue 17.12. Wave 15 is still Stripe and needs a human message.
 Do not start Wave 15. Do not wire Stripe. Do not set `CLOSE_AT`. Do not flip `SEATS_OPEN`.
 Floor **$58,000**. Buyout **$120,000**. `CLOSE_AT` remains **null**.
 
+## After 17.18 (17.19)
+
+After 17.18, idle on this wave. Wave 15 is still Stripe and needs a human message.
+Do not start Wave 15. Do not wire Stripe. Do not set `CLOSE_AT`. Do not flip `SEATS_OPEN`.
+Floor **$58,000**. Buyout **$120,000**. `CLOSE_AT` remains **null**.
+

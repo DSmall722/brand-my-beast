@@ -14,8 +14,8 @@ Updated: 2026-09-17
 - Set **Now** and **Last merged** in this file in that same PR.
 - Judge PRs from git + `npm test` + `npm run build`. Do not use brandmybeast.com as a merge gate.
 
-**Now:** 17.19 Stop line: after 17.18, idle on this wave. Wave 15 is still Stripe and needs a human message.
-**Last merged:** 17.18 Playwright: `/panels/front-fascia` HTML has no prototype / 30X / hotspot / shader / reserved VIN / Stripe. Opening still `$1,200`. Deposit still 20% of opening, not charged. Floor `$58,000`. Buyout `$120,000`.
+**Now:** 18.1 `/privacy`: stop concatenating FAQ answers onto waitlist / Tesla lines. One waitlist sentence, one Tesla sentence, no leading `No.` Floor `$58,000` / buyout `$120,000` unchanged (do not add a third number). FEATURES.md stays off `/`. Verify: Playwright `/privacy` HTML has no `No. The waitlist` and no `No. Independent`; still `hello@brandmybeast.com`; no `lease`.
+**Last merged:** 17.19 Stop line: after 17.18, idle on this wave. Wave 15 is still Stripe and needs a human message.
 
 ## Standing orders
 
@@ -248,8 +248,20 @@ Do not start until 16.50 unless skip-ahead. No Stripe. No CLOSE_AT.
 - [x] 17.16 Compositor `.panel-mockup-face` is not a striped empty well. Reuse the hero still with a crop, or drop the well. No invented wrap or etch photo. (#383)
 - [x] 17.17 Seat-page board: the active polygon sits on the named panel (seat 2 on the front bumper), not floating off-frame. Complements 17.8. No new stills. (#384)
 - [x] 17.18 Playwright: `/panels/front-fascia` HTML has no prototype / 30X / hotspot / shader / reserved VIN / Stripe. Opening still `$1,200`. Deposit still 20% of opening, not charged. Floor `$58,000`. Buyout `$120,000`. (#385)
-- [ ] 17.19 Stop line: after 17.18, idle on this wave. Wave 15 is still Stripe and needs a human message.
+- [x] 17.19 Stop line: after 17.18, idle on this wave. Wave 15 is still Stripe and needs a human message. (#386)
+
+## Wave 18 — leftovers Wave 17 does not own
+
+One small Playwright-gated change each. Do not start until 17.19 unless a human skip-aheads. Not Wave 15.
+
+- [ ] 18.1 `/privacy`: stop concatenating FAQ answers onto waitlist / Tesla lines. One waitlist sentence, one Tesla sentence, no leading `No.` Floor `$58,000` / buyout `$120,000` unchanged (do not add a third number). FEATURES.md stays off `/`. Verify: Playwright `/privacy` HTML has no `No. The waitlist` and no `No. Independent`; still `hello@brandmybeast.com`; no `lease`.
+- [ ] 18.2 `/terms`: drop `Close date is unset` and `(null)`. Use the PUBLIC_COPY “when seats open / no date” line only. Do not print `CLOSE_AT`. Floor `{formatUsd(FLOOR_USD)}` stays. Verify: `/terms` has `$58,000`, no `null`, no `CLOSE_AT`, no `lease`.
+- [ ] 18.3 `/unsubscribe`: drop `Stub preference center` and `mailing address stub (set after LLC)`. Buyer unsubscribe + `hello@brandmybeast.com`. Physical line can stay BrandMyBeast / the operator / brandmybeast.com without Stub/LLC. Verify: page has no `Stub`, no `LLC`; still hello@; no `lease`.
+- [ ] 18.4 `/waitlist/confirm` with no token: buyer empty state (link missing or expired), not `Missing confirm token.` Back to the board. Verify: `/waitlist/confirm` 200, no `Missing confirm token.`, no env keys, no `lease`.
+- [ ] 18.5 `/llms.txt`: delete the `CLOSE_AT is null` line. Keep `Floor $58,000. Buyout $120,000.` and `No close date.` and the 1–12 list. Verify: body has those money lines, no `CLOSE_AT`, no `null`, no `lease`.
+- [ ] 18.6 Seat hometown lead: drop `48-state`. Keep the circuit names. No hometown-lane restyle (17 lock). Verify: `/panels/hood` and `/panels/driver-door` HTML have no `48-state`; floor `$58,000`; etch still locked under `$120,000`.
+- [ ] 18.7 Public seat HTML drops `optional lint`, `linter`, and `Neighbor combo later`. Keep the neighbor opening list (`formatUsd`). Verify: `/panels/hood` has none of those three; still `$58,000` / `$120,000`; no `lease`; FEATURES.md stays off `/`.
 
 ## After Wave 17
 
-Idle. Wave 15 is Stripe / CLOSE_AT / first tweet and waits for an explicit human message.
+Wave 18 is next after 17.19, then Idle, then Wave 15 still human-only.
