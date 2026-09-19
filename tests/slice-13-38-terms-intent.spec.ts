@@ -61,7 +61,9 @@ test.describe("slice 13.38: terms stub intent is not a charge", () => {
       "Intent is not a charge.",
     );
     await expect(page.getByTestId("terms-floor")).toContainText("$58,000");
-    await expect(page.getByTestId("terms-clock")).toContainText("null");
+    await expect(page.getByTestId("terms-clock")).toHaveText(
+      "When seats open. There is no date on this page yet.",
+    );
     await expect(page.getByTestId("terms-contact")).toContainText(BRAND.email);
 
     const html = await page.content();

@@ -1,6 +1,6 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
-import { BRAND, CLOSE_AT, FLOOR_USD, formatUsd } from "@/lib/campaign";
+import { BRAND, FLOOR_USD, formatUsd } from "@/lib/campaign";
 import { PUBLIC_COPY } from "@/lib/public-copy";
 
 /**
@@ -72,10 +72,7 @@ export function TermsStubBody() {
       <p data-testid="terms-floor">
         Floor {formatUsd(FLOOR_USD)}. {miss?.a}
       </p>
-      <p data-testid="terms-clock">
-        {when?.a} Close date is unset
-        {CLOSE_AT === null ? " (null)." : "."}
-      </p>
+      <p data-testid="terms-clock">{when?.a}</p>
       <p data-testid="terms-contact">
         Questions:{" "}
         <a href={`mailto:${BRAND.email}`}>{BRAND.email}</a>
