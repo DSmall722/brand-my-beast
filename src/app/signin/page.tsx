@@ -83,6 +83,17 @@ export default async function SignInPage({
       ) : null}
 
       {liveMissingProviders ? (
+        <div className="auth-missing" data-testid="signin-not-open">
+          <p>Sign-in is not open yet. Join the list. Nothing is charged.</p>
+          <p>
+            <Link href="/#waitlist" data-testid="signin-waitlist-link">
+              {PUBLIC_COPY.hero.primaryCta}
+            </Link>
+          </p>
+        </div>
+      ) : null}
+
+      {mode !== "live" && !hasTest && !hasResend && !hasGithub ? (
         <div className="auth-missing" data-testid="auth-secrets-missing">
           <p data-testid="signin-missing-providers-lead">
             {copy.missingProvidersLead}
