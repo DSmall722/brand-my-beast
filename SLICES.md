@@ -14,8 +14,8 @@ Updated: 2026-09-17
 - Set **Now** and **Last merged** in this file in that same PR.
 - Judge PRs from git + `npm test` + `npm run build`. Do not use brandmybeast.com as a merge gate.
 
-**Now:** 18.1 `/privacy`: stop concatenating FAQ answers onto waitlist / Tesla lines. One waitlist sentence, one Tesla sentence, no leading `No.` Floor `$58,000` / buyout `$120,000` unchanged (do not add a third number). FEATURES.md stays off `/`. Verify: Playwright `/privacy` HTML has no `No. The waitlist` and no `No. Independent`; still `hello@brandmybeast.com`; no `lease`.
-**Last merged:** 17.19 Stop line: after 17.18, idle on this wave. Wave 15 is still Stripe and needs a human message.
+**Now:** 18.2 `/terms`: drop `Close date is unset` and `(null)`. Use the PUBLIC_COPY “when seats open / no date” line only. Do not print `CLOSE_AT`. Floor `{formatUsd(FLOOR_USD)}` stays. Verify: `/terms` has `$58,000`, no `null`, no `CLOSE_AT`, no `lease`.
+**Last merged:** 18.1 `/privacy`: stop concatenating FAQ answers onto waitlist / Tesla lines. One waitlist sentence, one Tesla sentence, no leading `No.` Floor `$58,000` / buyout `$120,000` unchanged (do not add a third number). FEATURES.md stays off `/`. Verify: Playwright `/privacy` HTML has no `No. The waitlist` and no `No. Independent`; still `hello@brandmybeast.com`; no `lease`.
 
 ## Standing orders
 
@@ -254,7 +254,7 @@ Do not start until 16.50 unless skip-ahead. No Stripe. No CLOSE_AT.
 
 One small Playwright-gated change each. Do not start until 17.19 unless a human skip-aheads. Not Wave 15.
 
-- [ ] 18.1 `/privacy`: stop concatenating FAQ answers onto waitlist / Tesla lines. One waitlist sentence, one Tesla sentence, no leading `No.` Floor `$58,000` / buyout `$120,000` unchanged (do not add a third number). FEATURES.md stays off `/`. Verify: Playwright `/privacy` HTML has no `No. The waitlist` and no `No. Independent`; still `hello@brandmybeast.com`; no `lease`.
+- [x] 18.1 `/privacy`: stop concatenating FAQ answers onto waitlist / Tesla lines. One waitlist sentence, one Tesla sentence, no leading `No.` Floor `$58,000` / buyout `$120,000` unchanged (do not add a third number). FEATURES.md stays off `/`. Verify: Playwright `/privacy` HTML has no `No. The waitlist` and no `No. Independent`; still `hello@brandmybeast.com`; no `lease`.
 - [ ] 18.2 `/terms`: drop `Close date is unset` and `(null)`. Use the PUBLIC_COPY “when seats open / no date” line only. Do not print `CLOSE_AT`. Floor `{formatUsd(FLOOR_USD)}` stays. Verify: `/terms` has `$58,000`, no `null`, no `CLOSE_AT`, no `lease`.
 - [ ] 18.3 `/unsubscribe`: drop `Stub preference center` and `mailing address stub (set after LLC)`. Buyer unsubscribe + `hello@brandmybeast.com`. Physical line can stay BrandMyBeast / the operator / brandmybeast.com without Stub/LLC. Verify: page has no `Stub`, no `LLC`; still hello@; no `lease`.
 - [ ] 18.4 `/waitlist/confirm` with no token: buyer empty state (link missing or expired), not `Missing confirm token.` Back to the board. Verify: `/waitlist/confirm` 200, no `Missing confirm token.`, no env keys, no `lease`.
