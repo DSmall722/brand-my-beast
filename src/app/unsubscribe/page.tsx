@@ -21,7 +21,7 @@ export default function UnsubscribePage() {
       >
         <h1>Unsubscribe</h1>
         <p className="section-lead">
-          Stub preference center. Email{" "}
+          Email{" "}
           <a href={`mailto:${BRAND.email}`}>{BRAND.email}</a> with subject
           “unsubscribe” to stop campaign notices. Intent marks are not a
           subscription.
