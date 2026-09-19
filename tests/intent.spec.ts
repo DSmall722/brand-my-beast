@@ -1906,9 +1906,9 @@ test.describe("truck view hotspots (no capture)", () => {
     expect(TRUCK_VIEWS.map((v) => v.id)).toEqual(["side", "front", "rear"]);
     expect(truckHotspotsAreValid()).toBe(true);
     expect(truckViewsCopyIsSafe()).toBe(true);
-    expect(TRUCK_VIEWS_LEAD.toLowerCase()).toContain("hotspot");
-    expect(TRUCK_VIEWS_LEAD.toLowerCase()).toContain("raw 30x");
-    expect(TRUCK_VIEWS_LEAD.toLowerCase()).toContain("not a 360");
+    expect(TRUCK_VIEWS_LEAD.toLowerCase()).not.toContain("prototype");
+    expect(TRUCK_VIEWS_LEAD.toLowerCase()).not.toContain("hotspot");
+    expect(TRUCK_VIEWS_LEAD.toLowerCase()).not.toContain("30x");
     expect(TRUCK_VIEWS_LEAD).toContain("$58,000");
     expect(TRUCK_VIEWS_LEAD).toContain("$120,000");
     expect(TRUCK_VIEWS_LEAD.toLowerCase()).not.toMatch(/\blease\b/);

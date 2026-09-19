@@ -20,7 +20,7 @@ export type TruckHotspot = {
   points: string;
 };
 
-export const TRUCK_VIEWS_LEAD = `Side / front / rear. SVG hotspots on the board truck — old static prototype pattern. Empty seats stay raw 30X. Not a 360. Floor ${formatUsd(FLOOR_USD)}. Buyout ${formatUsd(GOAL_USD)}. Still no card charge.`;
+export const TRUCK_VIEWS_LEAD = `Side, front, and rear of the same stainless preview. Open seats stay unmarked. Floor ${formatUsd(FLOOR_USD)}. Buyout ${formatUsd(GOAL_USD)}. Nothing is charged.`;
 
 /** Side silhouette: driver-side panels + shared faces. */
 const SIDE_HOTSPOTS: readonly TruckHotspot[] = [
@@ -86,9 +86,11 @@ export function hotspotPanelIds(): readonly Panel["id"][] {
 export function truckViewsCopyIsSafe(): boolean {
   const lower = TRUCK_VIEWS_LEAD.toLowerCase();
   return (
-    lower.includes("hotspot") &&
-    lower.includes("raw 30x") &&
-    lower.includes("not a 360") &&
+    TRUCK_VIEWS_LEAD.includes(formatUsd(FLOOR_USD)) &&
+    TRUCK_VIEWS_LEAD.includes(formatUsd(GOAL_USD)) &&
+    !lower.includes("prototype") &&
+    !lower.includes("hotspot") &&
+    !lower.includes("30x") &&
     !/\blease\b/.test(lower) &&
     !TRUCK_VIEWS_LEAD.includes("CLOSE_AT") &&
     !TRUCK_VIEWS_LEAD.includes("South Carolina home loop") &&
