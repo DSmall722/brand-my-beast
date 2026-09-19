@@ -212,7 +212,7 @@ Waitlist stays the public product. Do not flip SEATS_OPEN.
 - [x] 16.35 Health panel shows `SEATS_OPEN` once 14.17 exists, else `unset`. (#352)
 - [x] 16.36 Screenshot fixture: 390 and 1280 hero stored under `tests/fixtures/board/` for visual diff. (#353)
 - [x] 16.37 Visual diff fails CI only if numbers disappear, not on font kerning. (#354)
-- [x] 16.38 Reduce-motion: callouts stay visible with no animation.
+- [x] 16.38 Reduce-motion: callouts stay visible with no animation. (#355)
 - [ ] 16.39 Contrast: number badge vs stainless still meets 4.5:1.
 - [ ] 16.40–16.50 Remain as previously locked (numbered board, docs, freeze). No Stripe. No CLOSE_AT. No SEATS_OPEN flip.
 
