@@ -224,7 +224,7 @@ Waitlist stays the public product. Do not flip SEATS_OPEN.
 - [x] 16.47 docs/VERCEL-HOLD.md date bump only. (#364)
 - [x] 16.48 Local seed includes numbered standing on seat 1 and 9. (#365)
 - [x] 16.49 Counsel ZIP lists seats by number. (#366)
-- [x] 16.50 Stop line: after Wave 16, idle. Wave 15 is still Stripe and needs a human message.
+- [x] 16.50 Stop line: after Wave 16, idle. Wave 15 is still Stripe and needs a human message. (#367)
 
 ## Wave 17 — phone + public-face correctness
 
