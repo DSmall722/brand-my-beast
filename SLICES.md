@@ -243,7 +243,7 @@ Do not start until 16.50 unless skip-ahead. No Stripe. No CLOSE_AT.
 - [x] 17.11 After 17.10 continue 17.12. Wave 15 is still Stripe and needs a human message. (#378)
 - [x] 17.12 `STAINLESS_COMPOSITOR_LEAD`, `FINISH_CONDITIONS_LEAD`, and `DIRTY_CLEAN_PAIR_LEAD` are buyer sentences. No “compositor”, “shader”, “VIN”, or “Dirty vs clean pair” as body copy. Floor / buyout from `formatUsd`. Update `stainlessCompositorCopyIsSafe` / `finishConditionsCopyIsSafe` / `dirtyCleanPairCopyIsSafe` so they no longer require shader / toggle / VIN jargon. (#379)
 - [x] 17.13 Wrap-only seats do not render the Etch tab. Etchable seats keep the locked tab until pledged ≥ `$120,000`. Copy stays “wrap only” / etch-lock sentence — not a disabled control on fascia / roof / bed. (#380)
-- [x] 17.14 Public `/panels/[id]` HTML does not contain “Stripe” or “No Stripe capture.” Intent-only line stays. Vendor name stays out of buyer copy.
+- [x] 17.14 Public `/panels/[id]` HTML does not contain “Stripe” or “No Stripe capture.” Intent-only line stays. Vendor name stays out of buyer copy. (#381)
 - [ ] 17.15 Soft-close / extension block is hidden while `CLOSE_AT` is null and bidding is not open. Do not set a clock.
 - [ ] 17.16–17.19 Seat compositor buyer copy as previously locked.
 
