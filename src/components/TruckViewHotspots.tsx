@@ -93,22 +93,26 @@ export function TruckViewHotspots({
           data-testid="truck-view-svg"
           data-view={view}
         >
-          <rect
-            className="truck-view-body"
-            x="24"
-            y="36"
-            width="352"
-            height="92"
-            rx="6"
-          />
-          <rect
-            className="truck-view-cab"
-            x="56"
-            y="22"
-            width="120"
-            height="28"
-            rx="3"
-          />
+          {view === "side" ? (
+            <>
+              <rect
+                className="truck-view-body"
+                x="24"
+                y="36"
+                width="352"
+                height="92"
+                rx="6"
+              />
+              <rect
+                className="truck-view-cab"
+                x="56"
+                y="22"
+                width="120"
+                height="28"
+                rx="3"
+              />
+            </>
+          ) : null}
           {spots.map((spot) => {
             const panel = PANELS.find((row) => row.id === spot.panelId);
             const held = occupied.has(spot.panelId);
