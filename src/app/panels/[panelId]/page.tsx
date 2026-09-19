@@ -17,6 +17,7 @@ import {
   DEPOSIT_PERCENT,
   FLOOR_USD,
   GOAL_USD,
+  CLOSE_AT,
   PANELS,
   formatIntegerUsd,
   formatUsd,
@@ -97,6 +98,7 @@ export default async function PanelIntentPage({
   const board = await loadBoardIntentStats();
   const panelExtendedUntil = await getPanelExtendedUntil(panel.id);
   const extensionCopy = panelExtendedUntilCopy(panelExtendedUntil);
+  const hideSoftClose = CLOSE_AT === null && !resolveSeatsOpen();
   const holdersRaw = await loadStandingHoldersByPanel();
   const holdersByPanel = new Map<string, AdjacentSeatHolder | null>();
   for (const row of PANELS) {
@@ -282,6 +284,7 @@ export default async function PanelIntentPage({
             : `Next minimum is standing + max($250, 10%) = ${formatIntegerUsd(minimum)}. Still intent only — no card.`}
         </p>
 
+        {hideSoftClose ? null : (
         <aside
           className="panel-extension"
           data-testid="panel-extended-until"
@@ -294,6 +297,7 @@ export default async function PanelIntentPage({
           </h2>
           <p data-testid="panel-extended-until-copy">{extensionCopy.body}</p>
         </aside>
+        )}
 
         <p className="intent-banner" data-testid="intent-only-banner">
           Intent only. Amount does not charge. No close clock.
