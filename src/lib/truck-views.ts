@@ -83,22 +83,27 @@ export function hotspotPanelIds(): readonly Panel["id"][] {
   return [...ids];
 }
 
-export function truckViewsCopyIsSafe(): boolean {
-  const lower = TRUCK_VIEWS_LEAD.toLowerCase();
+/** Slice 17.2 — floor + buyout, no lease, no CLOSE_AT. Hotspot jargon is not required. */
+export function truckViewsLeadIsSafe(lead: string): boolean {
+  const lower = lead.toLowerCase();
   return (
-    TRUCK_VIEWS_LEAD.includes(formatUsd(FLOOR_USD)) &&
-    TRUCK_VIEWS_LEAD.includes(formatUsd(GOAL_USD)) &&
+    lead.includes(formatUsd(FLOOR_USD)) &&
+    lead.includes(formatUsd(GOAL_USD)) &&
     !lower.includes("prototype") &&
     !lower.includes("hotspot") &&
     !lower.includes("30x") &&
     !/\blease\b/.test(lower) &&
-    !TRUCK_VIEWS_LEAD.includes("CLOSE_AT") &&
-    !TRUCK_VIEWS_LEAD.includes("South Carolina home loop") &&
-    !TRUCK_VIEWS_LEAD.includes("Florida panhandle") &&
+    !lead.includes("CLOSE_AT") &&
+    !lead.includes("South Carolina home loop") &&
+    !lead.includes("Florida panhandle") &&
     !/\bbounty\b/.test(lower) &&
     !/\blivestream\b/.test(lower) &&
-    !/\b\d+\s*(impressions|cpm)\b/i.test(TRUCK_VIEWS_LEAD)
+    !/\b\d+\s*(impressions|cpm)\b/i.test(lead)
   );
+}
+
+export function truckViewsCopyIsSafe(): boolean {
+  return truckViewsLeadIsSafe(TRUCK_VIEWS_LEAD);
 }
 
 /** Hotspots must point at real campaign panels only. */
