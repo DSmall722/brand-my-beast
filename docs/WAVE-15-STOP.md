@@ -45,3 +45,10 @@ Per **SLICES.md** exception order:
 - `docs/VERCEL-HOLD.md` — redeploy when hold lifts (human)
 
 No Stripe. No `CLOSE_AT`. Leave `vercel.json` hold-mode alone.
+
+## After Wave 16 (16.50)
+
+After Wave 16, idle on this wave. Wave 15 is still Stripe and needs a human message.
+Do not start Wave 15. Do not wire Stripe. Do not set `CLOSE_AT`. Do not flip `SEATS_OPEN`.
+Next build order is Wave 17 in `SLICES.md`. Floor **$58,000**. Buyout **$120,000**. `CLOSE_AT` remains **null**.
+

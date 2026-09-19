@@ -14,8 +14,8 @@ Updated: 2026-09-17
 - Set **Now** and **Last merged** in this file in that same PR.
 - Judge PRs from git + `npm test` + `npm run build`. Do not use brandmybeast.com as a merge gate.
 
-**Now:** 16.50 Stop line: after Wave 16, idle. Wave 15 is still Stripe and needs a human message.
-**Last merged:** 16.49 Counsel ZIP lists seats by number.
+**Now:** 17.1 `TRUCK_VIEWS_LEAD` is a buyer sentence. No “prototype”, “hotspot”, or “30X”.
+**Last merged:** 16.50 Stop line: after Wave 16, idle. Wave 15 is still Stripe and needs a human message.
 
 ## Standing orders
 
@@ -224,13 +224,14 @@ Waitlist stays the public product. Do not flip SEATS_OPEN.
 - [x] 16.47 docs/VERCEL-HOLD.md date bump only. (#364)
 - [x] 16.48 Local seed includes numbered standing on seat 1 and 9. (#365)
 - [x] 16.49 Counsel ZIP lists seats by number. (#366)
-- [ ] 16.50 Stop line: after Wave 16, idle. Wave 15 is still Stripe and needs a human message.
+- [x] 16.50 Stop line: after Wave 16, idle. Wave 15 is still Stripe and needs a human message. (#367)
 
 ## Wave 17 — phone + public-face correctness
 
 Do not start until 16.50 unless skip-ahead. No Stripe. No CLOSE_AT.
 
-- [ ] 17.1–17.11 Phone / legend / signin empty state as previously locked.
+- [ ] 17.1 `TRUCK_VIEWS_LEAD` is a buyer sentence. No “prototype”, “hotspot”, or “30X”.
+- [ ] 17.2–17.11 Remain as previously locked (phone, legend, sign-in). No Stripe. No CLOSE_AT. No SEATS_OPEN flip.
 - [ ] 17.12–17.19 Seat compositor buyer copy as previously locked.
 
 ## After Wave 17
