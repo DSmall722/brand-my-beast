@@ -15,11 +15,11 @@ export function EtchConstraintLinter() {
 
   return (
     <div
-      className="etch-linter"
-      data-testid="etch-constraint-linter"
+      className="etch-notes"
+      data-testid="etch-constraints"
       data-severity={report.severity}
     >
-      <p className="etch-linter-title">Etch constraints</p>
+      <p className="etch-notes-title">Etch constraints</p>
       <ul className="etch-constraint-list" data-testid="etch-constraint-list">
         {ETCH_CONSTRAINTS.map((rule) => (
           <li key={rule.id} data-testid={`etch-constraint-${rule.id}`}>
@@ -29,7 +29,7 @@ export function EtchConstraintLinter() {
         ))}
       </ul>
       <label className="auth-label" htmlFor="etch-art-notes">
-        Art notes (optional lint)
+        Art notes
       </label>
       <textarea
         id="etch-art-notes"
@@ -58,7 +58,7 @@ export function EtchConstraintLinter() {
         </p>
       ) : (
         <p className="auth-hint" data-testid="etch-lint-idle">
-          Etch art is rejected if the linter fails. Wrap art may still list.
+          Etch art is rejected if the notes fail the constraints. Wrap art may still list.
         </p>
       )}
     </div>

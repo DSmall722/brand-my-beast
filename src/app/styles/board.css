@@ -1586,7 +1586,7 @@
   color: var(--signal);
 }
 
-.etch-linter {
+.etch-notes {
   margin: 0.85rem 0.85rem 1rem;
   padding: 0.85rem 0.95rem;
   border: 1px solid var(--hairline);
@@ -1596,7 +1596,7 @@
   gap: 0.55rem;
 }
 
-.etch-linter-title {
+.etch-notes-title {
   margin: 0;
   font-size: 0.78rem;
   letter-spacing: 0.08em;
