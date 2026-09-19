@@ -99,7 +99,9 @@ test.describe("slice 7.9: privacy and terms stubs", () => {
     await expect(page.getByTestId("terms-intent-not-charge")).toHaveText(
       PUBLIC_COPY.footer.intentNotACharge,
     );
-    await expect(page.getByTestId("terms-clock")).toContainText("null");
+    await expect(page.getByTestId("terms-clock")).toHaveText(
+      "When seats open. There is no date on this page yet.",
+    );
     await expect(page.getByTestId("terms-contact")).toContainText(BRAND.email);
     const html = (await page.content()).toLowerCase();
     expect(html).not.toMatch(/\blease\b/);
