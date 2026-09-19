@@ -24,7 +24,7 @@ export const TRUCK_VIEWS_LEAD = `Side, front, and rear of the same stainless pre
 
 /** Side silhouette: driver-side panels + shared faces. */
 const SIDE_HOTSPOTS: readonly TruckHotspot[] = [
-  { panelId: "front-fascia", points: "18,78 42,62 52,62 52,118 28,118" },
+  { panelId: "front-fascia", points: "40,64 136,64 136,112 40,112" },
   { panelId: "hood", points: "52,58 118,48 118,78 52,78" },
   { panelId: "driver-door", points: "118,52 168,52 168,118 118,118" },
   { panelId: "driver-bed", points: "168,58 248,58 248,118 168,118" },
@@ -36,7 +36,7 @@ const SIDE_HOTSPOTS: readonly TruckHotspot[] = [
 ];
 
 const FRONT_HOTSPOTS: readonly TruckHotspot[] = [
-  { panelId: "front-fascia", points: "110,96 290,96 300,128 100,128" },
+  { panelId: "front-fascia", points: "100,78 300,78 300,120 100,120" },
   { panelId: "hood", points: "120,58 280,58 290,96 110,96" },
   { panelId: "roof", points: "140,28 260,28 280,58 120,58" },
   { panelId: "driver-door", points: "78,64 120,58 120,128 86,128" },
