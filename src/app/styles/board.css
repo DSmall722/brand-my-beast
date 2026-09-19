@@ -1278,12 +1278,7 @@
       color-mix(in oklab, white 10%, transparent),
       transparent 42%
     ),
-    repeating-linear-gradient(
-      -18deg,
-      color-mix(in oklab, white 4%, transparent) 0 2px,
-      transparent 2px 7px
-    ),
-    linear-gradient(160deg, var(--steel-800), var(--steel-950));
+    url("/hero-truck-preview.jpg") 55% 38% / cover no-repeat;
   min-height: 10rem;
   display: grid;
   place-items: center;
@@ -1301,6 +1296,9 @@
   overflow: hidden;
   text-align: center;
   padding: 1.5rem;
+  min-height: 8rem;
+  /* Slice 17.16 — shared still, not a striped empty well. No invented wrap. */
+  background: url("/hero-truck-preview.jpg") 55% 38% / cover no-repeat;
 }
 
 .panel-mockup-label {
