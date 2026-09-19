@@ -14,8 +14,8 @@ Updated: 2026-09-17
 - Set **Now** and **Last merged** in this file in that same PR.
 - Judge PRs from git + `npm test` + `npm run build`. Do not use brandmybeast.com as a merge gate.
 
-**Now:** 16.36 Screenshot fixture: 390 and 1280 hero stored under `tests/fixtures/board/` for visual diff.
-**Last merged:** 16.35 Health panel shows `SEATS_OPEN` once 14.17 exists, else `unset`.
+**Now:** 16.37 Visual diff fails CI only if numbers disappear, not on font kerning.
+**Last merged:** 16.36 Screenshot fixture: 390 and 1280 hero stored under `tests/fixtures/board/` for visual diff.
 
 ## Standing orders
 
@@ -210,8 +210,9 @@ Waitlist stays the public product. Do not flip SEATS_OPEN.
 - [x] 16.33 OG image for `/panels/[id]` includes the number + name. (#349)
 - [x] 16.34 `robots.txt` comment: production may be stale while Vercel hold is on. No app behavior change. (#351)
 - [x] 16.35 Health panel shows `SEATS_OPEN` once 14.17 exists, else `unset`. (#352)
-- [ ] 16.36 Screenshot fixture: 390 and 1280 hero stored under `tests/fixtures/board/` for visual diff.
-- [ ] 16.37–16.50 Remain as previously locked (numbered board, docs, freeze). No Stripe. No CLOSE_AT. No SEATS_OPEN flip.
+- [x] 16.36 Screenshot fixture: 390 and 1280 hero stored under `tests/fixtures/board/` for visual diff.
+- [ ] 16.37 Visual diff fails CI only if numbers disappear, not on font kerning.
+- [ ] 16.38–16.50 Remain as previously locked (numbered board, docs, freeze). No Stripe. No CLOSE_AT. No SEATS_OPEN flip.
 
 ## Wave 17 — phone + public-face correctness
 
