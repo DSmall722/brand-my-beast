@@ -107,13 +107,16 @@ test.describe("slice 10.3: etch toggle locked under buyout", () => {
     );
     await expect(page.getByTestId("compositor-etch-mark")).toBeVisible();
 
-    // Wrap-only panel stays locked even at buyout.
+    // Wrap-only panel does not render the Etch tab, even at buyout.
     await page.goto("/panels/roof");
     await expect(page.getByTestId("panel-mockup")).toHaveAttribute(
       "data-etchable",
       "false",
     );
-    await expect(page.getByTestId("compositor-mode-etch")).toBeDisabled();
+    await expect(page.getByTestId("compositor-mode-etch")).toHaveCount(0);
+    await expect(page.getByTestId("compositor-finish-label")).toHaveText(
+      "Wrap only",
+    );
 
     const html = await page.content();
     expect(html.toLowerCase()).not.toMatch(/\blease\b/);
