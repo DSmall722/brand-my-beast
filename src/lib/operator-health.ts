@@ -27,6 +27,18 @@ export function formatLastDigestLabel(iso: string | null): string {
   return iso;
 }
 
+/**
+ * Slice 16.35 — show SEATS_OPEN when 14.17 exists. Do not flip it.
+ * Missing module prints `unset`.
+ */
+export function formatHealthSeatsOpen(
+  modulePresent: boolean,
+  seatsOpen: boolean,
+): string {
+  if (!modulePresent) return "unset";
+  return seatsOpen ? "true" : "false";
+}
+
 export async function loadOperatorHealthSnapshot(
   env: NodeJS.ProcessEnv = process.env,
 ): Promise<OperatorHealthSnapshot> {

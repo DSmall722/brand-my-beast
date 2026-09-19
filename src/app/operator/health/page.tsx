@@ -1,3 +1,5 @@
+import { existsSync } from "node:fs";
+import { join } from "node:path";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { SiteChrome } from "@/components/SiteChrome";
@@ -9,11 +11,13 @@ import {
   lastDrizzleMigrationTag,
 } from "@/lib/drizzle-migrations";
 import {
+  formatHealthSeatsOpen,
   formatLastDigestLabel,
   formatPendingCountLabel,
   loadOperatorHealthSnapshot,
 } from "@/lib/operator-health";
 import { formatWaitlistCountLabel } from "@/lib/operator-status";
+import { resolveSeatsOpen } from "@/lib/seats-open";
 
 /**
  * Slice 12.42 — last Drizzle migration name.
@@ -47,6 +51,10 @@ export default async function OperatorHealthPage() {
   const health = await loadOperatorHealthSnapshot();
   const migrationName = lastDrizzleMigrationName();
   const migrationTag = lastDrizzleMigrationTag();
+  const seatsOpenLabel = formatHealthSeatsOpen(
+    existsSync(join(process.cwd(), "src/lib/seats-open.ts")),
+    resolveSeatsOpen(),
+  );
 
   return (
     <>
@@ -90,6 +98,10 @@ export default async function OperatorHealthPage() {
             <dd data-testid="operator-health-last-digest">
               {formatLastDigestLabel(health.lastDigestAt)}
             </dd>
+          </div>
+          <div>
+            <dt>SEATS_OPEN</dt>
+            <dd data-testid="operator-health-seats-open">{seatsOpenLabel}</dd>
           </div>
           <div>
             <dt>Last migration file</dt>
