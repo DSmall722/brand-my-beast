@@ -123,8 +123,8 @@ export function TruckViewHotspots({
                 data-raw={held ? "false" : "true"}
                 aria-label={
                   held
-                    ? `${panel?.name ?? spot.panelId} — seat held`
-                    : `${panel?.name ?? spot.panelId} — raw 30X open seat`
+                    ? `${panel?.name ?? spot.panelId} — Held = standing intent`
+                    : `${panel?.name ?? spot.panelId} — Open seat`
                 }
               >
                 <polygon
@@ -142,13 +142,11 @@ export function TruckViewHotspots({
           })}
         </svg>
         <p className="truck-view-legend" data-testid="truck-view-legend">
-          <span data-testid="truck-view-legend-raw">Raw 30X = open seat</span>
+          <span data-testid="truck-view-legend-open">Open seat</span>
           {" · "}
           <span data-testid="truck-view-legend-held">
             Held = standing intent
           </span>
-          {" · "}
-          <span data-testid="truck-view-legend-no-360">Not a 360</span>
         </p>
       </div>
     </div>
