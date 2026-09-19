@@ -2138,14 +2138,15 @@
   margin: -0.15rem 0 0.75rem;
   border-radius: 0.45rem;
   border: 1px solid var(--hairline);
+  /* Slice 17.10 — stainless still, not an empty black well. No invented wrap. */
   background:
     linear-gradient(
       120deg,
       transparent 20%,
-      color-mix(in oklab, white 9%, transparent) 48%,
+      color-mix(in oklab, white 12%, transparent) 48%,
       transparent 72%
     ),
-    linear-gradient(165deg, var(--steel-800), var(--steel-950));
+    url("/hero-truck-preview.jpg") 55% 38% / cover no-repeat;
 }
 
 @media (min-width: 720px) {
