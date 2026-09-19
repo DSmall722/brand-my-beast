@@ -209,7 +209,7 @@ Waitlist stays the public product. Do not flip SEATS_OPEN.
 - [x] 16.32 OG image for `/` includes the wordmark + stainless still. No wrap. (#348)
 - [x] 16.33 OG image for `/panels/[id]` includes the number + name. (#349)
 - [x] 16.34 `robots.txt` comment: production may be stale while Vercel hold is on. No app behavior change. (#351)
-- [x] 16.35 Health panel shows `SEATS_OPEN` once 14.17 exists, else `unset`.
+- [x] 16.35 Health panel shows `SEATS_OPEN` once 14.17 exists, else `unset`. (#352)
 - [ ] 16.36 Screenshot fixture: 390 and 1280 hero stored under `tests/fixtures/board/` for visual diff.
 - [ ] 16.37–16.50 Remain as previously locked (numbered board, docs, freeze). No Stripe. No CLOSE_AT. No SEATS_OPEN flip.
 
