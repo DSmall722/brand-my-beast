@@ -200,6 +200,8 @@ export const PUBLIC_COPY = {
     credentialsButton: "Sign in",
     missingProvidersLead:
       "Live sign-in is on, but no providers are configured yet. The operator needs AUTH_SECRET, AUTH_URL, RESEND_API_KEY, and DATABASE_URL.",
+    /** Slice 17.5 — live empty state. No env key names. */
+    notOpenYet: "Sign-in is not open yet. Join the list. Nothing is charged.",
     /** AUTH_MODE=test only — never render under live. */
     testHint:
       "CI path: use any @example.com email and the test password.",
