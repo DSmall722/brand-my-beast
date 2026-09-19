@@ -241,7 +241,7 @@ Do not start until 16.50 unless skip-ahead. No Stripe. No CLOSE_AT.
 - [x] 17.9 Playwright 390: hero H1 and callouts 2 / 3 / 5 / 7 do not overlap. (#376)
 - [x] 17.10 Homepage `.panel-face` is not an empty black rectangle. (#377)
 - [x] 17.11 After 17.10 continue 17.12. Wave 15 is still Stripe and needs a human message. (#378)
-- [x] 17.12 `STAINLESS_COMPOSITOR_LEAD`, `FINISH_CONDITIONS_LEAD`, and `DIRTY_CLEAN_PAIR_LEAD` are buyer sentences. No “compositor”, “shader”, “VIN”, or “Dirty vs clean pair” as body copy. Floor / buyout from `formatUsd`. Update `stainlessCompositorCopyIsSafe` / `finishConditionsCopyIsSafe` / `dirtyCleanPairCopyIsSafe` so they no longer require shader / toggle / VIN jargon.
+- [x] 17.12 `STAINLESS_COMPOSITOR_LEAD`, `FINISH_CONDITIONS_LEAD`, and `DIRTY_CLEAN_PAIR_LEAD` are buyer sentences. No “compositor”, “shader”, “VIN”, or “Dirty vs clean pair” as body copy. Floor / buyout from `formatUsd`. Update `stainlessCompositorCopyIsSafe` / `finishConditionsCopyIsSafe` / `dirtyCleanPairCopyIsSafe` so they no longer require shader / toggle / VIN jargon. (#379)
 - [ ] 17.13 Wrap-only seats do not render the Etch tab. Etchable seats keep the locked tab until pledged ≥ `$120,000`. Copy stays “wrap only” / etch-lock sentence — not a disabled control on fascia / roof / bed.
 - [ ] 17.14–17.19 Seat compositor buyer copy as previously locked.
 
