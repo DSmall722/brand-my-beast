@@ -14,8 +14,8 @@ Updated: 2026-09-17
 - Set **Now** and **Last merged** in this file in that same PR.
 - Judge PRs from git + `npm test` + `npm run build`. Do not use brandmybeast.com as a merge gate.
 
-**Now:** 16.47 docs/VERCEL-HOLD.md date bump only.
-**Last merged:** 16.46 CI still fails if CLOSE_AT is non-null.
+**Now:** 16.48 Local seed includes numbered standing on seat 1 and 9.
+**Last merged:** 16.47 docs/VERCEL-HOLD.md date bump only.
 
 ## Standing orders
 
@@ -221,8 +221,9 @@ Waitlist stays the public product. Do not flip SEATS_OPEN.
 - [x] 16.44 Tag `wave-16-complete` after 16.43. No clock. (#361)
 - [x] 16.45 CI still fails on `stripe` in package.json. (#362)
 - [x] 16.46 CI still fails if CLOSE_AT is non-null. (#363)
-- [ ] 16.47 docs/VERCEL-HOLD.md date bump only.
-- [ ] 16.48–16.50 Remain as previously locked (numbered board, docs, freeze). No Stripe. No CLOSE_AT. No SEATS_OPEN flip.
+- [x] 16.47 docs/VERCEL-HOLD.md date bump only.
+- [ ] 16.48 Local seed includes numbered standing on seat 1 and 9.
+- [ ] 16.49–16.50 Remain as previously locked (numbered board, docs, freeze). No Stripe. No CLOSE_AT. No SEATS_OPEN flip.
 
 ## Wave 17 — phone + public-face correctness
 
