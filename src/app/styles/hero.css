@@ -79,7 +79,7 @@
   place-items: center;
   border-radius: 999px;
   border: 1.5px solid color-mix(in oklab, var(--signal) 70%, white);
-  background: color-mix(in oklab, #0c0e11 72%, transparent);
+  background: #0c0e11;
   color: var(--signal);
   text-decoration: none;
   font-family: var(--font-display, "Bebas Neue", Impact, sans-serif);
