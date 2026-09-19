@@ -14,8 +14,8 @@ Updated: 2026-09-17
 - Set **Now** and **Last merged** in this file in that same PR.
 - Judge PRs from git + `npm test` + `npm run build`. Do not use brandmybeast.com as a merge gate.
 
-**Now:** 16.44 Tag `wave-16-complete` after 16.43. No clock.
-**Last merged:** 16.43 Tag `wave-14-complete` after 14.50. No clock.
+**Now:** 16.45 CI still fails on `stripe` in package.json.
+**Last merged:** 16.44 Tag `wave-16-complete` after 16.43. No clock.
 
 ## Standing orders
 
@@ -218,8 +218,9 @@ Waitlist stays the public product. Do not flip SEATS_OPEN.
 - [x] 16.41 Verify-skill map Wave 16. (#358)
 - [x] 16.42 `prove-all.sh` includes 16.4, 16.5, 16.28. (#359)
 - [x] 16.43 Tag `wave-14-complete` after 14.50. No clock. (#360)
-- [ ] 16.44 Tag `wave-16-complete` after 16.43. No clock.
-- [ ] 16.45–16.50 Remain as previously locked (numbered board, docs, freeze). No Stripe. No CLOSE_AT. No SEATS_OPEN flip.
+- [x] 16.44 Tag `wave-16-complete` after 16.43. No clock. (#361)
+- [ ] 16.45 CI still fails on `stripe` in package.json.
+- [ ] 16.46–16.50 Remain as previously locked (numbered board, docs, freeze). No Stripe. No CLOSE_AT. No SEATS_OPEN flip.
 
 ## Wave 17 — phone + public-face correctness
 
