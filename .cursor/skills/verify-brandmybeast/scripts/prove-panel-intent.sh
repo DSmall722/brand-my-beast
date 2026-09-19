@@ -50,7 +50,7 @@ for (const id of [
   await page.getByTestId(id).waitFor();
 }
 const banner = await page.getByTestId("intent-only-banner").innerText();
-if (!/No Stripe capture/i.test(banner)) {
+if (!/Intent only/i.test(banner) || /stripe/i.test(banner)) {
   throw new Error(`bad intent banner: ${banner}`);
 }
 const html = await page.content();

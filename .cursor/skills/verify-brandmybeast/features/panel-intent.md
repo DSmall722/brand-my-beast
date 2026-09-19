@@ -14,7 +14,7 @@ Still no Stripe capture and no close clock.
 
 1. Open `/panels/hood`.
 2. Assert `panel-intent-page`, `panel-mockup`, `panel-stats`, `intent-only-banner`
-   (must include `No Stripe capture`), and `intent-signin-needed`.
+   (must include `Intent only` and must not include `Stripe`), and `intent-signin-needed`.
 3. HTML must not match word-boundary `lease` and must not contain `CLOSE_AT`.
 4. Sign in via `/signin` with `intent-prove@example.com` / `test`.
 5. Return to `/panels/hood`, list brand `Prove Co`, assert `intent-success`
