@@ -14,8 +14,8 @@ Updated: 2026-09-17
 - Set **Now** and **Last merged** in this file in that same PR.
 - Judge PRs from git + `npm test` + `npm run build`. Do not use brandmybeast.com as a merge gate.
 
-**Now:** 17.7 `viewport-fit=cover` + safe-area insets on header, hero actions, page bottom.
-**Last merged:** 17.6 `hero.css` ≤720px: stack caption / H1 / lead / CTAs under the photo.
+**Now:** 17.8 Front / Rear: hide the side-body SVG schematic. Same preview photo. No new stills.
+**Last merged:** 17.7 `viewport-fit=cover` + safe-area insets on header, hero actions, page bottom.
 
 ## Standing orders
 
@@ -236,8 +236,9 @@ Do not start until 16.50 unless skip-ahead. No Stripe. No CLOSE_AT.
 - [x] 17.4 `/signin` live empty state + waitlist link. No env key names in public copy. (#371)
 - [x] 17.5 `PUBLIC_COPY.signIn.notOpenYet` + matching PUBLIC_COPY.md line. (#372)
 - [x] 17.6 `hero.css` ≤720px: stack caption / H1 / lead / CTAs under the photo. (#373)
-- [ ] 17.7 `viewport-fit=cover` + safe-area insets on header, hero actions, page bottom.
-- [ ] 17.8–17.11 Remain as previously locked (phone). No Stripe. No CLOSE_AT. No SEATS_OPEN flip.
+- [x] 17.7 `viewport-fit=cover` + safe-area insets on header, hero actions, page bottom.
+- [ ] 17.8 Front / Rear: hide the side-body SVG schematic. Same preview photo. No new stills.
+- [ ] 17.9–17.11 Remain as previously locked (phone). No Stripe. No CLOSE_AT. No SEATS_OPEN flip.
 - [ ] 17.12–17.19 Seat compositor buyer copy as previously locked.
 
 ## After Wave 17

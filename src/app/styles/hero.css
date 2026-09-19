@@ -251,6 +251,9 @@
   flex-wrap: wrap;
   gap: 0.75rem 1rem;
   pointer-events: auto;
+  padding-right: env(safe-area-inset-right, 0px);
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+  padding-left: env(safe-area-inset-left, 0px);
   animation: rise 850ms 120ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
 }
 
@@ -333,7 +336,7 @@
   }
 
   .site-header {
-    padding-top: 1rem;
+    padding-top: calc(1rem + env(safe-area-inset-top, 0px));
   }
 
   .wordmark {
