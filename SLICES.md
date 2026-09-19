@@ -248,7 +248,7 @@ Do not start until 16.50 unless skip-ahead. No Stripe. No CLOSE_AT.
 - [x] 17.16 Compositor `.panel-mockup-face` is not a striped empty well. Reuse the hero still with a crop, or drop the well. No invented wrap or etch photo. (#383)
 - [x] 17.17 Seat-page board: the active polygon sits on the named panel (seat 2 on the front bumper), not floating off-frame. Complements 17.8. No new stills. (#384)
 - [x] 17.18 Playwright: `/panels/front-fascia` HTML has no prototype / 30X / hotspot / shader / reserved VIN / Stripe. Opening still `$1,200`. Deposit still 20% of opening, not charged. Floor `$58,000`. Buyout `$120,000`. (#385)
-- [x] 17.19 Stop line: after 17.18, idle on this wave. Wave 15 is still Stripe and needs a human message.
+- [x] 17.19 Stop line: after 17.18, idle on this wave. Wave 15 is still Stripe and needs a human message. (#386)
 
 ## Wave 18 — leftovers Wave 17 does not own
 
