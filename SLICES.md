@@ -14,8 +14,8 @@ Updated: 2026-09-17
 - Set **Now** and **Last merged** in this file in that same PR.
 - Judge PRs from git + `npm test` + `npm run build`. Do not use brandmybeast.com as a merge gate.
 
-**Now:** 16.42 `prove-all.sh` includes 16.4, 16.5, 16.28.
-**Last merged:** 16.41 Verify-skill map Wave 16.
+**Now:** 16.43 Tag `wave-14-complete` after 14.50. No clock.
+**Last merged:** 16.42 `prove-all.sh` includes 16.4, 16.5, 16.28.
 
 ## Standing orders
 
@@ -216,8 +216,9 @@ Waitlist stays the public product. Do not flip SEATS_OPEN.
 - [x] 16.39 Contrast: number badge vs stainless still meets 4.5:1. (#356)
 - [x] 16.40 No personal Gmail / @NardLion regression grep (ties 14.44). (#357)
 - [x] 16.41 Verify-skill map Wave 16. (#358)
-- [ ] 16.42 `prove-all.sh` includes 16.4, 16.5, 16.28.
-- [ ] 16.43–16.50 Remain as previously locked (numbered board, docs, freeze). No Stripe. No CLOSE_AT. No SEATS_OPEN flip.
+- [x] 16.42 `prove-all.sh` includes 16.4, 16.5, 16.28. (#359)
+- [ ] 16.43 Tag `wave-14-complete` after 14.50. No clock.
+- [ ] 16.44–16.50 Remain as previously locked (numbered board, docs, freeze). No Stripe. No CLOSE_AT. No SEATS_OPEN flip.
 
 ## Wave 17 — phone + public-face correctness
 
