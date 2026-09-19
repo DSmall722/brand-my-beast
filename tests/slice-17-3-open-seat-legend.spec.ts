@@ -12,6 +12,7 @@ import { vercelJsonIsHoldOrMainOnlyRestore } from "../src/lib/vercel-git-deploy"
 
 /**
  * Slice 17.3 — legend + aria: Open seat · Held = standing intent.
+ * Occupied hood (16.48 seed) may say Held. An empty hotspot still says Open seat.
  * Drop Raw 30X / Not a 360 from visible UI. CLOSE_AT null. No Stripe.
  */
 
@@ -42,9 +43,24 @@ test.describe("slice 17.3: open-seat legend drops 30X", () => {
     await expect(legend).not.toContainText("30X");
     await expect(legend).not.toContainText("Not a 360");
     const hood = page.getByTestId("truck-hotspot-hood");
-    await expect(hood).toHaveAttribute("aria-label", /Open seat$/);
-    const label = await hood.getAttribute("aria-label");
-    expect(label ?? "").not.toMatch(/30X|Not a 360/);
+    const hoodOccupied = await hood.getAttribute("data-occupied");
+    if (hoodOccupied === "true") {
+      await expect(hood).toHaveAttribute(
+        "aria-label",
+        /Held = standing intent$/,
+      );
+    } else {
+      await expect(hood).toHaveAttribute("aria-label", /Open seat$/);
+    }
+    const hoodLabel = (await hood.getAttribute("aria-label")) ?? "";
+    expect(hoodLabel).not.toMatch(/30X|Not a 360/);
+    const empty = page
+      .locator('[data-testid^="truck-hotspot-"][data-occupied="false"]')
+      .first();
+    await expect(empty).toBeVisible();
+    await expect(empty).toHaveAttribute("aria-label", /Open seat$/);
+    const emptyLabel = (await empty.getAttribute("aria-label")) ?? "";
+    expect(emptyLabel).not.toMatch(/30X|Not a 360/);
     const html = await page.content();
     expect(html).not.toContain("FEATURES.md");
     expect(html).not.toContain("Raw 30X");
