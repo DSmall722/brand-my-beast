@@ -229,14 +229,14 @@ export default async function PanelIntentPage({
             </a>
             {" — preview only. Not charged."}
           </p>
-        ) : (
+        ) : seatsOpen ? (
           <p className="auth-hint" data-testid="seat-export-png-signin">
             <Link href={`/signin?callbackUrl=/panels/${panel.id}`}>
               Sign in
             </Link>{" "}
             to download a seat PNG preview. Still no card charge.
           </p>
-        )}
+        ) : null}
 
         <AdjacentNeighborsCard neighbors={adjacentNeighbors} />
         <NeighborComboCard lot={comboLotFor(panel.id)} />
