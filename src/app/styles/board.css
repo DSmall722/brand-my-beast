@@ -1278,12 +1278,7 @@
       color-mix(in oklab, white 10%, transparent),
       transparent 42%
     ),
-    repeating-linear-gradient(
-      -18deg,
-      color-mix(in oklab, white 4%, transparent) 0 2px,
-      transparent 2px 7px
-    ),
-    linear-gradient(160deg, var(--steel-800), var(--steel-950));
+    url("/hero-truck-preview.jpg") 55% 38% / cover no-repeat;
   min-height: 10rem;
   display: grid;
   place-items: center;
@@ -1301,6 +1296,9 @@
   overflow: hidden;
   text-align: center;
   padding: 1.5rem;
+  min-height: 8rem;
+  /* Slice 17.16 — shared still, not a striped empty well. No invented wrap. */
+  background: url("/hero-truck-preview.jpg") 55% 38% / cover no-repeat;
 }
 
 .panel-mockup-label {
@@ -1418,7 +1416,7 @@
   color: var(--steel-400);
 }
 
-.compositor-shader {
+.compositor-wash {
   pointer-events: none;
   position: absolute;
   inset: 0;
@@ -1428,7 +1426,7 @@
   transition: opacity 180ms ease, background 180ms ease;
 }
 
-.compositor-shader[data-condition="day"] {
+.compositor-wash[data-condition="day"] {
   background:
     radial-gradient(
       circle at 28% 18%,
@@ -1443,7 +1441,7 @@
   opacity: 0.5;
 }
 
-.compositor-shader[data-condition="night"] {
+.compositor-wash[data-condition="night"] {
   background:
     radial-gradient(
       circle at 70% 12%,
@@ -1459,7 +1457,7 @@
   opacity: 0.72;
 }
 
-.compositor-shader[data-condition="wet"] {
+.compositor-wash[data-condition="wet"] {
   background:
     repeating-linear-gradient(
       118deg,
@@ -1475,7 +1473,7 @@
   opacity: 0.45;
 }
 
-.compositor-shader[data-condition="dirty"] {
+.compositor-wash[data-condition="dirty"] {
   background:
     radial-gradient(
       circle at 20% 80%,
@@ -1534,7 +1532,7 @@
     scroll-snap-stop: always;
   }
 
-  .truck-view-hotspots,
+  .truck-view-seats,
   .panel-mockup.stainless-compositor,
   .truck-view-stage {
     max-width: 100%;
@@ -1588,7 +1586,7 @@
   color: var(--signal);
 }
 
-.etch-linter {
+.etch-notes {
   margin: 0.85rem 0.85rem 1rem;
   padding: 0.85rem 0.95rem;
   border: 1px solid var(--hairline);
@@ -1598,7 +1596,7 @@
   gap: 0.55rem;
 }
 
-.etch-linter-title {
+.etch-notes-title {
   margin: 0;
   font-size: 0.78rem;
   letter-spacing: 0.08em;
@@ -2138,14 +2136,15 @@
   margin: -0.15rem 0 0.75rem;
   border-radius: 0.45rem;
   border: 1px solid var(--hairline);
+  /* Slice 17.10 — stainless still, not an empty black well. No invented wrap. */
   background:
     linear-gradient(
       120deg,
       transparent 20%,
-      color-mix(in oklab, white 9%, transparent) 48%,
+      color-mix(in oklab, white 12%, transparent) 48%,
       transparent 72%
     ),
-    linear-gradient(165deg, var(--steel-800), var(--steel-950));
+    url("/hero-truck-preview.jpg") 55% 38% / cover no-repeat;
 }
 
 @media (min-width: 720px) {
@@ -2340,11 +2339,11 @@
 }
 
 
-/* Slice 3.7 — side/front/rear SVG hotspots */
-.truck-view-hotspots {
+/* Slice 3.7 — side/front/rear SVG seats */
+.truck-view-seats {
   margin-top: 0.75rem;
 }
-.truck-view-hotspots-compact {
+.truck-view-seats-compact {
   margin-top: 0.5rem;
   margin-bottom: 1rem;
 }
@@ -2375,6 +2374,8 @@
 }
 .truck-view-stage {
   position: relative;
+  display: grid;
+  grid-template-rows: auto auto;
   border: 1px solid color-mix(in oklab, white 12%, transparent);
   border-radius: 8px;
   padding: 0;
@@ -2383,6 +2384,8 @@
     linear-gradient(160deg, #1a2028 0%, #0e1218 55%, #151b22 100%);
 }
 .truck-view-photo {
+  grid-row: 1;
+  grid-column: 1;
   display: block;
   width: 100%;
   height: auto;
@@ -2390,18 +2393,20 @@
   object-fit: cover;
   vertical-align: middle;
 }
-.truck-view-stage .panel-board-view {
-  inset: 0;
-  z-index: 2;
-}
+.truck-view-stage .panel-board-view,
 .truck-view-svg {
+  grid-row: 1;
+  grid-column: 1;
   position: absolute;
   inset: 0;
-  z-index: 3;
-  display: block;
+  z-index: 2;
   width: 100%;
   height: 100%;
   max-height: none;
+}
+.truck-view-svg {
+  z-index: 3;
+  display: block;
 }
 .truck-view-body,
 .truck-view-cab {
@@ -2409,28 +2414,29 @@
   stroke: transparent;
   stroke-width: 0;
 }
-.truck-hotspot {
+.truck-seat {
   stroke-width: 1.5;
   transition: fill 120ms ease, stroke 120ms ease;
 }
-.truck-hotspot.is-raw {
+.truck-seat.is-raw {
   fill: color-mix(in oklab, var(--steel-100) 8%, transparent);
   stroke: color-mix(in oklab, var(--steel-100) 45%, transparent);
 }
-.truck-hotspot.is-held {
+.truck-seat.is-held {
   fill: color-mix(in oklab, var(--signal) 28%, transparent);
   stroke: var(--signal);
 }
-.truck-hotspot.is-active {
+.truck-seat.is-active {
   fill: color-mix(in oklab, var(--signal) 48%, transparent);
   stroke: var(--signal);
 }
-a:hover .truck-hotspot.is-raw,
-a:focus-visible .truck-hotspot.is-raw {
+a:hover .truck-seat.is-raw,
+a:focus-visible .truck-seat.is-raw {
   fill: color-mix(in oklab, var(--steel-100) 22%, transparent);
   stroke: var(--steel-100);
 }
 .truck-view-legend {
+  grid-row: 2;
   position: relative;
   z-index: 4;
   margin: 0;
@@ -2491,7 +2497,7 @@ a:focus-visible .truck-hotspot.is-raw {
   .site-footer,
   .hero-actions,
   .truck-view-toolbar,
-  .truck-view-hotspots,
+  .truck-view-seats,
   .intent-bid-form,
   form,
   .btn,

@@ -16,7 +16,7 @@ export const CAN_SPAM_UNSUBSCRIBE_URL = `https://${BRAND.domain}${CAN_SPAM_UNSUB
  * Replace after LLC paperwork — never invent a residential street.
  */
 export const CAN_SPAM_PHYSICAL_ADDRESS =
-  `${BRAND.name}, Attn: ${BRAND.operator} — mailing address stub (set after LLC), ${BRAND.domain}`;
+  `${BRAND.name}, Attn: ${BRAND.operator}, ${BRAND.domain}`;
 
 /** Append unsubscribe + physical address to every mail body. */
 export function withCanSpamFooter(text: string): string {

@@ -54,7 +54,9 @@ test.describe("slice 12.13: CAN-SPAM stub on every mail", () => {
     );
     expect(CAN_SPAM_PHYSICAL_ADDRESS).toContain(BRAND.name);
     expect(CAN_SPAM_PHYSICAL_ADDRESS).toContain("the operator");
-    expect(CAN_SPAM_PHYSICAL_ADDRESS.toLowerCase()).toMatch(/stub/);
+    expect(CAN_SPAM_PHYSICAL_ADDRESS).toContain(BRAND.domain);
+    expect(CAN_SPAM_PHYSICAL_ADDRESS.toLowerCase()).not.toMatch(/stub/);
+    expect(CAN_SPAM_PHYSICAL_ADDRESS).not.toContain("LLC");
     expect(CAN_SPAM_PHYSICAL_ADDRESS.toLowerCase()).not.toMatch(/gmail/);
     const footer = withCanSpamFooter("Hello.");
     expect(footer).toContain("Unsubscribe:");

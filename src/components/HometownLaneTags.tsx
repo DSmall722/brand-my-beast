@@ -6,7 +6,7 @@ export function HometownLaneTags() {
     <div className="hometown-lane" data-testid="hometown-lane">
       <p className="hometown-lane-title">Hometown lane</p>
       <p className="hometown-lane-hint" data-testid="hometown-lane-hint">
-        Work circuit lanes — not a 48-state streak.
+        Work circuit lanes.
       </p>
       <ul className="hometown-lane-list" data-testid="hometown-lane-list">
         {HOMETOWN_LANES.map((lane) => (

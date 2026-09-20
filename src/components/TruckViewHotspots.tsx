@@ -35,10 +35,10 @@ export function TruckViewHotspots({
     <div
       className={
         compact
-          ? "truck-view-hotspots truck-view-hotspots-compact"
-          : "truck-view-hotspots"
+          ? "truck-view-seats truck-view-seats-compact"
+          : "truck-view-seats"
       }
-      data-testid="truck-view-hotspots"
+      data-testid="truck-view-seats"
       data-view={view}
       data-one-view="true"
     >
@@ -88,27 +88,32 @@ export function TruckViewHotspots({
         <svg
           className="truck-view-svg"
           viewBox="0 0 400 160"
+          preserveAspectRatio="none"
           role="group"
-          aria-label={`${view} view of the board truck with panel hotspots`}
+          aria-label={`${view} view of the board truck with panel seats`}
           data-testid="truck-view-svg"
           data-view={view}
         >
-          <rect
-            className="truck-view-body"
-            x="24"
-            y="36"
-            width="352"
-            height="92"
-            rx="6"
-          />
-          <rect
-            className="truck-view-cab"
-            x="56"
-            y="22"
-            width="120"
-            height="28"
-            rx="3"
-          />
+          {view === "side" ? (
+            <>
+              <rect
+                className="truck-view-body"
+                x="24"
+                y="36"
+                width="352"
+                height="92"
+                rx="6"
+              />
+              <rect
+                className="truck-view-cab"
+                x="56"
+                y="22"
+                width="120"
+                height="28"
+                rx="3"
+              />
+            </>
+          ) : null}
           {spots.map((spot) => {
             const panel = PANELS.find((row) => row.id === spot.panelId);
             const held = occupied.has(spot.panelId);
@@ -117,23 +122,23 @@ export function TruckViewHotspots({
               <a
                 key={`${view}-${spot.panelId}`}
                 href={`/panels/${spot.panelId}`}
-                data-testid={`truck-hotspot-${spot.panelId}`}
+                data-testid={`truck-seat-${spot.panelId}`}
                 data-occupied={held ? "true" : "false"}
                 data-active={active ? "true" : "false"}
                 data-raw={held ? "false" : "true"}
                 aria-label={
                   held
-                    ? `${panel?.name ?? spot.panelId} — seat held`
-                    : `${panel?.name ?? spot.panelId} — raw 30X open seat`
+                    ? `${panel?.name ?? spot.panelId} — Held = standing intent`
+                    : `${panel?.name ?? spot.panelId} — Open seat`
                 }
               >
                 <polygon
                   className={
                     active
-                      ? "truck-hotspot is-active"
+                      ? "truck-seat is-active"
                       : held
-                        ? "truck-hotspot is-held"
-                        : "truck-hotspot is-raw"
+                        ? "truck-seat is-held"
+                        : "truck-seat is-raw"
                   }
                   points={spot.points}
                 />
@@ -142,13 +147,11 @@ export function TruckViewHotspots({
           })}
         </svg>
         <p className="truck-view-legend" data-testid="truck-view-legend">
-          <span data-testid="truck-view-legend-raw">Raw 30X = open seat</span>
+          <span data-testid="truck-view-legend-open">Open seat</span>
           {" · "}
           <span data-testid="truck-view-legend-held">
             Held = standing intent
           </span>
-          {" · "}
-          <span data-testid="truck-view-legend-no-360">Not a 360</span>
         </p>
       </div>
     </div>

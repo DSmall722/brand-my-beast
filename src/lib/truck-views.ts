@@ -20,11 +20,11 @@ export type TruckHotspot = {
   points: string;
 };
 
-export const TRUCK_VIEWS_LEAD = `Side / front / rear. SVG hotspots on the board truck — old static prototype pattern. Empty seats stay raw 30X. Not a 360. Floor ${formatUsd(FLOOR_USD)}. Buyout ${formatUsd(GOAL_USD)}. Still no card charge.`;
+export const TRUCK_VIEWS_LEAD = `Side, front, and rear of the same stainless preview. Open seats stay unmarked. Floor ${formatUsd(FLOOR_USD)}. Buyout ${formatUsd(GOAL_USD)}. Nothing is charged.`;
 
 /** Side silhouette: driver-side panels + shared faces. */
 const SIDE_HOTSPOTS: readonly TruckHotspot[] = [
-  { panelId: "front-fascia", points: "18,78 42,62 52,62 52,118 28,118" },
+  { panelId: "front-fascia", points: "40,64 136,64 136,112 40,112" },
   { panelId: "hood", points: "52,58 118,48 118,78 52,78" },
   { panelId: "driver-door", points: "118,52 168,52 168,118 118,118" },
   { panelId: "driver-bed", points: "168,58 248,58 248,118 168,118" },
@@ -36,7 +36,7 @@ const SIDE_HOTSPOTS: readonly TruckHotspot[] = [
 ];
 
 const FRONT_HOTSPOTS: readonly TruckHotspot[] = [
-  { panelId: "front-fascia", points: "110,96 290,96 300,128 100,128" },
+  { panelId: "front-fascia", points: "100,78 300,78 300,120 100,120" },
   { panelId: "hood", points: "120,58 280,58 290,96 110,96" },
   { panelId: "roof", points: "140,28 260,28 280,58 120,58" },
   { panelId: "driver-door", points: "78,64 120,58 120,128 86,128" },
@@ -83,20 +83,27 @@ export function hotspotPanelIds(): readonly Panel["id"][] {
   return [...ids];
 }
 
-export function truckViewsCopyIsSafe(): boolean {
-  const lower = TRUCK_VIEWS_LEAD.toLowerCase();
+/** Slice 17.2 — floor + buyout, no lease, no CLOSE_AT. Hotspot jargon is not required. */
+export function truckViewsLeadIsSafe(lead: string): boolean {
+  const lower = lead.toLowerCase();
   return (
-    lower.includes("hotspot") &&
-    lower.includes("raw 30x") &&
-    lower.includes("not a 360") &&
+    lead.includes(formatUsd(FLOOR_USD)) &&
+    lead.includes(formatUsd(GOAL_USD)) &&
+    !lower.includes("prototype") &&
+    !lower.includes("hotspot") &&
+    !lower.includes("30x") &&
     !/\blease\b/.test(lower) &&
-    !TRUCK_VIEWS_LEAD.includes("CLOSE_AT") &&
-    !TRUCK_VIEWS_LEAD.includes("South Carolina home loop") &&
-    !TRUCK_VIEWS_LEAD.includes("Florida panhandle") &&
+    !lead.includes("CLOSE_AT") &&
+    !lead.includes("South Carolina home loop") &&
+    !lead.includes("Florida panhandle") &&
     !/\bbounty\b/.test(lower) &&
     !/\blivestream\b/.test(lower) &&
-    !/\b\d+\s*(impressions|cpm)\b/i.test(TRUCK_VIEWS_LEAD)
+    !/\b\d+\s*(impressions|cpm)\b/i.test(lead)
   );
+}
+
+export function truckViewsCopyIsSafe(): boolean {
+  return truckViewsLeadIsSafe(TRUCK_VIEWS_LEAD);
 }
 
 /** Hotspots must point at real campaign panels only. */

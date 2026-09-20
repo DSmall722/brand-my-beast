@@ -16,6 +16,7 @@
     "audit": "npm audit --audit-level=high",
     "grep:identity": "node scripts/grep-personal-identity.mjs",
     "grep:stripe": "node scripts/grep-stripe-package.mjs",
+    "grep:close-at": "node scripts/grep-close-at.mjs",
     "db:generate": "drizzle-kit generate",
     "db:push": "drizzle-kit push"
   },

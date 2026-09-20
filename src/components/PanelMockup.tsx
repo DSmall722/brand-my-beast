@@ -114,27 +114,27 @@ export function PanelMockup({
         >
           {compositorModeLabel("wrap")}
         </button>
-        <button
-          type="button"
-          className={
-            mode === "etch" ? "compositor-tab is-active" : "compositor-tab"
-          }
-          data-testid="compositor-mode-etch"
-          aria-pressed={mode === "etch"}
-          disabled={!etchOn}
-          title={
-            !etchable
-              ? "This panel is wrap only"
-              : etchOn
+        {etchable ? (
+          <button
+            type="button"
+            className={
+              mode === "etch" ? "compositor-tab is-active" : "compositor-tab"
+            }
+            data-testid="compositor-mode-etch"
+            aria-pressed={mode === "etch"}
+            disabled={!etchOn}
+            title={
+              etchOn
                 ? `Etch unlocked at ${formatUsd(GOAL_USD)}`
                 : `Etch locked under ${formatUsd(GOAL_USD)}`
-          }
-          onClick={() => {
-            if (etchOn) setMode("etch");
-          }}
-        >
-          {compositorModeLabel("etch")}
-        </button>
+            }
+            onClick={() => {
+              if (etchOn) setMode("etch");
+            }}
+          >
+            {compositorModeLabel("etch")}
+          </button>
+        ) : null}
       </div>
 
       <p
@@ -147,7 +147,7 @@ export function PanelMockup({
         className="compositor-conditions"
         data-testid="finish-conditions"
         role="group"
-        aria-label="Finish condition shaders"
+        aria-label="Finish conditions"
       >
         {FINISH_CONDITIONS.map((row) => (
           <button
@@ -197,8 +197,8 @@ export function PanelMockup({
               />
               <span className="compositor-condition-label">Clean</span>
               <span
-                className="compositor-shader"
-                data-testid="dirty-clean-clean-shader"
+                className="compositor-wash"
+                data-testid="dirty-clean-clean-wash"
                 data-condition="day"
               />
             </div>
@@ -216,8 +216,8 @@ export function PanelMockup({
               />
               <span className="compositor-condition-label">Dirty</span>
               <span
-                className="compositor-shader"
-                data-testid="dirty-clean-dirty-shader"
+                className="compositor-wash"
+                data-testid="dirty-clean-dirty-wash"
                 data-condition="dirty"
               />
             </div>
@@ -258,8 +258,8 @@ export function PanelMockup({
           </span>
         )}
         <span
-          className="compositor-shader"
-          data-testid="finish-condition-shader"
+          className="compositor-wash"
+          data-testid="finish-condition-wash"
           data-condition={condition}
         />
       </div>

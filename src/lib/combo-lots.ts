@@ -5,7 +5,7 @@
 import { FLOOR_USD, GOAL_USD, PANELS, formatUsd, type Panel } from "./campaign";
 import { adjacentPanelIds, panelName } from "./panel-clash";
 
-export const COMBO_LOT_LEAD = `Neighbor combo later. List each seat separately — not a joint bid, no combo price. Floor ${formatUsd(FLOOR_USD)}. Buyout ${formatUsd(GOAL_USD)}. Still no card charge.`;
+export const COMBO_LOT_LEAD = `List each seat separately — not a joint bid, no combo price. Floor ${formatUsd(FLOOR_USD)}. Buyout ${formatUsd(GOAL_USD)}. Still no card charge.`;
 
 export type ComboLotNeighbor = {
   id: Panel["id"];

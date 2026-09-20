@@ -43,7 +43,7 @@ test.describe("slice 14.48: VERCEL-HOLD.md date refresh only", () => {
     expect(text).toContain("14.48");
     expect(text).toContain("13.49");
     expect(text).toContain("11.10");
-    expect(text).toMatch(/\*\*Updated:\*\*\s*2026-09-17/);
+    expect(text).toMatch(/\*\*Updated:\*\*\s*2026-09-19 \(16\.47 date bump only\)/);
     expect(text).toMatch(/date bump only|date only|refreshes this note/i);
     expect(text).toMatch(/Do not buy credits/i);
     expect(text).toMatch(/Redeploy when the hold lifts/i);

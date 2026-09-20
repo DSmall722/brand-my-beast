@@ -14,8 +14,8 @@ Updated: 2026-09-17
 - Set **Now** and **Last merged** in this file in that same PR.
 - Judge PRs from git + `npm test` + `npm run build`. Do not use brandmybeast.com as a merge gate.
 
-**Now:** 16.32 OG image for `/` includes the wordmark + stainless still. No wrap.
-**Last merged:** 16.31 `npm run preview:share` script prints the local URL and “not the live domain.”
+**Now:** 18.7 is checked. Idle. Wave 15 is still Stripe and needs a human message.
+**Last merged:** 18.7 Public seat HTML drops `optional lint`, `linter`, and `Neighbor combo later`. Keep the neighbor opening list (`formatUsd`). Verify: `/panels/hood` has none of those three; still `$58,000` / `$120,000`; no `lease`; FEATURES.md stays off `/`.
 
 ## Standing orders
 
@@ -206,16 +206,62 @@ Waitlist stays the public product. Do not flip SEATS_OPEN.
 - [x] 16.29 Opening prices on cards stay `formatUsd` from campaign.ts. (#345)
 - [x] 16.30 Etch badge still `Can etch at $120k` from PUBLIC_COPY. No new money number. (#346)
 - [x] 16.31 `npm run preview:share` script prints the local URL and “not the live domain.” (#347)
-- [ ] 16.32 OG image for `/` includes the wordmark + stainless still. No wrap.
-- [ ] 16.33–16.50 Remain as previously locked (numbered board, docs, freeze). No Stripe. No CLOSE_AT. No SEATS_OPEN flip.
+- [x] 16.32 OG image for `/` includes the wordmark + stainless still. No wrap. (#348)
+- [x] 16.33 OG image for `/panels/[id]` includes the number + name. (#349)
+- [x] 16.34 `robots.txt` comment: production may be stale while Vercel hold is on. No app behavior change. (#351)
+- [x] 16.35 Health panel shows `SEATS_OPEN` once 14.17 exists, else `unset`. (#352)
+- [x] 16.36 Screenshot fixture: 390 and 1280 hero stored under `tests/fixtures/board/` for visual diff. (#353)
+- [x] 16.37 Visual diff fails CI only if numbers disappear, not on font kerning. (#354)
+- [x] 16.38 Reduce-motion: callouts stay visible with no animation. (#355)
+- [x] 16.39 Contrast: number badge vs stainless still meets 4.5:1. (#356)
+- [x] 16.40 No personal Gmail / @NardLion regression grep (ties 14.44). (#357)
+- [x] 16.41 Verify-skill map Wave 16. (#358)
+- [x] 16.42 `prove-all.sh` includes 16.4, 16.5, 16.28. (#359)
+- [x] 16.43 Tag `wave-14-complete` after 14.50. No clock. (#360)
+- [x] 16.44 Tag `wave-16-complete` after 16.43. No clock. (#361)
+- [x] 16.45 CI still fails on `stripe` in package.json. (#362)
+- [x] 16.46 CI still fails if CLOSE_AT is non-null. (#363)
+- [x] 16.47 docs/VERCEL-HOLD.md date bump only. (#364)
+- [x] 16.48 Local seed includes numbered standing on seat 1 and 9. (#365)
+- [x] 16.49 Counsel ZIP lists seats by number. (#366)
+- [x] 16.50 Stop line: after Wave 16, idle. Wave 15 is still Stripe and needs a human message. (#367)
 
 ## Wave 17 — phone + public-face correctness
 
 Do not start until 16.50 unless skip-ahead. No Stripe. No CLOSE_AT.
 
-- [ ] 17.1–17.11 Phone / legend / signin empty state as previously locked.
-- [ ] 17.12–17.19 Seat compositor buyer copy as previously locked.
+- [x] 17.1 `TRUCK_VIEWS_LEAD` is a buyer sentence. No “prototype”, “hotspot”, or “30X”. (#368)
+- [x] 17.2 `truckViewsCopyIsSafe()` requires floor + buyout + no lease / no CLOSE_AT. (#369)
+- [x] 17.3 Legend + aria: `Open seat` · `Held = standing intent`. Drop Raw 30X / Not a 360 from visible UI. (#370)
+- [x] 17.4 `/signin` live empty state + waitlist link. No env key names in public copy. (#371)
+- [x] 17.5 `PUBLIC_COPY.signIn.notOpenYet` + matching PUBLIC_COPY.md line. (#372)
+- [x] 17.6 `hero.css` ≤720px: stack caption / H1 / lead / CTAs under the photo. (#373)
+- [x] 17.7 `viewport-fit=cover` + safe-area insets on header, hero actions, page bottom. (#374)
+- [x] 17.8 Front / Rear: hide the side-body SVG schematic. Same preview photo. No new stills. (#375)
+- [x] 17.9 Playwright 390: hero H1 and callouts 2 / 3 / 5 / 7 do not overlap. (#376)
+- [x] 17.10 Homepage `.panel-face` is not an empty black rectangle. (#377)
+- [x] 17.11 After 17.10 continue 17.12. Wave 15 is still Stripe and needs a human message. (#378)
+- [x] 17.12 `STAINLESS_COMPOSITOR_LEAD`, `FINISH_CONDITIONS_LEAD`, and `DIRTY_CLEAN_PAIR_LEAD` are buyer sentences. No “compositor”, “shader”, “VIN”, or “Dirty vs clean pair” as body copy. Floor / buyout from `formatUsd`. Update `stainlessCompositorCopyIsSafe` / `finishConditionsCopyIsSafe` / `dirtyCleanPairCopyIsSafe` so they no longer require shader / toggle / VIN jargon. (#379)
+- [x] 17.13 Wrap-only seats do not render the Etch tab. Etchable seats keep the locked tab until pledged ≥ `$120,000`. Copy stays “wrap only” / etch-lock sentence — not a disabled control on fascia / roof / bed. (#380)
+- [x] 17.14 Public `/panels/[id]` HTML does not contain “Stripe” or “No Stripe capture.” Intent-only line stays. Vendor name stays out of buyer copy. (#381)
+- [x] 17.15 Soft-close / extension block is hidden while `CLOSE_AT` is null and bidding is not open. Do not set a clock. (#382)
+- [x] 17.16 Compositor `.panel-mockup-face` is not a striped empty well. Reuse the hero still with a crop, or drop the well. No invented wrap or etch photo. (#383)
+- [x] 17.17 Seat-page board: the active polygon sits on the named panel (seat 2 on the front bumper), not floating off-frame. Complements 17.8. No new stills. (#384)
+- [x] 17.18 Playwright: `/panels/front-fascia` HTML has no prototype / 30X / hotspot / shader / reserved VIN / Stripe. Opening still `$1,200`. Deposit still 20% of opening, not charged. Floor `$58,000`. Buyout `$120,000`. (#385)
+- [x] 17.19 Stop line: after 17.18, idle on this wave. Wave 15 is still Stripe and needs a human message. (#386)
+
+## Wave 18 — leftovers Wave 17 does not own
+
+One small Playwright-gated change each. Do not start until 17.19 unless a human skip-aheads. Not Wave 15.
+
+- [x] 18.1 `/privacy`: stop concatenating FAQ answers onto waitlist / Tesla lines. One waitlist sentence, one Tesla sentence, no leading `No.` Floor `$58,000` / buyout `$120,000` unchanged (do not add a third number). FEATURES.md stays off `/`. Verify: Playwright `/privacy` HTML has no `No. The waitlist` and no `No. Independent`; still `hello@brandmybeast.com`; no `lease`. (#387)
+- [x] 18.2 `/terms`: drop `Close date is unset` and `(null)`. Use the PUBLIC_COPY “when seats open / no date” line only. Do not print `CLOSE_AT`. Floor `{formatUsd(FLOOR_USD)}` stays. Verify: `/terms` has `$58,000`, no `null`, no `CLOSE_AT`, no `lease`. (#388)
+- [x] 18.3 `/unsubscribe`: drop `Stub preference center` and `mailing address stub (set after LLC)`. Buyer unsubscribe + `hello@brandmybeast.com`. Physical line can stay BrandMyBeast / the operator / brandmybeast.com without Stub/LLC. Verify: page has no `Stub`, no `LLC`; still hello@; no `lease`. (#389)
+- [x] 18.4 `/waitlist/confirm` with no token: buyer empty state (link missing or expired), not `Missing confirm token.` Back to the board. Verify: `/waitlist/confirm` 200, no `Missing confirm token.`, no env keys, no `lease`. (#390)
+- [x] 18.5 `/llms.txt`: delete the `CLOSE_AT is null` line. Keep `Floor $58,000. Buyout $120,000.` and `No close date.` and the 1–12 list. Verify: body has those money lines, no `CLOSE_AT`, no `null`, no `lease`. (#391)
+- [x] 18.6 Seat hometown lead: drop `48-state`. Keep the circuit names. No hometown-lane restyle (17 lock). Verify: `/panels/hood` and `/panels/driver-door` HTML have no `48-state`; floor `$58,000`; etch still locked under `$120,000`. (#392)
+- [x] 18.7 Public seat HTML drops `optional lint`, `linter`, and `Neighbor combo later`. Keep the neighbor opening list (`formatUsd`). Verify: `/panels/hood` has none of those three; still `$58,000` / `$120,000`; no `lease`; FEATURES.md stays off `/`. (#393)
 
 ## After Wave 17
 
-Idle. Wave 15 is Stripe / CLOSE_AT / first tweet and waits for an explicit human message.
+Wave 18 finished at 18.7. Idle. Wave 15 still human-only.

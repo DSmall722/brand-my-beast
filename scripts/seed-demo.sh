@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 # Slice 14.49 — seed 3 pending, 1 approved, 1 outbid. CI / local test only.
+# Slice 16.48 — numbered standing on seat 1 (hood) and seat 9 (tailgate).
 # Refuses production. Does not set CLOSE_AT. Intent only — no capture.
 set -euo pipefail
 

@@ -16,7 +16,7 @@ export const FINISH_CONDITIONS = [
 export type FinishCondition = (typeof FINISH_CONDITIONS)[number]["id"];
 
 /** Seat lead: toggles are shaders, not documentary photos. */
-export const FINISH_CONDITIONS_LEAD = `Day / night / wet / dirty toggles. Shader preview only — not proof photos of a truck that does not exist. Floor ${formatUsd(FLOOR_USD)}. Buyout ${formatUsd(GOAL_USD)}. Still no card charge.`;
+export const FINISH_CONDITIONS_LEAD = `Day, night, wet, and dirty toggles. Preview only — not proof photos of a truck that does not exist. Floor ${formatUsd(FLOOR_USD)}. Buyout ${formatUsd(GOAL_USD)}. Still no card charge.`;
 
 export function isFinishCondition(value: string): value is FinishCondition {
   return FINISH_CONDITIONS.some((row) => row.id === value);
@@ -29,8 +29,13 @@ export function finishConditionLabel(id: FinishCondition): string {
 export function finishConditionsCopyIsSafe(): boolean {
   const lower = FINISH_CONDITIONS_LEAD.toLowerCase();
   return (
-    lower.includes("toggle") &&
     lower.includes("not proof") &&
+    FINISH_CONDITIONS_LEAD.includes(formatUsd(FLOOR_USD)) &&
+    FINISH_CONDITIONS_LEAD.includes(formatUsd(GOAL_USD)) &&
+    !lower.includes("shader") &&
+    !lower.includes("compositor") &&
+    !/\bvin\b/.test(lower) &&
+    !lower.includes("dirty vs clean pair") &&
     !/\blease\b/.test(lower) &&
     !FINISH_CONDITIONS_LEAD.includes("CLOSE_AT") &&
     !FINISH_CONDITIONS_LEAD.includes("South Carolina home loop") &&

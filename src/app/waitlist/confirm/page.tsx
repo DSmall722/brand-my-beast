@@ -18,7 +18,11 @@ export default async function WaitlistConfirmPage({
   const token = Array.isArray(raw) ? raw[0] ?? "" : raw ?? "";
   const result = token
     ? await confirmWaitlistByToken(token)
-    : { ok: false as const, error: "Missing confirm token.", code: "invalid" as const };
+    : {
+        ok: false as const,
+        error: "That confirm link is missing or expired.",
+        code: "invalid" as const,
+      };
 
   return (
     <>

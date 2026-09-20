@@ -58,7 +58,7 @@ test.describe("slice 16.6: views share the hero index", () => {
     page,
   }) => {
     await page.goto("/");
-    const views = page.getByTestId("truck-view-hotspots");
+    const views = page.getByTestId("truck-view-seats");
     await expect(views).toBeVisible();
 
     for (const row of TRUCK_VIEWS) {

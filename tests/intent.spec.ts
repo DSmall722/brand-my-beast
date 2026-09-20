@@ -988,8 +988,8 @@ test.describe("finish condition shaders (no capture)", () => {
 
   test("slice 3.6: finish toggles are shaders, not proof photos", () => {
     expect(finishConditionsCopyIsSafe()).toBe(true);
-    expect(FINISH_CONDITIONS_LEAD.toLowerCase()).toContain("toggle");
     expect(FINISH_CONDITIONS_LEAD.toLowerCase()).toContain("not proof");
+    expect(FINISH_CONDITIONS_LEAD.toLowerCase()).not.toContain("shader");
     expect(FINISH_CONDITIONS_LEAD).toContain("$58,000");
     expect(FINISH_CONDITIONS_LEAD).toContain("$120,000");
     expect(FINISH_CONDITIONS_LEAD.toLowerCase()).not.toMatch(/\blease\b/);
@@ -1654,7 +1654,7 @@ test.describe("dirty-vs-clean pair (preview only)", () => {
     expect(DIRTY_CLEAN_PAIR_LEAD).toContain("$120,000");
     expect(DIRTY_CLEAN_PAIR_LEAD.toLowerCase()).toContain("preview only");
     expect(DIRTY_CLEAN_PAIR_LEAD.toLowerCase()).toContain("not a photo");
-    expect(DIRTY_CLEAN_PAIR_LEAD.toLowerCase()).toContain("no reserved vin");
+    expect(DIRTY_CLEAN_PAIR_LEAD.toLowerCase()).not.toMatch(/\bvin\b/);
     expect(dirtyCleanPairCopyIsSafe()).toBe(true);
     expect(FLOOR_USD).toBe(58_000);
     expect(GOAL_USD).toBe(120_000);
@@ -1906,9 +1906,9 @@ test.describe("truck view hotspots (no capture)", () => {
     expect(TRUCK_VIEWS.map((v) => v.id)).toEqual(["side", "front", "rear"]);
     expect(truckHotspotsAreValid()).toBe(true);
     expect(truckViewsCopyIsSafe()).toBe(true);
-    expect(TRUCK_VIEWS_LEAD.toLowerCase()).toContain("hotspot");
-    expect(TRUCK_VIEWS_LEAD.toLowerCase()).toContain("raw 30x");
-    expect(TRUCK_VIEWS_LEAD.toLowerCase()).toContain("not a 360");
+    expect(TRUCK_VIEWS_LEAD.toLowerCase()).not.toContain("prototype");
+    expect(TRUCK_VIEWS_LEAD.toLowerCase()).not.toContain("hotspot");
+    expect(TRUCK_VIEWS_LEAD.toLowerCase()).not.toContain("30x");
     expect(TRUCK_VIEWS_LEAD).toContain("$58,000");
     expect(TRUCK_VIEWS_LEAD).toContain("$120,000");
     expect(TRUCK_VIEWS_LEAD.toLowerCase()).not.toMatch(/\blease\b/);

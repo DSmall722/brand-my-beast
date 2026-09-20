@@ -128,6 +128,7 @@ Not homepage. Same voice. No “test login” string when Auth is live.
 - Magic-link button: `Email me a sign-in link`
 - Credentials button: `Sign in`
 - Missing-providers lead: `Live sign-in is on, but no providers are configured yet. The operator needs AUTH_SECRET, AUTH_URL, RESEND_API_KEY, and DATABASE_URL.`
+- Not open yet (slice **17.5**): `Sign-in is not open yet. Join the list. Nothing is charged.`
 - Test-mode hint (AUTH_MODE=test only): `CI path: use any @example.com email and the test password.`
 - Check-email heading: `Check your email`
 - Check-email success: `If that address is valid, a sign-in link is on the way. The link expires soon. No card is charged on this path.`

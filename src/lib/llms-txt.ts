@@ -1,4 +1,4 @@
-import { BRAND, CLOSE_AT, formatUsd, FLOOR_USD, GOAL_USD } from "./campaign";
+import { BRAND, formatUsd, FLOOR_USD, GOAL_USD } from "./campaign";
 import { PANEL_BOARD_MARKS, panelLegendLabel } from "./panel-board";
 import { PUBLIC_COPY } from "./public-copy";
 
@@ -47,7 +47,6 @@ export function buildLlmsTxt(): string {
     "",
     // Campaign locks — same numbers PUBLIC_COPY already prints; CLOSE_AT fence.
     `Floor ${formatUsd(FLOOR_USD)}. Buyout ${formatUsd(GOAL_USD)}.`,
-    `CLOSE_AT is ${CLOSE_AT === null ? "null" : CLOSE_AT}.`,
     "No close date.",
     "Twelve numbered seats",
     ...PANEL_BOARD_MARKS.map((mark) => panelLegendLabel(mark)),

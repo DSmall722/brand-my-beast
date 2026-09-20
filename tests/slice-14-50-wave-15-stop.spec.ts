@@ -74,7 +74,8 @@ test.describe("slice 14.50: Wave 15 stop line after Wave 14", () => {
     // Condensed Waves 0–15 line or explicit 14.50 checkbox.
     expect(slices).toMatch(/0\.1–14\.50 Complete|^- \[x\] 14\.50\b/m);
     expect(slices).not.toMatch(/^- \[[ xX]\] 15\.\d+/m);
-    // After 14.50, Now advances into Wave 16 (16.0a–g jump the line, then 16.1+).
-    expect(slices).toMatch(/\*\*Now:\*\*\s*16\./);
+    // After 14.50, Now advances into Wave 16, then 17, then 18. Never Wave 15.
+    expect(slices).toMatch(/\*\*Now:\*\*\s*(16\.|17\.|18\.)/);
+    expect(slices).not.toMatch(/\*\*Now:\*\*\s*15\./);
   });
 });

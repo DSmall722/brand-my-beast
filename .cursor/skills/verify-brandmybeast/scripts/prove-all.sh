@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 # Drive Wave 0 (slices 0.1–0.4) plus the rest of the verify map.
 # Slice 13.41 — also runs Playwright for 9.6–9.10 and 12.45–12.46.
+# Slice 16.42 — also runs Playwright for 16.4, 16.5, and 16.28.
 # Used by /maintain-verification-skill live pass. CI red here = merge nothing else.
 set -euo pipefail
 ROOT="$(cd "$(dirname "$0")/../../../.." && pwd)"
@@ -34,6 +35,12 @@ PROVE_ALL_PLAYWRIGHT_SPECS=(
   tests/slice-12-45-concurrent-hood.spec.ts
   # 12.46
   tests/slice-12-46-reject-note.spec.ts
+  # 16.4
+  tests/slice-16-4-callout-wordmark.spec.ts
+  # 16.5
+  tests/slice-16-5-twelve-numbers-dom.spec.ts
+  # 16.28
+  tests/slice-16-28-card-callout-nav.spec.ts
 )
 
 "$SCRIPTS/launch.sh" >/dev/null

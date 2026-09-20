@@ -1,6 +1,6 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
-import { BRAND, CLOSE_AT, FLOOR_USD, formatUsd } from "@/lib/campaign";
+import { BRAND, FLOOR_USD, formatUsd } from "@/lib/campaign";
 import { PUBLIC_COPY } from "@/lib/public-copy";
 
 /**
@@ -29,28 +29,17 @@ export function LegalStubShell({
 }
 
 export function PrivacyStubBody() {
-  const teslaQ = PUBLIC_COPY.questions.items.find(
-    (item) => item.q === "Is this Tesla?",
-  );
-  const chargeQ = PUBLIC_COPY.questions.items.find(
-    (item) => item.q === "Will I be charged if I join the list?",
-  );
-
   return (
     <>
       <p data-testid="privacy-contact">
         Contact:{" "}
         <a href={`mailto:${BRAND.email}`}>{BRAND.email}</a>
       </p>
-      <p data-testid="privacy-waitlist">
-        {PUBLIC_COPY.waitlist.idleNote} {chargeQ?.a}
-      </p>
+      <p data-testid="privacy-waitlist">{PUBLIC_COPY.waitlist.idleNote}</p>
       <p data-testid="privacy-waitlist-retention">
         {PUBLIC_COPY.waitlist.retention}
       </p>
-      <p data-testid="privacy-independent">
-        {PUBLIC_COPY.footer.independent} {teslaQ?.a}
-      </p>
+      <p data-testid="privacy-independent">{PUBLIC_COPY.footer.independent}</p>
       <p data-testid="privacy-identity">
         Public brand: {BRAND.name}. Public handle: {BRAND.handle}. Domain:{" "}
         {BRAND.domain}. Operator on this site is called {BRAND.operator}.
@@ -83,10 +72,7 @@ export function TermsStubBody() {
       <p data-testid="terms-floor">
         Floor {formatUsd(FLOOR_USD)}. {miss?.a}
       </p>
-      <p data-testid="terms-clock">
-        {when?.a} Close date is unset
-        {CLOSE_AT === null ? " (null)." : "."}
-      </p>
+      <p data-testid="terms-clock">{when?.a}</p>
       <p data-testid="terms-contact">
         Questions:{" "}
         <a href={`mailto:${BRAND.email}`}>{BRAND.email}</a>

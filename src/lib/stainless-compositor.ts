@@ -4,13 +4,13 @@
  * Labels come from PUBLIC_COPY only. Immortal = etch. Never “permanent vinyl.”
  */
 
-import { GOAL_USD, formatUsd } from "./campaign";
+import { FLOOR_USD, GOAL_USD, formatUsd } from "./campaign";
 import { PUBLIC_COPY } from "./public-copy";
 
 export type CompositorFinish = "wrap" | "etch";
 
 export const STAINLESS_COMPOSITOR_LEAD =
-  `Stainless compositor on this seat — preview only. Wrap film and Immortal etch are shaders on steel, not a photo of a truck that does not exist. Etch stays locked under ${formatUsd(GOAL_USD)}. Still no card charge.`;
+  `Seat preview only. Wrap film and Immortal etch are not a photo of a truck that does not exist. Floor ${formatUsd(FLOOR_USD)}. Buyout ${formatUsd(GOAL_USD)}. Etch stays locked until buyout. Still no card charge.`;
 
 export function compositorModeLabel(finish: CompositorFinish): string {
   return finish === "etch"
@@ -46,6 +46,12 @@ export function stainlessCompositorCopyIsSafe(
   if (blob.includes("CLOSE_AT")) return false;
   if (lower.includes("stripe")) return false;
   if (lower.includes("permanent vinyl")) return false;
+  if (lower.includes("compositor")) return false;
+  if (lower.includes("shader")) return false;
+  if (/\bvin\b/.test(lower)) return false;
+  if (lower.includes("dirty vs clean pair")) return false;
+  if (!blob.includes(formatUsd(FLOOR_USD))) return false;
+  if (!blob.includes(formatUsd(GOAL_USD))) return false;
   if (!lower.includes("preview")) return false;
   return true;
 }
