@@ -68,8 +68,8 @@
 .panel-board-callout {
   pointer-events: auto;
   position: absolute;
-  left: 0;
-  top: 0;
+  left: var(--board-x, 0);
+  top: var(--board-y, 0);
   /* Slice 16.10 — 44px hit target on every viewport. Do not shrink. */
   width: 44px;
   height: 44px;
@@ -342,6 +342,12 @@
     /* No scale crop on small screens; keep more of the stainless body in frame. */
     object-position: 50% 42%;
     transform: none;
+  }
+
+  /* Slice 20.11 — numbers sit on the body, not the cab glass. */
+  .panel-board-hero .panel-board-callout {
+    left: var(--hero-mobile-x);
+    top: var(--hero-mobile-y);
   }
 
   .hero-truck-link:hover .hero-truck-image,
