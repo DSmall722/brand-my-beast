@@ -11,8 +11,8 @@ Updated: 2026-09-20
 - After 19.12, do Wave 20. After 20.12, idle. Do not start Wave 15 (Stripe) without a human message.
 - Judge PRs from git + `npm test` + `npm run build`.
 
-**Now:** 19.7 Board-truck-seats overlay: hide the giant gray polygons on the photo. Keep numbered callouts 1–12.
-**Last merged:** 19.6 Neighbor block: no “combo” heading.
+**Now:** 19.8 Desktop hero: numbered callouts must not sit on top of the H1 glyphs.
+**Last merged:** 19.7 Board-truck-seats overlay: hide the giant gray polygons on the photo.
 
 ## Standing orders
 
@@ -53,7 +53,7 @@ Fix what is wrong on the live waitlist site. Do not flip SEATS_OPEN. Do not rewr
 - [x] 19.4 Hide Day/Night/Wet/Dirty and etch preview toggles on public seats while `TRUCK_EXISTS` is false. Stainless still + numbers only. (#397)
 - [x] 19.5 One disclaimer on the seat compositor, not floor/buyout stamped on every caption. (#398)
 - [x] 19.6 Neighbor block: no “combo” heading. Neighbor openings may stay as `formatUsd`. (#399)
-- [ ] 19.7 Board-truck-seats overlay: hide the giant gray polygons on the photo. Keep numbered callouts 1–12. Playwright numbers still present.
+- [x] 19.7 Board-truck-seats overlay: hide the giant gray polygons on the photo. Keep numbered callouts 1–12. Playwright numbers still present.
 - [ ] 19.8 Desktop hero: numbered callouts must not sit on top of the H1 glyphs. Stack or mask so 2/3/5 do not collide with “Put your brand…”. H1 text unchanged.
 - [ ] 19.9 Mobile header: wordmark and Join/Sign in do not wrap into two ragged rows. Safe-area already 17.7.
 - [ ] 19.10 Homepage vault while pledged is $0: “No marks yet” (or PUBLIC_COPY equivalent). Do not read like an empty auction.

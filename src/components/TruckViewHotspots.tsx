@@ -41,6 +41,7 @@ export function TruckViewHotspots({
       data-testid="truck-view-seats"
       data-view={view}
       data-one-view="true"
+      data-polygons="hidden"
     >
       <p className="auth-hint truck-view-lead" data-testid="truck-view-lead">
         {TRUCK_VIEWS_LEAD}

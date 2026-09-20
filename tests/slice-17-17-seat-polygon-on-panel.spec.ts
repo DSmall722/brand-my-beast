@@ -17,18 +17,6 @@ import { vercelJsonIsHoldOrMainOnlyRestore } from "../src/lib/vercel-git-deploy"
 
 const STILL = "/hero-truck-preview.jpg";
 
-function overlaps(
-  a: { x: number; y: number; width: number; height: number },
-  b: { x: number; y: number; width: number; height: number },
-): boolean {
-  return (
-    a.x < b.x + b.width &&
-    a.x + a.width > b.x &&
-    a.y < b.y + b.height &&
-    a.y + a.height > b.y
-  );
-}
-
 function inside(
   inner: { x: number; y: number; width: number; height: number },
   outer: { x: number; y: number; width: number; height: number },
@@ -70,30 +58,30 @@ test.describe("slice 17.17: seat 2 polygon on the bumper", () => {
     const photoBox = await photo.boundingBox();
     if (!photoBox) throw new Error("photo missing");
 
+    await expect(page.getByTestId("truck-view-seats")).toHaveAttribute(
+      "data-polygons",
+      "hidden",
+    );
     const polygon = page.locator(
       '[data-testid="truck-seat-front-fascia"] polygon',
     );
+    const fill = await polygon.evaluate((el) => getComputedStyle(el).fill);
+    expect(["none", "rgba(0, 0, 0, 0)", "transparent"]).toContain(fill);
     const sideCallout = page.getByTestId("view-panel-board-side-2");
     await expect(sideCallout).toBeVisible();
-    const polyBox = await polygon.boundingBox();
     const calloutBox = await sideCallout.boundingBox();
-    if (!polyBox || !calloutBox) throw new Error("polygon or callout missing");
-    expect(inside(polyBox, photoBox)).toBe(true);
-    expect(overlaps(polyBox, calloutBox)).toBe(true);
+    if (!calloutBox) throw new Error("callout missing");
+    expect(inside(calloutBox, photoBox)).toBe(true);
 
     await page.getByTestId("truck-view-front").click();
     await expect(photo).toHaveAttribute("src", STILL);
-    const frontPoly = await page
-      .locator('[data-testid="truck-seat-front-fascia"] polygon')
-      .boundingBox();
     const frontCallout = await page
       .getByTestId("view-panel-board-front-2")
       .boundingBox();
     const frontPhoto = await photo.boundingBox();
-    if (!frontPoly || !frontCallout || !frontPhoto) {
+    if (!frontCallout || !frontPhoto) {
       throw new Error("front boxes missing");
     }
-    expect(inside(frontPoly, frontPhoto)).toBe(true);
-    expect(overlaps(frontPoly, frontCallout)).toBe(true);
+    expect(inside(frontCallout, frontPhoto)).toBe(true);
   });
 });
