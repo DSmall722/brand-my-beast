@@ -38,6 +38,12 @@ test.describe("P2 panel intent + approvals", () => {
       "Wrap",
     );
     await expect(page.getByTestId("etch-lock-copy")).toContainText(
+      "Etch stays locked until buyout",
+    );
+    await expect(page.getByTestId("stainless-compositor-lead")).toContainText(
+      "$58,000",
+    );
+    await expect(page.getByTestId("stainless-compositor-lead")).toContainText(
       "$120,000",
     );
     const html = await page.content();
@@ -60,7 +66,7 @@ test.describe("P2 panel intent + approvals", () => {
     await expect(page.getByTestId("compositor-mode-etch")).toHaveCount(0);
     await expect(page.getByTestId("compositor-mode-wrap")).toHaveCount(0);
     await expect(page.getByTestId("etch-lock-copy")).toContainText(
-      "locked while raised is under $120,000",
+      "Etch stays locked until buyout",
     );
     await expect(page.getByTestId("panel-mockup")).toHaveAttribute(
       "data-finish",
@@ -91,7 +97,12 @@ test.describe("P2 panel intent + approvals", () => {
     await expect(page.getByTestId("stainless-compositor")).toHaveCount(0);
     await expect(page.getByTestId("compositor-mode-wrap")).toHaveCount(0);
     await expect(page.getByTestId("compositor-mode-etch")).toHaveCount(0);
-    await expect(page.getByTestId("etch-lock-copy")).toContainText("$120,000");
+    await expect(page.getByTestId("etch-lock-copy")).toContainText(
+      "Etch stays locked until buyout",
+    );
+    await expect(page.getByTestId("stainless-compositor-lead")).toContainText(
+      "$120,000",
+    );
     await expect(page.getByTestId("compositor-wrap-film")).toBeVisible();
     await expect(page.getByTestId("compositor-finish-label")).toContainText(
       "Wrap",

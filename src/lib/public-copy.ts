@@ -272,7 +272,7 @@ export const PUBLIC_COPY = {
     modeEtch: "Etch",
     finishWrapEtchable: "Wrap on steel · etch at buyout",
     finishWrapOnly: "Wrap only",
-    finishEtch: "Immortal etch preview · unlocks at $120,000",
+    finishEtch: "Immortal etch preview",
     wrapFilm: "Vinyl film layer",
     etchMark: "Laser on stainless",
   },

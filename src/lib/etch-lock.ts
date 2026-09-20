@@ -3,13 +3,7 @@
  * Panel may be etch-capable steel, but controls stay off until raised ≥ GOAL_USD.
  */
 
-import {
-  GOAL_USD,
-  formatUsd,
-  isEtchable,
-  isEtchUnlocked,
-  type Panel,
-} from "./campaign";
+import { isEtchable, isEtchUnlocked, type Panel } from "./campaign";
 
 /** Seat / mockup etch controls: panel must be etchable AND buyout cleared. */
 export function etchControlsEnabled(
@@ -21,7 +15,7 @@ export function etchControlsEnabled(
 
 export function etchLockCopy(raisedUsd: number): string {
   if (isEtchUnlocked(raisedUsd)) {
-    return `Etch unlocked at ${formatUsd(GOAL_USD)}.`;
+    return "Etch unlocked.";
   }
-  return `Etch controls locked while raised is under ${formatUsd(GOAL_USD)}.`;
+  return "Etch stays locked until buyout.";
 }
