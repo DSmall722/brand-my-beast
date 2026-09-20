@@ -90,7 +90,7 @@ test.describe("slice 6.1: floor, buyout, etch lock, no lease, no personal handle
       "data-etch-unlocked",
       "false",
     );
-    await expect(page.getByTestId("compositor-mode-etch")).toBeDisabled();
+    await expect(page.getByTestId("compositor-mode-etch")).toHaveCount(0);
     await expect(page.getByTestId("etch-lock-copy")).toContainText(
       "locked while raised is under $120,000",
     );

@@ -108,26 +108,9 @@ test.describe("slice 10.7: mobile compositor one view", () => {
 
     const mockup = page.getByTestId("panel-mockup");
     await expect(mockup).toHaveAttribute("data-finish", "wrap");
-    await expect(page.getByTestId("compositor-mode-wrap")).toHaveAttribute(
-      "aria-pressed",
-      "true",
-    );
-
-    await page.getByTestId("dirty-clean-pair-toggle").click();
-    await expect(page.getByTestId("dirty-clean-pair")).toBeVisible();
-    const pair = page.getByTestId("dirty-clean-pair");
-    const clean = page.getByTestId("dirty-clean-clean");
-    const dirty = page.getByTestId("dirty-clean-dirty");
-    const pairBox = await boxOf(pair);
-    const cleanBox = await boxOf(clean);
-    // One view at a time: each half is ~full pair width (scroll-snap), not 50/50.
-    expect(cleanBox.right - cleanBox.left).toBeGreaterThan(
-      (pairBox.right - pairBox.left) * 0.85,
-    );
-    const dirtyBox = await boxOf(dirty);
-    expect(dirtyBox.right - dirtyBox.left).toBeGreaterThan(
-      (pairBox.right - pairBox.left) * 0.85,
-    );
+    await expect(page.getByTestId("compositor-mode-wrap")).toHaveCount(0);
+    await expect(page.getByTestId("dirty-clean-pair-toggle")).toHaveCount(0);
+    await expect(page.getByTestId("dirty-clean-pair")).toHaveCount(0);
 
     await page.evaluate(() => window.scrollTo(0, 0));
     await expectUnclippedInViewport(page, wordmark);

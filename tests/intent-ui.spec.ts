@@ -23,16 +23,20 @@ test.describe("P2 panel intent + approvals", () => {
     await page.goto("/panels/hood");
     await expect(page.getByTestId("panel-intent-page")).toBeVisible();
     await expect(page.getByTestId("panel-mockup")).toBeVisible();
-    await expect(page.getByTestId("stainless-compositor")).toBeVisible();
+    await expect(page.getByTestId("panel-mockup")).toHaveAttribute(
+      "data-preview-toggles",
+      "false",
+    );
+    await expect(page.getByTestId("stainless-compositor")).toHaveCount(0);
     await expect(page.getByTestId("stainless-compositor-lead")).toContainText(
       "preview only",
     );
-    await expect(page.getByTestId("compositor-mode-wrap")).toBeVisible();
+    await expect(page.getByTestId("compositor-mode-wrap")).toHaveCount(0);
+    await expect(page.getByTestId("compositor-mode-etch")).toHaveCount(0);
     await expect(page.getByTestId("compositor-wrap-film")).toBeVisible();
     await expect(page.getByTestId("compositor-finish-label")).toContainText(
       "Wrap",
     );
-    await expect(page.getByTestId("compositor-mode-etch")).toBeDisabled();
     await expect(page.getByTestId("etch-lock-copy")).toContainText(
       "$120,000",
     );
@@ -53,11 +57,11 @@ test.describe("P2 panel intent + approvals", () => {
       "data-etch-unlocked",
       "false",
     );
-    await expect(page.getByTestId("compositor-mode-etch")).toBeDisabled();
+    await expect(page.getByTestId("compositor-mode-etch")).toHaveCount(0);
+    await expect(page.getByTestId("compositor-mode-wrap")).toHaveCount(0);
     await expect(page.getByTestId("etch-lock-copy")).toContainText(
       "locked while raised is under $120,000",
     );
-    await expect(page.getByTestId("compositor-mode-wrap")).toBeEnabled();
     await expect(page.getByTestId("panel-mockup")).toHaveAttribute(
       "data-finish",
       "wrap",
@@ -80,79 +84,25 @@ test.describe("P2 panel intent + approvals", () => {
       "waitlist",
     );
     await expect(page.getByTestId("panel-mockup")).toBeVisible();
-    await expect(page.getByTestId("stainless-compositor")).toBeVisible();
-    await expect(page.getByTestId("compositor-mode-wrap")).toBeVisible();
-    await expect(page.getByTestId("compositor-mode-etch")).toBeDisabled();
+    await expect(page.getByTestId("panel-mockup")).toHaveAttribute(
+      "data-preview-toggles",
+      "false",
+    );
+    await expect(page.getByTestId("stainless-compositor")).toHaveCount(0);
+    await expect(page.getByTestId("compositor-mode-wrap")).toHaveCount(0);
+    await expect(page.getByTestId("compositor-mode-etch")).toHaveCount(0);
     await expect(page.getByTestId("etch-lock-copy")).toContainText("$120,000");
     await expect(page.getByTestId("compositor-wrap-film")).toBeVisible();
     await expect(page.getByTestId("compositor-finish-label")).toContainText(
       "Wrap",
     );
-    await expect(page.getByTestId("finish-conditions")).toBeVisible();
-    await expect(page.getByTestId("finish-conditions-lead")).toContainText(
-      "not proof",
-    );
-    await expect(page.getByTestId("finish-conditions-lead")).toContainText(
-      "$58,000",
-    );
-    await expect(page.getByTestId("finish-condition-day")).toHaveAttribute(
-      "aria-pressed",
-      "true",
-    );
-    await page.getByTestId("finish-condition-night").click();
-    await expect(page.getByTestId("panel-mockup")).toHaveAttribute(
-      "data-condition",
-      "night",
-    );
-    await expect(page.getByTestId("finish-condition-wash")).toHaveAttribute(
-      "data-condition",
-      "night",
-    );
-    await page.getByTestId("finish-condition-wet").click();
-    await expect(page.getByTestId("panel-mockup")).toHaveAttribute(
-      "data-condition",
-      "wet",
-    );
-    await page.getByTestId("finish-condition-dirty").click();
-    await expect(page.getByTestId("panel-mockup")).toHaveAttribute(
-      "data-condition",
-      "dirty",
-    );
-    await expect(page.getByTestId("finish-condition-wash")).toHaveAttribute(
-      "data-condition",
-      "dirty",
-    );
-    await expect(page.getByTestId("dirty-clean-pair-lead")).toContainText(
-      "$58,000",
-    );
-    await expect(page.getByTestId("dirty-clean-pair-lead")).toContainText(
-      "$120,000",
-    );
-    await expect(page.getByTestId("dirty-clean-pair-lead")).toContainText(
-      "Preview only",
-    );
-    await page.getByTestId("dirty-clean-pair-toggle").click();
-    await expect(page.getByTestId("panel-mockup")).toHaveAttribute(
-      "data-pair",
-      "true",
-    );
-    await expect(page.getByTestId("dirty-clean-pair")).toBeVisible();
-    await expect(page.getByTestId("dirty-clean-clean")).toHaveAttribute(
-      "data-condition",
-      "day",
-    );
-    await expect(page.getByTestId("dirty-clean-dirty")).toHaveAttribute(
-      "data-condition",
-      "dirty",
-    );
-    await expect(page.getByTestId("dirty-clean-clean-wash")).toHaveAttribute(
-      "data-condition",
-      "day",
-    );
-    await expect(page.getByTestId("dirty-clean-dirty-wash")).toHaveAttribute(
-      "data-condition",
-      "dirty",
-    );
+    await expect(page.getByTestId("finish-conditions")).toHaveCount(0);
+    await expect(page.getByTestId("finish-condition-day")).toHaveCount(0);
+    await expect(page.getByTestId("finish-condition-night")).toHaveCount(0);
+    await expect(page.getByTestId("finish-condition-wet")).toHaveCount(0);
+    await expect(page.getByTestId("finish-condition-dirty")).toHaveCount(0);
+    await expect(page.getByTestId("dirty-clean-pair-toggle")).toHaveCount(0);
+    await expect(page.getByTestId("dirty-clean-pair")).toHaveCount(0);
     await expect(page.getByTestId("adjacent-neighbors")).toBeVisible();
     await expect(page.getByTestId("adjacent-neighbors-empty")).toBeVisible();
     await expect(page.getByTestId("neighbor-combo")).toBeVisible();
@@ -1128,35 +1078,18 @@ test.describe("P2 panel intent + approvals", () => {
     page,
   }) => {
     await page.goto("/panels/hood");
-    await expect(page.getByTestId("finish-conditions-lead")).toContainText(
-      "toggles",
+    await expect(page.getByTestId("panel-mockup")).toHaveAttribute(
+      "data-preview-toggles",
+      "false",
     );
-    await expect(page.getByTestId("finish-conditions-lead")).toContainText(
-      "not proof",
-    );
-    await expect(page.getByTestId("finish-conditions-lead")).toContainText(
-      "$58,000",
-    );
-    await expect(page.getByTestId("finish-conditions-lead")).toContainText(
-      "$120,000",
-    );
+    await expect(page.getByTestId("finish-conditions-lead")).toHaveCount(0);
+    await expect(page.getByTestId("finish-conditions")).toHaveCount(0);
     for (const id of ["day", "night", "wet", "dirty"] as const) {
-      await expect(page.getByTestId(`finish-condition-${id}`)).toBeVisible();
+      await expect(page.getByTestId(`finish-condition-${id}`)).toHaveCount(0);
     }
-    await page.getByTestId("finish-condition-night").click();
     await expect(page.getByTestId("panel-mockup")).toHaveAttribute(
       "data-condition",
-      "night",
-    );
-    await page.getByTestId("finish-condition-wet").click();
-    await expect(page.getByTestId("finish-condition-wash")).toHaveAttribute(
-      "data-condition",
-      "wet",
-    );
-    await page.getByTestId("finish-condition-dirty").click();
-    await expect(page.getByTestId("panel-mockup")).toHaveAttribute(
-      "data-condition",
-      "dirty",
+      "day",
     );
     const html = await page.content();
     expect(html.toLowerCase()).not.toMatch(/\blease\b/);

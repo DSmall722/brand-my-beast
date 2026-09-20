@@ -81,7 +81,7 @@ test.describe("slice 10.3: etch toggle locked under buyout", () => {
       "data-etch-unlocked",
       "false",
     );
-    await expect(page.getByTestId("compositor-mode-etch")).toBeDisabled();
+    await expect(page.getByTestId("compositor-mode-etch")).toHaveCount(0);
     await expect(page.getByTestId("etch-lock-copy")).toContainText(
       "locked while raised is under $120,000",
     );
@@ -96,16 +96,19 @@ test.describe("slice 10.3: etch toggle locked under buyout", () => {
       "data-etch-unlocked",
       "true",
     );
-    await expect(page.getByTestId("compositor-mode-etch")).toBeEnabled();
+    await expect(page.getByTestId("panel-mockup")).toHaveAttribute(
+      "data-preview-toggles",
+      "false",
+    );
+    await expect(page.getByTestId("compositor-mode-etch")).toHaveCount(0);
     await expect(page.getByTestId("etch-lock-copy")).toContainText(
       "Etch unlocked at $120,000",
     );
-    await page.getByTestId("compositor-mode-etch").click();
     await expect(page.getByTestId("panel-mockup")).toHaveAttribute(
       "data-finish",
-      "etch",
+      "wrap",
     );
-    await expect(page.getByTestId("compositor-etch-mark")).toBeVisible();
+    await expect(page.getByTestId("compositor-etch-mark")).toHaveCount(0);
 
     // Wrap-only panel does not render the Etch tab, even at buyout.
     await page.goto("/panels/roof");
