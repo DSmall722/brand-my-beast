@@ -8,7 +8,7 @@ Updated: 2026-09-20
 ## How this file stays alive
 
 - Next job = the first unchecked box, wave order. One slice per PR.
-- After 19.12, idle. Do not start Wave 15 (Stripe) without a human message.
+- After 19.12, do Wave 20. After 20.12, idle. Do not start Wave 15 (Stripe) without a human message.
 - Judge PRs from git + `npm test` + `npm run build`.
 
 **Now:** 19.1 Public seats while closed: waitlist only. No sign-in-to-list.
@@ -60,6 +60,23 @@ Fix what is wrong on the live waitlist site. Do not flip SEATS_OPEN. Do not rewr
 - [ ] 19.11 Document title / 404 title use BrandMyBeast + locked idea. Drop leftover “advertise on a Cybertruck” if it is the chrome title.
 - [ ] 19.12 Playwright pack: homepage H1 unchanged, `Notify me` present, no hometown cities on `/panels/hood`, no sign-in-to-list on `/panels/hood`, no lease, $58,000 / $120,000 stay.
 
-## After Wave 19
+## Wave 20 — leftover polish from the same pass (human 2026-09-20)
+
+Do not start until 19.12 is checked. No Stripe. No CLOSE_AT. No SEATS_OPEN flip. Do not rewrite the homepage H1.
+
+- [ ] 20.1 Homepage header: hide **Sign in** while sign-in is closed. **Join the list** only.
+- [ ] 20.2 Public seat: hide **Sign in to download a seat PNG** while `SEATS_OPEN` is false.
+- [ ] 20.3 Panel cards: do not print twelve identical **Open.** Use **Open seat** once, or drop the chorus.
+- [ ] 20.4 Money block at pledged $0: do not print both **Floor $58,000** and **Short of floor $58,000**.
+- [ ] 20.5 Same for **Short of buyout $120,000** when pledged is $0.
+- [ ] 20.6 Replace **Open seat · Held = standing intent** with a buyer sentence from PUBLIC_COPY.
+- [ ] 20.7 Homepage whole-truck block: one explanation sentence, not the 12-name package dump.
+- [ ] 20.8 Wreck lead is a complete sentence, not a fragment.
+- [ ] 20.9 Meta description waitlist-era. No **Bid on a panel** while seats are closed. No H1 change.
+- [ ] 20.10 Partner / 404 uses branded back-to-board, not a shop tease.
+- [ ] 20.11 Mobile board: numbers 1–12 do not stack on the cab glass. 19.8 is desktop H1 only.
+- [ ] 20.12 Playwright: 20.1–20.11 + locked H1 + `Notify me` + $58,000 / $120,000 + no lease.
+
+## After Wave 20
 
 Idle. Wave 15 is Stripe and needs a human message.
