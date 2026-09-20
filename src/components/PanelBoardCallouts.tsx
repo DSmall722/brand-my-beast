@@ -59,8 +59,8 @@ export function PanelBoardCallouts({
             className="panel-board-callout"
             href={`/panels/${mark.panelId}`}
             style={{
-              left: `${pct.x}%`,
-              top: `${pct.y}%`,
+              ["--board-x" as string]: `${pct.x}%`,
+              ["--board-y" as string]: `${pct.y}%`,
               ...(mobile
                 ? {
                     ["--hero-mobile-x" as string]: `${mobile.x}%`,

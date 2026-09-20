@@ -68,8 +68,8 @@
 .panel-board-callout {
   pointer-events: auto;
   position: absolute;
-  left: 0;
-  top: 0;
+  left: var(--board-x, 0);
+  top: var(--board-y, 0);
   /* Slice 16.10 — 44px hit target on every viewport. Do not shrink. */
   width: 44px;
   height: 44px;
