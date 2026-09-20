@@ -79,7 +79,8 @@ export const PUBLIC_COPY = {
     badgeEtch: "Can etch at $120k",
     badgeWrap: "Wrap only",
     /** Slice 10.9 — panel card standing line when no mark holds. */
-    standingOpen: "Open.",
+    /** Slice 20.3 — print once, not on every open card. */
+    standingOpen: "Open seat",
     gloss: PANEL_GLOSS,
   },
   howItWorks: {

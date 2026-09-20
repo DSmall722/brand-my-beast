@@ -61,24 +61,33 @@ test.describe("slice 10.9: panel cards standing or Open", () => {
     );
   });
 
-  test("unit: PUBLIC_COPY standingOpen is Open.", () => {
-    expect(PUBLIC_COPY.panels.standingOpen).toBe("Open.");
+  test("unit: PUBLIC_COPY standingOpen is Open seat", () => {
+    expect(PUBLIC_COPY.panels.standingOpen).toBe("Open seat");
+    expect(PUBLIC_COPY.panels.standingOpen).not.toBe("Open.");
   });
 
-  test("homepage: open cards say Open.; listed brand paints the card", async ({
+  test("homepage: Open seat once; listed brand paints the card", async ({
     browser,
   }) => {
     const visitor = await browser.newPage();
     await visitor.goto("/#panels");
+    await expect(visitor.getByTestId("panel-open-seat-once")).toHaveText(
+      PUBLIC_COPY.panels.standingOpen,
+    );
+    expect(
+      await visitor.getByTestId("panel-open-seat-once").count(),
+    ).toBe(1);
     for (const panel of PANELS) {
       await expect(
         visitor.getByTestId(`panel-standing-${panel.id}`),
-      ).toHaveText(PUBLIC_COPY.panels.standingOpen);
+      ).toHaveText("");
       await expect(visitor.getByTestId(`panel-${panel.id}`)).toHaveAttribute(
         "data-standing",
         "open",
       );
     }
+    const chorus = await visitor.locator(".panel-standing").allInnerTexts();
+    expect(chorus.filter((line) => line.trim() === "Open.").length).toBe(0);
     await visitor.close();
 
     const bidder = await browser.newPage();
@@ -103,8 +112,9 @@ test.describe("slice 10.9: panel cards standing or Open", () => {
       "data-standing",
       "held",
     );
-    await expect(after.getByTestId("panel-standing-roof")).toHaveText(
-      PUBLIC_COPY.panels.standingOpen,
+    await expect(after.getByTestId("panel-standing-roof")).toHaveText("");
+    await expect(after.getByTestId("panel-open-seat-once")).toHaveText(
+      "Open seat",
     );
 
     const html = await after.content();
