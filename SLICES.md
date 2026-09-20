@@ -11,8 +11,8 @@ Updated: 2026-09-20
 - After 19.12, do Wave 20. After 20.12, idle. Do not start Wave 15 (Stripe) without a human message.
 - Judge PRs from git + `npm test` + `npm run build`.
 
-**Now:** 19.1 Public seats while closed: waitlist only. No sign-in-to-list.
-**Last merged:** 18.7 Public seat HTML drops lint / combo-later.
+**Now:** 19.2 Remove HometownLaneTags from public seats.
+**Last merged:** 19.1 Public `/panels/[id]` while `SEATS_OPEN` is false: hide IntentBidForm and intent-signin-needed.
 
 ## Standing orders
 
@@ -47,7 +47,7 @@ Do not start. See `docs/WAVE-15-STOP.md`.
 
 Fix what is wrong on the live waitlist site. Do not flip SEATS_OPEN. Do not rewrite H1 `Put your brand on the truck people already photograph.`
 
-- [ ] 19.1 Public `/panels/[id]` while `SEATS_OPEN` is false: hide `IntentBidForm` and `intent-signin-needed`. Only waitlist CTA. Playwright: no “Sign in to list an intent” on `/panels/hood`.
+- [x] 19.1 Public `/panels/[id]` while `SEATS_OPEN` is false: hide `IntentBidForm` and `intent-signin-needed`. Only waitlist CTA. Playwright: no “Sign in to list an intent” on `/panels/hood`.
 - [ ] 19.2 Remove `HometownLaneTags` from public seats. No SC / Charlotte / Atlanta / Panhandle on `/panels/*`. Playwright those strings absent.
 - [ ] 19.3 Seat lead: if no holder, do not print “Current standing $2,500”. Opening price only. Standing line only when a mark exists.
 - [ ] 19.4 Hide Day/Night/Wet/Dirty and etch preview toggles on public seats while `TRUCK_EXISTS` is false. Stainless still + numbers only.

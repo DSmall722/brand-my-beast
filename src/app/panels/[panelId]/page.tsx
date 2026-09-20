@@ -98,7 +98,8 @@ export default async function PanelIntentPage({
   const board = await loadBoardIntentStats();
   const panelExtendedUntil = await getPanelExtendedUntil(panel.id);
   const extensionCopy = panelExtendedUntilCopy(panelExtendedUntil);
-  const hideSoftClose = CLOSE_AT === null && !resolveSeatsOpen();
+  const seatsOpen = resolveSeatsOpen();
+  const hideSoftClose = CLOSE_AT === null && !seatsOpen;
   const holdersRaw = await loadStandingHoldersByPanel();
   const holdersByPanel = new Map<string, AdjacentSeatHolder | null>();
   for (const row of PANELS) {
@@ -353,7 +354,7 @@ export default async function PanelIntentPage({
           </aside>
         ) : null}
 
-        {session?.user ? (
+        {seatsOpen && session?.user ? (
           <section
             className="intent-compose"
             aria-labelledby="intent-compose-title"
@@ -368,17 +369,17 @@ export default async function PanelIntentPage({
               suggestedStandingUsd={failedWinnerOffer?.offerUsd}
               suggestedBrand={viewerOutbid?.brandLabel ?? ""}
               suggestedTrade={viewerOutbid?.tradeLabel ?? ""}
-              seatsOpen={resolveSeatsOpen()}
+              seatsOpen={seatsOpen}
             />
           </section>
-        ) : (
+        ) : seatsOpen ? (
           <p className="auth-hint" data-testid="intent-signin-needed">
             <Link href={`/signin?callbackUrl=/panels/${panel.id}`}>
               Sign in
             </Link>{" "}
             to list an intent mark.
           </p>
-        )}
+        ) : null}
 
         <h2 className="auth-subhead">Standing intents</h2>
         {bids.length === 0 ? (
