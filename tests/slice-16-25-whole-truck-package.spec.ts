@@ -47,9 +47,9 @@ test.describe("slice 16.25: whole-truck package is seats 1-12", () => {
 
     const packageLine = wholeTruckPackageCopy();
     expect(packageLine).toBe(`The package is ${labels.join(", ")}.`);
-    expect(PUBLIC_COPY.board.wholeTruckLead.startsWith(packageLine)).toBe(true);
+    expect(PUBLIC_COPY.board.wholeTruckLead).not.toContain(packageLine);
     expect(PUBLIC_COPY.board.wholeTruckLead).toContain(
-      "Nothing is charged on this page.",
+      "nothing is charged on this page.",
     );
     expect(PUBLIC_COPY.board.wholeTruckHeading).toBe("Whole truck — $120,000");
     expect(PUBLIC_COPY.board.wholeTruckLead.toLowerCase()).not.toMatch(
@@ -57,8 +57,8 @@ test.describe("slice 16.25: whole-truck package is seats 1-12", () => {
     );
 
     const md = readFileSync(join(process.cwd(), "PUBLIC_COPY.md"), "utf8");
-    expect(md).toContain(packageLine);
     expect(md).toContain(PUBLIC_COPY.board.wholeTruckLead);
+    expect(md).not.toContain("The package is 1 Hood");
 
     const form = readFileSync(
       join(process.cwd(), "src/components/WholeTruckIntentForm.tsx"),
@@ -74,13 +74,16 @@ test.describe("slice 16.25: whole-truck package is seats 1-12", () => {
     expect(action).toContain("wholeTruckPackageCopy()");
   });
 
-  test("homepage whole-truck lead lists the package", async ({ page }) => {
+  test("homepage whole-truck lead is one sentence, not the package dump", async ({
+    page,
+  }) => {
     await page.goto("/");
     const lead = page.getByTestId("whole-truck-lead");
     await expect(lead).toBeVisible();
-    await expect(lead).toContainText(wholeTruckPackageCopy());
-    await expect(lead).toContainText("1 Hood");
-    await expect(lead).toContainText("12 Rear fascia");
+    await expect(lead).toHaveText(PUBLIC_COPY.board.wholeTruckLead);
+    await expect(lead).not.toContainText(wholeTruckPackageCopy());
+    await expect(lead).not.toContainText("1 Hood");
+    await expect(lead).not.toContainText("12 Rear fascia");
     await expect(page.getByTestId("whole-truck-heading")).toHaveText(
       "Whole truck — $120,000",
     );
@@ -96,8 +99,8 @@ test.describe("slice 16.25: whole-truck package is seats 1-12", () => {
     expect(html).not.toContain("FEATURES.md");
     expect(html).toContain("$58,000");
     expect(html).toContain("$120,000");
-    expect(html).toContain("The package is 1 Hood");
-    expect(html).toContain("12 Rear fascia");
+    expect(html).not.toContain("The package is 1 Hood");
+    expect(html).toContain(PUBLIC_COPY.board.wholeTruckLead);
     expect(html.toLowerCase()).not.toMatch(/\blease\b/);
   });
 });

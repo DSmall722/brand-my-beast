@@ -62,7 +62,9 @@ export const PUBLIC_COPY = {
     seatLegend:
       "An open seat has no mark; a held seat has a standing intent.",
     wholeTruckHeading: "Whole truck — $120,000",
-    wholeTruckLead: `${wholeTruckPackageCopy()} One brand on every panel. Etch on. Standing panel winners are released. Nothing is charged on this page.`,
+    /** Slice 20.7 — one sentence on `/`. 12-name dump stays on the form. */
+    wholeTruckLead:
+      "One brand on every panel, etch on, and standing panel winners released — nothing is charged on this page.",
     wholeTruckAmountLabel: "Buyout mark",
     wholeTruckCta: "List a whole-truck intent",
     wholeTruckSignIn: "Sign in to list a whole-truck intent",
