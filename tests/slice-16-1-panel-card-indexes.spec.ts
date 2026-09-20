@@ -57,7 +57,7 @@ test.describe("slice 16.1: panel card indexes match hero callouts", () => {
     await page.evaluate(() => document.fonts.ready);
 
     await expect(page.getByTestId("panel-grid")).toBeVisible();
-    await expect(page.getByTestId("hero-panel-board")).toBeVisible();
+    await expect(page.getByTestId("hero-panel-board")).toHaveCount(0);
 
     for (const mark of PANEL_BOARD_MARKS) {
       const card = page.getByTestId(`panel-${mark.panelId}`);
@@ -68,10 +68,10 @@ test.describe("slice 16.1: panel card indexes match hero callouts", () => {
       await expect(index).toHaveText(String(mark.n));
       await expect(index).toHaveAttribute("data-panel-n", String(mark.n));
 
-      const callout = page.getByTestId(`hero-panel-board-${mark.n}`);
-      await expect(callout).toHaveAttribute("data-panel-id", mark.panelId);
-      await expect(callout).toHaveAttribute("data-panel-n", String(mark.n));
-      await expect(callout).toHaveAttribute("href", `/panels/${mark.panelId}`);
+      const legend = page.getByTestId(`panel-legend-${mark.n}`);
+      await expect(legend).toHaveAttribute("data-panel-id", mark.panelId);
+      await expect(legend).toHaveAttribute("data-panel-n", String(mark.n));
+      await expect(legend).toHaveAttribute("href", `/panels/${mark.panelId}`);
       await expect(page.getByTestId(`panel-link-${mark.panelId}`)).toHaveAttribute(
         "href",
         `/panels/${mark.panelId}`,

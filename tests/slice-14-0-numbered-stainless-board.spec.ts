@@ -78,16 +78,15 @@ test.describe("slice 14.0: numbered stainless board", () => {
       PUBLIC_COPY.waitlist.button,
     );
 
-    const board = page.getByTestId("hero-panel-board");
-    await expect(board).toBeVisible();
+    await expect(page.getByTestId("hero-panel-board")).toHaveCount(0);
     await expect(page.getByTestId("truck-img-hero")).toHaveAttribute(
       "src",
       "/hero-truck-preview.jpg",
     );
 
     for (let n = 1; n <= 12; n += 1) {
-      const callout = page.getByTestId(`hero-panel-board-${n}`);
-      await expect(callout).toHaveAttribute(
+      const legend = page.getByTestId(`panel-legend-${n}`);
+      await expect(legend).toHaveAttribute(
         "href",
         `/panels/${PANEL_BOARD_MARKS[n - 1]!.panelId}`,
       );
@@ -97,7 +96,7 @@ test.describe("slice 14.0: numbered stainless board", () => {
     if (!viewport) throw new Error("viewport missing");
     let visibleCount = 0;
     for (let n = 1; n <= 12; n += 1) {
-      const box = await page.getByTestId(`hero-panel-board-${n}`).boundingBox();
+      const box = await page.getByTestId(`panel-legend-${n}`).boundingBox();
       if (!box) continue;
       const cx = box.x + box.width / 2;
       const cy = box.y + box.height / 2;

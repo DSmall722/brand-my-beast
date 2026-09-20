@@ -60,11 +60,12 @@ test.describe("slice 19.7: hide board-truck seat polygons", () => {
     expect(["none", "rgba(0, 0, 0, 0)", "transparent"]).toContain(fill);
 
     await page.goto("/");
+    await expect(page.getByTestId("hero-panel-board")).toHaveCount(0);
     for (let n = 1; n <= 12; n += 1) {
-      await expect(page.getByTestId(`hero-panel-board-${n}`)).toBeVisible();
-      await expect(
-        page.getByTestId(`hero-panel-board-${n}`).locator(".panel-board-callout-n"),
-      ).toHaveText(String(n));
+      await expect(page.getByTestId(`panel-legend-${n}`)).toBeVisible();
+      await expect(page.getByTestId(`panel-legend-${n}`)).toHaveText(
+        new RegExp(`^${n}\\b`),
+      );
     }
     const html = await page.content();
     expect(html).toContain("$58,000");

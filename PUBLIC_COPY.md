@@ -21,7 +21,8 @@ Locked: 2026-09-14 — desire first, then the deal, then the catch.
 - Lead: `Twelve companies. One Cyberbeast. Buy a panel for a year. Hit $58,000 and the truck is ordered and wrapped. Miss it and nobody pays.`
 - Primary CTA: `Get on the list`
 - Secondary CTA: `See the twelve panels`
-- Hero image label (alt): `Stainless Cyberbeast preview. No wrap yet.`
+- Hero image label (alt): `Concept preview — BrandMyBeast house wrap. Seats are not sold yet.`
+- Hero caption: `Concept preview — BrandMyBeast house wrap. Seats are not sold yet. Numbers live on the board below.`
 
 ## The numbers
 
@@ -42,6 +43,7 @@ Locked: 2026-09-14 — desire first, then the deal, then the catch.
 - Vault buyout mark label: `Buyout`
 - Vault empty (pledged $0): `No marks yet`
 - Seat legend: `Open seat = empty. Held seat = standing intent.`
+- Board truck image label (alt): `Stainless Cyberbeast preview. Numbers live on the board.`
 - Whole-truck heading: `Whole truck — $120,000`
 - Whole-truck lead: `One brand on every panel and Immortal Etch on eight steel faces. Standing panel winners released. Nothing is charged on this page.`
 - Whole-truck amount label: `Buyout mark`

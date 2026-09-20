@@ -23,18 +23,6 @@ const ROOT = process.cwd();
 const LOCKED_H1 = "Put your brand on the truck people already photograph.";
 const CALLOUTS = [2, 3, 5] as const;
 
-function overlaps(
-  a: { x: number; y: number; width: number; height: number },
-  b: { x: number; y: number; width: number; height: number },
-): boolean {
-  return (
-    a.x < b.x + b.width &&
-    a.x + a.width > b.x &&
-    a.y < b.y + b.height &&
-    a.y + a.height > b.y
-  );
-}
-
 test.describe("slice 19.8: desktop H1 clears callouts 2 3 5", () => {
   test.use({ viewport: { width: 1280, height: 720 } });
 
@@ -84,12 +72,9 @@ test.describe("slice 19.8: desktop H1 clears callouts 2 3 5", () => {
     if (!titleBox) throw new Error("H1 missing");
     expect(titleBox.y).toBeGreaterThanOrEqual(photoBox.y + photoBox.height - 1);
 
+    await expect(page.getByTestId("hero-panel-board")).toHaveCount(0);
     for (const n of CALLOUTS) {
-      const callout = page.getByTestId(`hero-panel-board-${n}`);
-      await expect(callout).toBeVisible();
-      const box = await callout.boundingBox();
-      if (!box) throw new Error(`callout ${n} missing`);
-      expect(overlaps(titleBox, box), `H1 overlaps callout ${n}`).toBe(false);
+      await expect(page.getByTestId(`hero-panel-board-${n}`)).toHaveCount(0);
     }
 
     const html = await page.content();

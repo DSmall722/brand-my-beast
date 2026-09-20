@@ -37,22 +37,21 @@ test.describe("slice 16.5: 1280px all twelve numbers in the DOM", () => {
     expect(vercelJsonIsHoldOrMainOnlyRestore()).toBe(true);
   });
 
-  test("hero board has numbers 1–12 in the DOM", async ({ page }) => {
+  test("legend has numbers 1–12; hero has no overlay", async ({ page }) => {
     await page.goto("/");
-    const board = page.getByTestId("hero-panel-board");
-    await expect(board).toBeAttached();
+    await expect(page.getByTestId("hero-panel-board")).toHaveCount(0);
+    const legend = page.getByTestId("panel-number-legend");
+    await expect(legend).toBeAttached();
 
     for (const mark of PANEL_BOARD_MARKS) {
-      const callout = page.getByTestId(`hero-panel-board-${mark.n}`);
-      await expect(callout).toBeAttached();
-      await expect(callout).toHaveAttribute("data-panel-n", String(mark.n));
-      await expect(callout).toHaveAttribute("data-panel-id", mark.panelId);
-      await expect(callout.locator(".panel-board-callout-n")).toHaveText(
-        String(mark.n),
-      );
+      const item = page.getByTestId(`panel-legend-${mark.n}`);
+      await expect(item).toBeAttached();
+      await expect(item).toHaveAttribute("data-panel-n", String(mark.n));
+      await expect(item).toHaveAttribute("data-panel-id", mark.panelId);
+      await expect(item).toHaveText(new RegExp(`^${mark.n}\\b`));
     }
 
-    await expect(board.locator("[data-panel-n]")).toHaveCount(12);
+    await expect(legend.locator("[data-panel-n]")).toHaveCount(12);
 
     const html = await page.content();
     expect(html.toLowerCase()).not.toMatch(/\blease\b/);

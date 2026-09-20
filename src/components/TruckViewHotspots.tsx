@@ -79,7 +79,7 @@ export function TruckViewHotspots({
           <img
             className="truck-view-photo"
             src={truckViewStillSrc(view)}
-            alt={truckImgAlt("hero")}
+            alt={truckImgAlt("board")}
             width={1280}
             height={720}
             decoding="async"

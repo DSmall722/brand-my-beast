@@ -11,7 +11,6 @@ import {
 } from "../src/lib/campaign";
 import { findCloseAtViolations } from "../src/lib/close-at-null";
 import { findStripePackagesInRootPackageJson } from "../src/lib/no-stripe-package";
-import { HERO_MOBILE_CAB_GLASS_MAX_Y } from "../src/lib/panel-board";
 import { PUBLIC_COPY } from "../src/lib/public-copy";
 import { vercelJsonIsHoldOrMainOnlyRestore } from "../src/lib/vercel-git-deploy";
 
@@ -123,17 +122,9 @@ test.describe("slice 20.12: Wave 20 Playwright pack", () => {
   test("mobile board stays off the cab glass", async ({ page }) => {
     await page.setViewportSize({ width: 390, height: 844 });
     await page.goto("/");
-    await expect(page.getByTestId("hero-panel-board")).toHaveAttribute(
-      "data-mobile-board",
-      "off-cab",
-    );
+    await expect(page.getByTestId("hero-panel-board")).toHaveCount(0);
     for (let n = 1; n <= 12; n += 1) {
-      const y = Number(
-        await page
-          .getByTestId(`hero-panel-board-${n}`)
-          .getAttribute("data-hero-mobile-y"),
-      );
-      expect(y).toBeGreaterThan(HERO_MOBILE_CAB_GLASS_MAX_Y);
+      await expect(page.getByTestId(`hero-panel-board-${n}`)).toHaveCount(0);
     }
     await expect(page.locator("#hero-title")).toHaveText(LOCKED_H1);
   });

@@ -6,14 +6,19 @@
 import { PUBLIC_COPY } from "./public-copy";
 
 /** Allowed alt strings for truck photos on the public site. */
-export const TRUCK_IMG_ALTS = [PUBLIC_COPY.hero.imageAlt] as const;
+export const TRUCK_IMG_ALTS = [
+  PUBLIC_COPY.hero.imageAlt,
+  PUBLIC_COPY.board.truckImageAlt,
+] as const;
 
-export type TruckImgRole = "hero";
+export type TruckImgRole = "hero" | "board";
 
 export function truckImgAlt(role: TruckImgRole): string {
   switch (role) {
     case "hero":
       return PUBLIC_COPY.hero.imageAlt;
+    case "board":
+      return PUBLIC_COPY.board.truckImageAlt;
     default: {
       const _exhaustive: never = role;
       return _exhaustive;

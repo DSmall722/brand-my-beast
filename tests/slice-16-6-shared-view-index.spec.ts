@@ -77,9 +77,9 @@ test.describe("slice 16.6: views share the hero index", () => {
         await expect(callout.locator(".panel-board-callout-n")).toHaveText(
           String(mark.n),
         );
-        const hero = page.getByTestId(`hero-panel-board-${mark.n}`);
-        await expect(hero).toHaveAttribute("data-panel-id", mark.panelId);
-        await expect(hero).toHaveAttribute("data-panel-n", String(mark.n));
+        const legend = page.getByTestId(`panel-legend-${mark.n}`);
+        await expect(legend).toHaveAttribute("data-panel-id", mark.panelId);
+        await expect(legend).toHaveAttribute("data-panel-n", String(mark.n));
       }
     }
 

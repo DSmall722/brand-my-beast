@@ -49,18 +49,16 @@ test.describe("slice 16.10: callout hit area and focus ring", () => {
     expect(vercelJsonIsHoldOrMainOnlyRestore()).toBe(true);
   });
 
-  test("hero and side-view callouts are at least 44px", async ({ page }) => {
+  test("side-view callouts are at least 44px; hero has no overlay", async ({
+    page,
+  }) => {
     await page.setViewportSize({ width: 1280, height: 900 });
     await page.goto("/");
-    for (const mark of PANEL_BOARD_MARKS) {
-      await expectHitAtLeast(page, `hero-panel-board-${mark.n}`);
-    }
+    await expect(page.getByTestId("hero-panel-board")).toHaveCount(0);
 
     await page.setViewportSize({ width: 390, height: 844 });
     await page.goto("/");
-    for (const mark of PANEL_BOARD_MARKS) {
-      await expectHitAtLeast(page, `hero-panel-board-${mark.n}`);
-    }
+    await expect(page.getByTestId("hero-panel-board")).toHaveCount(0);
 
     await page.getByTestId("truck-view-side").click();
     for (const mark of panelBoardMarksForView("side")) {
@@ -75,7 +73,7 @@ test.describe("slice 16.10: callout hit area and focus ring", () => {
   test("keyboard focus draws a visible signal ring", async ({ page }) => {
     await page.setViewportSize({ width: 1280, height: 900 });
     await page.goto("/");
-    const callout = page.getByTestId("hero-panel-board-3");
+    const callout = page.getByTestId("view-panel-board-side-3");
     await expect(callout).toBeVisible();
 
     const ring = await callout.evaluate((el) => {

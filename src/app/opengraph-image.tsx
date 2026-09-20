@@ -11,8 +11,7 @@ export const contentType = "image/png";
 export const runtime = "nodejs";
 
 /**
- * Slice 16.32 — `/` OG image is the wordmark plus the bare stainless still.
- * No wrap art on the truck.
+ * Slice 16.32 — `/` OG image is the wordmark plus the homepage hero still.
  */
 export default async function OpenGraphImage() {
   const still = await readFile(

@@ -56,7 +56,7 @@ test.describe("slice 16.37: numbers, not kerning", () => {
     await page.goto("/");
     const present: number[] = [];
     for (let n = 1; n <= 12; n += 1) {
-      const callout = page.getByTestId(`hero-panel-board-${n}`);
+      const callout = page.getByTestId(`panel-legend-${n}`);
       await expect(callout).toBeVisible();
       present.push(n);
     }

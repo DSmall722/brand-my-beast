@@ -12,7 +12,7 @@ import { vercelJsonIsHoldOrMainOnlyRestore } from "../src/lib/vercel-git-deploy"
 
 /**
  * Slice 16.7 — occupied seats keep the number and add Held.
- * Photo stays the bare stainless still. No wrap art.
+ * Held keeps the number on the board. Hero is the house-wrap concept.
  * CLOSE_AT null. No Stripe. No SEATS_OPEN flip.
  */
 
@@ -65,17 +65,7 @@ test.describe("slice 16.7: held seats keep the number", () => {
     );
 
     await page.goto("/");
-    const hero = page.getByTestId("hero-panel-board-1");
-    await expect(hero).toHaveAttribute("data-panel-n", "1");
-    await expect(hero).toHaveAttribute("data-panel-id", "hood");
-    await expect(hero).toHaveAttribute("data-held", "true");
-    await expect(hero.locator(".panel-board-callout-n")).toHaveText("1");
-    await expect(page.getByTestId("hero-panel-held-1")).toHaveText("Held");
-
-    const open = page.getByTestId("hero-panel-board-3");
-    await expect(open).toHaveAttribute("data-panel-n", "3");
-    await expect(open).toHaveAttribute("data-held", "false");
-    await expect(page.getByTestId("hero-panel-held-3")).toHaveCount(0);
+    await expect(page.getByTestId("hero-panel-board")).toHaveCount(0);
 
     await page.getByTestId("truck-view-side").click();
     const side = page.getByTestId("view-panel-board-side-1");

@@ -33,7 +33,10 @@ export const PUBLIC_COPY = {
     lead: "Twelve companies. One Cyberbeast. Buy a panel for a year. Hit $58,000 and the truck is ordered and wrapped. Miss it and nobody pays.",
     primaryCta: "Get on the list",
     secondaryCta: "See the twelve panels",
-    imageAlt: "Stainless Cyberbeast preview. No wrap yet.",
+    imageAlt:
+      "Concept preview — BrandMyBeast house wrap. Seats are not sold yet.",
+    caption:
+      "Concept preview — BrandMyBeast house wrap. Seats are not sold yet. Numbers live on the board below.",
   },
   board: {
     heading: "The numbers",
@@ -58,6 +61,8 @@ export const PUBLIC_COPY = {
     vaultEmpty: "No marks yet",
     /** Slice 20.6 — board legend. Buyer sentence, not Open seat · Held =. */
     seatLegend: "Open seat = empty. Held seat = standing intent.",
+    truckImageAlt:
+      "Stainless Cyberbeast preview. Numbers live on the board.",
     wholeTruckHeading: "Whole truck — $120,000",
     /** Slice 20.7 — one sentence on `/`. 12-name dump stays on the form. */
     wholeTruckLead:

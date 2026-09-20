@@ -12,13 +12,13 @@ import { panelBoardMarkFor } from "../src/lib/panel-board";
 import { vercelJsonIsHoldOrMainOnlyRestore } from "../src/lib/vercel-git-deploy";
 
 /**
- * Slice 16.28 — card #3 and hero callout 3 both open /panels/driver-door.
- * FEATURES.md stays off /. CLOSE_AT null. No Stripe.
+ * Slice 16.28 — card #3 and board number 3 both open /panels/driver-door.
+ * Hero has no painted seat numbers. FEATURES.md stays off /. CLOSE_AT null. No Stripe.
  */
 
 const PANEL_PATH = "/panels/driver-door";
 
-test.describe("slice 16.28: card 3 and hero callout 3 open driver door", () => {
+test.describe("slice 16.28: card 3 and board number 3 open driver door", () => {
   test("campaign money fences stay locked — CLOSE_AT null", () => {
     expect(FLOOR_USD).toBe(58_000);
     expect(GOAL_USD).toBe(120_000);
@@ -37,7 +37,7 @@ test.describe("slice 16.28: card 3 and hero callout 3 open driver door", () => {
     expect(vercelJsonIsHoldOrMainOnlyRestore()).toBe(true);
   });
 
-  test("card #3 and hero callout 3 both go to driver-door", async ({
+  test("card #3 and board number 3 both go to driver-door", async ({
     page,
   }) => {
     const mark = panelBoardMarkFor("driver-door");
@@ -53,10 +53,12 @@ test.describe("slice 16.28: card 3 and hero callout 3 open driver door", () => {
     await expect(page.locator("h1")).toContainText("Driver door");
 
     await page.goto("/");
-    const callout = page.getByTestId(`hero-panel-board-${mark.n}`);
+    const callout = page.getByTestId(`view-panel-board-side-${mark.n}`);
     await expect(callout).toHaveAttribute("data-panel-id", mark.panelId);
     await expect(callout.locator(".panel-board-callout-n")).toHaveText("3");
-    await callout.click();
+    const legend = page.getByTestId(`panel-legend-${mark.n}`);
+    await expect(legend).toHaveAttribute("href", PANEL_PATH);
+    await legend.click();
     await expect(page).toHaveURL(new RegExp(`${PANEL_PATH}$`));
     await expect(page.locator("h1")).toContainText("3");
     await expect(page.locator("h1")).toContainText("Driver door");

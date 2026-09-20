@@ -64,56 +64,22 @@ test.describe("Syne lockup, board marks, seat lead", () => {
     await expect(page.locator("#hero-title")).toHaveText(LOCKED_H1);
   });
 
-  test("desktop hero marks sit on steel, not the void", async ({ page }) => {
+  test("hero is the house-wrap concept with numbers on the board", async ({
+    page,
+  }) => {
     await page.setViewportSize({ width: 1280, height: 900 });
     await page.goto("/");
     await page.evaluate(() => document.fonts.ready);
     await expect(page.getByTestId("truck-img-hero")).toBeVisible();
-    const samples = await page.evaluate(async () => {
-      const img = document.querySelector(".hero-truck-image");
-      if (!(img instanceof HTMLImageElement) || img.naturalWidth === 0) {
-        return null;
-      }
-      if (!img.complete) {
-        await new Promise((resolve) => {
-          img.addEventListener("load", resolve, { once: true });
-        });
-      }
-      const ir = img.getBoundingClientRect();
-      const canvas = document.createElement("canvas");
-      canvas.width = img.naturalWidth;
-      canvas.height = img.naturalHeight;
-      const ctx = canvas.getContext("2d");
-      if (!ctx || ir.width === 0) return null;
-      ctx.drawImage(img, 0, 0);
-      const out: { n: number; lum: number }[] = [];
-      for (let n = 1; n <= 12; n += 1) {
-        const el = document.querySelector(`[data-testid="hero-panel-board-${n}"]`);
-        if (!(el instanceof HTMLElement)) return null;
-        const cr = el.getBoundingClientRect();
-        const sx = Math.min(
-          img.naturalWidth - 1,
-          Math.max(
-            0,
-            Math.round(((cr.left + cr.width / 2 - ir.left) / ir.width) * img.naturalWidth),
-          ),
-        );
-        const sy = Math.min(
-          img.naturalHeight - 1,
-          Math.max(
-            0,
-            Math.round(((cr.top + cr.height / 2 - ir.top) / ir.height) * img.naturalHeight),
-          ),
-        );
-        const px = ctx.getImageData(sx, sy, 1, 1).data;
-        out.push({ n, lum: (px[0] + px[1] + px[2]) / 3 });
-      }
-      return out;
-    });
-    expect(samples).not.toBeNull();
-    for (const sample of samples!) {
-      expect(sample.lum, `mark ${sample.n} on void`).toBeGreaterThan(28);
+    await expect(page.getByTestId("hero-preview-label")).toHaveText(
+      PUBLIC_COPY.hero.caption,
+    );
+    await expect(page.getByTestId("hero-panel-board")).toHaveCount(0);
+    for (let n = 1; n <= 12; n += 1) {
+      await expect(page.getByTestId(`hero-panel-board-${n}`)).toHaveCount(0);
+      await expect(page.getByTestId(`panel-legend-${n}`)).toBeVisible();
     }
+    await expect(page.getByTestId("view-panel-board-side")).toBeVisible();
   });
 
   test("hood seat lead uses Immortal Etch, fascia uses Wrap only", async ({
