@@ -11,6 +11,7 @@ import {
 import { findCloseAtViolations } from "../src/lib/close-at-null";
 import { findStripePackagesInRootPackageJson } from "../src/lib/no-stripe-package";
 import { vercelJsonIsHoldOrMainOnlyRestore } from "../src/lib/vercel-git-deploy";
+import { slicesCoversId } from "./helpers/slices-ids";
 
 /**
  * Slice 14.36 — engines + license in package.json if 12.48 did not land.
@@ -62,8 +63,16 @@ test.describe("slice 14.36: engines + license (12.48 already landed)", () => {
     );
 
     const slices = readFileSync(join(ROOT, "SLICES.md"), "utf8");
-    expect(slices).toMatch(/\[x\] 12\.48.*license.*engines/);
-    expect(slices).toMatch(/14\.36/);
+    expect(slicesCoversId("12.48", slices)).toBe(true);
+    expect(slicesCoversId("14.36", slices)).toBe(true);
+    const wave12 = readFileSync(
+      join(
+        ROOT,
+        ".cursor/skills/verify-brandmybeast/features/wave12-money-ready.md",
+      ),
+      "utf8",
+    );
+    expect(wave12).toMatch(/12\.48.*license.*engines/i);
 
     const pkgText = readFileSync(join(ROOT, "package.json"), "utf8");
     expect(pkgText.toLowerCase()).not.toMatch(/\blease\b/);

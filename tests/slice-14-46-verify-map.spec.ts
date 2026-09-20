@@ -11,6 +11,7 @@ import {
 import { findCloseAtViolations } from "../src/lib/close-at-null";
 import { findStripePackagesInRootPackageJson } from "../src/lib/no-stripe-package";
 import { vercelJsonIsHoldOrMainOnlyRestore } from "../src/lib/vercel-git-deploy";
+import { slicesIdsForMajors } from "./helpers/slices-ids";
 
 /**
  * Slice 14.46 — verify-brandmybeast feature map matches Wave 14.
@@ -28,25 +29,9 @@ const REQUIRED_MAP_FILES = [
   "wave14-launch-readiness.md",
 ] as const;
 
-/** Expand same-major condensed ranges and singles for Wave 14. */
+/** Expand condensed `0.1–18.7` (and same-major leftovers) for Wave 14. */
 function wave14IdsFromSlices(): string[] {
-  const text = readFileSync(join(process.cwd(), "SLICES.md"), "utf8");
-  const ids: string[] = [];
-  for (const line of text.split("\n")) {
-    const range = line.match(/^- \[[ xX]\] 14\.(\d+)[\u2013-]14\.(\d+)\b/);
-    if (range) {
-      const minorA = Number(range[1]);
-      const minorB = Number(range[2]);
-      if (minorB < minorA) continue;
-      for (let m = minorA; m <= minorB; m += 1) {
-        ids.push(`14.${m}`);
-      }
-      continue;
-    }
-    const single = line.match(/^- \[[ xX]\] (14\.\d+)\b/);
-    if (single) ids.push(single[1]!);
-  }
-  return [...new Set(ids)];
+  return slicesIdsForMajors([14]);
 }
 
 function featureMapCorpus(): string {

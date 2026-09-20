@@ -11,6 +11,7 @@ import {
 import { findCloseAtViolations } from "../src/lib/close-at-null";
 import { findStripePackagesInRootPackageJson } from "../src/lib/no-stripe-package";
 import { vercelJsonIsHoldOrMainOnlyRestore } from "../src/lib/vercel-git-deploy";
+import { slicesCoversId } from "./helpers/slices-ids";
 
 /**
  * Slice 14.38 — CODEOWNERS or a doc: CAMPAIGN.md, SLICES.md, campaign.ts
@@ -58,6 +59,6 @@ test.describe("slice 14.38: human-sensitive files doc", () => {
     expect(body.toLowerCase()).not.toMatch(/@gmail\.com/);
 
     const slices = readFileSync(join(ROOT, "SLICES.md"), "utf8");
-    expect(slices).toMatch(/14\.38/);
+    expect(slicesCoversId("14.38", slices)).toBe(true);
   });
 });

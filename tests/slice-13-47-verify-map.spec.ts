@@ -11,6 +11,7 @@ import {
 import { findCloseAtViolations } from "../src/lib/close-at-null";
 import { findStripePackagesInRootPackageJson } from "../src/lib/no-stripe-package";
 import { vercelJsonIsHoldOrMainOnlyRestore } from "../src/lib/vercel-git-deploy";
+import { slicesIdsForMajors } from "./helpers/slices-ids";
 
 /**
  * Slice 13.47 — verify-brandmybeast feature map matches Waves 9–13.
@@ -32,29 +33,9 @@ const REQUIRED_MAP_FILES = [
   "wave13-docs-freeze.md",
 ] as const;
 
-/** Expand same-major condensed ranges and singles for Waves 9–13. */
+/** Expand condensed `0.1–18.7` (and same-major leftovers) for Waves 9–13. */
 function wave913IdsFromSlices(): string[] {
-  const text = readFileSync(join(process.cwd(), "SLICES.md"), "utf8");
-  const ids: string[] = [];
-  for (const line of text.split("\n")) {
-    const range = line.match(
-      /^- \[[ xX]\] (9|10|11|12|13)\.(\d+)[\u2013-](9|10|11|12|13)\.(\d+)\b/,
-    );
-    if (range) {
-      const majorA = Number(range[1]);
-      const minorA = Number(range[2]);
-      const majorB = Number(range[3]);
-      const minorB = Number(range[4]);
-      if (majorA !== majorB || minorB < minorA) continue;
-      for (let m = minorA; m <= minorB; m += 1) {
-        ids.push(`${majorA}.${m}`);
-      }
-      continue;
-    }
-    const single = line.match(/^- \[[ xX]\] ((?:9|10|11|12|13)\.\d+)\b/);
-    if (single) ids.push(single[1]!);
-  }
-  return [...new Set(ids)];
+  return slicesIdsForMajors([9, 10, 11, 12, 13]);
 }
 
 function featureMapCorpus(): string {

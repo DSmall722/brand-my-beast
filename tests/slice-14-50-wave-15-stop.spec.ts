@@ -11,6 +11,7 @@ import {
 import { findCloseAtViolations } from "../src/lib/close-at-null";
 import { findStripePackagesInRootPackageJson } from "../src/lib/no-stripe-package";
 import { vercelJsonIsHoldOrMainOnlyRestore } from "../src/lib/vercel-git-deploy";
+import { slicesCoversId, slicesNowMajor } from "./helpers/slices-ids";
 
 /**
  * Slice 14.50 — Stop line: Wave 15 is Stripe / CLOSE_AT / first tweet
@@ -67,15 +68,17 @@ test.describe("slice 14.50: Wave 15 stop line after Wave 14", () => {
 
   test("SLICES Wave 15 stays human-only; 14.50 complete; no 15.x boxes", () => {
     const slices = readFileSync(SLICES, "utf8");
-    expect(slices).toMatch(/Wave 15 is Stripe/i);
+    expect(slices).toMatch(/Wave 15[^\n]*Stripe/i);
     expect(slices).toMatch(/Do not start Wave 15|waits for an explicit human message/i);
-    expect(slices).toMatch(/14\.50/);
+    expect(slicesCoversId("14.50", slices)).toBe(true);
     expect(slices).toMatch(/docs\/WAVE-15-STOP\.md|Wave 15 is Stripe STOP/i);
-    // Condensed Waves 0–15 line or explicit 14.50 checkbox.
-    expect(slices).toMatch(/0\.1–14\.50 Complete|^- \[x\] 14\.50\b/m);
+    // Condensed 0.1–18.7 (or older 0.1–14.50) covers 14.50. Do not remint.
+    expect(slices).toMatch(/0\.1–\d+\.\d+ Complete|^- \[x\] 14\.50\b/m);
     expect(slices).not.toMatch(/^- \[[ xX]\] 15\.\d+/m);
-    // After 14.50, Now advances into Wave 16, then 17, then 18. Never Wave 15.
-    expect(slices).toMatch(/\*\*Now:\*\*\s*(16\.|17\.|18\.)/);
-    expect(slices).not.toMatch(/\*\*Now:\*\*\s*15\./);
+    // After 14.50, Now is Wave 16+ (including 19/20). Never Wave 15.
+    const nowMajor = slicesNowMajor(slices);
+    expect(nowMajor).not.toBeNull();
+    expect(nowMajor).not.toBe(15);
+    expect([16, 17, 18, 19, 20]).toContain(nowMajor);
   });
 });
