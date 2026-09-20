@@ -89,7 +89,7 @@ Keep panel names. Optional short gloss on the card, not a rename:
 Money facts from CAMPAIGN.md only. Plain English. Not a full contract.
 
 - Heading: `Wreck & refund`
-- Lead: `If the campaign misses, the wrap year ends early, or etch is already cut.`
+- Lead: `Here is what happens if the campaign misses, the wrap year ends early, or etch is already cut.`
 - Q: `What if the board misses $58,000?` A: `Full refund. No order. No wrap. No etch.`
 - Q: `What if the wrap year is cut short?` A: `Wrap lasts twelve months from install. If the truck is totaled or sold before month 12, wrap seats get a pro-rata refund for the months left.`
 - Q: `What if Immortal etch is already installed?` A: `No cash refund of that finish. The record is a piece of the cut panel and a vault certificate.`

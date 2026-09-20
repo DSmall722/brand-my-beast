@@ -10,7 +10,9 @@ export function HomeWreckSection() {
           data-testid="wreck-refund-faq"
         >
           <h2 id="wreck-title">{PUBLIC_COPY.wreck.heading}</h2>
-          <p className="section-lead">{PUBLIC_COPY.wreck.lead}</p>
+          <p className="section-lead" data-testid="wreck-lead">
+            {PUBLIC_COPY.wreck.lead}
+          </p>
           <dl className="wreck-list" data-testid="wreck-refund-rules">
             {PUBLIC_COPY.wreck.items.map((item) => (
               <div key={item.id} data-testid={`wreck-rule-${item.id}`}>

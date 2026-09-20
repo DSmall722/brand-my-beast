@@ -115,7 +115,8 @@ export const PUBLIC_COPY = {
   },
   wreck: {
     heading: "Wreck & refund",
-    lead: "If the campaign misses, the wrap year ends early, or etch is already cut.",
+    /** Slice 20.8 — complete sentence, not a fragment. */
+    lead: "Here is what happens if the campaign misses, the wrap year ends early, or etch is already cut.",
     items: [
       {
         id: "campaign-miss",
