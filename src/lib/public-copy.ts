@@ -58,6 +58,9 @@ export const PUBLIC_COPY = {
     vaultBuyoutMarkLabel: "Buyout",
     /** Slice 19.10 — vault copy while pledged is $0. Not an empty auction. */
     vaultEmpty: "No marks yet",
+    /** Slice 20.6 — board legend. Buyer sentence, not Open seat · Held =. */
+    seatLegend:
+      "An open seat has no mark; a held seat has a standing intent.",
     wholeTruckHeading: "Whole truck — $120,000",
     wholeTruckLead: `${wholeTruckPackageCopy()} One brand on every panel. Etch on. Standing panel winners are released. Nothing is charged on this page.`,
     wholeTruckAmountLabel: "Buyout mark",
