@@ -12,7 +12,7 @@ import { PUBLIC_COPY } from "../src/lib/public-copy";
 
 /**
  * Slice 6.13 — branded 404.
- * Dark stainless chrome, wordmark, one line, Home + Get on the list.
+ * Dark stainless chrome, wordmark, one line, Back to the board + Get on the list.
  */
 test.describe("slice 6.13: branded 404", () => {
   test("campaign money fences stay locked", () => {
@@ -54,7 +54,8 @@ test.describe("slice 6.13: branded 404", () => {
     );
 
     const home = page.getByTestId("not-found-home");
-    await expect(home).toHaveText("Home");
+    await expect(home).toHaveText(PUBLIC_COPY.chrome.backToBoard);
+    await expect(home).toHaveText("Back to the board");
     await expect(home).toHaveAttribute("href", "/");
 
     const waitlist = page.getByTestId("not-found-waitlist");

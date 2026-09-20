@@ -76,9 +76,19 @@ export function HomeMoneySection({
           <div
             className="progress visual-vault"
             data-testid="visual-vault"
+            data-vault-empty={pledgedUsd === 0 ? "true" : "false"}
             role="img"
-            aria-label={`Visual vault: ${raisedLabel} of ${goalLabel}. Floor marker at ${floorLabel}. Buyout marker at ${goalLabel}.`}
+            aria-label={
+              pledgedUsd === 0
+                ? `${PUBLIC_COPY.board.vaultEmpty}. Floor marker at ${floorLabel}. Buyout marker at ${goalLabel}.`
+                : `Visual vault: ${raisedLabel} of ${goalLabel}. Floor marker at ${floorLabel}. Buyout marker at ${goalLabel}.`
+            }
           >
+            {pledgedUsd === 0 ? (
+              <p className="vault-empty" data-testid="vault-empty">
+                {PUBLIC_COPY.board.vaultEmpty}
+              </p>
+            ) : null}
             <div className="progress-track" aria-hidden="true">
               <div
                 className="progress-fill"
@@ -121,6 +131,7 @@ export function HomeMoneySection({
             data-testid="shortfall-ticker"
             aria-label="Shortfall: dollars to floor and open seats. No impressions."
           >
+            {pledgedUsd > 0 ? (
             <div>
               <dt data-testid="shortfall-floor-label">
                 {PUBLIC_COPY.board.shortfallFloorLabel}
@@ -129,6 +140,8 @@ export function HomeMoneySection({
                 {formatUsd(shortfallFloor)}
               </dd>
             </div>
+            ) : null}
+            {pledgedUsd > 0 ? (
             <div>
               <dt data-testid="shortfall-goal-label">
                 {PUBLIC_COPY.board.shortfallBuyoutLabel}
@@ -137,6 +150,7 @@ export function HomeMoneySection({
                 {formatUsd(shortfallGoal)}
               </dd>
             </div>
+            ) : null}
             <div>
               <dt data-testid="open-seats-label">
                 {PUBLIC_COPY.board.openSeatsLabel}

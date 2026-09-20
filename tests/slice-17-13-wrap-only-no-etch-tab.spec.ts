@@ -41,9 +41,9 @@ test.describe("slice 17.13: wrap-only seats hide the etch tab", () => {
     page,
   }) => {
     await page.goto("/panels/hood");
-    await expect(page.getByTestId("compositor-mode-etch")).toBeDisabled();
+    await expect(page.getByTestId("compositor-mode-etch")).toHaveCount(0);
     await expect(page.getByTestId("etch-lock-copy")).toContainText(
-      "locked while raised is under $120,000",
+      "Etch stays locked until buyout",
     );
 
     for (const id of WRAP_ONLY) {

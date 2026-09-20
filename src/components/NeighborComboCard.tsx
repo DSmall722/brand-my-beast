@@ -10,7 +10,9 @@ export function NeighborComboCard({ lot }: { lot: ComboLot }) {
       data-combo-price="none"
       data-display-only="true"
     >
-      <p className="neighbor-combo-title">Neighbor combo</p>
+      <p className="neighbor-combo-title" data-testid="neighbor-combo-heading">
+        Neighboring seats
+      </p>
       <p className="auth-hint" data-testid="neighbor-combo-lead">
         {COMBO_LOT_LEAD}
       </p>

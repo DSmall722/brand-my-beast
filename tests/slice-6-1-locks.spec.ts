@@ -32,7 +32,7 @@ test.describe("slice 6.1: floor, buyout, etch lock, no lease, no personal handle
     expect(isEtchUnlocked(0)).toBe(false);
     expect(isEtchUnlocked(119_999)).toBe(false);
     expect(isEtchUnlocked(GOAL_USD)).toBe(true);
-    expect(etchLockCopy(0)).toContain("locked while raised is under $120,000");
+    expect(etchLockCopy(0)).toContain("Etch stays locked until buyout");
     expect(etchLockCopy(GOAL_USD)).toContain("unlocked");
     const hood = PANELS.find((panel) => panel.id === "hood");
     expect(hood).toBeTruthy();
@@ -90,11 +90,11 @@ test.describe("slice 6.1: floor, buyout, etch lock, no lease, no personal handle
       "data-etch-unlocked",
       "false",
     );
-    await expect(page.getByTestId("compositor-mode-etch")).toBeDisabled();
+    await expect(page.getByTestId("compositor-mode-etch")).toHaveCount(0);
     await expect(page.getByTestId("etch-lock-copy")).toContainText(
-      "locked while raised is under $120,000",
+      "Etch stays locked until buyout",
     );
-    await expect(page.getByTestId("etch-lock-copy")).toContainText(
+    await expect(page.getByTestId("stainless-compositor-lead")).toContainText(
       formatUsd(GOAL_USD),
     );
 

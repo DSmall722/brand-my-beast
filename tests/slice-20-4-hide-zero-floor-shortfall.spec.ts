@@ -6,6 +6,7 @@ import {
   CLOSE_AT,
   FLOOR_USD,
   GOAL_USD,
+  SEATS_OPEN,
   formatUsd,
 } from "../src/lib/campaign";
 import { findCloseAtViolations } from "../src/lib/close-at-null";
@@ -14,14 +15,14 @@ import { PUBLIC_COPY } from "../src/lib/public-copy";
 import { vercelJsonIsHoldOrMainOnlyRestore } from "../src/lib/vercel-git-deploy";
 
 /**
- * Slice 16.12 — PUBLIC_COPY panel lead mentions the numbered cards.
- * No H1 rewrite. CLOSE_AT null. No Stripe. No SEATS_OPEN flip.
+ * Slice 20.4 — at pledged $0 do not print both Floor $58,000 and
+ * Short of floor $58,000. CLOSE_AT null. No Stripe. H1 unchanged.
  */
 
+const ROOT = process.cwd();
 const LOCKED_H1 = "Put your brand on the truck people already photograph.";
-const PANEL_PHRASE = "numbers on the truck match the cards.";
 
-test.describe("slice 16.12: panel lead matches the numbered cards", () => {
+test.describe("slice 20.4: hide short of floor at pledged $0", () => {
   test("campaign money fences stay locked — CLOSE_AT null", () => {
     expect(FLOOR_USD).toBe(58_000);
     expect(GOAL_USD).toBe(120_000);
@@ -36,32 +37,33 @@ test.describe("slice 16.12: panel lead matches the numbered cards", () => {
     expect(findStripePackagesInRootPackageJson()).toEqual([]);
   });
 
-  test("vercel.json is hold-mode or main-only restore", () => {
+  test("vercel.json hold-mode stays deploymentEnabled false", () => {
     expect(vercelJsonIsHoldOrMainOnlyRestore()).toBe(true);
   });
 
-  test("panel lead mentions the phrase and H1 stays locked", () => {
-    expect(PUBLIC_COPY.hero.h1).toBe(LOCKED_H1);
-    expect(PUBLIC_COPY.panels.lead).toContain(PANEL_PHRASE);
-    expect(PUBLIC_COPY.panels.lead.toLowerCase()).not.toMatch(/\blease\b/);
-    const md = readFileSync(join(process.cwd(), "PUBLIC_COPY.md"), "utf8");
-    expect(md).toContain(PUBLIC_COPY.panels.lead);
-    expect(md).toContain(LOCKED_H1);
+  test("SEATS_OPEN is not flipped in campaign.ts", () => {
+    const src = readFileSync(join(ROOT, "src/lib/campaign.ts"), "utf8");
+    expect(src).toMatch(/export const SEATS_OPEN/);
+    expect(src).toMatch(/export const CLOSE_AT:\s*string\s*\|\s*null\s*=\s*null/);
+    expect(process.env.SEATS_OPEN ?? "").not.toMatch(/^(false|0)$/i);
+    expect(SEATS_OPEN).toBe(true);
   });
 
-  test("homepage shows the panel lead and the unchanged H1", async ({
+  test("money block at $0 keeps Floor and drops Short of floor", async ({
     page,
   }) => {
     await page.goto("/");
+    await expect(page.getByTestId("raised-amount")).toHaveText(formatUsd(0));
+    await expect(page.getByTestId("floor-amount")).toHaveText("$58,000");
+    const money = await page.getByTestId("shortfall-ticker").innerText();
+    expect(money).not.toMatch(/Short of floor/);
+    await expect(page.getByTestId("shortfall-floor")).toHaveCount(0);
     await expect(page.locator("#hero-title")).toHaveText(LOCKED_H1);
-    await expect(page.getByTestId("panels-lead")).toHaveText(
-      PUBLIC_COPY.panels.lead,
-    );
-    await expect(page.getByTestId("panels-lead")).toContainText(PANEL_PHRASE);
+    await expect(page.locator("#hero-title")).toHaveText(PUBLIC_COPY.hero.h1);
     const html = await page.content();
-    expect(html.toLowerCase()).not.toMatch(/\blease\b/);
-    expect(html).not.toMatch(/@gmail\.com/i);
     expect(html).toContain("$58,000");
     expect(html).toContain("$120,000");
+    expect(html).not.toContain("FEATURES.md");
+    expect(html.toLowerCase()).not.toMatch(/\blease\b/);
   });
 });

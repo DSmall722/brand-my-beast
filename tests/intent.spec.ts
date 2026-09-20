@@ -955,7 +955,7 @@ test.describe("finish condition shaders (no capture)", () => {
     expect(etchControlsEnabled(hood, 0)).toBe(false);
     expect(etchControlsEnabled(hood, 119_999)).toBe(false);
     expect(etchControlsEnabled(hood, 120_000)).toBe(true);
-    expect(etchLockCopy(0)).toContain("locked while raised is under $120,000");
+    expect(etchLockCopy(0)).toContain("Etch stays locked until buyout");
     expect(etchLockCopy(120_000)).toContain("unlocked");
     const roof = PANELS.find((p) => p.id === "roof");
     expect(roof).toBeTruthy();
@@ -970,7 +970,8 @@ test.describe("finish condition shaders (no capture)", () => {
     expect(STAINLESS_COMPOSITOR_LEAD.toLowerCase()).not.toMatch(/\blease\b/);
     expect(STAINLESS_COMPOSITOR_LEAD).not.toContain("CLOSE_AT");
     expect(compositorFinishLabel("wrap", true)).toContain("Wrap");
-    expect(compositorFinishLabel("etch", true)).toContain("$120,000");
+    expect(compositorFinishLabel("etch", true)).toBe("Immortal etch preview");
+    expect(compositorFinishLabel("etch", true)).not.toContain("$120,000");
     expect(compositorFinishLabel("wrap", false)).toBe("Wrap only");
   });
 

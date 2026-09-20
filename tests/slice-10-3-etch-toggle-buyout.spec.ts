@@ -64,7 +64,7 @@ test.describe("slice 10.3: etch toggle locked under buyout", () => {
     expect(etchControlsEnabled(hood, 119_999)).toBe(false);
     expect(etchControlsEnabled(hood, GOAL_USD)).toBe(true);
     expect(etchControlsEnabled(roof, GOAL_USD)).toBe(false);
-    expect(etchLockCopy(0)).toContain("$120,000");
+    expect(etchLockCopy(0)).toContain("Etch stays locked until buyout");
     expect(etchLockCopy(GOAL_USD)).toContain("unlocked");
   });
 
@@ -81,9 +81,12 @@ test.describe("slice 10.3: etch toggle locked under buyout", () => {
       "data-etch-unlocked",
       "false",
     );
-    await expect(page.getByTestId("compositor-mode-etch")).toBeDisabled();
+    await expect(page.getByTestId("compositor-mode-etch")).toHaveCount(0);
     await expect(page.getByTestId("etch-lock-copy")).toContainText(
-      "locked while raised is under $120,000",
+      "Etch stays locked until buyout",
+    );
+    await expect(page.getByTestId("stainless-compositor-lead")).toContainText(
+      "$120,000",
     );
 
     const seed = await request.post("/api/test/seed-buyout");
@@ -96,16 +99,19 @@ test.describe("slice 10.3: etch toggle locked under buyout", () => {
       "data-etch-unlocked",
       "true",
     );
-    await expect(page.getByTestId("compositor-mode-etch")).toBeEnabled();
-    await expect(page.getByTestId("etch-lock-copy")).toContainText(
-      "Etch unlocked at $120,000",
+    await expect(page.getByTestId("panel-mockup")).toHaveAttribute(
+      "data-preview-toggles",
+      "false",
     );
-    await page.getByTestId("compositor-mode-etch").click();
+    await expect(page.getByTestId("compositor-mode-etch")).toHaveCount(0);
+    await expect(page.getByTestId("etch-lock-copy")).toContainText(
+      "Etch unlocked",
+    );
     await expect(page.getByTestId("panel-mockup")).toHaveAttribute(
       "data-finish",
-      "etch",
+      "wrap",
     );
-    await expect(page.getByTestId("compositor-etch-mark")).toBeVisible();
+    await expect(page.getByTestId("compositor-etch-mark")).toHaveCount(0);
 
     // Wrap-only panel does not render the Etch tab, even at buyout.
     await page.goto("/panels/roof");

@@ -35,6 +35,7 @@ export function PanelBoardCallouts({
         surface === "hero" ? "hero-panel-board" : `view-panel-board-${view}`
       }
       data-surface={surface}
+      data-mobile-board={surface === "hero" ? "off-cab" : undefined}
       data-view={surface === "view" ? view : undefined}
       aria-label="Numbered stainless panel board"
     >
@@ -42,6 +43,7 @@ export function PanelBoardCallouts({
         const pct =
           surface === "hero" ? mark.hero : mark.views[view ?? "side"];
         if (!pct) return null;
+        const mobile = surface === "hero" ? mark.heroMobile : undefined;
         const held = occupied.has(mark.panelId);
         const testId =
           surface === "hero"
@@ -56,11 +58,21 @@ export function PanelBoardCallouts({
             key={`${surface}-${mark.panelId}`}
             className="panel-board-callout"
             href={`/panels/${mark.panelId}`}
-            style={{ left: `${pct.x}%`, top: `${pct.y}%` }}
+            style={{
+              ["--board-x" as string]: `${pct.x}%`,
+              ["--board-y" as string]: `${pct.y}%`,
+              ...(mobile
+                ? {
+                    ["--hero-mobile-x" as string]: `${mobile.x}%`,
+                    ["--hero-mobile-y" as string]: `${mobile.y}%`,
+                  }
+                : {}),
+            }}
             data-testid={testId}
             data-panel-id={mark.panelId}
             data-panel-n={String(mark.n)}
             data-held={held ? "true" : "false"}
+            data-hero-mobile-y={mobile ? String(mobile.y) : undefined}
             aria-label={
               held ? `${mark.n} ${mark.name} Held` : `${mark.n} ${mark.name}`
             }

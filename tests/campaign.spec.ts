@@ -99,17 +99,13 @@ test.describe("P1 waitlist campaign locks", () => {
       PUBLIC_COPY.board.clockWhenCloseNull,
     );
     await expect(page.getByTestId("shortfall-ticker")).toBeVisible();
-    await expect(page.getByTestId("shortfall-floor-label")).toHaveText(
-      PUBLIC_COPY.board.shortfallFloorLabel,
-    );
-    await expect(page.getByTestId("shortfall-goal-label")).toHaveText(
-      PUBLIC_COPY.board.shortfallBuyoutLabel,
-    );
+    await expect(page.getByTestId("shortfall-floor-label")).toHaveCount(0);
+    await expect(page.getByTestId("shortfall-floor")).toHaveCount(0);
+    await expect(page.getByTestId("shortfall-goal-label")).toHaveCount(0);
+    await expect(page.getByTestId("shortfall-goal")).toHaveCount(0);
     await expect(page.getByTestId("open-seats-label")).toHaveText(
       PUBLIC_COPY.board.openSeatsLabel,
     );
-    await expect(page.getByTestId("shortfall-floor")).toHaveText(formatUsd(FLOOR_USD));
-    await expect(page.getByTestId("shortfall-goal")).toHaveText(formatUsd(GOAL_USD));
     await expect(page.getByTestId("open-seats")).toHaveText(`12 of ${PANELS.length}`);
     const shortfallTicker = page.getByTestId("shortfall-ticker");
     await expect(shortfallTicker).toHaveAttribute(

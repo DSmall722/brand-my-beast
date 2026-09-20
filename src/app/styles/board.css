@@ -107,6 +107,13 @@
   position: relative;
 }
 
+.vault-empty {
+  margin: 0 0 0.75rem;
+  color: var(--steel-200);
+  font-size: 1rem;
+  letter-spacing: 0.02em;
+}
+
 .progress-track {
   position: relative;
   height: 0.55rem;
@@ -2392,6 +2399,16 @@ a:hover .truck-seat.is-raw,
 a:focus-visible .truck-seat.is-raw {
   fill: color-mix(in oklab, var(--steel-100) 22%, transparent);
   stroke: var(--steel-100);
+}
+/* Slice 19.7 — hide giant gray polygons; numbered callouts stay. */
+.truck-view-seats[data-polygons="hidden"] .truck-seat,
+.truck-view-seats[data-polygons="hidden"] .truck-seat.is-raw,
+.truck-view-seats[data-polygons="hidden"] .truck-seat.is-held,
+.truck-view-seats[data-polygons="hidden"] .truck-seat.is-active,
+.truck-view-seats[data-polygons="hidden"] a:hover .truck-seat.is-raw,
+.truck-view-seats[data-polygons="hidden"] a:focus-visible .truck-seat.is-raw {
+  fill: transparent;
+  stroke: transparent;
 }
 .truck-view-legend {
   grid-row: 2;

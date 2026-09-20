@@ -19,9 +19,10 @@ export function wholeTruckPackageCopy(): string {
 
 export const PUBLIC_COPY = {
   meta: {
-    title: "BrandMyBeast — advertise on a Cybertruck",
+    title:
+      "BrandMyBeast — Put your brand on the truck people already photograph.",
     description:
-      "Twelve companies. One Cyberbeast. Bid on a panel. Hit $58,000 and the truck gets ordered and wrapped for a year. Miss it and nobody pays.",
+      "Twelve companies. One Cyberbeast. Seats are not for sale yet. Hit $58,000 and the truck gets ordered and wrapped for a year. Miss it and nobody pays.",
   },
   header: {
     wordmark: "BrandMyBeast",
@@ -55,8 +56,15 @@ export const PUBLIC_COPY = {
     openSeatsLabel: "Open seats",
     vaultFloorMarkLabel: "Floor",
     vaultBuyoutMarkLabel: "Buyout",
+    /** Slice 19.10 — vault copy while pledged is $0. Not an empty auction. */
+    vaultEmpty: "No marks yet",
+    /** Slice 20.6 — board legend. Buyer sentence, not Open seat · Held =. */
+    seatLegend:
+      "An open seat has no mark; a held seat has a standing intent.",
     wholeTruckHeading: "Whole truck — $120,000",
-    wholeTruckLead: `${wholeTruckPackageCopy()} One brand on every panel. Etch on. Standing panel winners are released. Nothing is charged on this page.`,
+    /** Slice 20.7 — one sentence on `/`. 12-name dump stays on the form. */
+    wholeTruckLead:
+      "One brand on every panel, etch on, and standing panel winners released — nothing is charged on this page.",
     wholeTruckAmountLabel: "Buyout mark",
     wholeTruckCta: "List a whole-truck intent",
     wholeTruckSignIn: "Sign in to list a whole-truck intent",
@@ -76,7 +84,8 @@ export const PUBLIC_COPY = {
     badgeEtch: "Can etch at $120k",
     badgeWrap: "Wrap only",
     /** Slice 10.9 — panel card standing line when no mark holds. */
-    standingOpen: "Open.",
+    /** Slice 20.3 — print once, not on every open card. */
+    standingOpen: "Open seat",
     gloss: PANEL_GLOSS,
   },
   howItWorks: {
@@ -106,7 +115,8 @@ export const PUBLIC_COPY = {
   },
   wreck: {
     heading: "Wreck & refund",
-    lead: "If the campaign misses, the wrap year ends early, or etch is already cut.",
+    /** Slice 20.8 — complete sentence, not a fragment. */
+    lead: "Here is what happens if the campaign misses, the wrap year ends early, or etch is already cut.",
     items: [
       {
         id: "campaign-miss",
@@ -272,9 +282,15 @@ export const PUBLIC_COPY = {
     modeEtch: "Etch",
     finishWrapEtchable: "Wrap on steel · etch at buyout",
     finishWrapOnly: "Wrap only",
-    finishEtch: "Immortal etch preview · unlocks at $120,000",
+    finishEtch: "Immortal etch preview",
     wrapFilm: "Vinyl film layer",
     etchMark: "Laser on stainless",
+  },
+  /**
+   * Slice 20.10 — 404 / partner / error chrome. Not a shop tease.
+   */
+  chrome: {
+    backToBoard: "Back to the board",
   },
   footer: {
     line: "BrandMyBeast · @BrandMyBeast · hello@brandmybeast.com",

@@ -58,7 +58,10 @@ test.describe("slice 10.5: wrap vs etch labels from PUBLIC_COPY", () => {
     expect(compositorFinishLabel("etch", true)).toBe(
       PUBLIC_COPY.compositor.finishEtch,
     );
-    expect(compositorFinishLabel("etch", true)).toContain("$120,000");
+    expect(compositorFinishLabel("etch", true)).toBe(
+      "Immortal etch preview",
+    );
+    expect(compositorFinishLabel("etch", true)).not.toContain("$120,000");
     expect(compositorFinishLabel("wrap", false)).toBe(
       PUBLIC_COPY.panels.badgeWrap,
     );
@@ -85,12 +88,8 @@ test.describe("slice 10.5: wrap vs etch labels from PUBLIC_COPY", () => {
     page,
   }) => {
     await page.goto("/panels/hood");
-    await expect(page.getByTestId("compositor-mode-wrap")).toHaveText(
-      PUBLIC_COPY.compositor.modeWrap,
-    );
-    await expect(page.getByTestId("compositor-mode-etch")).toHaveText(
-      PUBLIC_COPY.compositor.modeEtch,
-    );
+    await expect(page.getByTestId("compositor-mode-wrap")).toHaveCount(0);
+    await expect(page.getByTestId("compositor-mode-etch")).toHaveCount(0);
     await expect(page.getByTestId("compositor-finish-label")).toHaveText(
       PUBLIC_COPY.compositor.finishWrapEtchable,
     );

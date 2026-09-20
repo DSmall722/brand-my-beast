@@ -7,8 +7,8 @@ Locked: 2026-09-14 — desire first, then the deal, then the catch.
 
 ## Meta
 
-- Title: `BrandMyBeast — advertise on a Cybertruck`
-- Description: `Twelve companies. One Cyberbeast. Bid on a panel. Hit $58,000 and the truck gets ordered and wrapped for a year. Miss it and nobody pays.`
+- Title: `BrandMyBeast — Put your brand on the truck people already photograph.`
+- Description: `Twelve companies. One Cyberbeast. Seats are not for sale yet. Hit $58,000 and the truck gets ordered and wrapped for a year. Miss it and nobody pays.`
 
 ## Header
 
@@ -40,8 +40,10 @@ Locked: 2026-09-14 — desire first, then the deal, then the catch.
 - Open seats label: `Open seats`
 - Vault floor mark label: `Floor`
 - Vault buyout mark label: `Buyout`
+- Vault empty (pledged $0): `No marks yet`
+- Seat legend: `An open seat has no mark; a held seat has a standing intent.`
 - Whole-truck heading: `Whole truck — $120,000`
-- Whole-truck lead: `The package is 1 Hood, 2 Front fascia, 3 Driver door, 4 Passenger door, 5 Driver bed, 6 Passenger bed, 7 Driver rear quarter, 8 Passenger rear quarter, 9 Tailgate, 10 Tonneau, 11 Roof, 12 Rear fascia. One brand on every panel. Etch on. Standing panel winners are released. Nothing is charged on this page.`
+- Whole-truck lead: `One brand on every panel, etch on, and standing panel winners released — nothing is charged on this page.`
 - Whole-truck amount label: `Buyout mark`
 - Whole-truck CTA: `List a whole-truck intent`
 - Whole-truck sign-in: `Sign in to list a whole-truck intent`
@@ -87,7 +89,7 @@ Keep panel names. Optional short gloss on the card, not a rename:
 Money facts from CAMPAIGN.md only. Plain English. Not a full contract.
 
 - Heading: `Wreck & refund`
-- Lead: `If the campaign misses, the wrap year ends early, or etch is already cut.`
+- Lead: `Here is what happens if the campaign misses, the wrap year ends early, or etch is already cut.`
 - Q: `What if the board misses $58,000?` A: `Full refund. No order. No wrap. No etch.`
 - Q: `What if the wrap year is cut short?` A: `Wrap lasts twelve months from install. If the truck is totaled or sold before month 12, wrap seats get a pro-rata refund for the months left.`
 - Q: `What if Immortal etch is already installed?` A: `No cash refund of that finish. The record is a piece of the cut panel and a vault certificate.`
@@ -151,6 +153,10 @@ Not a homepage hero rewrite:
 - Failed-winner waitlist note: `Stay on the waitlist. This page does not charge cards.`
 - Deposit preview template: `{percent}% of this mark is {amount}. Not charged.`
 - Wins empty (13.28): `No approved seats yet. Operator approval on a listed intent opens this sheet. Still no card charge.`
+
+## Chrome (not homepage H1)
+
+- Back to the board: `Back to the board`
 
 ## Footer
 

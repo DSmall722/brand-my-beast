@@ -17,6 +17,7 @@ import {
   FLOOR_USD,
   GOAL_USD,
   CLOSE_AT,
+  TRUCK_EXISTS,
   PANELS,
   formatIntegerUsd,
   formatUsd,
@@ -158,9 +159,13 @@ export default async function PanelIntentPage({
         <h1 data-testid="panel-seat-h1" data-panel-n={String(boardMark.n)}>
           {panelSeatH1(panel)}
         </h1>
-        <p className="section-lead">
-          Opens at {formatUsd(panel.openingUsd)}. Current standing{" "}
-          {formatUsd(standing)}.{" "}
+        <p
+          className="section-lead"
+          data-testid="seat-lead"
+          data-has-standing={holder ? "true" : "false"}
+        >
+          Opens at {formatUsd(panel.openingUsd)}.
+          {holder ? ` Current standing ${formatUsd(standing)}.` : ""}{" "}
           {etchable
             ? `Etchable only at ${formatUsd(GOAL_USD)} buyout.`
             : "Wrap only forever."}
@@ -211,6 +216,7 @@ export default async function PanelIntentPage({
           panel={panel}
           raisedUsd={board.pledgedUsd}
           standingBrand={holder?.brandLabel ?? null}
+          truckExists={TRUCK_EXISTS}
         />
 
         {session?.user ? (
@@ -223,14 +229,14 @@ export default async function PanelIntentPage({
             </a>
             {" — preview only. Not charged."}
           </p>
-        ) : (
+        ) : seatsOpen ? (
           <p className="auth-hint" data-testid="seat-export-png-signin">
             <Link href={`/signin?callbackUrl=/panels/${panel.id}`}>
               Sign in
             </Link>{" "}
             to download a seat PNG preview. Still no card charge.
           </p>
-        )}
+        ) : null}
 
         <AdjacentNeighborsCard neighbors={adjacentNeighbors} />
         <NeighborComboCard lot={comboLotFor(panel.id)} />

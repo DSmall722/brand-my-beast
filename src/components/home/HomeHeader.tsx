@@ -1,10 +1,16 @@
 import { AuthNav } from "@/components/AuthNav";
+import { isPublicSignInClosed } from "@/lib/auth/mode";
 import { PUBLIC_COPY } from "@/lib/public-copy";
 
 /** Slice 7.1 — extracted from `src/app/page.tsx`. Copy unchanged. */
-export function HomeHeader() {
+export async function HomeHeader() {
+  const signInClosed = isPublicSignInClosed();
   return (
-      <header className="shell site-header">
+      <header
+        className="shell site-header"
+        data-header-row="single"
+        data-signin-closed={signInClosed ? "true" : "false"}
+      >
         <div className="wordmark" data-testid="brand-wordmark">
           {PUBLIC_COPY.header.wordmark}
         </div>
@@ -12,7 +18,7 @@ export function HomeHeader() {
           <a className="nav-link" href="#waitlist">
             {PUBLIC_COPY.header.nav}
           </a>
-          <AuthNav />
+          {signInClosed ? null : <AuthNav />}
         </nav>
       </header>
   );
