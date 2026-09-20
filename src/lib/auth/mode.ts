@@ -90,3 +90,17 @@ export function enabledAuthProviders(
   }
   return ids;
 }
+
+/**
+ * Slice 20.1 — public header hides Sign in when live sign-in has no
+ * buyer provider. Test/CI login stays available for Playwright.
+ */
+export function isPublicSignInClosed(env: AuthEnv = process.env): boolean {
+  const providers = enabledAuthProviders(env);
+  return (
+    resolveAuthMode(env) === "live" &&
+    !providers.includes("resend") &&
+    !providers.includes("github") &&
+    !providers.includes("test-login")
+  );
+}
