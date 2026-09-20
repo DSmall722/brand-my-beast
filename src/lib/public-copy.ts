@@ -19,7 +19,8 @@ export function wholeTruckPackageCopy(): string {
 
 export const PUBLIC_COPY = {
   meta: {
-    title: "BrandMyBeast — advertise on a Cybertruck",
+    title:
+      "BrandMyBeast — Put your brand on the truck people already photograph.",
     description:
       "Twelve companies. One Cyberbeast. Bid on a panel. Hit $58,000 and the truck gets ordered and wrapped for a year. Miss it and nobody pays.",
   },
