@@ -96,6 +96,9 @@ test.describe("slice 16.39: callout contrast on stainless", () => {
     expect(sample).not.toBeNull();
     const plate = compositeOver(sample!.badge, sample!.steel);
     const ratio = contrastRatio(plate, sample!.steel);
-    expect(ratio).toBeGreaterThanOrEqual(4.5);
+    expect(
+      ratio,
+      `badge ${sample!.badge.join(",")} steel ${sample!.steel.join(",")} plate ${plate.join(",")} ratio ${ratio.toFixed(2)}`,
+    ).toBeGreaterThanOrEqual(4.5);
   });
 });

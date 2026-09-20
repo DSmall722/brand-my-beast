@@ -8,6 +8,7 @@ import {
   GOAL_USD,
   formatUsd,
 } from "../src/lib/campaign";
+import { panelFaceCropsAreDistinct } from "../src/lib/panel-board";
 import { findCloseAtViolations } from "../src/lib/close-at-null";
 import { findStripePackagesInRootPackageJson } from "../src/lib/no-stripe-package";
 import { vercelJsonIsHoldOrMainOnlyRestore } from "../src/lib/vercel-git-deploy";
@@ -36,6 +37,10 @@ test.describe("slice 17.10: panel faces use the stainless still", () => {
     expect(vercelJsonIsHoldOrMainOnlyRestore()).toBe(true);
   });
 
+  test("face crops are unique per panel", () => {
+    expect(panelFaceCropsAreDistinct()).toBe(true);
+  });
+
   test("panel-face rule cites the shared still, not a black well", () => {
     const css = readFileSync(
       join(process.cwd(), "src/app/styles/board.css"),
@@ -46,14 +51,40 @@ test.describe("slice 17.10: panel faces use the stainless still", () => {
     expect(block).not.toContain("var(--steel-950)");
   });
 
-  test("homepage panel faces render the still", async ({ page }) => {
+  test("homepage panel faces render distinct crops", async ({ page }) => {
     await page.goto("/");
     const face = page.getByTestId("panel-face-hood");
     await expect(face).toBeVisible();
     const bg = await face.evaluate(
       (el) => getComputedStyle(el).backgroundImage,
     );
-    expect(bg).toContain("hero-truck-preview.jpg");
+    expect(bg).toContain("truck-view-front.jpg");
+    const positions = new Set<string>();
+    const stills = new Set<string>();
+    for (const id of [
+      "hood",
+      "front-fascia",
+      "driver-door",
+      "passenger-door",
+      "driver-bed",
+      "passenger-bed",
+      "driver-rear-quarter",
+      "passenger-rear-quarter",
+      "tailgate",
+      "tonneau",
+      "roof",
+      "rear-fascia",
+    ]) {
+      const card = page.getByTestId(`panel-face-${id}`);
+      const pos = await card.getAttribute("data-face-pos");
+      const still = await card.getAttribute("data-face-still");
+      expect(pos).toBeTruthy();
+      expect(still).toBeTruthy();
+      positions.add(`${still}:${pos}`);
+      stills.add(still ?? "");
+    }
+    expect(positions.size).toBe(12);
+    expect(stills.size).toBeGreaterThan(1);
     const box = await face.boundingBox();
     expect(box?.width ?? 0).toBeGreaterThan(40);
     expect(box?.height ?? 0).toBeGreaterThan(20);

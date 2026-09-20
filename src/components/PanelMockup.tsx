@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, type CSSProperties } from "react";
 import { EtchConstraintLinter } from "@/components/EtchConstraintLinter";
 import {
   GOAL_USD,
@@ -19,6 +19,7 @@ import {
   FINISH_CONDITIONS_LEAD,
   type FinishCondition,
 } from "@/lib/finish-conditions";
+import { panelFaceCropFor, panelFaceStyle } from "@/lib/panel-board";
 import {
   STAINLESS_COMPOSITOR_LEAD,
   compositorEtchMarkLabel,
@@ -79,12 +80,16 @@ export function PanelMockup({
   const showingEtch = showPreviewToggles && etchOn && mode === "etch";
   const brandOnFace = standingBrand?.trim() ? standingBrand.trim() : null;
   const showingPair = showPreviewToggles && pair;
+  const face = panelFaceCropFor(panel.id);
 
   return (
     <div
       className="panel-mockup stainless-compositor"
       data-testid="panel-mockup"
       data-panel={panel.id}
+      data-face-still={face.still}
+      data-face-pos={face.objectPosition}
+      style={panelFaceStyle(panel.id) as CSSProperties}
       data-etchable={etchable ? "true" : "false"}
       data-etch-unlocked={etchOn ? "true" : "false"}
       data-finish={showingEtch ? "etch" : "wrap"}

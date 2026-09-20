@@ -53,7 +53,7 @@ test.describe("slice 17.16: mockup face uses the stainless still", () => {
     const bg = await face.evaluate(
       (el) => getComputedStyle(el).backgroundImage,
     );
-    expect(bg).toContain("hero-truck-preview.jpg");
+    expect(bg).toContain("truck-view-front.jpg");
     expect(bg).not.toContain("repeating-linear-gradient");
   });
 });

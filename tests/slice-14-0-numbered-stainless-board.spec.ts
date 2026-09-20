@@ -109,7 +109,7 @@ test.describe("slice 14.0: numbered stainless board", () => {
 
     await expect(page.getByTestId("truck-view-stage").locator("img")).toHaveAttribute(
       "src",
-      "/hero-truck-preview.jpg",
+      "/truck-view-side.jpg",
     );
     await expect(page.getByTestId("view-panel-board-side")).toBeVisible();
 
