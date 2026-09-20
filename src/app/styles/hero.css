@@ -78,16 +78,17 @@
   display: inline-grid;
   place-items: center;
   border-radius: 999px;
-  border: 1.5px solid color-mix(in oklab, var(--signal) 70%, white);
-  background: #0c0e11;
-  color: var(--signal);
+  /* Lime plate on night-chrome ring — 4.5:1 vs dark door steel (16.39). */
+  border: 1.5px solid #07090c;
+  background: var(--signal);
+  color: var(--signal-ink);
   text-decoration: none;
   font-family: var(--font-display, "Bebas Neue", Impact, sans-serif);
   font-size: 0.95rem;
   font-weight: 700;
   letter-spacing: 0.02em;
   line-height: 1;
-  box-shadow: 0 0 0 1px color-mix(in oklab, #07090c 55%, transparent);
+  box-shadow: 0 0 0 1px color-mix(in oklab, #07090c 70%, transparent);
   transition:
     transform 160ms ease,
     background 160ms ease,
@@ -96,8 +97,8 @@
 
 .panel-board-callout:hover,
 .panel-board-callout:focus-visible {
-  background: color-mix(in oklab, var(--signal) 22%, #0c0e11);
-  border-color: var(--signal);
+  background: color-mix(in oklab, var(--signal) 82%, white);
+  border-color: #07090c;
   transform: translate(-50%, -50%) scale(1.08);
 }
 
