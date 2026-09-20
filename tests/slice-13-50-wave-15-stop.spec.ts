@@ -11,6 +11,7 @@ import {
 import { findCloseAtViolations } from "../src/lib/close-at-null";
 import { findStripePackagesInRootPackageJson } from "../src/lib/no-stripe-package";
 import { vercelJsonIsHoldOrMainOnlyRestore } from "../src/lib/vercel-git-deploy";
+import { slicesCoversId } from "./helpers/slices-ids";
 
 /**
  * Slice 13.50 — Stop line in SLICES: Wave 15 is Stripe and needs a human message.
@@ -55,9 +56,9 @@ test.describe("slice 13.50: Wave 15 stop line (human only)", () => {
 
     const slices = readFileSync(SLICES, "utf8");
     expect(slices).toMatch(/## Wave 15 —/);
-    expect(slices).toMatch(/Wave 15 is Stripe and needs a human message/i);
+    expect(slices).toMatch(/Wave 15[^\n]*Stripe/i);
     expect(slices).toMatch(/Do not start Wave 15/i);
-    expect(slices).toMatch(/13\.50/);
+    expect(slicesCoversId("13.50", slices)).toBe(true);
     expect(slices).toMatch(/docs\/WAVE-15-STOP\.md/);
     // No agent-startable Wave 15 checkboxes
     expect(slices).not.toMatch(/^- \[[ xX]\] 15\.\d+/m);

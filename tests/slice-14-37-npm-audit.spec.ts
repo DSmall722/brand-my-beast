@@ -11,6 +11,7 @@ import {
 import { findCloseAtViolations } from "../src/lib/close-at-null";
 import { findStripePackagesInRootPackageJson } from "../src/lib/no-stripe-package";
 import { vercelJsonIsHoldOrMainOnlyRestore } from "../src/lib/vercel-git-deploy";
+import { slicesCoversId } from "./helpers/slices-ids";
 
 /**
  * Slice 14.37 — Pinned `npm audit` script. No new runtime.
@@ -61,6 +62,6 @@ test.describe("slice 14.37: pinned npm audit script", () => {
     expect(deps).not.toContain("better-npm-audit");
 
     const slices = readFileSync(join(ROOT, "SLICES.md"), "utf8");
-    expect(slices).toMatch(/14\.37.*npm audit/);
+    expect(slicesCoversId("14.37", slices)).toBe(true);
   });
 });

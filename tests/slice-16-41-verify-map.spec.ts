@@ -11,6 +11,7 @@ import {
 import { findCloseAtViolations } from "../src/lib/close-at-null";
 import { findStripePackagesInRootPackageJson } from "../src/lib/no-stripe-package";
 import { vercelJsonIsHoldOrMainOnlyRestore } from "../src/lib/vercel-git-deploy";
+import { slicesIdsForMajors } from "./helpers/slices-ids";
 
 /**
  * Slice 16.41 — verify-brandmybeast feature map matches Wave 16.
@@ -29,30 +30,9 @@ const REQUIRED_MAP_FILES = [
   "wave16-numbered-board.md",
 ] as const;
 
-/** Expand same-major condensed ranges and singles for Wave 16, including 16.0a–g. */
+/** Expand condensed `0.1–18.7` for Wave 16, including 16.0a–g. */
 function wave16IdsFromSlices(): string[] {
-  const text = readFileSync(join(process.cwd(), "SLICES.md"), "utf8");
-  const ids: string[] = [];
-  for (const line of text.split("\n")) {
-    const range = line.match(/^- \[[ xX]\] 16\.(\d+)[\u2013-]16\.(\d+)\b/);
-    if (range) {
-      const minorA = Number(range[1]);
-      const minorB = Number(range[2]);
-      if (minorB < minorA) continue;
-      for (let m = minorA; m <= minorB; m += 1) {
-        ids.push(`16.${m}`);
-      }
-      continue;
-    }
-    const letter = line.match(/^- \[[ xX]\] (16\.0[a-g])\b/);
-    if (letter) {
-      ids.push(letter[1]!);
-      continue;
-    }
-    const single = line.match(/^- \[[ xX]\] (16\.\d+)\b/);
-    if (single) ids.push(single[1]!);
-  }
-  return [...new Set(ids)];
+  return slicesIdsForMajors([16]);
 }
 
 function featureMapCorpus(): string {

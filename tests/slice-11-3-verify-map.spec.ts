@@ -2,6 +2,7 @@ import { existsSync, readdirSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import { expect, test } from "@playwright/test";
 import { CLOSE_AT, FLOOR_USD, GOAL_USD } from "../src/lib/campaign";
+import { slicesIdsForMajors } from "./helpers/slices-ids";
 
 /**
  * Slice 11.3 — verify-brandmybeast feature map matches Waves 7–10.
@@ -22,28 +23,7 @@ const REQUIRED_MAP_FILES = [
 ] as const;
 
 function wave710IdsFromSlices(): string[] {
-  const text = readFileSync(join(process.cwd(), "SLICES.md"), "utf8");
-  const ids: string[] = [];
-  for (const line of text.split("\n")) {
-    // Condensed: `- [x] 7.1–7.10 Complete.` or `- [x] 8.1-8.10 Complete.`
-    const range = line.match(
-      /^- \[[ xX]\] (7|8|9|10)\.(\d+)[\u2013-](7|8|9|10)\.(\d+)\b/,
-    );
-    if (range) {
-      const majorA = Number(range[1]);
-      const minorA = Number(range[2]);
-      const majorB = Number(range[3]);
-      const minorB = Number(range[4]);
-      if (majorA !== majorB || minorB < minorA) continue;
-      for (let m = minorA; m <= minorB; m += 1) {
-        ids.push(`${majorA}.${m}`);
-      }
-      continue;
-    }
-    const single = line.match(/^- \[[ xX]\] ((?:7|8|9|10)\.\d+)\b/);
-    if (single) ids.push(single[1]!);
-  }
-  return ids;
+  return slicesIdsForMajors([7, 8, 9, 10]);
 }
 
 function featureMapCorpus(): string {

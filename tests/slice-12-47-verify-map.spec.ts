@@ -2,6 +2,7 @@ import { existsSync, readdirSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import { expect, test } from "@playwright/test";
 import { CLOSE_AT, FLOOR_USD, GOAL_USD, formatUsd } from "../src/lib/campaign";
+import { slicesIdsForMajors } from "./helpers/slices-ids";
 
 /**
  * Slice 12.47 — verify-brandmybeast feature map matches Wave 12.
@@ -19,25 +20,7 @@ const REQUIRED_MAP_FILES = [
 ] as const;
 
 function wave12IdsFromSlices(): string[] {
-  const text = readFileSync(join(process.cwd(), "SLICES.md"), "utf8");
-  const ids: string[] = [];
-  for (const line of text.split("\n")) {
-    const range = line.match(
-      /^- \[[ xX]\] 12\.(\d+)[\u2013-]12\.(\d+)\b/,
-    );
-    if (range) {
-      const minorA = Number(range[1]);
-      const minorB = Number(range[2]);
-      if (minorB < minorA) continue;
-      for (let m = minorA; m <= minorB; m += 1) {
-        ids.push(`12.${m}`);
-      }
-      continue;
-    }
-    const single = line.match(/^- \[[ xX]\] (12\.\d+)\b/);
-    if (single) ids.push(single[1]!);
-  }
-  return ids;
+  return slicesIdsForMajors([12]);
 }
 
 function featureMapCorpus(): string {
