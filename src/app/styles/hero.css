@@ -27,21 +27,53 @@
   display: block;
 }
 
+.hero-photo-well {
+  position: relative;
+  isolation: isolate;
+  width: min(100%, calc(min(70vh, 40rem) * 16 / 9));
+  aspect-ratio: 16 / 9;
+  justify-self: center;
+  overflow: hidden;
+  background: #0a0d12;
+}
+
+.hero-photo-well .hero-truck-link,
+.hero-photo-well .panel-board {
+  position: absolute;
+  inset: 0;
+  height: 100%;
+  min-height: 0;
+}
+
+.hero-photo-well::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background:
+    linear-gradient(
+      to bottom,
+      color-mix(in oklab, #07090c 20%, transparent) 0%,
+      transparent 28%,
+      transparent 72%,
+      color-mix(in oklab, #07090c 55%, transparent) 100%
+    );
+}
+
 .hero-truck-image {
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
-  object-fit: cover;
-  /* Center the Cybertruck body so 1–12 sit on steel, not the lawn. */
-  object-position: 50% 46%;
-  transform: scale(1.02);
-  transition: transform 420ms cubic-bezier(0.2, 0.8, 0.2, 1);
+  object-fit: fill;
+  object-position: 50% 50%;
+  transform: none;
 }
 
 .hero-truck-link:hover .hero-truck-image,
 .hero-truck-link:focus-visible .hero-truck-image {
-  transform: scale(1.035);
+  transform: none;
 }
 
 .hero-truck-link:focus-visible {
@@ -148,26 +180,7 @@
 }
 
 .hero::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: 1;
-  pointer-events: none;
-  background:
-    linear-gradient(
-      to bottom,
-      color-mix(in oklab, #07090c 35%, transparent) 0%,
-      transparent 28%,
-      color-mix(in oklab, #07090c 55%, transparent) 58%,
-      color-mix(in oklab, #07090c 92%, transparent) 100%
-    ),
-    linear-gradient(
-      to right,
-      color-mix(in oklab, #07090c 40%, transparent),
-      transparent 35%,
-      transparent 70%,
-      color-mix(in oklab, #07090c 25%, transparent)
-    );
+  display: none;
 }
 
 .hero-overlay {
@@ -262,7 +275,6 @@
    callouts 2/3/5 cannot sit on the H1 glyphs. H1 text unchanged. */
 @media (min-width: 721px) {
   .hero {
-    --hero-photo-h: min(70vh, 40rem);
     min-height: 0;
     max-height: none;
     overflow: visible;
@@ -270,34 +282,9 @@
     grid-template-rows: auto auto;
   }
 
-  .hero-truck-link {
-    position: relative;
-    inset: auto;
+  .hero-photo-well {
     grid-row: 1;
     grid-column: 1;
-    height: var(--hero-photo-h);
-    min-height: 22rem;
-  }
-
-  .hero .panel-board {
-    grid-row: 1;
-    grid-column: 1;
-    top: 0;
-    right: 0;
-    bottom: auto;
-    left: 0;
-    height: var(--hero-photo-h);
-    min-height: 22rem;
-  }
-
-  .hero::after {
-    grid-row: 1;
-    grid-column: 1;
-    top: 0;
-    right: 0;
-    bottom: auto;
-    left: 0;
-    height: var(--hero-photo-h);
   }
 
   .hero-overlay {
@@ -309,8 +296,6 @@
 
 @media (max-width: 720px) {
   .hero {
-    /* Slice 17.6 — caption, H1, lead, and CTAs stack under the photo. */
-    --hero-photo-h: min(36svh, 16.25rem);
     min-height: 0;
     max-height: none;
     overflow: visible;
@@ -318,42 +303,16 @@
     grid-template-rows: auto auto;
   }
 
-  .hero-truck-link {
-    position: relative;
-    inset: auto;
+  .hero-photo-well {
     grid-row: 1;
     grid-column: 1;
-    height: var(--hero-photo-h);
-    min-height: 11rem;
-    overflow: hidden;
-  }
-
-  .panel-board {
-    grid-row: 1;
-    grid-column: 1;
-    top: 0;
-    right: 0;
-    bottom: auto;
-    left: 0;
-    height: var(--hero-photo-h);
-    min-height: 11rem;
-  }
-
-  .hero-truck-image {
-    /* No scale crop on small screens; keep more of the stainless body in frame. */
-    object-position: 50% 42%;
-    transform: none;
+    width: 100%;
   }
 
   /* Slice 20.11 — numbers sit on the body, not the cab glass. */
   .panel-board-hero .panel-board-callout {
     left: var(--hero-mobile-x);
     top: var(--hero-mobile-y);
-  }
-
-  .hero-truck-link:hover .hero-truck-image,
-  .hero-truck-link:focus-visible .hero-truck-image {
-    transform: none;
   }
 
   .hero-overlay {

@@ -7,7 +7,7 @@ Public site files live in `/public`:
 
 | File | Angle |
 |---|---|
-| `hero-truck-preview.jpg` / `hero-truck-preview-640.jpg` | Driver-side front ¾ |
+| `hero-truck-preview.jpg` / `hero-truck-preview-640.jpg` | Driver-side ¾-rear (same still as side) |
 | `truck-view-side.jpg` | Driver-side ¾-rear |
 | `truck-view-front.jpg` | Passenger-front |
 | `truck-view-rear.jpg` | Passenger-rear |

@@ -24,10 +24,11 @@ UA = "BrandMyBeastStillBuilder/1.0 (local preview; https://brandmybeast.com)"
 # Commons FilePath titles. Crop boxes are source pixels (left, top, right, bottom).
 SOURCES = {
     "hero": {
-        "title": "2024 Tesla Cybertruck Foundation Series, front left (Greenwich).jpg",
-        "file": "front-left.jpg",
-        "crop": (200, 360, 4700, 2780),
-        "mode": "cutout-restore",
+        "title": "2024 Tesla Cybertruck Foundation Series, rear left (Greenwich).jpg",
+        "file": "rear-left.jpg",
+        "crop": (180, 520, 4720, 2780),
+        "mode": "cutout",
+        "blur": [(0.86, 0.62, 0.94, 0.72)],
     },
     "side": {
         "title": "2024 Tesla Cybertruck Foundation Series, rear left (Greenwich).jpg",

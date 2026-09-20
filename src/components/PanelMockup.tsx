@@ -2,6 +2,7 @@
 
 import { useState, type CSSProperties } from "react";
 import { EtchConstraintLinter } from "@/components/EtchConstraintLinter";
+import { ImmortalEtchLockup } from "@/components/ImmortalEtchLockup";
 import {
   GOAL_USD,
   TRUCK_EXISTS,
@@ -102,7 +103,7 @@ export function PanelMockup({
         className="auth-hint stainless-compositor-lead"
         data-testid="stainless-compositor-lead"
       >
-        {STAINLESS_COMPOSITOR_LEAD}
+        <ImmortalEtchLockup text={STAINLESS_COMPOSITOR_LEAD} />
       </p>
       <p
         className="auth-hint etch-lock-copy"

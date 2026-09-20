@@ -24,6 +24,7 @@ export function HomeHeroSection({
           aria-labelledby="hero-title"
           data-hero-stack="under-photo"
         >
+          <div className="hero-photo-well" data-testid="hero-photo-well">
           <a
             className="hero-truck-link"
             href="/panels/hood"
@@ -55,6 +56,7 @@ export function HomeHeroSection({
             surface="hero"
             occupiedPanelIds={occupiedPanelIds}
           />
+          </div>
           <div className="hero-overlay">
             <p className="hero-preview-label" data-testid="hero-preview-label">
               Board preview — bare stainless. Wrap and Immortal Etch come later.

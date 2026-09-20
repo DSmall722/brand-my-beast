@@ -326,9 +326,10 @@
 }
 
 .story-num {
-  font-family: var(--font-display), Syne, system-ui, sans-serif;
   color: var(--signal);
   font-size: 1.4rem;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
 }
 
 .story-body {
@@ -337,9 +338,9 @@
 }
 
 .story-step-title {
-  font-family: var(--font-display), Syne, system-ui, sans-serif;
   font-size: 1.15rem;
-  letter-spacing: -0.02em;
+  font-weight: 600;
+  letter-spacing: -0.01em;
   color: var(--steel-100);
 }
 
@@ -1230,6 +1231,157 @@
 
 .panel-intent {
   max-width: 40rem;
+}
+
+.panel-intent.public-seat {
+  max-width: 56rem;
+}
+
+.public-seat .seat-masthead {
+  margin-bottom: 1.15rem;
+}
+
+.public-seat .seat-masthead .section-lead {
+  margin-bottom: 0;
+  font-size: 1.05rem;
+}
+
+.public-seat .seat-finish {
+  display: inline-block;
+  margin-left: 0.15rem;
+}
+
+.public-seat .public-seat-status {
+  display: grid;
+  gap: 0.45rem;
+  margin-bottom: 1.5rem;
+  padding: 0.95rem 1.1rem;
+  border-radius: 0.85rem;
+  border: 1px solid var(--hairline);
+  background:
+    linear-gradient(
+      180deg,
+      color-mix(in oklab, white 6%, transparent),
+      color-mix(in oklab, #07090c 35%, transparent)
+    );
+}
+
+.public-seat .seat-badge {
+  justify-self: start;
+}
+
+.public-seat .seat-holder {
+  margin: 0;
+}
+
+.public-seat [data-testid="public-seat-waitlist-cta"] {
+  margin: 0;
+  font-size: 0.85rem;
+}
+
+.public-seat .seat-stage {
+  display: grid;
+  gap: 1rem;
+  margin: 0 0 1.5rem;
+}
+
+.public-seat .truck-view-seats-compact {
+  margin: 0;
+}
+
+.public-seat .truck-view-stage {
+  border-radius: 0.9rem;
+}
+
+.public-seat .panel-mockup {
+  margin: 0;
+  min-height: 0;
+  background: #0a0d12;
+}
+
+.public-seat .stainless-compositor {
+  display: grid;
+}
+
+.public-seat .panel-mockup-face {
+  order: -1;
+  min-height: 0;
+  aspect-ratio: 16 / 9;
+  padding: 1.75rem;
+}
+
+.public-seat .truck-view-lead {
+  font-size: 0.85rem;
+  margin-bottom: 0.55rem;
+}
+
+.public-seat .panel-extension {
+  margin: 0;
+  padding: 0.75rem 0.95rem;
+  border: 1px solid var(--hairline);
+  border-radius: 0.75rem;
+  background: color-mix(in oklab, black 22%, transparent);
+}
+
+.public-seat .panel-extension .auth-subhead {
+  margin: 0 0 0.3rem;
+  font-size: 0.78rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.public-seat .etch-notes {
+  margin: 0;
+  padding: 0.75rem 0.95rem 1rem;
+}
+
+.public-seat .stainless-compositor-lead,
+.public-seat .etch-lock-copy,
+.public-seat .finish-conditions-lead,
+.public-seat .dirty-clean-pair-lead {
+  font-size: 0.82rem;
+  color: var(--steel-400);
+}
+
+.public-seat .seat-neighbors {
+  display: grid;
+  gap: 0.75rem;
+  margin: 0 0 1.5rem;
+}
+
+.public-seat .adjacent-neighbors,
+.public-seat .neighbor-combo {
+  margin: 0;
+}
+
+.public-seat .seat-rules {
+  display: grid;
+  gap: 0.65rem;
+  margin: 0 0 1.5rem;
+}
+
+.public-seat .seat-rules .auth-hint,
+.public-seat .seat-exclusivity {
+  margin: 0;
+}
+
+.public-seat .seat-exclusivity {
+  padding-top: 0.35rem;
+}
+
+.public-seat .intent-banner {
+  margin: 0;
+}
+
+.public-seat .panel-stats {
+  margin-bottom: 1.25rem;
+}
+
+@media (min-width: 800px) {
+  .public-seat .seat-neighbors {
+    grid-template-columns: 1fr 1fr;
+    align-items: start;
+  }
 }
 
 .panel-mockup {
