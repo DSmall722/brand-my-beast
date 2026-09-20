@@ -344,6 +344,12 @@
     transform: none;
   }
 
+  /* Slice 20.11 — numbers sit on the body, not the cab glass. */
+  .panel-board-hero .panel-board-callout {
+    left: var(--hero-mobile-x);
+    top: var(--hero-mobile-y);
+  }
+
   .hero-truck-link:hover .hero-truck-image,
   .hero-truck-link:focus-visible .hero-truck-image {
     transform: none;
