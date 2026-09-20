@@ -36,7 +36,7 @@ export default function NotFound() {
             href="/"
             data-testid="not-found-home"
           >
-            Home
+            {PUBLIC_COPY.chrome.backToBoard}
           </Link>
           <Link
             className="btn btn-ghost"

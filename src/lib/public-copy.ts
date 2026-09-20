@@ -286,6 +286,12 @@ export const PUBLIC_COPY = {
     wrapFilm: "Vinyl film layer",
     etchMark: "Laser on stainless",
   },
+  /**
+   * Slice 20.10 — 404 / partner / error chrome. Not a shop tease.
+   */
+  chrome: {
+    backToBoard: "Back to the board",
+  },
   footer: {
     line: "BrandMyBeast · @BrandMyBeast · hello@brandmybeast.com",
     independent: "Independent. Not Tesla.",

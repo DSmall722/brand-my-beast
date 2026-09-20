@@ -54,7 +54,7 @@ export default function Error({
             href="/"
             data-testid="error-home"
           >
-            Home
+            {PUBLIC_COPY.chrome.backToBoard}
           </Link>
           <Link
             className="btn btn-ghost"
