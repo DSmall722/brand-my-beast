@@ -11,8 +11,8 @@ Updated: 2026-09-20
 - After 19.12, do Wave 20. After 20.12, idle. Do not start Wave 15 (Stripe) without a human message.
 - Judge PRs from git + `npm test` + `npm run build`.
 
-**Now:** 20.10 Partner / 404 uses branded back-to-board, not a shop tease.
-**Last merged:** 20.9 Meta description waitlist-era. No Bid on a panel while seats are closed.
+**Now:** 20.11 Mobile board: numbers 1–12 do not stack on the cab glass.
+**Last merged:** 20.10 Partner / 404 uses branded back-to-board, not a shop tease.
 
 ## Standing orders
 
@@ -73,7 +73,7 @@ Do not start until 19.12 is checked. No Stripe. No CLOSE_AT. No SEATS_OPEN flip.
 - [x] 20.7 Homepage whole-truck block: one explanation sentence, not the 12-name package dump. (#412)
 - [x] 20.8 Wreck lead is a complete sentence, not a fragment. (#413)
 - [x] 20.9 Meta description waitlist-era. No **Bid on a panel** while seats are closed. No H1 change. (#414)
-- [ ] 20.10 Partner / 404 uses branded back-to-board, not a shop tease.
+- [x] 20.10 Partner / 404 uses branded back-to-board, not a shop tease. (#415)
 - [ ] 20.11 Mobile board: numbers 1–12 do not stack on the cab glass. 19.8 is desktop H1 only.
 - [ ] 20.12 Playwright: 20.1–20.11 + locked H1 + `Notify me` + $58,000 / $120,000 + no lease.
 

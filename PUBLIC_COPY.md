@@ -154,6 +154,10 @@ Not a homepage hero rewrite:
 - Deposit preview template: `{percent}% of this mark is {amount}. Not charged.`
 - Wins empty (13.28): `No approved seats yet. Operator approval on a listed intent opens this sheet. Still no card charge.`
 
+## Chrome (not homepage H1)
+
+- Back to the board: `Back to the board`
+
 ## Footer
 
 - `BrandMyBeast · @BrandMyBeast · hello@brandmybeast.com`
