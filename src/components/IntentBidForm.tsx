@@ -8,7 +8,6 @@ import {
 } from "@/app/actions/intent";
 import { AdjacentClashHint } from "@/components/AdjacentClashHint";
 import { HighwayLegibilityHint } from "@/components/HighwayLegibilityHint";
-import { HometownLaneTags } from "@/components/HometownLaneTags";
 import { formatIntegerUsd, formatUsd } from "@/lib/campaign";
 import { tryDepositPreviewCopy } from "@/lib/deposit-preview";
 import { ARTWORK_MAX_DATA_URL_CHARS } from "@/lib/intent-artwork";
@@ -130,7 +129,6 @@ export function IntentBidForm({
         value={idempotencyKey}
         data-testid="intent-idempotency-key"
       />
-      <HometownLaneTags />
       <label className="auth-label" htmlFor="brandLabel">
         Brand label
       </label>

@@ -172,17 +172,7 @@ test.describe("P2 panel intent + approvals", () => {
     await expect(page.getByTestId("neighbor-combo-roof")).toBeVisible();
     await expect(page.getByTestId("neighbor-combo-driver-door")).toBeVisible();
     await expect(page.getByTestId("neighbor-combo-passenger-door")).toBeVisible();
-    await expect(page.getByTestId("hometown-lane")).toBeVisible();
-    await expect(page.getByTestId("hometown-lane-sc")).toHaveText("SC");
-    await expect(page.getByTestId("hometown-lane-charlotte")).toHaveText(
-      "Charlotte",
-    );
-    await expect(page.getByTestId("hometown-lane-atlanta")).toHaveText(
-      "Atlanta",
-    );
-    await expect(page.getByTestId("hometown-lane-panhandle")).toHaveText(
-      "Panhandle",
-    );
+    await expect(page.getByTestId("hometown-lane")).toHaveCount(0);
     await expect(page.getByTestId("panel-stats")).toBeVisible();
     await expect(page.getByTestId("intent-only-banner")).toContainText(
       "Intent only",

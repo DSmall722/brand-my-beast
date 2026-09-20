@@ -4,7 +4,6 @@ import { notFound } from "next/navigation";
 import {
   AdjacentNeighborsCard,
 } from "@/components/AdjacentClashHint";
-import { HometownLaneTags } from "@/components/HometownLaneTags";
 import { IntentArtworkPreview } from "@/components/IntentArtworkPreview";
 import { IntentBidForm } from "@/components/IntentBidForm";
 import { NeighborComboCard } from "@/components/NeighborComboCard";
@@ -201,8 +200,6 @@ export default async function PanelIntentPage({
             charge.
           </p>
         </div>
-
-        <HometownLaneTags />
 
         <TruckViewHotspots
           occupiedPanelIds={occupiedPanelIds}
