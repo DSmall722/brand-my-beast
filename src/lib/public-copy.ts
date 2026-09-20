@@ -22,7 +22,7 @@ export const PUBLIC_COPY = {
     title:
       "BrandMyBeast — Put your brand on the truck people already photograph.",
     description:
-      "Twelve companies. One Cyberbeast. Bid on a panel. Hit $58,000 and the truck gets ordered and wrapped for a year. Miss it and nobody pays.",
+      "Twelve companies. One Cyberbeast. Seats are not for sale yet. Hit $58,000 and the truck gets ordered and wrapped for a year. Miss it and nobody pays.",
   },
   header: {
     wordmark: "BrandMyBeast",
