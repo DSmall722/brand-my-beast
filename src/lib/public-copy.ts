@@ -55,6 +55,8 @@ export const PUBLIC_COPY = {
     openSeatsLabel: "Open seats",
     vaultFloorMarkLabel: "Floor",
     vaultBuyoutMarkLabel: "Buyout",
+    /** Slice 19.10 — vault copy while pledged is $0. Not an empty auction. */
+    vaultEmpty: "No marks yet",
     wholeTruckHeading: "Whole truck — $120,000",
     wholeTruckLead: `${wholeTruckPackageCopy()} One brand on every panel. Etch on. Standing panel winners are released. Nothing is charged on this page.`,
     wholeTruckAmountLabel: "Buyout mark",

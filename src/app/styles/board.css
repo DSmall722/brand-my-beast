@@ -107,6 +107,13 @@
   position: relative;
 }
 
+.vault-empty {
+  margin: 0 0 0.75rem;
+  color: var(--steel-200);
+  font-size: 1rem;
+  letter-spacing: 0.02em;
+}
+
 .progress-track {
   position: relative;
   height: 0.55rem;
