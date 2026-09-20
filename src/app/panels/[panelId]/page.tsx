@@ -17,6 +17,7 @@ import {
   FLOOR_USD,
   GOAL_USD,
   CLOSE_AT,
+  TRUCK_EXISTS,
   PANELS,
   formatIntegerUsd,
   formatUsd,
@@ -215,6 +216,7 @@ export default async function PanelIntentPage({
           panel={panel}
           raisedUsd={board.pledgedUsd}
           standingBrand={holder?.brandLabel ?? null}
+          truckExists={TRUCK_EXISTS}
         />
 
         {session?.user ? (

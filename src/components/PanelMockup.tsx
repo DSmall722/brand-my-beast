@@ -4,6 +4,7 @@ import { useState } from "react";
 import { EtchConstraintLinter } from "@/components/EtchConstraintLinter";
 import {
   GOAL_USD,
+  TRUCK_EXISTS,
   formatUsd,
   isEtchable,
   type Panel,
@@ -59,20 +60,25 @@ export function PanelMockup({
   panel,
   raisedUsd = 0,
   standingBrand = null,
+  truckExists = TRUCK_EXISTS,
 }: {
   panel: Panel;
   /** Board pledged intent total. Etch controls need buyout. */
   raisedUsd?: number;
   /** Slice 10.2 — standing brand on the face, not only a typed preview. */
   standingBrand?: string | null;
+  /** Slice 19.4 — hide Day/Night/Wet/Dirty and etch preview while the truck does not exist. */
+  truckExists?: boolean;
 }) {
   const etchable = isEtchable(panel);
   const etchOn = etchControlsEnabled(panel, raisedUsd);
   const [mode, setMode] = useState<FinishMode>("wrap");
   const [condition, setCondition] = useState<FinishCondition>("day");
   const [pair, setPair] = useState(false);
-  const showingEtch = etchOn && mode === "etch";
+  const showPreviewToggles = truckExists;
+  const showingEtch = showPreviewToggles && etchOn && mode === "etch";
   const brandOnFace = standingBrand?.trim() ? standingBrand.trim() : null;
+  const showingPair = showPreviewToggles && pair;
 
   return (
     <div
@@ -82,8 +88,10 @@ export function PanelMockup({
       data-etchable={etchable ? "true" : "false"}
       data-etch-unlocked={etchOn ? "true" : "false"}
       data-finish={showingEtch ? "etch" : "wrap"}
-      data-condition={condition}
-      data-pair={pair ? "true" : "false"}
+      data-condition={showPreviewToggles ? condition : "day"}
+      data-pair={showingPair ? "true" : "false"}
+      data-truck-exists={truckExists ? "true" : "false"}
+      data-preview-toggles={showPreviewToggles ? "true" : "false"}
     >
       <p
         className="auth-hint stainless-compositor-lead"
@@ -97,6 +105,8 @@ export function PanelMockup({
       >
         {etchLockCopy(raisedUsd)}
       </p>
+      {showPreviewToggles ? (
+      <>
       <div
         className="compositor-toolbar"
         data-testid="stainless-compositor"
@@ -181,8 +191,10 @@ export function PanelMockup({
       <p className="auth-hint dirty-clean-pair-lead" data-testid="dirty-clean-pair-lead">
         {DIRTY_CLEAN_PAIR_LEAD}
       </p>
+      </>
+      ) : null}
 
-      {pair ? (
+      {showingPair ? (
         <div className="dirty-clean-pair" data-testid="dirty-clean-pair">
           <div
             className="pair-half"
