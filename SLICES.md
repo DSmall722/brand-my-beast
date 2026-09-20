@@ -50,7 +50,7 @@ Fix what is wrong on the live waitlist site. Do not flip SEATS_OPEN. Do not rewr
 - [x] 19.1 Public `/panels/[id]` while `SEATS_OPEN` is false: hide `IntentBidForm` and `intent-signin-needed`. Only waitlist CTA. Playwright: no “Sign in to list an intent” on `/panels/hood`. (#394)
 - [x] 19.2 Remove `HometownLaneTags` from public seats. No SC / Charlotte / Atlanta / Panhandle on `/panels/*`. Playwright those strings absent. (#395)
 - [x] 19.3 Seat lead: if no holder, do not print “Current standing $2,500”. Opening price only. Standing line only when a mark exists. (#396)
-- [x] 19.4 Hide Day/Night/Wet/Dirty and etch preview toggles on public seats while `TRUCK_EXISTS` is false. Stainless still + numbers only.
+- [x] 19.4 Hide Day/Night/Wet/Dirty and etch preview toggles on public seats while `TRUCK_EXISTS` is false. Stainless still + numbers only. (#397)
 - [ ] 19.5 One disclaimer on the seat compositor, not floor/buyout stamped on every caption.
 - [ ] 19.6 Neighbor block: no “combo” heading. Neighbor openings may stay as `formatUsd`.
 - [ ] 19.7 Board-truck-seats overlay: hide the giant gray polygons on the photo. Keep numbered callouts 1–12. Playwright numbers still present.
