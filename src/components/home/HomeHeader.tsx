@@ -4,7 +4,7 @@ import { PUBLIC_COPY } from "@/lib/public-copy";
 /** Slice 7.1 — extracted from `src/app/page.tsx`. Copy unchanged. */
 export function HomeHeader() {
   return (
-      <header className="shell site-header">
+      <header className="shell site-header" data-header-row="single">
         <div className="wordmark" data-testid="brand-wordmark">
           {PUBLIC_COPY.header.wordmark}
         </div>

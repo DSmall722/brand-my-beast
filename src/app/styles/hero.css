@@ -390,11 +390,21 @@
   }
 
   .site-header {
+    /* Slice 19.9 — one row: wordmark + Join / Sign in. Safe-area already 17.7. */
     padding-top: calc(1rem + env(safe-area-inset-top, 0px));
+    gap: 0.5rem;
   }
 
   .wordmark {
     font-size: 1.05rem;
+  }
+
+  .header-nav {
+    gap: 0.65rem;
+  }
+
+  .header-nav .nav-link {
+    font-size: 0.88rem;
   }
 }
 
