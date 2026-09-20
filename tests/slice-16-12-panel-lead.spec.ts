@@ -54,12 +54,10 @@ test.describe("slice 16.12: panel lead matches the numbered cards", () => {
   }) => {
     await page.goto("/");
     await expect(page.locator("#hero-title")).toHaveText(LOCKED_H1);
-    await expect(page.locator("#panels .section-lead")).toHaveText(
+    await expect(page.getByTestId("panels-lead")).toHaveText(
       PUBLIC_COPY.panels.lead,
     );
-    await expect(page.locator("#panels .section-lead")).toContainText(
-      PANEL_PHRASE,
-    );
+    await expect(page.getByTestId("panels-lead")).toContainText(PANEL_PHRASE);
     const html = await page.content();
     expect(html.toLowerCase()).not.toMatch(/\blease\b/);
     expect(html).not.toMatch(/@gmail\.com/i);

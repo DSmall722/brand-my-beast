@@ -24,7 +24,9 @@ export function HomePanelsSection({
           aria-labelledby="panels-title"
         >
           <h2 id="panels-title">{PUBLIC_COPY.panels.heading}</h2>
-          <p className="section-lead">{PUBLIC_COPY.panels.lead}</p>
+          <p className="section-lead" data-testid="panels-lead">
+            {PUBLIC_COPY.panels.lead}
+          </p>
           {PANELS.some((panel) => !standingByPanel.get(panel.id)) ? (
             <p
               className="section-lead"
