@@ -131,6 +131,7 @@ export function HomeMoneySection({
             data-testid="shortfall-ticker"
             aria-label="Shortfall: dollars to floor and open seats. No impressions."
           >
+            {pledgedUsd > 0 ? (
             <div>
               <dt data-testid="shortfall-floor-label">
                 {PUBLIC_COPY.board.shortfallFloorLabel}
@@ -139,6 +140,7 @@ export function HomeMoneySection({
                 {formatUsd(shortfallFloor)}
               </dd>
             </div>
+            ) : null}
             <div>
               <dt data-testid="shortfall-goal-label">
                 {PUBLIC_COPY.board.shortfallBuyoutLabel}
