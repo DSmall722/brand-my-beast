@@ -4,6 +4,7 @@ import { useState } from "react";
 import { PanelBoardCallouts } from "@/components/PanelBoardCallouts";
 import { PANELS, type Panel } from "@/lib/campaign";
 import { BOARD_VIEW_OBJECT_POSITION } from "@/lib/panel-board";
+import { PUBLIC_COPY } from "@/lib/public-copy";
 import { truckImgAlt } from "@/lib/truck-img-alt";
 import {
   TRUCK_VIEWS,
@@ -129,8 +130,8 @@ export function TruckViewHotspots({
                 data-raw={held ? "false" : "true"}
                 aria-label={
                   held
-                    ? `${panel?.name ?? spot.panelId} — Held = standing intent`
-                    : `${panel?.name ?? spot.panelId} — Open seat`
+                    ? `${panel?.name ?? spot.panelId} — held seat`
+                    : `${panel?.name ?? spot.panelId} — open seat`
                 }
               >
                 <polygon
@@ -148,11 +149,7 @@ export function TruckViewHotspots({
           })}
         </svg>
         <p className="truck-view-legend" data-testid="truck-view-legend">
-          <span data-testid="truck-view-legend-open">Open seat</span>
-          {" · "}
-          <span data-testid="truck-view-legend-held">
-            Held = standing intent
-          </span>
+          {PUBLIC_COPY.board.seatLegend}
         </p>
       </div>
     </div>
