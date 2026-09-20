@@ -22,40 +22,51 @@ export type TruckHotspot = {
 
 export const TRUCK_VIEWS_LEAD = `Side, front, and rear of the same stainless preview. Open seats stay unmarked. Floor ${formatUsd(FLOOR_USD)}. Buyout ${formatUsd(GOAL_USD)}. Nothing is charged.`;
 
-/** Side silhouette: driver-side panels + shared faces. */
+/**
+ * Percent box → 400×160 polygon. Matches BOARD_LAYOUT view percents
+ * so hidden hit-targets sit on the same steel as the numbered discs.
+ */
+function pctBox(cx: number, cy: number, w: number, h: number): string {
+  const clamp = (n: number, max: number) => Math.max(0, Math.min(max, n));
+  const x0 = clamp(((cx - w / 2) / 100) * 400, 400);
+  const y0 = clamp(((cy - h / 2) / 100) * 160, 160);
+  const x1 = clamp(((cx + w / 2) / 100) * 400, 400);
+  const y1 = clamp(((cy + h / 2) / 100) * 160, 160);
+  const r = (n: number) => Number(n.toFixed(1));
+  return `${r(x0)},${r(y0)} ${r(x1)},${r(y0)} ${r(x1)},${r(y1)} ${r(x0)},${r(y1)}`;
+}
+
+/** Side: driver ¾-rear. Nose left, tail right. */
 const SIDE_HOTSPOTS: readonly TruckHotspot[] = [
-  { panelId: "front-fascia", points: "40,64 136,64 136,112 40,112" },
-  { panelId: "hood", points: "52,58 118,48 118,78 52,78" },
-  { panelId: "driver-door", points: "118,52 168,52 168,118 118,118" },
-  { panelId: "driver-bed", points: "168,58 248,58 248,118 168,118" },
-  { panelId: "driver-rear-quarter", points: "248,58 292,58 292,118 248,118" },
-  { panelId: "tonneau", points: "168,42 292,42 292,58 168,58" },
-  { panelId: "roof", points: "78,28 248,28 248,48 118,48 78,42" },
-  { panelId: "tailgate", points: "292,52 338,62 338,118 292,118" },
-  { panelId: "rear-fascia", points: "338,72 372,84 368,118 338,118" },
+  { panelId: "front-fascia", points: pctBox(8, 54, 10, 14) },
+  { panelId: "hood", points: pctBox(14, 32, 12, 12) },
+  { panelId: "driver-door", points: pctBox(32, 50, 16, 22) },
+  { panelId: "driver-bed", points: pctBox(52, 50, 18, 20) },
+  { panelId: "driver-rear-quarter", points: pctBox(74, 48, 14, 20) },
+  { panelId: "tonneau", points: pctBox(62, 28, 20, 10) },
+  { panelId: "roof", points: pctBox(38, 22, 18, 10) },
+  { panelId: "tailgate", points: pctBox(85, 46, 10, 18) },
+  { panelId: "rear-fascia", points: pctBox(90, 62, 10, 14) },
 ];
 
+/** Front: passenger-front. Driver far-left, passenger near-right. */
 const FRONT_HOTSPOTS: readonly TruckHotspot[] = [
-  { panelId: "front-fascia", points: "100,78 300,78 300,120 100,120" },
-  { panelId: "hood", points: "120,58 280,58 290,96 110,96" },
-  { panelId: "roof", points: "140,28 260,28 280,58 120,58" },
-  { panelId: "driver-door", points: "78,64 120,58 120,128 86,128" },
-  { panelId: "passenger-door", points: "280,58 322,64 314,128 280,128" },
+  { panelId: "front-fascia", points: pctBox(40, 74, 30, 14) },
+  { panelId: "hood", points: pctBox(46, 40, 32, 22) },
+  { panelId: "roof", points: pctBox(52, 18, 22, 10) },
+  { panelId: "driver-door", points: pctBox(7, 50, 10, 20) },
+  { panelId: "passenger-door", points: pctBox(80, 52, 14, 22) },
 ];
 
+/** Rear: passenger-rear. Tail left, passenger side right. */
 const REAR_HOTSPOTS: readonly TruckHotspot[] = [
-  { panelId: "rear-fascia", points: "110,104 290,104 300,132 100,132" },
-  { panelId: "tailgate", points: "120,58 280,58 290,104 110,104" },
-  { panelId: "tonneau", points: "130,36 270,36 280,58 120,58" },
-  { panelId: "roof", points: "150,18 250,18 270,36 130,36" },
-  {
-    panelId: "driver-rear-quarter",
-    points: "78,58 120,58 120,132 86,132",
-  },
-  {
-    panelId: "passenger-rear-quarter",
-    points: "280,58 322,58 314,132 280,132",
-  },
+  { panelId: "rear-fascia", points: pctBox(20, 70, 22, 12) },
+  { panelId: "tailgate", points: pctBox(20, 42, 20, 18) },
+  { panelId: "tonneau", points: pctBox(28, 26, 18, 10) },
+  { panelId: "roof", points: pctBox(56, 24, 16, 8) },
+  { panelId: "driver-rear-quarter", points: pctBox(7, 50, 10, 20) },
+  { panelId: "passenger-rear-quarter", points: pctBox(44, 42, 14, 18) },
+  { panelId: "passenger-bed", points: pctBox(60, 44, 16, 18) },
 ];
 
 const HOTSPOTS_BY_VIEW: Record<TruckViewId, readonly TruckHotspot[]> = {

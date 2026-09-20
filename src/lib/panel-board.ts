@@ -40,85 +40,86 @@ type BoardLayout = {
 export const HERO_MOBILE_CAB_GLASS_MAX_Y = 48;
 
 /**
- * Percents of the 16:9 still (hero well matches the JPEG).
- * Hero and side share the driver ¾-rear still. Front is passenger-front.
- * Rear is passenger-rear. Far-side seats sit on the visible ridge of that bay.
+ * Percents of the still. Hero well is 16:9 fill. Board views use
+ * object-fit: contain on a photo well so these map 1:1 to the JPEG.
+ * Side = driver ¾-rear. Front = passenger-front (passenger near-right).
+ * Rear = passenger-rear (tail left, passenger side right).
  */
 const BOARD_LAYOUT: Record<Panel["id"], BoardLayout> = {
   hood: {
     hero: { x: 24, y: 34 },
     heroMobile: { x: 24, y: 52 },
-    views: { side: { x: 24, y: 34 }, front: { x: 46, y: 36 } },
+    views: { side: { x: 14, y: 32 }, front: { x: 46, y: 40 } },
     face: { still: "front", objectPosition: "46% 30%" },
   },
   "front-fascia": {
     hero: { x: 11, y: 52 },
     heroMobile: { x: 11, y: 66 },
-    views: { side: { x: 11, y: 52 }, front: { x: 42, y: 72 } },
+    views: { side: { x: 8, y: 54 }, front: { x: 40, y: 74 } },
     face: { still: "front", objectPosition: "42% 82%" },
   },
   "driver-door": {
     hero: { x: 34, y: 42 },
     heroMobile: { x: 34, y: 54 },
-    views: { side: { x: 34, y: 42 }, front: { x: 18, y: 52 } },
+    views: { side: { x: 32, y: 50 }, front: { x: 7, y: 50 } },
     face: { still: "side", objectPosition: "30% 48%" },
   },
   "passenger-door": {
     hero: { x: 31, y: 22 },
     heroMobile: { x: 28, y: 50 },
-    views: { front: { x: 76, y: 50 } },
+    views: { front: { x: 80, y: 52 } },
     face: { still: "front", objectPosition: "80% 48%" },
   },
   "driver-bed": {
     hero: { x: 54, y: 42 },
     heroMobile: { x: 54, y: 54 },
-    views: { side: { x: 54, y: 42 } },
+    views: { side: { x: 52, y: 50 } },
     face: { still: "side", objectPosition: "58% 48%" },
   },
   "passenger-bed": {
     hero: { x: 56, y: 27 },
     heroMobile: { x: 56, y: 50 },
-    views: { rear: { x: 58, y: 42 } },
+    views: { rear: { x: 60, y: 44 } },
     face: { still: "rear", objectPosition: "64% 42%" },
   },
   "driver-rear-quarter": {
     hero: { x: 73, y: 43 },
     heroMobile: { x: 73, y: 56 },
-    views: { side: { x: 73, y: 43 }, rear: { x: 16, y: 48 } },
+    views: { side: { x: 74, y: 48 }, rear: { x: 7, y: 50 } },
     face: { still: "side", objectPosition: "76% 46%" },
   },
   "passenger-rear-quarter": {
     hero: { x: 76, y: 27 },
     heroMobile: { x: 76, y: 52 },
-    views: { rear: { x: 44, y: 44 } },
+    views: { rear: { x: 44, y: 42 } },
     face: { still: "rear", objectPosition: "48% 46%" },
   },
   tailgate: {
     hero: { x: 91, y: 32 },
     heroMobile: { x: 90, y: 54 },
-    views: { side: { x: 91, y: 32 }, rear: { x: 24, y: 40 } },
+    views: { side: { x: 85, y: 46 }, rear: { x: 20, y: 42 } },
     face: { still: "rear", objectPosition: "24% 38%" },
   },
   tonneau: {
     hero: { x: 64, y: 24 },
     heroMobile: { x: 64, y: 50 },
-    views: { side: { x: 64, y: 24 }, rear: { x: 32, y: 20 } },
+    views: { side: { x: 62, y: 28 }, rear: { x: 28, y: 26 } },
     face: { still: "rear", objectPosition: "34% 16%" },
   },
   roof: {
     hero: { x: 40, y: 19 },
     heroMobile: { x: 40, y: 50 },
     views: {
-      side: { x: 40, y: 19 },
-      front: { x: 52, y: 16 },
-      rear: { x: 60, y: 16 },
+      side: { x: 38, y: 22 },
+      front: { x: 52, y: 18 },
+      rear: { x: 56, y: 24 },
     },
     face: { still: "side", objectPosition: "40% 16%" },
   },
   "rear-fascia": {
     hero: { x: 94, y: 58 },
     heroMobile: { x: 92, y: 68 },
-    views: { side: { x: 94, y: 58 }, rear: { x: 22, y: 58 } },
+    views: { side: { x: 90, y: 62 }, rear: { x: 20, y: 70 } },
     face: { still: "rear", objectPosition: "22% 76%" },
   },
 };

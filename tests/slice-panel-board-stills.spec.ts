@@ -82,6 +82,47 @@ test.describe("panel board stills map 1–12 onto the truck", () => {
         true,
       );
     }
+
+    const byId = Object.fromEntries(
+      PANEL_BOARD_MARKS.map((mark) => [mark.panelId, mark]),
+    );
+    const side = (id: string) => {
+      const pct = byId[id]?.views.side;
+      if (!pct) throw new Error(`missing side mark ${id}`);
+      return pct;
+    };
+    const front = (id: string) => {
+      const pct = byId[id]?.views.front;
+      if (!pct) throw new Error(`missing front mark ${id}`);
+      return pct;
+    };
+    const rear = (id: string) => {
+      const pct = byId[id]?.views.rear;
+      if (!pct) throw new Error(`missing rear mark ${id}`);
+      return pct;
+    };
+
+    // Side = driver ¾-rear: nose left, tail right. Hood is not the door.
+    expect(side("front-fascia").x).toBeLessThan(side("hood").x);
+    expect(side("hood").x).toBeLessThan(side("driver-door").x);
+    expect(side("hood").x).toBeLessThan(22);
+    expect(side("driver-door").x).toBeLessThan(side("driver-bed").x);
+    expect(side("driver-bed").x).toBeLessThan(side("driver-rear-quarter").x);
+    expect(side("driver-rear-quarter").x).toBeLessThan(side("tailgate").x);
+    expect(side("roof").y).toBeLessThan(side("tonneau").y);
+    expect(side("tonneau").y).toBeLessThan(side("driver-bed").y);
+
+    // Front = passenger-front: driver far-left, passenger near-right.
+    expect(front("driver-door").x).toBeLessThan(front("hood").x);
+    expect(front("hood").x).toBeLessThan(front("passenger-door").x);
+    expect(front("front-fascia").y).toBeGreaterThan(front("hood").y);
+
+    // Rear = passenger-rear: tail left, passenger side right.
+    expect(rear("driver-rear-quarter").x).toBeLessThan(rear("tailgate").x);
+    expect(rear("tailgate").x).toBeLessThan(rear("passenger-rear-quarter").x);
+    expect(rear("passenger-rear-quarter").x).toBeLessThan(rear("passenger-bed").x);
+    expect(rear("rear-fascia").y).toBeGreaterThan(rear("tailgate").y);
+    expect(rear("roof").y).toBeLessThan(rear("tonneau").y);
   });
 
   test("homepage cards and views use the matching still", async ({ page }) => {
@@ -133,6 +174,12 @@ test.describe("panel board stills map 1–12 onto the truck", () => {
       "data-panel-id",
       "rear-fascia",
     );
+
+    await page.getByTestId("truck-view-side").click();
+    const fit = await page
+      .locator(".truck-view-photo")
+      .evaluate((el) => getComputedStyle(el).objectFit);
+    expect(fit).toBe("contain");
 
     const html = await page.content();
     expect(html).toContain("$58,000");

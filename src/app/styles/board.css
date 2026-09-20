@@ -2503,20 +2503,24 @@
   background:
     linear-gradient(160deg, #1a2028 0%, #0e1218 55%, #151b22 100%);
 }
-.truck-view-photo {
+.truck-view-photo-well {
   grid-row: 1;
   grid-column: 1;
+  position: relative;
+  width: 100%;
+  background: transparent;
+}
+.truck-view-photo {
   display: block;
   width: 100%;
   height: auto;
   aspect-ratio: 16 / 9;
-  object-fit: cover;
+  object-fit: contain;
+  object-position: 50% 50%;
   vertical-align: middle;
 }
-.truck-view-stage .panel-board-view,
-.truck-view-svg {
-  grid-row: 1;
-  grid-column: 1;
+.truck-view-photo-well .panel-board-view,
+.truck-view-photo-well .truck-view-svg {
   position: absolute;
   inset: 0;
   z-index: 2;

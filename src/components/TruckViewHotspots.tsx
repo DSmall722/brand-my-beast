@@ -71,84 +71,89 @@ export function TruckViewHotspots({
       </div>
 
       <div className="truck-view-stage" data-testid="truck-view-stage">
-        {/* eslint-disable-next-line @next/next/no-img-element -- shared stainless still */}
-        <img
-          className="truck-view-photo"
-          src={truckViewStillSrc(view)}
-          alt={truckImgAlt("hero")}
-          width={1280}
-          height={720}
-          decoding="async"
-          data-testid={`truck-img-board-${view}`}
-          data-truck-img={`board-${view}`}
-          style={{ objectPosition: BOARD_VIEW_OBJECT_POSITION[view] }}
-        />
-        <PanelBoardCallouts
-          surface="view"
-          view={view}
-          occupiedPanelIds={occupiedPanelIds}
-        />
-        <svg
-          className="truck-view-svg"
-          viewBox="0 0 400 160"
-          preserveAspectRatio="none"
-          role="group"
-          aria-label={`${view} view of the board truck with panel seats`}
-          data-testid="truck-view-svg"
-          data-view={view}
+        <div
+          className="truck-view-photo-well"
+          data-testid="truck-view-photo-well"
         >
-          {view === "side" ? (
-            <>
-              <rect
-                className="truck-view-body"
-                x="24"
-                y="36"
-                width="352"
-                height="92"
-                rx="6"
-              />
-              <rect
-                className="truck-view-cab"
-                x="56"
-                y="22"
-                width="120"
-                height="28"
-                rx="3"
-              />
-            </>
-          ) : null}
-          {spots.map((spot) => {
-            const panel = PANELS.find((row) => row.id === spot.panelId);
-            const held = occupied.has(spot.panelId);
-            const active = activePanelId === spot.panelId;
-            return (
-              <a
-                key={`${view}-${spot.panelId}`}
-                href={`/panels/${spot.panelId}`}
-                data-testid={`truck-seat-${spot.panelId}`}
-                data-occupied={held ? "true" : "false"}
-                data-active={active ? "true" : "false"}
-                data-raw={held ? "false" : "true"}
-                aria-label={
-                  held
-                    ? `${panel?.name ?? spot.panelId} — held seat`
-                    : `${panel?.name ?? spot.panelId} — open seat`
-                }
-              >
-                <polygon
-                  className={
-                    active
-                      ? "truck-seat is-active"
-                      : held
-                        ? "truck-seat is-held"
-                        : "truck-seat is-raw"
-                  }
-                  points={spot.points}
+          {/* eslint-disable-next-line @next/next/no-img-element -- shared stainless still */}
+          <img
+            className="truck-view-photo"
+            src={truckViewStillSrc(view)}
+            alt={truckImgAlt("hero")}
+            width={1280}
+            height={720}
+            decoding="async"
+            data-testid={`truck-img-board-${view}`}
+            data-truck-img={`board-${view}`}
+            style={{ objectPosition: BOARD_VIEW_OBJECT_POSITION[view] }}
+          />
+          <PanelBoardCallouts
+            surface="view"
+            view={view}
+            occupiedPanelIds={occupiedPanelIds}
+          />
+          <svg
+            className="truck-view-svg"
+            viewBox="0 0 400 160"
+            preserveAspectRatio="none"
+            role="group"
+            aria-label={`${view} view of the board truck with panel seats`}
+            data-testid="truck-view-svg"
+            data-view={view}
+          >
+            {view === "side" ? (
+              <>
+                <rect
+                  className="truck-view-body"
+                  x="24"
+                  y="36"
+                  width="352"
+                  height="92"
+                  rx="6"
                 />
-              </a>
-            );
-          })}
-        </svg>
+                <rect
+                  className="truck-view-cab"
+                  x="56"
+                  y="22"
+                  width="120"
+                  height="28"
+                  rx="3"
+                />
+              </>
+            ) : null}
+            {spots.map((spot) => {
+              const panel = PANELS.find((row) => row.id === spot.panelId);
+              const held = occupied.has(spot.panelId);
+              const active = activePanelId === spot.panelId;
+              return (
+                <a
+                  key={`${view}-${spot.panelId}`}
+                  href={`/panels/${spot.panelId}`}
+                  data-testid={`truck-seat-${spot.panelId}`}
+                  data-occupied={held ? "true" : "false"}
+                  data-active={active ? "true" : "false"}
+                  data-raw={held ? "false" : "true"}
+                  aria-label={
+                    held
+                      ? `${panel?.name ?? spot.panelId} — held seat`
+                      : `${panel?.name ?? spot.panelId} — open seat`
+                  }
+                >
+                  <polygon
+                    className={
+                      active
+                        ? "truck-seat is-active"
+                        : held
+                          ? "truck-seat is-held"
+                          : "truck-seat is-raw"
+                    }
+                    points={spot.points}
+                  />
+                </a>
+              );
+            })}
+          </svg>
+        </div>
         <p className="truck-view-legend" data-testid="truck-view-legend">
           {PUBLIC_COPY.board.seatLegend}
         </p>
