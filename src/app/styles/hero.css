@@ -257,6 +257,55 @@
   animation: rise 850ms 120ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
 }
 
+/* Slice 19.8 — desktop stacks caption/H1/lead/CTAs under the photo so
+   callouts 2/3/5 cannot sit on the H1 glyphs. H1 text unchanged. */
+@media (min-width: 721px) {
+  .hero {
+    --hero-photo-h: min(70vh, 40rem);
+    min-height: 0;
+    max-height: none;
+    overflow: visible;
+    align-content: start;
+    grid-template-rows: auto auto;
+  }
+
+  .hero-truck-link {
+    position: relative;
+    inset: auto;
+    grid-row: 1;
+    grid-column: 1;
+    height: var(--hero-photo-h);
+    min-height: 22rem;
+  }
+
+  .hero .panel-board {
+    grid-row: 1;
+    grid-column: 1;
+    top: 0;
+    right: 0;
+    bottom: auto;
+    left: 0;
+    height: var(--hero-photo-h);
+    min-height: 22rem;
+  }
+
+  .hero::after {
+    grid-row: 1;
+    grid-column: 1;
+    top: 0;
+    right: 0;
+    bottom: auto;
+    left: 0;
+    height: var(--hero-photo-h);
+  }
+
+  .hero-overlay {
+    grid-row: 2;
+    grid-column: 1;
+    padding: 1.35rem 0 2.5rem;
+  }
+}
+
 @media (max-width: 720px) {
   .hero {
     /* Slice 17.6 — caption, H1, lead, and CTAs stack under the photo. */
