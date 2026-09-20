@@ -141,6 +141,7 @@ export function HomeMoneySection({
               </dd>
             </div>
             ) : null}
+            {pledgedUsd > 0 ? (
             <div>
               <dt data-testid="shortfall-goal-label">
                 {PUBLIC_COPY.board.shortfallBuyoutLabel}
@@ -149,6 +150,7 @@ export function HomeMoneySection({
                 {formatUsd(shortfallGoal)}
               </dd>
             </div>
+            ) : null}
             <div>
               <dt data-testid="open-seats-label">
                 {PUBLIC_COPY.board.openSeatsLabel}
