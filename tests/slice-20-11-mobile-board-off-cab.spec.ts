@@ -75,8 +75,13 @@ test.describe("slice 20.11: mobile board off cab glass", () => {
       await expect(callout).toBeVisible();
       const mobileY = Number(await callout.getAttribute("data-hero-mobile-y"));
       expect(mobileY).toBeGreaterThan(HERO_MOBILE_CAB_GLASS_MAX_Y);
-      const top = await callout.evaluate((el) => getComputedStyle(el).top);
-      expect(top).toBe(`${mobileY}%`);
+      const topPct = await callout.evaluate((el) => {
+        const parent = el.offsetParent;
+        if (!(parent instanceof HTMLElement)) return Number.NaN;
+        const topPx = Number.parseFloat(getComputedStyle(el).top);
+        return (topPx / parent.getBoundingClientRect().height) * 100;
+      });
+      expect(topPct).toBeCloseTo(mobileY, 0);
     }
     await expect(page.locator("#hero-title")).toHaveText(LOCKED_H1);
     await expect(page.locator("#hero-title")).toHaveText(PUBLIC_COPY.hero.h1);
