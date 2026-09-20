@@ -74,7 +74,7 @@ Do not start until 19.12 is checked. No Stripe. No CLOSE_AT. No SEATS_OPEN flip.
 - [x] 20.8 Wreck lead is a complete sentence, not a fragment. (#413)
 - [x] 20.9 Meta description waitlist-era. No **Bid on a panel** while seats are closed. No H1 change. (#414)
 - [x] 20.10 Partner / 404 uses branded back-to-board, not a shop tease. (#415)
-- [x] 20.11 Mobile board: numbers 1–12 do not stack on the cab glass. 19.8 is desktop H1 only.
+- [x] 20.11 Mobile board: numbers 1–12 do not stack on the cab glass. 19.8 is desktop H1 only. (#416)
 - [ ] 20.12 Playwright: 20.1–20.11 + locked H1 + `Notify me` + $58,000 / $120,000 + no lease.
 
 ## After Wave 20
