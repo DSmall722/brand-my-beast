@@ -19,7 +19,11 @@ export function HomeHeroSection({
 }) {
   return (
     <>
-        <section className="hero" aria-labelledby="hero-title">
+        <section
+          className="hero"
+          aria-labelledby="hero-title"
+          data-hero-stack="under-photo"
+        >
           <a
             className="hero-truck-link"
             href="/panels/hood"
