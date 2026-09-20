@@ -4,6 +4,7 @@ import { useState } from "react";
 import { PanelBoardCallouts } from "@/components/PanelBoardCallouts";
 import { PANELS, type Panel } from "@/lib/campaign";
 import { BOARD_VIEW_OBJECT_POSITION } from "@/lib/panel-board";
+import { truckViewStillSrc } from "@/lib/truck-stills";
 import { PUBLIC_COPY } from "@/lib/public-copy";
 import { truckImgAlt } from "@/lib/truck-img-alt";
 import {
@@ -73,7 +74,7 @@ export function TruckViewHotspots({
         {/* eslint-disable-next-line @next/next/no-img-element -- shared stainless still */}
         <img
           className="truck-view-photo"
-          src="/hero-truck-preview.jpg"
+          src={truckViewStillSrc(view)}
           alt={truckImgAlt("hero")}
           width={1280}
           height={720}

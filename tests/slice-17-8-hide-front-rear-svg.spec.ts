@@ -14,10 +14,12 @@ import { vercelJsonIsHoldOrMainOnlyRestore } from "../src/lib/vercel-git-deploy"
 
 /**
  * Slice 17.8 — Front / Rear hide the side-body SVG schematic.
- * Same preview photo. No new stills. CLOSE_AT null. No Stripe.
+ * Each view uses its own stainless still. CLOSE_AT null. No Stripe.
  */
 
-const STILL = "/hero-truck-preview.jpg";
+const SIDE = "/truck-view-side.jpg";
+const FRONT = "/truck-view-front.jpg";
+const REAR = "/truck-view-rear.jpg";
 const COMPONENT = join(process.cwd(), "src/components/TruckViewHotspots.tsx");
 
 test.describe("slice 17.8: front and rear hide the side schematic", () => {
@@ -39,19 +41,18 @@ test.describe("slice 17.8: front and rear hide the side schematic", () => {
     expect(vercelJsonIsHoldOrMainOnlyRestore()).toBe(true);
   });
 
-  test("component still uses the shared preview still", () => {
+  test("component uses a dedicated still per view", () => {
     const src = readFileSync(COMPONENT, "utf8");
-    expect(src).toContain(STILL);
-    expect(src).not.toMatch(/front-still|rear-still|new-still/i);
+    expect(src).toContain("truckViewStillSrc");
     expect(src).toContain('view === "side"');
   });
 
-  test("front and rear drop the side body; photo stays the preview still", async ({
+  test("front and rear drop the side body; each view has its still", async ({
     page,
   }) => {
     await page.goto("/");
     const photo = page.locator(".truck-view-photo");
-    await expect(photo).toHaveAttribute("src", STILL);
+    await expect(photo).toHaveAttribute("src", SIDE);
     await expect(page.locator(".truck-view-body")).toHaveCount(1);
     await expect(page.locator(".truck-view-cab")).toHaveCount(1);
 
@@ -62,7 +63,7 @@ test.describe("slice 17.8: front and rear hide the side schematic", () => {
     );
     await expect(page.locator(".truck-view-body")).toHaveCount(0);
     await expect(page.locator(".truck-view-cab")).toHaveCount(0);
-    await expect(photo).toHaveAttribute("src", STILL);
+    await expect(photo).toHaveAttribute("src", FRONT);
     await expect(page.getByTestId("truck-seat-front-fascia")).toBeVisible();
 
     await page.getByTestId("truck-view-rear").click();
@@ -72,7 +73,7 @@ test.describe("slice 17.8: front and rear hide the side schematic", () => {
     );
     await expect(page.locator(".truck-view-body")).toHaveCount(0);
     await expect(page.locator(".truck-view-cab")).toHaveCount(0);
-    await expect(photo).toHaveAttribute("src", STILL);
+    await expect(photo).toHaveAttribute("src", REAR);
     await expect(page.getByTestId("truck-seat-tailgate")).toBeVisible();
   });
 });

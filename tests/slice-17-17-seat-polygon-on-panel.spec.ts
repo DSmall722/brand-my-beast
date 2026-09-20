@@ -15,7 +15,8 @@ import { vercelJsonIsHoldOrMainOnlyRestore } from "../src/lib/vercel-git-deploy"
  * Same preview still. No new photos. CLOSE_AT null. No Stripe.
  */
 
-const STILL = "/hero-truck-preview.jpg";
+const SIDE = "/truck-view-side.jpg";
+const FRONT = "/truck-view-front.jpg";
 
 function inside(
   inner: { x: number; y: number; width: number; height: number },
@@ -54,7 +55,7 @@ test.describe("slice 17.17: seat 2 polygon on the bumper", () => {
   }) => {
     await page.goto("/panels/front-fascia");
     const photo = page.locator(".truck-view-photo");
-    await expect(photo).toHaveAttribute("src", STILL);
+    await expect(photo).toHaveAttribute("src", SIDE);
     const photoBox = await photo.boundingBox();
     if (!photoBox) throw new Error("photo missing");
 
@@ -74,7 +75,7 @@ test.describe("slice 17.17: seat 2 polygon on the bumper", () => {
     expect(inside(calloutBox, photoBox)).toBe(true);
 
     await page.getByTestId("truck-view-front").click();
-    await expect(photo).toHaveAttribute("src", STILL);
+    await expect(photo).toHaveAttribute("src", FRONT);
     const frontCallout = await page
       .getByTestId("view-panel-board-front-2")
       .boundingBox();

@@ -1,6 +1,7 @@
 import Link from "next/link";
+import type { CSSProperties } from "react";
 import { PANELS, formatUsd, isEtchable } from "@/lib/campaign";
-import { PANEL_BOARD_MARKS } from "@/lib/panel-board";
+import { PANEL_BOARD_MARKS, panelFaceStyle } from "@/lib/panel-board";
 import { PUBLIC_COPY } from "@/lib/public-copy";
 
 export type PanelCardStanding = {
@@ -68,6 +69,9 @@ export function HomePanelsSection({
                       className="panel-face"
                       aria-hidden="true"
                       data-testid={`panel-face-${panel.id}`}
+                      data-face-still={mark.face.still}
+                      data-face-pos={mark.face.objectPosition}
+                      style={panelFaceStyle(panel.id) as CSSProperties}
                     />
                     <div className="panel-name">
                       <span

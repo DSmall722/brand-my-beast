@@ -1243,7 +1243,8 @@
       color-mix(in oklab, white 10%, transparent),
       transparent 42%
     ),
-    url("/hero-truck-preview.jpg") 55% 38% / cover no-repeat;
+    var(--panel-face-image, url("/hero-truck-preview.jpg"))
+      var(--panel-face-pos, 55% 38%) / cover no-repeat;
   min-height: 10rem;
   display: grid;
   place-items: center;
@@ -1262,8 +1263,9 @@
   text-align: center;
   padding: 1.5rem;
   min-height: 8rem;
-  /* Slice 17.16 — shared still, not a striped empty well. No invented wrap. */
-  background: url("/hero-truck-preview.jpg") 55% 38% / cover no-repeat;
+  /* Slice 17.16 — panel still crop, not a striped empty well. No invented wrap. */
+  background: var(--panel-face-image, url("/hero-truck-preview.jpg"))
+    var(--panel-face-pos, 55% 38%) / cover no-repeat;
 }
 
 .panel-mockup-label {
@@ -2101,7 +2103,7 @@
   margin: -0.15rem 0 0.75rem;
   border-radius: 0.45rem;
   border: 1px solid var(--hairline);
-  /* Slice 17.10 — stainless still, not an empty black well. No invented wrap. */
+  /* Slice 17.10 — per-panel stainless crop, not an empty black well. */
   background:
     linear-gradient(
       120deg,
@@ -2109,7 +2111,8 @@
       color-mix(in oklab, white 12%, transparent) 48%,
       transparent 72%
     ),
-    url("/hero-truck-preview.jpg") 55% 38% / cover no-repeat;
+    var(--panel-face-image, url("/hero-truck-preview.jpg"))
+      var(--panel-face-pos, 55% 38%) / cover no-repeat;
 }
 
 @media (min-width: 720px) {

@@ -89,15 +89,15 @@ test.describe("slice 16.7: held seats keep the number", () => {
     );
     await expect(page.getByTestId("truck-img-board-side")).toHaveAttribute(
       "src",
-      "/hero-truck-preview.jpg",
+      "/truck-view-side.jpg",
     );
     const photos = page.locator(".hero img, .truck-view-stage img");
     const photoCount = await photos.count();
     expect(photoCount).toBeGreaterThan(0);
     for (let i = 0; i < photoCount; i += 1) {
-      await expect(photos.nth(i)).toHaveAttribute(
-        "src",
-        "/hero-truck-preview.jpg",
+      const src = await photos.nth(i).getAttribute("src");
+      expect(src).toMatch(
+        /^\/(hero-truck-preview|truck-view-(side|front|rear))\.jpg$/,
       );
     }
     await expect(
