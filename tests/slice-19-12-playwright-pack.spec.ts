@@ -25,9 +25,7 @@ const LOCKED_H1 = "Put your brand on the truck people already photograph.";
 const HOMETOWN_LABELS = ["Charlotte", "Atlanta", "Panhandle"] as const;
 
 test.describe("slice 19.12: Wave 19 Playwright pack", () => {
-  test.afterEach(async ({ request }) => {
-    await request.post("/api/test/seats-open", { data: { reset: true } });
-  });
+  test.describe.configure({ mode: "serial" });
 
   test("campaign money fences stay locked — CLOSE_AT null", () => {
     expect(FLOOR_USD).toBe(58_000);
@@ -76,25 +74,31 @@ test.describe("slice 19.12: Wave 19 Playwright pack", () => {
       data: { open: false },
     });
     expect(closed.ok()).toBeTruthy();
+    const closedBody = (await closed.json()) as { seatsOpen?: boolean };
+    expect(closedBody.seatsOpen).toBe(false);
 
-    await page.goto("/panels/hood");
-    await expect(page.getByTestId("panel-intent-page")).toBeVisible();
-    await expect(page.getByTestId("hometown-lane")).toHaveCount(0);
-    await expect(page.getByTestId("intent-signin-needed")).toHaveCount(0);
-    await expect(page.getByTestId("intent-bid-form")).toHaveCount(0);
+    try {
+      await page.goto("/panels/hood");
+      await expect(page.getByTestId("panel-intent-page")).toBeVisible();
+      await expect(page.getByTestId("hometown-lane")).toHaveCount(0);
+      await expect(page.getByTestId("intent-signin-needed")).toHaveCount(0);
+      await expect(page.getByTestId("intent-bid-form")).toHaveCount(0);
 
-    const visible = await page.locator("body").innerText();
-    expect(visible).not.toContain("Sign in to list an intent");
-    expect(visible).not.toMatch(/\bSC\b/);
-    for (const label of HOMETOWN_LABELS) {
-      expect(visible).not.toContain(label);
+      const visible = await page.locator("body").innerText();
+      expect(visible).not.toContain("Sign in to list an intent");
+      expect(visible).not.toMatch(/\bSC\b/);
+      for (const label of HOMETOWN_LABELS) {
+        expect(visible).not.toContain(label);
+      }
+
+      const html = await page.content();
+      expect(html).toContain("$58,000");
+      expect(html).toContain("$120,000");
+      expect(html).not.toContain("FEATURES.md");
+      expect(html.toLowerCase()).not.toMatch(/\blease\b/);
+      expect(html).not.toMatch(/@gmail\.com/);
+    } finally {
+      await request.post("/api/test/seats-open", { data: { reset: true } });
     }
-
-    const html = await page.content();
-    expect(html).toContain("$58,000");
-    expect(html).toContain("$120,000");
-    expect(html).not.toContain("FEATURES.md");
-    expect(html.toLowerCase()).not.toMatch(/\blease\b/);
-    expect(html).not.toMatch(/@gmail\.com/);
   });
 });
