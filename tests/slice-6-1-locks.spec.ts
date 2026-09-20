@@ -94,7 +94,7 @@ test.describe("slice 6.1: floor, buyout, etch lock, no lease, no personal handle
     await expect(page.getByTestId("etch-lock-copy")).toContainText(
       "Etch stays locked until buyout",
     );
-    await expect(page.getByTestId("etch-lock-copy")).toContainText(
+    await expect(page.getByTestId("stainless-compositor-lead")).toContainText(
       formatUsd(GOAL_USD),
     );
 
