@@ -1303,13 +1303,6 @@
   display: grid;
 }
 
-.public-seat .panel-mockup-face {
-  order: -1;
-  min-height: 0;
-  aspect-ratio: 16 / 9;
-  padding: 1.75rem;
-}
-
 .public-seat .truck-view-lead {
   font-size: 0.85rem;
   margin-bottom: 0.55rem;
@@ -1418,6 +1411,13 @@
   /* Slice 17.16 — panel still crop, not a striped empty well. No invented wrap. */
   background: var(--panel-face-image, url("/hero-truck-preview.jpg"))
     var(--panel-face-pos, 55% 38%) / cover no-repeat;
+}
+
+.public-seat .panel-mockup-face {
+  order: -1;
+  min-height: 0;
+  aspect-ratio: 16 / 9;
+  padding: 1.75rem;
 }
 
 .panel-mockup-label {
