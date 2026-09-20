@@ -55,7 +55,7 @@ Fix what is wrong on the live waitlist site. Do not flip SEATS_OPEN. Do not rewr
 - [x] 19.6 Neighbor block: no “combo” heading. Neighbor openings may stay as `formatUsd`. (#399)
 - [x] 19.7 Board-truck-seats overlay: hide the giant gray polygons on the photo. Keep numbered callouts 1–12. Playwright numbers still present. (#400)
 - [x] 19.8 Desktop hero: numbered callouts must not sit on top of the H1 glyphs. Stack or mask so 2/3/5 do not collide with “Put your brand…”. H1 text unchanged. (#401)
-- [x] 19.9 Mobile header: wordmark and Join/Sign in do not wrap into two ragged rows. Safe-area already 17.7.
+- [x] 19.9 Mobile header: wordmark and Join/Sign in do not wrap into two ragged rows. Safe-area already 17.7. (#402)
 - [ ] 19.10 Homepage vault while pledged is $0: “No marks yet” (or PUBLIC_COPY equivalent). Do not read like an empty auction.
 - [ ] 19.11 Document title / 404 title use BrandMyBeast + locked idea. Drop leftover “advertise on a Cybertruck” if it is the chrome title.
 - [ ] 19.12 Playwright pack: homepage H1 unchanged, `Notify me` present, no hometown cities on `/panels/hood`, no sign-in-to-list on `/panels/hood`, no lease, $58,000 / $120,000 stay.
