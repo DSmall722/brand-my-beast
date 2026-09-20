@@ -64,7 +64,7 @@ test.describe("slice 10.3: etch toggle locked under buyout", () => {
     expect(etchControlsEnabled(hood, 119_999)).toBe(false);
     expect(etchControlsEnabled(hood, GOAL_USD)).toBe(true);
     expect(etchControlsEnabled(roof, GOAL_USD)).toBe(false);
-    expect(etchLockCopy(0)).toContain("$120,000");
+    expect(etchLockCopy(0)).toContain("Etch stays locked until buyout");
     expect(etchLockCopy(GOAL_USD)).toContain("unlocked");
   });
 
@@ -83,7 +83,10 @@ test.describe("slice 10.3: etch toggle locked under buyout", () => {
     );
     await expect(page.getByTestId("compositor-mode-etch")).toHaveCount(0);
     await expect(page.getByTestId("etch-lock-copy")).toContainText(
-      "locked while raised is under $120,000",
+      "Etch stays locked until buyout",
+    );
+    await expect(page.getByTestId("stainless-compositor-lead")).toContainText(
+      "$120,000",
     );
 
     const seed = await request.post("/api/test/seed-buyout");
@@ -102,7 +105,7 @@ test.describe("slice 10.3: etch toggle locked under buyout", () => {
     );
     await expect(page.getByTestId("compositor-mode-etch")).toHaveCount(0);
     await expect(page.getByTestId("etch-lock-copy")).toContainText(
-      "Etch unlocked at $120,000",
+      "Etch unlocked",
     );
     await expect(page.getByTestId("panel-mockup")).toHaveAttribute(
       "data-finish",
