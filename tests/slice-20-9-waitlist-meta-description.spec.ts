@@ -22,7 +22,7 @@ import { vercelJsonIsHoldOrMainOnlyRestore } from "../src/lib/vercel-git-deploy"
 const ROOT = process.cwd();
 const LOCKED_H1 = "Put your brand on the truck people already photograph.";
 const WAITLIST_DESCRIPTION =
-  "Twelve companies. One Cyberbeast. Seats are not for sale yet. Hit $58,000 and the truck gets ordered and wrapped for a year. Miss it and nobody pays.";
+  "Twelve companies. One Cyberbeast. Join the list. Hit $58,000 and the truck is ordered and wrapped for a year. Miss it and nobody pays.";
 
 test.describe("slice 20.9: waitlist-era meta description", () => {
   test("campaign money fences stay locked — CLOSE_AT null", () => {

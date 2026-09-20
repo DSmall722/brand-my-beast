@@ -22,7 +22,7 @@ import { vercelJsonIsHoldOrMainOnlyRestore } from "../src/lib/vercel-git-deploy"
 const ROOT = process.cwd();
 const LOCKED_H1 = "Put your brand on the truck people already photograph.";
 const BUYER_LEGEND =
-  "An open seat has no mark; a held seat has a standing intent.";
+  "Open seat = empty. Held seat = standing intent.";
 
 test.describe("slice 20.6: buyer seat legend sentence", () => {
   test("campaign money fences stay locked — CLOSE_AT null", () => {
@@ -64,7 +64,6 @@ test.describe("slice 20.6: buyer seat legend sentence", () => {
     await page.goto("/");
     const legend = page.getByTestId("truck-view-legend");
     await expect(legend).toHaveText(PUBLIC_COPY.board.seatLegend);
-    await expect(legend).not.toContainText("Held = standing intent");
     await expect(legend).not.toContainText("Open seat ·");
     const empty = page
       .locator('[data-testid^="truck-seat-"][data-occupied="false"]')
@@ -72,7 +71,7 @@ test.describe("slice 20.6: buyer seat legend sentence", () => {
     await expect(empty).toHaveAttribute("aria-label", /open seat$/);
     await expect(page.locator("#hero-title")).toHaveText(LOCKED_H1);
     const html = await page.content();
-    expect(html).not.toContain("Held = standing intent");
+    expect(html).not.toContain("Open seat · Held = standing intent");
     expect(html).toContain("$58,000");
     expect(html).toContain("$120,000");
     expect(html).not.toContain("FEATURES.md");

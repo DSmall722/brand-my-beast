@@ -14,7 +14,7 @@ export const BRAND = {
 /** Order + wrap floor. Miss = full refund. Dollars, not cents. */
 export const FLOOR_USD = 58_000;
 
-/** Buyout. Immortal etch unlocks only at this mark. */
+/** Buyout. Whole-truck + Immortal Etch package. */
 export const GOAL_USD = 120_000;
 
 /**
@@ -185,12 +185,12 @@ export function formatIntegerUsd(amount: number): string {
 
 export function moneyBandCopy(raisedUsd: number): string {
   if (raisedUsd < FLOOR_USD) {
-    return "Full refund. No order. No wrap. No etch.";
+    return "Full refund. No order. No wrap. No Immortal Etch.";
   }
   if (raisedUsd < GOAL_USD) {
-    return "Cyberbeast order + wrap. Immortal etch stays locked.";
+    return "Cyberbeast order + wrap. Immortal Etch not included.";
   }
-  return "Campaign buys the truck. Immortal etch unlocks on eight steel faces.";
+  return "Campaign buys the truck. Whole-truck + Immortal Etch package.";
 }
 
 /** Dollars still needed to clear the floor. Never negative. */

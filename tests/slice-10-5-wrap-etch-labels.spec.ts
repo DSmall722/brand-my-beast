@@ -59,7 +59,7 @@ test.describe("slice 10.5: wrap vs etch labels from PUBLIC_COPY", () => {
       PUBLIC_COPY.compositor.finishEtch,
     );
     expect(compositorFinishLabel("etch", true)).toBe(
-      "Immortal etch preview",
+      "Immortal Etch preview",
     );
     expect(compositorFinishLabel("etch", true)).not.toContain("$120,000");
     expect(compositorFinishLabel("wrap", false)).toBe(

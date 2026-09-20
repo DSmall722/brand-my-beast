@@ -60,7 +60,7 @@ test.describe("slice 16.32: homepage OG is wordmark plus stainless still", () =>
     expect(src.toLowerCase()).not.toMatch(/\blease\b/);
     expect(PUBLIC_COPY.header.wordmark).toBe("BrandMyBeast");
     expect(PUBLIC_COPY.hero.imageAlt).toContain("No wrap");
-    expect(PUBLIC_COPY.hero.imageAlt).toContain("stainless");
+    expect(PUBLIC_COPY.hero.imageAlt.toLowerCase()).toContain("stainless");
   });
 
   test("homepage OG image is a 1200x630 png of the still", async ({

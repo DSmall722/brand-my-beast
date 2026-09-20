@@ -49,7 +49,7 @@ test.describe("slice 16.25: whole-truck package is seats 1-12", () => {
     expect(packageLine).toBe(`The package is ${labels.join(", ")}.`);
     expect(PUBLIC_COPY.board.wholeTruckLead).not.toContain(packageLine);
     expect(PUBLIC_COPY.board.wholeTruckLead).toContain(
-      "nothing is charged on this page.",
+      "Nothing is charged on this page.",
     );
     expect(PUBLIC_COPY.board.wholeTruckHeading).toBe("Whole truck — $120,000");
     expect(PUBLIC_COPY.board.wholeTruckLead.toLowerCase()).not.toMatch(

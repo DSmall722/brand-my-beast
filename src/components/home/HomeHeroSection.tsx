@@ -57,7 +57,7 @@ export function HomeHeroSection({
           />
           <div className="hero-overlay">
             <p className="hero-preview-label" data-testid="hero-preview-label">
-              Board preview — bare stainless. Wrap and etch unlock later.
+              Board preview — bare stainless. Wrap and Immortal Etch come later.
             </p>
             <div className="hero-copy">
               <h1 id="hero-title">{PUBLIC_COPY.hero.h1}</h1>

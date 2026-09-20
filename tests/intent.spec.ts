@@ -970,7 +970,7 @@ test.describe("finish condition shaders (no capture)", () => {
     expect(STAINLESS_COMPOSITOR_LEAD.toLowerCase()).not.toMatch(/\blease\b/);
     expect(STAINLESS_COMPOSITOR_LEAD).not.toContain("CLOSE_AT");
     expect(compositorFinishLabel("wrap", true)).toContain("Wrap");
-    expect(compositorFinishLabel("etch", true)).toBe("Immortal etch preview");
+    expect(compositorFinishLabel("etch", true)).toBe("Immortal Etch preview");
     expect(compositorFinishLabel("etch", true)).not.toContain("$120,000");
     expect(compositorFinishLabel("wrap", false)).toBe("Wrap only");
   });

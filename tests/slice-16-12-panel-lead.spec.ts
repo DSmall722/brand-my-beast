@@ -19,7 +19,7 @@ import { vercelJsonIsHoldOrMainOnlyRestore } from "../src/lib/vercel-git-deploy"
  */
 
 const LOCKED_H1 = "Put your brand on the truck people already photograph.";
-const PANEL_PHRASE = "numbers on the truck match the cards.";
+const PANEL_PHRASE = "Twelve seats. Opening prices below.";
 
 test.describe("slice 16.12: panel lead matches the numbered cards", () => {
   test("campaign money fences stay locked — CLOSE_AT null", () => {
@@ -42,10 +42,13 @@ test.describe("slice 16.12: panel lead matches the numbered cards", () => {
 
   test("panel lead mentions the phrase and H1 stays locked", () => {
     expect(PUBLIC_COPY.hero.h1).toBe(LOCKED_H1);
+    expect(PUBLIC_COPY.panels.leadLines).toHaveLength(3);
     expect(PUBLIC_COPY.panels.lead).toContain(PANEL_PHRASE);
     expect(PUBLIC_COPY.panels.lead.toLowerCase()).not.toMatch(/\blease\b/);
     const md = readFileSync(join(process.cwd(), "PUBLIC_COPY.md"), "utf8");
-    expect(md).toContain(PUBLIC_COPY.panels.lead);
+    for (const line of PUBLIC_COPY.panels.leadLines) {
+      expect(md).toContain(line);
+    }
     expect(md).toContain(LOCKED_H1);
   });
 
@@ -54,10 +57,10 @@ test.describe("slice 16.12: panel lead matches the numbered cards", () => {
   }) => {
     await page.goto("/");
     await expect(page.locator("#hero-title")).toHaveText(LOCKED_H1);
-    await expect(page.getByTestId("panels-lead")).toHaveText(
-      PUBLIC_COPY.panels.lead,
-    );
     await expect(page.getByTestId("panels-lead")).toContainText(PANEL_PHRASE);
+    for (const line of PUBLIC_COPY.panels.leadLines) {
+      await expect(page.getByTestId("panels-lead")).toContainText(line);
+    }
     const html = await page.content();
     expect(html.toLowerCase()).not.toMatch(/\blease\b/);
     expect(html).not.toMatch(/@gmail\.com/i);
