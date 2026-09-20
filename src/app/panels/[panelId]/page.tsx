@@ -158,9 +158,13 @@ export default async function PanelIntentPage({
         <h1 data-testid="panel-seat-h1" data-panel-n={String(boardMark.n)}>
           {panelSeatH1(panel)}
         </h1>
-        <p className="section-lead">
-          Opens at {formatUsd(panel.openingUsd)}. Current standing{" "}
-          {formatUsd(standing)}.{" "}
+        <p
+          className="section-lead"
+          data-testid="seat-lead"
+          data-has-standing={holder ? "true" : "false"}
+        >
+          Opens at {formatUsd(panel.openingUsd)}.
+          {holder ? ` Current standing ${formatUsd(standing)}.` : ""}{" "}
           {etchable
             ? `Etchable only at ${formatUsd(GOAL_USD)} buyout.`
             : "Wrap only forever."}
