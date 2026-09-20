@@ -42,8 +42,9 @@ test.describe("slice 7.10: layout meta matches PUBLIC_COPY", () => {
 
   test("PUBLIC_COPY.meta matches the locked PUBLIC_COPY.md strings", () => {
     expect(PUBLIC_COPY.meta.title).toBe(
-      "BrandMyBeast — advertise on a Cybertruck",
+      "BrandMyBeast — Put your brand on the truck people already photograph.",
     );
+    expect(PUBLIC_COPY.meta.title).not.toMatch(/advertise on a Cybertruck/i);
     expect(PUBLIC_COPY.meta.description).toBe(
       "Twelve companies. One Cyberbeast. Bid on a panel. Hit $58,000 and the truck gets ordered and wrapped for a year. Miss it and nobody pays.",
     );

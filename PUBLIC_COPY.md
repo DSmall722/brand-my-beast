@@ -7,7 +7,7 @@ Locked: 2026-09-14 — desire first, then the deal, then the catch.
 
 ## Meta
 
-- Title: `BrandMyBeast — advertise on a Cybertruck`
+- Title: `BrandMyBeast — Put your brand on the truck people already photograph.`
 - Description: `Twelve companies. One Cyberbeast. Bid on a panel. Hit $58,000 and the truck gets ordered and wrapped for a year. Miss it and nobody pays.`
 
 ## Header
