@@ -54,7 +54,7 @@ const BOARD_LAYOUT: Record<Panel["id"], BoardLayout> = {
   "front-fascia": {
     hero: { x: 20, y: 56 },
     heroMobile: { x: 18, y: 68 },
-    views: { side: { x: 11, y: 54 }, front: { x: 40, y: 74 } },
+    views: { side: { x: 11, y: 62 }, front: { x: 40, y: 74 } },
     face: { still: "front", objectPosition: "42% 82%" },
   },
   "driver-door": {
@@ -100,8 +100,8 @@ const BOARD_LAYOUT: Record<Panel["id"], BoardLayout> = {
     face: { still: "rear", objectPosition: "24% 38%" },
   },
   tonneau: {
-    hero: { x: 80, y: 32 },
-    heroMobile: { x: 76, y: 50 },
+    hero: { x: 84, y: 34 },
+    heroMobile: { x: 80, y: 50 },
     views: { side: { x: 68, y: 26 }, rear: { x: 32, y: 20 } },
     face: { still: "rear", objectPosition: "34% 16%" },
   },
@@ -116,9 +116,9 @@ const BOARD_LAYOUT: Record<Panel["id"], BoardLayout> = {
     face: { still: "side", objectPosition: "40% 16%" },
   },
   "rear-fascia": {
-    hero: { x: 96, y: 62 },
-    heroMobile: { x: 94, y: 74 },
-    views: { side: { x: 93, y: 58 }, rear: { x: 24, y: 70 } },
+    hero: { x: 95, y: 52 },
+    heroMobile: { x: 93, y: 66 },
+    views: { side: { x: 93, y: 48 }, rear: { x: 24, y: 58 } },
     face: { still: "rear", objectPosition: "22% 76%" },
   },
 };
