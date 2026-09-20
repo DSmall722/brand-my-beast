@@ -38,35 +38,35 @@ function pctBox(cx: number, cy: number, w: number, h: number): string {
 
 /** Side: driver ¾-rear. Nose left, tail right. */
 const SIDE_HOTSPOTS: readonly TruckHotspot[] = [
-  { panelId: "front-fascia", points: pctBox(8, 54, 10, 14) },
-  { panelId: "hood", points: pctBox(14, 32, 12, 12) },
-  { panelId: "driver-door", points: pctBox(32, 50, 16, 22) },
-  { panelId: "driver-bed", points: pctBox(52, 50, 18, 20) },
-  { panelId: "driver-rear-quarter", points: pctBox(74, 48, 14, 20) },
-  { panelId: "tonneau", points: pctBox(62, 28, 20, 10) },
-  { panelId: "roof", points: pctBox(38, 22, 18, 10) },
-  { panelId: "tailgate", points: pctBox(85, 46, 10, 18) },
-  { panelId: "rear-fascia", points: pctBox(90, 62, 10, 14) },
+  { panelId: "front-fascia", points: pctBox(14, 58, 10, 14) },
+  { panelId: "hood", points: pctBox(17, 29, 12, 12) },
+  { panelId: "driver-door", points: pctBox(32, 48, 16, 22) },
+  { panelId: "driver-bed", points: pctBox(47, 44, 16, 18) },
+  { panelId: "driver-rear-quarter", points: pctBox(74, 46, 14, 20) },
+  { panelId: "tonneau", points: pctBox(58, 22, 20, 10) },
+  { panelId: "roof", points: pctBox(34, 18, 18, 10) },
+  { panelId: "tailgate", points: pctBox(86, 44, 10, 18) },
+  { panelId: "rear-fascia", points: pctBox(90, 64, 10, 14) },
 ];
 
 /** Front: passenger-front. Driver far-left, passenger near-right. */
 const FRONT_HOTSPOTS: readonly TruckHotspot[] = [
-  { panelId: "front-fascia", points: pctBox(40, 74, 30, 14) },
-  { panelId: "hood", points: pctBox(46, 40, 32, 22) },
-  { panelId: "roof", points: pctBox(52, 18, 22, 10) },
-  { panelId: "driver-door", points: pctBox(7, 50, 10, 20) },
-  { panelId: "passenger-door", points: pctBox(80, 52, 14, 22) },
+  { panelId: "front-fascia", points: pctBox(36, 76, 28, 14) },
+  { panelId: "hood", points: pctBox(40, 38, 28, 20) },
+  { panelId: "roof", points: pctBox(48, 12, 22, 10) },
+  { panelId: "driver-door", points: pctBox(10, 36, 10, 16) },
+  { panelId: "passenger-door", points: pctBox(76, 46, 14, 22) },
 ];
 
 /** Rear: passenger-rear. Tail left, passenger side right. */
 const REAR_HOTSPOTS: readonly TruckHotspot[] = [
-  { panelId: "rear-fascia", points: pctBox(20, 70, 22, 12) },
-  { panelId: "tailgate", points: pctBox(20, 42, 20, 18) },
-  { panelId: "tonneau", points: pctBox(28, 26, 18, 10) },
-  { panelId: "roof", points: pctBox(56, 24, 16, 8) },
-  { panelId: "driver-rear-quarter", points: pctBox(7, 50, 10, 20) },
-  { panelId: "passenger-rear-quarter", points: pctBox(44, 42, 14, 18) },
-  { panelId: "passenger-bed", points: pctBox(60, 44, 16, 18) },
+  { panelId: "rear-fascia", points: pctBox(22, 70, 22, 12) },
+  { panelId: "tailgate", points: pctBox(22, 42, 20, 18) },
+  { panelId: "tonneau", points: pctBox(24, 19, 18, 10) },
+  { panelId: "roof", points: pctBox(58, 15, 16, 8) },
+  { panelId: "driver-rear-quarter", points: pctBox(5, 36, 10, 16) },
+  { panelId: "passenger-rear-quarter", points: pctBox(40, 40, 14, 18) },
+  { panelId: "passenger-bed", points: pctBox(50, 40, 14, 16) },
 ];
 
 const HOTSPOTS_BY_VIEW: Record<TruckViewId, readonly TruckHotspot[]> = {
