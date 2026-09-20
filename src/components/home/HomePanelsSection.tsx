@@ -25,6 +25,14 @@ export function HomePanelsSection({
         >
           <h2 id="panels-title">{PUBLIC_COPY.panels.heading}</h2>
           <p className="section-lead">{PUBLIC_COPY.panels.lead}</p>
+          {PANELS.some((panel) => !standingByPanel.get(panel.id)) ? (
+            <p
+              className="section-lead"
+              data-testid="panel-open-seat-once"
+            >
+              {PUBLIC_COPY.panels.standingOpen}
+            </p>
+          ) : null}
           <div className="panel-grid" data-testid="panel-grid">
             {PANELS.map((panel, index) => {
               const mark = PANEL_BOARD_MARKS[index];
@@ -36,9 +44,7 @@ export function HomePanelsSection({
               const etchable = isEtchable(panel);
               const gloss = PUBLIC_COPY.panels.gloss[panel.id];
               const standing = standingByPanel.get(panel.id) ?? null;
-              const standingLabel = standing
-                ? standing.brandLabel
-                : PUBLIC_COPY.panels.standingOpen;
+              const standingLabel = standing ? standing.brandLabel : "";
               return (
                 <article
                   key={panel.id}
