@@ -11,8 +11,8 @@ Updated: 2026-09-20
 - After 19.12, do Wave 20. After 20.12, idle. Do not start Wave 15 (Stripe) without a human message.
 - Judge PRs from git + `npm test` + `npm run build`.
 
-**Now:** 20.7 Homepage whole-truck block: one explanation sentence, not the 12-name package dump.
-**Last merged:** 20.6 Replace Open seat · Held = standing intent with a buyer sentence.
+**Now:** 20.8 Wreck lead is a complete sentence, not a fragment.
+**Last merged:** 20.7 Homepage whole-truck block: one explanation sentence, not the 12-name package dump.
 
 ## Standing orders
 
@@ -70,7 +70,7 @@ Do not start until 19.12 is checked. No Stripe. No CLOSE_AT. No SEATS_OPEN flip.
 - [x] 20.4 Money block at pledged $0: do not print both **Floor $58,000** and **Short of floor $58,000**. (#409)
 - [x] 20.5 Same for **Short of buyout $120,000** when pledged is $0. (#410)
 - [x] 20.6 Replace **Open seat · Held = standing intent** with a buyer sentence from PUBLIC_COPY. (#411)
-- [ ] 20.7 Homepage whole-truck block: one explanation sentence, not the 12-name package dump.
+- [x] 20.7 Homepage whole-truck block: one explanation sentence, not the 12-name package dump. (#412)
 - [ ] 20.8 Wreck lead is a complete sentence, not a fragment.
 - [ ] 20.9 Meta description waitlist-era. No **Bid on a panel** while seats are closed. No H1 change.
 - [ ] 20.10 Partner / 404 uses branded back-to-board, not a shop tease.

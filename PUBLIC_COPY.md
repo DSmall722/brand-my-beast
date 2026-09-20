@@ -43,7 +43,7 @@ Locked: 2026-09-14 — desire first, then the deal, then the catch.
 - Vault empty (pledged $0): `No marks yet`
 - Seat legend: `An open seat has no mark; a held seat has a standing intent.`
 - Whole-truck heading: `Whole truck — $120,000`
-- Whole-truck lead: `The package is 1 Hood, 2 Front fascia, 3 Driver door, 4 Passenger door, 5 Driver bed, 6 Passenger bed, 7 Driver rear quarter, 8 Passenger rear quarter, 9 Tailgate, 10 Tonneau, 11 Roof, 12 Rear fascia. One brand on every panel. Etch on. Standing panel winners are released. Nothing is charged on this page.`
+- Whole-truck lead: `One brand on every panel, etch on, and standing panel winners released — nothing is charged on this page.`
 - Whole-truck amount label: `Buyout mark`
 - Whole-truck CTA: `List a whole-truck intent`
 - Whole-truck sign-in: `Sign in to list a whole-truck intent`
