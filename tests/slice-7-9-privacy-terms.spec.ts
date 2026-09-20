@@ -90,7 +90,7 @@ test.describe("slice 7.9: privacy and terms stubs", () => {
     await expect(page.getByTestId("terms-page")).toBeVisible();
     await expect(page.getByTestId("terms-floor")).toContainText("$58,000");
     await expect(page.getByTestId("terms-floor")).toContainText(
-      "Full refund. No order. No wrap. No etch.",
+      "Full refund. No order. No wrap. No Immortal Etch.",
     );
     await expect(page.getByTestId("terms-intent")).toContainText(
       "Cards are not charged until the money path is live",

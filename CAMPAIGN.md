@@ -25,9 +25,9 @@ Detail lives in `ARCHITECTURE.md`; this sentence is the campaign-side pointer on
 
 | Threshold | What happens |
 |---|---|
-| Under **$58,000** | Full refund. No order. No wrap. No etch. |
-| **$58,000–$119,999** | Place the Cyberbeast **order**. Fund wrap / install / removal. Wrap only. Etch stays locked. Operator finances the unpaid truck balance at delivery. |
-| **$120,000** | Campaign buys the truck. Home charger + install. Buffer. Immortal etch unlocks on the eight steel faces. |
+| Under **$58,000** | Full refund. No order. No wrap. No Immortal Etch. |
+| **$58,000–$119,999** | Place the Cyberbeast **order**. Fund wrap / install / removal. Wrap only. Immortal Etch not included. Operator finances the unpaid truck balance at delivery. |
+| **$120,000 — whole-truck + Immortal Etch package** | Campaign buys the truck. Home charger + install. Buffer. **Immortal Etch** on the eight steel faces. One brand may take every panel (whole-truck buyout). |
 
 There is no Dual Motor. There is no Premium. There is no lease tier. The $40,000 lease product is dead. The word lease does not appear in public copy.
 
@@ -35,7 +35,7 @@ There is no Dual Motor. There is no Premium. There is no lease tier. The $40,000
 
 Long-form wreck / refund clauses live in **[`CONTRACT.md`](./CONTRACT.md)** (Campaign miss, wrap year cut short, Immortal etch already installed). This money table stays authoritative for thresholds: **$58,000** / **$120,000**. Do not invent a third number.
 
-Whole-truck buyout button: **$120,000**, one brand on every panel, etch on. Standing panel winners are released.
+Whole-truck buyout button: **$120,000** — one brand on every panel **and Immortal Etch** on the eight steel faces. Standing panel winners are released. Buyout is a package (truck ownership path + Immortal Etch), not panels-only. There is no third price.
 
 ### Why $58,000 is the floor
 

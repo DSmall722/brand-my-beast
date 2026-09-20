@@ -9,7 +9,9 @@ export function HomeEtchSection() {
           aria-labelledby="etch-title"
           data-testid="etch-section"
         >
-          <h2 id="etch-title">{PUBLIC_COPY.etch.heading}</h2>
+          <h2 id="etch-title" className="immortal-etch">
+            {PUBLIC_COPY.etch.heading}
+          </h2>
           <p className="section-lead">{PUBLIC_COPY.etch.body}</p>
           <p className="section-lead">{PUBLIC_COPY.etch.whyBuyout}</p>
           <p className="section-lead">{PUBLIC_COPY.etch.cost}</p>

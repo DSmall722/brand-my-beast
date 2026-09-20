@@ -22,7 +22,7 @@ export const PUBLIC_COPY = {
     title:
       "BrandMyBeast — Put your brand on the truck people already photograph.",
     description:
-      "Twelve companies. One Cyberbeast. Seats are not for sale yet. Hit $58,000 and the truck gets ordered and wrapped for a year. Miss it and nobody pays.",
+      "Twelve companies. One Cyberbeast. Join the list. Hit $58,000 and the truck is ordered and wrapped for a year. Miss it and nobody pays.",
   },
   header: {
     wordmark: "BrandMyBeast",
@@ -30,27 +30,25 @@ export const PUBLIC_COPY = {
   },
   hero: {
     h1: "Put your brand on the truck people already photograph.",
-    lead: "Twelve companies. One Cyberbeast. You buy a panel for a year. Hit $58,000 and the truck gets ordered and wrapped. Miss it and nobody pays.",
+    lead: "Twelve companies. One Cyberbeast. Buy a panel for a year. Hit $58,000 and the truck is ordered and wrapped. Miss it and nobody pays.",
     primaryCta: "Get on the list",
     secondaryCta: "See the twelve panels",
-    imageAlt:
-      "Preview of a stainless Cyberbeast. No wrap on this truck yet.",
+    imageAlt: "Stainless Cyberbeast preview. No wrap yet.",
   },
   board: {
     heading: "The numbers",
-    lead: "This is advertising space, not a slice of the title.",
+    lead: "This is ad space on the truck — not a share of the title.",
     raisedLabel: "Pledged so far",
     raisedHint:
-      "No one has a seat yet. If the floor is missed, every bid is refunded.",
+      "No seats sold yet. Miss the floor and every bid is refunded.",
     floorLabel: "Floor — $58,000",
     floorHint: "Orders the truck and pays for the wrap.",
     buyoutLabel: "Buyout — $120,000",
-    buyoutHint:
-      "Buys the truck. Then eight steel faces can be cut, not just wrapped.",
+    buyoutHint: "Buys every panel — one brand on the whole truck.",
     clockWhenCloseNull:
-      "Bidding is not open. This page does not charge cards.",
+      "Bidding is not open. Nothing is charged on this page.",
     depositLine:
-      "When bidding opens, a 20% deposit holds your panel. This page does not charge cards.",
+      "When bidding opens, a 20% deposit holds your panel. Nothing is charged on this page.",
     shortfallFloorLabel: "Short of floor",
     shortfallBuyoutLabel: "Short of buyout",
     openSeatsLabel: "Open seats",
@@ -59,29 +57,33 @@ export const PUBLIC_COPY = {
     /** Slice 19.10 — vault copy while pledged is $0. Not an empty auction. */
     vaultEmpty: "No marks yet",
     /** Slice 20.6 — board legend. Buyer sentence, not Open seat · Held =. */
-    seatLegend:
-      "An open seat has no mark; a held seat has a standing intent.",
+    seatLegend: "Open seat = empty. Held seat = standing intent.",
     wholeTruckHeading: "Whole truck — $120,000",
     /** Slice 20.7 — one sentence on `/`. 12-name dump stays on the form. */
     wholeTruckLead:
-      "One brand on every panel, etch on, and standing panel winners released — nothing is charged on this page.",
+      "One brand on every panel and Immortal Etch on eight steel faces. Standing panel winners released. Nothing is charged on this page.",
     wholeTruckAmountLabel: "Buyout mark",
     wholeTruckCta: "List a whole-truck intent",
     wholeTruckSignIn: "Sign in to list a whole-truck intent",
     /** Slice 9.5 — control hidden when pledged >= $120,000. */
     wholeTruckMet:
-      "Whole-truck buyout is met at $120,000. The field is closed. Still no card charge on this page.",
+      "Whole-truck buyout is met at $120,000. The field is closed. Still nothing charged on this page.",
   },
   seatExclusivity: {
     heading: "One brand per trade",
-    body: "Name your trade in one line. If another brand already holds that trade, you fight them on the same panel — you do not open a second seat.",
+    body: "Name your trade in one line. If another brand already holds that trade, you bid against them on the same panel — you do not open a second seat.",
     formHint:
       "One brand per trade. Challengers fight the same panel only.",
   },
   panels: {
     heading: "The twelve panels",
-    lead: "Twelve seats. Opening prices below. Wrap means vinyl for twelve months, then it comes off. Can etch at $120k means that steel can take a permanent cut if the campaign owns the truck. The numbers on the truck match the cards.",
-    badgeEtch: "Can etch at $120k",
+    leadLines: [
+      "Twelve seats. Opening prices below.",
+      "Wrap is vinyl for twelve months, then it comes off.",
+      "Immortal Etch at $120k means that steel can take a permanent cut once the campaign owns the truck.",
+    ],
+    lead: "Twelve seats. Opening prices below. Wrap is vinyl for twelve months, then it comes off. Immortal Etch at $120k means that steel can take a permanent cut once the campaign owns the truck.",
+    badgeEtch: "Immortal Etch",
     badgeWrap: "Wrap only",
     /** Slice 10.9 — panel card standing line when no mark holds. */
     /** Slice 20.3 — print once, not on every open card. */
@@ -92,7 +94,7 @@ export const PUBLIC_COPY = {
     heading: "How it works",
     steps: [
       {
-        title: "Pick a face",
+        title: "Pick a panel",
         body: "One brand per kind of business. If someone in your trade is already standing, you bid against them.",
       },
       {
@@ -100,28 +102,29 @@ export const PUBLIC_COPY = {
         body: "Reach $58,000 and the Cyberbeast is ordered and winners are wrapped for twelve months. Miss it and every bid is released.",
       },
       {
-        title: "$120,000 and the logo can be cut into the stainless",
-        body: "At $120,000 the campaign owns the truck. Eight steel faces can take Immortal etch. Vinyl still lasts a year. The cut stays.",
+        title: "$120,000 — whole truck + Immortal Etch",
+        body: "At $120,000 you get every panel and the campaign owns the truck. Eight steel faces can be immortally etched with your brand logo. Vinyl lasts a year. Immortal Etch is forever.",
       },
     ],
   },
   etch: {
-    heading: "What etch actually is",
-    body: "Wrap is a year of film. Etch is cut into the steel. It does not peel with the wrap. Only eight faces. Only if the auction reaches $120,000 — you do not cut a truck the campaign does not own.",
+    heading: "Immortal Etch",
+    body: "Wrap is a year of film. Immortal Etch is cut into the steel. It does not peel with the wrap. Eight steel faces. Unlocks with the $120,000 whole-truck package — when the campaign owns the truck.",
     whyBuyout:
-      "Your bid buys the seat. $120,000 buys the truck so the cut is allowed.",
-    cost: "There is no separate etch price list on this page. After etch is installed there is no cash refund of that finish.",
-    art: "Etch art is one color, thick strokes, no gradients, no tiny type. If it cannot be cut, it does not ship.",
+      "Immortal Etch ships with the $120,000 whole-truck package.",
+    cost: "After Immortal Etch is installed there is no cash refund of that finish.",
+    art: "One color, thick strokes, no gradients, no tiny type. If it cannot be cut, it does not ship.",
+    forever: "Immortal Etch is forever.",
   },
   wreck: {
     heading: "Wreck & refund",
     /** Slice 20.8 — complete sentence, not a fragment. */
-    lead: "Here is what happens if the campaign misses, the wrap year ends early, or etch is already cut.",
+    lead: "Here is what happens if the campaign misses, the wrap year ends early, or Immortal Etch is already cut.",
     items: [
       {
         id: "campaign-miss",
         q: "What if the board misses $58,000?",
-        a: "Full refund. No order. No wrap. No etch.",
+        a: "Full refund. No order. No wrap. No Immortal Etch.",
       },
       {
         id: "wrap-pro-rata",
@@ -130,7 +133,7 @@ export const PUBLIC_COPY = {
       },
       {
         id: "immortal-fragment",
-        q: "What if Immortal etch is already installed?",
+        q: "What if Immortal Etch is already installed?",
         a: "No cash refund of that finish. The record is a piece of the cut panel and a vault certificate.",
       },
     ],
@@ -155,12 +158,12 @@ export const PUBLIC_COPY = {
         a: "You bid against each other for that panel.",
       },
       {
-        q: "What is etch?",
-        a: "The permanent option. On eight steel panels the logo can be cut into the stainless, only at $120,000. Vinyl comes off after a year. The cut does not.",
+        q: "What is Immortal Etch?",
+        a: "Cut into the stainless — not vinyl. Eight steel panels. Vinyl lasts a year. Immortal Etch is forever.",
       },
       {
-        q: "Why does etch cost $120,000?",
-        a: "It does not. $120,000 buys the truck so a permanent cut is allowed. Your panel bid is the seat price.",
+        q: "Why is Immortal Etch locked until $120,000?",
+        a: "Immortal Etch ships with the whole-truck buyout. At $58,000 the campaign can order the truck and fund wrap. The permanent cut waits until $120,000, when the campaign owns the truck and the whole-truck + Immortal Etch package is met. Panel bids stay the seat price.",
       },
       {
         q: "When does bidding start?",
@@ -282,7 +285,7 @@ export const PUBLIC_COPY = {
     modeEtch: "Etch",
     finishWrapEtchable: "Wrap on steel · etch at buyout",
     finishWrapOnly: "Wrap only",
-    finishEtch: "Immortal etch preview",
+    finishEtch: "Immortal Etch preview",
     wrapFilm: "Vinyl film layer",
     etchMark: "Laser on stainless",
   },

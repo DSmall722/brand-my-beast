@@ -156,3 +156,19 @@ a {
   color: white;
 }
 
+/* Approved v4 — Immortal Etch lockup in Syne, not body IBM Plex. */
+.immortal-etch {
+  font-family: var(--font-display), Syne, system-ui, sans-serif;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+}
+
+.panels-lead-stack {
+  display: grid;
+  gap: 0.4rem;
+}
+
+.panels-lead-stack .section-lead {
+  margin: 0;
+}
+

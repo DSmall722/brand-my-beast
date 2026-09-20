@@ -17,7 +17,20 @@ export function HomeStorySection() {
                 </span>
                 <span className="story-body">
                   <strong className="story-step-title">{step.title}</strong>
-                  <span className="story-step-copy">{step.body}</span>
+                  <span className="story-step-copy">
+                    {step.body.endsWith(PUBLIC_COPY.etch.forever) ? (
+                      <>
+                        {step.body
+                          .slice(0, -PUBLIC_COPY.etch.forever.length)
+                          .trimEnd()}{" "}
+                        <span className="immortal-etch">
+                          {PUBLIC_COPY.etch.forever}
+                        </span>
+                      </>
+                    ) : (
+                      step.body
+                    )}
+                  </span>
                 </span>
               </li>
             ))}

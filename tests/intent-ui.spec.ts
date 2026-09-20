@@ -235,7 +235,7 @@ test.describe("P2 panel intent + approvals", () => {
       "intent only",
     );
     await expect(page.getByTestId("intent-no-charge-note")).toContainText(
-      "does not charge",
+      "Nothing is charged",
     );
 
     await signIn(page, "slice13@example.com");
