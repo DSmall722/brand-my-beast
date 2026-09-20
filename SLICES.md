@@ -68,7 +68,7 @@ Do not start until 19.12 is checked. No Stripe. No CLOSE_AT. No SEATS_OPEN flip.
 - [x] 20.2 Public seat: hide **Sign in to download a seat PNG** while `SEATS_OPEN` is false. (#407)
 - [x] 20.3 Panel cards: do not print twelve identical **Open.** Use **Open seat** once, or drop the chorus. (#408)
 - [x] 20.4 Money block at pledged $0: do not print both **Floor $58,000** and **Short of floor $58,000**. (#409)
-- [x] 20.5 Same for **Short of buyout $120,000** when pledged is $0.
+- [x] 20.5 Same for **Short of buyout $120,000** when pledged is $0. (#410)
 - [ ] 20.6 Replace **Open seat · Held = standing intent** with a buyer sentence from PUBLIC_COPY.
 - [ ] 20.7 Homepage whole-truck block: one explanation sentence, not the 12-name package dump.
 - [ ] 20.8 Wreck lead is a complete sentence, not a fragment.
