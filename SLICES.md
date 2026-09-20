@@ -11,8 +11,8 @@ Updated: 2026-09-20
 - After 19.12, do Wave 20. After 20.12, idle. Do not start Wave 15 (Stripe) without a human message.
 - Judge PRs from git + `npm test` + `npm run build`.
 
-**Now:** 20.2 Public seat: hide Sign in to download a seat PNG while SEATS_OPEN is false.
-**Last merged:** 20.1 Homepage header: hide Sign in while sign-in is closed.
+**Now:** 20.3 Panel cards: do not print twelve identical Open.
+**Last merged:** 20.2 Public seat: hide Sign in to download a seat PNG while SEATS_OPEN is false.
 
 ## Standing orders
 
@@ -65,7 +65,7 @@ Fix what is wrong on the live waitlist site. Do not flip SEATS_OPEN. Do not rewr
 Do not start until 19.12 is checked. No Stripe. No CLOSE_AT. No SEATS_OPEN flip. Do not rewrite the homepage H1.
 
 - [x] 20.1 Homepage header: hide **Sign in** while sign-in is closed. **Join the list** only. (#406)
-- [ ] 20.2 Public seat: hide **Sign in to download a seat PNG** while `SEATS_OPEN` is false.
+- [x] 20.2 Public seat: hide **Sign in to download a seat PNG** while `SEATS_OPEN` is false.
 - [ ] 20.3 Panel cards: do not print twelve identical **Open.** Use **Open seat** once, or drop the chorus.
 - [ ] 20.4 Money block at pledged $0: do not print both **Floor $58,000** and **Short of floor $58,000**.
 - [ ] 20.5 Same for **Short of buyout $120,000** when pledged is $0.
