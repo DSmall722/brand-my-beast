@@ -66,7 +66,7 @@ const BOARD_LAYOUT: Record<Panel["id"], BoardLayout> = {
   "driver-door": {
     hero: { x: 34, y: 42 },
     heroMobile: { x: 34, y: 54 },
-    views: { driver: { x: 52, y: 68 } },
+    views: { driver: { x: 38, y: 52 } },
     face: {
       still: "driver",
       objectPosition: "39% 56%",
@@ -86,7 +86,7 @@ const BOARD_LAYOUT: Record<Panel["id"], BoardLayout> = {
   "driver-bed": {
     hero: { x: 54, y: 42 },
     heroMobile: { x: 54, y: 54 },
-    views: { driver: { x: 88, y: 65 } },
+    views: { driver: { x: 82, y: 52 } },
     face: {
       still: "driver",
       objectPosition: "14% 55%",
@@ -106,7 +106,7 @@ const BOARD_LAYOUT: Record<Panel["id"], BoardLayout> = {
   "driver-rear-quarter": {
     hero: { x: 73, y: 43 },
     heroMobile: { x: 73, y: 56 },
-    views: { driver: { x: 76, y: 55 } },
+    views: { driver: { x: 68, y: 39 } },
     face: {
       still: "driver",
       objectPosition: "16% 36%",

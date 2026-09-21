@@ -83,10 +83,10 @@ export function viewOwningPanel(panelId: string): TruckViewId {
 
 /** Door packages stay on cab steel leaves only — no front fender, no glass. */
 export const DRIVER_DOOR_BOUNDS_PCT = {
-  x0: 39,
-  x1: 67,
-  y0: 57,
-  y1: 78,
+  x0: 23,
+  x1: 56,
+  y0: 40,
+  y1: 65,
 } as const;
 
 export const PASSENGER_DOOR_BOUNDS_PCT = {
@@ -109,41 +109,41 @@ export const VIEW_OWNED_PANEL_IDS = {
 
 /**
  * Driver profile: nose left. Seats 4–6 only.
- * Zoomed garage bake. Doors = both cab leaves under the belt. Sail =
- * wedge above the beltline. Bed = bedside under that seam, notched over the tire.
+ * 1.70× garage bake, framed on the rear door. Doors = both cab leaves
+ * under the belt. Sail = wedge above the beltline. Bed = bedside under
+ * that seam, notched over the tire.
  */
 const DRIVER_HOTSPOTS: readonly TruckHotspot[] = [
   {
     panelId: "driver-door",
     points: pctPoints([
-      [39.9, 60.6],
-      [65.7, 58.1],
-      [65.8, 77.4],
-      [39.9, 77.4],
+      [24.3, 44.0],
+      [54.6, 40.9],
+      [54.8, 63.4],
+      [24.3, 63.5],
     ]),
   },
   {
     panelId: "driver-rear-quarter",
     points: pctPoints([
-      [65.7, 50.4],
-      [94.6, 58.3],
-      [65.7, 58.2],
+      [54.6, 33.5],
+      [88.5, 41.8],
+      [88.5, 43.2],
+      [54.6, 41.5],
     ]),
   },
   {
     panelId: "driver-bed",
     points: pctPoints([
-      [65.7, 58.2],
-      [94.6, 58.3],
-      [94.0, 71.3],
-      [85.2, 71.8],
-      [82.5, 67.0],
-      [80.3, 63.8],
-      [74.0, 63.9],
-      [72.2, 65.4],
-      [70.5, 69.3],
-      [68.5, 73.4],
-      [65.7, 73.5],
+      [54.6, 41.5],
+      [88.5, 43.0],
+      [88.4, 56.3],
+      [80.0, 56.8],
+      [75.5, 54.3],
+      [73.0, 48.0],
+      [60.6, 48.0],
+      [57.6, 58.9],
+      [54.6, 61.5],
     ]),
   },
 ];

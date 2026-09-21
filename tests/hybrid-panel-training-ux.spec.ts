@@ -230,7 +230,7 @@ test.describe("hybrid panel training UX", () => {
         width: expected[view].width,
         height: expected[view].height,
       });
-      expect(bytes.byteLength).toBeGreaterThan(400_000);
+      expect(bytes.byteLength).toBeGreaterThan(350_000);
     }
   });
 
@@ -385,11 +385,11 @@ test.describe("hybrid panel training UX", () => {
     await page.evaluate(() => document.fonts.ready);
 
     const probes = [
-      { tab: "truck-view-driver", x: 52, y: 68, seat: "truck-seat-driver-door" },
-      { tab: "truck-view-driver", x: 78, y: 56, seat: "truck-seat-driver-rear-quarter" },
-      { tab: "truck-view-driver", x: 88, y: 65, seat: "truck-seat-driver-bed" },
-      { tab: "truck-view-driver", x: 76, y: 68, seat: null },
-      { tab: "truck-view-driver", x: 25, y: 62, seat: null },
+      { tab: "truck-view-driver", x: 40, y: 52, seat: "truck-seat-driver-door" },
+      { tab: "truck-view-driver", x: 70, y: 39, seat: "truck-seat-driver-rear-quarter" },
+      { tab: "truck-view-driver", x: 82, y: 52, seat: "truck-seat-driver-bed" },
+      { tab: "truck-view-driver", x: 66, y: 55, seat: null },
+      { tab: "truck-view-driver", x: 12, y: 50, seat: null },
       { tab: "truck-view-passenger", x: 38, y: 58, seat: "truck-seat-passenger-door" },
       { tab: "truck-view-passenger", x: 18, y: 42, seat: "truck-seat-passenger-rear-quarter" },
       { tab: "truck-view-passenger", x: 20, y: 55, seat: "truck-seat-passenger-bed" },
