@@ -216,12 +216,13 @@ export default async function PanelIntentPage({
           </p>
         </div>
 
-        <div className="seat-stage">
+        <div className="seat-stage" data-testid="seat-photo-stage">
         <TruckViewHotspots
           occupiedPanelIds={occupiedPanelIds}
           activePanelId={panel.id}
           compact
         />
+        </div>
 
         <PanelMockup
           panel={panel}
@@ -229,7 +230,6 @@ export default async function PanelIntentPage({
           standingBrand={holder?.brandLabel ?? null}
           truckExists={TRUCK_EXISTS}
         />
-        </div>
 
         {session?.user ? (
           <p className="auth-hint" data-testid="seat-export-png">

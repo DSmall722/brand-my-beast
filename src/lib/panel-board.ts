@@ -43,7 +43,7 @@ export const HERO_MOBILE_CAB_GLASS_MAX_Y = 48;
  * Percents of the still. Hero well is 16:9 fill. Board views use
  * object-fit: contain on a photo well so these map 1:1 to the JPEG.
  * Driver = closed-door profile, nose left. Passenger = ¾, nose right.
- * Front = head-on. Rear = passenger-rear ¾, tail left.
+ * Front = head-on. Rear = straight-on forest road (seats 10 + 11).
  * Door seats 4 and 7 are packages (front + rear cab leaf on that side).
  */
 const BOARD_LAYOUT: Record<Panel["id"], BoardLayout> = {
@@ -51,9 +51,9 @@ const BOARD_LAYOUT: Record<Panel["id"], BoardLayout> = {
     hero: { x: 24, y: 34 },
     heroMobile: { x: 24, y: 52 },
     views: {
-      driver: { x: 22, y: 38 },
-      passenger: { x: 68, y: 36 },
-      front: { x: 50, y: 26 },
+      driver: { x: 30, y: 32 },
+      passenger: { x: 70, y: 24 },
+      front: { x: 50, y: 22 },
     },
     face: { still: "front", objectPosition: "50% 26%" },
   },
@@ -61,8 +61,8 @@ const BOARD_LAYOUT: Record<Panel["id"], BoardLayout> = {
     hero: { x: 12, y: 48 },
     heroMobile: { x: 12, y: 62 },
     views: {
-      driver: { x: 12, y: 50 },
-      passenger: { x: 86, y: 50 },
+      driver: { x: 22, y: 44 },
+      passenger: { x: 91, y: 42 },
       front: { x: 50, y: 48 },
     },
     face: { still: "front", objectPosition: "50% 48%" },
@@ -70,60 +70,60 @@ const BOARD_LAYOUT: Record<Panel["id"], BoardLayout> = {
   "driver-door": {
     hero: { x: 34, y: 42 },
     heroMobile: { x: 34, y: 54 },
-    views: { driver: { x: 42, y: 48 } },
+    views: { driver: { x: 47, y: 44 } },
     face: { still: "driver", objectPosition: "38% 48%" },
   },
   "passenger-door": {
     hero: { x: 31, y: 22 },
     heroMobile: { x: 28, y: 50 },
-    views: { passenger: { x: 50, y: 48 } },
+    views: { passenger: { x: 45, y: 44 } },
     face: { still: "passenger", objectPosition: "50% 48%" },
   },
   "driver-bed": {
     hero: { x: 54, y: 42 },
     heroMobile: { x: 54, y: 54 },
-    views: { driver: { x: 68, y: 46 } },
+    views: { driver: { x: 63, y: 42 } },
     face: { still: "driver", objectPosition: "68% 46%" },
   },
   "passenger-bed": {
     hero: { x: 56, y: 27 },
     heroMobile: { x: 56, y: 50 },
-    views: { passenger: { x: 20, y: 46 }, rear: { x: 46, y: 42 } },
+    views: { passenger: { x: 22, y: 42 } },
     face: { still: "passenger", objectPosition: "20% 46%" },
   },
   "driver-rear-quarter": {
     hero: { x: 73, y: 43 },
     heroMobile: { x: 73, y: 56 },
-    views: { driver: { x: 80, y: 46 } },
+    views: { driver: { x: 75, y: 40 } },
     face: { still: "driver", objectPosition: "80% 46%" },
   },
   "passenger-rear-quarter": {
     hero: { x: 76, y: 27 },
     heroMobile: { x: 76, y: 52 },
-    views: { passenger: { x: 12, y: 44 }, rear: { x: 36, y: 40 } },
+    views: { passenger: { x: 8, y: 38 } },
     face: { still: "passenger", objectPosition: "12% 44%" },
   },
   tailgate: {
     hero: { x: 91, y: 32 },
     heroMobile: { x: 90, y: 54 },
-    views: { driver: { x: 88, y: 40 }, rear: { x: 18, y: 42 } },
-    face: { still: "rear", objectPosition: "18% 42%" },
+    views: { driver: { x: 86, y: 38 }, rear: { x: 68, y: 52 } },
+    face: { still: "rear", objectPosition: "68% 52%" },
   },
   "front-bumper": {
     hero: { x: 10, y: 62 },
     heroMobile: { x: 10, y: 72 },
     views: {
-      driver: { x: 10, y: 58 },
-      passenger: { x: 90, y: 62 },
-      front: { x: 50, y: 80 },
+      driver: { x: 22, y: 55 },
+      passenger: { x: 92, y: 58 },
+      front: { x: 50, y: 72 },
     },
     face: { still: "front", objectPosition: "50% 82%" },
   },
   "rear-bumper": {
     hero: { x: 94, y: 58 },
     heroMobile: { x: 92, y: 68 },
-    views: { driver: { x: 92, y: 58 }, rear: { x: 18, y: 58 } },
-    face: { still: "rear", objectPosition: "18% 62%" },
+    views: { driver: { x: 87, y: 55 }, rear: { x: 68, y: 74 } },
+    face: { still: "rear", objectPosition: "68% 74%" },
   },
 };
 
@@ -192,6 +192,51 @@ export function panelSeatH1(panel: Pick<Panel, "id" | "name">): string {
 /** Slice 16.3 — legend item: `1 Hood` (number + PANELS name, no extra copy). */
 export function panelLegendLabel(mark: Pick<PanelBoardMark, "n" | "name">): string {
   return `${mark.n} ${mark.name}`;
+}
+
+/**
+ * SVG overlay seat names. Number + name only — no openings, wrap notes,
+ * or process copy. Locked shape: `(1) Hood`.
+ */
+export const PANEL_OVERLAY_NAME = {
+  hood: "Hood",
+  "front-fascia": "Front fascia",
+  "front-bumper": "Front bumper",
+  "driver-door": "Driver doors",
+  "driver-rear-quarter": "Driver sail",
+  "driver-bed": "Driver bed",
+  "passenger-door": "Passenger doors",
+  "passenger-rear-quarter": "Passenger sail",
+  "passenger-bed": "Passenger bed",
+  tailgate: "Tailgate",
+  "rear-bumper": "Rear bumper",
+} as const;
+
+export function panelOverlayName(panelId: string): string {
+  if (!(panelId in PANEL_OVERLAY_NAME)) {
+    throw new Error(`panel-board: missing overlay name for ${panelId}`);
+  }
+  return PANEL_OVERLAY_NAME[panelId as keyof typeof PANEL_OVERLAY_NAME];
+}
+
+/** Locked overlay label: `(1) Hood`. */
+export function panelOverlayLabel(
+  mark: Pick<PanelBoardMark, "n" | "panelId">,
+): string {
+  return `(${mark.n}) ${panelOverlayName(mark.panelId)}`;
+}
+
+const OVERLAY_LABEL_RE = /^\(\d+\) [A-Za-z][A-Za-z ]*$/;
+
+const OVERLAY_LABEL_BANNED =
+  /\$|opening|wrap-only|wrap only|etch|intent|buyout|floor|cta|click|deposit|stainless compositor|dirty|clean pair|dimension|inch|mm\b/i;
+
+/** Every overlay label is `(N) Name` and nothing else. */
+export function overlayLabelsAreNameOnly(): boolean {
+  return PANEL_BOARD_MARKS.every((mark) => {
+    const label = panelOverlayLabel(mark);
+    return OVERLAY_LABEL_RE.test(label) && !OVERLAY_LABEL_BANNED.test(label);
+  });
 }
 
 export function panelBoardIsComplete(): boolean {

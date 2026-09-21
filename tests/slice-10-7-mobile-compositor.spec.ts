@@ -89,19 +89,13 @@ test.describe("slice 10.7: mobile compositor one view", () => {
     const hotspots = page.getByTestId("truck-view-seats");
     await expect(hotspots).toHaveAttribute("data-one-view", "true");
     await expect(page.getByTestId("truck-view-svg")).toHaveCount(1);
-    await expect(hotspots).toHaveAttribute("data-view", "driver");
-
-    await page.getByTestId("truck-view-front").click();
     await expect(hotspots).toHaveAttribute("data-view", "front");
-    await expect(page.getByTestId("truck-view-svg")).toHaveCount(1);
+    await expect(hotspots).toHaveAttribute("data-single-seat", "true");
     await expect(page.getByTestId("truck-view-svg")).toHaveAttribute(
       "data-view",
       "front",
     );
-
-    await page.getByTestId("truck-view-rear").click();
-    await expect(hotspots).toHaveAttribute("data-view", "rear");
-    await expect(page.getByTestId("truck-view-svg")).toHaveCount(1);
+    await expect(page.getByTestId("truck-view-toolbar")).toHaveCount(0);
 
     const stage = page.getByTestId("truck-view-stage");
     await stage.scrollIntoViewIfNeeded();

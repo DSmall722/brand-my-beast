@@ -11,9 +11,9 @@ Public site files live in `/public`:
 | `truck-view-driver.jpg` | Closed-door driver-side profile | Photo by Joe L on Pexels — https://www.pexels.com/photo/a-car-is-parked-in-a-garage-with-a-large-concrete-floor-27908531/ |
 | `truck-view-passenger.jpg` | Passenger-side ¾ | Photo by Mylo Kaye on Pexels — https://www.pexels.com/photo/silver-tesla-cybertruck-24734498/ |
 | `truck-view-front.jpg` | Head-on front | Photo by Mylo Kaye on Pexels — https://www.pexels.com/photo/tesla-cyber-truck-24734499/ |
-| `truck-view-rear.jpg` | Passenger-rear ¾ | Photo by James Collington on Pexels — https://www.pexels.com/photo/futuristic-vehicle-parked-on-california-boardwalk-30073773/ |
+| `truck-view-rear.jpg` | Straight-on rear, forest autumn road | Photo by Stephen Leonardi on Pexels — https://www.pexels.com/photo/futuristic-truck-on-a-forest-road-in-autumn-29278630/ |
 
-Rebuild:
+Rebuild (unmarked stills — numbers are SVG overlays, not baked dots):
 
 ```
 python3 scripts/build-pexels-board-stills.py
@@ -23,7 +23,7 @@ python3 scripts/credit-board-stills.py
 
 Each public `truck-view-*.jpg` carries the photographer name and Pexels URL in
 EXIF Artist / Copyright / ImageDescription, IPTC By-line / Source, and XMP
-dc:creator / dc:rights / WebStatement.
+dc:creator / dc:rights / WebStatement. Overlay labels are `(N) Name` only.
 
 Pexels license allows free use with credit. Sami Abdullah city shot
 https://www.pexels.com/photo/photo-of-a-tesla-cybertruck-on-the-street-in-a-city-26546824/

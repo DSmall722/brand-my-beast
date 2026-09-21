@@ -51,10 +51,9 @@ test.describe("slice 16.39: callout contrast on stainless", () => {
         });
       });
     });
-    await expect(page.getByTestId("view-panel-board-driver-3")).toBeVisible();
     const sample = await page.evaluate(() => {
       const callout = document.querySelector(
-        '[data-testid="view-panel-board-driver-3"]',
+        '[data-testid="truck-seat-label-hood"]',
       );
       const img = document.querySelector(".truck-view-photo");
       if (!(callout instanceof HTMLElement) || !(img instanceof HTMLImageElement)) {

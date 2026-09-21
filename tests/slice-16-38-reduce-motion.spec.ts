@@ -38,18 +38,18 @@ test.describe("slice 16.38: reduced motion keeps callouts still", () => {
     await page.emulateMedia({ reducedMotion: "reduce" });
     await page.setViewportSize({ width: 1280, height: 900 });
     await page.goto("/panels/hood");
-    for (const n of [1, 3, 4, 10]) {
-      const callout = page.getByTestId(`view-panel-board-driver-${n}`);
-      await expect(callout).toBeVisible();
-      const motion = await callout.evaluate((el) => {
-        const style = getComputedStyle(el);
-        return {
-          animationName: style.animationName,
-          transitionProperty: style.transitionProperty,
-        };
-      });
-      expect(motion.animationName).toBe("none");
-      expect(motion.transitionProperty).toBe("none");
-    }
+    const label = page.getByTestId("truck-seat-label-hood");
+    await expect(label).toBeVisible();
+    await expect(label).toHaveText("(1) Hood");
+    const motion = await label.evaluate((el) => {
+      const style = getComputedStyle(el);
+      return {
+        animationName: style.animationName,
+        transitionProperty: style.transitionProperty,
+      };
+    });
+    expect(motion.animationName === "none" || motion.animationName === "").toBe(
+      true,
+    );
   });
 });

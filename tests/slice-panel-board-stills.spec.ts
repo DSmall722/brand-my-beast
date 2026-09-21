@@ -71,13 +71,10 @@ test.describe("panel board stills map 1–11 onto the truck", () => {
     expect(panelBoardMarksForView("front").map((m) => m.panelId)).toEqual(
       expect.arrayContaining(["hood", "front-fascia", "front-bumper"]),
     );
-    expect(panelBoardMarksForView("rear").map((m) => m.panelId)).toEqual(
-      expect.arrayContaining([
-        "tailgate",
-        "rear-bumper",
-        "passenger-rear-quarter",
-      ]),
-    );
+    expect(panelBoardMarksForView("rear").map((m) => m.panelId)).toEqual([
+      "tailgate",
+      "rear-bumper",
+    ]);
     for (const still of Object.values(TRUCK_VIEW_STILLS)) {
       expect(existsSync(join(ROOT, "public", still.replace(/^\//, "")))).toBe(
         true,
@@ -128,10 +125,10 @@ test.describe("panel board stills map 1–11 onto the truck", () => {
     expect(front("front-fascia").y).toBeGreaterThan(front("hood").y);
     expect(front("front-bumper").y).toBeGreaterThan(front("front-fascia").y);
 
-    // Rear = passenger-rear: tail left, passenger side right.
-    expect(rear("tailgate").x).toBeLessThan(rear("passenger-rear-quarter").x);
-    expect(rear("passenger-rear-quarter").x).toBeLessThan(rear("passenger-bed").x);
+    // Rear = straight-on forest road: tailgate above bumper.
     expect(rear("rear-bumper").y).toBeGreaterThan(rear("tailgate").y);
+    expect(byId["passenger-bed"]?.views.rear).toBeUndefined();
+    expect(byId["passenger-rear-quarter"]?.views.rear).toBeUndefined();
   });
 
   test("homepage cards and views use the matching still", async ({ page }) => {

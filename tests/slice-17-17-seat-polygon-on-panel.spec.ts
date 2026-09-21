@@ -15,7 +15,6 @@ import { vercelJsonIsHoldOrMainOnlyRestore } from "../src/lib/vercel-git-deploy"
  * Same preview still. No new photos. CLOSE_AT null. No Stripe.
  */
 
-const DRIVER = "/truck-view-driver.jpg";
 const FRONT = "/truck-view-front.jpg";
 
 function inside(
@@ -50,39 +49,31 @@ test.describe("slice 17.17: seat 2 polygon on the bumper", () => {
     expect(vercelJsonIsHoldOrMainOnlyRestore()).toBe(true);
   });
 
-  test("front fascia polygon stays on the photo and on callout 2", async ({
+  test("front fascia polygon stays on the owning front still", async ({
     page,
   }) => {
     await page.goto("/panels/front-fascia");
     const photo = page.locator(".truck-view-photo");
-    await expect(photo).toHaveAttribute("src", DRIVER);
+    await expect(photo).toHaveAttribute("src", FRONT);
     const photoBox = await photo.boundingBox();
     if (!photoBox) throw new Error("photo missing");
 
     await expect(page.getByTestId("truck-view-seats")).toHaveAttribute(
       "data-polygons",
-      "hidden",
+      "outline",
     );
-    const polygon = page.locator(
-      '[data-testid="truck-seat-front-fascia"] polygon',
+    await expect(page.getByTestId("truck-view-seats")).toHaveAttribute(
+      "data-single-seat",
+      "true",
     );
-    const fill = await polygon.evaluate((el) => getComputedStyle(el).fill);
-    expect(["none", "rgba(0, 0, 0, 0)", "transparent"]).toContain(fill);
-    const driverCallout = page.getByTestId("view-panel-board-driver-2");
-    await expect(driverCallout).toBeVisible();
-    const calloutBox = await driverCallout.boundingBox();
-    if (!calloutBox) throw new Error("callout missing");
-    expect(inside(calloutBox, photoBox)).toBe(true);
-
-    await page.getByTestId("truck-view-front").click();
-    await expect(photo).toHaveAttribute("src", FRONT);
-    const frontCallout = await page
-      .getByTestId("view-panel-board-front-2")
-      .boundingBox();
-    const frontPhoto = await photo.boundingBox();
-    if (!frontCallout || !frontPhoto) {
-      throw new Error("front boxes missing");
-    }
-    expect(inside(frontCallout, frontPhoto)).toBe(true);
+    const seat = page.getByTestId("truck-seat-front-fascia");
+    await expect(seat).toHaveAttribute("data-active", "true");
+    await expect(seat).toHaveAttribute("data-seat-label", "(2) Front fascia");
+    const seatBox = await seat.boundingBox();
+    if (!seatBox) throw new Error("seat missing");
+    expect(inside(seatBox, photoBox, 8)).toBe(true);
+    await expect(page.getByTestId("truck-seat-label-front-fascia")).toHaveText(
+      "(2) Front fascia",
+    );
   });
 });

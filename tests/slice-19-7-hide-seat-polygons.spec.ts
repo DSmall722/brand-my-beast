@@ -15,8 +15,8 @@ import { PUBLIC_COPY } from "../src/lib/public-copy";
 import { vercelJsonIsHoldOrMainOnlyRestore } from "../src/lib/vercel-git-deploy";
 
 /**
- * Slice 19.7 — hide giant gray polygons on the board-truck overlay.
- * Numbered callouts 1–11 stay.
+ * Slice 19.7 — lime outline + wash at rest; fill on the active seat.
+ * Homepage stills stay unmarked. Numbered CSS discs stay off.
  */
 
 const ROOT = process.cwd();
@@ -49,15 +49,18 @@ test.describe("slice 19.7: hide board-truck seat polygons", () => {
     expect(SEATS_OPEN).toBe(true);
   });
 
-  test("seat overlay hides polygons; homepage keeps callouts 1–11", async ({
+  test("seat overlay outlines at rest; homepage keeps legend 1–11", async ({
     page,
   }) => {
     await page.goto("/panels/hood");
     const seats = page.getByTestId("truck-view-seats");
-    await expect(seats).toHaveAttribute("data-polygons", "hidden");
+    await expect(seats).toHaveAttribute("data-polygons", "outline");
     const polygon = page.locator('[data-testid="truck-seat-hood"] polygon');
     const fill = await polygon.evaluate((el) => getComputedStyle(el).fill);
-    expect(["none", "rgba(0, 0, 0, 0)", "transparent"]).toContain(fill);
+    expect(fill === "transparent" || fill === "none").toBe(false);
+    const stroke = await polygon.evaluate((el) => getComputedStyle(el).stroke);
+    expect(stroke).not.toBe("none");
+    expect(stroke).not.toBe("transparent");
 
     await page.goto("/");
     await expect(page.getByTestId("hero-panel-board")).toHaveCount(0);

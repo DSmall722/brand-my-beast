@@ -43,7 +43,7 @@ test.describe("slice 17.3: open-seat legend drops 30X", () => {
     await expect(legend).not.toContainText("Held = standing intent");
     await expect(legend).not.toContainText("30X");
     await expect(legend).not.toContainText("Not a 360");
-    await expect(page.getByTestId("truck-seat-hood")).toHaveCount(0);
+    await expect(page.getByTestId("truck-seat-hood")).toBeVisible();
     await page.goto("/panels/hood");
     const hood = page.getByTestId("truck-seat-hood");
     const hoodOccupied = await hood.getAttribute("data-occupied");
