@@ -2572,7 +2572,7 @@
 .truck-view-seats[data-polygons="outline"] a:focus .truck-seat,
 .truck-view-seats[data-polygons="outline"] a:focus-visible .truck-seat,
 .truck-view-seats[data-polygons="outline"] a[data-filled="true"] .truck-seat,
-.truck-view-seats[data-polygons="outline"] a[data-active="true"] .truck-seat {
+.truck-view-seats[data-polygons="outline"] a[data-lit="true"] .truck-seat {
   fill: rgb(214 255 63 / 0.4);
   stroke: #d6ff3f;
 }

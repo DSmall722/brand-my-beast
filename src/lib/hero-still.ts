@@ -1,6 +1,8 @@
 /**
  * Slice 16.9 — local hero stills. 1280-wide and 640-wide. No Tesla CDN.
  * Default src stays the 1280 file so existing seat photos keep that path.
+ * Hero imagery HOLD: do not order, generate, or spend on more hero stills.
+ * A new 11-panel hero mockup is parked, not started.
  */
 
 export const HERO_STILL_WIDE = {

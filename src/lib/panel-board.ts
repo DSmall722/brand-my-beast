@@ -43,7 +43,7 @@ export const HERO_MOBILE_CAB_GLASS_MAX_Y = 48;
  * Percents of the still. Hero well is 16:9 fill. Board views use
  * object-fit: contain on a photo well so these map 1:1 to the JPEG.
  * Driver = closed-door profile, nose left. Passenger = ¾, nose right.
- * Front = head-on. Rear = passenger-rear ¾, tail left.
+ * Front = head-on. Rear = straight-on forest road (seats 10 + 11).
  * Door seats 4 and 7 are packages (front + rear cab leaf on that side).
  */
 const BOARD_LAYOUT: Record<Panel["id"], BoardLayout> = {
@@ -88,7 +88,7 @@ const BOARD_LAYOUT: Record<Panel["id"], BoardLayout> = {
   "passenger-bed": {
     hero: { x: 56, y: 27 },
     heroMobile: { x: 56, y: 50 },
-    views: { passenger: { x: 20, y: 46 }, rear: { x: 46, y: 42 } },
+    views: { passenger: { x: 20, y: 46 } },
     face: { still: "passenger", objectPosition: "20% 46%" },
   },
   "driver-rear-quarter": {
@@ -100,14 +100,14 @@ const BOARD_LAYOUT: Record<Panel["id"], BoardLayout> = {
   "passenger-rear-quarter": {
     hero: { x: 76, y: 27 },
     heroMobile: { x: 76, y: 52 },
-    views: { passenger: { x: 12, y: 44 }, rear: { x: 36, y: 40 } },
+    views: { passenger: { x: 12, y: 44 } },
     face: { still: "passenger", objectPosition: "12% 44%" },
   },
   tailgate: {
     hero: { x: 91, y: 32 },
     heroMobile: { x: 90, y: 54 },
-    views: { driver: { x: 88, y: 40 }, rear: { x: 18, y: 42 } },
-    face: { still: "rear", objectPosition: "18% 42%" },
+    views: { driver: { x: 88, y: 40 }, rear: { x: 59, y: 50 } },
+    face: { still: "rear", objectPosition: "58% 50%" },
   },
   "front-bumper": {
     hero: { x: 10, y: 62 },
@@ -122,8 +122,8 @@ const BOARD_LAYOUT: Record<Panel["id"], BoardLayout> = {
   "rear-bumper": {
     hero: { x: 94, y: 58 },
     heroMobile: { x: 92, y: 68 },
-    views: { driver: { x: 92, y: 58 }, rear: { x: 18, y: 58 } },
-    face: { still: "rear", objectPosition: "18% 62%" },
+    views: { driver: { x: 92, y: 58 }, rear: { x: 59, y: 67 } },
+    face: { still: "rear", objectPosition: "58% 68%" },
   },
 };
 

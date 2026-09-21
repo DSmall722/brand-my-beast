@@ -18,7 +18,7 @@ Locked: 2026-09-14 — desire first, then the deal, then the catch.
 ## Hero
 
 - H1: `Put your brand on the truck people already photograph.`
-- Lead: `Concept preview`
+- Lead: `concept photo`
 - Primary CTA: `Get on the list`
 - Secondary CTA: `See the eleven panels`
 - Hero image label (alt): `Concept preview — BrandMyBeast house wrap. Seats are not sold yet.`

@@ -11,7 +11,7 @@ Public site files live in `/public`:
 | `truck-view-driver.jpg` | Closed-door driver-side profile | Photo by Joe L on Pexels — https://www.pexels.com/photo/a-car-is-parked-in-a-garage-with-a-large-concrete-floor-27908531/ |
 | `truck-view-passenger.jpg` | Passenger-side ¾ | Photo by Mylo Kaye on Pexels — https://www.pexels.com/photo/silver-tesla-cybertruck-24734498/ |
 | `truck-view-front.jpg` | Head-on front | Photo by Mylo Kaye on Pexels — https://www.pexels.com/photo/tesla-cyber-truck-24734499/ |
-| `truck-view-rear.jpg` | Passenger-rear ¾ | Photo by James Collington on Pexels — https://www.pexels.com/photo/futuristic-vehicle-parked-on-california-boardwalk-30073773/ |
+| `truck-view-rear.jpg` | Straight-on rear, forest autumn road | Photo by Stephen Leonardi on Pexels — https://www.pexels.com/photo/futuristic-truck-on-a-forest-road-in-autumn-29278630/ |
 
 Rebuild:
 

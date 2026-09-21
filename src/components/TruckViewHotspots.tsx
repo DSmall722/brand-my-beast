@@ -132,6 +132,7 @@ export function TruckViewHotspots({
               const held = occupied.has(spot.panelId);
               const active = activePanelId === spot.panelId;
               const filled = filledId === spot.panelId;
+              const lit = filled || liveId === spot.panelId;
               return (
                 <a
                   key={`${view}-${spot.panelId}`}
@@ -141,6 +142,7 @@ export function TruckViewHotspots({
                   data-active={active ? "true" : "false"}
                   data-raw={held ? "false" : "true"}
                   data-filled={filled ? "true" : "false"}
+                  data-lit={lit ? "true" : "false"}
                   data-seat-label={label}
                   data-panel-n={String(mark.n)}
                   aria-label={

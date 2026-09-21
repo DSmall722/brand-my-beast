@@ -1,4 +1,4 @@
-import { expect, test } from "@playwright/test";
+import { expect, test, type Page } from "@playwright/test";
 import {
   BRAND,
   CLOSE_AT,
@@ -35,7 +35,29 @@ const LOCKED_LABELS = [
   "11 REAR BUMPER",
 ] as const;
 
+async function hoverSeatInterior(page: Page, testId: string) {
+  const point = await page.getByTestId(testId).locator("polygon").evaluate((el) => {
+    const polygon = el as SVGPolygonElement;
+    const svg = polygon.ownerSVGElement;
+    if (!svg) throw new Error("polygon has no svg");
+    const ctm = polygon.getScreenCTM();
+    if (!ctm) throw new Error("no screen CTM");
+    const pts = [...polygon.points].map((pt) => ({ x: pt.x, y: pt.y }));
+    const cx = pts.reduce((sum, pt) => sum + pt.x, 0) / pts.length;
+    const cy = pts.reduce((sum, pt) => sum + pt.y, 0) / pts.length;
+    return {
+      x: ctm.a * cx + ctm.c * cy + ctm.e,
+      y: ctm.b * cx + ctm.d * cy + ctm.f,
+    };
+  });
+  await page.mouse.move(point.x, point.y);
+}
+
 function fillAlpha(value: string): number {
+  const modern = value.match(
+    /rgba?\(\s*[\d.]+(?:\s+\d*\.?\d+){2}\s*\/\s*([\d.]+)\s*\)/,
+  );
+  if (modern) return Number(modern[1]);
   const rgba = value.match(
     /rgba?\(\s*[\d.]+\s*,\s*[\d.]+\s*,\s*[\d.]+(?:\s*,\s*([\d.]+))?\s*\)/,
   );
@@ -102,6 +124,10 @@ test.describe("board hover UX: lime outline, fill on hover/focus", () => {
     expect(hotspotsForView("driver").some((spot) => spot.panelId === "driver-door")).toBe(
       true,
     );
+    expect(hotspotsForView("rear").map((spot) => spot.panelId)).toEqual([
+      "tailgate",
+      "rear-bumper",
+    ]);
   });
 
   test("homepage outlines rest empty and fill on hover and keyboard focus", async ({
@@ -119,6 +145,7 @@ test.describe("board hover UX: lime outline, fill on hover/focus", () => {
     await expect(page.locator(".truck-view-body")).toHaveCount(0);
 
     const hood = page.getByTestId("truck-seat-hood");
+    await page.getByTestId("truck-view-stage").scrollIntoViewIfNeeded();
     await expect(hood).toHaveAttribute("data-seat-label", "1 HOOD");
     await expect(hood).toHaveAttribute("href", "/panels/hood");
     const hoodPoly = hood.locator("polygon");
@@ -126,28 +153,44 @@ test.describe("board hover UX: lime outline, fill on hover/focus", () => {
     const restStroke = await hoodPoly.evaluate(
       (el) => getComputedStyle(el).stroke,
     );
-    expect(fillAlpha(restFill)).toBeLessThan(0.05);
+    expect(fillAlpha(restFill), restFill).toBeLessThan(0.05);
     expect(restStroke).not.toBe("none");
     expect(restStroke).not.toBe("rgba(0, 0, 0, 0)");
     expect(restStroke).not.toBe("transparent");
 
-    await hood.hover();
+    await hoverSeatInterior(page, "truck-seat-hood");
+    await expect
+      .poll(async () => {
+        const value = await hoodPoly.evaluate((el) => getComputedStyle(el).fill);
+        return fillAlpha(value);
+      })
+      .toBeGreaterThanOrEqual(0.35);
     const hoverFill = await hoodPoly.evaluate((el) => getComputedStyle(el).fill);
-    expect(fillAlpha(hoverFill)).toBeGreaterThanOrEqual(0.35);
-    expect(fillAlpha(hoverFill)).toBeLessThanOrEqual(0.45);
+    expect(fillAlpha(hoverFill), hoverFill).toBeLessThanOrEqual(0.45);
     await expect(page.getByTestId("truck-seat-caption")).toHaveText("1 HOOD");
 
     await page.getByTestId("truck-view-lead").hover();
-    const afterFill = await hoodPoly.evaluate((el) => getComputedStyle(el).fill);
-    expect(fillAlpha(afterFill)).toBeLessThan(0.05);
+    await expect
+      .poll(async () => {
+        const value = await hoodPoly.evaluate((el) => getComputedStyle(el).fill);
+        return fillAlpha(value);
+      })
+      .toBeLessThan(0.05);
 
     const fascia = page.getByTestId("truck-seat-front-fascia");
     await fascia.focus();
+    await expect
+      .poll(async () => {
+        const value = await fascia
+          .locator("polygon")
+          .evaluate((el) => getComputedStyle(el).fill);
+        return fillAlpha(value);
+      })
+      .toBeGreaterThanOrEqual(0.35);
     const focusFill = await fascia
       .locator("polygon")
       .evaluate((el) => getComputedStyle(el).fill);
-    expect(fillAlpha(focusFill)).toBeGreaterThanOrEqual(0.35);
-    expect(fillAlpha(focusFill)).toBeLessThanOrEqual(0.45);
+    expect(fillAlpha(focusFill), focusFill).toBeLessThanOrEqual(0.45);
     await expect(page.getByTestId("truck-seat-caption")).toHaveText(
       "2 FRONT FASCIA",
     );
@@ -189,8 +232,37 @@ test.describe("board hover UX: lime outline, fill on hover/focus", () => {
       "data-seat-label",
       "10 TAILGATE",
     );
+    await expect(page.getByTestId("truck-seat-rear-bumper")).toHaveAttribute(
+      "data-seat-label",
+      "11 REAR BUMPER",
+    );
+    await expect(page.getByTestId("truck-view-svg").locator("a")).toHaveCount(2);
+    await expect(page.getByTestId("truck-seat-passenger-bed")).toHaveCount(0);
+    await expect(page.getByTestId("truck-seat-passenger-rear-quarter")).toHaveCount(
+      0,
+    );
+    const rearLabels = await page
+      .getByTestId("truck-view-svg")
+      .locator("a")
+      .evaluateAll((els) =>
+        els.map((el) => el.getAttribute("data-seat-label") ?? ""),
+      );
+    expect(rearLabels).toEqual(["10 TAILGATE", "11 REAR BUMPER"]);
+    expect(rearLabels.join(" ")).not.toMatch(/TONNEAU/i);
+    const tailPoly = page.getByTestId("truck-seat-tailgate").locator("polygon");
+    const restRear = await tailPoly.evaluate((el) => getComputedStyle(el).fill);
+    expect(fillAlpha(restRear), restRear).toBeLessThan(0.05);
+    await hoverSeatInterior(page, "truck-seat-tailgate");
+    await expect
+      .poll(async () => {
+        const value = await tailPoly.evaluate((el) => getComputedStyle(el).fill);
+        return fillAlpha(value);
+      })
+      .toBeGreaterThanOrEqual(0.35);
+    await expect(page.getByTestId("truck-seat-caption")).toHaveText("10 TAILGATE");
 
     const html = await page.content();
+    expect(html).toContain("concept photo");
     expect(html).toContain("$58,000");
     expect(html).toContain("$120,000");
     expect(html).not.toContain("FEATURES.md");

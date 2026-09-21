@@ -246,45 +246,26 @@ const FRONT_HOTSPOTS: readonly TruckHotspot[] = [
   },
 ];
 
-/** Rear: passenger-rear ¾. Tail left, passenger side right. */
+/** Rear: Stephen Leonardi forest-road still. Seats 10 + 11 only. No tonneau. */
 const REAR_HOTSPOTS: readonly TruckHotspot[] = [
   {
     panelId: "tailgate",
     points: pctPoints([
-      [7.5, 20],
-      [30.2, 20],
-      [30.2, 48],
-      [7.5, 48],
+      [39, 39],
+      [80, 39],
+      [80.5, 61],
+      [38.5, 61],
     ]),
   },
   {
     panelId: "rear-bumper",
     points: pctPoints([
-      [6.8, 48.5],
-      [30.2, 48.5],
-      [30.2, 62],
-      [6.5, 62],
-    ]),
-  },
-  {
-    panelId: "passenger-rear-quarter",
-    points: pctPoints([
-      [30.2, 20],
-      [41.5, 20],
-      [44, 34],
-      [40.5, 48],
-      [30.2, 48],
-    ]),
-  },
-  {
-    panelId: "passenger-bed",
-    points: pctPoints([
-      [41.5, 20.5],
-      [54, 22],
-      [56, 36],
-      [50, 48],
-      [44, 48],
-      [41.5, 34],
+      [38, 61],
+      [81, 61],
+      [83, 70],
+      [80, 74],
+      [39, 74],
+      [36, 70],
     ]),
   },
 ];
@@ -375,9 +356,14 @@ export function truckHotspotsAreValid(): boolean {
       if (!spot.points.trim()) return false;
     }
   }
+  const rearIds = HOTSPOTS_BY_VIEW.rear.map((spot) => spot.panelId);
   return (
     TRUCK_VIEWS.length === 4 &&
     hotspotPanelIds().length === PANELS.length &&
-    doorPackagesAreCabLeaves()
+    doorPackagesAreCabLeaves() &&
+    rearIds.length === 2 &&
+    rearIds.includes("tailgate") &&
+    rearIds.includes("rear-bumper") &&
+    !rearIds.includes("tonneau")
   );
 }

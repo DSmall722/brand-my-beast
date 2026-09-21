@@ -43,10 +43,13 @@ test.describe("slice 0.9: PUBLIC_COPY v2 on /", () => {
   });
 
   test("PUBLIC_COPY module matches locked H1, lead, and Notify me", () => {
+    const md = readFileSync(join(process.cwd(), "PUBLIC_COPY.md"), "utf8");
     expect(PUBLIC_COPY.hero.h1).toBe(
       "Put your brand on the truck people already photograph.",
     );
-    expect(PUBLIC_COPY.hero.lead).toBe("Concept preview");
+    expect(PUBLIC_COPY.hero.lead).toBe("concept photo");
+    expect(md).toContain("- Lead: `concept photo`");
+    expect(md).not.toMatch(/- Lead: `Concept preview`/);
     expect(PUBLIC_COPY.waitlist.button).toBe("Notify me");
     expect(PUBLIC_COPY.board.raisedLabel.toLowerCase()).not.toContain(
       "pledged intent",
@@ -87,6 +90,7 @@ test.describe("slice 0.9: PUBLIC_COPY v2 on /", () => {
     expect(lower).not.toMatch(/pledged intent/);
     expect(lower).not.toMatch(/operator[- ]financ/);
     expect(html).toContain(PUBLIC_COPY.hero.h1);
+    expect(html).toContain("concept photo");
     expect(html).toContain("Notify me");
   });
 });

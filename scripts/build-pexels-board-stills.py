@@ -41,8 +41,10 @@ SOURCES = {
         "crop": (780, 80, 5120, 3880),
     },
     "rear": {
-        "file": PEXELS / "30073773.jpg",
-        "crop": (620, 920, 4280, 3280),
+        # Locked 2026-09-21: Stephen Leonardi 29278630. Do not rebuild
+        # from James Collington 30073773.
+        "file": PEXELS / "29278630.jpg",
+        "crop": (0, 91, 1600, 991),
     },
 }
 
@@ -135,12 +137,16 @@ def main() -> None:
             raise FileNotFoundError(
                 f"{src} missing. Put the locked Pexels stills in {PEXELS}"
             )
-        with Image.open(src) as raw:
-            rgb = raw.convert("RGB").crop(spec["crop"])
-        rgb.thumbnail((1600, 1600), Image.Resampling.LANCZOS)
-        still = compose(rgb.convert("RGBA"))
         unmarked = UNMARKED / f"truck-view-{key}.jpg"
         public = PUBLIC / f"truck-view-{key}.jpg"
+        with Image.open(src) as raw:
+            rgb = raw.convert("RGB").crop(spec["crop"])
+        if key == "rear":
+            # Locked forest-road still. Keep the autumn trees; do not GrabCut.
+            still = rgb.resize(WIDE, Image.Resampling.LANCZOS)
+        else:
+            rgb.thumbnail((1600, 1600), Image.Resampling.LANCZOS)
+            still = compose(rgb.convert("RGBA"))
         save_jpeg(still, unmarked)
         save_jpeg(still, public)
         print(f"wrote {unmarked} and {public} ({public.stat().st_size} bytes)")

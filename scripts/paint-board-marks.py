@@ -7,7 +7,7 @@ Only numbers that read on that angle are painted.
   Driver    (closed-door profile, nose left): 1 2 3 4 5 6 10 11
   Passenger (¾, nose right):                  1 2 3 7 8 9
   Front     (head-on):                        1 2 3
-  Rear      (passenger-rear ¾, tail left):    8 9 10 11
+  Rear      (straight-on forest road):        10 11 only — no tonneau
 
 Lime plate #d6ff3f / ink #07090c.
 
@@ -60,10 +60,8 @@ MARKS: dict[str, list[tuple[int, float, float]]] = {
         (3, 50, 80),
     ],
     "rear": [
-        (8, 36, 40),
-        (9, 46, 42),
-        (10, 18, 42),
-        (11, 18, 58),
+        (10, 59, 50),
+        (11, 59, 67),
     ],
 }
 
