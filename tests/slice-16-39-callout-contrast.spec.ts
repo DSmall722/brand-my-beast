@@ -70,7 +70,9 @@ test.describe("slice 16.39: callout contrast on stainless", () => {
         img.naturalWidth - 1,
         Math.max(
           0,
-          Math.round(((cr.right + 12 - ir.left) / ir.width) * img.naturalWidth),
+          Math.round(
+            ((cr.left + cr.width / 2 - ir.left) / ir.width) * img.naturalWidth,
+          ),
         ),
       );
       const sy = Math.min(

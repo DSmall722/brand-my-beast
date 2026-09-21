@@ -19,7 +19,7 @@ import { vercelJsonIsHoldOrMainOnlyRestore } from "../src/lib/vercel-git-deploy"
  */
 
 const LOCKED_H1 = "Put your brand on the truck people already photograph.";
-const PANEL_PHRASE = "Twelve seats. Opening prices below.";
+const PANEL_PHRASE = "Eleven seats. Opening prices below.";
 
 test.describe("slice 16.12: panel lead matches the numbered cards", () => {
   test("campaign money fences stay locked — CLOSE_AT null", () => {

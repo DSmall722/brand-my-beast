@@ -297,10 +297,14 @@ test.describe("board hover UX: lime outline, fill on hover/focus", () => {
     await hood.click();
     await expect(page).toHaveURL("/");
     await expect(hood).toHaveAttribute("data-filled", "true");
-    const fill = await hood
-      .locator("polygon")
-      .evaluate((el) => getComputedStyle(el).fill);
-    expect(fillAlpha(fill)).toBeGreaterThan(0.1);
+    await expect
+      .poll(async () => {
+        const value = await hood
+          .locator("polygon")
+          .evaluate((el) => getComputedStyle(el).fill);
+        return fillAlpha(value);
+      })
+      .toBeGreaterThan(0.1);
     await expect(page.getByTestId("truck-seat-caption")).toHaveText("1 HOOD");
     await hood.click();
     await expect(page).toHaveURL(/\/panels\/hood$/);

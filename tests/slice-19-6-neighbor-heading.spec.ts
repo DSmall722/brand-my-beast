@@ -58,7 +58,7 @@ test.describe("slice 19.6: neighbor heading drops combo", () => {
     await expect(heading).toHaveText("Neighboring seats");
     await expect(heading).not.toContainText(/combo/i);
     await expect(page.getByTestId("neighbor-combo-front-fascia")).toContainText(
-      formatUsd(1200),
+      formatUsd(2000),
     );
     const html = await page.content();
     expect(html).not.toContain("Neighbor combo");

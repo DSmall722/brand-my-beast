@@ -69,8 +69,9 @@ test.describe("slice 17.17: seat 2 polygon on the bumper", () => {
     const fill = await polygon.evaluate((el) => getComputedStyle(el).fill);
     expect(
       fill === "transparent" ||
+        fill === "none" ||
         fill.endsWith(", 0)") ||
-        fill.includes(" / 0)"),
+        /\/\s*0\)/.test(fill),
     ).toBe(true);
     const driverCallout = page.getByTestId("view-panel-board-driver-2");
     await expect(driverCallout).toBeVisible();

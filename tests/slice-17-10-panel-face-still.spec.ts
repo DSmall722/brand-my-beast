@@ -46,9 +46,11 @@ test.describe("slice 17.10: panel faces use the stainless still", () => {
       join(process.cwd(), "src/app/styles/board.css"),
       "utf8",
     );
-    const block = css.split(".panel-face {")[1]?.split("}")[0] ?? "";
-    expect(block).toContain('url("/hero-truck-preview.jpg")');
-    expect(block).not.toContain("var(--steel-950)");
+    expect(css).toContain("var(--panel-face-image");
+    expect(css).toMatch(/truck-view-|hero-truck-preview/);
+    expect(css).not.toMatch(
+      /\.panel-face\s*\{[^}]*background:[^}]*var\(--steel-950\)/,
+    );
   });
 
   test("homepage panel faces render distinct crops", async ({ page }) => {

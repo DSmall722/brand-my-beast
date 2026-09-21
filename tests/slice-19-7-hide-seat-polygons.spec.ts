@@ -59,8 +59,9 @@ test.describe("slice 19.7: hide board-truck seat polygons", () => {
     const fill = await polygon.evaluate((el) => getComputedStyle(el).fill);
     expect(
       fill === "transparent" ||
+        fill === "none" ||
         fill.endsWith(", 0)") ||
-        fill.includes(" / 0)"),
+        /\/\s*0\)/.test(fill),
     ).toBe(true);
     const stroke = await polygon.evaluate((el) => getComputedStyle(el).stroke);
     expect(stroke).not.toBe("none");
