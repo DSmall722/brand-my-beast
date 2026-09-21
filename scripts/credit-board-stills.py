@@ -28,8 +28,8 @@ CREDITS = {
         "url": "https://www.pexels.com/photo/tesla-cyber-truck-24734499/",
     },
     "rear": {
-        "artist": "James Collington",
-        "url": "https://www.pexels.com/photo/futuristic-vehicle-parked-on-california-boardwalk-30073773/",
+        "artist": "Stephen Leonardi",
+        "url": "https://www.pexels.com/photo/futuristic-truck-on-a-forest-road-in-autumn-29278630/",
     },
 }
 

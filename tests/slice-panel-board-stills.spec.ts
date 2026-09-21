@@ -1,4 +1,4 @@
-import { existsSync } from "node:fs";
+import { existsSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import { expect, test } from "@playwright/test";
 import {
@@ -42,6 +42,17 @@ test.describe("panel board stills map 1–11 onto the truck", () => {
     expect(findStripePackagesInRootPackageJson()).toEqual([]);
   });
 
+  test("rear still is Stephen Leonardi Pexels 29278630", () => {
+    const bytes = readFileSync(join(ROOT, "public", "truck-view-rear.jpg"));
+    const text = bytes.toString("latin1");
+    expect(text).toContain("Stephen Leonardi");
+    expect(text).toContain(
+      "https://www.pexels.com/photo/futuristic-truck-on-a-forest-road-in-autumn-29278630/",
+    );
+    expect(text).not.toContain("James Collington");
+    expect(text).not.toContain("30073773");
+  });
+
   test("vercel.json hold-mode stays deploymentEnabled false", () => {
     expect(vercelJsonIsHoldOrMainOnlyRestore()).toBe(true);
   });
@@ -71,13 +82,10 @@ test.describe("panel board stills map 1–11 onto the truck", () => {
     expect(panelBoardMarksForView("front").map((m) => m.panelId)).toEqual(
       expect.arrayContaining(["hood", "front-fascia", "front-bumper"]),
     );
-    expect(panelBoardMarksForView("rear").map((m) => m.panelId)).toEqual(
-      expect.arrayContaining([
-        "tailgate",
-        "rear-bumper",
-        "passenger-rear-quarter",
-      ]),
-    );
+    expect(panelBoardMarksForView("rear").map((m) => m.panelId)).toEqual([
+      "tailgate",
+      "rear-bumper",
+    ]);
     for (const still of Object.values(TRUCK_VIEW_STILLS)) {
       expect(existsSync(join(ROOT, "public", still.replace(/^\//, "")))).toBe(
         true,
@@ -128,10 +136,10 @@ test.describe("panel board stills map 1–11 onto the truck", () => {
     expect(front("front-fascia").y).toBeGreaterThan(front("hood").y);
     expect(front("front-bumper").y).toBeGreaterThan(front("front-fascia").y);
 
-    // Rear = passenger-rear: tail left, passenger side right.
-    expect(rear("tailgate").x).toBeLessThan(rear("passenger-rear-quarter").x);
-    expect(rear("passenger-rear-quarter").x).toBeLessThan(rear("passenger-bed").x);
+    // Rear = straight-on forest road: tailgate above bumper. No tonneau.
     expect(rear("rear-bumper").y).toBeGreaterThan(rear("tailgate").y);
+    expect(byId["passenger-bed"]?.views.rear).toBeUndefined();
+    expect(byId["passenger-rear-quarter"]?.views.rear).toBeUndefined();
   });
 
   test("homepage cards and views use the matching still", async ({ page }) => {

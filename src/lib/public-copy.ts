@@ -33,7 +33,7 @@ export const PUBLIC_COPY = {
   },
   hero: {
     h1: "Put your brand on the truck people already photograph.",
-    lead: "Concept preview",
+    lead: "concept photo",
     primaryCta: "Get on the list",
     secondaryCta: "See the eleven panels",
     imageAlt:

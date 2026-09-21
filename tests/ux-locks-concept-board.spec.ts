@@ -43,7 +43,7 @@ test.describe("UX locks: concept lead, baked board, etch, CTA, wrap blend", () =
     await page.evaluate(() => document.fonts.ready);
 
     await expect(page.locator("#hero-title")).toHaveText(PUBLIC_COPY.hero.h1);
-    await expect(page.locator(".hero-lead")).toHaveText("Concept preview");
+    await expect(page.locator(".hero-lead")).toHaveText("concept photo");
     await expect(page.locator(".hero-lead")).not.toContainText("Twelve companies");
     await expect(page.getByTestId("hero-truck-preview")).toHaveAttribute(
       "href",
@@ -58,9 +58,13 @@ test.describe("UX locks: concept lead, baked board, etch, CTA, wrap blend", () =
       "data-baked-marks",
       "true",
     );
+    await expect(page.getByTestId("truck-view-seats")).toHaveAttribute(
+      "data-polygons",
+      "outline",
+    );
     await expect(page.getByTestId("view-panel-board-driver")).toHaveCount(0);
-    await expect(page.getByTestId("truck-view-svg")).toHaveCount(0);
-    await expect(page.getByTestId("truck-seat-hood")).toHaveCount(0);
+    await expect(page.getByTestId("truck-view-svg")).toHaveCount(1);
+    await expect(page.getByTestId("truck-seat-hood")).toBeVisible();
     await expect(page.getByTestId("truck-img-board-driver")).toBeVisible();
     await page.getByTestId("truck-view-passenger").click();
     await expect(page.getByTestId("truck-img-board-passenger")).toBeVisible();
@@ -84,6 +88,7 @@ test.describe("UX locks: concept lead, baked board, etch, CTA, wrap blend", () =
     await expect(page).not.toHaveURL(/\/panels\/hood/);
 
     const html = await page.content();
+    expect(html).toContain("concept photo");
     expect(html).toContain("$58,000");
     expect(html).toContain("$120,000");
     expect(html).not.toContain("FEATURES.md");

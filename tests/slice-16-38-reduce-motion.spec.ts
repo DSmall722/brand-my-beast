@@ -38,7 +38,7 @@ test.describe("slice 16.38: reduced motion keeps callouts still", () => {
     await page.emulateMedia({ reducedMotion: "reduce" });
     await page.setViewportSize({ width: 1280, height: 900 });
     await page.goto("/panels/hood");
-    for (const n of [1, 3, 9, 12]) {
+    for (const n of [1, 3, 4, 10]) {
       const callout = page.getByTestId(`view-panel-board-driver-${n}`);
       await expect(callout).toBeVisible();
       const motion = await callout.evaluate((el) => {

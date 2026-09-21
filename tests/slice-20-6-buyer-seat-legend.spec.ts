@@ -65,7 +65,7 @@ test.describe("slice 20.6: buyer seat legend sentence", () => {
     const legend = page.getByTestId("truck-view-legend");
     await expect(legend).toHaveText(PUBLIC_COPY.board.seatLegend);
     await expect(legend).not.toContainText("Open seat ·");
-    await expect(page.getByTestId("truck-seat-hood")).toHaveCount(0);
+    await expect(page.getByTestId("truck-seat-hood")).toBeVisible();
     await expect(page.locator("#hero-title")).toHaveText(LOCKED_H1);
     await page.goto("/panels/hood");
     const empty = page

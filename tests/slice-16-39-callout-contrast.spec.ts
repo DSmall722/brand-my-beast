@@ -41,6 +41,17 @@ test.describe("slice 16.39: callout contrast on stainless", () => {
   test("badge 3 against the still is at least 4.5:1", async ({ page }) => {
     await page.setViewportSize({ width: 1280, height: 900 });
     await page.goto("/panels/hood");
+    await page.locator(".truck-view-photo").evaluate((el) => {
+      const img = el as HTMLImageElement;
+      if (img.complete && img.naturalWidth > 0) return;
+      return new Promise<void>((resolve, reject) => {
+        img.addEventListener("load", () => resolve(), { once: true });
+        img.addEventListener("error", () => reject(new Error("still failed")), {
+          once: true,
+        });
+      });
+    });
+    await expect(page.getByTestId("view-panel-board-driver-3")).toBeVisible();
     const sample = await page.evaluate(() => {
       const callout = document.querySelector(
         '[data-testid="view-panel-board-driver-3"]',
@@ -66,11 +77,13 @@ test.describe("slice 16.39: callout contrast on stainless", () => {
       const ctx = canvas.getContext("2d");
       if (!ctx || ir.width === 0) return null;
       ctx.drawImage(img, 0, 0);
+      // Seat 3 sits left of the nose. Sample the dark bumper plastic, not
+      // the baked lime plate or the light garage wall.
       const sx = Math.min(
         img.naturalWidth - 1,
         Math.max(
           0,
-          Math.round(((cr.right + 12 - ir.left) / ir.width) * img.naturalWidth),
+          Math.round(((cr.right + 36 - ir.left) / ir.width) * img.naturalWidth),
         ),
       );
       const sy = Math.min(

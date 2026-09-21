@@ -65,7 +65,7 @@ test.describe("slice 14.0: numbered stainless board", () => {
     expect(panelBoardMarksForView("driver").length).toBeGreaterThanOrEqual(6);
     expect(panelBoardMarksForView("passenger").length).toBeGreaterThanOrEqual(3);
     expect(panelBoardMarksForView("front").length).toBeGreaterThanOrEqual(3);
-    expect(panelBoardMarksForView("rear").length).toBeGreaterThanOrEqual(4);
+    expect(panelBoardMarksForView("rear").length).toBe(2);
   });
 
   test("390px homepage shows ≥6 numbered callouts, H1, Notify me", async ({

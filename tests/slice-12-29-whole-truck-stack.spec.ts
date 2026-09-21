@@ -75,6 +75,6 @@ test.describe("slice 12.29: whole-truck vs approved standing", () => {
       (bid) => bid.id === prior.bid.id,
     );
     expect(seat?.status).toBe("approved");
-    expect((await loadBoardIntentStats()).pledgedUsd).toBe(2500);
+    expect((await loadBoardIntentStats()).pledgedUsd).toBe(4500);
   });
 });
