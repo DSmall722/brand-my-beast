@@ -61,13 +61,13 @@ test.describe("slice 17.17: seat 2 polygon on the bumper", () => {
 
     await expect(page.getByTestId("truck-view-seats")).toHaveAttribute(
       "data-polygons",
-      "hidden",
+      "outline",
     );
     const polygon = page.locator(
       '[data-testid="truck-seat-front-fascia"] polygon',
     );
     const fill = await polygon.evaluate((el) => getComputedStyle(el).fill);
-    expect(["none", "rgba(0, 0, 0, 0)", "transparent"]).toContain(fill);
+    expect(fill === "transparent" || fill.endsWith(", 0)")).toBe(true);
     const driverCallout = page.getByTestId("view-panel-board-driver-2");
     await expect(driverCallout).toBeVisible();
     const calloutBox = await driverCallout.boundingBox();

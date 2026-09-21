@@ -194,6 +194,37 @@ export function panelLegendLabel(mark: Pick<PanelBoardMark, "n" | "name">): stri
   return `${mark.n} ${mark.name}`;
 }
 
+/**
+ * Hover / inventory lock labels. Number + short name, e.g. `4 DRIVER DOORS`.
+ * Sail seats drop the “rear quarter” parenthetical used on the seat page.
+ */
+export const BOARD_SEAT_SHORT_NAME = {
+  hood: "HOOD",
+  "front-fascia": "FRONT FASCIA",
+  "front-bumper": "FRONT BUMPER",
+  "driver-door": "DRIVER DOORS",
+  "driver-rear-quarter": "DRIVER SAIL",
+  "driver-bed": "DRIVER BED",
+  "passenger-door": "PASSENGER DOORS",
+  "passenger-rear-quarter": "PASSENGER SAIL",
+  "passenger-bed": "PASSENGER BED",
+  tailgate: "TAILGATE",
+  "rear-bumper": "REAR BUMPER",
+} as const;
+
+export function panelShortName(panelId: string): string {
+  if (!(panelId in BOARD_SEAT_SHORT_NAME)) {
+    throw new Error(`panel-board: missing short name for ${panelId}`);
+  }
+  return BOARD_SEAT_SHORT_NAME[panelId as keyof typeof BOARD_SEAT_SHORT_NAME];
+}
+
+export function panelOverlayLabel(
+  mark: Pick<PanelBoardMark, "n" | "panelId">,
+): string {
+  return `${mark.n} ${panelShortName(mark.panelId)}`;
+}
+
 export function panelBoardIsComplete(): boolean {
   if (PANEL_BOARD_MARKS.length !== 11) return false;
   if (PANEL_BOARD_MARKS[0]?.panelId !== "hood") return false;

@@ -58,9 +58,13 @@ test.describe("UX locks: concept lead, baked board, etch, CTA, wrap blend", () =
       "data-baked-marks",
       "true",
     );
+    await expect(page.getByTestId("truck-view-seats")).toHaveAttribute(
+      "data-polygons",
+      "outline",
+    );
     await expect(page.getByTestId("view-panel-board-driver")).toHaveCount(0);
-    await expect(page.getByTestId("truck-view-svg")).toHaveCount(0);
-    await expect(page.getByTestId("truck-seat-hood")).toHaveCount(0);
+    await expect(page.getByTestId("truck-view-svg")).toHaveCount(1);
+    await expect(page.getByTestId("truck-seat-hood")).toBeVisible();
     await expect(page.getByTestId("truck-img-board-driver")).toBeVisible();
     await page.getByTestId("truck-view-passenger").click();
     await expect(page.getByTestId("truck-img-board-passenger")).toBeVisible();

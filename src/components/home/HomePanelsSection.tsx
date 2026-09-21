@@ -1,7 +1,12 @@
 import Link from "next/link";
 import type { CSSProperties } from "react";
 import { PANELS, formatUsd, isEtchable } from "@/lib/campaign";
-import { PANEL_BOARD_MARKS, panelFaceStyle } from "@/lib/panel-board";
+import {
+  PANEL_BOARD_MARKS,
+  panelFaceStyle,
+  panelOverlayLabel,
+  panelShortName,
+} from "@/lib/panel-board";
 import { PUBLIC_COPY } from "@/lib/public-copy";
 
 export type PanelCardStanding = {
@@ -10,7 +15,7 @@ export type PanelCardStanding = {
   standingUsd: number;
 };
 
-/** Slice 7.1 / 10.9 / 16.1 — panel grid; cards show 1–12 index + standing. */
+/** Slice 7.1 / 10.9 / 16.1 — panel grid; cards show 1–11 index + standing. */
 export function HomePanelsSection({
   etchUnlocked,
   standingByPanel,
@@ -58,6 +63,7 @@ export function HomePanelsSection({
                   className="panel"
                   data-testid={`panel-${panel.id}`}
                   data-panel-n={String(mark.n)}
+                  data-seat-label={panelOverlayLabel(mark)}
                   data-etchable={etchable ? "true" : "false"}
                   data-etch-unlocked={etchUnlocked ? "true" : "false"}
                   data-standing={standing ? "held" : "open"}
@@ -68,6 +74,7 @@ export function HomePanelsSection({
                     prefetch={true}
                     data-testid={`panel-link-${panel.id}`}
                     data-prefetch-panel={panel.id}
+                    aria-label={panelOverlayLabel(mark)}
                   >
                     <div
                       className="panel-face"
@@ -86,7 +93,7 @@ export function HomePanelsSection({
                       >
                         {mark.n}
                       </span>
-                      {panel.name}
+                      <span className="panel-short-name">{panelShortName(panel.id)}</span>
                       {gloss ? (
                         <span className="panel-gloss"> ({gloss})</span>
                       ) : null}

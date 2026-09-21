@@ -224,17 +224,18 @@
 }
 
 .panel {
-  border: 1px solid var(--hairline);
+  border: 1.5px solid var(--signal);
   padding: 1rem 1.05rem;
-  background: color-mix(in oklab, white 2.5%, transparent);
+  background: transparent;
   transition:
     border-color 180ms ease,
     background 180ms ease;
 }
 
-.panel:hover {
-  border-color: color-mix(in oklab, var(--signal) 45%, white);
-  background: color-mix(in oklab, white 5%, transparent);
+.panel:hover,
+.panel:focus-within {
+  border-color: var(--signal);
+  background: color-mix(in oklab, var(--signal) 22%, transparent);
 }
 
 .panel-card-link {
@@ -278,9 +279,19 @@
   color: var(--steel-400);
 }
 
-.panel-card-link:hover .panel-name {
+.panel-card-link:hover .panel-name,
+.panel-card-link:focus-visible .panel-name {
   color: white;
   border-color: var(--signal);
+}
+
+.panel-card-link:hover .panel-face,
+.panel-card-link:focus-visible .panel-face {
+  box-shadow: inset 0 0 0 999px color-mix(in oklab, var(--signal) 28%, transparent);
+}
+
+.panel-short-name {
+  letter-spacing: 0.04em;
 }
 
 .panel-meta {
@@ -2495,7 +2506,7 @@
 .truck-view-stage {
   position: relative;
   display: grid;
-  grid-template-rows: auto auto;
+  grid-template-rows: auto auto auto;
   border: 1px solid color-mix(in oklab, white 12%, transparent);
   border-radius: 8px;
   padding: 0;
@@ -2531,6 +2542,10 @@
 .truck-view-svg {
   z-index: 3;
   display: block;
+  pointer-events: none;
+}
+.truck-view-svg a {
+  pointer-events: auto;
 }
 .truck-view-body,
 .truck-view-cab {
@@ -2539,42 +2554,48 @@
   stroke-width: 0;
 }
 .truck-seat {
-  stroke-width: 1.5;
-  transition: fill 120ms ease, stroke 120ms ease;
+  stroke: #d6ff3f;
+  stroke-width: 2.5px;
+  vector-effect: non-scaling-stroke;
+  transition: fill 140ms ease, stroke 140ms ease, filter 140ms ease;
+  filter: drop-shadow(0 0 4px #d6ff3f);
 }
-.truck-seat.is-raw {
-  fill: color-mix(in oklab, var(--steel-100) 8%, transparent);
-  stroke: color-mix(in oklab, var(--steel-100) 45%, transparent);
+/* Rest: 2–3px neon lime outline only. Transparent fill still hits. */
+.truck-view-seats[data-polygons="outline"] .truck-seat,
+.truck-view-seats[data-polygons="outline"] .truck-seat.is-raw,
+.truck-view-seats[data-polygons="outline"] .truck-seat.is-held,
+.truck-view-seats[data-polygons="outline"] .truck-seat.is-active {
+  fill: rgb(214 255 63 / 0);
+  stroke: #d6ff3f;
 }
-.truck-seat.is-held {
-  fill: color-mix(in oklab, var(--signal) 28%, transparent);
-  stroke: var(--signal);
+.truck-view-seats[data-polygons="outline"] a:hover .truck-seat,
+.truck-view-seats[data-polygons="outline"] a:focus .truck-seat,
+.truck-view-seats[data-polygons="outline"] a:focus-visible .truck-seat,
+.truck-view-seats[data-polygons="outline"] a[data-filled="true"] .truck-seat,
+.truck-view-seats[data-polygons="outline"] a[data-active="true"] .truck-seat {
+  fill: rgb(214 255 63 / 0.4);
+  stroke: #d6ff3f;
 }
-.truck-seat.is-active {
-  fill: color-mix(in oklab, var(--signal) 48%, transparent);
-  stroke: var(--signal);
+.truck-seat-caption {
+  grid-row: 2;
+  min-height: 2.1rem;
+  margin: 0;
+  padding: 0.45rem 0.75rem 0.15rem;
+  font-family: var(--font-display), Syne, system-ui, sans-serif;
+  font-size: 0.95rem;
+  letter-spacing: 0.04em;
+  color: var(--signal);
+  background: color-mix(in oklab, #0e1218 88%, transparent);
 }
-a:hover .truck-seat.is-raw,
-a:focus-visible .truck-seat.is-raw {
-  fill: color-mix(in oklab, var(--steel-100) 22%, transparent);
-  stroke: var(--steel-100);
-}
-/* Slice 19.7 — hide giant gray polygons; numbered callouts stay. */
-.truck-view-seats[data-polygons="hidden"] .truck-seat,
-.truck-view-seats[data-polygons="hidden"] .truck-seat.is-raw,
-.truck-view-seats[data-polygons="hidden"] .truck-seat.is-held,
-.truck-view-seats[data-polygons="hidden"] .truck-seat.is-active,
-.truck-view-seats[data-polygons="hidden"] a:hover .truck-seat.is-raw,
-.truck-view-seats[data-polygons="hidden"] a:focus-visible .truck-seat.is-raw {
-  fill: transparent;
-  stroke: transparent;
+.truck-seat-caption[data-has-label="false"] {
+  color: transparent;
 }
 .truck-view-legend {
-  grid-row: 2;
+  grid-row: 3;
   position: relative;
   z-index: 4;
   margin: 0;
-  padding: 0.65rem 0.75rem;
+  padding: 0.45rem 0.75rem 0.65rem;
   font-size: 0.85rem;
   color: var(--steel-400);
   background: color-mix(in oklab, #0e1218 88%, transparent);
