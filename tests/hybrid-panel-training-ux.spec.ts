@@ -133,6 +133,25 @@ async function hoverSeatInterior(page: Page, testId: string) {
   await seat.hover({ force: true });
 }
 
+async function seatAtPercent(
+  page: Page,
+  xPct: number,
+  yPct: number,
+): Promise<string | null> {
+  const photo = page.locator(".truck-view-photo");
+  await photo.scrollIntoViewIfNeeded();
+  const box = await photo.boundingBox();
+  if (!box) throw new Error("board photo box missing");
+  const x = box.x + (box.width * xPct) / 100;
+  const y = box.y + (box.height * yPct) / 100;
+  await page.mouse.move(x, y);
+  return page.evaluate(({ x, y }) => {
+    const el = document.elementFromPoint(x, y);
+    const seat = el?.closest("[data-testid^='truck-seat-']");
+    return seat?.getAttribute("data-testid") ?? null;
+  }, { x, y });
+}
+
 test.describe("hybrid panel training UX", () => {
   test("campaign money fences stay locked — CLOSE_AT null", () => {
     expect(FLOOR_USD).toBe(58_000);
@@ -343,6 +362,40 @@ test.describe("hybrid panel training UX", () => {
     expect(html).not.toContain("FEATURES.md");
     expect(html.toLowerCase()).not.toMatch(/\blease\b/);
     expect(html).not.toMatch(/@gmail\.com/i);
+  });
+
+  test("v9 side hits land on doors, sail, and bed", async ({ page }) => {
+    await page.setViewportSize({ width: 1280, height: 900 });
+    await page.goto("/");
+    await page.evaluate(() => document.fonts.ready);
+
+    const probes = [
+      { tab: "truck-view-driver", x: 40, y: 55, seat: "truck-seat-driver-door" },
+      { tab: "truck-view-driver", x: 17, y: 36, seat: "truck-seat-driver-rear-quarter" },
+      { tab: "truck-view-driver", x: 20, y: 52, seat: "truck-seat-driver-bed" },
+      { tab: "truck-view-driver", x: 68, y: 58, seat: null },
+      { tab: "truck-view-passenger", x: 43, y: 51, seat: "truck-seat-passenger-door" },
+      { tab: "truck-view-passenger", x: 66, y: 38, seat: "truck-seat-passenger-rear-quarter" },
+      { tab: "truck-view-passenger", x: 84, y: 50, seat: "truck-seat-passenger-bed" },
+      { tab: "truck-view-passenger", x: 70, y: 55, seat: null },
+    ] as const;
+
+    for (const probe of probes) {
+      await page.getByTestId(probe.tab).click();
+      await expect(page.getByTestId("truck-view-seats")).toHaveAttribute(
+        "data-view",
+        probe.tab.replace("truck-view-", ""),
+      );
+      const hit = await seatAtPercent(page, probe.x, probe.y);
+      expect(hit, `${probe.tab} ${probe.x},${probe.y}`).toBe(probe.seat);
+    }
+
+    await page.getByTestId("truck-view-driver").click();
+    await parkPointer(page);
+    await assertRestHitOnly(page, "truck-seat-driver-door");
+    await page.getByTestId("truck-view-passenger").click();
+    await parkPointer(page);
+    await assertRestHitOnly(page, "truck-seat-passenger-door");
   });
 
   test("/panels/hood photo is the active seat only", async ({ page }) => {

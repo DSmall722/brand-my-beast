@@ -82,17 +82,17 @@ export function viewOwningPanel(panelId: string): TruckViewId {
 
 /** Door packages stay on cab steel leaves only — no front fender, no glass. */
 export const DRIVER_DOOR_BOUNDS_PCT = {
-  x0: 28,
-  x1: 63,
-  y0: 43,
-  y1: 64,
+  x0: 23,
+  x1: 54,
+  y0: 44,
+  y1: 68,
 } as const;
 
 export const PASSENGER_DOOR_BOUNDS_PCT = {
-  x0: 32,
-  x1: 57,
-  y0: 44,
-  y1: 68,
+  x0: 28,
+  x1: 58,
+  y0: 40,
+  y1: 62,
 } as const;
 
 /**
@@ -107,70 +107,83 @@ export const VIEW_OWNED_PANEL_IDS = {
 } as const satisfies Record<TruckViewId, readonly Panel["id"][]>;
 
 /**
- * Driver profile: nose left. Seats 4–6 only.
- * Gold split: doors = both cab leaves; sail = upper triangle above the
- * horizontal body seam; bed = lower vertical wall under that seam.
+ * Driver profile: nose right. Seats 4–6 only.
+ * v9 Mylo plaza still. Gold split: doors = both cab leaves; sail = upper
+ * triangle above the belt; bed = bedside under that seam, notched over the tire.
  */
 const DRIVER_HOTSPOTS: readonly TruckHotspot[] = [
   {
     panelId: "driver-door",
     points: pctPoints([
-      [29.8, 44.5],
-      [61.2, 44.5],
-      [61.2, 62.4],
-      [29.8, 62.4],
+      [24.4, 45.2],
+      [52.8, 45.2],
+      [52.8, 66.4],
+      [24.4, 66.4],
     ]),
   },
   {
     panelId: "driver-rear-quarter",
     points: pctPoints([
-      [61.2, 29.5],
-      [86.5, 29.5],
-      [86.5, 48.5],
-      [61.2, 48.5],
+      [8, 45],
+      [24.4, 45],
+      [24.4, 34],
+      [21, 28.5],
+      [14, 31],
+      [10, 36],
     ]),
   },
   {
     panelId: "driver-bed",
     points: pctPoints([
-      [61.2, 48.5],
-      [86.5, 48.5],
-      [86.5, 62.6],
-      [61.2, 62.6],
+      [4, 45.2],
+      [24.4, 45.2],
+      [24.4, 64.5],
+      [18, 64.5],
+      [16, 56],
+      [8, 55],
+      [4, 61.2],
     ]),
   },
 ];
 
 /**
- * Passenger ¾: nose right. Seats 7–9 only.
- * Same gold split: doors stop at the fender seam; sail above; bed below.
+ * Passenger profile: nose left. Seats 7–9 only.
+ * v9 Joe L garage still. Same gold split. Sail follows the sloping roof.
+ * Bed is notched over the rear tire.
  */
 const PASSENGER_HOTSPOTS: readonly TruckHotspot[] = [
   {
     panelId: "passenger-door",
     points: pctPoints([
-      [33.5, 46],
-      [55, 46],
-      [55, 66.5],
-      [33.5, 66.5],
+      [29.2, 43],
+      [57.2, 40.8],
+      [57.2, 60.8],
+      [29.2, 60.8],
     ]),
   },
   {
     panelId: "passenger-rear-quarter",
     points: pctPoints([
-      [2.5, 22.5],
-      [33.5, 22.5],
-      [33.5, 46],
-      [2.5, 46],
+      [57.2, 43.2],
+      [89.2, 43.2],
+      [89.2, 41],
+      [82, 38.8],
+      [74, 36.2],
+      [66, 34.4],
+      [57.2, 32.8],
     ]),
   },
   {
     panelId: "passenger-bed",
     points: pctPoints([
-      [2.5, 46],
-      [33.5, 46],
-      [33.5, 66.5],
-      [2.5, 66.5],
+      [57.2, 43.2],
+      [89.2, 43.2],
+      [89.2, 55],
+      [80, 55],
+      [76, 47.8],
+      [64, 47.2],
+      [60, 56],
+      [57.2, 60.8],
     ]),
   },
 ];
