@@ -66,7 +66,7 @@ test.describe("slice 16.27: ban-list last run shows panel numbers", () => {
   test("sweep records the board numbers, not only slugs", async () => {
     const door = panelBoardMarkFor("driver-door");
     const cover = panelBoardMarkFor("rear-bumper");
-    expect(door.n).toBe(3);
+    expect(door.n).toBe(4);
     expect(cover.n).toBe(11);
 
     const first = await placeIntentBid({
@@ -74,7 +74,7 @@ test.describe("slice 16.27: ban-list last run shows panel numbers", () => {
       userId: "ban1627-door",
       brandLabel: "Glowban Door",
       tradeLabel: "door kits",
-      standingUsd: 2500,
+      standingUsd: 4500,
     });
     expect(first.ok).toBe(true);
     const second = await placeIntentBid({
@@ -93,7 +93,7 @@ test.describe("slice 16.27: ban-list last run shows panel numbers", () => {
     const sweep = await rejectListedMatchingBanRule(added.rule);
     expect(sweep.blockedPanelIds.sort()).toEqual(["driver-door", "rear-bumper"]);
     expect(sweep.rejectedIds).toHaveLength(2);
-    expect(panelLegendLabel(door)).toBe("3 Driver doors");
+    expect(panelLegendLabel(door)).toBe("4 Driver doors");
     expect(panelLegendLabel(cover)).toBe("11 Rear bumper");
   });
 
@@ -105,7 +105,7 @@ test.describe("slice 16.27: ban-list last run shows panel numbers", () => {
     await page.goto("/panels/driver-door");
     await page.getByTestId("intent-brand").fill("Glowban Door");
     await page.getByTestId("intent-trade").fill("door kits");
-    await page.getByTestId("intent-standing").fill("2500");
+    await page.getByTestId("intent-standing").fill("4500");
     await page.getByTestId("intent-submit").click();
     await expect(page.getByTestId("intent-success")).toContainText(
       "not charged",

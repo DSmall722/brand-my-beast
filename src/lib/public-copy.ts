@@ -9,8 +9,9 @@ const PANEL_GLOSS: Readonly<Record<string, string>> = {
   "front-fascia": "stainless steel face",
   "driver-door": "front + rear cab door",
   "passenger-door": "front + rear cab door",
-  "front-bumper": "wrap-only — leave camera lens/washer clear",
-  "rear-bumper": "wrap-only",
+  "front-bumper":
+    "simple-mark only: website and/or phone number — wrap-only, leave camera lens/washer clear",
+  "rear-bumper": "simple-mark only: website and/or phone number — wrap-only",
 };
 
 /** Slice 16.25 — whole-truck package is the numbered board, 1 Hood through 11 Rear bumper. */

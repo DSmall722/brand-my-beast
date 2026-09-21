@@ -42,7 +42,8 @@ test.describe("slice 16.25: whole-truck package is seats 1-11", () => {
     const labels = PANEL_BOARD_MARKS.map((mark) => panelLegendLabel(mark));
     expect(labels).toHaveLength(11);
     expect(labels[0]).toBe("1 Hood");
-    expect(labels[2]).toBe("3 Driver doors");
+    expect(labels[2]).toBe("3 Front bumper");
+    expect(labels[3]).toBe("4 Driver doors");
     expect(labels[10]).toBe("11 Rear bumper");
 
     const packageLine = wholeTruckPackageCopy();

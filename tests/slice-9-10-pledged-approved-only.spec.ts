@@ -88,7 +88,7 @@ test.describe("slice 9.10: pledged = approved standing only", () => {
       userId: "p910-door",
       brandLabel: "Door Listed Co",
       tradeLabel: "door listed tools",
-      standingUsd: 2500,
+      standingUsd: 4500,
     });
     expect(secondListed.ok).toBeTruthy();
     if (!secondListed.ok) return;

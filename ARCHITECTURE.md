@@ -61,14 +61,14 @@ baked still / stainless still
   numbered overlay (seat pages) or baked numbers (homepage)
     1 Hood
     2 Front fascia (stainless)
-    3 Driver doors
-    4 Passenger doors
-    5 Driver bed
-    6 Passenger bed
-    7 Driver rear quarter
-    8 Passenger rear quarter
-    9 Tailgate
-    10 Front bumper
+    3 Front bumper
+    4 Driver doors
+    5 Driver rear quarter (sail)
+    6 Driver bed
+    7 Passenger doors
+    8 Passenger rear quarter (sail)
+    9 Passenger bed
+    10 Tailgate
     11 Rear bumper
 ```
 

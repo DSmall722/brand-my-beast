@@ -37,7 +37,7 @@ function pctBox(cx: number, cy: number, w: number, h: number): string {
   return `${r(x0)},${r(y0)} ${r(x1)},${r(y0)} ${r(x1)},${r(y1)} ${r(x0)},${r(y1)}`;
 }
 
-/** Driver: closed-door profile. Nose left, tail right. Seat 3 is both leaves. */
+/** Driver: closed-door profile. Nose left, tail right. Seat 4 is both leaves. */
 const DRIVER_HOTSPOTS: readonly TruckHotspot[] = [
   { panelId: "front-bumper", points: pctBox(10, 58, 10, 12) },
   { panelId: "front-fascia", points: pctBox(12, 50, 12, 14) },
@@ -49,7 +49,7 @@ const DRIVER_HOTSPOTS: readonly TruckHotspot[] = [
   { panelId: "rear-bumper", points: pctBox(92, 58, 10, 12) },
 ];
 
-/** Passenger: ¾, nose right. Seat 4 is both leaves. */
+/** Passenger: ¾, nose right. Seat 7 is both leaves. */
 const PASSENGER_HOTSPOTS: readonly TruckHotspot[] = [
   { panelId: "front-bumper", points: pctBox(90, 62, 10, 12) },
   { panelId: "front-fascia", points: pctBox(86, 50, 12, 14) },
@@ -59,7 +59,7 @@ const PASSENGER_HOTSPOTS: readonly TruckHotspot[] = [
   { panelId: "passenger-rear-quarter", points: pctBox(12, 44, 12, 18) },
 ];
 
-/** Front: head-on. Stainless face (2) sits above plastic bumper (10). */
+/** Front: head-on. Stainless face (2) sits above plastic bumper (3). */
 const FRONT_HOTSPOTS: readonly TruckHotspot[] = [
   { panelId: "hood", points: pctBox(50, 26, 36, 16) },
   { panelId: "front-fascia", points: pctBox(50, 48, 36, 16) },

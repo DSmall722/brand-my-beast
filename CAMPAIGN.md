@@ -72,21 +72,21 @@ Board index 1–11. Opening marks are the same dollars as `RULES.md`. Floor and 
 |---:|---|---:|
 | 1 | Hood | $2,500 |
 | 2 | Front fascia (stainless) | $2,000 |
-| 3 | Driver doors | $2,500 |
-| 4 | Passenger doors | $2,500 |
-| 5 | Driver bed | $2,000 |
-| 6 | Passenger bed | $2,000 |
-| 7 | Driver rear quarter | $1,000 |
-| 8 | Passenger rear quarter | $1,000 |
-| 9 | Tailgate | $2,500 |
-| 10 | Front bumper | $500 |
+| 3 | Front bumper | $500 |
+| 4 | Driver doors | $4,500 |
+| 5 | Driver rear quarter (sail) | $1,000 |
+| 6 | Driver bed | $2,000 |
+| 7 | Passenger doors | $4,500 |
+| 8 | Passenger rear quarter (sail) | $1,000 |
+| 9 | Passenger bed | $2,000 |
+| 10 | Tailgate | $2,500 |
 | 11 | Rear bumper | $500 |
 
-Seats 3 and 4 are door packages: front + rear cab leaf on that side, one seat per side. Public names stay **Driver doors** / **Passenger doors**. Front fascia is Immortal Etch. Front bumper and Rear bumper are wrap-only.
+Board order is front-to-back. Seats 4 and 7 are door packages: front + rear cab leaf on that side, one seat per side. Public names stay **Driver doors** / **Passenger doors**. Front fascia is Immortal Etch. Front bumper (3) and Rear bumper (11) are wrap-only, **simple-mark only: website and/or phone number**. Front bumper leaves the camera lens/washer clear.
 
-Door-package openings are **TBD**. The table still shows **$2,500 placeholders** so cards keep a number. Openings should track usable ad space and visibility. The driver-side package must price **higher than $2,500** once ranked — expected above Hood. Do not treat $2,500 as the locked door-package price. Front fascia stays **$2,000** until separately revised.
+Immortal Etch is nine steel faces — everything except seats 3 and 11.
 
-Opening sum with these placeholders is $19,000 — the floor is not this sum.
+Opening sum is $23,000 — the floor is not this sum.
 
 ## Vehicle
 

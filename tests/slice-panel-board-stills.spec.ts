@@ -170,7 +170,7 @@ test.describe("panel board stills map 1–11 onto the truck", () => {
     await expect(page.getByTestId("view-panel-board-front-1")).toHaveCount(0);
     await expect(page.getByTestId("view-panel-board-front-4")).toHaveCount(0);
     await expect(page.getByTestId("panel-index-hood")).toHaveText("1");
-    await expect(page.getByTestId("panel-index-passenger-door")).toHaveText("4");
+    await expect(page.getByTestId("panel-index-passenger-door")).toHaveText("7");
     await page.getByTestId("truck-view-rear").click();
     await expect(page.getByTestId("truck-img-board-rear")).toHaveAttribute(
       "src",
@@ -178,7 +178,7 @@ test.describe("panel board stills map 1–11 onto the truck", () => {
     );
     await expect(page.getByTestId("view-panel-board-rear-9")).toHaveCount(0);
     await expect(page.getByTestId("view-panel-board-rear-12")).toHaveCount(0);
-    await expect(page.getByTestId("panel-index-tailgate")).toHaveText("9");
+    await expect(page.getByTestId("panel-index-tailgate")).toHaveText("10");
     await expect(page.getByTestId("panel-index-rear-bumper")).toHaveText("11");
 
     await page.getByTestId("truck-view-driver").click();

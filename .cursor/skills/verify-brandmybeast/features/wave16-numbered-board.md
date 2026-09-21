@@ -38,11 +38,11 @@ docs freeze only — do not set `CLOSE_AT`, do not wire Stripe, do not flip
 | 16.21 | Seat log shows panel number + amount + ET | `tests/slice-16-21-seat-log-number.spec.ts` |
 | 16.22 | Operator list columns include panel number | `tests/slice-16-22-operator-list-columns.spec.ts` |
 | 16.23 | CSV export includes panel number | `tests/slice-16-23-operator-csv-panel-number.spec.ts` |
-| 16.24 | Shop PDF title is Seat 03 — Driver doors | `tests/slice-16-24-shop-pdf-title.spec.ts` |
+| 16.24 | Shop PDF title is Seat 04 — Driver doors | `tests/slice-16-24-shop-pdf-title.spec.ts` |
 | 16.25 | Whole-truck intent copy lists 1–11 | `tests/slice-16-25-whole-truck-package.spec.ts` |
 | 16.26 | Failed-winner email subject includes panel number | `tests/slice-16-26-failed-winner-subject.spec.ts` |
 | 16.27 | Ban-list UI shows blocked panel numbers | `tests/slice-16-27-ban-list-panels.spec.ts` |
-| 16.28 | Card #3 and hero callout 3 go to driver-door | `tests/slice-16-28-card-callout-nav.spec.ts` |
+| 16.28 | Card #4 and board number 4 go to driver-door | `tests/slice-16-28-card-callout-nav.spec.ts` |
 | 16.29 | Opening prices stay formatUsd | `tests/slice-16-29-card-opening-prices.spec.ts` |
 | 16.30 | Etch badge still Can etch at $120k | `tests/slice-16-30-etch-badge-copy.spec.ts` |
 | 16.31 | preview:share prints local URL, not the live domain | `tests/slice-16-31-preview-share.spec.ts` |

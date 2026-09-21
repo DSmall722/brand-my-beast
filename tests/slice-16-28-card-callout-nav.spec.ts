@@ -12,13 +12,13 @@ import { panelBoardMarkFor } from "../src/lib/panel-board";
 import { vercelJsonIsHoldOrMainOnlyRestore } from "../src/lib/vercel-git-deploy";
 
 /**
- * Slice 16.28 — card #3 and board number 3 both open /panels/driver-door.
+ * Slice 16.28 — card #4 and board number 4 both open /panels/driver-door.
  * Hero has no painted seat numbers. FEATURES.md stays off /. CLOSE_AT null. No Stripe.
  */
 
 const PANEL_PATH = "/panels/driver-door";
 
-test.describe("slice 16.28: card 3 and board number 3 open driver door", () => {
+test.describe("slice 16.28: card 4 and board number 4 open driver door", () => {
   test("campaign money fences stay locked — CLOSE_AT null", () => {
     expect(FLOOR_USD).toBe(58_000);
     expect(GOAL_USD).toBe(120_000);
@@ -37,17 +37,17 @@ test.describe("slice 16.28: card 3 and board number 3 open driver door", () => {
     expect(vercelJsonIsHoldOrMainOnlyRestore()).toBe(true);
   });
 
-  test("card #3 and board number 3 both go to driver-door", async ({
+  test("card #4 and board number 4 both go to driver-door", async ({
     page,
   }) => {
     const mark = panelBoardMarkFor("driver-door");
-    expect(mark.n).toBe(3);
+    expect(mark.n).toBe(4);
 
     await page.goto("/");
     const card = page.getByTestId(`panel-${mark.panelId}`);
-    await expect(card).toHaveAttribute("data-panel-n", "3");
+    await expect(card).toHaveAttribute("data-panel-n", "4");
     const index = page.getByTestId(`panel-index-${mark.panelId}`);
-    await expect(index).toHaveText("3");
+    await expect(index).toHaveText("4");
     await index.click();
     await expect(page).toHaveURL(new RegExp(`${PANEL_PATH}$`));
     await expect(page.locator("h1")).toContainText("Driver doors");
@@ -60,7 +60,7 @@ test.describe("slice 16.28: card 3 and board number 3 open driver door", () => {
     await expect(legend).toHaveAttribute("href", PANEL_PATH);
     await legend.click();
     await expect(page).toHaveURL(new RegExp(`${PANEL_PATH}$`));
-    await expect(page.locator("h1")).toContainText("3");
+    await expect(page.locator("h1")).toContainText("4");
     await expect(page.locator("h1")).toContainText("Driver doors");
   });
 

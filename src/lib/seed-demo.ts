@@ -68,7 +68,7 @@ export async function seedDemoMixedBoard(): Promise<
       userId: "demo_pending_2",
       brandLabel: "Demo Pending Two",
       tradeLabel: "demo snacks b",
-      standingUsd: 2500,
+      standingUsd: 4500,
     },
     {
       panelId: "tailgate",

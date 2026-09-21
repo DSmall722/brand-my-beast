@@ -616,7 +616,7 @@ test.describe("intent store memory ledger", () => {
       userId: "approved_two",
       brandLabel: "Door Co",
       tradeLabel: "door tools",
-      standingUsd: 3000,
+      standingUsd: 4500,
     });
     expect(second.ok).toBeTruthy();
     if (!second.ok) return;
@@ -625,7 +625,7 @@ test.describe("intent store memory ledger", () => {
     if (!secondApproved.ok) return;
 
     const afterTwo = await loadBoardIntentStats();
-    expect(afterTwo.pledgedUsd).toBe(5500);
+    expect(afterTwo.pledgedUsd).toBe(7000);
     expect(afterTwo.seatedPanels).toBe(2);
     expect(afterTwo.openSeats).toBe(9);
   });
@@ -1547,7 +1547,7 @@ test.describe("neighbor-panel combo lots (display only)", () => {
       "passenger-door",
     ]);
     expect(lot.neighbors.map((row) => row.openingUsd)).toEqual([
-      2000, 2500, 2500,
+      2000, 4500, 4500,
     ]);
     expect(COMBO_LOT_LEAD).toContain("$58,000");
     expect(COMBO_LOT_LEAD).toContain("$120,000");

@@ -61,8 +61,8 @@ test.describe("slice 16.33: panel OG image includes number and name", () => {
 
     const door = PANELS.find((row) => row.id === "driver-door");
     expect(door).toBeTruthy();
-    expect(panelBoardMarkFor("driver-door").n).toBe(3);
-    expect(panelSeatH1(door!)).toBe("3 · Driver doors");
+    expect(panelBoardMarkFor("driver-door").n).toBe(4);
+    expect(panelSeatH1(door!)).toBe("4 · Driver doors");
   });
 
   test("driver-door OG image is its own 1200x630 png", async ({

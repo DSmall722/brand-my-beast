@@ -72,8 +72,8 @@ Keep panel names. Optional short gloss on the card, not a rename:
 - Front fascia — stainless steel face
 - Driver doors — front + rear cab door
 - Passenger doors — front + rear cab door
-- Front bumper — wrap-only; leave camera lens/washer clear
-- Rear bumper — wrap-only
+- Front bumper — simple-mark only: website and/or phone number — wrap-only; leave camera lens/washer clear
+- Rear bumper — simple-mark only: website and/or phone number — wrap-only
 
 ## How it works
 

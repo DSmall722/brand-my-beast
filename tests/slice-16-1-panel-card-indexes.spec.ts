@@ -40,8 +40,10 @@ test.describe("slice 16.1: panel card indexes match hero callouts", () => {
     expect(PANEL_BOARD_MARKS).toHaveLength(11);
     expect(PANEL_BOARD_MARKS[0]?.panelId).toBe("hood");
     expect(PANEL_BOARD_MARKS[0]?.n).toBe(1);
-    expect(PANEL_BOARD_MARKS[2]?.panelId).toBe("driver-door");
+    expect(PANEL_BOARD_MARKS[2]?.panelId).toBe("front-bumper");
     expect(PANEL_BOARD_MARKS[2]?.n).toBe(3);
+    expect(PANEL_BOARD_MARKS[3]?.panelId).toBe("driver-door");
+    expect(PANEL_BOARD_MARKS[3]?.n).toBe(4);
     expect(PANEL_BOARD_MARKS[10]?.panelId).toBe("rear-bumper");
     expect(PANEL_BOARD_MARKS[10]?.n).toBe(11);
     for (let i = 0; i < PANELS.length; i += 1) {

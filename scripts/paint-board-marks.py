@@ -4,10 +4,10 @@
 Homepage board views are static JPEGs. Cards stay the clickable inventory.
 Only numbers that read on that angle are painted.
 
-  Driver    (closed-door profile, nose left): 1 2 3 5 7 9 10 11
-  Passenger (¾, nose right):                  1 2 4 6 8 10
-  Front     (head-on):                        1 2 10
-  Rear      (passenger-rear ¾, tail left):    6 8 9 11
+  Driver    (closed-door profile, nose left): 1 2 3 4 5 6 10 11
+  Passenger (¾, nose right):                  1 2 3 7 8 9
+  Front     (head-on):                        1 2 3
+  Rear      (passenger-rear ¾, tail left):    8 9 10 11
 
 Lime plate #d6ff3f / ink #07090c.
 
@@ -39,30 +39,30 @@ MARKS: dict[str, list[tuple[int, float, float]]] = {
     "driver": [
         (1, 22, 38),
         (2, 12, 50),
-        (3, 42, 48),
-        (5, 68, 46),
-        (7, 80, 46),
-        (9, 88, 40),
-        (10, 10, 58),
+        (3, 10, 58),
+        (4, 42, 48),
+        (5, 80, 46),
+        (6, 68, 46),
+        (10, 88, 40),
         (11, 92, 58),
     ],
     "passenger": [
         (1, 68, 36),
         (2, 86, 50),
-        (4, 50, 48),
-        (6, 20, 46),
+        (3, 90, 62),
+        (7, 50, 48),
         (8, 12, 44),
-        (10, 90, 62),
+        (9, 20, 46),
     ],
     "front": [
         (1, 50, 26),
         (2, 50, 48),
-        (10, 50, 80),
+        (3, 50, 80),
     ],
     "rear": [
-        (6, 46, 42),
         (8, 36, 40),
-        (9, 18, 42),
+        (9, 46, 42),
+        (10, 18, 42),
         (11, 18, 58),
     ],
 }

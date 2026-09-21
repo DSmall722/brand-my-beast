@@ -55,7 +55,7 @@ test.describe("slice 12.29: whole-truck vs approved standing", () => {
       userId: "seat_winner",
       brandLabel: "Door Co",
       tradeLabel: "door snacks",
-      standingUsd: 2500,
+      standingUsd: 4500,
     });
     expect(prior.ok).toBeTruthy();
     if (!prior.ok) return;

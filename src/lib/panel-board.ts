@@ -44,7 +44,7 @@ export const HERO_MOBILE_CAB_GLASS_MAX_Y = 48;
  * object-fit: contain on a photo well so these map 1:1 to the JPEG.
  * Driver = closed-door profile, nose left. Passenger = ¾, nose right.
  * Front = head-on. Rear = passenger-rear ¾, tail left.
- * Door seats 3 and 4 are packages (front + rear cab leaf on that side).
+ * Door seats 4 and 7 are packages (front + rear cab leaf on that side).
  */
 const BOARD_LAYOUT: Record<Panel["id"], BoardLayout> = {
   hood: {
@@ -183,7 +183,7 @@ export function panelFaceStyle(panelId: string): {
   };
 }
 
-/** Slice 16.2 — seat page H1: `3 · Driver doors`. */
+/** Slice 16.2 — seat page H1: `4 · Driver doors`. */
 export function panelSeatH1(panel: Pick<Panel, "id" | "name">): string {
   const mark = panelBoardMarkFor(panel.id);
   return `${mark.n} · ${panel.name}`;
