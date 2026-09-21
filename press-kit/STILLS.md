@@ -7,7 +7,7 @@ Public site files live in `/public`:
 
 | File | Angle | Credit |
 |---|---|---|
-| `hero-truck-preview.jpg` / `hero-truck-preview-640.jpg` | BrandMyBeast house-wrap concept (full-wrap C). Not as delivered. | House wrap teaser |
+| `hero-truck-preview.jpg` / `hero-truck-preview-640.jpg` | Locked hero-master (all-caps R1). BMB hood + BRANDMYBEAST doors. Not as delivered. | Homepage hero |
 | `truck-view-driver.jpg` | Closed-door driver-side profile | Photo by Joe L on Pexels — https://www.pexels.com/photo/a-car-is-parked-in-a-garage-with-a-large-concrete-floor-27908531/ |
 | `truck-view-passenger.jpg` | Passenger-side ¾ | Photo by Mylo Kaye on Pexels — https://www.pexels.com/photo/silver-tesla-cybertruck-24734498/ |
 | `truck-view-front.jpg` | Head-on front | Photo by Mylo Kaye on Pexels — https://www.pexels.com/photo/tesla-cyber-truck-24734499/ |
