@@ -100,7 +100,7 @@ export const PANELS: readonly Panel[] = [
   },
   {
     id: "driver-rear-quarter",
-    name: "Driver rear quarter (sail)",
+    name: "Driver Rear Sail",
     openingUsd: 1000,
     finishAtFloor: "wrap",
     finishAtGoal: "wrap_or_etch",
@@ -121,7 +121,7 @@ export const PANELS: readonly Panel[] = [
   },
   {
     id: "passenger-rear-quarter",
-    name: "Passenger rear quarter (sail)",
+    name: "Passenger Rear Sail",
     openingUsd: 1000,
     finishAtFloor: "wrap",
     finishAtGoal: "wrap_or_etch",

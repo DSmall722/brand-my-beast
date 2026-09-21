@@ -33,10 +33,10 @@ const LOCKED_LABELS = [
   "(2) Front fascia",
   "(3) Front bumper",
   "(4) Driver doors",
-  "(5) Driver sail",
+  "(5) Driver Rear Sail",
   "(6) Driver bed",
   "(7) Passenger doors",
-  "(8) Passenger sail",
+  "(8) Passenger Rear Sail",
   "(9) Passenger bed",
   "(10) Tailgate",
   "(11) Rear bumper",
@@ -168,7 +168,7 @@ test.describe("hybrid panel training UX", () => {
       "(4) Driver doors",
     );
     await expect(page.getByTestId("truck-seat-label-driver-rear-quarter")).toHaveText(
-      "(5) Driver sail",
+      "(5) Driver Rear Sail",
     );
     await expect(page.getByTestId("truck-seat-label-driver-bed")).toHaveText(
       "(6) Driver bed",
@@ -186,7 +186,7 @@ test.describe("hybrid panel training UX", () => {
       "(7) Passenger doors",
     );
     await expect(page.getByTestId("truck-seat-label-passenger-rear-quarter")).toHaveText(
-      "(8) Passenger sail",
+      "(8) Passenger Rear Sail",
     );
     await expect(page.getByTestId("truck-seat-label-passenger-bed")).toHaveText(
       "(9) Passenger bed",

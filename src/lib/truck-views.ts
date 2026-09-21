@@ -81,17 +81,17 @@ export function viewOwningPanel(panelId: string): TruckViewId {
 
 /** Door packages stay on cab steel leaves only — no front fender, no glass. */
 export const DRIVER_DOOR_BOUNDS_PCT = {
-  x0: 36,
-  x1: 58,
+  x0: 39,
+  x1: 65,
   y0: 30,
-  y1: 58,
+  y1: 53,
 } as const;
 
 export const PASSENGER_DOOR_BOUNDS_PCT = {
-  x0: 30,
+  x0: 32,
   x1: 60,
   y0: 28,
-  y1: 60,
+  y1: 58,
 } as const;
 
 /**
@@ -105,66 +105,71 @@ export const VIEW_OWNED_PANEL_IDS = {
   rear: ["tailgate", "rear-bumper"],
 } as const satisfies Record<TruckViewId, readonly Panel["id"][]>;
 
-/** Driver profile: nose left. Seats 4–6 only. Seat 4 is both cab leaves. */
+/**
+ * Driver profile: nose left. Seats 4–6 only.
+ * Gold split: doors = both cab leaves; sail = upper triangle above the
+ * horizontal body seam; bed = lower vertical wall under that seam.
+ */
 const DRIVER_HOTSPOTS: readonly TruckHotspot[] = [
   {
     panelId: "driver-door",
     points: pctPoints([
-      [37, 32],
-      [57, 32],
-      [57, 56],
-      [37, 56],
+      [40.5, 31.5],
+      [63, 31.5],
+      [63, 51.5],
+      [40.5, 51.5],
     ]),
   },
   {
     panelId: "driver-rear-quarter",
     points: pctPoints([
-      [69, 28],
-      [82, 28],
-      [82, 46],
-      [76, 56],
-      [69, 56],
+      [63, 24],
+      [86, 28],
+      [86, 42],
+      [63, 42],
     ]),
   },
   {
     panelId: "driver-bed",
     points: pctPoints([
-      [57, 30],
-      [69, 30],
-      [69, 56],
-      [57, 56],
+      [63, 42],
+      [86, 42],
+      [86.5, 52],
+      [63, 52],
     ]),
   },
 ];
 
-/** Passenger flank: seats 7–9 only. Seat 7 is both cab leaves. */
+/**
+ * Passenger ¾: nose right. Seats 7–9 only.
+ * Same gold split: doors stop at the fender seam; sail above; bed below.
+ */
 const PASSENGER_HOTSPOTS: readonly TruckHotspot[] = [
   {
     panelId: "passenger-door",
     points: pctPoints([
-      [32, 30],
-      [58, 30],
-      [58, 58],
-      [32, 58],
+      [34, 31],
+      [58, 31],
+      [58, 55],
+      [34, 55],
     ]),
   },
   {
     panelId: "passenger-rear-quarter",
     points: pctPoints([
-      [3, 25],
-      [12, 25],
-      [12, 48],
-      [8, 58],
-      [3, 50],
+      [8, 23],
+      [34, 26],
+      [34, 41],
+      [8, 40],
     ]),
   },
   {
     panelId: "passenger-bed",
     points: pctPoints([
-      [12, 26],
-      [32, 26],
-      [32, 58],
-      [12, 58],
+      [8, 40],
+      [34, 41],
+      [34, 55],
+      [9, 55],
     ]),
   },
 ];
@@ -174,30 +179,30 @@ const FRONT_HOTSPOTS: readonly TruckHotspot[] = [
   {
     panelId: "hood",
     points: pctPoints([
-      [22, 6],
-      [78, 6],
-      [83, 36.5],
-      [17, 36.5],
+      [28, 11],
+      [72, 11],
+      [82, 36],
+      [18, 36],
     ]),
   },
   {
     panelId: "front-fascia",
     points: pctPoints([
-      [16, 37],
-      [84, 37],
-      [86, 58],
-      [14, 58],
+      [16, 36.5],
+      [84, 36.5],
+      [85, 58],
+      [15, 58],
     ]),
   },
   {
     panelId: "front-bumper",
     points: pctPoints([
-      [14, 58.5],
-      [86, 58.5],
-      [90, 76],
-      [82, 86],
-      [18, 86],
-      [10, 76],
+      [15, 58.5],
+      [85, 58.5],
+      [88, 74],
+      [80, 82],
+      [20, 82],
+      [12, 74],
     ]),
   },
 ];

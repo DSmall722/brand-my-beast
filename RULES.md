@@ -14,10 +14,10 @@ Eleven panels. Opening bids (minimum first mark). Board order is 1–11 next to 
 | 2 | `front-fascia` | Front fascia (stainless) | $2,000 | wrap | wrap or etch |
 | 3 | `front-bumper` | Front bumper | $500 | wrap | wrap only |
 | 4 | `driver-door` | Driver doors | $4,500 | wrap | wrap or etch |
-| 5 | `driver-rear-quarter` | Driver rear quarter (sail) | $1,000 | wrap | wrap or etch |
+| 5 | `driver-rear-quarter` | Driver Rear Sail | $1,000 | wrap | wrap or etch |
 | 6 | `driver-bed` | Driver bed | $2,000 | wrap | wrap or etch |
 | 7 | `passenger-door` | Passenger doors | $4,500 | wrap | wrap or etch |
-| 8 | `passenger-rear-quarter` | Passenger rear quarter (sail) | $1,000 | wrap | wrap or etch |
+| 8 | `passenger-rear-quarter` | Passenger Rear Sail | $1,000 | wrap | wrap or etch |
 | 9 | `passenger-bed` | Passenger bed | $2,000 | wrap | wrap or etch |
 | 10 | `tailgate` | Tailgate | $2,500 | wrap | wrap or etch |
 | 11 | `rear-bumper` | Rear bumper | $500 | wrap | wrap only |
