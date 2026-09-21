@@ -66,8 +66,8 @@ test.describe("slice 20.1: hide homepage Sign in while closed", () => {
     const header = page.locator(".site-header");
     await expect(header).toHaveAttribute("data-signin-closed", "false");
     await expect(
-      page.getByRole("link", { name: PUBLIC_COPY.header.nav }),
-    ).toHaveText("Join the list");
+      header.getByRole("link", { name: PUBLIC_COPY.header.nav }),
+    ).toHaveText("Contact BMB");
     await expect(page.getByTestId("signin-link")).toBeVisible();
     await expect(page.locator("#hero-title")).toHaveText(LOCKED_H1);
     const html = await page.content();

@@ -98,10 +98,10 @@ test.describe("panel board stills map 1–11 onto the truck", () => {
       return pct;
     };
 
-    // Driver profile: nose right. Seats 4–6 only — no front/rear bleed.
-    // Gold split: sail sits above the horizontal seam; bed is the wall below.
-    expect(driver("driver-door").x).toBeGreaterThan(driver("driver-bed").x);
-    expect(driver("driver-door").x).toBeGreaterThan(driver("driver-rear-quarter").x);
+    // Driver profile: nose left. Seats 4–6 only — no front/rear bleed.
+    // Sail sits above the belt; bed is the wall below, aft of the doors.
+    expect(driver("driver-door").x).toBeLessThan(driver("driver-bed").x);
+    expect(driver("driver-door").x).toBeLessThan(driver("driver-rear-quarter").x);
     expect(driver("driver-rear-quarter").y).toBeLessThan(driver("driver-bed").y);
     expect(byId.hood?.views.driver).toBeUndefined();
     expect(byId["front-fascia"]?.views.driver).toBeUndefined();
@@ -109,11 +109,11 @@ test.describe("panel board stills map 1–11 onto the truck", () => {
     expect(byId.tailgate?.views.driver).toBeUndefined();
     expect(byId["rear-bumper"]?.views.driver).toBeUndefined();
 
-    // Passenger flank: nose left. Seats 7–9 only. Sail above / bed below, both aft of doors.
-    expect(passenger("passenger-rear-quarter").x).toBeGreaterThan(
+    // Passenger flank: nose right. Seats 7–9 only. Sail above / bed below, both aft of doors.
+    expect(passenger("passenger-rear-quarter").x).toBeLessThan(
       passenger("passenger-door").x,
     );
-    expect(passenger("passenger-bed").x).toBeGreaterThan(passenger("passenger-door").x);
+    expect(passenger("passenger-bed").x).toBeLessThan(passenger("passenger-door").x);
     expect(passenger("passenger-rear-quarter").y).toBeLessThan(
       passenger("passenger-bed").y,
     );

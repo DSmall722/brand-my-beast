@@ -59,14 +59,15 @@ test.describe("slice 6.12: obsidianui signal button", () => {
     await expect(cta).toBeVisible();
     // Fill layer duplicates the label for the animation; assert the visible span.
     await expect(cta.locator(".obsidian-arrow-fill-btn__text")).toHaveText(
-      PUBLIC_COPY.hero.primaryCta,
+      "Bid on a Panel",
     );
-    await expect(cta).toHaveAttribute("href", "#waitlist");
+    await expect(cta).toHaveAttribute("href", "#panels");
     await expect(cta).toHaveClass(/obsidian-arrow-fill-btn/);
 
-    await expect(
-      page.getByRole("link", { name: PUBLIC_COPY.hero.primaryCta }),
-    ).toHaveAttribute("href", "#waitlist");
+    const contact = page.getByTestId("hero-secondary-cta");
+    await expect(contact).toHaveText("Contact BMB");
+    await expect(contact).toHaveAttribute("href", "#waitlist");
+    await expect(contact).not.toHaveClass(/obsidian-arrow-fill-btn/);
 
     const tag = await cta.evaluate((el) => el.tagName.toLowerCase());
     expect(tag).toBe("a");

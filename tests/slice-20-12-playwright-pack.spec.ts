@@ -59,8 +59,8 @@ test.describe("slice 20.12: Wave 20 Playwright pack", () => {
     await expect(page.locator("#hero-title")).toHaveText(PUBLIC_COPY.hero.h1);
     await expect(page.getByTestId("waitlist-submit")).toHaveText("Contact BMB");
     await expect(
-      page.getByRole("link", { name: PUBLIC_COPY.header.nav }),
-    ).toHaveText("Join the list");
+      page.locator(".site-header").getByRole("link", { name: PUBLIC_COPY.header.nav }),
+    ).toHaveText("Contact BMB");
     await expect(page.getByTestId("panel-open-seat-once")).toHaveCount(0);
     await expect(page.getByTestId("shortfall-floor")).toHaveCount(0);
     await expect(page.getByTestId("shortfall-goal")).toHaveCount(0);

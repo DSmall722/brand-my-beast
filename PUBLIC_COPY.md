@@ -13,14 +13,15 @@ Locked: 2026-09-14 — desire first, then the deal, then the catch.
 ## Header
 
 - Wordmark: `BrandMyBeast`
-- Nav: `Join the list`
+- Nav: `Contact BMB`
 
 ## Hero
 
 - H1: `Advertise your brand on the truck that people already photograph`
 - Lead: (omitted)
-- Primary CTA: `Get on the list`
-- Secondary CTA: `Bid on a Panel`
+- First CTA (arrow): `Bid on a Panel` → panel inventory
+- Second CTA (plain, no arrow): `Contact BMB` → Contact Us
+- Off-homepage CTA (404, error, sign-in): `Get on the list`
 - Hero image label (alt): `Concept preview — BrandMyBeast house wrap. Seats are not sold yet.`
 - Hero caption: (omitted)
 

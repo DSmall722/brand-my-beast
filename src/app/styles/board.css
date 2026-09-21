@@ -2600,7 +2600,7 @@
   display: block;
   width: 100%;
   height: auto;
-  aspect-ratio: 2048 / 1360;
+  aspect-ratio: auto;
   object-fit: contain;
   object-position: 50% 50%;
   vertical-align: middle;

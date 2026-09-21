@@ -25,11 +25,19 @@ test.describe("notes PDF homepage sheet", () => {
   test("homepage matches the sheet", async ({ page }) => {
     await page.goto("/");
 
-    await expect(page.getByTestId("hero-secondary-cta")).toHaveText(
+    const heroPanel = page.getByTestId("hero-primary-cta");
+    await expect(heroPanel.locator(".obsidian-arrow-fill-btn__text")).toHaveText(
       "Bid on a Panel",
     );
+    await expect(heroPanel).toHaveAttribute("href", "#panels");
+    await expect(heroPanel).toHaveClass(/obsidian-arrow-fill-btn/);
+    const heroContact = page.getByTestId("hero-secondary-cta");
+    await expect(heroContact).toHaveText("Contact BMB");
+    await expect(heroContact).toHaveAttribute("href", "#waitlist");
+    await expect(heroContact).toHaveClass(/btn-panel/);
+    await expect(heroContact).not.toHaveClass(/obsidian-arrow-fill-btn/);
+    await expect(page.locator(".site-header .nav-link")).toHaveText("Contact BMB");
     await expect(page.locator("#panels-title")).toHaveText("Bid on a Panel");
-    await expect(page.getByTestId("hero-secondary-cta")).toHaveClass(/btn-panel/);
     await expect(page.locator("#truck-views-title")).toHaveText(
       "Preview the Panels",
     );
@@ -133,6 +141,7 @@ test.describe("notes PDF homepage sheet", () => {
     );
     await expect(forever.locator("br")).toHaveCount(1);
     await expect(forever.locator(".immortal-etch")).toHaveText("Immortal Etch");
+    await expect(forever.locator("strong")).toHaveText("FOREVER");
     await expect(page.locator("#etch-title")).toHaveText("Immortal Etch");
     await expect(page.locator("#etch-title")).not.toHaveClass(/immortal-etch/);
 

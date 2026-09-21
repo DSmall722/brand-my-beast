@@ -41,7 +41,7 @@ export const HERO_MOBILE_CAB_GLASS_MAX_Y = 48;
 
 /**
  * Percents of the still. Hero well is 16:9 fill. Board views use
- * object-fit: contain on the 2048×1360 TRACE AID well so these map 1:1.
+ * object-fit: contain. Each camera JPEG’s width and height set the well so these map 1:1.
  * Driver = seats 4–6 only. Passenger = seats 7–9 only.
  * Front = seats 1–3. Rear = seats 10–11. No bleed across cameras.
  * Door seats 4 and 7 are packages (front + rear cab leaf on that side).
@@ -66,7 +66,7 @@ const BOARD_LAYOUT: Record<Panel["id"], BoardLayout> = {
   "driver-door": {
     hero: { x: 34, y: 42 },
     heroMobile: { x: 34, y: 54 },
-    views: { driver: { x: 38.6, y: 55.8 } },
+    views: { driver: { x: 52, y: 65 } },
     face: {
       still: "driver",
       objectPosition: "39% 56%",
@@ -76,7 +76,7 @@ const BOARD_LAYOUT: Record<Panel["id"], BoardLayout> = {
   "passenger-door": {
     hero: { x: 31, y: 22 },
     heroMobile: { x: 28, y: 50 },
-    views: { passenger: { x: 43.2, y: 51 } },
+    views: { passenger: { x: 39, y: 58 } },
     face: {
       still: "passenger",
       objectPosition: "43% 52%",
@@ -86,7 +86,7 @@ const BOARD_LAYOUT: Record<Panel["id"], BoardLayout> = {
   "driver-bed": {
     hero: { x: 54, y: 42 },
     heroMobile: { x: 54, y: 54 },
-    views: { driver: { x: 16, y: 52 } },
+    views: { driver: { x: 75, y: 63 } },
     face: {
       still: "driver",
       objectPosition: "14% 55%",
@@ -96,7 +96,7 @@ const BOARD_LAYOUT: Record<Panel["id"], BoardLayout> = {
   "passenger-bed": {
     hero: { x: 56, y: 27 },
     heroMobile: { x: 56, y: 50 },
-    views: { passenger: { x: 82, y: 49 } },
+    views: { passenger: { x: 20, y: 55 } },
     face: {
       still: "passenger",
       objectPosition: "73% 52%",
@@ -106,7 +106,7 @@ const BOARD_LAYOUT: Record<Panel["id"], BoardLayout> = {
   "driver-rear-quarter": {
     hero: { x: 73, y: 43 },
     heroMobile: { x: 73, y: 56 },
-    views: { driver: { x: 17, y: 36 } },
+    views: { driver: { x: 70, y: 56 } },
     face: {
       still: "driver",
       objectPosition: "16% 36%",
@@ -116,7 +116,7 @@ const BOARD_LAYOUT: Record<Panel["id"], BoardLayout> = {
   "passenger-rear-quarter": {
     hero: { x: 76, y: 27 },
     heroMobile: { x: 76, y: 52 },
-    views: { passenger: { x: 68, y: 37.5 } },
+    views: { passenger: { x: 18, y: 42 } },
     face: {
       still: "passenger",
       objectPosition: "73% 38%",

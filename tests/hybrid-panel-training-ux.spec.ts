@@ -1,7 +1,11 @@
 import { existsSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import { expect, test, type Page } from "@playwright/test";
-import { TRACE_AID_STILL } from "../src/lib/truck-stills";
+import {
+  DRIVER_BOARD_STILL,
+  PASSENGER_BOARD_STILL,
+  TRACE_AID_STILL,
+} from "../src/lib/truck-stills";
 import {
   BRAND,
   CLOSE_AT,
@@ -211,14 +215,20 @@ test.describe("hybrid panel training UX", () => {
     ]);
   });
 
-  test("board stills are TRACE AID lime flats (2048×1360)", () => {
+  test("board stills are TRACE AID lime flats", () => {
+    const expected = {
+      driver: DRIVER_BOARD_STILL,
+      passenger: PASSENGER_BOARD_STILL,
+      front: TRACE_AID_STILL,
+      rear: TRACE_AID_STILL,
+    } as const;
     for (const view of ["driver", "passenger", "front", "rear"] as const) {
       const path = join(ROOT, "public", `truck-view-${view}.jpg`);
       expect(existsSync(path)).toBe(true);
       const bytes = readFileSync(path);
       expect(jpegSize(bytes)).toEqual({
-        width: TRACE_AID_STILL.width,
-        height: TRACE_AID_STILL.height,
+        width: expected[view].width,
+        height: expected[view].height,
       });
       expect(bytes.byteLength).toBeGreaterThan(400_000);
     }
@@ -370,13 +380,15 @@ test.describe("hybrid panel training UX", () => {
     await page.evaluate(() => document.fonts.ready);
 
     const probes = [
-      { tab: "truck-view-driver", x: 40, y: 55, seat: "truck-seat-driver-door" },
-      { tab: "truck-view-driver", x: 17, y: 36, seat: "truck-seat-driver-rear-quarter" },
-      { tab: "truck-view-driver", x: 20, y: 52, seat: "truck-seat-driver-bed" },
-      { tab: "truck-view-driver", x: 68, y: 58, seat: null },
-      { tab: "truck-view-passenger", x: 43, y: 51, seat: "truck-seat-passenger-door" },
-      { tab: "truck-view-passenger", x: 66, y: 38, seat: "truck-seat-passenger-rear-quarter" },
-      { tab: "truck-view-passenger", x: 84, y: 50, seat: "truck-seat-passenger-bed" },
+      { tab: "truck-view-driver", x: 52, y: 64, seat: "truck-seat-driver-door" },
+      { tab: "truck-view-driver", x: 68, y: 56, seat: "truck-seat-driver-rear-quarter" },
+      { tab: "truck-view-driver", x: 76, y: 63, seat: "truck-seat-driver-bed" },
+      { tab: "truck-view-driver", x: 68, y: 65, seat: null },
+      { tab: "truck-view-driver", x: 25, y: 62, seat: null },
+      { tab: "truck-view-passenger", x: 38, y: 58, seat: "truck-seat-passenger-door" },
+      { tab: "truck-view-passenger", x: 18, y: 42, seat: "truck-seat-passenger-rear-quarter" },
+      { tab: "truck-view-passenger", x: 20, y: 55, seat: "truck-seat-passenger-bed" },
+      { tab: "truck-view-passenger", x: 12, y: 62, seat: null },
       { tab: "truck-view-passenger", x: 70, y: 55, seat: null },
     ] as const;
 

@@ -9,7 +9,7 @@ import {
   panelOverlayLabel,
 } from "@/lib/panel-board";
 import { truckImgAlt } from "@/lib/truck-img-alt";
-import { TRACE_AID_STILL, truckViewStillSrc } from "@/lib/truck-stills";
+import { truckViewStillSize, truckViewStillSrc } from "@/lib/truck-stills";
 import {
   TRUCK_VIEWS,
   TRUCK_VIEW_BOX,
@@ -45,6 +45,7 @@ export function TruckViewHotspots({
     singleSeat ? spot.panelId === activePanelId : true,
   );
   const shownView = singleSeat ? ownerView : view;
+  const stillSize = truckViewStillSize(shownView);
 
   return (
     <div
@@ -95,8 +96,8 @@ export function TruckViewHotspots({
             className="truck-view-photo"
             src={truckViewStillSrc(shownView)}
             alt={truckImgAlt("board")}
-            width={TRACE_AID_STILL.width}
-            height={TRACE_AID_STILL.height}
+            width={stillSize.width}
+            height={stillSize.height}
             decoding="async"
             data-testid={`truck-img-board-${shownView}`}
             data-truck-img={`board-${shownView}`}

@@ -50,7 +50,7 @@ test.describe("UX locks: concept lead, baked board, etch, CTA, wrap blend", () =
       "href",
       "/panels/hood",
     );
-    await expect(page.getByTestId("hero-secondary-cta")).toHaveAttribute(
+    await expect(page.getByTestId("hero-primary-cta")).toHaveAttribute(
       "href",
       "#panels",
     );
@@ -80,7 +80,7 @@ test.describe("UX locks: concept lead, baked board, etch, CTA, wrap blend", () =
       "Immortal Etch Locked",
     );
 
-    await page.getByTestId("hero-secondary-cta").click();
+    await page.getByTestId("hero-primary-cta").click();
     await expect(page).toHaveURL(/#panels$/);
     await expect(page.locator("#panels")).toBeVisible();
     await expect(page).not.toHaveURL(/\/panels\/hood/);

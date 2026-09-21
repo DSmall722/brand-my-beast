@@ -1,8 +1,9 @@
 /**
  * Driver / passenger / front / rear truck views + SVG hotspot seats.
- * Production stills are TRACE AID lime flats (2048×1360). SVG is hit /
- * hover only — `(N) Name` is baked into the JPEG. Preview only — no
- * capture, no clock, no invented truck photos.
+ * Front / rear stills are 2048×1360. Driver is the 1792×1104 garage
+ * bake. Passenger is the 1728×1152 plaza bake. SVG is hit / hover only —
+ * `(N) Name` is baked into the JPEG. Preview only — no capture, no
+ * clock, no invented truck photos.
  */
 
 import { FLOOR_USD, GOAL_USD, PANELS, formatUsd, type Panel } from "./campaign";
@@ -16,7 +17,7 @@ export const TRUCK_VIEWS = [
 
 export type TruckViewId = (typeof TRUCK_VIEWS)[number]["id"];
 
-/** Percent box — overlays sit 1:1 on the 2048×1360 TRACE AID still. */
+/** Percent box — overlays sit 1:1 on each camera’s JPEG. */
 export const TRUCK_VIEW_BOX = { w: 100, h: 100 } as const;
 
 export type TruckHotspot = {
@@ -82,17 +83,17 @@ export function viewOwningPanel(panelId: string): TruckViewId {
 
 /** Door packages stay on cab steel leaves only — no front fender, no glass. */
 export const DRIVER_DOOR_BOUNDS_PCT = {
-  x0: 23,
-  x1: 54,
-  y0: 44,
-  y1: 68,
+  x0: 42,
+  x1: 62,
+  y0: 57,
+  y1: 72,
 } as const;
 
 export const PASSENGER_DOOR_BOUNDS_PCT = {
-  x0: 28,
-  x1: 58,
-  y0: 40,
-  y1: 62,
+  x0: 24,
+  x1: 54,
+  y0: 44,
+  y1: 74,
 } as const;
 
 /**
@@ -107,83 +108,83 @@ export const VIEW_OWNED_PANEL_IDS = {
 } as const satisfies Record<TruckViewId, readonly Panel["id"][]>;
 
 /**
- * Driver profile: nose right. Seats 4–6 only.
- * v9 Mylo plaza still. Gold split: doors = both cab leaves; sail = upper
- * triangle above the belt; bed = bedside under that seam, notched over the tire.
+ * Driver profile: nose left. Seats 4–6 only.
+ * Garage bake. Doors = both cab leaves under the belt. Sail = wedge
+ * above the beltline. Bed = bedside under that seam, notched over the tire.
  */
 const DRIVER_HOTSPOTS: readonly TruckHotspot[] = [
   {
     panelId: "driver-door",
     points: pctPoints([
-      [24.4, 45.2],
-      [52.8, 45.2],
-      [52.8, 66.4],
-      [24.4, 66.4],
+      [43.2, 60.0],
+      [61.0, 57.6],
+      [61.0, 70.7],
+      [43.3, 70.7],
     ]),
   },
   {
     panelId: "driver-rear-quarter",
     points: pctPoints([
-      [8, 45],
-      [24.4, 45],
-      [24.4, 34],
-      [21, 28.5],
-      [14, 31],
-      [10, 36],
+      [61.0, 52.6],
+      [80.6, 57.6],
+      [80.8, 58.2],
+      [61.0, 58.2],
     ]),
   },
   {
     panelId: "driver-bed",
     points: pctPoints([
-      [4, 45.2],
-      [24.4, 45.2],
-      [24.4, 64.5],
-      [18, 64.5],
-      [16, 56],
-      [8, 55],
-      [4, 61.2],
+      [61.0, 58.2],
+      [80.8, 58.2],
+      [80.5, 61.5],
+      [80.0, 66.6],
+      [74.3, 67.1],
+      [71.3, 61.6],
+      [66.1, 61.6],
+      [63.1, 68.1],
+      [61.0, 68.1],
     ]),
   },
 ];
 
 /**
- * Passenger profile: nose left. Seats 7–9 only.
- * v9 Joe L garage still. Same gold split. Sail follows the sloping roof.
- * Bed is notched over the rear tire.
+ * Passenger profile: nose right. Seats 7–9 only.
+ * Plaza bake. Doors = both cab leaves under the belt. Sail = wedge on
+ * the roof slope. Bed = bedside under that seam, notched over the tire.
  */
 const PASSENGER_HOTSPOTS: readonly TruckHotspot[] = [
   {
     panelId: "passenger-door",
     points: pctPoints([
-      [29.2, 43],
-      [57.2, 40.8],
-      [57.2, 60.8],
-      [29.2, 60.8],
+      [24.5, 45.2],
+      [52.8, 45.7],
+      [52.8, 73.2],
+      [24.5, 70.2],
     ]),
   },
   {
     panelId: "passenger-rear-quarter",
     points: pctPoints([
-      [57.2, 43.2],
-      [89.2, 43.2],
-      [89.2, 41],
-      [82, 38.8],
-      [74, 36.2],
-      [66, 34.4],
-      [57.2, 32.8],
+      [8.0, 45.2],
+      [24.5, 45.2],
+      [23.8, 37.8],
     ]),
   },
   {
     panelId: "passenger-bed",
     points: pctPoints([
-      [57.2, 43.2],
-      [89.2, 43.2],
-      [89.2, 55],
-      [80, 55],
-      [76, 47.8],
-      [64, 47.2],
-      [60, 56],
-      [57.2, 60.8],
+      [2.5, 47.5],
+      [8.0, 45.2],
+      [24.5, 45.2],
+      [24.5, 70.2],
+      [20.0, 69.4],
+      [18.2, 64.0],
+      [16.5, 56.0],
+      [14.0, 53.0],
+      [9.0, 52.9],
+      [7.0, 58.5],
+      [5.5, 61.7],
+      [2.5, 61.2],
     ]),
   },
 ];

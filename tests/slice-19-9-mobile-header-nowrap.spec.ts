@@ -61,7 +61,7 @@ test.describe("slice 19.9: mobile header stays one row", () => {
     await expect(header).toHaveAttribute("data-header-row", "single");
 
     const wordmark = page.getByTestId("brand-wordmark");
-    const join = page.getByRole("link", { name: PUBLIC_COPY.header.nav });
+    const join = header.getByRole("link", { name: PUBLIC_COPY.header.nav });
     const signin = page.getByTestId("signin-link");
 
     await expect(wordmark).toHaveText("BrandMyBeast");

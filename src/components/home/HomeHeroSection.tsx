@@ -58,17 +58,17 @@ export function HomeHeroSection({
             </div>
             <div className="hero-actions">
               <ArrowFillButton
-                href="#waitlist"
+                href="#panels"
                 data-testid="hero-primary-cta"
               >
-                {PUBLIC_COPY.hero.primaryCta}
+                {PUBLIC_COPY.hero.secondaryCta}
               </ArrowFillButton>
               <a
                 className="btn btn-panel"
-                href="#panels"
+                href="#waitlist"
                 data-testid="hero-secondary-cta"
               >
-                {PUBLIC_COPY.hero.secondaryCta}
+                {PUBLIC_COPY.header.nav}
               </a>
             </div>
           </div>

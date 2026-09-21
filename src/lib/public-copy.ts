@@ -23,7 +23,7 @@ export const PUBLIC_COPY = {
   },
   header: {
     wordmark: "BrandMyBeast",
-    nav: "Join the list",
+    nav: "Contact BMB",
   },
   hero: {
     h1: "Advertise your brand on the truck that people already photograph",

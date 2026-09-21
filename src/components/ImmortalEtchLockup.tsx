@@ -2,17 +2,30 @@ import { Fragment } from "react";
 
 const TOKEN = "Immortal Etch";
 
+function emphasizeForever(text: string) {
+  const bits = text.split("FOREVER");
+  if (bits.length === 1) {
+    return text;
+  }
+  return bits.map((bit, index) => (
+    <Fragment key={index}>
+      {index > 0 ? <strong>FOREVER</strong> : null}
+      {bit}
+    </Fragment>
+  ));
+}
+
 function renderTokens(line: string) {
   const parts = line.split(TOKEN);
   if (parts.length === 1) {
-    return line;
+    return emphasizeForever(line);
   }
   return (
     <>
       {parts.map((part, index) => (
         <Fragment key={index}>
           {index > 0 ? <span className="immortal-etch">{TOKEN}</span> : null}
-          {part}
+          {emphasizeForever(part)}
         </Fragment>
       ))}
     </>

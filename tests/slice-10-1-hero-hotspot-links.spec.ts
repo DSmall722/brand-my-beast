@@ -56,7 +56,7 @@ test.describe("slice 10.1: hero and hotspot links open seats", () => {
     await page.goto("/");
     const hero = page.getByTestId("hero-truck-preview");
     await expect(hero).toHaveAttribute("href", "/panels/hood");
-    await expect(page.getByTestId("hero-secondary-cta")).toHaveAttribute(
+    await expect(page.getByTestId("hero-primary-cta")).toHaveAttribute(
       "href",
       "#panels",
     );
@@ -74,7 +74,7 @@ test.describe("slice 10.1: hero and hotspot links open seats", () => {
       "true",
     );
 
-    await page.getByTestId("hero-secondary-cta").click();
+    await page.getByTestId("hero-primary-cta").click();
     await expect(page).toHaveURL(/#panels$/);
     await expect(page.locator("#panels")).toBeVisible();
     await expect(page.getByTestId("panel-grid").locator("article")).toHaveCount(

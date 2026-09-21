@@ -8,12 +8,12 @@ Public site files live in `/public`:
 | File | Angle | Credit |
 |---|---|---|
 | `hero-truck-preview.jpg` / `hero-truck-preview-640.jpg` | Locked hero-master (all-caps R1). BMB hood + BRANDMYBEAST doors. Not as delivered. | Homepage hero |
-| `truck-view-driver.jpg` | Closed-door driver-side profile. TRACE AID lime flat. | Photo by Mylo Kaye on Pexels — https://www.pexels.com/photo/silver-tesla-cybertruck-24734498/ |
-| `truck-view-passenger.jpg` | Closed-door passenger-side profile. TRACE AID lime flat. | Photo by Joe L on Pexels — https://www.pexels.com/photo/a-car-is-parked-in-a-garage-with-a-large-concrete-floor-27908531/ |
+| `truck-view-driver.jpg` | Underground garage driver-side profile. Nose left. TRACE AID lime flat, 1792×1104. | Supplied board bake. Seats 4–6 labeled in the pixels. |
+| `truck-view-passenger.jpg` | Plaza passenger-side profile. Nose right. TRACE AID lime flat, 1728×1152. | Supplied board bake. Seats 7–9 labeled in the pixels. |
 | `truck-view-front.jpg` | Head-on front. TRACE AID lime flat. | Photo by Mylo Kaye on Pexels — https://www.pexels.com/photo/tesla-cyber-truck-24734499/ |
 | `truck-view-rear.jpg` | Straight-on rear, forest autumn road. TRACE AID lime flat. | Photo by Stephen Leonardi on Pexels — https://www.pexels.com/photo/futuristic-truck-on-a-forest-road-in-autumn-29278630/ |
 
-Production board JPEGs are the approved **TRACE AID lime flats** (2048×1360).
+Front and rear board JPEGs are 2048×1360 TRACE AID flats. The driver plate is the garage bake (1792×1104). The passenger plate is the plaza bake (1728×1152).
 Lime outlines and `(N) Name` labels are baked into the pixels. SVG polygons
 are hit targets and hover/focus fill only — they do not draw a second set of
 labels. Do not replace these with unmarked 1280×720 Pexels originals.
