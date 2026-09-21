@@ -44,7 +44,7 @@ test.describe("slice 17.8: front and rear hide the side schematic", () => {
   test("component uses a dedicated still per view", () => {
     const src = readFileSync(COMPONENT, "utf8");
     expect(src).toContain("truckViewStillSrc");
-    expect(src).toContain('view === "driver"');
+    expect(src).toContain('shownView === "driver"');
   });
 
   test("front and rear drop the side body; each view has its still", async ({
@@ -82,11 +82,16 @@ test.describe("slice 17.8: front and rear hide the side schematic", () => {
       "data-baked-marks",
       "false",
     );
+    await expect(page.getByTestId("truck-view-seats")).toHaveAttribute(
+      "data-view",
+      "front",
+    );
     await expect(page.getByTestId("truck-view-svg")).toHaveCount(1);
-    await expect(page.locator(".truck-view-body")).toHaveCount(1);
-    await page.getByTestId("truck-view-front").click();
+    await expect(page.locator(".truck-view-body")).toHaveCount(0);
     await expect(page.getByTestId("truck-seat-front-fascia")).toBeVisible();
-    await page.getByTestId("truck-view-rear").click();
-    await expect(page.getByTestId("truck-seat-tailgate")).toBeVisible();
+    await expect(page.getByTestId("truck-seat-hood")).toHaveAttribute(
+      "data-active",
+      "true",
+    );
   });
 });

@@ -42,8 +42,8 @@ export const HERO_MOBILE_CAB_GLASS_MAX_Y = 48;
 /**
  * Percents of the still. Hero well is 16:9 fill. Board views use
  * object-fit: contain on a photo well so these map 1:1 to the JPEG.
- * Driver = closed-door profile, nose left. Passenger = ¾, nose right.
- * Front = head-on. Rear = passenger-rear ¾, tail left.
+ * Driver = Joe L 27908531, nose left. Passenger = Mylo 24734498, nose right.
+ * Front = Mylo 24734499 head-on. Rear = Leonardi 29278630.
  * Door seats 4 and 7 are packages (front + rear cab leaf on that side).
  */
 const BOARD_LAYOUT: Record<Panel["id"], BoardLayout> = {
@@ -51,27 +51,27 @@ const BOARD_LAYOUT: Record<Panel["id"], BoardLayout> = {
     hero: { x: 24, y: 34 },
     heroMobile: { x: 24, y: 52 },
     views: {
-      driver: { x: 22, y: 38 },
-      passenger: { x: 68, y: 36 },
-      front: { x: 50, y: 26 },
+      driver: { x: 28, y: 38 },
+      passenger: { x: 70, y: 32 },
+      front: { x: 50, y: 22 },
     },
-    face: { still: "front", objectPosition: "50% 26%" },
+    face: { still: "front", objectPosition: "50% 22%" },
   },
   "front-fascia": {
     hero: { x: 12, y: 48 },
     heroMobile: { x: 12, y: 62 },
     views: {
-      driver: { x: 12, y: 50 },
+      driver: { x: 18, y: 50 },
       passenger: { x: 86, y: 50 },
-      front: { x: 50, y: 48 },
+      front: { x: 50, y: 46 },
     },
-    face: { still: "front", objectPosition: "50% 48%" },
+    face: { still: "front", objectPosition: "50% 46%" },
   },
   "driver-door": {
     hero: { x: 34, y: 42 },
     heroMobile: { x: 34, y: 54 },
-    views: { driver: { x: 42, y: 48 } },
-    face: { still: "driver", objectPosition: "38% 48%" },
+    views: { driver: { x: 46, y: 46 } },
+    face: { still: "driver", objectPosition: "46% 46%" },
   },
   "passenger-door": {
     hero: { x: 31, y: 22 },
@@ -82,48 +82,48 @@ const BOARD_LAYOUT: Record<Panel["id"], BoardLayout> = {
   "driver-bed": {
     hero: { x: 54, y: 42 },
     heroMobile: { x: 54, y: 54 },
-    views: { driver: { x: 68, y: 46 } },
-    face: { still: "driver", objectPosition: "68% 46%" },
+    views: { driver: { x: 64, y: 46 } },
+    face: { still: "driver", objectPosition: "64% 46%" },
   },
   "passenger-bed": {
     hero: { x: 56, y: 27 },
     heroMobile: { x: 56, y: 50 },
-    views: { passenger: { x: 20, y: 46 }, rear: { x: 46, y: 42 } },
-    face: { still: "passenger", objectPosition: "20% 46%" },
+    views: { passenger: { x: 24, y: 46 } },
+    face: { still: "passenger", objectPosition: "24% 46%" },
   },
   "driver-rear-quarter": {
     hero: { x: 73, y: 43 },
     heroMobile: { x: 73, y: 56 },
-    views: { driver: { x: 80, y: 46 } },
-    face: { still: "driver", objectPosition: "80% 46%" },
+    views: { driver: { x: 76, y: 44 } },
+    face: { still: "driver", objectPosition: "76% 44%" },
   },
   "passenger-rear-quarter": {
     hero: { x: 76, y: 27 },
     heroMobile: { x: 76, y: 52 },
-    views: { passenger: { x: 12, y: 44 }, rear: { x: 36, y: 40 } },
+    views: { passenger: { x: 12, y: 44 } },
     face: { still: "passenger", objectPosition: "12% 44%" },
   },
   tailgate: {
     hero: { x: 91, y: 32 },
     heroMobile: { x: 90, y: 54 },
-    views: { driver: { x: 88, y: 40 }, rear: { x: 18, y: 42 } },
-    face: { still: "rear", objectPosition: "18% 42%" },
+    views: { driver: { x: 88, y: 40 }, rear: { x: 56, y: 44 } },
+    face: { still: "rear", objectPosition: "56% 44%" },
   },
   "front-bumper": {
     hero: { x: 10, y: 62 },
     heroMobile: { x: 10, y: 72 },
     views: {
-      driver: { x: 10, y: 58 },
-      passenger: { x: 90, y: 62 },
-      front: { x: 50, y: 80 },
+      driver: { x: 14, y: 60 },
+      passenger: { x: 90, y: 64 },
+      front: { x: 50, y: 70 },
     },
-    face: { still: "front", objectPosition: "50% 82%" },
+    face: { still: "front", objectPosition: "50% 70%" },
   },
   "rear-bumper": {
     hero: { x: 94, y: 58 },
     heroMobile: { x: 92, y: 68 },
-    views: { driver: { x: 92, y: 58 }, rear: { x: 18, y: 58 } },
-    face: { still: "rear", objectPosition: "18% 62%" },
+    views: { driver: { x: 90, y: 58 }, rear: { x: 56, y: 62 } },
+    face: { still: "rear", objectPosition: "56% 62%" },
   },
 };
 

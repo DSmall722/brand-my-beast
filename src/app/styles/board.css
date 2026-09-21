@@ -1285,8 +1285,18 @@
   margin: 0 0 1.5rem;
 }
 
+.public-seat .seat-facts {
+  display: grid;
+  gap: 0.75rem;
+  margin: 0 0 1.5rem;
+}
+
 .public-seat .truck-view-seats-compact {
   margin: 0;
+}
+
+.public-seat .truck-view-photo-well {
+  min-height: 22rem;
 }
 
 .public-seat .truck-view-stage {
@@ -1413,11 +1423,17 @@
     var(--panel-face-pos, 55% 38%) / cover no-repeat;
 }
 
-.public-seat .panel-mockup-face {
-  order: -1;
+.public-seat .panel-mockup {
+  background: #0a0d12;
   min-height: 0;
-  aspect-ratio: 16 / 9;
-  padding: 1.75rem;
+}
+
+.public-seat .panel-mockup-face {
+  order: 0;
+  min-height: 0;
+  aspect-ratio: auto;
+  padding: 0.85rem 1rem;
+  background: none;
 }
 
 .panel-mockup-label {
@@ -2559,7 +2575,7 @@ a:focus-visible .truck-seat.is-raw {
   fill: color-mix(in oklab, var(--steel-100) 22%, transparent);
   stroke: var(--steel-100);
 }
-/* Slice 19.7 — hide giant gray polygons; numbered callouts stay. */
+/* Slice 19.7 — hide giant gray polygons on non-training overlays. */
 .truck-view-seats[data-polygons="hidden"] .truck-seat,
 .truck-view-seats[data-polygons="hidden"] .truck-seat.is-raw,
 .truck-view-seats[data-polygons="hidden"] .truck-seat.is-held,
@@ -2568,6 +2584,80 @@ a:focus-visible .truck-seat.is-raw {
 .truck-view-seats[data-polygons="hidden"] a:focus-visible .truck-seat.is-raw {
   fill: transparent;
   stroke: transparent;
+}
+
+/* Seat training UX — scoped so homepage board hover (#421) stays untouched. */
+.truck-view-seats[data-polygons="training"] .truck-view-svg {
+  pointer-events: none;
+}
+.truck-view-seats[data-polygons="training"] .truck-view-svg a {
+  pointer-events: auto;
+}
+.truck-view-seats[data-polygons="training"] .truck-seat-hit {
+  fill: transparent;
+  stroke: none;
+  pointer-events: all;
+}
+.truck-view-seats[data-polygons="training"] .truck-view-svg a:focus-visible {
+  outline: 2px solid #d6ff3f;
+  outline-offset: 2px;
+}
+.truck-view-seats[data-polygons="training"] .truck-seat.is-raw,
+.truck-view-seats[data-polygons="training"] .truck-seat.is-held {
+  fill: rgba(214, 255, 63, 0.14);
+  stroke: #d6ff3f;
+  stroke-width: 2.6;
+}
+.truck-view-seats[data-polygons="training"] .truck-seat.is-active,
+.truck-view-seats[data-polygons="training"] a:hover .truck-seat,
+.truck-view-seats[data-polygons="training"] a:focus-visible .truck-seat {
+  fill: rgba(214, 255, 63, 0.82);
+  stroke: #d6ff3f;
+  stroke-width: 2.6;
+}
+.truck-view-seats[data-polygons="training"] .truck-seat-caption {
+  font-family: var(--font-display), Syne, system-ui, sans-serif;
+  font-size: 26px;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  paint-order: stroke;
+  stroke: #07090c;
+  stroke-width: 3.5px;
+}
+.truck-view-seats[data-polygons="training"] .truck-seat-caption-rest {
+  fill: #d6ff3f;
+}
+.truck-view-seats[data-polygons="training"] .truck-seat-caption-active,
+.truck-view-seats[data-polygons="training"] .truck-seat-badge,
+.truck-view-seats[data-polygons="training"] .truck-seat-badge-n {
+  fill: transparent;
+  stroke: none;
+}
+.truck-view-seats[data-polygons="training"] a[data-active="true"] .truck-seat-caption-rest,
+.truck-view-seats[data-polygons="training"] a:hover .truck-seat-caption-rest,
+.truck-view-seats[data-polygons="training"] a:focus-visible .truck-seat-caption-rest {
+  fill: transparent;
+  stroke: none;
+}
+.truck-view-seats[data-polygons="training"] a[data-active="true"] .truck-seat-caption-active,
+.truck-view-seats[data-polygons="training"] a:hover .truck-seat-caption-active,
+.truck-view-seats[data-polygons="training"] a:focus-visible .truck-seat-caption-active {
+  fill: #12160a;
+  stroke: none;
+}
+.truck-view-seats[data-polygons="training"] a[data-active="true"] .truck-seat-badge,
+.truck-view-seats[data-polygons="training"] a:hover .truck-seat-badge,
+.truck-view-seats[data-polygons="training"] a:focus-visible .truck-seat-badge {
+  fill: #fff;
+}
+.truck-view-seats[data-polygons="training"] a[data-active="true"] .truck-seat-badge-n,
+.truck-view-seats[data-polygons="training"] a:hover .truck-seat-badge-n,
+.truck-view-seats[data-polygons="training"] a:focus-visible .truck-seat-badge-n {
+  fill: #12160a;
+  font-family: var(--font-display), Syne, system-ui, sans-serif;
+  font-size: 20px;
+  font-weight: 700;
 }
 .truck-view-legend {
   grid-row: 2;

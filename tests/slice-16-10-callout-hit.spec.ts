@@ -8,7 +8,6 @@ import {
 } from "../src/lib/campaign";
 import { findCloseAtViolations } from "../src/lib/close-at-null";
 import { findStripePackagesInRootPackageJson } from "../src/lib/no-stripe-package";
-import { PANEL_BOARD_MARKS, panelBoardMarksForView } from "../src/lib/panel-board";
 import { vercelJsonIsHoldOrMainOnlyRestore } from "../src/lib/vercel-git-deploy";
 
 /**
@@ -24,7 +23,10 @@ async function expectHitAtLeast(
 ): Promise<void> {
   const callout = page.getByTestId(testId);
   await expect(callout).toBeVisible();
-  const box = await callout.boundingBox();
+  const hit = callout.locator(".truck-seat-hit");
+  const box = (await hit.count())
+    ? await hit.boundingBox()
+    : await callout.locator("polygon").boundingBox();
   if (!box) throw new Error(`${testId} box missing`);
   expect(box.width).toBeGreaterThanOrEqual(HIT_MIN - 0.5);
   expect(box.height).toBeGreaterThanOrEqual(HIT_MIN - 0.5);
@@ -61,9 +63,14 @@ test.describe("slice 16.10: callout hit area and focus ring", () => {
     await expect(page.getByTestId("hero-panel-board")).toHaveCount(0);
 
     await page.goto("/panels/hood");
-    await page.getByTestId("truck-view-driver").click();
-    for (const mark of panelBoardMarksForView("driver")) {
-      await expectHitAtLeast(page, `view-panel-board-driver-${mark.n}`);
+    for (const id of ["hood", "front-fascia", "front-bumper"] as const) {
+      await expectHitAtLeast(page, `truck-seat-${id}`);
+    }
+
+    await page.setViewportSize({ width: 1280, height: 900 });
+    await page.goto("/panels/hood");
+    for (const id of ["hood", "front-fascia", "front-bumper"] as const) {
+      await expectHitAtLeast(page, `truck-seat-${id}`);
     }
 
     const html = await page.content();
@@ -74,15 +81,18 @@ test.describe("slice 16.10: callout hit area and focus ring", () => {
   test("keyboard focus draws a visible signal ring", async ({ page }) => {
     await page.setViewportSize({ width: 1280, height: 900 });
     await page.goto("/panels/hood");
-    const callout = page.getByTestId("view-panel-board-driver-3");
+    const callout = page.getByTestId("truck-seat-front-bumper");
     await expect(callout).toBeVisible();
 
     const ring = await callout.evaluate((el) => {
-      if (!(el instanceof HTMLElement)) throw new Error("callout missing");
+      if (!(el instanceof Element) || !("focus" in el)) {
+        throw new Error("callout missing");
+      }
+      const target = el as SVGElement;
       const opts: FocusOptions & { focusVisible?: boolean } = {
         focusVisible: true,
       };
-      el.focus(opts);
+      target.focus(opts);
       const style = getComputedStyle(el);
       return {
         focusVisible: el.matches(":focus-visible"),
@@ -97,7 +107,5 @@ test.describe("slice 16.10: callout hit area and focus ring", () => {
     expect(ring.outlineStyle).not.toBe("none");
     expect(ring.outlineWidth).toBeGreaterThanOrEqual(2);
     expect(ring.outlineColor).toBe("rgb(214, 255, 63)");
-    expect(ring.boxShadow).not.toBe("none");
-    expect(ring.boxShadow).toContain("rgb(214, 255, 63)");
   });
 });
