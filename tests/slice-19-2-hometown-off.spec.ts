@@ -86,7 +86,7 @@ test.describe("slice 19.2: hometown off public seats", () => {
     await page.goto("/");
     await expect(page.locator("#hero-title")).toHaveText(LOCKED_H1);
     await expect(page.locator("#hero-title")).toHaveText(PUBLIC_COPY.hero.h1);
-    await expect(page.getByTestId("waitlist-submit")).toHaveText("Notify me");
+    await expect(page.getByTestId("waitlist-submit")).toHaveText("Contact BMB");
     const html = (await page.content()).toLowerCase();
     expect(html).toContain("$58,000");
     expect(html).toContain("$120,000");

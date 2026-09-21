@@ -79,7 +79,7 @@ export const PANELS: readonly Panel[] = [
   },
   {
     id: "front-fascia",
-    name: "Front fascia (stainless)",
+    name: "Front Fascia",
     openingUsd: 2000,
     finishAtFloor: "wrap",
     finishAtGoal: "wrap_or_etch",
@@ -93,7 +93,7 @@ export const PANELS: readonly Panel[] = [
   },
   {
     id: "driver-door",
-    name: "Driver doors",
+    name: "Driver Side Doors",
     openingUsd: 4500,
     finishAtFloor: "wrap",
     finishAtGoal: "wrap_or_etch",
@@ -107,14 +107,14 @@ export const PANELS: readonly Panel[] = [
   },
   {
     id: "driver-bed",
-    name: "Driver bed",
+    name: "Driver Side Bed",
     openingUsd: 2000,
     finishAtFloor: "wrap",
     finishAtGoal: "wrap_or_etch",
   },
   {
     id: "passenger-door",
-    name: "Passenger doors",
+    name: "Passenger Side Doors",
     openingUsd: 4500,
     finishAtFloor: "wrap",
     finishAtGoal: "wrap_or_etch",
@@ -128,7 +128,7 @@ export const PANELS: readonly Panel[] = [
   },
   {
     id: "passenger-bed",
-    name: "Passenger bed",
+    name: "Passenger Side Bed",
     openingUsd: 2000,
     finishAtFloor: "wrap",
     finishAtGoal: "wrap_or_etch",
@@ -164,6 +164,24 @@ export function formatUsd(amount: number): string {
     currency: "USD",
     maximumFractionDigits: 0,
   }).format(amount);
+}
+
+/**
+ * Price line on a seat: opening until a real bid exists, then the highest bid.
+ * A missing or non-positive mark is not a bid.
+ */
+export function currentBidUsd(
+  openingUsd: number,
+  highestBidUsd: number | null | undefined,
+): number {
+  if (
+    highestBidUsd != null &&
+    Number.isFinite(highestBidUsd) &&
+    highestBidUsd > 0
+  ) {
+    return highestBidUsd;
+  }
+  return openingUsd;
 }
 
 /**

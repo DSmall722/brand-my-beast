@@ -66,15 +66,11 @@ test.describe("slice 20.7: whole-truck lead is one sentence", () => {
     page,
   }) => {
     await page.goto("/#money");
-    await expect(page.getByTestId("whole-truck-lead")).toHaveText(
-      PUBLIC_COPY.board.wholeTruckLead,
+    await expect(page.getByTestId("want-all-panels")).toHaveText(
+      PUBLIC_COPY.board.wantAllPanels,
     );
-    await expect(page.getByTestId("whole-truck-lead")).not.toContainText(
-      "1 Hood",
-    );
-    await expect(page.getByTestId("whole-truck-heading")).toHaveText(
-      "Whole truck — $120,000",
-    );
+    await expect(page.getByTestId("whole-truck-lead")).toHaveCount(0);
+    await expect(page.getByTestId("whole-truck-heading")).toHaveCount(0);
     await expect(page.locator("#hero-title")).toHaveText(LOCKED_H1);
     const html = await page.content();
     expect(html).not.toContain("The package is 1 Hood");

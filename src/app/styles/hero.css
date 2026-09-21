@@ -391,14 +391,24 @@
 }
 
 .panel-number-legend a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 2.25rem;
+  padding: 0.3rem 0.7rem;
   color: var(--steel-100);
   text-decoration: none;
   font-size: 0.92rem;
+  border: 1px solid color-mix(in oklab, white 18%, transparent);
+  border-radius: 999px;
+  background: color-mix(in oklab, white 5%, transparent);
+  cursor: pointer;
 }
 
 .panel-number-legend a:hover,
 .panel-number-legend a:focus-visible {
   color: white;
+  border-color: var(--signal);
+  background: color-mix(in oklab, var(--signal) 14%, transparent);
   outline: 2px solid var(--signal);
   outline-offset: 2px;
 }

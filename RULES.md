@@ -11,14 +11,14 @@ Eleven panels. Opening bids (minimum first mark). Board order is 1–11 next to 
 | n | Id | Panel | Opening | Finish at floor | Finish if $120k hits |
 |---:|---|---|---:|---|---|
 | 1 | `hood` | Hood | $2,500 | wrap | wrap or etch |
-| 2 | `front-fascia` | Front fascia (stainless) | $2,000 | wrap | wrap or etch |
+| 2 | `front-fascia` | Front Fascia | $2,000 | wrap | wrap or etch |
 | 3 | `front-bumper` | Front bumper | $500 | wrap | wrap only |
-| 4 | `driver-door` | Driver doors | $4,500 | wrap | wrap or etch |
+| 4 | `driver-door` | Driver Side Doors | $4,500 | wrap | wrap or etch |
 | 5 | `driver-rear-quarter` | Driver Rear Sail | $1,000 | wrap | wrap or etch |
-| 6 | `driver-bed` | Driver bed | $2,000 | wrap | wrap or etch |
-| 7 | `passenger-door` | Passenger doors | $4,500 | wrap | wrap or etch |
+| 6 | `driver-bed` | Driver Side Bed | $2,000 | wrap | wrap or etch |
+| 7 | `passenger-door` | Passenger Side Doors | $4,500 | wrap | wrap or etch |
 | 8 | `passenger-rear-quarter` | Passenger Rear Sail | $1,000 | wrap | wrap or etch |
-| 9 | `passenger-bed` | Passenger bed | $2,000 | wrap | wrap or etch |
+| 9 | `passenger-bed` | Passenger Side Bed | $2,000 | wrap | wrap or etch |
 | 10 | `tailgate` | Tailgate | $2,500 | wrap | wrap or etch |
 | 11 | `rear-bumper` | Rear bumper | $500 | wrap | wrap only |
 
@@ -28,7 +28,7 @@ Nine steel faces can take Immortal etch, and **only after $120,000**: hood, fron
 
 Wrap-only forever: front bumper (simple-mark only: website and/or phone number; leave camera lens/washer clear), rear bumper (simple-mark only: website and/or phone number).
 
-Seat 4 is the driver-side cab door package (front + rear leaf). Seat 7 is the passenger-side package. One seat per side — not a combined both-sides price. Public names: Driver doors / Passenger doors.
+Seat 4 is the driver-side cab door package (front + rear leaf). Seat 7 is the passenger-side package. One seat per side — not a combined both-sides price. Public names: Driver Side Doors / Passenger Side Doors. Sail names stay Driver Rear Sail / Passenger Rear Sail.
 
 ## Increments
 

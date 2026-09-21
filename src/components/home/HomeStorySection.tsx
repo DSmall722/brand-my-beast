@@ -27,6 +27,9 @@ export function HomeStorySection() {
               </li>
             ))}
           </ol>
+          <p className="story-forever" data-testid="story-etch-forever">
+            <ImmortalEtchLockup text={PUBLIC_COPY.howItWorks.foreverLine} />
+          </p>
         </section>
   );
 }

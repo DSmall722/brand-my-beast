@@ -1,6 +1,7 @@
 "use client";
 
 import { FormEvent, useEffect, useRef, useState } from "react";
+import { WANT_WHOLE_TRUCK_EVENT } from "@/components/home/WantAllPanelsLink";
 import { PUBLIC_COPY } from "@/lib/public-copy";
 
 type Status = "idle" | "loading" | "created" | "exists" | "error";
@@ -20,6 +21,16 @@ export function WaitlistForm() {
     if (status === "idle" || status === "loading") return;
     statusRef.current?.focus();
   }, [status]);
+
+  useEffect(() => {
+    function onWantWholeTruck() {
+      setWantWholeTruck(true);
+    }
+    window.addEventListener(WANT_WHOLE_TRUCK_EVENT, onWantWholeTruck);
+    return () => {
+      window.removeEventListener(WANT_WHOLE_TRUCK_EVENT, onWantWholeTruck);
+    };
+  }, []);
 
   async function onSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -121,7 +132,7 @@ export function WaitlistForm() {
         tabIndex={-1}
         data-testid="waitlist-status"
       >
-        {message || PUBLIC_COPY.waitlist.idleNote}
+        {message}
       </p>
       {showNext ? (
         <p className="waitlist-next" data-testid="waitlist-next">

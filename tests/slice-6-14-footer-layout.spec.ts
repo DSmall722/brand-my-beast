@@ -48,26 +48,19 @@ test.describe("slice 6.14: footer layout", () => {
 
     const footer = page.getByTestId("site-footer");
     const line = page.getByTestId("site-footer-line");
-    const independent = page.getByTestId("site-footer-independent");
 
     await expect(line).toHaveText(PUBLIC_COPY.footer.line);
-    await expect(independent).toHaveText(PUBLIC_COPY.footer.independent);
+    await expect(page.getByTestId("site-footer-independent")).toHaveCount(0);
     expect(PUBLIC_COPY.footer.line).toBe(
       `${BRAND.name} · ${BRAND.handle} · ${BRAND.email}`,
     );
-    expect(PUBLIC_COPY.footer.independent).toBe("Independent. Not Tesla.");
 
     const footerBox = await footer.boundingBox();
     const lineBox = await line.boundingBox();
-    const independentBox = await independent.boundingBox();
     expect(footerBox).toBeTruthy();
     expect(lineBox).toBeTruthy();
-    expect(independentBox).toBeTruthy();
-    if (!footerBox || !lineBox || !independentBox) return;
+    if (!footerBox || !lineBox) return;
 
-    // Identity line sits above the independent line (stacked column).
-    expect(independentBox.y).toBeGreaterThan(lineBox.y + lineBox.height - 2);
-    // Footer stays on-screen width on a phone.
     expect(footerBox.x + footerBox.width).toBeLessThanOrEqual(390 + 1);
 
     const html = (await page.content()).toLowerCase();
@@ -83,8 +76,6 @@ test.describe("slice 6.14: footer layout", () => {
     await expect(page.getByTestId("site-footer-line")).toHaveText(
       PUBLIC_COPY.footer.line,
     );
-    await expect(page.getByTestId("site-footer-independent")).toHaveText(
-      PUBLIC_COPY.footer.independent,
-    );
+    await expect(page.getByTestId("site-footer-independent")).toHaveCount(0);
   });
 });

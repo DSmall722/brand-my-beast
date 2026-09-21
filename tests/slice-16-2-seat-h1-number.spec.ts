@@ -17,7 +17,7 @@ import {
 import { vercelJsonIsHoldOrMainOnlyRestore } from "../src/lib/vercel-git-deploy";
 
 /**
- * Slice 16.2 — seat page H1 includes the board number (`4 · Driver doors`).
+ * Slice 16.2 — seat page H1 includes the board number (`4 · Driver Side Doors`).
  * CLOSE_AT null. No Stripe. No SEATS_OPEN flip.
  */
 
@@ -40,10 +40,10 @@ test.describe("slice 16.2: seat page H1 includes board number", () => {
     expect(vercelJsonIsHoldOrMainOnlyRestore()).toBe(true);
   });
 
-  test("panelSeatH1 matches board marks (4 · Driver doors)", () => {
+  test("panelSeatH1 matches board marks (4 · Driver Side Doors)", () => {
     const driverDoor = PANELS.find((row) => row.id === "driver-door");
     expect(driverDoor).toBeTruthy();
-    expect(panelSeatH1(driverDoor!)).toBe("4 · Driver doors");
+    expect(panelSeatH1(driverDoor!)).toBe("4 · Driver Side Doors");
     expect(panelBoardMarkFor("driver-door").n).toBe(4);
     expect(panelSeatH1(PANELS[0]!)).toBe("1 · Hood");
     expect(panelSeatH1(PANELS[10]!)).toBe("11 · Rear bumper");
@@ -69,7 +69,7 @@ test.describe("slice 16.2: seat page H1 includes board number", () => {
 
     await page.goto("/panels/driver-door");
     await expect(page.getByTestId("panel-seat-h1")).toHaveText(
-      "4 · Driver doors",
+      "4 · Driver Side Doors",
     );
 
     const html = await page.content();

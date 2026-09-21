@@ -64,7 +64,7 @@ test.describe("slice 16.0b: PUBLIC_COPY waitlist whole-truck checkbox copy", () 
   test("homepage H1 unchanged; Notify me still present", async ({ page }) => {
     await page.goto("/");
     await expect(page.getByRole("heading", { level: 1 })).toHaveText(LOCKED_H1);
-    await expect(page.getByRole("button", { name: "Notify me" })).toBeVisible();
+    await expect(page.getByRole("button", { name: "Contact BMB" })).toBeVisible();
     // 16.0e wires the checkbox; 16.0b only locked the copy strings.
     const html = await page.content();
     expect(html.toLowerCase()).not.toMatch(/\blease\b/);

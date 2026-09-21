@@ -46,7 +46,7 @@ test.describe("slice 6.11: homepage matches PUBLIC_COPY H1 and Notify me", () =>
     expect(PUBLIC_COPY.hero.h1).toBe(
       "Put your brand on the truck people already photograph.",
     );
-    expect(PUBLIC_COPY.waitlist.button).toBe("Notify me");
+    expect(PUBLIC_COPY.waitlist.button).toBe("Contact BMB");
   });
 
   test("homepage renders locked H1 and Notify me verbatim", async ({ page }) => {
@@ -59,13 +59,13 @@ test.describe("slice 6.11: homepage matches PUBLIC_COPY H1 and Notify me", () =>
     await expect(page.getByTestId("waitlist-submit")).toHaveText(
       PUBLIC_COPY.waitlist.button,
     );
-    await expect(page.getByTestId("waitlist-submit")).toHaveText("Notify me");
+    await expect(page.getByTestId("waitlist-submit")).toHaveText("Contact BMB");
 
     const html = (await page.content()).toLowerCase();
     expect(html).toContain(
       "put your brand on the truck people already photograph.",
     );
-    expect(html).toContain("notify me");
+    expect(html).toContain("contact bmb");
     expect(html).not.toMatch(/\blease\b/);
     expect(html).not.toMatch(/@gmail\.com/);
     expect(html).not.toContain("close_at");

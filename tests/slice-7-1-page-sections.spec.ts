@@ -72,7 +72,7 @@ test.describe("slice 7.1: page section components", () => {
     await expect(page.getByTestId("waitlist-submit")).toHaveText(
       PUBLIC_COPY.waitlist.button,
     );
-    expect(PUBLIC_COPY.waitlist.button).toBe("Notify me");
+    expect(PUBLIC_COPY.waitlist.button).toBe("Contact BMB");
     await expect(page.getByTestId("floor-amount")).toHaveText(
       formatUsd(FLOOR_USD),
     );

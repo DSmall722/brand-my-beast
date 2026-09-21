@@ -1,3 +1,4 @@
+import { WantAllPanelsLink } from "@/components/home/WantAllPanelsLink";
 import { FLOOR_USD, GOAL_USD, PANELS, formatUsd } from "@/lib/campaign";
 import { isWholeTruckIntentOpen } from "@/lib/intent-store";
 import { PUBLIC_COPY } from "@/lib/public-copy";
@@ -41,7 +42,6 @@ export function HomeMoneySection({
           aria-labelledby="money-title"
         >
           <h2 id="money-title">{PUBLIC_COPY.board.heading}</h2>
-          <p className="section-lead">{PUBLIC_COPY.board.lead}</p>
           <div className="money-grid">
             <div className="money-cell">
               <div className="label" data-testid="raised-label">
@@ -50,9 +50,6 @@ export function HomeMoneySection({
               <div className="value" data-testid="raised-amount">
                 {raisedLabel}
               </div>
-              <p className="hint" data-testid="raised-hint">
-                {PUBLIC_COPY.board.raisedHint}
-              </p>
             </div>
             <div className="money-cell">
               <div className="label">{PUBLIC_COPY.board.floorLabel}</div>
@@ -68,9 +65,6 @@ export function HomeMoneySection({
               <div className="value" data-testid="goal-amount">
                 {goalLabel}
               </div>
-              <p className="hint" data-testid="goal-hint">
-                {PUBLIC_COPY.board.buyoutHint}
-              </p>
             </div>
           </div>
           <div
@@ -80,15 +74,10 @@ export function HomeMoneySection({
             role="img"
             aria-label={
               pledgedUsd === 0
-                ? `${PUBLIC_COPY.board.vaultEmpty}. Floor marker at ${floorLabel}. Buyout marker at ${goalLabel}.`
+                ? `Floor marker at ${floorLabel}. Buyout marker at ${goalLabel}.`
                 : `Visual vault: ${raisedLabel} of ${goalLabel}. Floor marker at ${floorLabel}. Buyout marker at ${goalLabel}.`
             }
           >
-            {pledgedUsd === 0 ? (
-              <p className="vault-empty" data-testid="vault-empty">
-                {PUBLIC_COPY.board.vaultEmpty}
-              </p>
-            ) : null}
             <div className="progress-track" aria-hidden="true">
               <div
                 className="progress-fill"
@@ -123,7 +112,9 @@ export function HomeMoneySection({
             <div className="progress-meta">
               <span data-testid="floor-progress-copy">{floorPct}% of floor</span>
               <span data-testid="goal-progress-copy">{goalPct}% of buyout</span>
-              <span data-testid="close-copy">{closeCopy}</span>
+              {closeCopy === PUBLIC_COPY.board.clockWhenCloseNull ? null : (
+                <span data-testid="close-copy">{closeCopy}</span>
+              )}
             </div>
           </div>
           <dl
@@ -173,12 +164,7 @@ export function HomeMoneySection({
               data-testid="whole-truck-intent"
               style={{ marginTop: "1.75rem" }}
             >
-              <h3 data-testid="whole-truck-heading">
-                {PUBLIC_COPY.board.wholeTruckHeading}
-              </h3>
-              <p className="section-lead" data-testid="whole-truck-lead">
-                {PUBLIC_COPY.board.wholeTruckLead}
-              </p>
+              <WantAllPanelsLink />
             </div>
           ) : (
             <p

@@ -41,8 +41,8 @@ test.describe("Syne lockup, board marks, seat lead", () => {
     for (const lockup of await lockups.all()) {
       await expect(lockup).toHaveText("Immortal Etch");
     }
-    const forever = page.locator("#story .story-step-copy").nth(2);
-    await expect(forever).toContainText(PUBLIC_COPY.etch.forever);
+    const forever = page.getByTestId("story-etch-forever");
+    await expect(forever).toContainText(PUBLIC_COPY.howItWorks.foreverLine);
     const fonts = await page.evaluate(() => {
       const lockup = document.querySelector("#story .immortal-etch");
       const title = document.querySelector("#story .story-step-title");
@@ -88,10 +88,13 @@ test.describe("Syne lockup, board marks, seat lead", () => {
 
   test("hood and fascia seat leads use Immortal Etch; bumpers stay wrap-only", async ({
     page,
+    request,
   }) => {
+    const reset = await request.post("/api/test/reset-intents");
+    expect(reset.ok()).toBeTruthy();
     await page.goto("/panels/hood");
     const hood = page.getByTestId("seat-lead");
-    await expect(hood).toContainText("Opens at $2,500");
+    await expect(hood).toContainText("Current Bid $2,500");
     await expect(hood).toContainText("Immortal Etch");
     await expect(hood).not.toContainText("Etchable only");
     await expect(page.getByTestId("seat-finish")).toHaveAttribute(
@@ -106,7 +109,7 @@ test.describe("Syne lockup, board marks, seat lead", () => {
 
     await page.goto("/panels/front-fascia");
     const fascia = page.getByTestId("seat-lead");
-    await expect(fascia).toContainText("Opens at $2,000");
+    await expect(fascia).toContainText("Current Bid $2,000");
     await expect(fascia).toContainText("Immortal Etch");
     await expect(fascia).not.toContainText("forever");
     await expect(page.getByTestId("seat-finish")).toHaveAttribute(
@@ -116,7 +119,7 @@ test.describe("Syne lockup, board marks, seat lead", () => {
 
     await page.goto("/panels/front-bumper");
     const bumper = page.getByTestId("seat-lead");
-    await expect(bumper).toContainText("Opens at $500");
+    await expect(bumper).toContainText("Current Bid $500");
     await expect(bumper).toContainText("Wrap only");
     await expect(page.getByTestId("seat-finish")).toHaveAttribute(
       "data-etchable",

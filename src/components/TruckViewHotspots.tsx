@@ -8,12 +8,10 @@ import {
   panelBoardMarkFor,
   panelOverlayLabel,
 } from "@/lib/panel-board";
-import { PUBLIC_COPY } from "@/lib/public-copy";
 import { truckImgAlt } from "@/lib/truck-img-alt";
 import { TRACE_AID_STILL, truckViewStillSrc } from "@/lib/truck-stills";
 import {
   TRUCK_VIEWS,
-  TRUCK_VIEWS_LEAD,
   TRUCK_VIEW_BOX,
   hotspotsForView,
   viewOwningPanel,
@@ -63,11 +61,6 @@ export function TruckViewHotspots({
       data-single-seat={singleSeat ? "true" : "false"}
       data-training="hybrid"
     >
-      {singleSeat ? null : (
-        <p className="auth-hint truck-view-lead" data-testid="truck-view-lead">
-          {TRUCK_VIEWS_LEAD}
-        </p>
-      )}
       {singleSeat ? null : (
         <div
           className="truck-view-toolbar"
@@ -162,11 +155,6 @@ export function TruckViewHotspots({
             })}
           </svg>
         </div>
-        {singleSeat ? null : (
-          <p className="truck-view-legend" data-testid="truck-view-legend">
-            {PUBLIC_COPY.board.seatLegend}
-          </p>
-        )}
       </div>
     </div>
   );

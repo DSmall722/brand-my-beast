@@ -8,7 +8,6 @@ import {
 } from "../src/lib/campaign";
 import { findCloseAtViolations } from "../src/lib/close-at-null";
 import { findStripePackagesInRootPackageJson } from "../src/lib/no-stripe-package";
-import { PUBLIC_COPY } from "../src/lib/public-copy";
 import { vercelJsonIsHoldOrMainOnlyRestore } from "../src/lib/vercel-git-deploy";
 
 /**
@@ -38,11 +37,7 @@ test.describe("slice 17.3: open-seat legend drops 30X", () => {
 
   test("homepage legend and aria use buyer seat words", async ({ page }) => {
     await page.goto("/");
-    const legend = page.getByTestId("truck-view-legend");
-    await expect(legend).toHaveText(PUBLIC_COPY.board.seatLegend);
-    await expect(legend).not.toContainText("Held = standing intent");
-    await expect(legend).not.toContainText("30X");
-    await expect(legend).not.toContainText("Not a 360");
+    await expect(page.getByTestId("truck-view-legend")).toHaveCount(0);
     const empty = page.getByTestId("truck-seat-driver-door");
     await expect(empty).toBeVisible();
     await expect(empty).toHaveAttribute("aria-label", /open seat$/);

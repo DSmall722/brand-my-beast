@@ -87,6 +87,6 @@ test.describe("slice 19.8: desktop H1 clears callouts 2 3 5", () => {
 
   test("Notify me stays on the homepage", async ({ page }) => {
     await page.goto("/");
-    await expect(page.getByTestId("waitlist-submit")).toHaveText("Notify me");
+    await expect(page.getByTestId("waitlist-submit")).toHaveText("Contact BMB");
   });
 });

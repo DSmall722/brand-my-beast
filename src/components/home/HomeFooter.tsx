@@ -8,12 +8,6 @@ export function HomeFooter() {
       <p className="site-footer-line" data-testid="site-footer-line">
         {PUBLIC_COPY.footer.line}
       </p>
-      <p
-        className="fine-print site-footer-independent"
-        data-testid="site-footer-independent"
-      >
-        {PUBLIC_COPY.footer.independent}
-      </p>
       <nav className="site-footer-legal" data-testid="site-footer-legal">
         <Link href="/privacy" data-testid="footer-privacy-link">
           Privacy

@@ -1,21 +1,28 @@
 import { PUBLIC_COPY } from "@/lib/public-copy";
 
-/** Slice 7.1 — extracted from `src/app/page.tsx`. Copy unchanged. */
+/** Immortal Etch stays on the homepage. Sample frames wait on real etch photos. */
 export function HomeEtchSection() {
   return (
-        <section
-          className="shell section"
-          id="etch"
-          aria-labelledby="etch-title"
-          data-testid="etch-section"
-        >
-          <h2 id="etch-title" className="immortal-etch">
-            {PUBLIC_COPY.etch.heading}
-          </h2>
-          <p className="section-lead">{PUBLIC_COPY.etch.body}</p>
-          <p className="section-lead">{PUBLIC_COPY.etch.whyBuyout}</p>
-          <p className="section-lead">{PUBLIC_COPY.etch.cost}</p>
-          <p className="section-lead">{PUBLIC_COPY.etch.art}</p>
-        </section>
+    <section
+      className="shell section"
+      id="etch"
+      aria-labelledby="etch-title"
+      data-testid="etch-section"
+    >
+      <h2 id="etch-title" className="immortal-etch">
+        {PUBLIC_COPY.etch.heading}
+      </h2>
+      <div className="etch-samples" data-testid="etch-sample-slots">
+        {PUBLIC_COPY.etch.sampleSlots.map((slot) => (
+          <div
+            key={slot.id}
+            className="etch-sample-frame"
+            role="img"
+            aria-label={slot.label}
+            data-testid={`etch-sample-${slot.id}`}
+          />
+        ))}
+      </div>
+    </section>
   );
 }

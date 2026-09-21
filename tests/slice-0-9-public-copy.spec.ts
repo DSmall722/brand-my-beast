@@ -52,7 +52,7 @@ test.describe("slice 0.9: PUBLIC_COPY v2 on /", () => {
     expect(md).toContain("- Lead: `concept photo`");
     expect(md).toContain("- Hero caption: `concept photo`");
     expect(md).not.toMatch(/- Lead: `Concept preview`/);
-    expect(PUBLIC_COPY.waitlist.button).toBe("Notify me");
+    expect(PUBLIC_COPY.waitlist.button).toBe("Contact BMB");
     expect(PUBLIC_COPY.board.raisedLabel.toLowerCase()).not.toContain(
       "pledged intent",
     );
@@ -93,6 +93,6 @@ test.describe("slice 0.9: PUBLIC_COPY v2 on /", () => {
     expect(lower).not.toMatch(/operator[- ]financ/);
     expect(html).toContain(PUBLIC_COPY.hero.h1);
     expect(html).toContain("concept photo");
-    expect(html).toContain("Notify me");
+    expect(html).toContain("Contact BMB");
   });
 });

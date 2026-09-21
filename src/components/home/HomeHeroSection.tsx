@@ -68,7 +68,7 @@ export function HomeHeroSection({
                 {PUBLIC_COPY.hero.primaryCta}
               </ArrowFillButton>
               <a
-                className="btn btn-ghost"
+                className="btn btn-panel"
                 href="#panels"
                 data-testid="hero-secondary-cta"
               >

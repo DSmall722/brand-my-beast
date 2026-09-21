@@ -94,7 +94,8 @@ test.describe("slice 12.25: contract markdown template", () => {
     page,
   }) => {
     await page.goto("/");
-    await expect(page.getByTestId("wreck-refund-faq")).toBeVisible();
+    await expect(page.getByTestId("wreck-refund-faq")).toHaveCount(0);
+    await expect(page.getByTestId("faq-campaign-miss")).toBeVisible();
     const html = await page.content();
     expect(html).not.toContain("DocuSign");
     expect(html).not.toContain("signature product");

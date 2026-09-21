@@ -48,9 +48,7 @@ test.describe("slice 7.9: privacy and terms stubs", () => {
     await expect(page.getByTestId("site-footer-line")).toHaveText(
       PUBLIC_COPY.footer.line,
     );
-    await expect(page.getByTestId("site-footer-independent")).toHaveText(
-      PUBLIC_COPY.footer.independent,
-    );
+    await expect(page.getByTestId("site-footer-independent")).toHaveCount(0);
     await expect(page.getByTestId("footer-privacy-link")).toHaveAttribute(
       "href",
       "/privacy",

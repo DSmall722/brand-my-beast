@@ -49,12 +49,13 @@ test.describe("slice 17.1: truck views lead is a buyer sentence", () => {
 
   test("homepage lead matches the buyer sentence", async ({ page }) => {
     await page.goto("/");
-    const lead = page.getByTestId("truck-view-lead");
-    await expect(lead).toContainText(formatUsd(FLOOR_USD));
-    await expect(lead).toContainText(formatUsd(GOAL_USD));
-    await expect(lead).not.toContainText("prototype");
-    await expect(lead).not.toContainText("hotspot");
-    await expect(lead).not.toContainText("30X");
+    await expect(page.getByTestId("truck-view-lead")).toHaveCount(0);
+    await expect(page.getByTestId("floor-amount")).toContainText(
+      formatUsd(FLOOR_USD),
+    );
+    await expect(page.getByTestId("goal-amount")).toContainText(
+      formatUsd(GOAL_USD),
+    );
     const html = await page.content();
     expect(html).not.toContain("FEATURES.md");
     expect(html.toLowerCase()).not.toMatch(/\blease\b/);

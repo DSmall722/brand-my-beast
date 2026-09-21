@@ -21,6 +21,8 @@ export type TruckStillId = "hero" | TruckViewId;
 export type PanelFaceCrop = {
   readonly still: TruckStillId;
   readonly objectPosition: string;
+  /** CSS background-size. Side cards zoom into one panel; front/rear stay cover. */
+  readonly backgroundSize?: string;
 };
 
 export function truckStillSrc(still: TruckStillId): string {

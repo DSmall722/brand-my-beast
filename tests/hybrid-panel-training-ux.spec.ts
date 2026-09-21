@@ -31,14 +31,14 @@ const ROOT = process.cwd();
 
 const LOCKED_LABELS = [
   "(1) Hood",
-  "(2) Front fascia",
+  "(2) Front Fascia",
   "(3) Front bumper",
-  "(4) Driver doors",
+  "(4) Driver Side Doors",
   "(5) Driver Rear Sail",
-  "(6) Driver bed",
-  "(7) Passenger doors",
+  "(6) Driver Side Bed",
+  "(7) Passenger Side Doors",
   "(8) Passenger Rear Sail",
-  "(9) Passenger bed",
+  "(9) Passenger Side Bed",
   "(10) Tailgate",
   "(11) Rear bumper",
 ] as const;
@@ -243,7 +243,7 @@ test.describe("hybrid panel training UX", () => {
     await expect(page.getByTestId("truck-view-svg").locator("a")).toHaveCount(3);
     await expect(page.getByTestId("truck-seat-driver-door")).toHaveAttribute(
       "data-seat-label",
-      "(4) Driver doors",
+      "(4) Driver Side Doors",
     );
     await expect(page.getByTestId("truck-seat-driver-rear-quarter")).toHaveAttribute(
       "data-seat-label",
@@ -251,7 +251,7 @@ test.describe("hybrid panel training UX", () => {
     );
     await expect(page.getByTestId("truck-seat-driver-bed")).toHaveAttribute(
       "data-seat-label",
-      "(6) Driver bed",
+      "(6) Driver Side Bed",
     );
     await expect(page.getByTestId("truck-seat-label-driver-door")).toHaveCount(0);
     await expect(page.getByTestId("truck-seat-hood")).toHaveCount(0);
@@ -275,7 +275,7 @@ test.describe("hybrid panel training UX", () => {
     await expect(page.getByTestId("truck-view-svg").locator("a")).toHaveCount(3);
     await expect(page.getByTestId("truck-seat-passenger-door")).toHaveAttribute(
       "data-seat-label",
-      "(7) Passenger doors",
+      "(7) Passenger Side Doors",
     );
     await expect(page.getByTestId("truck-seat-passenger-rear-quarter")).toHaveAttribute(
       "data-seat-label",
@@ -283,7 +283,7 @@ test.describe("hybrid panel training UX", () => {
     );
     await expect(page.getByTestId("truck-seat-passenger-bed")).toHaveAttribute(
       "data-seat-label",
-      "(9) Passenger bed",
+      "(9) Passenger Side Bed",
     );
     await expect(page.getByTestId("truck-seat-hood")).toHaveCount(0);
     await expect(page.getByTestId("truck-seat-label-passenger-door")).toHaveCount(
@@ -295,7 +295,7 @@ test.describe("hybrid panel training UX", () => {
     await expect(hood).toHaveAttribute("data-seat-label", "(1) Hood");
     await expect(page.getByTestId("truck-seat-front-fascia")).toHaveAttribute(
       "data-seat-label",
-      "(2) Front fascia",
+      "(2) Front Fascia",
     );
     await expect(page.getByTestId("truck-seat-front-bumper")).toHaveAttribute(
       "data-seat-label",
