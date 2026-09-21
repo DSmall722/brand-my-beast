@@ -36,7 +36,9 @@ test.describe("notes PDF homepage sheet", () => {
     await expect(heroContact).toHaveAttribute("href", "#waitlist");
     await expect(heroContact).toHaveClass(/btn-panel/);
     await expect(heroContact).not.toHaveClass(/obsidian-arrow-fill-btn/);
-    await expect(page.locator(".site-header .nav-link")).toHaveText("Contact BMB");
+    await expect(
+      page.locator('.site-header a.nav-link[href="#waitlist"]'),
+    ).toHaveText("Contact BMB");
     await expect(page.locator("#panels-title")).toHaveText("Bid on a Panel");
     await expect(page.locator("#truck-views-title")).toHaveText(
       "Preview the Panels",

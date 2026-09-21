@@ -276,8 +276,8 @@ test.describe("hybrid panel training UX", () => {
       return { w: img.naturalWidth, h: img.naturalHeight };
     });
     expect(dims).toEqual({
-      w: TRACE_AID_STILL.width,
-      h: TRACE_AID_STILL.height,
+      w: DRIVER_BOARD_STILL.width,
+      h: DRIVER_BOARD_STILL.height,
     });
 
     await page.getByTestId("truck-view-passenger").click();
@@ -299,6 +299,11 @@ test.describe("hybrid panel training UX", () => {
     await expect(page.getByTestId("truck-seat-label-passenger-door")).toHaveCount(
       0,
     );
+    await expect
+      .poll(async () =>
+        photo.evaluate((el) => (el as HTMLImageElement).naturalWidth),
+      )
+      .toBe(PASSENGER_BOARD_STILL.width);
 
     await page.getByTestId("truck-view-front").click();
     const hood = page.getByTestId("truck-seat-hood");
