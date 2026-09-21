@@ -15,7 +15,8 @@ import { findStripePackagesInRootPackageJson } from "../src/lib/no-stripe-packag
 import { vercelJsonIsHoldOrMainOnlyRestore } from "../src/lib/vercel-git-deploy";
 
 /**
- * Slice 16.39 — number badge vs stainless still meets 4.5:1.
+ * Slice 16.39 — `(N) Name` chip text vs the plate meets 4.5:1.
+ * Hybrid labels sit on a dark chip, not a bare steel disc.
  * CLOSE_AT null. No Stripe.
  */
 
@@ -38,7 +39,7 @@ test.describe("slice 16.39: callout contrast on stainless", () => {
     expect(vercelJsonIsHoldOrMainOnlyRestore()).toBe(true);
   });
 
-  test("badge 3 against the still is at least 4.5:1", async ({ page }) => {
+  test("(1) Hood chip text vs plate is at least 4.5:1", async ({ page }) => {
     await page.setViewportSize({ width: 1280, height: 900 });
     await page.goto("/panels/hood");
     await page.locator(".truck-view-photo").evaluate((el) => {
@@ -59,14 +60,18 @@ test.describe("slice 16.39: callout contrast on stainless", () => {
       if (!(callout instanceof HTMLElement) || !(img instanceof HTMLImageElement)) {
         return null;
       }
+      const style = getComputedStyle(callout);
       const paint = document.createElement("canvas");
       paint.width = 1;
       paint.height = 1;
       const paintCtx = paint.getContext("2d");
       if (!paintCtx) return null;
-      paintCtx.fillStyle = getComputedStyle(callout).backgroundColor;
+      paintCtx.fillStyle = style.backgroundColor;
       paintCtx.fillRect(0, 0, 1, 1);
       const badgePx = paintCtx.getImageData(0, 0, 1, 1).data;
+      paintCtx.fillStyle = style.color;
+      paintCtx.fillRect(0, 0, 1, 1);
+      const inkPx = paintCtx.getImageData(0, 0, 1, 1).data;
 
       const ir = img.getBoundingClientRect();
       const cr = callout.getBoundingClientRect();
@@ -80,7 +85,7 @@ test.describe("slice 16.39: callout contrast on stainless", () => {
         img.naturalWidth - 1,
         Math.max(
           0,
-          Math.round(((cr.right + 36 - ir.left) / ir.width) * img.naturalWidth),
+          Math.round(((cr.left + cr.width / 2 - ir.left) / ir.width) * img.naturalWidth),
         ),
       );
       const sy = Math.min(
@@ -94,6 +99,7 @@ test.describe("slice 16.39: callout contrast on stainless", () => {
       );
       const steelPx = ctx.getImageData(sx, sy, 1, 1).data;
       return {
+        ink: [inkPx[0], inkPx[1], inkPx[2]] as [number, number, number],
         badge: [badgePx[0], badgePx[1], badgePx[2], badgePx[3] / 255] as [
           number,
           number,
@@ -105,10 +111,10 @@ test.describe("slice 16.39: callout contrast on stainless", () => {
     });
     expect(sample).not.toBeNull();
     const plate = compositeOver(sample!.badge, sample!.steel);
-    const ratio = contrastRatio(plate, sample!.steel);
+    const ratio = contrastRatio(sample!.ink, plate);
     expect(
       ratio,
-      `badge ${sample!.badge.join(",")} steel ${sample!.steel.join(",")} plate ${plate.join(",")} ratio ${ratio.toFixed(2)}`,
+      `ink ${sample!.ink.join(",")} badge ${sample!.badge.join(",")} steel ${sample!.steel.join(",")} plate ${plate.join(",")} ratio ${ratio.toFixed(2)}`,
     ).toBeGreaterThanOrEqual(4.5);
   });
 });
