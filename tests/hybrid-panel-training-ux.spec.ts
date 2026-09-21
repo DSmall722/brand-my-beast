@@ -127,21 +127,10 @@ async function parkPointer(page: Page) {
 }
 
 async function hoverSeatInterior(page: Page, testId: string) {
-  const point = await page.getByTestId(testId).locator("polygon").evaluate((el) => {
-    const polygon = el as SVGPolygonElement;
-    const svg = polygon.ownerSVGElement;
-    if (!svg) throw new Error("polygon has no svg");
-    const ctm = polygon.getScreenCTM();
-    if (!ctm) throw new Error("no screen CTM");
-    const pts = [...polygon.points].map((pt) => ({ x: pt.x, y: pt.y }));
-    const cx = pts.reduce((sum, pt) => sum + pt.x, 0) / pts.length;
-    const cy = pts.reduce((sum, pt) => sum + pt.y, 0) / pts.length;
-    return {
-      x: ctm.a * cx + ctm.c * cy + ctm.e,
-      y: ctm.b * cx + ctm.d * cy + ctm.f,
-    };
-  });
-  await page.mouse.move(point.x, point.y);
+  const seat = page.getByTestId(testId);
+  await seat.scrollIntoViewIfNeeded();
+  await expect(seat).toBeVisible();
+  await seat.hover({ force: true });
 }
 
 test.describe("hybrid panel training UX", () => {
@@ -319,6 +308,7 @@ test.describe("hybrid panel training UX", () => {
       .toBeGreaterThanOrEqual(0.35);
 
     await page.getByTestId("truck-view-driver").click();
+    await expect(seats).toHaveAttribute("data-view", "driver");
     await parkPointer(page);
     await assertRestHitOnly(page, "truck-seat-driver-door");
     await hoverSeatInterior(page, "truck-seat-driver-door");
@@ -333,6 +323,7 @@ test.describe("hybrid panel training UX", () => {
       .toBeGreaterThanOrEqual(0.35);
 
     await page.getByTestId("truck-view-passenger").click();
+    await expect(seats).toHaveAttribute("data-view", "passenger");
     await parkPointer(page);
     await assertRestHitOnly(page, "truck-seat-passenger-door");
     await hoverSeatInterior(page, "truck-seat-passenger-door");
