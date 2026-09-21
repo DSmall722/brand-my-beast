@@ -194,7 +194,7 @@ test.describe("slice 13.22: shop-ready vector or blob key", () => {
       userId: "user_1322_blob",
       brandLabel: "BlobReady Co",
       tradeLabel: "blob ready vinyl",
-      standingUsd: 2500,
+      standingUsd: 4500,
       artworkUrl: blobPut.url,
     });
     expect(blobBid.ok).toBe(true);

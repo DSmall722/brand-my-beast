@@ -69,12 +69,12 @@ test.describe("slice 16.4: 390px callouts clear the wordmark", () => {
     for (const n of VISIBLE_NS) {
       const mark = PANEL_BOARD_MARKS[n - 1];
       expect(mark?.n).toBe(n);
-      const callout = page.getByTestId(`hero-panel-board-${n}`);
+      const callout = page.getByTestId(`panel-legend-${n}`);
       await expect(callout).toBeVisible();
       await expect(callout).toHaveAttribute("data-panel-n", String(n));
 
       const box = await callout.boundingBox();
-      if (!box) throw new Error(`callout ${n} box missing`);
+      if (!box) throw new Error(`legend ${n} box missing`);
 
       expect(box.x).toBeGreaterThanOrEqual(0);
       expect(box.y).toBeGreaterThanOrEqual(0);

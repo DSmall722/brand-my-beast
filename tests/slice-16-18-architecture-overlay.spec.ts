@@ -47,13 +47,13 @@ test.describe("slice 16.18: ARCHITECTURE diagram includes numbered overlay", () 
     expect(vercelJsonIsHoldOrMainOnlyRestore()).toBe(true);
   });
 
-  test("board diagram names schematic SVG and the 1-12 overlay", () => {
+  test("board diagram names schematic SVG and the 1-11 overlay", () => {
     const text = readFileSync(ARCH, "utf8");
     const diagram = boardDiagram(text);
     expect(diagram).toMatch(/schematic SVG/);
     expect(diagram).toMatch(/numbered overlay/);
     expect(diagram).toMatch(/not only the schematic SVG/);
-    expect(PANEL_BOARD_MARKS).toHaveLength(12);
+    expect(PANEL_BOARD_MARKS).toHaveLength(11);
     for (const mark of PANEL_BOARD_MARKS) {
       expect(diagram).toContain(panelLegendLabel(mark));
     }

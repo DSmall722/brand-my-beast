@@ -8,7 +8,7 @@ import { vercelJsonIsHoldOrMainOnlyRestore } from "../src/lib/vercel-git-deploy"
 
 /**
  * Slice 18.5 — /llms.txt drops the CLOSE_AT is null line.
- * Keep floor, buyout, no close date, and the 1–12 list.
+ * Keep floor, buyout, no close date, and the 1–11 list.
  */
 
 test.describe("slice 18.5: llms.txt drops CLOSE_AT", () => {
@@ -42,7 +42,7 @@ test.describe("slice 18.5: llms.txt drops CLOSE_AT", () => {
     expect(body).not.toContain("CLOSE_AT");
     expect(body).not.toContain("null");
     expect(body.toLowerCase()).not.toMatch(/\blease\b/);
-    expect(PANEL_BOARD_MARKS).toHaveLength(12);
+    expect(PANEL_BOARD_MARKS).toHaveLength(11);
     for (const mark of PANEL_BOARD_MARKS) {
       expect(body).toContain(panelLegendLabel(mark));
     }

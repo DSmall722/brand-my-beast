@@ -1,5 +1,4 @@
 import { ArrowFillButton } from "@/components/block/arrow-fill-button";
-import { PanelBoardCallouts } from "@/components/PanelBoardCallouts";
 import {
   HERO_STILL_NARROW,
   HERO_STILL_NARROW_MEDIA,
@@ -11,9 +10,9 @@ import { PANEL_BOARD_MARKS, panelLegendLabel } from "@/lib/panel-board";
 import { PUBLIC_COPY } from "@/lib/public-copy";
 import { truckImgAlt } from "@/lib/truck-img-alt";
 
-/** Slice 7.1 / 16.3 / 16.7 / 16.9 — hero still plus number map. Held keeps the number. */
+/** Slice 7.1 / 16.3 / 16.9 — house-wrap concept still. Numbers live on the board. */
 export function HomeHeroSection({
-  occupiedPanelIds = [],
+  occupiedPanelIds: _occupiedPanelIds = [],
 }: {
   occupiedPanelIds?: readonly string[];
 }) {
@@ -24,11 +23,12 @@ export function HomeHeroSection({
           aria-labelledby="hero-title"
           data-hero-stack="under-photo"
         >
+          <div className="hero-photo-well" data-testid="hero-photo-well">
           <a
             className="hero-truck-link"
             href="/panels/hood"
             data-testid="hero-truck-preview"
-            aria-label="Board preview — open the Hood seat"
+            aria-label="Concept preview — open the Hood seat"
           >
             {/* eslint-disable-next-line @next/next/no-img-element -- local 1280 + 640 stills in /public */}
             <picture>
@@ -51,13 +51,10 @@ export function HomeHeroSection({
               />
             </picture>
           </a>
-          <PanelBoardCallouts
-            surface="hero"
-            occupiedPanelIds={occupiedPanelIds}
-          />
+          </div>
           <div className="hero-overlay">
             <p className="hero-preview-label" data-testid="hero-preview-label">
-              Board preview — bare stainless. Wrap and Immortal Etch come later.
+              {PUBLIC_COPY.hero.caption}
             </p>
             <div className="hero-copy">
               <h1 id="hero-title">{PUBLIC_COPY.hero.h1}</h1>
@@ -72,7 +69,7 @@ export function HomeHeroSection({
               </ArrowFillButton>
               <a
                 className="btn btn-ghost"
-                href="/panels/hood"
+                href="#panels"
                 data-testid="hero-secondary-cta"
               >
                 {PUBLIC_COPY.hero.secondaryCta}
@@ -103,4 +100,3 @@ export function HomeHeroSection({
     </>
   );
 }
-

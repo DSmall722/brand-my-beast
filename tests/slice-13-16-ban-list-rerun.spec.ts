@@ -85,7 +85,7 @@ test.describe("slice 13.16: ban-list re-runs pending", () => {
     expect(approved.ok).toBe(true);
 
     const clean = await placeIntentBid({
-      panelId: "roof",
+      panelId: "front-bumper",
       userId: "ban1316-clean",
       brandLabel: "Clean Tools",
       tradeLabel: "hardware",

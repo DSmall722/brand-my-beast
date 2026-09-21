@@ -34,7 +34,7 @@ Money fences: floor **$58,000**, buyout **$120,000**. No lease. No cheaper trim.
 
 **P0 — planning.** Copy, LLC path, wrap-shop quote, dock markdown. **Done** (shipped P1).
 
-**P1 — waitlist (live).** `brandmybeast.com` is a real page: story, 12 panels, floor/goal, email capture to Resend/Postgres. No Stripe. No countdown with a fake date. Local prove: `.cursor/skills/verify-brandmybeast/`.
+**P1 — waitlist (live).** `brandmybeast.com` is a real page: story, 11 panels, floor/goal, email capture to Resend/Postgres. No Stripe. No countdown with a fake date. Local prove: `.cursor/skills/verify-brandmybeast/`.
 
 **P2 — soft auction (in progress).** Auth.js with `AUTH_MODE=test` for CI; Resend magic link for live. Panel intent UI, operator approvals, durable/memory intent ledger, waitlist→intent CTAs, and failed-winner waitlist handoff are in. Still no capture.
 
@@ -53,24 +53,23 @@ Verification skills should hit: panel hotspots, min increment, floor/goal math, 
 
 ## Board diagram
 
-Hero and truck views draw two layers on the stainless still. The schematic SVG (`truck-view-svg`) is the body, cab, and hotspot polygons. The numbered overlay is `PanelBoardCallouts` from `PANEL_BOARD_MARKS` (1–12, same order as `PANELS`). This diagram is both layers — not only the schematic SVG.
+Homepage board views are baked JPEGs (`truck-view-*.jpg`) with 1–11 marks. Seat pages keep schematic SVG hotspots plus `PanelBoardCallouts` from `PANEL_BOARD_MARKS` (same order as `PANELS`). This diagram is both layers — not only the schematic SVG.
 
 ```text
-stainless still
-  schematic SVG
-  numbered overlay
+baked still / stainless still
+  schematic SVG (seat pages)
+  numbered overlay (seat pages) or baked numbers (homepage)
     1 Hood
-    2 Front fascia
-    3 Driver door
-    4 Passenger door
-    5 Driver bed
-    6 Passenger bed
-    7 Driver rear quarter
-    8 Passenger rear quarter
-    9 Tailgate
-    10 Tonneau
-    11 Roof
-    12 Rear fascia
+    2 Front fascia (stainless)
+    3 Front bumper
+    4 Driver doors
+    5 Driver rear quarter (sail)
+    6 Driver bed
+    7 Passenger doors
+    8 Passenger rear quarter (sail)
+    9 Passenger bed
+    10 Tailgate
+    11 Rear bumper
 ```
 
 ## Do not build yet

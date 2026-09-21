@@ -96,7 +96,7 @@ test.describe("slice 8.3: operator status filters", () => {
     await setIntentStatus(approve.bid.id, "approved");
 
     const reject = await placeIntentBid({
-      panelId: "tonneau",
+      panelId: "rear-bumper",
       userId: "test:reject83@example.com",
       brandLabel: "Reject83",
       tradeLabel: "rugs",
@@ -109,7 +109,7 @@ test.describe("slice 8.3: operator status filters", () => {
     });
 
     const first = await placeIntentBid({
-      panelId: "roof",
+      panelId: "front-bumper",
       userId: "test:outbid-a83@example.com",
       brandLabel: "OutbidA83",
       tradeLabel: "oils",
@@ -117,7 +117,7 @@ test.describe("slice 8.3: operator status filters", () => {
     });
     expect(first.ok).toBe(true);
     const second = await placeIntentBid({
-      panelId: "roof",
+      panelId: "front-bumper",
       userId: "test:outbid-b83@example.com",
       brandLabel: "OutbidB83",
       tradeLabel: "waxes",

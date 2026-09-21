@@ -40,12 +40,12 @@ test.describe("slice 16.39: callout contrast on stainless", () => {
 
   test("badge 3 against the still is at least 4.5:1", async ({ page }) => {
     await page.setViewportSize({ width: 1280, height: 900 });
-    await page.goto("/");
+    await page.goto("/panels/hood");
     const sample = await page.evaluate(() => {
       const callout = document.querySelector(
-        '[data-testid="hero-panel-board-3"]',
+        '[data-testid="view-panel-board-driver-3"]',
       );
-      const img = document.querySelector(".hero-truck-image");
+      const img = document.querySelector(".truck-view-photo");
       if (!(callout instanceof HTMLElement) || !(img instanceof HTMLImageElement)) {
         return null;
       }

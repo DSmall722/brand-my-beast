@@ -48,8 +48,8 @@ export async function seedDemoMixedBoard(): Promise<
   if (CLOSE_AT != null) {
     return { ok: false, error: "CLOSE_AT must stay null." };
   }
-  if (PANELS.length !== 12) {
-    return { ok: false, error: "Campaign must define exactly 12 panels." };
+  if (PANELS.length !== 11) {
+    return { ok: false, error: "Campaign must define exactly 11 panels." };
   }
 
   await resetIntentStoreForTests();
@@ -68,7 +68,7 @@ export async function seedDemoMixedBoard(): Promise<
       userId: "demo_pending_2",
       brandLabel: "Demo Pending Two",
       tradeLabel: "demo snacks b",
-      standingUsd: 1500,
+      standingUsd: 4500,
     },
     {
       panelId: "tailgate",
@@ -86,9 +86,9 @@ export async function seedDemoMixedBoard(): Promise<
     }
   }
 
-  // One approved + one outbid on rear-fascia: loser then winner, approve winner.
+  // One approved + one outbid on rear-bumper: loser then winner, approve winner.
   const prior = await placeIntentBid({
-    panelId: "rear-fascia",
+    panelId: "rear-bumper",
     userId: "demo_outbid_loser",
     brandLabel: "Demo Outbid Co",
     tradeLabel: "demo outbid trade",
@@ -99,7 +99,7 @@ export async function seedDemoMixedBoard(): Promise<
   }
 
   const winner = await placeIntentBid({
-    panelId: "rear-fascia",
+    panelId: "rear-bumper",
     userId: "demo_approved_winner",
     brandLabel: "Demo Approved Co",
     tradeLabel: "demo approved trade",

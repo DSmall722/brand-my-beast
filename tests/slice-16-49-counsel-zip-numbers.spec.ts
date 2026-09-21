@@ -28,8 +28,8 @@ function bid(panelId: "hood" | "driver-door", brand: string): IntentBid {
     userId: "hidden-user",
     brandLabel: brand,
     tradeLabel: "counsel trade",
-    standingUsd: 2500,
-    depositUsd: 500,
+    standingUsd: panelId === "driver-door" ? 4500 : 2500,
+    depositUsd: panelId === "driver-door" ? 900 : 500,
     status: "approved",
     createdAt: "2026-09-19T00:00:00.000Z",
     updatedAt: "2026-09-19T00:00:00.000Z",
@@ -60,7 +60,7 @@ test.describe("slice 16.49: counsel ZIP lists seats by number", () => {
     expect(vercelJsonIsHoldOrMainOnlyRestore()).toBe(true);
   });
 
-  test("standing CSV leads with panel_number for seats 1 and 3", () => {
+  test("standing CSV leads with panel_number for seats 1 and 4", () => {
     expect(COUNSEL_STANDING_HEADERS[0]).toBe("panel_number");
     const csv = buildCounselStandingCsv([
       bid("hood", "Hood Brand"),
@@ -68,7 +68,7 @@ test.describe("slice 16.49: counsel ZIP lists seats by number", () => {
     ]);
     expect(csv.split("\n")[0]).toBe(COUNSEL_STANDING_HEADERS.join(","));
     expect(csv).toContain("1,hood,Hood Brand");
-    expect(csv).toContain("3,driver-door,Door Brand");
+    expect(csv).toContain("4,driver-door,Door Brand");
     expect(counselStandingHasEmailLeak(csv)).toBe(false);
     expect(csv).not.toContain("hidden-user");
     expect(csv).not.toContain("@");

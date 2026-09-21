@@ -2,32 +2,33 @@
 
 CAMPAIGN.md wins if this file and another file disagree on money or identity.
 
-Updated: 2026-09-16
+Updated: 2026-09-21
 
 ## Inventory
 
-Twelve panels. Opening bids (minimum first mark). Board order is 1–12 next to each panel id:
+Eleven panels. Opening bids (minimum first mark). Board order is 1–11 next to each panel id:
 
 | n | Id | Panel | Opening | Finish at floor | Finish if $120k hits |
 |---:|---|---|---:|---|---|
 | 1 | `hood` | Hood | $2,500 | wrap | wrap or etch |
-| 2 | `front-fascia` | Front fascia | $1,200 | wrap | wrap only |
-| 3 | `driver-door` | Driver door | $1,500 | wrap | wrap or etch |
-| 4 | `passenger-door` | Passenger door | $1,500 | wrap | wrap or etch |
-| 5 | `driver-bed` | Driver bed | $2,000 | wrap | wrap or etch |
-| 6 | `passenger-bed` | Passenger bed | $2,000 | wrap | wrap or etch |
-| 7 | `driver-rear-quarter` | Driver rear quarter | $1,000 | wrap | wrap or etch |
-| 8 | `passenger-rear-quarter` | Passenger rear quarter | $1,000 | wrap | wrap or etch |
-| 9 | `tailgate` | Tailgate | $2,500 | wrap | wrap or etch |
-| 10 | `tonneau` | Tonneau | $800 | wrap | wrap only |
-| 11 | `roof` | Roof | $600 | wrap | wrap only |
-| 12 | `rear-fascia` | Rear fascia | $500 | wrap | wrap only |
+| 2 | `front-fascia` | Front fascia (stainless) | $2,000 | wrap | wrap or etch |
+| 3 | `front-bumper` | Front bumper | $500 | wrap | wrap only |
+| 4 | `driver-door` | Driver doors | $4,500 | wrap | wrap or etch |
+| 5 | `driver-rear-quarter` | Driver rear quarter (sail) | $1,000 | wrap | wrap or etch |
+| 6 | `driver-bed` | Driver bed | $2,000 | wrap | wrap or etch |
+| 7 | `passenger-door` | Passenger doors | $4,500 | wrap | wrap or etch |
+| 8 | `passenger-rear-quarter` | Passenger rear quarter (sail) | $1,000 | wrap | wrap or etch |
+| 9 | `passenger-bed` | Passenger bed | $2,000 | wrap | wrap or etch |
+| 10 | `tailgate` | Tailgate | $2,500 | wrap | wrap or etch |
+| 11 | `rear-bumper` | Rear bumper | $500 | wrap | wrap only |
 
-Opening sum ≈ $17,100. The floor is not the sum of openings. Bidding has to carry the board to $58,000.
+Opening sum = $23,000. The floor is not the sum of openings. Bidding has to carry the board to $58,000.
 
-Eight steel faces can take Immortal etch, and **only after $120,000**: hood, both doors, both beds, both quarters, tailgate.
+Nine steel faces can take Immortal etch, and **only after $120,000**: hood, front fascia, both door packages, both sails, both beds, tailgate. Not the bumpers.
 
-Wrap-only forever: front fascia, roof, tonneau, rear fascia.
+Wrap-only forever: front bumper (simple-mark only: website and/or phone number; leave camera lens/washer clear), rear bumper (simple-mark only: website and/or phone number).
+
+Seat 4 is the driver-side cab door package (front + rear leaf). Seat 7 is the passenger-side package. One seat per side — not a combined both-sides price. Public names: Driver doors / Passenger doors.
 
 ## Increments
 

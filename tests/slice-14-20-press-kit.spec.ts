@@ -73,11 +73,11 @@ test.describe("slice 14.20: press kit folder", () => {
     expect(text).toContain("hello@brandmybeast.com");
     expect(text).toContain("$58,000");
     expect(text).toContain("$120,000");
-    expect(text.toLowerCase()).toContain("twelve");
+    expect(text.toLowerCase()).toContain("eleven");
     expect(text.toLowerCase()).not.toMatch(/wrap-as-delivered/);
     expect(text.toLowerCase()).not.toMatch(/\blease\b/);
     expect(text).not.toMatch(/@gmail\.com/);
-    // One campaign paragraph. Slice 16.19 adds the 1–12 board list after it.
+    // One campaign paragraph. Slice 16.19 adds the 1–11 board list after it.
     const body = text
       .split("\n")
       .map((line) => line.trim())

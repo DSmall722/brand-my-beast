@@ -19,7 +19,7 @@ import { vercelJsonIsHoldOrMainOnlyRestore } from "../src/lib/vercel-git-deploy"
 
 const FEATURES = join(process.cwd(), "FEATURES.md");
 const ROW =
-  "Numbered stainless board (hero 1–12 callouts): **shipped (14.0 / 16.x)**.";
+  "Numbered stainless board (hero 1–11 callouts): **shipped (14.0 / 16.x)**.";
 
 test.describe("slice 16.15: FEATURES numbered board shipped 14.0 / 16.x", () => {
   test("campaign money fences stay locked — CLOSE_AT null", () => {

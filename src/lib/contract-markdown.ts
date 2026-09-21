@@ -59,7 +59,7 @@ export function buildContractMarkdown(): string {
     "## Money fences",
     "",
     `- Floor ${formatUsd(FLOOR_USD)} — order the Cyberbeast + wrap reserve. Miss = full refund.`,
-    `- Buyout ${formatUsd(GOAL_USD)} — campaign buys the truck; Immortal etch unlocks on eight steel faces.`,
+    `- Buyout ${formatUsd(GOAL_USD)} — campaign buys the truck; Immortal etch unlocks on nine steel faces.`,
     `- ${formatUsd(FLOOR_USD)}–${formatUsd(GOAL_USD - 1)} — ordered + wrapped. No etch.`,
     "- Deposit 20% to list. Remainder if that bid wins. Still no card capture on this path.",
     "",

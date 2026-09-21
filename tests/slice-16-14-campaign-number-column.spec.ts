@@ -60,7 +60,7 @@ test.describe("slice 16.14: CAMPAIGN inventory number column", () => {
     }
     expect(campaign.toLowerCase()).not.toContain("gmail.com");
 
-    expect(PANELS).toHaveLength(12);
+    expect(PANELS).toHaveLength(11);
     for (const panel of PANELS) {
       const mark = panelBoardMarkFor(panel.id);
       expect(campaign).toContain(
@@ -68,6 +68,6 @@ test.describe("slice 16.14: CAMPAIGN inventory number column", () => {
       );
     }
     expect(campaign).toContain("| 1 | Hood | $2,500 |");
-    expect(campaign).toContain("| 12 | Rear fascia | $500 |");
+    expect(campaign).toContain("| 11 | Rear bumper | $500 |");
   });
 });

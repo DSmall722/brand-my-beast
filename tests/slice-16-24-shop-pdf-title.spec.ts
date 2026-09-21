@@ -21,12 +21,12 @@ import {
 import { vercelJsonIsHoldOrMainOnlyRestore } from "../src/lib/vercel-git-deploy";
 
 /**
- * Slice 16.24 — shop PDF title is `Seat 03 — Driver door`, not only the slug.
+ * Slice 16.24 — shop PDF title is `Seat 04 — Driver doors`, not only the slug.
  * FEATURES.md stays off /. CLOSE_AT null. No Stripe.
  */
 
 const PANEL_ID = "driver-door" as const;
-const TITLE = "Seat 03 — Driver door";
+const TITLE = "Seat 04 — Driver doors";
 
 async function signIn(page: Page, email: string) {
   await page.context().clearCookies();
@@ -65,13 +65,13 @@ test.describe("slice 16.24: shop PDF title is numbered seat", () => {
     expect(vercelJsonIsHoldOrMainOnlyRestore()).toBe(true);
   });
 
-  test("title is Seat 03 — Driver door, not the slug", async () => {
+  test("title is Seat 04 — Driver doors, not the slug", async () => {
     const placed = await placeIntentBid({
       panelId: PANEL_ID,
       userId: "ops1624-secret-user",
       brandLabel: "Pdf Title Brand",
       tradeLabel: "pdf title trade",
-      standingUsd: 1600,
+      standingUsd: 4500,
     });
     expect(placed.ok).toBe(true);
     if (!placed.ok) return;
@@ -104,7 +104,7 @@ test.describe("slice 16.24: shop PDF title is numbered seat", () => {
     await page.goto(`/panels/${PANEL_ID}`);
     await page.getByTestId("intent-brand").fill("Pdf Title UI");
     await page.getByTestId("intent-trade").fill("pdf title ui");
-    await page.getByTestId("intent-standing").fill("1600");
+    await page.getByTestId("intent-standing").fill("4500");
     await page.getByTestId("intent-submit").click();
     await expect(page.getByTestId("intent-success")).toContainText(
       "not charged",

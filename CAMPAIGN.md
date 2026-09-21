@@ -2,11 +2,11 @@
 
 Read this before FEATURES.md, the prototype, or any old playbook. If another file disagrees with this one, this one wins.
 
-Updated: 2026-09-16
+Updated: 2026-09-21
 
 ## What this is
 
-An all-or-nothing auction of **12 stainless panels** on a **2026 Tesla Cybertruck Cyberbeast** that does not exist yet. Standing bids fund the order. Miss the floor and nobody is charged.
+An all-or-nothing auction of **11 stainless panels** on a **2026 Tesla Cybertruck Cyberbeast** that does not exist yet. Standing bids fund the order. Miss the floor and nobody is charged.
 
 Public brand: **BrandMyBeast**
 Public handle: **@BrandMyBeast**
@@ -27,7 +27,7 @@ Detail lives in `ARCHITECTURE.md`; this sentence is the campaign-side pointer on
 |---|---|
 | Under **$58,000** | Full refund. No order. No wrap. No Immortal Etch. |
 | **$58,000–$119,999** | Place the Cyberbeast **order**. Fund wrap / install / removal. Wrap only. Immortal Etch not included. Operator finances the unpaid truck balance at delivery. |
-| **$120,000 — whole-truck + Immortal Etch package** | Campaign buys the truck. Home charger + install. Buffer. **Immortal Etch** on the eight steel faces. One brand may take every panel (whole-truck buyout). |
+| **$120,000 — whole-truck + Immortal Etch package** | Campaign buys the truck. Home charger + install. Buffer. **Immortal Etch** on the nine steel faces. One brand may take every panel (whole-truck buyout). |
 
 There is no Dual Motor. There is no Premium. There is no lease tier. The $40,000 lease product is dead. The word lease does not appear in public copy.
 
@@ -35,7 +35,7 @@ There is no Dual Motor. There is no Premium. There is no lease tier. The $40,000
 
 Long-form wreck / refund clauses live in **[`CONTRACT.md`](./CONTRACT.md)** (Campaign miss, wrap year cut short, Immortal etch already installed). This money table stays authoritative for thresholds: **$58,000** / **$120,000**. Do not invent a third number.
 
-Whole-truck buyout button: **$120,000** — one brand on every panel **and Immortal Etch** on the eight steel faces. Standing panel winners are released. Buyout is a package (truck ownership path + Immortal Etch), not panels-only. There is no third price.
+Whole-truck buyout button: **$120,000** — one brand on every panel **and Immortal Etch** on the nine steel faces. Standing panel winners are released. Buyout is a package (truck ownership path + Immortal Etch), not panels-only. There is no third price.
 
 ### Why $58,000 is the floor
 
@@ -66,22 +66,27 @@ Optional proxy ceiling on a panel intent may not exceed **$120,000** (the buyout
 
 ## Inventory
 
-Board index 1–12. Opening marks are the same dollars as `RULES.md`. Floor and buyout are not this table.
+Board index 1–11. Opening marks are the same dollars as `RULES.md`. Floor and buyout are not this table.
 
 | n | Panel | Opening |
 |---:|---|---:|
 | 1 | Hood | $2,500 |
-| 2 | Front fascia | $1,200 |
-| 3 | Driver door | $1,500 |
-| 4 | Passenger door | $1,500 |
-| 5 | Driver bed | $2,000 |
-| 6 | Passenger bed | $2,000 |
-| 7 | Driver rear quarter | $1,000 |
-| 8 | Passenger rear quarter | $1,000 |
-| 9 | Tailgate | $2,500 |
-| 10 | Tonneau | $800 |
-| 11 | Roof | $600 |
-| 12 | Rear fascia | $500 |
+| 2 | Front fascia (stainless) | $2,000 |
+| 3 | Front bumper | $500 |
+| 4 | Driver doors | $4,500 |
+| 5 | Driver rear quarter (sail) | $1,000 |
+| 6 | Driver bed | $2,000 |
+| 7 | Passenger doors | $4,500 |
+| 8 | Passenger rear quarter (sail) | $1,000 |
+| 9 | Passenger bed | $2,000 |
+| 10 | Tailgate | $2,500 |
+| 11 | Rear bumper | $500 |
+
+Board order is front-to-back. Seats 4 and 7 are door packages: front + rear cab leaf on that side, one seat per side. Public names stay **Driver doors** / **Passenger doors**. Front fascia is Immortal Etch. Front bumper (3) and Rear bumper (11) are wrap-only, **simple-mark only: website and/or phone number**. Front bumper leaves the camera lens/washer clear.
+
+Immortal Etch is nine steel faces — everything except seats 3 and 11.
+
+Opening sum is $23,000 — the floor is not this sum.
 
 ## Vehicle
 
@@ -137,7 +142,7 @@ Proof after the truck exists: odometer photos, trip screenshots, tagged posts. N
 
 ## Voice
 
-- “Twelve brands on a Cyberbeast.”
+- “Eleven brands on a Cyberbeast.”
 - “Bids cover the truck or they come back.”
 - “Ordered only if the board clears.”
 - Immortal = etch into 30X. Not “permanent vinyl.”

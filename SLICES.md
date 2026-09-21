@@ -19,7 +19,7 @@ Updated: 2026-09-20
 - Floor $58,000. Buyout $120,000. CLOSE_AT = null. SEATS_OPEN stays false on production.
 - No Stripe. No card capture. No 30-day clock. No tweet.
 - Public `/` is a waitlist. Do not rewrite the homepage H1.
-- Hero truck is bare stainless. No wrap or etch as delivered.
+- Hero truck is a house-wrap concept preview. No wrap or etch as delivered.
 - Copy could be anywhere — no SC-pride hometown lane on public seats.
 - One PR = one slice. Title: `slice(N): <name>`.
 

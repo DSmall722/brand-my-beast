@@ -15,8 +15,8 @@ import { PUBLIC_COPY } from "../src/lib/public-copy";
 import { vercelJsonIsHoldOrMainOnlyRestore } from "../src/lib/vercel-git-deploy";
 
 /**
- * Slice 16.32 — OG image for `/` is the wordmark plus the stainless still.
- * No wrap art. CLOSE_AT null. No Stripe.
+ * Slice 16.32 — OG image for `/` is the wordmark plus the homepage hero still.
+ * CLOSE_AT null. No Stripe.
  */
 
 const OG_SRC = join(process.cwd(), "src/app/opengraph-image.tsx");
@@ -49,7 +49,7 @@ test.describe("slice 16.32: homepage OG is wordmark plus stainless still", () =>
     expect(vercelJsonIsHoldOrMainOnlyRestore()).toBe(true);
   });
 
-  test("OG source uses the wordmark and the bare stainless still", () => {
+  test("OG source uses the wordmark and the homepage hero still", () => {
     const src = readFileSync(OG_SRC, "utf8");
     expect(src).toContain("{PUBLIC_COPY.header.wordmark}");
     expect(src).toContain("HERO_STILL_WIDE");
@@ -59,8 +59,9 @@ test.describe("slice 16.32: homepage OG is wordmark plus stainless still", () =>
     expect(src).not.toContain("artwork");
     expect(src.toLowerCase()).not.toMatch(/\blease\b/);
     expect(PUBLIC_COPY.header.wordmark).toBe("BrandMyBeast");
-    expect(PUBLIC_COPY.hero.imageAlt).toContain("No wrap");
-    expect(PUBLIC_COPY.hero.imageAlt.toLowerCase()).toContain("stainless");
+    expect(PUBLIC_COPY.hero.imageAlt.toLowerCase()).toContain("concept preview");
+    expect(PUBLIC_COPY.hero.imageAlt.toLowerCase()).toContain("house wrap");
+    expect(PUBLIC_COPY.hero.imageAlt.toLowerCase()).not.toContain("no wrap yet");
   });
 
   test("homepage OG image is a 1200x630 png of the still", async ({

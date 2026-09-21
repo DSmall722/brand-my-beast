@@ -94,7 +94,7 @@ test.describe("slice 8.4: operator CSV export", () => {
     await setIntentStatus(approved.bid.id, "approved");
 
     const rejected = await placeIntentBid({
-      panelId: "tonneau",
+      panelId: "rear-bumper",
       userId: "test:csv-rejected@example.com",
       brandLabel: "CsvRejected",
       tradeLabel: "csv rejected trade",

@@ -1,3 +1,4 @@
+import { ImmortalEtchLockup } from "@/components/ImmortalEtchLockup";
 import { PUBLIC_COPY } from "@/lib/public-copy";
 
 /** Slice 7.1 — extracted from `src/app/page.tsx`. Copy unchanged. */
@@ -16,20 +17,11 @@ export function HomeStorySection() {
                   {String(index + 1).padStart(2, "0")}
                 </span>
                 <span className="story-body">
-                  <strong className="story-step-title">{step.title}</strong>
+                  <strong className="story-step-title">
+                    <ImmortalEtchLockup text={step.title} />
+                  </strong>
                   <span className="story-step-copy">
-                    {step.body.endsWith(PUBLIC_COPY.etch.forever) ? (
-                      <>
-                        {step.body
-                          .slice(0, -PUBLIC_COPY.etch.forever.length)
-                          .trimEnd()}{" "}
-                        <span className="immortal-etch">
-                          {PUBLIC_COPY.etch.forever}
-                        </span>
-                      </>
-                    ) : (
-                      step.body
-                    )}
+                    <ImmortalEtchLockup text={step.body} />
                   </span>
                 </span>
               </li>

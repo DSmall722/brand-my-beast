@@ -87,7 +87,7 @@ test.describe("slice 12.21: account wins approved seats only", () => {
     await setIntentStatus(approvedA.bid.id, "approved");
 
     const rejected = await placeIntentBid({
-      panelId: "tonneau",
+      panelId: "rear-bumper",
       userId: userA,
       brandLabel: "RejectedCo",
       tradeLabel: "rejected trade",
@@ -98,7 +98,7 @@ test.describe("slice 12.21: account wins approved seats only", () => {
     await setIntentStatus(rejected.bid.id, "rejected");
 
     const approvedB = await placeIntentBid({
-      panelId: "roof",
+      panelId: "front-bumper",
       userId: userB,
       brandLabel: "ApprovedBCo",
       tradeLabel: "approved b trade",

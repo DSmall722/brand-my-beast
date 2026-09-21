@@ -18,7 +18,7 @@ import { vercelJsonIsHoldOrMainOnlyRestore } from "../src/lib/vercel-git-deploy"
 
 /**
  * Slice 16.3 — number map legend under the hero.
- * Labels are `1 Hood` … `12 Rear fascia` from PANELS only.
+ * Labels are `1 Hood` … `11 Rear bumper` from PANELS only.
  * CLOSE_AT null. No Stripe. No SEATS_OPEN flip.
  */
 
@@ -41,10 +41,10 @@ test.describe("slice 16.3: number map legend under the hero", () => {
     expect(vercelJsonIsHoldOrMainOnlyRestore()).toBe(true);
   });
 
-  test("legend labels are PANELS names, 1 Hood through 12 Rear fascia", () => {
+  test("legend labels are PANELS names, 1 Hood through 11 Rear bumper", () => {
     expect(PANEL_BOARD_MARKS).toHaveLength(PANELS.length);
     expect(panelLegendLabel(PANEL_BOARD_MARKS[0]!)).toBe("1 Hood");
-    expect(panelLegendLabel(PANEL_BOARD_MARKS[11]!)).toBe("12 Rear fascia");
+    expect(panelLegendLabel(PANEL_BOARD_MARKS[10]!)).toBe("11 Rear bumper");
     for (let i = 0; i < PANELS.length; i += 1) {
       const mark = PANEL_BOARD_MARKS[i]!;
       expect(mark.panelId).toBe(PANELS[i]!.id);
@@ -68,8 +68,8 @@ test.describe("slice 16.3: number map legend under the hero", () => {
     expect(legendBox!.y).toBeGreaterThanOrEqual(heroBox!.y + heroBox!.height - 1);
 
     await expect(page.getByTestId("panel-legend-1")).toHaveText("1 Hood");
-    await expect(page.getByTestId("panel-legend-12")).toHaveText(
-      "12 Rear fascia",
+    await expect(page.getByTestId("panel-legend-11")).toHaveText(
+      "11 Rear bumper",
     );
 
     for (const mark of PANEL_BOARD_MARKS) {

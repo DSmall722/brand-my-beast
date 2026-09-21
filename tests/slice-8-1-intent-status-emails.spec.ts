@@ -150,7 +150,7 @@ test.describe("slice 8.1: intent status emails mock Resend", () => {
     ).toBe(true);
 
     const rejectListed = await placeIntentBid({
-      panelId: "tonneau",
+      panelId: "rear-bumper",
       userId: "test:reject@example.com",
       brandLabel: "RejectCo",
       tradeLabel: "socks",
@@ -177,7 +177,7 @@ test.describe("slice 8.1: intent status emails mock Resend", () => {
       },
     });
     const still = await placeIntentBid({
-      panelId: "roof",
+      panelId: "front-bumper",
       userId: "test:mailfail@example.com",
       brandLabel: "MailFailCo",
       tradeLabel: "belts",

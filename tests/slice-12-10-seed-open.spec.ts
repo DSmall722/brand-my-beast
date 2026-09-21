@@ -37,7 +37,7 @@ test.describe("slice 12.10: seed open panels zero standing", () => {
     expect(FLOOR_USD).toBe(58_000);
     expect(GOAL_USD).toBe(120_000);
     expect(CLOSE_AT).toBeNull();
-    expect(PANELS).toHaveLength(12);
+    expect(PANELS).toHaveLength(11);
     expect(BRAND.name).toBe("BrandMyBeast");
     expect(formatUsd(FLOOR_USD)).toBe("$58,000");
     expect(formatUsd(GOAL_USD)).toBe("$120,000");
@@ -93,8 +93,8 @@ test.describe("slice 12.10: seed open panels zero standing", () => {
     const seeded = await seedOpenPanelsZeroStanding();
     expect(seeded.ok).toBe(true);
     if (!seeded.ok) return;
-    expect(seeded.panelCount).toBe(12);
-    expect(seeded.openSeats).toBe(12);
+    expect(seeded.panelCount).toBe(11);
+    expect(seeded.openSeats).toBe(11);
     expect(seeded.pledgedUsd).toBe(0);
     expect(seeded.seatedPanels).toBe(0);
     expect(seeded.closeAt).toBeNull();
@@ -109,8 +109,8 @@ test.describe("slice 12.10: seed open panels zero standing", () => {
       closeAt: null;
     };
     expect(body.ok).toBe(true);
-    expect(body.panelCount).toBe(12);
-    expect(body.openSeats).toBe(12);
+    expect(body.panelCount).toBe(11);
+    expect(body.openSeats).toBe(11);
     expect(body.pledgedUsd).toBe(0);
     expect(body.closeAt).toBeNull();
   });

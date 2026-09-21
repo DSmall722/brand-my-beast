@@ -1,5 +1,5 @@
 /**
- * Slice 12.10 — seed board: 12 open panels, zero standing. CI / test only.
+ * Slice 12.10 — seed board: 11 open panels, zero standing. CI / test only.
  * Never runs a capture path. Never sets CLOSE_AT.
  */
 
@@ -28,7 +28,7 @@ export function seedOpenPanelsAllowed(
 
 /**
  * Reset the intent ledger and return an empty board:
- * twelve panels open, pledged standing $0.
+ * eleven panels open, pledged standing $0.
  */
 export async function seedOpenPanelsZeroStanding(): Promise<
   SeedOpenPanelsResult | { ok: false; error: string }
@@ -39,8 +39,8 @@ export async function seedOpenPanelsZeroStanding(): Promise<
   if (CLOSE_AT != null) {
     return { ok: false, error: "CLOSE_AT must stay null." };
   }
-  if (PANELS.length !== 12) {
-    return { ok: false, error: "Campaign must define exactly 12 panels." };
+  if (PANELS.length !== 11) {
+    return { ok: false, error: "Campaign must define exactly 11 panels." };
   }
 
   await resetIntentStoreForTests();

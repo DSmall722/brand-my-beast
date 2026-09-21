@@ -1,7 +1,7 @@
 # Waves 12 — verify-brandmybeast index
 
 Canonical map for slice **12.47**. Every SLICES checkbox `12.1`…`12.50`
-(including the condensed `12.1–12.27` range) must appear in this file (and in
+(including the condensed `12.1–11.27` range) must appear in this file (and in
 [wave12-money-ready.md](./wave12-money-ready.md)).
 
 Money fences (do not invent a third number):

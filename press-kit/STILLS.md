@@ -5,18 +5,29 @@ not a reserved BrandMyBeast vehicle.
 
 Public site files live in `/public`:
 
-| File | Angle |
-|---|---|
-| `hero-truck-preview.jpg` / `hero-truck-preview-640.jpg` | Driver-side front ¾ |
-| `truck-view-side.jpg` | Driver-side ¾-rear |
-| `truck-view-front.jpg` | Passenger-front |
-| `truck-view-rear.jpg` | Passenger-rear |
+| File | Angle | Credit |
+|---|---|---|
+| `hero-truck-preview.jpg` / `hero-truck-preview-640.jpg` | BrandMyBeast house-wrap concept (full-wrap C). Not as delivered. | House wrap teaser |
+| `truck-view-driver.jpg` | Closed-door driver-side profile | Photo by Joe L on Pexels — https://www.pexels.com/photo/a-car-is-parked-in-a-garage-with-a-large-concrete-floor-27908531/ |
+| `truck-view-passenger.jpg` | Passenger-side ¾ | Photo by Mylo Kaye on Pexels — https://www.pexels.com/photo/silver-tesla-cybertruck-24734498/ |
+| `truck-view-front.jpg` | Head-on front | Photo by Mylo Kaye on Pexels — https://www.pexels.com/photo/tesla-cyber-truck-24734499/ |
+| `truck-view-rear.jpg` | Passenger-rear ¾ | Photo by James Collington on Pexels — https://www.pexels.com/photo/futuristic-vehicle-parked-on-california-boardwalk-30073773/ |
 
-Rebuild with `python3 scripts/build-truck-stills.py`.
+Rebuild:
 
-Sources (Wikimedia Commons, CC BY-SA 4.0):
+```
+python3 scripts/build-pexels-board-stills.py
+python3 scripts/paint-board-marks.py
+python3 scripts/credit-board-stills.py
+```
 
-- [2024 Tesla Cybertruck Foundation Series, front left (Greenwich)](https://commons.wikimedia.org/wiki/File:2024_Tesla_Cybertruck_Foundation_Series,_front_left_(Greenwich).jpg)
-- [2024 Tesla Cybertruck Foundation Series, rear left (Greenwich)](https://commons.wikimedia.org/wiki/File:2024_Tesla_Cybertruck_Foundation_Series,_rear_left_(Greenwich).jpg)
-- [2024 Tesla Cybertruck Foundation Series IMG 0642](https://commons.wikimedia.org/wiki/File:2024_Tesla_Cybertruck_Foundation_Series_IMG_0642.jpg)
-- [2024 Tesla Cybertruck, rear 9.7.24](https://commons.wikimedia.org/wiki/File:2024_Tesla_Cybertruck,_rear_9.7.24.jpg)
+Each public `truck-view-*.jpg` carries the photographer name and Pexels URL in
+EXIF Artist / Copyright / ImageDescription, IPTC By-line / Source, and XMP
+dc:creator / dc:rights / WebStatement.
+
+Pexels license allows free use with credit. Sami Abdullah city shot
+https://www.pexels.com/photo/photo-of-a-tesla-cybertruck-on-the-street-in-a-city-26546824/
+is a spare only (open driver door). It is not a primary board plate.
+
+Older Wikimedia Greenwich stills remain in `scripts/build-truck-stills.py` as
+the prior stainless compositor path. The homepage board uses the Pexels set.

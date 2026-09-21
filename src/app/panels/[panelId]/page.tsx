@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import {
   AdjacentNeighborsCard,
 } from "@/components/AdjacentClashHint";
+import { ImmortalEtchLockup } from "@/components/ImmortalEtchLockup";
 import { IntentArtworkPreview } from "@/components/IntentArtworkPreview";
 import { IntentBidForm } from "@/components/IntentBidForm";
 import { NeighborComboCard } from "@/components/NeighborComboCard";
@@ -15,7 +16,6 @@ import {
   BRAND,
   DEPOSIT_PERCENT,
   FLOOR_USD,
-  GOAL_USD,
   CLOSE_AT,
   TRUCK_EXISTS,
   PANELS,
@@ -151,6 +151,7 @@ export default async function PanelIntentPage({
         data-testid="panel-intent-page"
         data-print-sheet="panels"
       >
+        <div className="seat-masthead">
         <p className="eyebrow">
           <Link href="/#panels">Panels</Link>
           {" · "}
@@ -166,10 +167,19 @@ export default async function PanelIntentPage({
         >
           Opens at {formatUsd(panel.openingUsd)}.
           {holder ? ` Current standing ${formatUsd(standing)}.` : ""}{" "}
-          {etchable
-            ? `Etchable only at ${formatUsd(GOAL_USD)} buyout.`
-            : "Wrap only forever."}
+          <span
+            className="seat-finish"
+            data-testid="seat-finish"
+            data-etchable={etchable ? "true" : "false"}
+          >
+            {etchable ? (
+              <ImmortalEtchLockup text={PUBLIC_COPY.panels.badgeEtch} />
+            ) : (
+              PUBLIC_COPY.panels.badgeWrap
+            )}
+          </span>
         </p>
+        </div>
 
         <div className="public-seat-status" data-testid="public-seat-status">
           <p
@@ -206,6 +216,7 @@ export default async function PanelIntentPage({
           </p>
         </div>
 
+        <div className="seat-stage">
         <TruckViewHotspots
           occupiedPanelIds={occupiedPanelIds}
           activePanelId={panel.id}
@@ -218,6 +229,7 @@ export default async function PanelIntentPage({
           standingBrand={holder?.brandLabel ?? null}
           truckExists={TRUCK_EXISTS}
         />
+        </div>
 
         {session?.user ? (
           <p className="auth-hint" data-testid="seat-export-png">
@@ -238,8 +250,10 @@ export default async function PanelIntentPage({
           </p>
         ) : null}
 
+        <div className="seat-neighbors">
         <AdjacentNeighborsCard neighbors={adjacentNeighbors} />
         <NeighborComboCard lot={comboLotFor(panel.id)} />
+        </div>
 
         <dl
           className="panel-stats"
@@ -275,6 +289,7 @@ export default async function PanelIntentPage({
             </dd>
           </div>
         </dl>
+        <div className="seat-rules">
         <p
           className="auth-hint"
           data-testid="opening-bid-rationale"
@@ -319,6 +334,7 @@ export default async function PanelIntentPage({
             {PUBLIC_COPY.seatExclusivity.body}
           </p>
         </aside>
+        </div>
 
         {viewerWasOutbid && failedWinnerOffer ? (
           <aside

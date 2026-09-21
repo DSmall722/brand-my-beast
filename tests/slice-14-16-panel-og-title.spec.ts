@@ -41,7 +41,7 @@ test.describe("slice 14.16: per-panel Open Graph title", () => {
   });
 
   test("panelOpenGraphTitle uses em dash and BrandMyBeast", () => {
-    expect(PANELS.length).toBe(12);
+    expect(PANELS.length).toBe(11);
     for (const panel of PANELS) {
       expect(panelOpenGraphTitle(panel)).toBe(`${panel.name} — BrandMyBeast`);
     }

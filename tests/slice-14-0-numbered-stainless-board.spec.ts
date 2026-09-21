@@ -50,20 +50,21 @@ test.describe("slice 14.0: numbered stainless board", () => {
     );
   });
 
-  test("board marks match PANELS 1–12", () => {
+  test("board marks match PANELS 1–11", () => {
     expect(panelBoardIsComplete()).toBe(true);
-    expect(PANEL_BOARD_MARKS).toHaveLength(12);
+    expect(PANEL_BOARD_MARKS).toHaveLength(11);
     expect(PANEL_BOARD_MARKS[0]?.panelId).toBe("hood");
     expect(PANEL_BOARD_MARKS[0]?.n).toBe(1);
-    expect(PANEL_BOARD_MARKS[11]?.panelId).toBe("rear-fascia");
-    expect(PANEL_BOARD_MARKS[11]?.n).toBe(12);
+    expect(PANEL_BOARD_MARKS[10]?.panelId).toBe("rear-bumper");
+    expect(PANEL_BOARD_MARKS[10]?.n).toBe(11);
     for (let i = 0; i < PANELS.length; i += 1) {
       expect(PANEL_BOARD_MARKS[i]?.panelId).toBe(PANELS[i]!.id);
       expect(PANEL_BOARD_MARKS[i]?.name).toBe(PANELS[i]!.name);
       expect(PANEL_BOARD_MARKS[i]?.n).toBe(i + 1);
     }
-    expect(panelBoardMarksForView("side").length).toBeGreaterThanOrEqual(6);
-    expect(panelBoardMarksForView("front").length).toBeGreaterThanOrEqual(4);
+    expect(panelBoardMarksForView("driver").length).toBeGreaterThanOrEqual(6);
+    expect(panelBoardMarksForView("passenger").length).toBeGreaterThanOrEqual(3);
+    expect(panelBoardMarksForView("front").length).toBeGreaterThanOrEqual(3);
     expect(panelBoardMarksForView("rear").length).toBeGreaterThanOrEqual(4);
   });
 
@@ -78,16 +79,15 @@ test.describe("slice 14.0: numbered stainless board", () => {
       PUBLIC_COPY.waitlist.button,
     );
 
-    const board = page.getByTestId("hero-panel-board");
-    await expect(board).toBeVisible();
+    await expect(page.getByTestId("hero-panel-board")).toHaveCount(0);
     await expect(page.getByTestId("truck-img-hero")).toHaveAttribute(
       "src",
       "/hero-truck-preview.jpg",
     );
 
-    for (let n = 1; n <= 12; n += 1) {
-      const callout = page.getByTestId(`hero-panel-board-${n}`);
-      await expect(callout).toHaveAttribute(
+    for (let n = 1; n <= 11; n += 1) {
+      const legend = page.getByTestId(`panel-legend-${n}`);
+      await expect(legend).toHaveAttribute(
         "href",
         `/panels/${PANEL_BOARD_MARKS[n - 1]!.panelId}`,
       );
@@ -96,8 +96,8 @@ test.describe("slice 14.0: numbered stainless board", () => {
     const viewport = page.viewportSize();
     if (!viewport) throw new Error("viewport missing");
     let visibleCount = 0;
-    for (let n = 1; n <= 12; n += 1) {
-      const box = await page.getByTestId(`hero-panel-board-${n}`).boundingBox();
+    for (let n = 1; n <= 11; n += 1) {
+      const box = await page.getByTestId(`panel-legend-${n}`).boundingBox();
       if (!box) continue;
       const cx = box.x + box.width / 2;
       const cy = box.y + box.height / 2;
@@ -109,9 +109,13 @@ test.describe("slice 14.0: numbered stainless board", () => {
 
     await expect(page.getByTestId("truck-view-stage").locator("img")).toHaveAttribute(
       "src",
-      "/truck-view-side.jpg",
+      "/truck-view-driver.jpg",
     );
-    await expect(page.getByTestId("view-panel-board-side")).toBeVisible();
+    await expect(page.getByTestId("view-panel-board-driver")).toHaveCount(0);
+    await expect(page.getByTestId("truck-view-seats")).toHaveAttribute(
+      "data-baked-marks",
+      "true",
+    );
 
     const html = await page.content();
     expect(html.toLowerCase()).not.toMatch(/\blease\b/);

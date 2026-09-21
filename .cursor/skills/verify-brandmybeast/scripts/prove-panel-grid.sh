@@ -16,13 +16,14 @@ mkdir -p "$OUT"
 export BMB_VERIFY_URL="$URL"
 export BMB_VERIFY_OUT="$OUT"
 
-# Keep in lockstep with PANELS / PANEL_BOARD_MARKS (1 hood … 12 rear fascia).
+# Keep in lockstep with PANELS / PANEL_BOARD_MARKS (1 hood … 11 rear bumper).
 node --input-type=module <<'NODE'
 import { chromium } from "@playwright/test";
 import fs from "node:fs";
 
 const ETCHABLE = [
   "hood",
+  "front-fascia",
   "driver-door",
   "passenger-door",
   "driver-bed",
@@ -31,7 +32,7 @@ const ETCHABLE = [
   "passenger-rear-quarter",
   "tailgate",
 ];
-const WRAP_ONLY = ["front-fascia", "tonneau", "roof", "rear-fascia"];
+const WRAP_ONLY = ["front-bumper", "rear-bumper"];
 /** Same order as PANELS / hero callouts (slice 16.1). */
 const INDEXED = [
   "hood",
@@ -43,9 +44,8 @@ const INDEXED = [
   "driver-rear-quarter",
   "passenger-rear-quarter",
   "tailgate",
-  "tonneau",
-  "roof",
-  "rear-fascia",
+  "front-bumper",
+  "rear-bumper",
 ];
 const ALL = [...ETCHABLE, ...WRAP_ONLY];
 
@@ -59,9 +59,9 @@ await page.getByTestId("panel-grid").waitFor();
 const articles = page.getByTestId("panel-grid").locator("article");
 const count = await articles.count();
 const lines = [`panel_count=${count}`];
-if (count !== 12) throw new Error(`expected 12 panels, got ${count}`);
-if (ALL.length !== 12) throw new Error("script panel inventory drifted");
-if (INDEXED.length !== 12) throw new Error("script index inventory drifted");
+if (count !== 11) throw new Error(`expected 11 panels, got ${count}`);
+if (ALL.length !== 11) throw new Error("script panel inventory drifted");
+if (INDEXED.length !== 11) throw new Error("script index inventory drifted");
 
 for (let i = 0; i < INDEXED.length; i += 1) {
   const id = INDEXED[i];

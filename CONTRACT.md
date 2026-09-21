@@ -5,7 +5,7 @@ Not a signature product. This markdown is a draft template only — no e-sign, n
 ## Money fences
 
 - Floor $58,000 — order the Cyberbeast + wrap reserve. Miss = full refund.
-- Buyout $120,000 — campaign buys the truck; Immortal etch unlocks on eight steel faces.
+- Buyout $120,000 — campaign buys the truck; Immortal etch unlocks on nine steel faces.
 - $58,000–$119,999 — ordered + wrapped. No etch.
 - Deposit 20% to list. Remainder if that bid wins. Still no card capture on this path.
 

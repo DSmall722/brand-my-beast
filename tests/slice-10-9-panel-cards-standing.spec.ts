@@ -112,7 +112,7 @@ test.describe("slice 10.9: panel cards standing or Open", () => {
       "data-standing",
       "held",
     );
-    await expect(after.getByTestId("panel-standing-roof")).toHaveText("");
+    await expect(after.getByTestId("panel-standing-front-bumper")).toHaveText("");
     await expect(after.getByTestId("panel-open-seat-once")).toHaveText(
       "Open seat",
     );

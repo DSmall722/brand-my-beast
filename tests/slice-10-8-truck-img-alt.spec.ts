@@ -46,8 +46,11 @@ test.describe("slice 10.8: truck img alts from PUBLIC_COPY", () => {
 
   test("unit: truckImgAlt is PUBLIC_COPY only", () => {
     expect(truckImgAlt("hero")).toBe(PUBLIC_COPY.hero.imageAlt);
+    expect(truckImgAlt("board")).toBe(PUBLIC_COPY.board.truckImageAlt);
     expect(TRUCK_IMG_ALTS).toContain(PUBLIC_COPY.hero.imageAlt);
+    expect(TRUCK_IMG_ALTS).toContain(PUBLIC_COPY.board.truckImageAlt);
     expect(isPublicCopyTruckAlt(PUBLIC_COPY.hero.imageAlt)).toBe(true);
+    expect(isPublicCopyTruckAlt(PUBLIC_COPY.board.truckImageAlt)).toBe(true);
     expect(isPublicCopyTruckAlt("A cool Cybertruck photo")).toBe(false);
     expect(PUBLIC_COPY.hero.imageAlt.toLowerCase()).not.toContain(
       "permanent vinyl",

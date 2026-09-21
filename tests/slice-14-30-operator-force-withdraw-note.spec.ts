@@ -101,7 +101,7 @@ test.describe("slice 14.30: operator note required on force-withdraw approved", 
 
     // Listed pending withdraw still needs no operator note.
     const pending = await placeIntentBid({
-      panelId: "tonneau",
+      panelId: "rear-bumper",
       userId: "fw1430-pending",
       brandLabel: "Pending WD",
       tradeLabel: "pending snacks",

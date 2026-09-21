@@ -1,13 +1,14 @@
 /**
- * Side / front / rear truck views + SVG hotspot seats (SLICES 3.7).
- * Old static-prototype pattern. Not a 360. Empty seats stay raw 30X.
+ * Driver / passenger / front / rear truck views + SVG hotspot seats.
+ * Homepage board bakes numbers into the JPEGs. Seat pages keep overlays.
  * Preview only — no capture, no clock, no invented truck photos.
  */
 
 import { FLOOR_USD, GOAL_USD, PANELS, formatUsd, type Panel } from "./campaign";
 
 export const TRUCK_VIEWS = [
-  { id: "side", label: "Side" },
+  { id: "driver", label: "Driver" },
+  { id: "passenger", label: "Passenger" },
   { id: "front", label: "Front" },
   { id: "rear", label: "Rear" },
 ] as const;
@@ -20,46 +21,62 @@ export type TruckHotspot = {
   points: string;
 };
 
-export const TRUCK_VIEWS_LEAD = `Side, front, and rear of the same stainless preview. Open seats stay unmarked. Floor ${formatUsd(FLOOR_USD)}. Buyout ${formatUsd(GOAL_USD)}. Nothing is charged.`;
+export const TRUCK_VIEWS_LEAD = `Driver, passenger, front, and rear of the same stainless preview. Open seats stay unmarked. Floor ${formatUsd(FLOOR_USD)}. Buyout ${formatUsd(GOAL_USD)}. Nothing is charged.`;
 
-/** Side silhouette: driver-side panels + shared faces. */
-const SIDE_HOTSPOTS: readonly TruckHotspot[] = [
-  { panelId: "front-fascia", points: "40,64 136,64 136,112 40,112" },
-  { panelId: "hood", points: "52,58 118,48 118,78 52,78" },
-  { panelId: "driver-door", points: "118,52 168,52 168,118 118,118" },
-  { panelId: "driver-bed", points: "168,58 248,58 248,118 168,118" },
-  { panelId: "driver-rear-quarter", points: "248,58 292,58 292,118 248,118" },
-  { panelId: "tonneau", points: "168,42 292,42 292,58 168,58" },
-  { panelId: "roof", points: "78,28 248,28 248,48 118,48 78,42" },
-  { panelId: "tailgate", points: "292,52 338,62 338,118 292,118" },
-  { panelId: "rear-fascia", points: "338,72 372,84 368,118 338,118" },
+/**
+ * Percent box → 400×160 polygon. Matches BOARD_LAYOUT view percents
+ * so hidden hit-targets sit on the same steel as the numbered discs.
+ */
+function pctBox(cx: number, cy: number, w: number, h: number): string {
+  const clamp = (n: number, max: number) => Math.max(0, Math.min(max, n));
+  const x0 = clamp(((cx - w / 2) / 100) * 400, 400);
+  const y0 = clamp(((cy - h / 2) / 100) * 160, 160);
+  const x1 = clamp(((cx + w / 2) / 100) * 400, 400);
+  const y1 = clamp(((cy + h / 2) / 100) * 160, 160);
+  const r = (n: number) => Number(n.toFixed(1));
+  return `${r(x0)},${r(y0)} ${r(x1)},${r(y0)} ${r(x1)},${r(y1)} ${r(x0)},${r(y1)}`;
+}
+
+/** Driver: closed-door profile. Nose left, tail right. Seat 4 is both leaves. */
+const DRIVER_HOTSPOTS: readonly TruckHotspot[] = [
+  { panelId: "front-bumper", points: pctBox(10, 58, 10, 12) },
+  { panelId: "front-fascia", points: pctBox(12, 50, 12, 14) },
+  { panelId: "hood", points: pctBox(22, 38, 12, 12) },
+  { panelId: "driver-door", points: pctBox(42, 48, 20, 24) },
+  { panelId: "driver-bed", points: pctBox(68, 46, 12, 18) },
+  { panelId: "driver-rear-quarter", points: pctBox(80, 46, 10, 18) },
+  { panelId: "tailgate", points: pctBox(88, 40, 10, 18) },
+  { panelId: "rear-bumper", points: pctBox(92, 58, 10, 12) },
 ];
 
+/** Passenger: ¾, nose right. Seat 7 is both leaves. */
+const PASSENGER_HOTSPOTS: readonly TruckHotspot[] = [
+  { panelId: "front-bumper", points: pctBox(90, 62, 10, 12) },
+  { panelId: "front-fascia", points: pctBox(86, 50, 12, 14) },
+  { panelId: "hood", points: pctBox(68, 36, 14, 14) },
+  { panelId: "passenger-door", points: pctBox(50, 48, 18, 24) },
+  { panelId: "passenger-bed", points: pctBox(20, 46, 12, 18) },
+  { panelId: "passenger-rear-quarter", points: pctBox(12, 44, 12, 18) },
+];
+
+/** Front: head-on. Stainless face (2) sits above plastic bumper (3). */
 const FRONT_HOTSPOTS: readonly TruckHotspot[] = [
-  { panelId: "front-fascia", points: "100,78 300,78 300,120 100,120" },
-  { panelId: "hood", points: "120,58 280,58 290,96 110,96" },
-  { panelId: "roof", points: "140,28 260,28 280,58 120,58" },
-  { panelId: "driver-door", points: "78,64 120,58 120,128 86,128" },
-  { panelId: "passenger-door", points: "280,58 322,64 314,128 280,128" },
+  { panelId: "hood", points: pctBox(50, 26, 36, 16) },
+  { panelId: "front-fascia", points: pctBox(50, 48, 36, 16) },
+  { panelId: "front-bumper", points: pctBox(50, 80, 36, 12) },
 ];
 
+/** Rear: passenger-rear ¾. Tail left, passenger side right. */
 const REAR_HOTSPOTS: readonly TruckHotspot[] = [
-  { panelId: "rear-fascia", points: "110,104 290,104 300,132 100,132" },
-  { panelId: "tailgate", points: "120,58 280,58 290,104 110,104" },
-  { panelId: "tonneau", points: "130,36 270,36 280,58 120,58" },
-  { panelId: "roof", points: "150,18 250,18 270,36 130,36" },
-  {
-    panelId: "driver-rear-quarter",
-    points: "78,58 120,58 120,132 86,132",
-  },
-  {
-    panelId: "passenger-rear-quarter",
-    points: "280,58 322,58 314,132 280,132",
-  },
+  { panelId: "rear-bumper", points: pctBox(18, 58, 16, 12) },
+  { panelId: "tailgate", points: pctBox(18, 42, 16, 18) },
+  { panelId: "passenger-rear-quarter", points: pctBox(36, 40, 12, 16) },
+  { panelId: "passenger-bed", points: pctBox(46, 42, 14, 16) },
 ];
 
 const HOTSPOTS_BY_VIEW: Record<TruckViewId, readonly TruckHotspot[]> = {
-  side: SIDE_HOTSPOTS,
+  driver: DRIVER_HOTSPOTS,
+  passenger: PASSENGER_HOTSPOTS,
   front: FRONT_HOTSPOTS,
   rear: REAR_HOTSPOTS,
 };
@@ -83,7 +100,7 @@ export function hotspotPanelIds(): readonly Panel["id"][] {
   return [...ids];
 }
 
-/** Slice 17.2 — floor + buyout, no lease, no CLOSE_AT. Hotspot jargon is not required. */
+/** Slice 17.2 — floor + buyout, no lease, no CLOSE_AT. */
 export function truckViewsLeadIsSafe(lead: string): boolean {
   const lower = lead.toLowerCase();
   return (
@@ -115,5 +132,5 @@ export function truckHotspotsAreValid(): boolean {
       if (!spot.points.trim()) return false;
     }
   }
-  return TRUCK_VIEWS.length === 3;
+  return TRUCK_VIEWS.length === 4;
 }

@@ -77,20 +77,20 @@ test.describe("slice 16.23: CSV export includes panel number", () => {
 
   test("standing intent row carries the board number; waitlist does not", async () => {
     const mark = panelBoardMarkFor(PANEL_ID);
-    expect(mark.n).toBe(3);
+    expect(mark.n).toBe(4);
 
     const listed = await placeIntentBid({
       panelId: PANEL_ID,
       userId: "ops1623-secret-user",
       brandLabel: "Csv Number Brand",
       tradeLabel: "csv number trade",
-      standingUsd: 1600,
+      standingUsd: 4500,
     });
     expect(listed.ok).toBe(true);
     if (!listed.ok) return;
 
     const rejected = await placeIntentBid({
-      panelId: "tonneau",
+      panelId: "rear-bumper",
       userId: "test:csv1623-rejected@example.com",
       brandLabel: "Csv Number Rejected",
       tradeLabel: "csv rejected trade",
@@ -133,7 +133,7 @@ test.describe("slice 16.23: CSV export includes panel number", () => {
     await page.goto(`/panels/${PANEL_ID}`);
     await page.getByTestId("intent-brand").fill("Csv Number UI");
     await page.getByTestId("intent-trade").fill("csv number ui");
-    await page.getByTestId("intent-standing").fill("1600");
+    await page.getByTestId("intent-standing").fill("4500");
     await page.getByTestId("intent-submit").click();
     await expect(page.getByTestId("intent-success")).toContainText(
       "not charged",

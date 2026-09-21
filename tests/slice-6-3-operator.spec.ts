@@ -87,7 +87,7 @@ test.describe("slice 6.3 store: operator approve / reject-with-note", () => {
     );
 
     const reject = await placeIntentBid({
-      panelId: "tonneau",
+      panelId: "rear-bumper",
       userId: "slice63_reject",
       brandLabel: "Slice Sixty Three Reject",
       tradeLabel: "Trail Tools",

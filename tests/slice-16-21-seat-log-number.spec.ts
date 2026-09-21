@@ -21,7 +21,7 @@ import { vercelJsonIsHoldOrMainOnlyRestore } from "../src/lib/vercel-git-deploy"
  * No bidder email. FEATURES.md stays off /. CLOSE_AT null. No Stripe.
  */
 
-const PANEL_ID = "tonneau" as const;
+const PANEL_ID = "rear-bumper" as const;
 
 async function signIn(page: Page, email: string) {
   await page.context().clearCookies();

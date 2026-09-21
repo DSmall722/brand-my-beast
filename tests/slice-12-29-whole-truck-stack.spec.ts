@@ -55,7 +55,7 @@ test.describe("slice 12.29: whole-truck vs approved standing", () => {
       userId: "seat_winner",
       brandLabel: "Door Co",
       tradeLabel: "door snacks",
-      standingUsd: 1500,
+      standingUsd: 4500,
     });
     expect(prior.ok).toBeTruthy();
     if (!prior.ok) return;
@@ -75,6 +75,6 @@ test.describe("slice 12.29: whole-truck vs approved standing", () => {
       (bid) => bid.id === prior.bid.id,
     );
     expect(seat?.status).toBe("approved");
-    expect((await loadBoardIntentStats()).pledgedUsd).toBe(1500);
+    expect((await loadBoardIntentStats()).pledgedUsd).toBe(2500);
   });
 });

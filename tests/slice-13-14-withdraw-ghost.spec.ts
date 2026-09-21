@@ -149,7 +149,7 @@ test.describe("slice 13.14: withdraw leaves no ghost standing", () => {
   }) => {
     const page = await browser.newPage();
     await signIn(page, "wg1314-ui@example.com");
-    await page.goto("/panels/rear-fascia");
+    await page.goto("/panels/rear-bumper");
     await page.getByTestId("intent-brand").fill("WG UI");
     await page.getByTestId("intent-trade").fill("wg1314 ui");
     await page.getByTestId("intent-standing").fill("500");
@@ -170,7 +170,7 @@ test.describe("slice 13.14: withdraw leaves no ghost standing", () => {
     await page.getByTestId(`intent-withdraw-submit-${bidId}`).click();
     await expect(row).toContainText("Withdrawn", { timeout: 10_000 });
 
-    await page.goto("/panels/rear-fascia");
+    await page.goto("/panels/rear-bumper");
     await expect(page.getByTestId("panel-standing")).toHaveText("$500");
     const html = await page.content();
     expect(html.toLowerCase()).not.toMatch(/\blease\b/);

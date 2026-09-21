@@ -58,12 +58,19 @@ test.describe("P1 waitlist campaign locks", () => {
       "alt",
       PUBLIC_COPY.hero.imageAlt,
     );
-    await expect(page.getByTestId("hero-preview-label")).toContainText(
-      "Board preview",
+    await expect(page.getByTestId("hero-preview-label")).toHaveText(
+      PUBLIC_COPY.hero.caption,
     );
     await expect(page.getByTestId("hero-preview-label")).toContainText(
-      "bare stainless",
+      "Concept preview",
     );
+    await expect(page.getByTestId("hero-preview-label")).toContainText(
+      "house wrap",
+    );
+    await expect(page.getByTestId("hero-preview-label")).toContainText(
+      "Numbers live on the board",
+    );
+    await expect(page.getByTestId("hero-panel-board")).toHaveCount(0);
     await expect(page.locator("#hero-title")).toHaveText(HERO_TITLE);
     await expect(page.getByRole("heading", { name: PUBLIC_COPY.board.heading })).toBeVisible();
     await expect(page.getByTestId("floor-amount")).toHaveText(
@@ -106,7 +113,7 @@ test.describe("P1 waitlist campaign locks", () => {
     await expect(page.getByTestId("open-seats-label")).toHaveText(
       PUBLIC_COPY.board.openSeatsLabel,
     );
-    await expect(page.getByTestId("open-seats")).toHaveText(`12 of ${PANELS.length}`);
+    await expect(page.getByTestId("open-seats")).toHaveText(`11 of ${PANELS.length}`);
     const shortfallTicker = page.getByTestId("shortfall-ticker");
     await expect(shortfallTicker).toHaveAttribute(
       "aria-label",
@@ -248,12 +255,12 @@ test.describe("P1 waitlist campaign locks", () => {
     );
   });
 
-  test("shows twelve panels with etch locked under buyout", async ({
+  test("shows eleven panels with etch locked under buyout", async ({
     page,
   }) => {
     await page.goto("/");
     const cards = page.getByTestId("panel-grid").locator("article");
-    await expect(cards).toHaveCount(12);
+    await expect(cards).toHaveCount(11);
 
     for (const panel of PANELS) {
       const card = page.getByTestId(`panel-${panel.id}`);

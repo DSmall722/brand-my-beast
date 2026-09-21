@@ -11,7 +11,7 @@ Agents read this so they do not resurrect killed product. CAMPAIGN.md wins. Upda
 | Close date of October 1, 2026 | Clock is 30 days, set the morning P3 ships. Field stays unset until then. |
 | 21-day clock | Locked at 30 days. |
 | $51,000 / $110,000 pair | Superseded by $58,000 / $120,000. |
-| Immortal etch on tailgate + driver bed only | Live board is eight steel faces, and only after $120,000. |
+| Immortal etch on tailgate + driver bed only | Live board is nine steel faces, and only after $120,000. |
 | Etch available on a $58k–$119,999 campaign | Etch unlocks at buyout only. |
 | Truck is reserved / VIN exists | It is not. Do not invent a reservation. |
 | FSD in the floor | Operator pays $99/mo after delivery. |

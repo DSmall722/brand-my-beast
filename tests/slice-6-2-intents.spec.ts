@@ -82,7 +82,7 @@ test.describe("slice 6.2 store: create / outbid / exclusivity / increment", () =
     expect(created.bid.standingUsd).toBe(2500);
 
     const elsewhere = await placeIntentBid({
-      panelId: "tonneau",
+      panelId: "rear-bumper",
       userId: "slice62_elsewhere",
       brandLabel: "Slice Sixty Two Elsewhere",
       tradeLabel: "trail snacks",
@@ -183,7 +183,7 @@ test.describe("slice 6.2 seat UI: create / outbid / exclusivity / increment", ()
 
     const exclusivity = await browser.newPage();
     await signIn(exclusivity, "slice62-ui-trade@example.com");
-    await exclusivity.goto("/panels/tonneau");
+    await exclusivity.goto("/panels/rear-bumper");
     await exclusivity
       .getByTestId("intent-brand")
       .fill("Slice Sixty Two UI Trade");

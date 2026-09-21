@@ -12,6 +12,9 @@ import {
 } from "../src/lib/campaign";
 import {
   WHOLE_TRUCK_PANEL_USD,
+  isWholeTruckStandingUsd,
+  wholeTruckStandingSum,
+  wholeTruckStandingUsdFor,
   getIntentBidById,
   listBidsForPanel,
   listWholeTruckSiblingBids,
@@ -22,9 +25,9 @@ import {
 } from "../src/lib/intent-store";
 
 /**
- * Slice 13.17 — whole-truck reject rolls back all twelve rows in one transaction.
+ * Slice 13.17 — whole-truck reject rolls back all eleven rows in one transaction.
  */
-test.describe("slice 13.17: whole-truck reject rolls back twelve", () => {
+test.describe("slice 13.17: whole-truck reject rolls back eleven", () => {
   test.describe.configure({ mode: "serial" });
 
   test.beforeEach(async ({ request }) => {
@@ -40,7 +43,7 @@ test.describe("slice 13.17: whole-truck reject rolls back twelve", () => {
     expect(CLOSE_AT).toBeNull();
     expect(BRAND.name).toBe("BrandMyBeast");
     expect(formatUsd(FLOOR_USD)).toBe("$58,000");
-    expect(WHOLE_TRUCK_PANEL_USD * PANELS.length).toBe(GOAL_USD);
+    expect(wholeTruckStandingSum()).toBe(GOAL_USD);
   });
 
   test("package.json has no stripe", () => {
@@ -63,7 +66,7 @@ test.describe("slice 13.17: whole-truck reject rolls back twelve", () => {
     expect(vercelJsonIsHoldOrMainOnlyRestore()).toBe(true);
   });
 
-  test("reject one whole-truck row rejects all twelve", async () => {
+  test("reject one whole-truck row rejects all eleven", async () => {
     const whole = await placeWholeTruckIntent({
       userId: "wt1317-user",
       brandLabel: "Fleet Reject Co",
@@ -71,7 +74,7 @@ test.describe("slice 13.17: whole-truck reject rolls back twelve", () => {
     });
     expect(whole.ok).toBe(true);
     if (!whole.ok) return;
-    expect(whole.bids).toHaveLength(12);
+    expect(whole.bids).toHaveLength(11);
     expect(whole.bids.every((bid) => bid.status === "listed")).toBe(true);
 
     const anchor = whole.bids[0];
@@ -80,7 +83,7 @@ test.describe("slice 13.17: whole-truck reject rolls back twelve", () => {
 
     const siblings = await listWholeTruckSiblingBids(anchor.id);
     expect(siblings).not.toBeNull();
-    expect(siblings?.length).toBe(12);
+    expect(siblings?.length).toBe(11);
 
     const rejected = await rejectWholeTruckIntent({
       bidId: anchor.id,
@@ -88,14 +91,14 @@ test.describe("slice 13.17: whole-truck reject rolls back twelve", () => {
     });
     expect(rejected.ok).toBe(true);
     if (!rejected.ok) return;
-    expect(rejected.bids).toHaveLength(12);
+    expect(rejected.bids).toHaveLength(11);
     expect(rejected.bids.every((bid) => bid.status === "rejected")).toBe(true);
 
     for (const panel of PANELS) {
       const rows = await listBidsForPanel(panel.id);
       const match = rows.find((row) => row.userId === "wt1317-user");
       expect(match?.status).toBe("rejected");
-      expect(match?.standingUsd).toBe(WHOLE_TRUCK_PANEL_USD);
+      expect(match?.standingUsd).toBe(wholeTruckStandingUsdFor(match!.panelId));
     }
 
     const after = await listWholeTruckSiblingBids(anchor.id);

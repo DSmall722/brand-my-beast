@@ -45,7 +45,7 @@ test.describe("slice 17.14: panel HTML drops the Stripe vendor name", () => {
     const html = await page.content();
     expect(html).not.toContain("Stripe");
     expect(html).not.toContain("No Stripe capture");
-    expect(html).toContain("$1,200");
+    expect(html).toContain("$2,000");
     expect(html).toContain("$58,000");
     expect(html).toContain("$120,000");
     expect(html.toLowerCase()).not.toMatch(/\blease\b/);

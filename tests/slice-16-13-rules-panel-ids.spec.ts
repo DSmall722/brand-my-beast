@@ -15,13 +15,13 @@ import { panelBoardMarkFor } from "../src/lib/panel-board";
 import { vercelJsonIsHoldOrMainOnlyRestore } from "../src/lib/vercel-git-deploy";
 
 /**
- * Slice 16.13 — RULES.md lists 1–12 next to panel ids.
+ * Slice 16.13 — RULES.md lists 1–11 next to panel ids.
  * Opening dollars unchanged. CLOSE_AT null. No Stripe. No SEATS_OPEN flip.
  */
 
 const RULES = join(process.cwd(), "RULES.md");
 
-test.describe("slice 16.13: RULES.md 1–12 next to panel ids", () => {
+test.describe("slice 16.13: RULES.md 1–11 next to panel ids", () => {
   test("campaign money fences stay locked — CLOSE_AT null", () => {
     expect(FLOOR_USD).toBe(58_000);
     expect(GOAL_USD).toBe(120_000);
@@ -42,14 +42,14 @@ test.describe("slice 16.13: RULES.md 1–12 next to panel ids", () => {
 
   test("inventory rows put n beside the panel id and keep openings", () => {
     const rules = readFileSync(RULES, "utf8");
-    expect(rules).toContain("Board order is 1–12 next to each panel id");
+    expect(rules).toContain("Board order is 1–11 next to each panel id");
     expect(rules).toContain("$58,000");
     expect(rules).toContain("$120,000");
     expect(rules).toContain("The floor is not the sum of openings");
     expect(rules.toLowerCase()).not.toMatch(/\blease\b/);
     expect(rules).not.toMatch(/@gmail\.com/i);
 
-    expect(PANELS).toHaveLength(12);
+    expect(PANELS).toHaveLength(11);
     for (const panel of PANELS) {
       const mark = panelBoardMarkFor(panel.id);
       expect(rules).toContain(
@@ -57,6 +57,6 @@ test.describe("slice 16.13: RULES.md 1–12 next to panel ids", () => {
       );
     }
     expect(rules).toContain("| 1 | `hood` |");
-    expect(rules).toContain("| 12 | `rear-fascia` |");
+    expect(rules).toContain("| 11 | `rear-bumper` |");
   });
 });

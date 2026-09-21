@@ -71,9 +71,8 @@ test.describe("slice 17.10: panel faces use the stainless still", () => {
       "driver-rear-quarter",
       "passenger-rear-quarter",
       "tailgate",
-      "tonneau",
-      "roof",
-      "rear-fascia",
+      "front-bumper",
+      "rear-bumper",
     ]) {
       const card = page.getByTestId(`panel-face-${id}`);
       const pos = await card.getAttribute("data-face-pos");
@@ -83,7 +82,7 @@ test.describe("slice 17.10: panel faces use the stainless still", () => {
       positions.add(`${still}:${pos}`);
       stills.add(still ?? "");
     }
-    expect(positions.size).toBe(12);
+    expect(positions.size).toBe(11);
     expect(stills.size).toBeGreaterThan(1);
     const box = await face.boundingBox();
     expect(box?.width ?? 0).toBeGreaterThan(40);

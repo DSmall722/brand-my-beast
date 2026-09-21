@@ -9,7 +9,7 @@ Do not tweet the campaign while brandmybeast.com is a 404.
 |---|---|
 | Display name | BrandMyBeast |
 | Username | brandmybeast (do not change) |
-| Bio | 12 panels on 30X stainless. One Cyberbeast. Ordered only if the board clears. |
+| Bio | 11 panels on 30X stainless. One Cyberbeast. Ordered only if the board clears. |
 | Location | Southeast or Southeastern USA |
 | Website | https://brandmybeast.com |
 | Avatar | etched B on stainless. No face required. |

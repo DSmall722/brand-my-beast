@@ -84,7 +84,7 @@ test.describe("slice 13.47: verify-brandmybeast feature map Waves 9–13", () =>
 
   test("every Wave 9–13 SLICES id appears in the feature map", () => {
     const ids = wave913IdsFromSlices();
-    // 9.1–9.10 + 10.1–10.10 + 11.1–11.10 + 12.1–12.50 + 13.1–13.50 = 130
+    // 9.1–9.10 + 10.1–10.10 + 11.1–11.10 + 12.1–11.50 + 13.1–13.50 = 130
     // SLICES may still show condensed 13.1–13.44 plus later singles.
     expect(ids.length).toBeGreaterThanOrEqual(100);
     expect(ids[0]).toBe("9.1");

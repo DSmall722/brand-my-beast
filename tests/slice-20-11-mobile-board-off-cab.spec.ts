@@ -20,7 +20,7 @@ import { PUBLIC_COPY } from "../src/lib/public-copy";
 import { vercelJsonIsHoldOrMainOnlyRestore } from "../src/lib/vercel-git-deploy";
 
 /**
- * Slice 20.11 — mobile board numbers 1–12 sit off the cab glass.
+ * Slice 20.11 — mobile board numbers 1–11 sit off the cab glass.
  * 19.8 is desktop H1 only. CLOSE_AT null. No Stripe.
  */
 
@@ -58,30 +58,20 @@ test.describe("slice 20.11: mobile board off cab glass", () => {
 
   test("mobile hero marks sit below the cab glass line", () => {
     expect(panelBoardIsComplete()).toBe(true);
-    expect(PANEL_BOARD_MARKS).toHaveLength(12);
+    expect(PANEL_BOARD_MARKS).toHaveLength(11);
     for (const mark of PANEL_BOARD_MARKS) {
       expect(mark.heroMobile.y).toBeGreaterThan(HERO_MOBILE_CAB_GLASS_MAX_Y);
       expect(mark.heroMobile.y).toBeLessThanOrEqual(100);
     }
   });
 
-  test("390px homepage keeps 1–12 off the cab glass", async ({ page }) => {
+  test("390px homepage keeps 1–11 off the cab glass", async ({ page }) => {
     await page.goto("/");
     await page.evaluate(() => document.fonts.ready);
-    const board = page.getByTestId("hero-panel-board");
-    await expect(board).toHaveAttribute("data-mobile-board", "off-cab");
-    for (let n = 1; n <= 12; n += 1) {
-      const callout = page.getByTestId(`hero-panel-board-${n}`);
-      await expect(callout).toBeVisible();
-      const mobileY = Number(await callout.getAttribute("data-hero-mobile-y"));
-      expect(mobileY).toBeGreaterThan(HERO_MOBILE_CAB_GLASS_MAX_Y);
-      const topPct = await callout.evaluate((el) => {
-        const parent = el.closest(".panel-board");
-        if (!parent) return Number.NaN;
-        const topPx = Number.parseFloat(getComputedStyle(el).top);
-        return (topPx / parent.getBoundingClientRect().height) * 100;
-      });
-      expect(topPct).toBeCloseTo(mobileY, 0);
+    await expect(page.getByTestId("hero-panel-board")).toHaveCount(0);
+    for (let n = 1; n <= 11; n += 1) {
+      await expect(page.getByTestId(`hero-panel-board-${n}`)).toHaveCount(0);
+      await expect(page.getByTestId(`panel-legend-${n}`)).toBeVisible();
     }
     await expect(page.locator("#hero-title")).toHaveText(LOCKED_H1);
     await expect(page.locator("#hero-title")).toHaveText(PUBLIC_COPY.hero.h1);

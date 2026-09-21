@@ -58,12 +58,12 @@ test.describe("slice 10.3: etch toggle locked under buyout", () => {
 
   test("unit: etch controls need etchable panel + buyout", () => {
     const hood = PANELS.find((p) => p.id === "hood")!;
-    const roof = PANELS.find((p) => p.id === "roof")!;
+    const bumper = PANELS.find((p) => p.id === "front-bumper")!;
     expect(isEtchable(hood)).toBe(true);
     expect(etchControlsEnabled(hood, 0)).toBe(false);
     expect(etchControlsEnabled(hood, 119_999)).toBe(false);
     expect(etchControlsEnabled(hood, GOAL_USD)).toBe(true);
-    expect(etchControlsEnabled(roof, GOAL_USD)).toBe(false);
+    expect(etchControlsEnabled(bumper, GOAL_USD)).toBe(false);
     expect(etchLockCopy(0)).toContain("Etch stays locked until buyout");
     expect(etchLockCopy(GOAL_USD)).toContain("unlocked");
   });
@@ -114,7 +114,7 @@ test.describe("slice 10.3: etch toggle locked under buyout", () => {
     await expect(page.getByTestId("compositor-etch-mark")).toHaveCount(0);
 
     // Wrap-only panel does not render the Etch tab, even at buyout.
-    await page.goto("/panels/roof");
+    await page.goto("/panels/front-bumper");
     await expect(page.getByTestId("panel-mockup")).toHaveAttribute(
       "data-etchable",
       "false",

@@ -14,7 +14,7 @@ export function HomeTruckViewsSection({
           data-testid="truck-views-section"
         >
           <h2 id="truck-views-title">Board truck seats</h2>
-          <TruckViewHotspots occupiedPanelIds={occupiedPanelIds} />
+          <TruckViewHotspots occupiedPanelIds={occupiedPanelIds} bakedMarks />
         </section>
   );
 }

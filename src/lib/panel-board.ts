@@ -1,6 +1,6 @@
 /**
  * Slice 14.0 — numbered stainless board marks.
- * Numbers match PANELS order (1 hood … 12 rear fascia). Positions are
+ * Numbers match PANELS order (1 hood … 11 rear bumper). Positions are
  * percent of the photo well (hero still / truck-view stage).
  */
 
@@ -23,7 +23,7 @@ export type PanelBoardMark = {
   readonly hero: BoardPct;
   /** Slice 20.11 — mobile hero positions sit on the body, not cab glass. */
   readonly heroMobile: BoardPct;
-  /** Callouts on side / front / rear photo stages (subset per view). */
+  /** Callouts on driver / passenger / front / rear stages (subset per view). */
   readonly views: Readonly<Partial<Record<TruckViewId, BoardPct>>>;
   /** Distinct crop for the homepage panel card / seat mockup. */
   readonly face: PanelFaceCrop;
@@ -40,92 +40,96 @@ type BoardLayout = {
 export const HERO_MOBILE_CAB_GLASS_MAX_Y = 48;
 
 /**
- * Percents tuned to the front-¾ Cybertruck still in /public.
- * Hero is driver-side ¾. Side is driver ¾-rear. Front is passenger-front.
- * Rear is passenger-rear.
+ * Percents of the still. Hero well is 16:9 fill. Board views use
+ * object-fit: contain on a photo well so these map 1:1 to the JPEG.
+ * Driver = closed-door profile, nose left. Passenger = ¾, nose right.
+ * Front = head-on. Rear = passenger-rear ¾, tail left.
+ * Door seats 4 and 7 are packages (front + rear cab leaf on that side).
  */
 const BOARD_LAYOUT: Record<Panel["id"], BoardLayout> = {
   hood: {
-    hero: { x: 32, y: 38 },
-    heroMobile: { x: 30, y: 52 },
-    views: { side: { x: 22, y: 36 }, front: { x: 44, y: 36 } },
-    face: { still: "front", objectPosition: "46% 30%" },
+    hero: { x: 24, y: 34 },
+    heroMobile: { x: 24, y: 52 },
+    views: {
+      driver: { x: 22, y: 38 },
+      passenger: { x: 68, y: 36 },
+      front: { x: 50, y: 26 },
+    },
+    face: { still: "front", objectPosition: "50% 26%" },
   },
   "front-fascia": {
-    hero: { x: 20, y: 56 },
-    heroMobile: { x: 18, y: 68 },
-    views: { side: { x: 11, y: 62 }, front: { x: 40, y: 74 } },
-    face: { still: "front", objectPosition: "42% 82%" },
+    hero: { x: 12, y: 48 },
+    heroMobile: { x: 12, y: 62 },
+    views: {
+      driver: { x: 12, y: 50 },
+      passenger: { x: 86, y: 50 },
+      front: { x: 50, y: 48 },
+    },
+    face: { still: "front", objectPosition: "50% 48%" },
   },
   "driver-door": {
-    hero: { x: 54, y: 46 },
-    heroMobile: { x: 52, y: 58 },
-    views: { side: { x: 32, y: 48 }, front: { x: 18, y: 52 } },
-    face: { still: "side", objectPosition: "30% 48%" },
+    hero: { x: 34, y: 42 },
+    heroMobile: { x: 34, y: 54 },
+    views: { driver: { x: 42, y: 48 } },
+    face: { still: "driver", objectPosition: "38% 48%" },
   },
   "passenger-door": {
-    hero: { x: 16, y: 48 },
-    heroMobile: { x: 16, y: 60 },
-    views: { front: { x: 74, y: 50 } },
-    face: { still: "front", objectPosition: "80% 48%" },
+    hero: { x: 31, y: 22 },
+    heroMobile: { x: 28, y: 50 },
+    views: { passenger: { x: 50, y: 48 } },
+    face: { still: "passenger", objectPosition: "50% 48%" },
   },
   "driver-bed": {
-    hero: { x: 74, y: 48 },
-    heroMobile: { x: 72, y: 60 },
-    views: { side: { x: 58, y: 46 } },
-    face: { still: "side", objectPosition: "58% 48%" },
+    hero: { x: 54, y: 42 },
+    heroMobile: { x: 54, y: 54 },
+    views: { driver: { x: 68, y: 46 } },
+    face: { still: "driver", objectPosition: "68% 46%" },
   },
   "passenger-bed": {
-    hero: { x: 88, y: 40 },
-    heroMobile: { x: 86, y: 54 },
-    views: { rear: { x: 60, y: 44 } },
-    face: { still: "rear", objectPosition: "64% 42%" },
+    hero: { x: 56, y: 27 },
+    heroMobile: { x: 56, y: 50 },
+    views: { passenger: { x: 20, y: 46 }, rear: { x: 46, y: 42 } },
+    face: { still: "passenger", objectPosition: "20% 46%" },
   },
   "driver-rear-quarter": {
-    hero: { x: 86, y: 50 },
-    heroMobile: { x: 84, y: 64 },
-    views: { side: { x: 74, y: 46 }, rear: { x: 16, y: 48 } },
-    face: { still: "side", objectPosition: "76% 46%" },
+    hero: { x: 73, y: 43 },
+    heroMobile: { x: 73, y: 56 },
+    views: { driver: { x: 80, y: 46 } },
+    face: { still: "driver", objectPosition: "80% 46%" },
   },
   "passenger-rear-quarter": {
-    hero: { x: 94, y: 42 },
-    heroMobile: { x: 92, y: 56 },
-    views: { rear: { x: 46, y: 46 } },
-    face: { still: "rear", objectPosition: "48% 46%" },
+    hero: { x: 76, y: 27 },
+    heroMobile: { x: 76, y: 52 },
+    views: { passenger: { x: 12, y: 44 }, rear: { x: 36, y: 40 } },
+    face: { still: "passenger", objectPosition: "12% 44%" },
   },
   tailgate: {
-    hero: { x: 96, y: 48 },
-    heroMobile: { x: 94, y: 62 },
-    views: { side: { x: 88, y: 40 }, rear: { x: 26, y: 40 } },
-    face: { still: "rear", objectPosition: "24% 38%" },
+    hero: { x: 91, y: 32 },
+    heroMobile: { x: 90, y: 54 },
+    views: { driver: { x: 88, y: 40 }, rear: { x: 18, y: 42 } },
+    face: { still: "rear", objectPosition: "18% 42%" },
   },
-  tonneau: {
-    hero: { x: 84, y: 34 },
-    heroMobile: { x: 80, y: 50 },
-    views: { side: { x: 68, y: 26 }, rear: { x: 32, y: 20 } },
-    face: { still: "rear", objectPosition: "34% 16%" },
-  },
-  roof: {
-    hero: { x: 56, y: 24 },
-    heroMobile: { x: 50, y: 50 },
+  "front-bumper": {
+    hero: { x: 10, y: 62 },
+    heroMobile: { x: 10, y: 72 },
     views: {
-      side: { x: 40, y: 20 },
-      front: { x: 52, y: 16 },
-      rear: { x: 58, y: 14 },
+      driver: { x: 10, y: 58 },
+      passenger: { x: 90, y: 62 },
+      front: { x: 50, y: 80 },
     },
-    face: { still: "side", objectPosition: "40% 16%" },
+    face: { still: "front", objectPosition: "50% 82%" },
   },
-  "rear-fascia": {
-    hero: { x: 95, y: 52 },
-    heroMobile: { x: 93, y: 66 },
-    views: { side: { x: 93, y: 48 }, rear: { x: 24, y: 58 } },
-    face: { still: "rear", objectPosition: "22% 76%" },
+  "rear-bumper": {
+    hero: { x: 94, y: 58 },
+    heroMobile: { x: 92, y: 68 },
+    views: { driver: { x: 92, y: 58 }, rear: { x: 18, y: 58 } },
+    face: { still: "rear", objectPosition: "18% 62%" },
   },
 };
 
 /**
- * One mark per panel. Hero shows all twelve. Each truck view shows the
- * faces that read on that angle of the matching still.
+ * One mark per panel. Hero layout stays complete; public hero does not
+ * paint numbers. Each truck view shows the faces that read on that angle.
  */
 export const PANEL_BOARD_MARKS: readonly PanelBoardMark[] = PANELS.map(
   (panel, index) => {
@@ -151,7 +155,7 @@ export function panelBoardMarksForView(
   return PANEL_BOARD_MARKS.filter((mark) => mark.views[view] != null);
 }
 
-/** Mark for a panel id. Numbers match hero callouts (1 hood … 12 rear fascia). */
+/** Mark for a panel id. Numbers match board callouts (1 hood … 11 rear bumper). */
 export function panelBoardMarkFor(panelId: string): PanelBoardMark {
   const mark = PANEL_BOARD_MARKS.find((row) => row.panelId === panelId);
   if (!mark) {
@@ -179,7 +183,7 @@ export function panelFaceStyle(panelId: string): {
   };
 }
 
-/** Slice 16.2 — seat page H1: `3 · Driver door`. */
+/** Slice 16.2 — seat page H1: `4 · Driver doors`. */
 export function panelSeatH1(panel: Pick<Panel, "id" | "name">): string {
   const mark = panelBoardMarkFor(panel.id);
   return `${mark.n} · ${panel.name}`;
@@ -191,11 +195,11 @@ export function panelLegendLabel(mark: Pick<PanelBoardMark, "n" | "name">): stri
 }
 
 export function panelBoardIsComplete(): boolean {
-  if (PANEL_BOARD_MARKS.length !== 12) return false;
+  if (PANEL_BOARD_MARKS.length !== 11) return false;
   if (PANEL_BOARD_MARKS[0]?.panelId !== "hood") return false;
-  if (PANEL_BOARD_MARKS[11]?.panelId !== "rear-fascia") return false;
+  if (PANEL_BOARD_MARKS[10]?.panelId !== "rear-bumper") return false;
   for (const mark of PANEL_BOARD_MARKS) {
-    if (mark.n < 1 || mark.n > 12) return false;
+    if (mark.n < 1 || mark.n > 11) return false;
     if (mark.hero.x < 0 || mark.hero.x > 100) return false;
     if (mark.hero.y < 0 || mark.hero.y > 100) return false;
     if (mark.heroMobile.x < 0 || mark.heroMobile.x > 100) return false;
@@ -208,16 +212,15 @@ export function panelBoardIsComplete(): boolean {
 const FACE_STILL_FOR_PANEL: Record<string, TruckStillId> = {
   hood: "front",
   "front-fascia": "front",
-  "driver-door": "side",
-  "passenger-door": "front",
-  "driver-bed": "side",
-  "passenger-bed": "rear",
-  "driver-rear-quarter": "side",
-  "passenger-rear-quarter": "rear",
+  "front-bumper": "front",
+  "driver-door": "driver",
+  "passenger-door": "passenger",
+  "driver-bed": "driver",
+  "passenger-bed": "passenger",
+  "driver-rear-quarter": "driver",
+  "passenger-rear-quarter": "passenger",
   tailgate: "rear",
-  tonneau: "rear",
-  roof: "side",
-  "rear-fascia": "rear",
+  "rear-bumper": "rear",
 };
 
 /** Each card crop is unique and points at the still for that steel. */
@@ -232,12 +235,13 @@ export function panelFaceCropsAreDistinct(): boolean {
     if (seen.has(key)) return false;
     seen.add(key);
   }
-  return seen.size === 12;
+  return seen.size === 11;
 }
 
 /** object-position hints on the dedicated view stills (already framed). */
 export const BOARD_VIEW_OBJECT_POSITION: Record<TruckViewId, string> = {
-  side: "50% 50%",
-  front: "50% 48%",
+  driver: "50% 50%",
+  passenger: "50% 50%",
+  front: "50% 50%",
   rear: "50% 50%",
 };

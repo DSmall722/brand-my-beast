@@ -1,13 +1,14 @@
 /**
- * Local Cybertruck stills. Hero stays the 1280 / 640 pair. Side / front /
- * rear are dedicated faces — not object-position crops of one photo.
+ * Local Cybertruck stills. Hero stays the 1280 / 640 pair. Driver /
+ * passenger / front / rear are dedicated faces.
  */
 
 import { HERO_STILL_WIDE } from "./hero-still";
 import type { TruckViewId } from "./truck-views";
 
 export const TRUCK_VIEW_STILLS: Record<TruckViewId, string> = {
-  side: "/truck-view-side.jpg",
+  driver: "/truck-view-driver.jpg",
+  passenger: "/truck-view-passenger.jpg",
   front: "/truck-view-front.jpg",
   rear: "/truck-view-rear.jpg",
 };
@@ -23,8 +24,10 @@ export function truckStillSrc(still: TruckStillId): string {
   switch (still) {
     case "hero":
       return HERO_STILL_WIDE.src;
-    case "side":
-      return TRUCK_VIEW_STILLS.side;
+    case "driver":
+      return TRUCK_VIEW_STILLS.driver;
+    case "passenger":
+      return TRUCK_VIEW_STILLS.passenger;
     case "front":
       return TRUCK_VIEW_STILLS.front;
     case "rear":

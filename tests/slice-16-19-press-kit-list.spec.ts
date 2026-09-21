@@ -14,13 +14,13 @@ import { vercelJsonIsHoldOrMainOnlyRestore } from "../src/lib/vercel-git-deploy"
 import { PANEL_BOARD_MARKS } from "../src/lib/panel-board";
 
 /**
- * Slice 16.19 — press-kit fact sheet includes the 1–12 board list.
+ * Slice 16.19 — press-kit fact sheet includes the 1–11 board list.
  * Money unchanged. FEATURES.md stays off /.
  */
 
 const FACT = join(process.cwd(), "press-kit/FACT-SHEET.md");
 
-test.describe("slice 16.19: press-kit fact sheet lists 1-12", () => {
+test.describe("slice 16.19: press-kit fact sheet lists 1-11", () => {
   test("campaign money fences stay locked — CLOSE_AT null", () => {
     expect(FLOOR_USD).toBe(58_000);
     expect(GOAL_USD).toBe(120_000);
@@ -39,10 +39,10 @@ test.describe("slice 16.19: press-kit fact sheet lists 1-12", () => {
     expect(vercelJsonIsHoldOrMainOnlyRestore()).toBe(true);
   });
 
-  test("fact sheet board order is the 1-12 panel list", () => {
+  test("fact sheet board order is the 1-11 panel list", () => {
     const text = readFileSync(FACT, "utf8");
     expect(text).toContain("## Board order");
-    expect(PANEL_BOARD_MARKS).toHaveLength(12);
+    expect(PANEL_BOARD_MARKS).toHaveLength(11);
     for (const mark of PANEL_BOARD_MARKS) {
       expect(text).toContain(`${mark.n}. ${mark.name}`);
     }

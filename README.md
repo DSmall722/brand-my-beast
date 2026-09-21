@@ -24,7 +24,7 @@ See [docs/LOCAL-PREVIEW.md](./docs/LOCAL-PREVIEW.md) (slice 16.8). `npm i && npm
 - Not a countdown with a close date. Do not start the 30-day clock from an agent.
 - Not a lease product. Not Dual Motor / Premium fallback. Cyberbeast or refund.
 - Not a place to put `FEATURES.md` on the homepage. FEATURES is a catalog only.
-- Not proof the truck exists. Hero is bare stainless preview; wrap/etch are not “as delivered.”
+- Not proof the truck exists. Hero is a house-wrap concept preview; wrap/etch are not “as delivered.”
 - Not a live-URL merge gate while the Vercel usage hold is on (`docs/VERCEL-HOLD.md`).
 
 ## Source of truth (read these first)
@@ -47,7 +47,7 @@ If any file disagrees with `CAMPAIGN.md` on money or identity, `CAMPAIGN.md` win
 
 - Under **$58,000**: full refund. No order.
 - **$58,000–$119,999**: order the Cyberbeast + wrap. Operator finances the rest. No etch.
-- **$120,000**: campaign buys the truck. Charger. Etch unlocks on eight steel faces.
+- **$120,000**: campaign buys the truck. Charger. Etch unlocks on nine steel faces.
 
 There is no cheaper trim. Cyberbeast or refund.
 

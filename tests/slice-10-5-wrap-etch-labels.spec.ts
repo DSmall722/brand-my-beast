@@ -97,7 +97,7 @@ test.describe("slice 10.5: wrap vs etch labels from PUBLIC_COPY", () => {
       PUBLIC_COPY.compositor.wrapFilm,
     );
 
-    await page.goto("/panels/roof");
+    await page.goto("/panels/front-bumper");
     await expect(page.getByTestId("compositor-finish-label")).toHaveText(
       PUBLIC_COPY.compositor.finishWrapOnly,
     );

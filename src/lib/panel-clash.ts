@@ -9,23 +9,26 @@ import { PANELS, type Panel } from "./campaign";
 export const PANEL_ADJACENCY: Readonly<
   Record<Panel["id"], readonly Panel["id"][]>
 > = {
-  hood: ["front-fascia", "roof", "driver-door", "passenger-door"],
-  "front-fascia": ["hood", "driver-door", "passenger-door"],
+  hood: ["front-fascia", "driver-door", "passenger-door"],
+  "front-fascia": [
+    "hood",
+    "front-bumper",
+    "driver-door",
+    "passenger-door",
+  ],
+  "front-bumper": ["front-fascia"],
   "driver-door": ["hood", "front-fascia", "driver-bed"],
   "passenger-door": ["hood", "front-fascia", "passenger-bed"],
-  "driver-bed": ["driver-door", "driver-rear-quarter", "tonneau"],
-  "passenger-bed": ["passenger-door", "passenger-rear-quarter", "tonneau"],
-  "driver-rear-quarter": ["driver-bed", "tailgate", "rear-fascia"],
-  "passenger-rear-quarter": ["passenger-bed", "tailgate", "rear-fascia"],
+  "driver-bed": ["driver-door", "driver-rear-quarter"],
+  "passenger-bed": ["passenger-door", "passenger-rear-quarter"],
+  "driver-rear-quarter": ["driver-bed", "tailgate", "rear-bumper"],
+  "passenger-rear-quarter": ["passenger-bed", "tailgate", "rear-bumper"],
   tailgate: [
-    "tonneau",
-    "rear-fascia",
+    "rear-bumper",
     "driver-rear-quarter",
     "passenger-rear-quarter",
   ],
-  tonneau: ["roof", "driver-bed", "passenger-bed", "tailgate"],
-  roof: ["hood", "tonneau"],
-  "rear-fascia": ["tailgate", "driver-rear-quarter", "passenger-rear-quarter"],
+  "rear-bumper": ["tailgate", "driver-rear-quarter", "passenger-rear-quarter"],
 };
 
 export type AdjacentSeatHolder = {

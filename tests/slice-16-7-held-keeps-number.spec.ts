@@ -12,7 +12,7 @@ import { vercelJsonIsHoldOrMainOnlyRestore } from "../src/lib/vercel-git-deploy"
 
 /**
  * Slice 16.7 — occupied seats keep the number and add Held.
- * Photo stays the bare stainless still. No wrap art.
+ * Held keeps the number on the board. Hero is the house-wrap concept.
  * CLOSE_AT null. No Stripe. No SEATS_OPEN flip.
  */
 
@@ -65,31 +65,22 @@ test.describe("slice 16.7: held seats keep the number", () => {
     );
 
     await page.goto("/");
-    const hero = page.getByTestId("hero-panel-board-1");
-    await expect(hero).toHaveAttribute("data-panel-n", "1");
-    await expect(hero).toHaveAttribute("data-panel-id", "hood");
-    await expect(hero).toHaveAttribute("data-held", "true");
-    await expect(hero.locator(".panel-board-callout-n")).toHaveText("1");
-    await expect(page.getByTestId("hero-panel-held-1")).toHaveText("Held");
+    await expect(page.getByTestId("hero-panel-board")).toHaveCount(0);
 
-    const open = page.getByTestId("hero-panel-board-3");
-    await expect(open).toHaveAttribute("data-panel-n", "3");
-    await expect(open).toHaveAttribute("data-held", "false");
-    await expect(page.getByTestId("hero-panel-held-3")).toHaveCount(0);
-
-    await page.getByTestId("truck-view-side").click();
-    const side = page.getByTestId("view-panel-board-side-1");
-    await expect(side).toHaveAttribute("data-panel-n", "1");
-    await expect(side.locator(".panel-board-callout-n")).toHaveText("1");
-    await expect(page.getByTestId("view-panel-held-side-1")).toHaveText("Held");
+    await page.getByTestId("truck-view-driver").click();
+    await expect(page.getByTestId("view-panel-board-driver-1")).toHaveCount(0);
+    await expect(page.getByTestId("truck-view-seats")).toHaveAttribute(
+      "data-baked-marks",
+      "true",
+    );
 
     await expect(page.getByTestId("truck-img-hero")).toHaveAttribute(
       "src",
       "/hero-truck-preview.jpg",
     );
-    await expect(page.getByTestId("truck-img-board-side")).toHaveAttribute(
+    await expect(page.getByTestId("truck-img-board-driver")).toHaveAttribute(
       "src",
-      "/truck-view-side.jpg",
+      "/truck-view-driver.jpg",
     );
     const photos = page.locator(".hero img, .truck-view-stage img");
     const photoCount = await photos.count();
@@ -97,7 +88,7 @@ test.describe("slice 16.7: held seats keep the number", () => {
     for (let i = 0; i < photoCount; i += 1) {
       const src = await photos.nth(i).getAttribute("src");
       expect(src).toMatch(
-        /^\/(hero-truck-preview|truck-view-(side|front|rear))\.jpg$/,
+        /^\/(hero-truck-preview|truck-view-(driver|passenger|front|rear))\.jpg$/,
       );
     }
     await expect(

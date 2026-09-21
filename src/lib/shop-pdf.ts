@@ -1,6 +1,6 @@
 /**
  * Slice 8.6 / 16.24 — shop PDF for one approved seat.
- * Document title is `Seat 03 — Driver door`, not only the panel slug.
+ * Document title is `Seat 04 — Driver doors`, not only the panel slug.
  * Pure builder. No Imagine API. No Stripe. Helvetica-only PDF 1.4.
  */
 
@@ -127,7 +127,7 @@ export function shopPdfPath(bidId: string): string {
   return `${SHOP_PDF_PATH_PREFIX}${encodeURIComponent(bidId)}`;
 }
 
-/** Slice 16.24 — `Seat 03 — Driver door`. Zero-padded board number, not the slug. */
+/** Slice 16.24 — `Seat 04 — Driver doors`. Zero-padded board number, not the slug. */
 export function shopPdfTitle(
   seat: Pick<ShopPdfSeat, "panelId" | "panelName">,
 ): string {

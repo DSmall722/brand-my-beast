@@ -219,6 +219,8 @@ import {
   setIntentStatus,
   WHOLE_TRUCK_PANEL_USD,
   isWholeTruckIntentOpen,
+  isWholeTruckStandingUsd,
+  wholeTruckStandingSum,
 } from "../src/lib/intent-store";
 import {
   getApprovalNote,
@@ -442,7 +444,7 @@ test.describe("intent store memory ledger", () => {
     if (!holder.ok) return;
 
     const elsewhere = await placeIntentBid({
-      panelId: "tonneau",
+      panelId: "rear-bumper",
       userId: "challenger_b",
       brandLabel: "Challenger Brand",
       tradeLabel: "trail snacks",
@@ -577,7 +579,7 @@ test.describe("intent store memory ledger", () => {
     await resetIntentStoreForTests();
     const empty = await loadBoardIntentStats();
     expect(empty.pledgedUsd).toBe(0);
-    expect(empty.openSeats).toBe(12);
+    expect(empty.openSeats).toBe(11);
     expect(empty.seatedPanels).toBe(0);
   });
 
@@ -598,7 +600,7 @@ test.describe("intent store memory ledger", () => {
     const afterListed = await loadBoardIntentStats();
     expect(afterListed.pledgedUsd).toBe(0);
     expect(afterListed.seatedPanels).toBe(0);
-    expect(afterListed.openSeats).toBe(12);
+    expect(afterListed.openSeats).toBe(11);
 
     const approved = await setIntentStatus(listed.bid.id, "approved");
     expect(approved.ok).toBeTruthy();
@@ -607,14 +609,14 @@ test.describe("intent store memory ledger", () => {
     const afterApproved = await loadBoardIntentStats();
     expect(afterApproved.pledgedUsd).toBe(2500);
     expect(afterApproved.seatedPanels).toBe(1);
-    expect(afterApproved.openSeats).toBe(11);
+    expect(afterApproved.openSeats).toBe(10);
 
     const second = await placeIntentBid({
       panelId: "driver-door",
       userId: "approved_two",
       brandLabel: "Door Co",
       tradeLabel: "door tools",
-      standingUsd: 3000,
+      standingUsd: 4500,
     });
     expect(second.ok).toBeTruthy();
     if (!second.ok) return;
@@ -623,16 +625,16 @@ test.describe("intent store memory ledger", () => {
     if (!secondApproved.ok) return;
 
     const afterTwo = await loadBoardIntentStats();
-    expect(afterTwo.pledgedUsd).toBe(5500);
+    expect(afterTwo.pledgedUsd).toBe(7000);
     expect(afterTwo.seatedPanels).toBe(2);
-    expect(afterTwo.openSeats).toBe(10);
+    expect(afterTwo.openSeats).toBe(9);
   });
 
-  test("slice 4.5: whole-truck intent lists $120k across twelve panels", async () => {
+  test("slice 4.5: whole-truck intent lists $120k across eleven panels", async () => {
     process.env.INTENT_MODE = "memory";
     await resetIntentStoreForTests();
 
-    expect(WHOLE_TRUCK_PANEL_USD * PANELS.length).toBe(GOAL_USD);
+    expect(wholeTruckStandingSum()).toBe(GOAL_USD);
     expect(isWholeTruckIntentOpen(0)).toBe(true);
     expect(isWholeTruckIntentOpen(GOAL_USD)).toBe(false);
 
@@ -653,8 +655,8 @@ test.describe("intent store memory ledger", () => {
     });
     expect(whole.ok).toBeTruthy();
     if (!whole.ok) return;
-    expect(whole.bids).toHaveLength(12);
-    expect(whole.bids.every((bid) => bid.standingUsd === WHOLE_TRUCK_PANEL_USD)).toBe(
+    expect(whole.bids).toHaveLength(11);
+    expect(whole.bids.every((bid) => isWholeTruckStandingUsd(bid.standingUsd))).toBe(
       true,
     );
     expect(whole.bids.every((bid) => bid.status === "listed")).toBe(true);
@@ -677,7 +679,7 @@ test.describe("intent store memory ledger", () => {
     }
     const after = await loadBoardIntentStats();
     expect(after.pledgedUsd).toBe(GOAL_USD);
-    expect(after.seatedPanels).toBe(12);
+    expect(after.seatedPanels).toBe(11);
     expect(after.openSeats).toBe(0);
     expect(isWholeTruckIntentOpen(after.pledgedUsd)).toBe(false);
 
@@ -743,7 +745,7 @@ test.describe("honest shortfall math (no clock)", () => {
     const empty = await loadBoardIntentStats();
     expect(shortfallToFloorUsd(empty.pledgedUsd)).toBe(FLOOR_USD);
     expect(shortfallToGoalUsd(empty.pledgedUsd)).toBe(GOAL_USD);
-    expect(empty.openSeats).toBe(12);
+    expect(empty.openSeats).toBe(11);
 
     const listed = await placeIntentBid({
       panelId: "hood",
@@ -757,7 +759,7 @@ test.describe("honest shortfall math (no clock)", () => {
 
     const afterListed = await loadBoardIntentStats();
     expect(shortfallToFloorUsd(afterListed.pledgedUsd)).toBe(FLOOR_USD);
-    expect(afterListed.openSeats).toBe(12);
+    expect(afterListed.openSeats).toBe(11);
 
     const approved = await setIntentStatus(listed.bid.id, "approved");
     expect(approved.ok).toBeTruthy();
@@ -767,7 +769,7 @@ test.describe("honest shortfall math (no clock)", () => {
     expect(afterApproved.pledgedUsd).toBe(5000);
     expect(shortfallToFloorUsd(afterApproved.pledgedUsd)).toBe(FLOOR_USD - 5000);
     expect(shortfallToGoalUsd(afterApproved.pledgedUsd)).toBe(GOAL_USD - 5000);
-    expect(afterApproved.openSeats).toBe(11);
+    expect(afterApproved.openSeats).toBe(10);
   });
 
   test("visual vault markers sit on the buyout track", () => {
@@ -911,7 +913,7 @@ test.describe("adjacent-panel clash detector (no capture)", () => {
             tradeLabel: "tools",
           },
         ],
-        ["roof", null],
+        ["front-bumper", null],
       ]),
     );
     expect(neighbors).toHaveLength(1);
@@ -957,10 +959,10 @@ test.describe("finish condition shaders (no capture)", () => {
     expect(etchControlsEnabled(hood, 120_000)).toBe(true);
     expect(etchLockCopy(0)).toContain("Etch stays locked until buyout");
     expect(etchLockCopy(120_000)).toContain("unlocked");
-    const roof = PANELS.find((p) => p.id === "roof");
-    expect(roof).toBeTruthy();
-    if (!roof) return;
-    expect(etchControlsEnabled(roof, 120_000)).toBe(false);
+    const bumper = PANELS.find((p) => p.id === "front-bumper");
+    expect(bumper).toBeTruthy();
+    if (!bumper) return;
+    expect(etchControlsEnabled(bumper, 120_000)).toBe(false);
   });
 
   test("slice 3.1: stainless compositor lead is preview-only", () => {
@@ -1044,7 +1046,7 @@ test.describe("artwork approval thread (no capture)", () => {
     expect((await listDecidedBids()).map((b) => b.id)).toContain(approve.bid.id);
 
     const reject = await placeIntentBid({
-      panelId: "tonneau",
+      panelId: "rear-bumper",
       userId: "user_art_reject",
       brandLabel: "Reject Co",
       tradeLabel: "tools",
@@ -1541,12 +1543,11 @@ test.describe("neighbor-panel combo lots (display only)", () => {
     const lot = comboLotFor("hood");
     expect(lot.neighbors.map((row) => row.id)).toEqual([
       "front-fascia",
-      "roof",
       "driver-door",
       "passenger-door",
     ]);
     expect(lot.neighbors.map((row) => row.openingUsd)).toEqual([
-      1200, 600, 1500, 1500,
+      2000, 4500, 4500,
     ]);
     expect(COMBO_LOT_LEAD).toContain("$58,000");
     expect(COMBO_LOT_LEAD).toContain("$120,000");
@@ -1904,7 +1905,12 @@ test.describe("intent artwork attachment (no capture)", () => {
 
 test.describe("truck view hotspots (no capture)", () => {
   test("slice 3.7: side/front/rear hotspots map to real panels", () => {
-    expect(TRUCK_VIEWS.map((v) => v.id)).toEqual(["side", "front", "rear"]);
+    expect(TRUCK_VIEWS.map((v) => v.id)).toEqual([
+      "driver",
+      "passenger",
+      "front",
+      "rear",
+    ]);
     expect(truckHotspotsAreValid()).toBe(true);
     expect(truckViewsCopyIsSafe()).toBe(true);
     expect(TRUCK_VIEWS_LEAD.toLowerCase()).not.toContain("prototype");

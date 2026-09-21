@@ -6,12 +6,15 @@
 import { PANEL_BOARD_MARKS, panelLegendLabel } from "./panel-board";
 
 const PANEL_GLOSS: Readonly<Record<string, string>> = {
-  tonneau: "bed cover",
-  "front-fascia": "front bumper",
-  "rear-fascia": "rear bumper",
+  "front-fascia": "stainless steel face",
+  "driver-door": "front + rear cab door",
+  "passenger-door": "front + rear cab door",
+  "front-bumper":
+    "simple-mark only: website and/or phone number — wrap-only, leave camera lens/washer clear",
+  "rear-bumper": "simple-mark only: website and/or phone number — wrap-only",
 };
 
-/** Slice 16.25 — whole-truck package is the numbered board, 1 Hood through 12 Rear fascia. */
+/** Slice 16.25 — whole-truck package is the numbered board, 1 Hood through 11 Rear bumper. */
 export function wholeTruckPackageCopy(): string {
   const labels = PANEL_BOARD_MARKS.map((mark) => panelLegendLabel(mark));
   return `The package is ${labels.join(", ")}.`;
@@ -22,7 +25,7 @@ export const PUBLIC_COPY = {
     title:
       "BrandMyBeast — Put your brand on the truck people already photograph.",
     description:
-      "Twelve companies. One Cyberbeast. Join the list. Hit $58,000 and the truck is ordered and wrapped for a year. Miss it and nobody pays.",
+      "Eleven companies. One Cyberbeast. Join the list. Hit $58,000 and the truck is ordered and wrapped for a year. Miss it and nobody pays.",
   },
   header: {
     wordmark: "BrandMyBeast",
@@ -30,10 +33,13 @@ export const PUBLIC_COPY = {
   },
   hero: {
     h1: "Put your brand on the truck people already photograph.",
-    lead: "Twelve companies. One Cyberbeast. Buy a panel for a year. Hit $58,000 and the truck is ordered and wrapped. Miss it and nobody pays.",
+    lead: "Concept preview",
     primaryCta: "Get on the list",
-    secondaryCta: "See the twelve panels",
-    imageAlt: "Stainless Cyberbeast preview. No wrap yet.",
+    secondaryCta: "See the eleven panels",
+    imageAlt:
+      "Concept preview — BrandMyBeast house wrap. Seats are not sold yet.",
+    caption:
+      "Concept preview — BrandMyBeast house wrap. Seats are not sold yet. Numbers live on the board below.",
   },
   board: {
     heading: "The numbers",
@@ -58,10 +64,12 @@ export const PUBLIC_COPY = {
     vaultEmpty: "No marks yet",
     /** Slice 20.6 — board legend. Buyer sentence, not Open seat · Held =. */
     seatLegend: "Open seat = empty. Held seat = standing intent.",
+    truckImageAlt:
+      "Stainless Cyberbeast preview. Numbers live on the board.",
     wholeTruckHeading: "Whole truck — $120,000",
-    /** Slice 20.7 — one sentence on `/`. 12-name dump stays on the form. */
+    /** Slice 20.7 — one sentence on `/`. 11-name dump stays on the form. */
     wholeTruckLead:
-      "One brand on every panel and Immortal Etch on eight steel faces. Standing panel winners released. Nothing is charged on this page.",
+      "One brand on every panel and Immortal Etch on nine steel faces. Standing panel winners released. Nothing is charged on this page.",
     wholeTruckAmountLabel: "Buyout mark",
     wholeTruckCta: "List a whole-truck intent",
     wholeTruckSignIn: "Sign in to list a whole-truck intent",
@@ -76,14 +84,14 @@ export const PUBLIC_COPY = {
       "One brand per trade. Challengers fight the same panel only.",
   },
   panels: {
-    heading: "The twelve panels",
+    heading: "The eleven panels",
     leadLines: [
-      "Twelve seats. Opening prices below.",
+      "Eleven seats. Opening prices below.",
       "Wrap is vinyl for twelve months, then it comes off.",
       "Immortal Etch at $120k means that steel can take a permanent cut once the campaign owns the truck.",
     ],
-    lead: "Twelve seats. Opening prices below. Wrap is vinyl for twelve months, then it comes off. Immortal Etch at $120k means that steel can take a permanent cut once the campaign owns the truck.",
-    badgeEtch: "Immortal Etch",
+    lead: "Eleven seats. Opening prices below. Wrap is vinyl for twelve months, then it comes off. Immortal Etch at $120k means that steel can take a permanent cut once the campaign owns the truck.",
+    badgeEtch: "Immortal Etch locked until $120k",
     badgeWrap: "Wrap only",
     /** Slice 10.9 — panel card standing line when no mark holds. */
     /** Slice 20.3 — print once, not on every open card. */
@@ -103,13 +111,13 @@ export const PUBLIC_COPY = {
       },
       {
         title: "$120,000 — whole truck + Immortal Etch",
-        body: "At $120,000 you get every panel and the campaign owns the truck. Eight steel faces can be immortally etched with your brand logo. Vinyl lasts a year. Immortal Etch is forever.",
+        body: "At $120,000 you get every panel and the campaign owns the truck. Nine steel faces can be immortally etched with your brand logo. Vinyl lasts a year. Immortal Etch is forever.",
       },
     ],
   },
   etch: {
     heading: "Immortal Etch",
-    body: "Wrap is a year of film. Immortal Etch is cut into the steel. It does not peel with the wrap. Eight steel faces. Unlocks with the $120,000 whole-truck package — when the campaign owns the truck.",
+    body: "Wrap is a year of film. Immortal Etch is cut into the steel. It does not peel with the wrap. Nine steel faces. Unlocks with the $120,000 whole-truck package — when the campaign owns the truck.",
     whyBuyout:
       "Immortal Etch ships with the $120,000 whole-truck package.",
     cost: "After Immortal Etch is installed there is no cash refund of that finish.",
@@ -159,7 +167,7 @@ export const PUBLIC_COPY = {
       },
       {
         q: "What is Immortal Etch?",
-        a: "Cut into the stainless — not vinyl. Eight steel panels. Vinyl lasts a year. Immortal Etch is forever.",
+        a: "Cut into the stainless — not vinyl. Nine steel panels. Vinyl lasts a year. Immortal Etch is forever.",
       },
       {
         q: "Why is Immortal Etch locked until $120,000?",

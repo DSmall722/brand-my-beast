@@ -47,7 +47,7 @@ test.describe("slice 14.49: local demo seed 3 pending / 1 approved / 1 outbid", 
     expect(GOAL_USD).toBe(120_000);
     expect(CLOSE_AT).toBeNull();
     expect(findCloseAtViolations()).toEqual([]);
-    expect(PANELS).toHaveLength(12);
+    expect(PANELS).toHaveLength(11);
     expect(BRAND.name).toBe("BrandMyBeast");
     expect(formatUsd(FLOOR_USD)).toBe("$58,000");
   });
