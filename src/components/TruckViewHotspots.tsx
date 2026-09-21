@@ -184,6 +184,14 @@ export function TruckViewHotspots({
                       points={points}
                     />
                     {training ? (
+                      <circle
+                        className="truck-seat-hit"
+                        cx={center.x}
+                        cy={center.y}
+                        r="96"
+                      />
+                    ) : null}
+                    {training ? (
                       <g
                         className="truck-seat-label"
                         data-testid={`truck-seat-label-${spot.panelId}`}

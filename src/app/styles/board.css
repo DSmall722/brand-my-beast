@@ -2593,6 +2593,11 @@ a:focus-visible .truck-seat.is-raw {
 .truck-view-seats[data-polygons="training"] .truck-view-svg a {
   pointer-events: auto;
 }
+.truck-view-seats[data-polygons="training"] .truck-seat-hit {
+  fill: transparent;
+  stroke: none;
+  pointer-events: all;
+}
 .truck-view-seats[data-polygons="training"] .truck-view-svg a:focus-visible {
   outline: 2px solid #d6ff3f;
   outline-offset: 2px;

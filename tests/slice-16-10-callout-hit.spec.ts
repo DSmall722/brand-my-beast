@@ -23,7 +23,10 @@ async function expectHitAtLeast(
 ): Promise<void> {
   const callout = page.getByTestId(testId);
   await expect(callout).toBeVisible();
-  const box = await callout.locator("polygon").boundingBox();
+  const hit = callout.locator(".truck-seat-hit");
+  const box = (await hit.count())
+    ? await hit.boundingBox()
+    : await callout.locator("polygon").boundingBox();
   if (!box) throw new Error(`${testId} box missing`);
   expect(box.width).toBeGreaterThanOrEqual(HIT_MIN - 0.5);
   expect(box.height).toBeGreaterThanOrEqual(HIT_MIN - 0.5);
@@ -59,6 +62,12 @@ test.describe("slice 16.10: callout hit area and focus ring", () => {
     await page.goto("/");
     await expect(page.getByTestId("hero-panel-board")).toHaveCount(0);
 
+    await page.goto("/panels/hood");
+    for (const id of ["hood", "front-fascia", "front-bumper"] as const) {
+      await expectHitAtLeast(page, `truck-seat-${id}`);
+    }
+
+    await page.setViewportSize({ width: 1280, height: 900 });
     await page.goto("/panels/hood");
     for (const id of ["hood", "front-fascia", "front-bumper"] as const) {
       await expectHitAtLeast(page, `truck-seat-${id}`);
