@@ -61,14 +61,8 @@ test.describe("P1 waitlist campaign locks", () => {
     await expect(page.getByTestId("hero-preview-label")).toHaveText(
       PUBLIC_COPY.hero.caption,
     );
-    await expect(page.getByTestId("hero-preview-label")).toContainText(
-      "Concept preview",
-    );
-    await expect(page.getByTestId("hero-preview-label")).toContainText(
-      "house wrap",
-    );
-    await expect(page.getByTestId("hero-preview-label")).toContainText(
-      "Numbers live on the board",
+    await expect(page.getByTestId("hero-preview-label")).toHaveText(
+      "concept photo",
     );
     await expect(page.getByTestId("hero-panel-board")).toHaveCount(0);
     await expect(page.locator("#hero-title")).toHaveText(HERO_TITLE);

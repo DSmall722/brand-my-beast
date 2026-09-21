@@ -33,13 +33,12 @@ export const PUBLIC_COPY = {
   },
   hero: {
     h1: "Put your brand on the truck people already photograph.",
-    lead: "Concept preview",
+    lead: "concept photo",
     primaryCta: "Get on the list",
     secondaryCta: "See the eleven panels",
     imageAlt:
       "Concept preview — BrandMyBeast house wrap. Seats are not sold yet.",
-    caption:
-      "Concept preview — BrandMyBeast house wrap. Seats are not sold yet. Numbers live on the board below.",
+    caption: "concept photo",
   },
   board: {
     heading: "The numbers",

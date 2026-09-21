@@ -1,16 +1,12 @@
 #!/usr/bin/env python3
-"""Composite the locked house-wrap C hero onto the night studio plate.
+"""Composite the locked hero-master still onto the night studio plate.
 
-The wrap source is a product plate: dark cove up top, a lighter gray floor
-that reads as a hard matte once it sits in `.hero` (`#07090c → #10151c`,
-well `#0a0d12`). This extends that studio floor/backdrop behind the truck
-and keeps a soft contact shadow — same plate the stainless compositor uses.
+Source is an all-caps R1 cutout on a black field. Flood only that field
+from the edges so the JPEG matches `.hero` (`#07090c → #10151c`, well
+`#0a0d12`). Do not call rembg. Do not paint seat numbers.
 
 Rerun from repo root:
   python3 scripts/blend-hero-wrap.py
-
-Does not call rembg (black wrap would get eaten). Does not paint seat
-numbers. Branding stays: BrandMyBeast on the door, BMB on the rear.
 """
 
 from __future__ import annotations
@@ -22,11 +18,10 @@ import numpy as np
 from PIL import Image, ImageDraw, ImageFilter
 
 ROOT = Path(__file__).resolve().parents[1]
-# Locked wrap lives next to the campaign checkout, not in this worktree.
 WRAP_CANDIDATES = (
-    Path("/workspace/brandmybeast-wrap-mockups/HERO_LOCKED_full-wrap-c.png"),
-    ROOT.parent / "brandmybeast-wrap-mockups" / "HERO_LOCKED_full-wrap-c.png",
-    Path("/workspace/HERO_LOCKED_full-wrap-c.png"),
+    Path("/cursor/stores/bc-a458469d-d38b-45a7-8036-6cb15dc5431e/media/hero-master.png"),
+    ROOT.parent / "brandmybeast-hero-concepts" / "hero-set" / "hero-master.png",
+    Path("/workspace/brandmybeast-hero-concepts/hero-set/hero-master.png"),
 )
 PUBLIC = ROOT / "public"
 WIDE = PUBLIC / "hero-truck-preview.jpg"
@@ -41,8 +36,8 @@ def find_wrap() -> Path:
         if path.is_file():
             return path
     raise FileNotFoundError(
-        "HERO_LOCKED_full-wrap-c.png not found. Expected under "
-        "/workspace/brandmybeast-wrap-mockups/"
+        "hero-master.png not found. Expected under the campaign media store "
+        "or brandmybeast-hero-concepts/hero-set/"
     )
 
 
@@ -63,50 +58,26 @@ def studio_plate(size: tuple[int, int]) -> Image.Image:
     return Image.alpha_composite(plate, overlay.filter(ImageFilter.GaussianBlur(36)))
 
 
-def luma_sat(arr: np.ndarray) -> tuple[np.ndarray, np.ndarray]:
+def flood_black_field(arr: np.ndarray) -> np.ndarray:
+    """Replace the black studio field. Stop on the truck."""
+    h, w = arr.shape[:2]
     r = arr[:, :, 0].astype(np.float32)
     g = arr[:, :, 1].astype(np.float32)
     b = arr[:, :, 2].astype(np.float32)
     luma = 0.2126 * r + 0.7152 * g + 0.0722 * b
-    mx = np.maximum(np.maximum(r, g), b)
-    mn = np.minimum(np.minimum(r, g), b)
-    sat = (mx - mn) / (mx + 1.0)
-    return luma, sat
-
-
-def is_lime(arr: np.ndarray, sat: np.ndarray) -> np.ndarray:
-    r = arr[:, :, 0].astype(np.int16)
-    g = arr[:, :, 1].astype(np.int16)
-    b = arr[:, :, 2].astype(np.int16)
-    return (g > r + 12) & (g > b + 18) & (sat > 0.22)
-
-
-def flood_floor(arr: np.ndarray) -> np.ndarray:
-    """Replace the gray product floor, stop on wrap / lime / steel."""
-    h, w = arr.shape[:2]
-    luma, sat = luma_sat(arr)
-    lime = is_lime(arr, sat)
-    walkable = (
-        (~lime)
-        & (sat < 0.18)
-        & (luma >= 26)
-        & (luma <= 170)
-    )
+    walkable = luma < 8.0
     mask = np.zeros((h, w), dtype=np.uint8)
     q: deque[tuple[int, int]] = deque()
     for x in range(w):
-        for y in range(h - 4, h):
+        for y in (0, 1, 2, h - 3, h - 2, h - 1):
             if walkable[y, x]:
                 mask[y, x] = 1
                 q.append((x, y))
-    # Side skirts of the plate, lower 45%.
-    y0 = int(h * 0.55)
-    for y in range(y0, h):
+    for y in range(h):
         for x in (0, 1, 2, w - 3, w - 2, w - 1):
             if walkable[y, x] and mask[y, x] == 0:
                 mask[y, x] = 1
                 q.append((x, y))
-
     while q:
         x, y = q.popleft()
         for nx, ny in ((x - 1, y), (x + 1, y), (x, y - 1), (x, y + 1)):
@@ -117,24 +88,6 @@ def flood_floor(arr: np.ndarray) -> np.ndarray:
             mask[ny, nx] = 1
             q.append((nx, ny))
     return mask
-
-
-def border_and_cove(arr: np.ndarray) -> np.ndarray:
-    """Crush the already-dark cove / frame toward the studio plate."""
-    h, w = arr.shape[:2]
-    luma, sat = luma_sat(arr)
-    lime = is_lime(arr, sat)
-    yy = np.linspace(0.0, 1.0, h, dtype=np.float32)[:, None]
-    xx = np.linspace(0.0, 1.0, w, dtype=np.float32)[None, :]
-    edge = np.minimum(np.minimum(xx, 1.0 - xx), np.minimum(yy, 1.0 - yy))
-    # Outer frame + upper cove (no truck there). Tight luma so wrap stays.
-    cove = (
-        (~lime)
-        & (sat < 0.28)
-        & (luma < 58)
-        & ((edge < 0.045) | (yy < 0.16) | ((yy < 0.28) & (edge < 0.12)))
-    )
-    return cove.astype(np.uint8)
 
 
 def crop_16x9(im: Image.Image) -> Image.Image:
@@ -162,19 +115,19 @@ def main() -> None:
     with Image.open(src) as raw:
         rgb = raw.convert("RGB")
     arr = np.asarray(rgb)
-    floor = flood_floor(arr)
-    cove = border_and_cove(arr)
-    replace = np.clip(floor.astype(np.float32) + cove.astype(np.float32), 0, 1)
+    replace = flood_black_field(arr)
 
     alpha = Image.fromarray((replace * 255).astype(np.uint8), mode="L")
-    alpha = alpha.filter(ImageFilter.GaussianBlur(10))
-    # Keep a little of the original contact dirt so the truck is not a sticker.
-    alpha_arr = np.asarray(alpha).astype(np.float32) / 255.0
-    alpha_arr = np.clip(alpha_arr * 0.96, 0, 1)
+    alpha = alpha.filter(ImageFilter.GaussianBlur(8))
+    alpha_arr = np.clip(np.asarray(alpha).astype(np.float32) / 255.0 * 0.98, 0, 1)
 
     plate = studio_plate(rgb.size)
     truck_rgba = rgb.convert("RGBA")
-    out = Image.composite(plate, truck_rgba, Image.fromarray((alpha_arr * 255).astype(np.uint8)))
+    out = Image.composite(
+        plate,
+        truck_rgba,
+        Image.fromarray((alpha_arr * 255).astype(np.uint8)),
+    )
     fitted = crop_16x9(out).resize(WIDE_SIZE, Image.Resampling.LANCZOS)
     save_jpeg(fitted, WIDE)
     save_jpeg(fitted.resize(NARROW_SIZE, Image.Resampling.LANCZOS), NARROW)

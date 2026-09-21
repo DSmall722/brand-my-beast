@@ -85,7 +85,7 @@ test.describe("slice 16.22: operator list columns", () => {
       { key: "panel", value: mark.name },
       { key: "brand", value: "Column Brand" },
       { key: "trade", value: "column trade" },
-      { key: "amount", value: formatUsd(1600) },
+      { key: "amount", value: formatUsd(4500) },
       { key: "status", value: intentStatusLabel(placed.bid.status) },
     ]);
     expect(JSON.stringify(columns)).not.toContain("ops1622-secret-user");
@@ -130,7 +130,7 @@ test.describe("slice 16.22: operator list columns", () => {
       "column ui trade",
     );
     await expect(page.getByTestId(`operator-col-amount-${bidId}`)).toHaveText(
-      "$1,600",
+      "$4,500",
     );
     await expect(page.getByTestId(`operator-col-status-${bidId}`)).toHaveText(
       "Listed",

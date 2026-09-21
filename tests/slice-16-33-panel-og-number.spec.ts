@@ -99,7 +99,7 @@ test.describe("slice 16.33: panel OG image includes number and name", () => {
       "content",
       panelOpenGraphTitle(PANELS.find((row) => row.id === "driver-door")!),
     );
-    await expect(page.locator("h1")).toContainText("3");
+    await expect(page.locator("h1")).toContainText("4");
     await expect(page.locator("h1")).toContainText("Driver doors");
   });
 });
