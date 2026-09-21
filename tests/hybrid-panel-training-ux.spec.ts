@@ -18,6 +18,7 @@ import {
   panelOverlayLabel,
 } from "../src/lib/panel-board";
 import {
+  VIEW_OWNED_PANEL_IDS,
   doorPackagesAreCabLeaves,
   hotspotsForView,
   truckHotspotsAreValid,
@@ -107,9 +108,27 @@ test.describe("hybrid panel training UX", () => {
     expect(viewOwningPanel("hood")).toBe("front");
     expect(viewOwningPanel("driver-door")).toBe("driver");
     expect(viewOwningPanel("tailgate")).toBe("rear");
+    expect(hotspotsForView("front").map((spot) => spot.panelId)).toEqual([
+      ...VIEW_OWNED_PANEL_IDS.front,
+    ]);
+    expect(hotspotsForView("driver").map((spot) => spot.panelId)).toEqual([
+      ...VIEW_OWNED_PANEL_IDS.driver,
+    ]);
+    expect(hotspotsForView("passenger").map((spot) => spot.panelId)).toEqual([
+      ...VIEW_OWNED_PANEL_IDS.passenger,
+    ]);
     expect(hotspotsForView("rear").map((spot) => spot.panelId)).toEqual([
-      "tailgate",
-      "rear-bumper",
+      ...VIEW_OWNED_PANEL_IDS.rear,
+    ]);
+    expect(VIEW_OWNED_PANEL_IDS.driver).toEqual([
+      "driver-door",
+      "driver-rear-quarter",
+      "driver-bed",
+    ]);
+    expect(VIEW_OWNED_PANEL_IDS.passenger).toEqual([
+      "passenger-door",
+      "passenger-rear-quarter",
+      "passenger-bed",
     ]);
   });
 
@@ -142,6 +161,37 @@ test.describe("hybrid panel training UX", () => {
     await expect(seats).toHaveAttribute("data-training", "hybrid");
     await expect(page.getByTestId("truck-view-svg")).toHaveCount(1);
     await expect(page.getByTestId("view-panel-board-driver")).toHaveCount(0);
+
+    await expect(seats).toHaveAttribute("data-view", "driver");
+    await expect(page.getByTestId("truck-view-svg").locator("a")).toHaveCount(3);
+    await expect(page.getByTestId("truck-seat-label-driver-door")).toHaveText(
+      "(4) Driver doors",
+    );
+    await expect(page.getByTestId("truck-seat-label-driver-rear-quarter")).toHaveText(
+      "(5) Driver sail",
+    );
+    await expect(page.getByTestId("truck-seat-label-driver-bed")).toHaveText(
+      "(6) Driver bed",
+    );
+    await expect(page.getByTestId("truck-seat-hood")).toHaveCount(0);
+    await expect(page.getByTestId("truck-seat-front-fascia")).toHaveCount(0);
+    await expect(page.getByTestId("truck-seat-front-bumper")).toHaveCount(0);
+    await expect(page.getByTestId("truck-seat-tailgate")).toHaveCount(0);
+    await expect(page.getByTestId("truck-seat-rear-bumper")).toHaveCount(0);
+
+    await page.getByTestId("truck-view-passenger").click();
+    await expect(seats).toHaveAttribute("data-view", "passenger");
+    await expect(page.getByTestId("truck-view-svg").locator("a")).toHaveCount(3);
+    await expect(page.getByTestId("truck-seat-label-passenger-door")).toHaveText(
+      "(7) Passenger doors",
+    );
+    await expect(page.getByTestId("truck-seat-label-passenger-rear-quarter")).toHaveText(
+      "(8) Passenger sail",
+    );
+    await expect(page.getByTestId("truck-seat-label-passenger-bed")).toHaveText(
+      "(9) Passenger bed",
+    );
+    await expect(page.getByTestId("truck-seat-hood")).toHaveCount(0);
 
     await page.getByTestId("truck-view-front").click();
     const hood = page.getByTestId("truck-seat-hood");

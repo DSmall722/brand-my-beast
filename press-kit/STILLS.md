@@ -24,6 +24,8 @@ python3 scripts/credit-board-stills.py
 Each public `truck-view-*.jpg` carries the photographer name and Pexels URL in
 EXIF Artist / Copyright / ImageDescription, IPTC By-line / Source, and XMP
 dc:creator / dc:rights / WebStatement. Overlay labels are `(N) Name` only.
+Each still draws only that camera’s seats: front 1–3, driver 4–6,
+passenger 7–9, rear 10–11.
 
 Pexels license allows free use with credit. Sami Abdullah city shot
 https://www.pexels.com/photo/photo-of-a-tesla-cybertruck-on-the-street-in-a-city-26546824/

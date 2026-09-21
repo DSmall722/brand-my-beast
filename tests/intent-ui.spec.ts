@@ -1178,7 +1178,8 @@ test.describe("P2 panel intent + approvals", () => {
       "aria-pressed",
       "true",
     );
-    await expect(page.getByTestId("truck-seat-hood")).toBeVisible();
+    await expect(page.getByTestId("truck-seat-driver-door")).toBeVisible();
+    await expect(page.getByTestId("truck-seat-hood")).toHaveCount(0);
     await page.getByTestId("truck-view-front").click();
     await expect(page.getByTestId("truck-view-seats")).toHaveAttribute(
       "data-view",

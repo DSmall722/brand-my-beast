@@ -94,35 +94,19 @@ export const PASSENGER_DOOR_BOUNDS_PCT = {
   y1: 60,
 } as const;
 
-/** Driver: closed-door profile. Nose left, tail right. Seat 4 is both leaves. */
+/**
+ * One camera = only that face’s seats. Do not draw front/rear (or the
+ * opposite side) on a flank still just because steel is visible in the photo.
+ */
+export const VIEW_OWNED_PANEL_IDS = {
+  front: ["hood", "front-fascia", "front-bumper"],
+  driver: ["driver-door", "driver-rear-quarter", "driver-bed"],
+  passenger: ["passenger-door", "passenger-rear-quarter", "passenger-bed"],
+  rear: ["tailgate", "rear-bumper"],
+} as const satisfies Record<TruckViewId, readonly Panel["id"][]>;
+
+/** Driver profile: nose left. Seats 4–6 only. Seat 4 is both cab leaves. */
 const DRIVER_HOTSPOTS: readonly TruckHotspot[] = [
-  {
-    panelId: "hood",
-    points: pctPoints([
-      [21, 34],
-      [38, 22],
-      [41, 31],
-      [25, 40],
-    ]),
-  },
-  {
-    panelId: "front-fascia",
-    points: pctPoints([
-      [19, 36],
-      [24, 38],
-      [24, 50],
-      [19, 52],
-    ]),
-  },
-  {
-    panelId: "front-bumper",
-    points: pctPoints([
-      [19, 52],
-      [24, 50],
-      [25, 58],
-      [19, 58],
-    ]),
-  },
   {
     panelId: "driver-door",
     points: pctPoints([
@@ -130,15 +114,6 @@ const DRIVER_HOTSPOTS: readonly TruckHotspot[] = [
       [57, 32],
       [57, 56],
       [37, 56],
-    ]),
-  },
-  {
-    panelId: "driver-bed",
-    points: pctPoints([
-      [57, 30],
-      [69, 30],
-      [69, 56],
-      [57, 56],
     ]),
   },
   {
@@ -152,55 +127,18 @@ const DRIVER_HOTSPOTS: readonly TruckHotspot[] = [
     ]),
   },
   {
-    panelId: "tailgate",
+    panelId: "driver-bed",
     points: pctPoints([
-      [82, 28],
-      [90, 30],
-      [90, 50],
-      [82, 50],
-    ]),
-  },
-  {
-    panelId: "rear-bumper",
-    points: pctPoints([
-      [83, 50],
-      [91, 52],
-      [91, 60],
-      [83, 58],
+      [57, 30],
+      [69, 30],
+      [69, 56],
+      [57, 56],
     ]),
   },
 ];
 
-/** Passenger: ¾, nose right. Seat 7 is both leaves. */
+/** Passenger flank: seats 7–9 only. Seat 7 is both cab leaves. */
 const PASSENGER_HOTSPOTS: readonly TruckHotspot[] = [
-  {
-    panelId: "hood",
-    points: pctPoints([
-      [55, 18],
-      [78, 14],
-      [88, 32],
-      [70, 36],
-      [54, 28],
-    ]),
-  },
-  {
-    panelId: "front-fascia",
-    points: pctPoints([
-      [86, 34],
-      [96, 38],
-      [97, 52],
-      [87, 52],
-    ]),
-  },
-  {
-    panelId: "front-bumper",
-    points: pctPoints([
-      [87, 52],
-      [98, 54],
-      [98, 64],
-      [88, 64],
-    ]),
-  },
   {
     panelId: "passenger-door",
     points: pctPoints([
@@ -211,15 +149,6 @@ const PASSENGER_HOTSPOTS: readonly TruckHotspot[] = [
     ]),
   },
   {
-    panelId: "passenger-bed",
-    points: pctPoints([
-      [12, 26],
-      [32, 26],
-      [32, 58],
-      [12, 58],
-    ]),
-  },
-  {
     panelId: "passenger-rear-quarter",
     points: pctPoints([
       [3, 25],
@@ -227,6 +156,15 @@ const PASSENGER_HOTSPOTS: readonly TruckHotspot[] = [
       [12, 48],
       [8, 58],
       [3, 50],
+    ]),
+  },
+  {
+    panelId: "passenger-bed",
+    points: pctPoints([
+      [12, 26],
+      [32, 26],
+      [32, 58],
+      [12, 58],
     ]),
   },
 ];
@@ -374,13 +312,15 @@ export function truckHotspotsAreValid(): boolean {
       if (!spot.points.trim()) return false;
     }
   }
-  const rearIds = HOTSPOTS_BY_VIEW.rear.map((spot) => spot.panelId);
+  for (const view of TRUCK_VIEWS) {
+    const ids = HOTSPOTS_BY_VIEW[view.id].map((spot) => spot.panelId);
+    if (ids.join(",") !== VIEW_OWNED_PANEL_IDS[view.id].join(",")) {
+      return false;
+    }
+  }
   return (
     TRUCK_VIEWS.length === 4 &&
     hotspotPanelIds().length === PANELS.length &&
-    doorPackagesAreCabLeaves() &&
-    rearIds.length === 2 &&
-    rearIds.includes("tailgate") &&
-    rearIds.includes("rear-bumper")
+    doorPackagesAreCabLeaves()
   );
 }

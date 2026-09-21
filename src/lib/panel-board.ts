@@ -42,8 +42,8 @@ export const HERO_MOBILE_CAB_GLASS_MAX_Y = 48;
 /**
  * Percents of the still. Hero well is 16:9 fill. Board views use
  * object-fit: contain on a photo well so these map 1:1 to the JPEG.
- * Driver = closed-door profile, nose left. Passenger = ¾, nose right.
- * Front = head-on. Rear = straight-on forest road (seats 10 + 11).
+ * Driver = seats 4–6 only. Passenger = seats 7–9 only.
+ * Front = seats 1–3. Rear = seats 10–11. No bleed across cameras.
  * Door seats 4 and 7 are packages (front + rear cab leaf on that side).
  */
 const BOARD_LAYOUT: Record<Panel["id"], BoardLayout> = {
@@ -51,8 +51,6 @@ const BOARD_LAYOUT: Record<Panel["id"], BoardLayout> = {
     hero: { x: 24, y: 34 },
     heroMobile: { x: 24, y: 52 },
     views: {
-      driver: { x: 30, y: 32 },
-      passenger: { x: 70, y: 24 },
       front: { x: 50, y: 22 },
     },
     face: { still: "front", objectPosition: "50% 26%" },
@@ -61,8 +59,6 @@ const BOARD_LAYOUT: Record<Panel["id"], BoardLayout> = {
     hero: { x: 12, y: 48 },
     heroMobile: { x: 12, y: 62 },
     views: {
-      driver: { x: 22, y: 44 },
-      passenger: { x: 91, y: 42 },
       front: { x: 50, y: 48 },
     },
     face: { still: "front", objectPosition: "50% 48%" },
@@ -106,15 +102,13 @@ const BOARD_LAYOUT: Record<Panel["id"], BoardLayout> = {
   tailgate: {
     hero: { x: 91, y: 32 },
     heroMobile: { x: 90, y: 54 },
-    views: { driver: { x: 86, y: 38 }, rear: { x: 68, y: 52 } },
+    views: { rear: { x: 68, y: 52 } },
     face: { still: "rear", objectPosition: "68% 52%" },
   },
   "front-bumper": {
     hero: { x: 10, y: 62 },
     heroMobile: { x: 10, y: 72 },
     views: {
-      driver: { x: 22, y: 55 },
-      passenger: { x: 92, y: 58 },
       front: { x: 50, y: 72 },
     },
     face: { still: "front", objectPosition: "50% 82%" },
@@ -122,14 +116,14 @@ const BOARD_LAYOUT: Record<Panel["id"], BoardLayout> = {
   "rear-bumper": {
     hero: { x: 94, y: 58 },
     heroMobile: { x: 92, y: 68 },
-    views: { driver: { x: 87, y: 55 }, rear: { x: 68, y: 74 } },
+    views: { rear: { x: 68, y: 74 } },
     face: { still: "rear", objectPosition: "68% 74%" },
   },
 };
 
 /**
  * One mark per panel. Hero layout stays complete; public hero does not
- * paint numbers. Each truck view shows the faces that read on that angle.
+ * paint numbers. Each truck view lists only the seats that camera owns.
  */
 export const PANEL_BOARD_MARKS: readonly PanelBoardMark[] = PANELS.map(
   (panel, index) => {

@@ -60,6 +60,11 @@ test.describe("slice 10.1: hero and hotspot links open seats", () => {
       "href",
       "#panels",
     );
+    await expect(page.getByTestId("truck-seat-driver-door")).toHaveAttribute(
+      "href",
+      "/panels/driver-door",
+    );
+    await page.getByTestId("truck-view-front").click();
     await expect(page.getByTestId("truck-seat-hood")).toHaveAttribute(
       "href",
       "/panels/hood",
