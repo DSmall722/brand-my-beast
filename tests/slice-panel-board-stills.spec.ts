@@ -75,7 +75,6 @@ test.describe("panel board stills map 1–11 onto the truck", () => {
       expect.arrayContaining([
         "tailgate",
         "rear-bumper",
-        "passenger-rear-quarter",
       ]),
     );
     for (const still of Object.values(TRUCK_VIEW_STILLS)) {
@@ -108,7 +107,7 @@ test.describe("panel board stills map 1–11 onto the truck", () => {
       return pct;
     };
 
-    // Driver profile: nose left, tail right.
+    // Driver: Joe L 27908531, nose left. Cab leaves only for seat 4.
     expect(driver("front-fascia").x).toBeLessThan(driver("hood").x);
     expect(driver("hood").x).toBeLessThan(driver("driver-door").x);
     expect(driver("driver-door").x).toBeLessThan(driver("driver-bed").x);
@@ -117,7 +116,7 @@ test.describe("panel board stills map 1–11 onto the truck", () => {
     expect(driver("front-bumper").y).toBeGreaterThan(driver("front-fascia").y);
     expect(driver("rear-bumper").y).toBeGreaterThan(driver("tailgate").y);
 
-    // Passenger ¾: nose right, tail left. 4 / 6 / 8 on near steel.
+    // Passenger tab: Mylo 24734498, nose right. Seats 7–9 on visible steel.
     expect(passenger("passenger-rear-quarter").x).toBeLessThan(
       passenger("passenger-bed").x,
     );
@@ -128,9 +127,7 @@ test.describe("panel board stills map 1–11 onto the truck", () => {
     expect(front("front-fascia").y).toBeGreaterThan(front("hood").y);
     expect(front("front-bumper").y).toBeGreaterThan(front("front-fascia").y);
 
-    // Rear = passenger-rear: tail left, passenger side right.
-    expect(rear("tailgate").x).toBeLessThan(rear("passenger-rear-quarter").x);
-    expect(rear("passenger-rear-quarter").x).toBeLessThan(rear("passenger-bed").x);
+    // Rear = Leonardi lock. Tonneau unlabeled. Seats 10 and 11 only.
     expect(rear("rear-bumper").y).toBeGreaterThan(rear("tailgate").y);
   });
 

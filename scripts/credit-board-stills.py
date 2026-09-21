@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 """Stamp photographer + Pexels URL onto the public board JPEGs.
 
-Must run after paint-board-marks.py so EXIF/IPTC/XMP survive the bake.
+Use after scripts/install-locked-training-stills.py if a credit stamp
+needs a rerun. paint-board-marks.py is retired (overlays carry labels).
 Uses the Image-ExifTool binary (PATH or /tmp/Image-ExifTool/exiftool).
 """
 
@@ -28,8 +29,8 @@ CREDITS = {
         "url": "https://www.pexels.com/photo/tesla-cyber-truck-24734499/",
     },
     "rear": {
-        "artist": "James Collington",
-        "url": "https://www.pexels.com/photo/futuristic-vehicle-parked-on-california-boardwalk-30073773/",
+        "artist": "Stephen Leonardi",
+        "url": "https://www.pexels.com/photo/futuristic-truck-on-a-forest-road-in-autumn-29278630/",
     },
 }
 

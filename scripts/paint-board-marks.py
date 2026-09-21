@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
-"""Bake readable 1–11 marks onto the four stainless board stills.
+"""Legacy baker — do not re-paint number dots.
 
-Homepage board views are static JPEGs. Cards stay the clickable inventory.
-Only numbers that read on that angle are painted.
+Training / board overlays carry labels. Locked public stills stay undotted.
+This script now refuses to bake marks so a rebuild cannot undo the hybrid.
 
   Driver    (closed-door profile, nose left): 1 2 3 4 5 6 10 11
   Passenger (¾, nose right):                  1 2 3 7 8 9
@@ -126,9 +126,10 @@ def paint(view: str) -> None:
 
 
 def main() -> None:
-    snapshot_unmarked()
-    for view in MARKS:
-        paint(view)
+    raise SystemExit(
+        "paint-board-marks.py is retired. SVG overlays carry labels. "
+        "Use scripts/install-locked-training-stills.py for the four clean bases.",
+    )
 
 
 if __name__ == "__main__":

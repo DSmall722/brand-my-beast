@@ -216,13 +216,15 @@ export default async function PanelIntentPage({
           </p>
         </div>
 
-        <div className="seat-stage">
+        <div className="seat-stage" data-testid="seat-stage">
         <TruckViewHotspots
           occupiedPanelIds={occupiedPanelIds}
           activePanelId={panel.id}
           compact
         />
+        </div>
 
+        <div className="seat-facts" data-testid="seat-facts">
         <PanelMockup
           panel={panel}
           raisedUsd={board.pledgedUsd}

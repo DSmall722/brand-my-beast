@@ -54,10 +54,15 @@ test.describe("slice 19.7: hide board-truck seat polygons", () => {
   }) => {
     await page.goto("/panels/hood");
     const seats = page.getByTestId("truck-view-seats");
-    await expect(seats).toHaveAttribute("data-polygons", "hidden");
+    await expect(seats).toHaveAttribute("data-polygons", "training");
     const polygon = page.locator('[data-testid="truck-seat-hood"] polygon');
+    await expect(page.getByTestId("truck-seat-hood")).toHaveAttribute(
+      "data-active",
+      "true",
+    );
     const fill = await polygon.evaluate((el) => getComputedStyle(el).fill);
-    expect(["none", "rgba(0, 0, 0, 0)", "transparent"]).toContain(fill);
+    expect(fill).not.toBe("rgba(0, 0, 0, 0)");
+    expect(fill).not.toBe("transparent");
 
     await page.goto("/");
     await expect(page.getByTestId("hero-panel-board")).toHaveCount(0);

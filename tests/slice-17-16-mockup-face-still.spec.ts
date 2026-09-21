@@ -48,12 +48,11 @@ test.describe("slice 17.16: mockup face uses the stainless still", () => {
 
   test("seat mockup face renders the still", async ({ page }) => {
     await page.goto("/panels/hood");
-    const face = page.locator(".panel-mockup-face").first();
-    await expect(face).toBeVisible();
-    const bg = await face.evaluate(
-      (el) => getComputedStyle(el).backgroundImage,
-    );
-    expect(bg).toContain("truck-view-front.jpg");
-    expect(bg).not.toContain("repeating-linear-gradient");
+    const photo = page.locator(".truck-view-photo");
+    await expect(photo).toHaveAttribute("src", "/truck-view-front.jpg");
+    await expect(page.getByTestId("seat-stage")).toBeVisible();
+    await expect(
+      page.getByTestId("seat-stage").getByTestId("stainless-compositor-lead"),
+    ).toHaveCount(0);
   });
 });

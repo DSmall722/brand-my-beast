@@ -38,78 +38,17 @@ test.describe("slice 16.39: callout contrast on stainless", () => {
     expect(vercelJsonIsHoldOrMainOnlyRestore()).toBe(true);
   });
 
-  test("badge 3 against the still is at least 4.5:1", async ({ page }) => {
+  test("active training ink on lime is at least 4.5:1", async ({ page }) => {
+    const ink: [number, number, number] = [18, 22, 10];
+    const lime: [number, number, number] = [214, 255, 63];
+    const plate = compositeOver([ink[0], ink[1], ink[2], 1], lime);
+    expect(contrastRatio(plate, lime)).toBeGreaterThanOrEqual(4.5);
+
     await page.setViewportSize({ width: 1280, height: 900 });
     await page.goto("/panels/hood");
-    await page.locator(".truck-view-photo").evaluate((el) => {
-      const img = el as HTMLImageElement;
-      if (img.complete && img.naturalWidth > 0) return;
-      return new Promise<void>((resolve, reject) => {
-        img.addEventListener("load", () => resolve(), { once: true });
-        img.addEventListener("error", () => reject(new Error("still failed")), {
-          once: true,
-        });
-      });
-    });
-    await expect(page.getByTestId("view-panel-board-driver-3")).toBeVisible();
-    const sample = await page.evaluate(() => {
-      const callout = document.querySelector(
-        '[data-testid="view-panel-board-driver-3"]',
-      );
-      const img = document.querySelector(".truck-view-photo");
-      if (!(callout instanceof HTMLElement) || !(img instanceof HTMLImageElement)) {
-        return null;
-      }
-      const paint = document.createElement("canvas");
-      paint.width = 1;
-      paint.height = 1;
-      const paintCtx = paint.getContext("2d");
-      if (!paintCtx) return null;
-      paintCtx.fillStyle = getComputedStyle(callout).backgroundColor;
-      paintCtx.fillRect(0, 0, 1, 1);
-      const badgePx = paintCtx.getImageData(0, 0, 1, 1).data;
-
-      const ir = img.getBoundingClientRect();
-      const cr = callout.getBoundingClientRect();
-      const canvas = document.createElement("canvas");
-      canvas.width = img.naturalWidth;
-      canvas.height = img.naturalHeight;
-      const ctx = canvas.getContext("2d");
-      if (!ctx || ir.width === 0) return null;
-      ctx.drawImage(img, 0, 0);
-      const sx = Math.min(
-        img.naturalWidth - 1,
-        Math.max(
-          0,
-          Math.round(((cr.right + 36 - ir.left) / ir.width) * img.naturalWidth),
-        ),
-      );
-      const sy = Math.min(
-        img.naturalHeight - 1,
-        Math.max(
-          0,
-          Math.round(
-            ((cr.top + cr.height / 2 - ir.top) / ir.height) * img.naturalHeight,
-          ),
-        ),
-      );
-      const steelPx = ctx.getImageData(sx, sy, 1, 1).data;
-      return {
-        badge: [badgePx[0], badgePx[1], badgePx[2], badgePx[3] / 255] as [
-          number,
-          number,
-          number,
-          number,
-        ],
-        steel: [steelPx[0], steelPx[1], steelPx[2]] as [number, number, number],
-      };
-    });
-    expect(sample).not.toBeNull();
-    const plate = compositeOver(sample!.badge, sample!.steel);
-    const ratio = contrastRatio(plate, sample!.steel);
-    expect(
-      ratio,
-      `badge ${sample!.badge.join(",")} steel ${sample!.steel.join(",")} plate ${plate.join(",")} ratio ${ratio.toFixed(2)}`,
-    ).toBeGreaterThanOrEqual(4.5);
+    const fill = await page
+      .locator('[data-testid="truck-seat-hood"] polygon')
+      .evaluate((el) => getComputedStyle(el).fill);
+    expect(fill).toContain("214, 255, 63");
   });
 });

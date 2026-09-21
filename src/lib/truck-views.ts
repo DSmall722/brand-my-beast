@@ -37,41 +37,45 @@ function pctBox(cx: number, cy: number, w: number, h: number): string {
   return `${r(x0)},${r(y0)} ${r(x1)},${r(y0)} ${r(x1)},${r(y1)} ${r(x0)},${r(y1)}`;
 }
 
-/** Driver: closed-door profile. Nose left, tail right. Seat 4 is both leaves. */
+/**
+ * Driver: Joe L 27908531 garage profile, nose left.
+ * Seat 4 is cab leaves only (no fender, no glass).
+ */
 const DRIVER_HOTSPOTS: readonly TruckHotspot[] = [
-  { panelId: "front-bumper", points: pctBox(10, 58, 10, 12) },
-  { panelId: "front-fascia", points: pctBox(12, 50, 12, 14) },
-  { panelId: "hood", points: pctBox(22, 38, 12, 12) },
-  { panelId: "driver-door", points: pctBox(42, 48, 20, 24) },
-  { panelId: "driver-bed", points: pctBox(68, 46, 12, 18) },
-  { panelId: "driver-rear-quarter", points: pctBox(80, 46, 10, 18) },
-  { panelId: "tailgate", points: pctBox(88, 40, 10, 18) },
-  { panelId: "rear-bumper", points: pctBox(92, 58, 10, 12) },
+  { panelId: "front-bumper", points: pctBox(14, 60, 10, 12) },
+  { panelId: "front-fascia", points: pctBox(18, 50, 12, 14) },
+  { panelId: "hood", points: pctBox(28, 38, 14, 12) },
+  { panelId: "driver-door", points: pctBox(46, 46, 16, 18) },
+  { panelId: "driver-bed", points: pctBox(64, 46, 12, 16) },
+  { panelId: "driver-rear-quarter", points: pctBox(76, 44, 10, 16) },
+  { panelId: "tailgate", points: pctBox(88, 40, 10, 16) },
+  { panelId: "rear-bumper", points: pctBox(90, 58, 8, 12) },
 ];
 
-/** Passenger: ¾, nose right. Seat 7 is both leaves. */
+/**
+ * Passenger tab: Mylo 24734498 plaza, nose right.
+ * Lock note: this is a left-flank still; seats 7–9 map to the visible steel.
+ */
 const PASSENGER_HOTSPOTS: readonly TruckHotspot[] = [
-  { panelId: "front-bumper", points: pctBox(90, 62, 10, 12) },
-  { panelId: "front-fascia", points: pctBox(86, 50, 12, 14) },
-  { panelId: "hood", points: pctBox(68, 36, 14, 14) },
-  { panelId: "passenger-door", points: pctBox(50, 48, 18, 24) },
-  { panelId: "passenger-bed", points: pctBox(20, 46, 12, 18) },
-  { panelId: "passenger-rear-quarter", points: pctBox(12, 44, 12, 18) },
+  { panelId: "front-bumper", points: pctBox(90, 64, 10, 12) },
+  { panelId: "front-fascia", points: pctBox(86, 50, 12, 16) },
+  { panelId: "hood", points: pctBox(70, 32, 18, 14) },
+  { panelId: "passenger-door", points: pctBox(50, 48, 16, 18) },
+  { panelId: "passenger-bed", points: pctBox(24, 46, 12, 16) },
+  { panelId: "passenger-rear-quarter", points: pctBox(13, 44, 10, 16) },
 ];
 
-/** Front: head-on. Stainless face (2) sits above plastic bumper (3). */
+/** Front: Mylo 24734499 head-on. Stainless face (2) above plastic bumper (3). */
 const FRONT_HOTSPOTS: readonly TruckHotspot[] = [
-  { panelId: "hood", points: pctBox(50, 26, 36, 16) },
-  { panelId: "front-fascia", points: pctBox(50, 48, 36, 16) },
-  { panelId: "front-bumper", points: pctBox(50, 80, 36, 12) },
+  { panelId: "hood", points: pctBox(50, 22, 70, 26) },
+  { panelId: "front-fascia", points: pctBox(50, 46, 76, 22) },
+  { panelId: "front-bumper", points: pctBox(50, 70, 64, 18) },
 ];
 
-/** Rear: passenger-rear ¾. Tail left, passenger side right. */
+/** Rear: Leonardi lock. Tonneau unlabeled. Seats 10 and 11 only. */
 const REAR_HOTSPOTS: readonly TruckHotspot[] = [
-  { panelId: "rear-bumper", points: pctBox(18, 58, 16, 12) },
-  { panelId: "tailgate", points: pctBox(18, 42, 16, 18) },
-  { panelId: "passenger-rear-quarter", points: pctBox(36, 40, 12, 16) },
-  { panelId: "passenger-bed", points: pctBox(46, 42, 14, 16) },
+  { panelId: "tailgate", points: pctBox(56, 44, 34, 20) },
+  { panelId: "rear-bumper", points: pctBox(56, 62, 30, 14) },
 ];
 
 const HOTSPOTS_BY_VIEW: Record<TruckViewId, readonly TruckHotspot[]> = {
