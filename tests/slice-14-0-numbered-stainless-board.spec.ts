@@ -65,7 +65,12 @@ test.describe("slice 14.0: numbered stainless board", () => {
     expect(panelBoardMarksForView("driver").length).toBeGreaterThanOrEqual(6);
     expect(panelBoardMarksForView("passenger").length).toBeGreaterThanOrEqual(3);
     expect(panelBoardMarksForView("front").length).toBeGreaterThanOrEqual(3);
-    expect(panelBoardMarksForView("rear").length).toBeGreaterThanOrEqual(4);
+    // Leonardi rear lock: 10 tailgate + 11 rear bumper only. No tonneau.
+    expect(panelBoardMarksForView("rear")).toHaveLength(2);
+    expect(panelBoardMarksForView("rear").map((mark) => mark.panelId)).toEqual([
+      "tailgate",
+      "rear-bumper",
+    ]);
   });
 
   test("390px homepage shows ≥6 numbered callouts, H1, Notify me", async ({

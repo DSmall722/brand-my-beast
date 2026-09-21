@@ -63,13 +63,24 @@ test.describe("slice 19.2: hometown off public seats", () => {
       await expect(page.getByTestId("hometown-lane-atlanta")).toHaveCount(0);
       await expect(page.getByTestId("hometown-lane-panhandle")).toHaveCount(0);
 
-      const visible = await page.locator("body").innerText();
+      const skip = page.locator("a.skip-link");
+      await expect(skip).toHaveCount(1);
+      const visible = (await page.locator("body").innerText()).replace(
+        /Skip to content/g,
+        "",
+      );
+      // "SC" is a hometown code. Do not use toContain("SC") — it also
+      // matches the skip link line in the Playwright dump.
       expect(visible).not.toMatch(/\bSC\b/);
       expect(visible).not.toContain("Charlotte");
       expect(visible).not.toContain("Atlanta");
       expect(visible).not.toContain("Panhandle");
       expect(visible).not.toContain("Hometown lane");
       for (const label of HOMETOWN_LABELS) {
+        if (label === "SC") {
+          expect(visible).not.toMatch(/\bSC\b/);
+          continue;
+        }
         expect(visible).not.toContain(label);
       }
 
