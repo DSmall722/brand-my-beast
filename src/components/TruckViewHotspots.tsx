@@ -155,6 +155,7 @@ export function TruckViewHotspots({
                           : "truck-seat is-raw"
                     }
                     points={spot.points}
+                    fill="none"
                   />
                 </a>
               );
