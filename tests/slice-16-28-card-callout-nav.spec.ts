@@ -53,9 +53,9 @@ test.describe("slice 16.28: card 3 and board number 3 open driver door", () => {
     await expect(page.locator("h1")).toContainText("Driver door");
 
     await page.goto("/");
-    const callout = page.getByTestId(`view-panel-board-side-${mark.n}`);
-    await expect(callout).toHaveAttribute("data-panel-id", mark.panelId);
-    await expect(callout.locator(".panel-board-callout-n")).toHaveText("3");
+    await expect(
+      page.getByTestId(`view-panel-board-side-${mark.n}`),
+    ).toHaveCount(0);
     const legend = page.getByTestId(`panel-legend-${mark.n}`);
     await expect(legend).toHaveAttribute("href", PANEL_PATH);
     await legend.click();

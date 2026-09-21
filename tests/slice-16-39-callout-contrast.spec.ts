@@ -40,7 +40,7 @@ test.describe("slice 16.39: callout contrast on stainless", () => {
 
   test("badge 3 against the still is at least 4.5:1", async ({ page }) => {
     await page.setViewportSize({ width: 1280, height: 900 });
-    await page.goto("/");
+    await page.goto("/panels/hood");
     const sample = await page.evaluate(() => {
       const callout = document.querySelector(
         '[data-testid="view-panel-board-side-3"]',

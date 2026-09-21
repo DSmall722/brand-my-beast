@@ -16,11 +16,11 @@ import { PUBLIC_COPY } from "../src/lib/public-copy";
 import { vercelJsonIsHoldOrMainOnlyRestore } from "../src/lib/vercel-git-deploy";
 
 /**
- * Slice 16.30 — etch badge stays `Immortal Etch` from PUBLIC_COPY.
- * No new money number. FEATURES.md stays off /. CLOSE_AT null. No Stripe.
+ * Slice 16.30 — etch badge stays PUBLIC_COPY (`Immortal Etch locked until $120k`).
+ * No $120,000 / $58,000 in the badge. FEATURES.md stays off /. CLOSE_AT null. No Stripe.
  */
 
-const BADGE = "Immortal Etch";
+const BADGE = "Immortal Etch locked until $120k";
 
 test.describe("slice 16.30: etch badge stays PUBLIC_COPY", () => {
   test("campaign money fences stay locked — CLOSE_AT null", () => {

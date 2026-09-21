@@ -68,10 +68,11 @@ test.describe("slice 16.7: held seats keep the number", () => {
     await expect(page.getByTestId("hero-panel-board")).toHaveCount(0);
 
     await page.getByTestId("truck-view-side").click();
-    const side = page.getByTestId("view-panel-board-side-1");
-    await expect(side).toHaveAttribute("data-panel-n", "1");
-    await expect(side.locator(".panel-board-callout-n")).toHaveText("1");
-    await expect(page.getByTestId("view-panel-held-side-1")).toHaveText("Held");
+    await expect(page.getByTestId("view-panel-board-side-1")).toHaveCount(0);
+    await expect(page.getByTestId("truck-view-seats")).toHaveAttribute(
+      "data-baked-marks",
+      "true",
+    );
 
     await expect(page.getByTestId("truck-img-hero")).toHaveAttribute(
       "src",

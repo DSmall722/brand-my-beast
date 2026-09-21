@@ -52,8 +52,9 @@ SOURCES = {
     },
 }
 
+# Homepage hero is the locked house-wrap C plate (scripts/blend-hero-wrap.py).
+# Do not rembg-rebuild it here — black wrap would be eaten.
 OUTPUTS = {
-    "hero": PUBLIC / "hero-truck-preview.jpg",
     "side": PUBLIC / "truck-view-side.jpg",
     "front": PUBLIC / "truck-view-front.jpg",
     "rear": PUBLIC / "truck-view-rear.jpg",
@@ -226,6 +227,8 @@ def main() -> None:
     PUBLIC.mkdir(parents=True, exist_ok=True)
     manifest = {}
     for key, spec in SOURCES.items():
+        if key not in OUTPUTS:
+            continue
         src = fetch(spec)
         with Image.open(src) as raw:
             rgb = raw.convert("RGB")

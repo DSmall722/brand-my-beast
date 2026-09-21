@@ -12,8 +12,8 @@ import {
 import { hotspotPanelIds, hotspotsForView, TRUCK_VIEWS } from "../src/lib/truck-views";
 
 /**
- * Slice 10.1 — hero / hotspot links go to `/panels/[id]`, not only `#panels`.
- * CLOSE_AT null. No Stripe.
+ * Slice 10.1 — hero photo opens Hood; “See the twelve panels” lands on `#panels`.
+ * Homepage board stills are static. Cards / legend open seats. CLOSE_AT null. No Stripe.
  */
 test.describe("slice 10.1: hero and hotspot links open seats", () => {
   test("campaign money fences stay locked — CLOSE_AT null", () => {
@@ -50,25 +50,37 @@ test.describe("slice 10.1: hero and hotspot links open seats", () => {
     }
   });
 
-  test("homepage hero and hotspots open /panels/[id]", async ({ page }) => {
+  test("See the panels lands on the twelve cards, not Hood", async ({
+    page,
+  }) => {
     await page.goto("/");
     const hero = page.getByTestId("hero-truck-preview");
     await expect(hero).toHaveAttribute("href", "/panels/hood");
     await expect(page.getByTestId("hero-secondary-cta")).toHaveAttribute(
       "href",
-      "/panels/hood",
+      "#panels",
     );
-    await expect(page.getByTestId("truck-seat-hood")).toHaveAttribute(
-      "href",
-      "/panels/hood",
+    await expect(page.getByTestId("truck-seat-hood")).toHaveCount(0);
+    await expect(page.getByTestId("truck-view-seats")).toHaveAttribute(
+      "data-baked-marks",
+      "true",
     );
 
+    await page.getByTestId("hero-secondary-cta").click();
+    await expect(page).toHaveURL(/#panels$/);
+    await expect(page.locator("#panels")).toBeVisible();
+    await expect(page.getByTestId("panel-grid").locator("article")).toHaveCount(
+      12,
+    );
+    await expect(page).not.toHaveURL(/\/panels\/hood/);
+
+    await page.goto("/");
     await page.getByTestId("hero-truck-preview").click();
     await expect(page).toHaveURL(/\/panels\/hood$/);
     await expect(page.getByTestId("intent-signin-needed")).toBeVisible();
 
     await page.goto("/");
-    await page.getByTestId("truck-seat-hood").click();
+    await page.getByTestId("panel-link-hood").click();
     await expect(page).toHaveURL(/\/panels\/hood$/);
 
     const html = await page.content();

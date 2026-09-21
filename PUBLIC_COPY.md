@@ -18,7 +18,7 @@ Locked: 2026-09-14 — desire first, then the deal, then the catch.
 ## Hero
 
 - H1: `Put your brand on the truck people already photograph.`
-- Lead: `Twelve companies. One Cyberbeast. Buy a panel for a year. Hit $58,000 and the truck is ordered and wrapped. Miss it and nobody pays.`
+- Lead: `Concept preview`
 - Primary CTA: `Get on the list`
 - Secondary CTA: `See the twelve panels`
 - Hero image label (alt): `Concept preview — BrandMyBeast house wrap. Seats are not sold yet.`
@@ -64,7 +64,7 @@ Locked: 2026-09-14 — desire first, then the deal, then the catch.
   1. `Twelve seats. Opening prices below.`
   2. `Wrap is vinyl for twelve months, then it comes off.`
   3. `Immortal Etch at $120k means that steel can take a permanent cut once the campaign owns the truck.`
-- Badge etch: `Immortal Etch`
+- Badge etch: `Immortal Etch locked until $120k`
 - Badge wrap: `Wrap only`
 - Standing open: `Open seat`
 

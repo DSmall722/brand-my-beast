@@ -37,7 +37,7 @@ test.describe("slice 16.38: reduced motion keeps callouts still", () => {
   test("callouts stay visible with no animation", async ({ page }) => {
     await page.emulateMedia({ reducedMotion: "reduce" });
     await page.setViewportSize({ width: 1280, height: 900 });
-    await page.goto("/");
+    await page.goto("/panels/hood");
     for (const n of [1, 3, 9, 12]) {
       const callout = page.getByTestId(`view-panel-board-side-${n}`);
       await expect(callout).toBeVisible();

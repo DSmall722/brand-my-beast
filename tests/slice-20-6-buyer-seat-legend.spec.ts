@@ -65,11 +65,13 @@ test.describe("slice 20.6: buyer seat legend sentence", () => {
     const legend = page.getByTestId("truck-view-legend");
     await expect(legend).toHaveText(PUBLIC_COPY.board.seatLegend);
     await expect(legend).not.toContainText("Open seat ·");
+    await expect(page.getByTestId("truck-seat-hood")).toHaveCount(0);
+    await expect(page.locator("#hero-title")).toHaveText(LOCKED_H1);
+    await page.goto("/panels/hood");
     const empty = page
       .locator('[data-testid^="truck-seat-"][data-occupied="false"]')
       .first();
     await expect(empty).toHaveAttribute("aria-label", /open seat$/);
-    await expect(page.locator("#hero-title")).toHaveText(LOCKED_H1);
     const html = await page.content();
     expect(html).not.toContain("Open seat · Held = standing intent");
     expect(html).toContain("$58,000");

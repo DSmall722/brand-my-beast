@@ -1167,6 +1167,10 @@ test.describe("P2 panel intent + approvals", () => {
     await page.goto("/");
     await expect(page.getByTestId("truck-views-section")).toBeVisible();
     await expect(page.getByTestId("truck-view-seats")).toBeVisible();
+    await expect(page.getByTestId("truck-view-seats")).toHaveAttribute(
+      "data-baked-marks",
+      "true",
+    );
     await expect(page.getByTestId("truck-view-lead")).toContainText("$58,000");
     await expect(page.getByTestId("truck-view-lead")).toContainText("$120,000");
     await expect(page.getByTestId("truck-view-lead")).not.toContainText("30X");
@@ -1174,23 +1178,20 @@ test.describe("P2 panel intent + approvals", () => {
       "aria-pressed",
       "true",
     );
-    await expect(page.getByTestId("truck-seat-hood")).toHaveAttribute(
-      "data-raw",
-      "true",
-    );
+    await expect(page.getByTestId("truck-seat-hood")).toHaveCount(0);
     await page.getByTestId("truck-view-front").click();
     await expect(page.getByTestId("truck-view-seats")).toHaveAttribute(
       "data-view",
       "front",
     );
-    await expect(page.getByTestId("truck-seat-front-fascia")).toBeVisible();
+    await expect(page.getByTestId("truck-seat-front-fascia")).toHaveCount(0);
     await page.getByTestId("truck-view-rear").click();
     await expect(page.getByTestId("truck-view-seats")).toHaveAttribute(
       "data-view",
       "rear",
     );
-    await expect(page.getByTestId("truck-seat-tailgate")).toBeVisible();
-    await page.getByTestId("truck-seat-tailgate").click();
+    await expect(page.getByTestId("truck-seat-tailgate")).toHaveCount(0);
+    await page.getByTestId("panel-link-tailgate").click();
     await expect(page).toHaveURL(/\/panels\/tailgate/);
     await expect(page.getByTestId("truck-view-seats")).toBeVisible();
     await expect(page.getByTestId("truck-seat-tailgate")).toHaveAttribute(

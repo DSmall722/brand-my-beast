@@ -30,7 +30,7 @@ export const PUBLIC_COPY = {
   },
   hero: {
     h1: "Put your brand on the truck people already photograph.",
-    lead: "Twelve companies. One Cyberbeast. Buy a panel for a year. Hit $58,000 and the truck is ordered and wrapped. Miss it and nobody pays.",
+    lead: "Concept preview",
     primaryCta: "Get on the list",
     secondaryCta: "See the twelve panels",
     imageAlt:
@@ -88,7 +88,7 @@ export const PUBLIC_COPY = {
       "Immortal Etch at $120k means that steel can take a permanent cut once the campaign owns the truck.",
     ],
     lead: "Twelve seats. Opening prices below. Wrap is vinyl for twelve months, then it comes off. Immortal Etch at $120k means that steel can take a permanent cut once the campaign owns the truck.",
-    badgeEtch: "Immortal Etch",
+    badgeEtch: "Immortal Etch locked until $120k",
     badgeWrap: "Wrap only",
     /** Slice 10.9 — panel card standing line when no mark holds. */
     /** Slice 20.3 — print once, not on every open card. */

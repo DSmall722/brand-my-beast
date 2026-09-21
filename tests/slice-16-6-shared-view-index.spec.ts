@@ -54,32 +54,28 @@ test.describe("slice 16.6: views share the hero index", () => {
     expect(side.some((mark, index) => mark.n !== index + 1)).toBe(true);
   });
 
-  test("homepage views show the same number as the hero callout", async ({
+  test("homepage board is static; cards and legend keep the hero index", async ({
     page,
   }) => {
     await page.goto("/");
     const views = page.getByTestId("truck-view-seats");
     await expect(views).toBeVisible();
+    await expect(views).toHaveAttribute("data-baked-marks", "true");
 
     for (const row of TRUCK_VIEWS) {
       const view = row.id as TruckViewId;
       await page.getByTestId(`truck-view-${view}`).click();
-      const board = page.getByTestId(`view-panel-board-${view}`);
-      await expect(board).toBeVisible();
+      await expect(page.getByTestId(`view-panel-board-${view}`)).toHaveCount(0);
+      await expect(page.getByTestId(`truck-img-board-${view}`)).toBeVisible();
 
       const marks = panelBoardMarksForView(view);
-      await expect(board.locator("[data-panel-n]")).toHaveCount(marks.length);
-
       for (const mark of marks) {
-        const callout = page.getByTestId(`view-panel-board-${view}-${mark.n}`);
-        await expect(callout).toHaveAttribute("data-panel-id", mark.panelId);
-        await expect(callout).toHaveAttribute("data-panel-n", String(mark.n));
-        await expect(callout.locator(".panel-board-callout-n")).toHaveText(
-          String(mark.n),
-        );
         const legend = page.getByTestId(`panel-legend-${mark.n}`);
         await expect(legend).toHaveAttribute("data-panel-id", mark.panelId);
         await expect(legend).toHaveAttribute("data-panel-n", String(mark.n));
+        await expect(page.getByTestId(`panel-index-${mark.panelId}`)).toHaveText(
+          String(mark.n),
+        );
       }
     }
 

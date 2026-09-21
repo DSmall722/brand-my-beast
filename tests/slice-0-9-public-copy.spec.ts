@@ -46,9 +46,7 @@ test.describe("slice 0.9: PUBLIC_COPY v2 on /", () => {
     expect(PUBLIC_COPY.hero.h1).toBe(
       "Put your brand on the truck people already photograph.",
     );
-    expect(PUBLIC_COPY.hero.lead).toBe(
-      "Twelve companies. One Cyberbeast. Buy a panel for a year. Hit $58,000 and the truck is ordered and wrapped. Miss it and nobody pays.",
-    );
+    expect(PUBLIC_COPY.hero.lead).toBe("Concept preview");
     expect(PUBLIC_COPY.waitlist.button).toBe("Notify me");
     expect(PUBLIC_COPY.board.raisedLabel.toLowerCase()).not.toContain(
       "pledged intent",

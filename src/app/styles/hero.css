@@ -10,7 +10,7 @@
   background: linear-gradient(180deg, #07090c 0%, #0c0e11 55%, #10151c 100%);
 }
 
-/* Layout A: house-wrap concept still fills the hero well; tap opens #panels. */
+/* Layout A: house-wrap concept still fills the hero well; photo tap opens Hood. */
 .hero-truck-link {
   position: absolute;
   inset: 0;

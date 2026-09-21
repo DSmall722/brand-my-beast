@@ -53,27 +53,40 @@ test.describe("slice 17.8: front and rear hide the side schematic", () => {
     await page.goto("/");
     const photo = page.locator(".truck-view-photo");
     await expect(photo).toHaveAttribute("src", SIDE);
-    await expect(page.locator(".truck-view-body")).toHaveCount(1);
-    await expect(page.locator(".truck-view-cab")).toHaveCount(1);
+    await expect(page.getByTestId("truck-view-seats")).toHaveAttribute(
+      "data-baked-marks",
+      "true",
+    );
+    await expect(page.locator(".truck-view-body")).toHaveCount(0);
+    await expect(page.locator(".truck-view-cab")).toHaveCount(0);
+    await expect(page.getByTestId("truck-view-svg")).toHaveCount(0);
 
     await page.getByTestId("truck-view-front").click();
     await expect(page.getByTestId("truck-view-seats")).toHaveAttribute(
       "data-view",
       "front",
     );
-    await expect(page.locator(".truck-view-body")).toHaveCount(0);
-    await expect(page.locator(".truck-view-cab")).toHaveCount(0);
     await expect(photo).toHaveAttribute("src", FRONT);
-    await expect(page.getByTestId("truck-seat-front-fascia")).toBeVisible();
+    await expect(page.getByTestId("truck-seat-front-fascia")).toHaveCount(0);
 
     await page.getByTestId("truck-view-rear").click();
     await expect(page.getByTestId("truck-view-seats")).toHaveAttribute(
       "data-view",
       "rear",
     );
-    await expect(page.locator(".truck-view-body")).toHaveCount(0);
-    await expect(page.locator(".truck-view-cab")).toHaveCount(0);
     await expect(photo).toHaveAttribute("src", REAR);
+    await expect(page.getByTestId("truck-seat-tailgate")).toHaveCount(0);
+
+    await page.goto("/panels/hood");
+    await expect(page.getByTestId("truck-view-seats")).toHaveAttribute(
+      "data-baked-marks",
+      "false",
+    );
+    await expect(page.getByTestId("truck-view-svg")).toHaveCount(1);
+    await expect(page.locator(".truck-view-body")).toHaveCount(1);
+    await page.getByTestId("truck-view-front").click();
+    await expect(page.getByTestId("truck-seat-front-fascia")).toBeVisible();
+    await page.getByTestId("truck-view-rear").click();
     await expect(page.getByTestId("truck-seat-tailgate")).toBeVisible();
   });
 });

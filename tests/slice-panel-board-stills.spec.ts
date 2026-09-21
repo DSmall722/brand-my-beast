@@ -153,27 +153,19 @@ test.describe("panel board stills map 1–12 onto the truck", () => {
       "src",
       TRUCK_VIEW_STILLS.front,
     );
-    await expect(page.getByTestId("view-panel-board-front-1")).toHaveAttribute(
-      "data-panel-id",
-      "hood",
-    );
-    await expect(page.getByTestId("view-panel-board-front-4")).toHaveAttribute(
-      "data-panel-id",
-      "passenger-door",
-    );
+    await expect(page.getByTestId("view-panel-board-front-1")).toHaveCount(0);
+    await expect(page.getByTestId("view-panel-board-front-4")).toHaveCount(0);
+    await expect(page.getByTestId("panel-index-hood")).toHaveText("1");
+    await expect(page.getByTestId("panel-index-passenger-door")).toHaveText("4");
     await page.getByTestId("truck-view-rear").click();
     await expect(page.getByTestId("truck-img-board-rear")).toHaveAttribute(
       "src",
       TRUCK_VIEW_STILLS.rear,
     );
-    await expect(page.getByTestId("view-panel-board-rear-9")).toHaveAttribute(
-      "data-panel-id",
-      "tailgate",
-    );
-    await expect(page.getByTestId("view-panel-board-rear-12")).toHaveAttribute(
-      "data-panel-id",
-      "rear-fascia",
-    );
+    await expect(page.getByTestId("view-panel-board-rear-9")).toHaveCount(0);
+    await expect(page.getByTestId("view-panel-board-rear-12")).toHaveCount(0);
+    await expect(page.getByTestId("panel-index-tailgate")).toHaveText("9");
+    await expect(page.getByTestId("panel-index-rear-fascia")).toHaveText("12");
 
     await page.getByTestId("truck-view-side").click();
     const fit = await page

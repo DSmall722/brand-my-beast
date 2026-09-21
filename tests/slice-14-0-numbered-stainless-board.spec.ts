@@ -110,7 +110,11 @@ test.describe("slice 14.0: numbered stainless board", () => {
       "src",
       "/truck-view-side.jpg",
     );
-    await expect(page.getByTestId("view-panel-board-side")).toBeVisible();
+    await expect(page.getByTestId("view-panel-board-side")).toHaveCount(0);
+    await expect(page.getByTestId("truck-view-seats")).toHaveAttribute(
+      "data-baked-marks",
+      "true",
+    );
 
     const html = await page.content();
     expect(html.toLowerCase()).not.toMatch(/\blease\b/);

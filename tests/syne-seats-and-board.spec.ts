@@ -79,7 +79,11 @@ test.describe("Syne lockup, board marks, seat lead", () => {
       await expect(page.getByTestId(`hero-panel-board-${n}`)).toHaveCount(0);
       await expect(page.getByTestId(`panel-legend-${n}`)).toBeVisible();
     }
-    await expect(page.getByTestId("view-panel-board-side")).toBeVisible();
+    await expect(page.getByTestId("view-panel-board-side")).toHaveCount(0);
+    await expect(page.getByTestId("truck-view-seats")).toHaveAttribute(
+      "data-baked-marks",
+      "true",
+    );
   });
 
   test("hood seat lead uses Immortal Etch, fascia uses Wrap only", async ({

@@ -16,22 +16,26 @@ import {
 
 /**
  * Side / front / rear toggles with stainless photo + numbered seats.
- * Empty seats render as raw 30X. Not a 360. Preview only.
+ * Homepage board uses baked JPEG marks (`bakedMarks`). Seat pages keep
+ * the overlay map for the open seat.
  */
 export function TruckViewHotspots({
   occupiedPanelIds = [],
   activePanelId,
   compact = false,
+  bakedMarks = false,
 }: {
   /** Panel ids with a listed/approved standing mark. */
   occupiedPanelIds?: readonly string[];
   /** Highlight the open seat when rendered on /panels/[id]. */
   activePanelId?: Panel["id"];
   compact?: boolean;
+  /** Static stills with numbers painted in. No DOM / SVG overlays. */
+  bakedMarks?: boolean;
 }) {
   const [view, setView] = useState<TruckViewId>("side");
   const occupied = new Set(occupiedPanelIds);
-  const spots = hotspotsForView(view);
+  const spots = bakedMarks ? [] : hotspotsForView(view);
 
   return (
     <div
@@ -44,6 +48,7 @@ export function TruckViewHotspots({
       data-view={view}
       data-one-view="true"
       data-polygons="hidden"
+      data-baked-marks={bakedMarks ? "true" : "false"}
     >
       <p className="auth-hint truck-view-lead" data-testid="truck-view-lead">
         {TRUCK_VIEWS_LEAD}
@@ -87,11 +92,14 @@ export function TruckViewHotspots({
             data-truck-img={`board-${view}`}
             style={{ objectPosition: BOARD_VIEW_OBJECT_POSITION[view] }}
           />
+          {bakedMarks ? null : (
           <PanelBoardCallouts
             surface="view"
             view={view}
             occupiedPanelIds={occupiedPanelIds}
           />
+          )}
+          {bakedMarks ? null : (
           <svg
             className="truck-view-svg"
             viewBox="0 0 400 160"
@@ -153,6 +161,7 @@ export function TruckViewHotspots({
               );
             })}
           </svg>
+          )}
         </div>
         <p className="truck-view-legend" data-testid="truck-view-legend">
           {PUBLIC_COPY.board.seatLegend}

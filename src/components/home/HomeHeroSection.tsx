@@ -69,7 +69,7 @@ export function HomeHeroSection({
               </ArrowFillButton>
               <a
                 className="btn btn-ghost"
-                href="/panels/hood"
+                href="#panels"
                 data-testid="hero-secondary-cta"
               >
                 {PUBLIC_COPY.hero.secondaryCta}

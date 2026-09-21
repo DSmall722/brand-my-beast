@@ -60,6 +60,7 @@ test.describe("slice 16.10: callout hit area and focus ring", () => {
     await page.goto("/");
     await expect(page.getByTestId("hero-panel-board")).toHaveCount(0);
 
+    await page.goto("/panels/hood");
     await page.getByTestId("truck-view-side").click();
     for (const mark of panelBoardMarksForView("side")) {
       await expectHitAtLeast(page, `view-panel-board-side-${mark.n}`);
@@ -72,7 +73,7 @@ test.describe("slice 16.10: callout hit area and focus ring", () => {
 
   test("keyboard focus draws a visible signal ring", async ({ page }) => {
     await page.setViewportSize({ width: 1280, height: 900 });
-    await page.goto("/");
+    await page.goto("/panels/hood");
     const callout = page.getByTestId("view-panel-board-side-3");
     await expect(callout).toBeVisible();
 
