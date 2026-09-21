@@ -188,7 +188,7 @@ export function TruckViewHotspots({
                         className="truck-seat-hit"
                         cx={center.x}
                         cy={center.y}
-                        r="96"
+                        r="112"
                       />
                     ) : null}
                     {training ? (
