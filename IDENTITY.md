@@ -10,7 +10,7 @@ CAMPAIGN.md wins if this file disagrees. Updated: 2026-09-13
 - Domain: brandmybeast.com
 - Voice: “the operator”
 - Location: Southeast / South Carolina work circuit — not an employer city
-- Bio (X, locked): `12 panels on 30X stainless. One Cyberbeast. Ordered only if the board clears.`
+- Bio (X, locked): `11 panels on 30X stainless. One Cyberbeast. Ordered only if the board clears.`
 
 ## Private (never write in this repo, the site, or agent output)
 

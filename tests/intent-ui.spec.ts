@@ -130,7 +130,7 @@ test.describe("P2 panel intent + approvals", () => {
     await expect(
       page.getByTestId("neighbor-combo-front-fascia").locator("a"),
     ).toHaveAttribute("href", "/panels/front-fascia");
-    await expect(page.getByTestId("neighbor-combo-roof")).toBeVisible();
+    await expect(page.getByTestId("neighbor-combo-front-bumper")).toHaveCount(0);
     await expect(page.getByTestId("neighbor-combo-driver-door")).toBeVisible();
     await expect(page.getByTestId("neighbor-combo-passenger-door")).toBeVisible();
     await expect(page.getByTestId("hometown-lane")).toHaveCount(0);
@@ -570,7 +570,7 @@ test.describe("P2 panel intent + approvals", () => {
 
     const second = await browser.newPage();
     await signIn(second, "trade-b@example.com");
-    await second.goto("/panels/tonneau");
+    await second.goto("/panels/rear-bumper");
     await second.getByTestId("intent-brand").fill("Beta Trade Co");
     await second.getByTestId("intent-trade").fill("cold brew");
     await second.getByTestId("intent-submit").click();
@@ -607,7 +607,7 @@ test.describe("P2 panel intent + approvals", () => {
 
     const elsewhere = await browser.newPage();
     await signIn(elsewhere, "slice14-elsewhere@example.com");
-    await elsewhere.goto("/panels/tonneau");
+    await elsewhere.goto("/panels/rear-bumper");
     await elsewhere.getByTestId("intent-brand").fill("Slice Fourteen Else");
     await elsewhere.getByTestId("intent-trade").fill("panel seats");
     await elsewhere.getByTestId("intent-submit").click();
@@ -1174,7 +1174,7 @@ test.describe("P2 panel intent + approvals", () => {
     await expect(page.getByTestId("truck-view-lead")).toContainText("$58,000");
     await expect(page.getByTestId("truck-view-lead")).toContainText("$120,000");
     await expect(page.getByTestId("truck-view-lead")).not.toContainText("30X");
-    await expect(page.getByTestId("truck-view-side")).toHaveAttribute(
+    await expect(page.getByTestId("truck-view-driver")).toHaveAttribute(
       "aria-pressed",
       "true",
     );

@@ -15,11 +15,11 @@ docs freeze only — do not set `CLOSE_AT`, do not wire Stripe, do not flip
 | 16.0e | WaitlistForm checkbox still 201 | `tests/slice-16-0e-waitlist-form-checkbox.spec.ts` |
 | 16.0f | Operator waitlist Whole-truck column | `tests/slice-16-0f-operator-waitlist-whole-truck.spec.ts` |
 | 16.0g | Drop waitlist-signin-intent line | `tests/slice-16-0g-drop-waitlist-signin-intent.spec.ts` |
-| 16.1 | Homepage panel cards show 1–12 | `tests/slice-16-1-panel-card-indexes.spec.ts` |
+| 16.1 | Homepage panel cards show 1–11 | `tests/slice-16-1-panel-card-indexes.spec.ts` |
 | 16.2 | Seat page H1 includes the number | `tests/slice-16-2-seat-h1-number.spec.ts` |
 | 16.3 | Number map legend under the hero | `tests/slice-16-3-number-map-legend.spec.ts` |
 | 16.4 | Playwright 390px: numbers 1, 3, 5, 9 not clipped | `tests/slice-16-4-callout-wordmark.spec.ts` |
-| 16.5 | Playwright 1280px: all twelve numbers in the DOM | `tests/slice-16-5-twelve-numbers-dom.spec.ts` |
+| 16.5 | Playwright 1280px: all eleven numbers in the DOM | `tests/slice-16-5-twelve-numbers-dom.spec.ts` |
 | 16.6 | Front / side / rear views share the hero index | `tests/slice-16-6-shared-view-index.spec.ts` |
 | 16.7 | Occupied seats keep the number and add Held | `tests/slice-16-7-held-keeps-number.spec.ts` |
 | 16.8 | docs/LOCAL-PREVIEW.md npm run dev | `tests/slice-16-8-local-preview.spec.ts` |
@@ -27,19 +27,19 @@ docs freeze only — do not set `CLOSE_AT`, do not wire Stripe, do not flip
 | 16.10 | Callout hit area ≥44px; focus ring visible | `tests/slice-16-10-callout-hit.spec.ts` |
 | 16.11 | README how to look points at 16.8 | `tests/slice-16-11-readme-look.spec.ts` |
 | 16.12 | PUBLIC_COPY panel lead matches card numbers | `tests/slice-16-12-panel-lead.spec.ts` |
-| 16.13 | RULES.md lists 1–12 next to panel ids | `tests/slice-16-13-rules-panel-ids.spec.ts` |
+| 16.13 | RULES.md lists 1–11 next to panel ids | `tests/slice-16-13-rules-panel-ids.spec.ts` |
 | 16.14 | CAMPAIGN.md inventory number column | `tests/slice-16-14-campaign-number-column.spec.ts` |
 | 16.15 | FEATURES.md numbered board row shipped | `tests/slice-16-15-features-numbered-board.spec.ts` |
 | 16.16 | docs/STATUS.md last-slice follows SLICES Now | `tests/slice-16-16-status-now.spec.ts` |
 | 16.17 | PROCESS.md has no Wave 6 idle sentence | `tests/slice-16-17-process-wave-6-idle.spec.ts` |
 | 16.18 | ARCHITECTURE.md numbered overlay | `tests/slice-16-18-architecture-overlay.spec.ts` |
-| 16.19 | Press-kit fact sheet includes 1–12 | `tests/slice-16-19-press-kit-list.spec.ts` |
-| 16.20 | /llms.txt floor, buyout, twelve numbered seats | `tests/slice-16-20-llms-numbered-seats.spec.ts` |
+| 16.19 | Press-kit fact sheet includes 1–11 | `tests/slice-16-19-press-kit-list.spec.ts` |
+| 16.20 | /llms.txt floor, buyout, eleven numbered seats | `tests/slice-16-20-llms-numbered-seats.spec.ts` |
 | 16.21 | Seat log shows panel number + amount + ET | `tests/slice-16-21-seat-log-number.spec.ts` |
 | 16.22 | Operator list columns include panel number | `tests/slice-16-22-operator-list-columns.spec.ts` |
 | 16.23 | CSV export includes panel number | `tests/slice-16-23-operator-csv-panel-number.spec.ts` |
-| 16.24 | Shop PDF title is Seat 03 — Driver door | `tests/slice-16-24-shop-pdf-title.spec.ts` |
-| 16.25 | Whole-truck intent copy lists 1–12 | `tests/slice-16-25-whole-truck-package.spec.ts` |
+| 16.24 | Shop PDF title is Seat 03 — Driver doors | `tests/slice-16-24-shop-pdf-title.spec.ts` |
+| 16.25 | Whole-truck intent copy lists 1–11 | `tests/slice-16-25-whole-truck-package.spec.ts` |
 | 16.26 | Failed-winner email subject includes panel number | `tests/slice-16-26-failed-winner-subject.spec.ts` |
 | 16.27 | Ban-list UI shows blocked panel numbers | `tests/slice-16-27-ban-list-panels.spec.ts` |
 | 16.28 | Card #3 and hero callout 3 go to driver-door | `tests/slice-16-28-card-callout-nav.spec.ts` |

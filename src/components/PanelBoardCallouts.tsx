@@ -7,7 +7,7 @@ import type { TruckViewId } from "@/lib/truck-views";
 
 /**
  * Slice 14.0 — numbered 1–12 callouts linking to `/panels/[id]`.
- * Hero shows all twelve; truck views show the angle’s subset.
+ * Hero layout covers all eleven; truck views show the angle’s subset.
  */
 export function PanelBoardCallouts({
   surface,
@@ -21,7 +21,7 @@ export function PanelBoardCallouts({
   const marks: readonly PanelBoardMark[] =
     surface === "hero"
       ? PANEL_BOARD_MARKS
-      : panelBoardMarksForView(view ?? "side");
+      : panelBoardMarksForView(view ?? "driver");
   const occupied = new Set(occupiedPanelIds);
 
   return (
@@ -41,7 +41,7 @@ export function PanelBoardCallouts({
     >
       {marks.map((mark) => {
         const pct =
-          surface === "hero" ? mark.hero : mark.views[view ?? "side"];
+          surface === "hero" ? mark.hero : mark.views[view ?? "driver"];
         if (!pct) return null;
         const mobile = surface === "hero" ? mark.heroMobile : undefined;
         const held = occupied.has(mark.panelId);

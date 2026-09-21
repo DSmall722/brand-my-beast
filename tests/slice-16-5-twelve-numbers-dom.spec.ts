@@ -12,11 +12,11 @@ import { PANEL_BOARD_MARKS } from "../src/lib/panel-board";
 import { vercelJsonIsHoldOrMainOnlyRestore } from "../src/lib/vercel-git-deploy";
 
 /**
- * Slice 16.5 — Playwright 1280px: all twelve hero numbers present in the DOM.
+ * Slice 16.5 — Playwright 1280px: all eleven hero numbers present in the DOM.
  * CLOSE_AT null. No Stripe. No SEATS_OPEN flip.
  */
 
-test.describe("slice 16.5: 1280px all twelve numbers in the DOM", () => {
+test.describe("slice 16.5: 1280px all eleven numbers in the DOM", () => {
   test.use({ viewport: { width: 1280, height: 900 } });
 
   test("campaign money fences stay locked — CLOSE_AT null", () => {
@@ -37,7 +37,7 @@ test.describe("slice 16.5: 1280px all twelve numbers in the DOM", () => {
     expect(vercelJsonIsHoldOrMainOnlyRestore()).toBe(true);
   });
 
-  test("legend has numbers 1–12; hero has no overlay", async ({ page }) => {
+  test("legend has numbers 1–11; hero has no overlay", async ({ page }) => {
     await page.goto("/");
     await expect(page.getByTestId("hero-panel-board")).toHaveCount(0);
     const legend = page.getByTestId("panel-number-legend");
@@ -51,7 +51,7 @@ test.describe("slice 16.5: 1280px all twelve numbers in the DOM", () => {
       await expect(item).toHaveText(new RegExp(`^${mark.n}\\b`));
     }
 
-    await expect(legend.locator("[data-panel-n]")).toHaveCount(12);
+    await expect(legend.locator("[data-panel-n]")).toHaveCount(11);
 
     const html = await page.content();
     expect(html.toLowerCase()).not.toMatch(/\blease\b/);

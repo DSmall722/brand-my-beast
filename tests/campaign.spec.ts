@@ -113,7 +113,7 @@ test.describe("P1 waitlist campaign locks", () => {
     await expect(page.getByTestId("open-seats-label")).toHaveText(
       PUBLIC_COPY.board.openSeatsLabel,
     );
-    await expect(page.getByTestId("open-seats")).toHaveText(`12 of ${PANELS.length}`);
+    await expect(page.getByTestId("open-seats")).toHaveText(`11 of ${PANELS.length}`);
     const shortfallTicker = page.getByTestId("shortfall-ticker");
     await expect(shortfallTicker).toHaveAttribute(
       "aria-label",
@@ -255,12 +255,12 @@ test.describe("P1 waitlist campaign locks", () => {
     );
   });
 
-  test("shows twelve panels with etch locked under buyout", async ({
+  test("shows eleven panels with etch locked under buyout", async ({
     page,
   }) => {
     await page.goto("/");
     const cards = page.getByTestId("panel-grid").locator("article");
-    await expect(cards).toHaveCount(12);
+    await expect(cards).toHaveCount(11);
 
     for (const panel of PANELS) {
       const card = page.getByTestId(`panel-${panel.id}`);

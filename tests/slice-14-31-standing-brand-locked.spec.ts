@@ -87,7 +87,7 @@ test.describe("slice 14.31: standing brand locked after approve", () => {
 
     // Pending edit still allowed before approve.
     const pending = await placeIntentBid({
-      panelId: "tonneau",
+      panelId: "rear-bumper",
       userId: "sb1431-pending",
       brandLabel: "Pending Brand",
       tradeLabel: "pending snacks",

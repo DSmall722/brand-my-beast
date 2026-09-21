@@ -23,7 +23,7 @@ test.describe("slice 7.8: robots + sitemap public surface only", () => {
     expect(BRAND.domain).toBe("brandmybeast.com");
     expect(formatUsd(FLOOR_USD)).toBe("$58,000");
     expect(formatUsd(GOAL_USD)).toBe("$120,000");
-    expect(PANELS).toHaveLength(12);
+    expect(PANELS).toHaveLength(11);
   });
 
   test("package.json has no stripe", () => {
@@ -58,7 +58,7 @@ test.describe("slice 7.8: robots + sitemap public surface only", () => {
     expect(body.toLowerCase()).not.toMatch(/\blease\b/);
   });
 
-  test("sitemap.xml lists home and twelve panels only", async ({
+  test("sitemap.xml lists home and eleven panels only", async ({
     request,
   }) => {
     const res = await request.get("/sitemap.xml");

@@ -16,7 +16,7 @@ import { PUBLIC_COPY } from "../src/lib/public-copy";
 import { vercelJsonIsHoldOrMainOnlyRestore } from "../src/lib/vercel-git-deploy";
 
 /**
- * Slice 20.3 — do not print twelve identical “Open.”
+ * Slice 20.3 — do not print eleven identical “Open.”
  * Open seat once. CLOSE_AT null. No Stripe. H1 unchanged.
  */
 
@@ -50,7 +50,7 @@ test.describe("slice 20.3: Open seat once, not a chorus", () => {
     expect(SEATS_OPEN).toBe(true);
   });
 
-  test("homepage prints Open seat once and not twelve Open.", async ({
+  test("homepage prints Open seat once and not eleven Open.", async ({
     page,
   }) => {
     await page.goto("/#panels");
@@ -60,7 +60,7 @@ test.describe("slice 20.3: Open seat once, not a chorus", () => {
     expect(await page.getByTestId("panel-open-seat-once").count()).toBe(1);
     const standing = await page.locator(".panel-standing").allInnerTexts();
     expect(standing.filter((line) => line.trim() === "Open.").length).toBe(0);
-    expect(PANELS.length).toBe(12);
+    expect(PANELS.length).toBe(11);
     await expect(page.locator("#hero-title")).toHaveText(LOCKED_H1);
     const html = await page.content();
     expect(html).toContain("$58,000");

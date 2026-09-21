@@ -23,7 +23,7 @@ set `CLOSE_AT`, do not wire Stripe, leave `vercel.json` hold-mode alone.
 | 13.14 withdraw leaves no ghost standing | `tests/slice-13-14-withdraw-ghost.spec.ts` |
 | 13.15 edit-pending increments revisions | `tests/slice-13-15-edit-pending-revision.spec.ts` |
 | 13.16 ban-list re-runs pending | `tests/slice-13-16-ban-list-rerun.spec.ts` |
-| 13.17 whole-truck reject rolls back twelve | `tests/slice-13-17-whole-truck-reject.spec.ts` |
+| 13.17 whole-truck reject rolls back eleven | `tests/slice-13-17-whole-truck-reject.spec.ts` |
 | 13.18 outbid email includes next minimum | `tests/slice-13-18-outbid-next-min.spec.ts` |
 | 13.19 concurrent brand approve race | `tests/slice-13-19-approve-race.spec.ts` |
 | 13.20 failed-winner accept leaves old winner outbid | `tests/slice-13-20-failed-winner-outbid.spec.ts` |

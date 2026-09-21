@@ -15,7 +15,7 @@ import {
 } from "@/lib/truck-views";
 
 /**
- * Side / front / rear toggles with stainless photo + numbered seats.
+ * Driver / passenger / front / rear toggles with stainless photo + seats.
  * Homepage board uses baked JPEG marks (`bakedMarks`). Seat pages keep
  * the overlay map for the open seat.
  */
@@ -33,7 +33,7 @@ export function TruckViewHotspots({
   /** Static stills with numbers painted in. No DOM / SVG overlays. */
   bakedMarks?: boolean;
 }) {
-  const [view, setView] = useState<TruckViewId>("side");
+  const [view, setView] = useState<TruckViewId>("driver");
   const occupied = new Set(occupiedPanelIds);
   const spots = bakedMarks ? [] : hotspotsForView(view);
 
@@ -109,7 +109,7 @@ export function TruckViewHotspots({
             data-testid="truck-view-svg"
             data-view={view}
           >
-            {view === "side" ? (
+            {view === "driver" || view === "passenger" ? (
               <>
                 <rect
                   className="truck-view-body"

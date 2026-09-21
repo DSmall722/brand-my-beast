@@ -47,8 +47,8 @@ test.describe("slice 16.29: card opening prices use formatUsd", () => {
     expect(src).not.toMatch(/\$\d/);
 
     const door = PANELS.find((panel) => panel.id === "driver-door");
-    expect(door?.openingUsd).toBe(1500);
-    expect(formatUsd(door!.openingUsd)).toBe("$1,500");
+    expect(door?.openingUsd).toBe(2500);
+    expect(formatUsd(door!.openingUsd)).toBe("$2,500");
     const hood = PANELS.find((panel) => panel.id === "hood");
     expect(hood?.openingUsd).toBe(2500);
     expect(formatUsd(hood!.openingUsd)).toBe("$2,500");
@@ -61,7 +61,7 @@ test.describe("slice 16.29: card opening prices use formatUsd", () => {
       await expect(card).toContainText(`Opens at ${formatUsd(panel.openingUsd)}`);
     }
     await expect(page.getByTestId("panel-driver-door")).toContainText(
-      "Opens at $1,500",
+      "Opens at $2,500",
     );
     await expect(page.getByTestId("panel-hood")).toContainText("Opens at $2,500");
     await expect(page.getByTestId("floor-amount")).toHaveText("$58,000");

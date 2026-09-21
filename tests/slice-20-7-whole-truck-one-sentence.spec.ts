@@ -22,7 +22,7 @@ import { vercelJsonIsHoldOrMainOnlyRestore } from "../src/lib/vercel-git-deploy"
 const ROOT = process.cwd();
 const LOCKED_H1 = "Put your brand on the truck people already photograph.";
 const ONE_SENTENCE =
-  "One brand on every panel and Immortal Etch on eight steel faces. Standing panel winners released. Nothing is charged on this page.";
+  "One brand on every panel and Immortal Etch on nine steel faces. Standing panel winners released. Nothing is charged on this page.";
 
 test.describe("slice 20.7: whole-truck lead is one sentence", () => {
   test("campaign money fences stay locked — CLOSE_AT null", () => {

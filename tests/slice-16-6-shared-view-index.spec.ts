@@ -50,8 +50,8 @@ test.describe("slice 16.6: views share the hero index", () => {
         expect(mark.n).toBe(heroN.get(mark.panelId));
       }
     }
-    const side = panelBoardMarksForView("side");
-    expect(side.some((mark, index) => mark.n !== index + 1)).toBe(true);
+    const driver = panelBoardMarksForView("driver");
+    expect(driver.some((mark, index) => mark.n !== index + 1)).toBe(true);
   });
 
   test("homepage board is static; cards and legend keep the hero index", async ({

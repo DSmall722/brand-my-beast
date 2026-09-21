@@ -43,7 +43,7 @@ test.describe("slice 16.39: callout contrast on stainless", () => {
     await page.goto("/panels/hood");
     const sample = await page.evaluate(() => {
       const callout = document.querySelector(
-        '[data-testid="view-panel-board-side-3"]',
+        '[data-testid="view-panel-board-driver-3"]',
       );
       const img = document.querySelector(".truck-view-photo");
       if (!(callout instanceof HTMLElement) || !(img instanceof HTMLImageElement)) {

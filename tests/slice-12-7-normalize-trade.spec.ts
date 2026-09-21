@@ -87,7 +87,7 @@ test.describe("slice 12.7: normalize trade before exclusivity", () => {
     if (!holder.ok) return;
 
     const spaced = await placeIntentBid({
-      panelId: "tonneau",
+      panelId: "rear-bumper",
       userId: "user_12_7_space",
       brandLabel: "Space Co",
       tradeLabel: "  trail   snacks  ",
@@ -109,7 +109,7 @@ test.describe("slice 12.7: normalize trade before exclusivity", () => {
     expect(cased.error).toMatch(/one brand per trade/i);
 
     const other = await placeIntentBid({
-      panelId: "tonneau",
+      panelId: "rear-bumper",
       userId: "user_12_7_other",
       brandLabel: "Other Co",
       tradeLabel: "trail tools",

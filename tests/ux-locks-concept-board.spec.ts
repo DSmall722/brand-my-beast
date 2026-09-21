@@ -58,17 +58,19 @@ test.describe("UX locks: concept lead, baked board, etch, CTA, wrap blend", () =
       "data-baked-marks",
       "true",
     );
-    await expect(page.getByTestId("view-panel-board-side")).toHaveCount(0);
+    await expect(page.getByTestId("view-panel-board-driver")).toHaveCount(0);
     await expect(page.getByTestId("truck-view-svg")).toHaveCount(0);
     await expect(page.getByTestId("truck-seat-hood")).toHaveCount(0);
-    await expect(page.getByTestId("truck-img-board-side")).toBeVisible();
+    await expect(page.getByTestId("truck-img-board-driver")).toBeVisible();
+    await page.getByTestId("truck-view-passenger").click();
+    await expect(page.getByTestId("truck-img-board-passenger")).toBeVisible();
     await page.getByTestId("truck-view-front").click();
     await expect(page.getByTestId("truck-img-board-front")).toBeVisible();
     await page.getByTestId("truck-view-rear").click();
     await expect(page.getByTestId("truck-img-board-rear")).toBeVisible();
 
     await expect(page.getByTestId("panel-grid").locator("article")).toHaveCount(
-      12,
+      11,
     );
     const etchable = PANELS.find((panel) => isEtchable(panel));
     expect(etchable).toBeTruthy();

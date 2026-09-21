@@ -1,6 +1,6 @@
 # Wave 12 — money-ready without charging
 
-Maps SLICES **12.1–12.50**. Intent ledger + operator/docs hardening before
+Maps SLICES **12.1–11.50**. Intent ledger + operator/docs hardening before
 P3. No Stripe. No `CLOSE_AT`. No personal identity strings.
 
 ## Slices

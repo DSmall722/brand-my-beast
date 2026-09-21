@@ -16,7 +16,7 @@ Do not paste this list onto the public homepage. CAMPAIGN.md wins on money and i
 - Never invent impression counts or CPMs.
 - Immortal = etch. Not permanent vinyl.
 - Work circuit, not victory lap.
-- Twelve panels. Immortal on eight steel faces, only if $120,000 hits.
+- Eleven panels. Immortal on nine steel faces, only if $120,000 hits.
 - Not a 48-state Supercharger streak.
 
 ## Priority
@@ -90,6 +90,6 @@ Floor **$58,000**. Buyout **$120,000**. `CLOSE_AT` null. No Stripe without a hum
 49 P5 Season 2 board. — **Catalog**
 50 P5 Rain/night lighting after $120k. — **Catalog**
 
-Numbered stainless board (hero 1–12 callouts): **shipped (14.0 / 16.x)**.
+Numbered stainless board (hero 1–11 callouts): **shipped (14.0 / 16.x)**.
 
 Do not build a fake impression dashboard. Do not add a 48-state streak.

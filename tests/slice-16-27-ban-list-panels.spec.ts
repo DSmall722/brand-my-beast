@@ -65,20 +65,20 @@ test.describe("slice 16.27: ban-list last run shows panel numbers", () => {
 
   test("sweep records the board numbers, not only slugs", async () => {
     const door = panelBoardMarkFor("driver-door");
-    const cover = panelBoardMarkFor("tonneau");
+    const cover = panelBoardMarkFor("rear-bumper");
     expect(door.n).toBe(3);
-    expect(cover.n).toBe(10);
+    expect(cover.n).toBe(11);
 
     const first = await placeIntentBid({
       panelId: "driver-door",
       userId: "ban1627-door",
       brandLabel: "Glowban Door",
       tradeLabel: "door kits",
-      standingUsd: 1600,
+      standingUsd: 2500,
     });
     expect(first.ok).toBe(true);
     const second = await placeIntentBid({
-      panelId: "tonneau",
+      panelId: "rear-bumper",
       userId: "ban1627-cover",
       brandLabel: "Glowban Cover",
       tradeLabel: "cover kits",
@@ -91,21 +91,21 @@ test.describe("slice 16.27: ban-list last run shows panel numbers", () => {
     if (!added.ok) return;
 
     const sweep = await rejectListedMatchingBanRule(added.rule);
-    expect(sweep.blockedPanelIds.sort()).toEqual(["driver-door", "tonneau"]);
+    expect(sweep.blockedPanelIds.sort()).toEqual(["driver-door", "rear-bumper"]);
     expect(sweep.rejectedIds).toHaveLength(2);
-    expect(panelLegendLabel(door)).toBe("3 Driver door");
-    expect(panelLegendLabel(cover)).toBe("10 Tonneau");
+    expect(panelLegendLabel(door)).toBe("3 Driver doors");
+    expect(panelLegendLabel(cover)).toBe("11 Rear bumper");
   });
 
   test("operator UI lists the blocked panel numbers", async ({ page }) => {
     const door = panelLegendLabel(panelBoardMarkFor("driver-door"));
-    const cover = panelLegendLabel(panelBoardMarkFor("tonneau"));
+    const cover = panelLegendLabel(panelBoardMarkFor("rear-bumper"));
 
     await signIn(page, "bidder1627a@example.com");
     await page.goto("/panels/driver-door");
     await page.getByTestId("intent-brand").fill("Glowban Door");
     await page.getByTestId("intent-trade").fill("door kits");
-    await page.getByTestId("intent-standing").fill("1600");
+    await page.getByTestId("intent-standing").fill("2500");
     await page.getByTestId("intent-submit").click();
     await expect(page.getByTestId("intent-success")).toContainText(
       "not charged",
@@ -113,7 +113,7 @@ test.describe("slice 16.27: ban-list last run shows panel numbers", () => {
     );
 
     await signIn(page, "bidder1627b@example.com");
-    await page.goto("/panels/tonneau");
+    await page.goto("/panels/rear-bumper");
     await page.getByTestId("intent-brand").fill("Glowban Cover");
     await page.getByTestId("intent-trade").fill("cover kits");
     await page.getByTestId("intent-standing").fill("900");
@@ -139,7 +139,7 @@ test.describe("slice 16.27: ban-list last run shows panel numbers", () => {
     await expect(lastRun).toContainText(cover);
     await expect(lastRun).toContainText("Last run blocked");
     await expect(lastRun).not.toContainText("driver-door");
-    await expect(lastRun).not.toContainText("tonneau");
+    await expect(lastRun).not.toContainText("rear-bumper");
 
     await page.reload();
     const stored = page.getByTestId("ban-last-run-stored");

@@ -4,7 +4,7 @@ Slice **13.29**. Markdown template for the etch record. **Not issued.**
 No PDF, no wet-ink, no e-sign on this path.
 
 Money fences: floor **$58,000** (order + wrap reserve). Buyout **$120,000**
-(etch unlock on eight steel faces). `CLOSE_AT` unset. No Stripe. No lease.
+(etch unlock on nine steel faces). `CLOSE_AT` unset. No Stripe. No lease.
 Public mail: **hello@brandmybeast.com**.
 
 ## Issued date
@@ -20,7 +20,7 @@ this stays a blank template.
 ## What this certificate records (after etch install)
 
 - Brand / mark on the panel (human paste after install): _______________
-- Panel (one of eight steel faces): _______________
+- Panel (one of nine steel faces): _______________
 - Physical fragment retained: yes / no (operator check)
 - Vault certificate id (assigned only after etch exists): _______________
 

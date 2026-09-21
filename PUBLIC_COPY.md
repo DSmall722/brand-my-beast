@@ -8,7 +8,7 @@ Locked: 2026-09-14 — desire first, then the deal, then the catch.
 ## Meta
 
 - Title: `BrandMyBeast — Put your brand on the truck people already photograph.`
-- Description: `Twelve companies. One Cyberbeast. Join the list. Hit $58,000 and the truck is ordered and wrapped for a year. Miss it and nobody pays.`
+- Description: `Eleven companies. One Cyberbeast. Join the list. Hit $58,000 and the truck is ordered and wrapped for a year. Miss it and nobody pays.`
 
 ## Header
 
@@ -20,7 +20,7 @@ Locked: 2026-09-14 — desire first, then the deal, then the catch.
 - H1: `Put your brand on the truck people already photograph.`
 - Lead: `Concept preview`
 - Primary CTA: `Get on the list`
-- Secondary CTA: `See the twelve panels`
+- Secondary CTA: `See the eleven panels`
 - Hero image label (alt): `Concept preview — BrandMyBeast house wrap. Seats are not sold yet.`
 - Hero caption: `Concept preview — BrandMyBeast house wrap. Seats are not sold yet. Numbers live on the board below.`
 
@@ -45,7 +45,7 @@ Locked: 2026-09-14 — desire first, then the deal, then the catch.
 - Seat legend: `Open seat = empty. Held seat = standing intent.`
 - Board truck image label (alt): `Stainless Cyberbeast preview. Numbers live on the board.`
 - Whole-truck heading: `Whole truck — $120,000`
-- Whole-truck lead: `One brand on every panel and Immortal Etch on eight steel faces. Standing panel winners released. Nothing is charged on this page.`
+- Whole-truck lead: `One brand on every panel and Immortal Etch on nine steel faces. Standing panel winners released. Nothing is charged on this page.`
 - Whole-truck amount label: `Buyout mark`
 - Whole-truck CTA: `List a whole-truck intent`
 - Whole-truck sign-in: `Sign in to list a whole-truck intent`
@@ -57,11 +57,11 @@ Locked: 2026-09-14 — desire first, then the deal, then the catch.
 - Body: `Name your trade in one line. If another brand already holds that trade, you bid against them on the same panel — you do not open a second seat.`
 - Form hint: `One brand per trade. Challengers fight the same panel only.`
 
-## Twelve panels
+## Eleven panels
 
-- Heading: `The twelve panels`
+- Heading: `The eleven panels`
 - Lead (three stacked lines):
-  1. `Twelve seats. Opening prices below.`
+  1. `Eleven seats. Opening prices below.`
   2. `Wrap is vinyl for twelve months, then it comes off.`
   3. `Immortal Etch at $120k means that steel can take a permanent cut once the campaign owns the truck.`
 - Badge etch: `Immortal Etch locked until $120k`
@@ -69,9 +69,11 @@ Locked: 2026-09-14 — desire first, then the deal, then the catch.
 - Standing open: `Open seat`
 
 Keep panel names. Optional short gloss on the card, not a rename:
-- Tonneau — bed cover
-- Front fascia — front bumper
-- Rear fascia — rear bumper
+- Front fascia — stainless steel face
+- Driver doors — front + rear cab door
+- Passenger doors — front + rear cab door
+- Front bumper — wrap-only; leave camera lens/washer clear
+- Rear bumper — wrap-only
 
 ## How it works
 
@@ -81,12 +83,12 @@ Keep panel names. Optional short gloss on the card, not a rename:
 - 02 title: `$58,000 or the money comes back`
 - 02 body: `Reach $58,000 and the Cyberbeast is ordered and winners are wrapped for twelve months. Miss it and every bid is released.`
 - 03 title: `$120,000 — whole truck + Immortal Etch`
-- 03 body: `At $120,000 you get every panel and the campaign owns the truck. Eight steel faces can be immortally etched with your brand logo. Vinyl lasts a year. Immortal Etch is forever.`
+- 03 body: `At $120,000 you get every panel and the campaign owns the truck. Nine steel faces can be immortally etched with your brand logo. Vinyl lasts a year. Immortal Etch is forever.`
 
 ## Immortal Etch
 
 - Heading: `Immortal Etch` — Syne display (`.immortal-etch` → `--font-display`).
-- Body: `Wrap is a year of film. Immortal Etch is cut into the steel. It does not peel with the wrap. Eight steel faces. Unlocks with the $120,000 whole-truck package — when the campaign owns the truck.`
+- Body: `Wrap is a year of film. Immortal Etch is cut into the steel. It does not peel with the wrap. Nine steel faces. Unlocks with the $120,000 whole-truck package — when the campaign owns the truck.`
 - Why buyout: `Immortal Etch ships with the $120,000 whole-truck package.`
 - Cost: `After Immortal Etch is installed there is no cash refund of that finish.`
 - Art: `One color, thick strokes, no gradients, no tiny type. If it cannot be cut, it does not ship.`
@@ -108,7 +110,7 @@ Money facts from CAMPAIGN.md only. Plain English. Not a full contract.
 - Q: `Is there a truck yet?` A: `Not yet. The photo is a preview. The Cyberbeast is ordered only if the auction clears $58,000.`
 - Q: `What am I buying?` A: `A year of your brand on one panel. Not a share of the title.`
 - Q: `What if two of us sell the same thing?` A: `You bid against each other for that panel.`
-- Q: `What is Immortal Etch?` A: `Cut into the stainless — not vinyl. Eight steel panels. Vinyl lasts a year. Immortal Etch is forever.`
+- Q: `What is Immortal Etch?` A: `Cut into the stainless — not vinyl. Nine steel panels. Vinyl lasts a year. Immortal Etch is forever.`
 - Q: `Why is Immortal Etch locked until $120,000?` A: `Immortal Etch ships with the whole-truck buyout. At $58,000 the campaign can order the truck and fund wrap. The permanent cut waits until $120,000, when the campaign owns the truck and the whole-truck + Immortal Etch package is met. Panel bids stay the seat price.`
 - Q: `When does bidding start?` A: `When seats open. There is no date on this page yet.`
 - Q: `Will I be charged if I join the list?` A: `No. The waitlist is an email.`

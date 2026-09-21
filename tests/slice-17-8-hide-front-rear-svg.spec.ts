@@ -17,7 +17,7 @@ import { vercelJsonIsHoldOrMainOnlyRestore } from "../src/lib/vercel-git-deploy"
  * Each view uses its own stainless still. CLOSE_AT null. No Stripe.
  */
 
-const SIDE = "/truck-view-side.jpg";
+const DRIVER = "/truck-view-driver.jpg";
 const FRONT = "/truck-view-front.jpg";
 const REAR = "/truck-view-rear.jpg";
 const COMPONENT = join(process.cwd(), "src/components/TruckViewHotspots.tsx");
@@ -44,7 +44,7 @@ test.describe("slice 17.8: front and rear hide the side schematic", () => {
   test("component uses a dedicated still per view", () => {
     const src = readFileSync(COMPONENT, "utf8");
     expect(src).toContain("truckViewStillSrc");
-    expect(src).toContain('view === "side"');
+    expect(src).toContain('view === "driver"');
   });
 
   test("front and rear drop the side body; each view has its still", async ({
@@ -52,7 +52,7 @@ test.describe("slice 17.8: front and rear hide the side schematic", () => {
   }) => {
     await page.goto("/");
     const photo = page.locator(".truck-view-photo");
-    await expect(photo).toHaveAttribute("src", SIDE);
+    await expect(photo).toHaveAttribute("src", DRIVER);
     await expect(page.getByTestId("truck-view-seats")).toHaveAttribute(
       "data-baked-marks",
       "true",

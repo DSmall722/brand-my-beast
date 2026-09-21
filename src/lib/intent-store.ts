@@ -523,7 +523,7 @@ const HOLDING_STATUSES: readonly IntentBidStatus[] = ["listed", "approved"] as c
 
 /** Slice 13.32 — single-panel path cannot cover every seat. */
 export const ALL_PANELS_STANDING_ERROR =
-  "Same user cannot hold standing on all 12 panels unless the whole-truck path.";
+  "Same user cannot hold standing on all 11 panels unless the whole-truck path.";
 
 /**
  * Slice 14.29 — pending whole-truck listed set covers the seat.
@@ -548,8 +548,8 @@ export function distinctHoldingPanelIdsForUser(
 }
 
 /**
- * Slice 13.32 — whole-truck path = $10k marks on every panel for same
- * user/brand/trade (listed or approved).
+ * Slice 13.32 — whole-truck path = integer-split marks on every panel
+ * for same user/brand/trade (listed or approved). 11 seats sum to $120,000.
  */
 export function isWholeTruckPathCoverage(
   bids: readonly IntentBid[],
@@ -558,7 +558,7 @@ export function isWholeTruckPathCoverage(
     "userId" | "brandLabel" | "tradeLabel" | "standingUsd"
   >,
 ): boolean {
-  if (bid.standingUsd !== WHOLE_TRUCK_PANEL_USD) return false;
+  if (!isWholeTruckStandingUsd(bid.standingUsd)) return false;
   const tradeKey = normalizeTradeLabel(bid.tradeLabel);
   for (const panel of PANELS) {
     const match = bids.find(
@@ -567,7 +567,7 @@ export function isWholeTruckPathCoverage(
         row.userId === bid.userId &&
         row.brandLabel === bid.brandLabel &&
         normalizeTradeLabel(row.tradeLabel) === tradeKey &&
-        row.standingUsd === WHOLE_TRUCK_PANEL_USD &&
+        row.standingUsd === wholeTruckStandingUsdFor(panel.id) &&
         (row.status === "listed" || row.status === "approved"),
     );
     if (!match) return false;
@@ -576,8 +576,8 @@ export function isWholeTruckPathCoverage(
 }
 
 /**
- * Slice 14.29 — pending whole-truck = $10k listed on every panel for same
- * user/brand/trade. Approved counts as decided, so it does not block.
+ * Slice 14.29 — pending whole-truck = integer-split listed on every panel
+ * for same user/brand/trade. Approved counts as decided, so it does not block.
  */
 export function isPendingWholeTruckCoverage(
   bids: readonly IntentBid[],
@@ -586,7 +586,7 @@ export function isPendingWholeTruckCoverage(
     "userId" | "brandLabel" | "tradeLabel" | "standingUsd"
   >,
 ): boolean {
-  if (bid.standingUsd !== WHOLE_TRUCK_PANEL_USD) return false;
+  if (!isWholeTruckStandingUsd(bid.standingUsd)) return false;
   const tradeKey = normalizeTradeLabel(bid.tradeLabel);
   for (const panel of PANELS) {
     const match = bids.find(
@@ -595,7 +595,7 @@ export function isPendingWholeTruckCoverage(
         row.userId === bid.userId &&
         row.brandLabel === bid.brandLabel &&
         normalizeTradeLabel(row.tradeLabel) === tradeKey &&
-        row.standingUsd === WHOLE_TRUCK_PANEL_USD &&
+        row.standingUsd === wholeTruckStandingUsdFor(panel.id) &&
         row.status === "listed",
     );
     if (!match) return false;
@@ -612,7 +612,7 @@ export function panelBlockedByPendingWholeTruck(
     (row) =>
       row.panelId === panelId &&
       row.status === "listed" &&
-      row.standingUsd === WHOLE_TRUCK_PANEL_USD,
+      isWholeTruckStandingUsd(row.standingUsd),
   );
   for (const bid of onPanel) {
     if (isPendingWholeTruckCoverage(holders, bid)) return true;
@@ -801,7 +801,7 @@ export async function placeIntentBid(
     return { ok: false, error: WHOLE_TRUCK_PENDING_ERROR };
   }
 
-  // Slice 13.32 — single-panel path cannot cover all twelve seats.
+  // Slice 13.32 — single-panel path cannot cover all eleven seats.
   const allPanelsGate = assertMayAddHoldingPanel({
     holders,
     userId: input.userId,
@@ -1189,7 +1189,7 @@ export async function setIntentStatus(
   status: Extract<IntentBidStatus, "approved" | "rejected" | "withdrawn">,
   opts?: { note?: string; expectedUpdatedAt?: string },
 ): Promise<PlaceIntentResult> {
-  // Slice 13.17 — whole-truck reject rolls back all twelve rows together.
+  // Slice 13.17 — whole-truck reject rolls back all eleven rows together.
   if (status === "rejected") {
     const siblings = await listWholeTruckSiblingBids(bidId);
     if (siblings) {
@@ -1808,8 +1808,35 @@ export async function resetIntentStoreForTests(): Promise<void> {
   await db.delete(intentBids);
 }
 
-/** Per-panel standing so twelve seats sum to GOAL_USD ($10,000 × 12). */
-export const WHOLE_TRUCK_PANEL_USD = GOAL_USD / PANELS.length;
+/**
+ * Per-panel standing so eleven seats sum to GOAL_USD.
+ * 10 × $10,909 + 1 × $10,910 = $120,000. Last seat (rear bumper) takes the remainder.
+ */
+export const WHOLE_TRUCK_PANEL_USD = 10_909;
+export const WHOLE_TRUCK_LAST_PANEL_USD = 10_910;
+
+export function wholeTruckStandingUsdFor(panelId: string): number {
+  const index = PANELS.findIndex((panel) => panel.id === panelId);
+  if (index < 0) {
+    throw new Error(`Unknown panel: ${panelId}`);
+  }
+  return index === PANELS.length - 1
+    ? WHOLE_TRUCK_LAST_PANEL_USD
+    : WHOLE_TRUCK_PANEL_USD;
+}
+
+export function isWholeTruckStandingUsd(amount: number): boolean {
+  return (
+    amount === WHOLE_TRUCK_PANEL_USD || amount === WHOLE_TRUCK_LAST_PANEL_USD
+  );
+}
+
+export function wholeTruckStandingSum(): number {
+  return PANELS.reduce(
+    (sum, panel) => sum + wholeTruckStandingUsdFor(panel.id),
+    0,
+  );
+}
 
 export type PlaceWholeTruckInput = {
   userId: UserId;
@@ -1829,7 +1856,7 @@ export function isWholeTruckIntentOpen(pledgedUsd: number): boolean {
 
 /**
  * Slice 4.5 / 12.29 — whole-truck $120,000 intent.
- * Lists the same brand on all twelve seats at $10,000 each (intent only —
+ * Lists the same brand on all eleven seats at the integer split (intent only —
  * not charged). Releases listed (pending) marks so the field can clear.
  * Rejects when any panel already has approved standing (12.29 — no stack).
  * Rejects when public pledged standing is already at buyout (9.5).
@@ -1837,7 +1864,7 @@ export function isWholeTruckIntentOpen(pledgedUsd: number): boolean {
 export async function placeWholeTruckIntent(
   input: PlaceWholeTruckInput,
 ): Promise<PlaceWholeTruckResult> {
-  if (WHOLE_TRUCK_PANEL_USD * PANELS.length !== GOAL_USD) {
+  if (wholeTruckStandingSum() !== GOAL_USD) {
     return { ok: false, error: "Whole-truck panel split must equal buyout." };
   }
 
@@ -1898,7 +1925,7 @@ export async function placeWholeTruckIntent(
         userId: input.userId,
         brandLabel,
         tradeLabel,
-        standingUsd: WHOLE_TRUCK_PANEL_USD,
+        standingUsd: wholeTruckStandingUsdFor(panel.id),
         artworkUrl: input.artworkUrl,
       },
       { wholeTruckPath: true },
@@ -1913,15 +1940,15 @@ export async function placeWholeTruckIntent(
 }
 
 /**
- * Slice 13.17 — detect a whole-truck set: same user/brand/trade at
- * WHOLE_TRUCK_PANEL_USD on all twelve panels (listed).
+ * Slice 13.17 — detect a whole-truck set: same user/brand/trade at the
+ * integer-split standing on all eleven panels (listed).
  */
 export async function listWholeTruckSiblingBids(
   bidId: string,
 ): Promise<IntentBid[] | null> {
   const bid = await getIntentBidById(bidId);
   if (!bid) return null;
-  if (bid.standingUsd !== WHOLE_TRUCK_PANEL_USD) return null;
+  if (!isWholeTruckStandingUsd(bid.standingUsd)) return null;
   if (bid.status !== "listed" && bid.status !== "rejected") return null;
 
   const tradeKey = normalizeTradeLabel(bid.tradeLabel);
@@ -1933,7 +1960,7 @@ export async function listWholeTruckSiblingBids(
         row.userId === bid.userId &&
         row.brandLabel === bid.brandLabel &&
         normalizeTradeLabel(row.tradeLabel) === tradeKey &&
-        row.standingUsd === WHOLE_TRUCK_PANEL_USD &&
+        row.standingUsd === wholeTruckStandingUsdFor(panel.id) &&
         (row.status === "listed" || row.id === bid.id),
     );
     if (!match) return null;
@@ -1943,7 +1970,7 @@ export async function listWholeTruckSiblingBids(
 }
 
 /**
- * Slice 13.17 — reject whole-truck rolls back all twelve rows in one
+ * Slice 13.17 — reject whole-truck rolls back all eleven rows in one
  * transaction. Still intent only — no card. Campaign clock stays unset.
  */
 export async function rejectWholeTruckIntent(input: {
@@ -2038,7 +2065,7 @@ export async function rejectWholeTruckIntent(input: {
     if (!row) {
       return {
         ok: false,
-        error: "Whole-truck reject could not update all twelve rows.",
+        error: "Whole-truck reject could not update all eleven rows.",
       };
     }
     rejected.push(rowToBid(row));
@@ -2046,7 +2073,7 @@ export async function rejectWholeTruckIntent(input: {
   if (rejected.length !== PANELS.length) {
     return {
       ok: false,
-      error: "Whole-truck reject could not update all twelve rows.",
+      error: "Whole-truck reject could not update all eleven rows.",
     };
   }
   for (const bid of rejected) {

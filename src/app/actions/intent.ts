@@ -219,7 +219,7 @@ export async function decideIntentBid(
     ok: true,
     message:
       wholeTruckSiblings != null
-        ? `Whole-truck bid ${decision} (12 panels).`
+        ? `Whole-truck bid ${decision} (11 panels).`
         : `Bid ${decision}.`,
   };
 }

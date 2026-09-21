@@ -16,7 +16,7 @@ import { vercelJsonIsHoldOrMainOnlyRestore } from "../src/lib/vercel-git-deploy"
 
 /**
  * Slice 19.7 — hide giant gray polygons on the board-truck overlay.
- * Numbered callouts 1–12 stay.
+ * Numbered callouts 1–11 stay.
  */
 
 const ROOT = process.cwd();
@@ -49,7 +49,7 @@ test.describe("slice 19.7: hide board-truck seat polygons", () => {
     expect(SEATS_OPEN).toBe(true);
   });
 
-  test("seat overlay hides polygons; homepage keeps callouts 1–12", async ({
+  test("seat overlay hides polygons; homepage keeps callouts 1–11", async ({
     page,
   }) => {
     await page.goto("/panels/hood");
@@ -61,7 +61,7 @@ test.describe("slice 19.7: hide board-truck seat polygons", () => {
 
     await page.goto("/");
     await expect(page.getByTestId("hero-panel-board")).toHaveCount(0);
-    for (let n = 1; n <= 12; n += 1) {
+    for (let n = 1; n <= 11; n += 1) {
       await expect(page.getByTestId(`panel-legend-${n}`)).toBeVisible();
       await expect(page.getByTestId(`panel-legend-${n}`)).toHaveText(
         new RegExp(`^${n}\\b`),

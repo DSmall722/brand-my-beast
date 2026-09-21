@@ -13,6 +13,8 @@ import {
 import {
   ALL_PANELS_STANDING_ERROR,
   WHOLE_TRUCK_PANEL_USD,
+  isWholeTruckStandingUsd,
+  wholeTruckStandingSum,
   getIntentBidById,
   placeIntentBid,
   placeWholeTruckIntent,
@@ -21,7 +23,7 @@ import {
 } from "../src/lib/intent-store";
 
 /**
- * Slice 13.32 — same user cannot hold standing on all 12 panels unless
+ * Slice 13.32 — same user cannot hold standing on all 11 panels unless
  * whole-truck path. CLOSE_AT null. No Stripe. Hold-mode untouched.
  */
 
@@ -41,8 +43,8 @@ test.describe("slice 13.32: all-panels standing needs whole-truck", () => {
     expect(CLOSE_AT).toBeNull();
     expect(BRAND.name).toBe("BrandMyBeast");
     expect(formatUsd(FLOOR_USD)).toBe("$58,000");
-    expect(PANELS).toHaveLength(12);
-    expect(WHOLE_TRUCK_PANEL_USD * PANELS.length).toBe(GOAL_USD);
+    expect(PANELS).toHaveLength(11);
+    expect(wholeTruckStandingSum()).toBe(GOAL_USD);
   });
 
   test("package.json has no stripe", () => {
@@ -65,10 +67,10 @@ test.describe("slice 13.32: all-panels standing needs whole-truck", () => {
     expect(vercelJsonIsHoldOrMainOnlyRestore()).toBe(true);
   });
 
-  test("single-panel path cannot list the 12th holding seat", async () => {
+  test("single-panel path cannot list the 11th holding seat", async () => {
     const userId = "all12-place-user";
-    const firstEleven = PANELS.slice(0, 11);
-    for (const panel of firstEleven) {
+    const firstTen = PANELS.slice(0, 10);
+    for (const panel of firstTen) {
       const placed = await placeIntentBid({
         panelId: panel.id,
         userId,
@@ -80,22 +82,22 @@ test.describe("slice 13.32: all-panels standing needs whole-truck", () => {
       if (!placed.ok) return;
     }
 
-    const twelfth = PANELS[11];
-    expect(twelfth).toBeTruthy();
-    if (!twelfth) return;
+    const eleventh = PANELS[10];
+    expect(eleventh).toBeTruthy();
+    if (!eleventh) return;
     const blocked = await placeIntentBid({
-      panelId: twelfth.id,
+      panelId: eleventh.id,
       userId,
       brandLabel: "Scatter Co",
       tradeLabel: "scatter tools",
-      standingUsd: twelfth.openingUsd,
+      standingUsd: eleventh.openingUsd,
     });
     expect(blocked.ok).toBe(false);
     if (blocked.ok) return;
     expect(blocked.error).toBe(ALL_PANELS_STANDING_ERROR);
   });
 
-  test("whole-truck path may list all twelve", async () => {
+  test("whole-truck path may list all eleven", async () => {
     const whole = await placeWholeTruckIntent({
       userId: "all12-wt-user",
       brandLabel: "Fleet Cover Co",
@@ -103,16 +105,16 @@ test.describe("slice 13.32: all-panels standing needs whole-truck", () => {
     });
     expect(whole.ok).toBe(true);
     if (!whole.ok) return;
-    expect(whole.bids).toHaveLength(12);
+    expect(whole.bids).toHaveLength(11);
     expect(whole.bids.every((bid) => bid.status === "listed")).toBe(true);
     expect(
-      whole.bids.every((bid) => bid.standingUsd === WHOLE_TRUCK_PANEL_USD),
+      whole.bids.every((bid) => isWholeTruckStandingUsd(bid.standingUsd)),
     ).toBe(true);
   });
 
-  test("approve of 12th single-panel seat is rejected; whole-truck ok", async () => {
+  test("approve of 11th single-panel seat is rejected; whole-truck ok", async () => {
     // Bypass place-gate with wholeTruckPath so we can prove the approve gate:
-    // twelve opening-mark seats are not whole-truck coverage.
+    // eleven opening-mark seats are not whole-truck coverage.
     const rejectUser = "all12-approve-reject";
     const listedIds: string[] = [];
     for (const panel of PANELS) {
@@ -131,19 +133,19 @@ test.describe("slice 13.32: all-panels standing needs whole-truck", () => {
       listedIds.push(placed.bid.id);
     }
 
-    for (const id of listedIds.slice(0, 11)) {
+    for (const id of listedIds.slice(0, 10)) {
       expect((await setIntentStatus(id, "approved")).ok).toBe(true);
     }
-    const twelfthId = listedIds[11];
-    expect(twelfthId).toBeTruthy();
-    if (!twelfthId) return;
-    const blockedApprove = await setIntentStatus(twelfthId, "approved");
+    const eleventhId = listedIds[10];
+    expect(eleventhId).toBeTruthy();
+    if (!eleventhId) return;
+    const blockedApprove = await setIntentStatus(eleventhId, "approved");
     expect(blockedApprove.ok).toBe(false);
     if (blockedApprove.ok) return;
     expect(blockedApprove.error).toBe(ALL_PANELS_STANDING_ERROR);
-    expect((await getIntentBidById(twelfthId))?.status).toBe("listed");
+    expect((await getIntentBidById(eleventhId))?.status).toBe("listed");
 
-    // Whole-truck: all twelve at buyout split may approve through 12.
+    // Whole-truck: all eleven at buyout split may approve through 11.
     await resetIntentStoreForTests();
     const whole = await placeWholeTruckIntent({
       userId: "all12-wt-approve",

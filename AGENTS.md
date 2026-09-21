@@ -33,7 +33,7 @@ Allowed public strings: BrandMyBeast, @BrandMyBeast, hello@brandmybeast.com, bra
 - Goal / buyout **$120,000** — whole-truck + Immortal Etch package. Campaign buys the truck. Etch is in the package, not a side effect.
 - $58,000–$119,999 — ordered + wrapped. No Immortal Etch.
 - Deposit **20%** to list.
-- Twelve panels. Eight etchable **only at $120,000**.
+- Eleven panels. Nine etchable **only at $120,000**.
 
 ## Product that is not up for debate in a drive-by PR
 

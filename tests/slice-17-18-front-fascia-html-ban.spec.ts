@@ -14,7 +14,7 @@ import { vercelJsonIsHoldOrMainOnlyRestore } from "../src/lib/vercel-git-deploy"
 
 /**
  * Slice 17.18 — /panels/front-fascia HTML drops prototype jargon.
- * Opening stays $1,200. Deposit stays 20% of opening, not charged.
+ * Opening stays $2,000. Deposit stays 20% of opening, not charged.
  * CLOSE_AT null. No Stripe package.
  */
 
@@ -37,7 +37,7 @@ test.describe("slice 17.18: front fascia HTML drops prototype jargon", () => {
     expect(formatUsd(FLOOR_USD)).toBe("$58,000");
     expect(formatUsd(GOAL_USD)).toBe("$120,000");
     expect(DEPOSIT_PERCENT).toBe(20);
-    expect(formatUsd(depositUsdForMark(1_200))).toBe("$240");
+    expect(formatUsd(depositUsdForMark(2_000))).toBe("$400");
   });
 
   test("package.json has no stripe", () => {
@@ -60,13 +60,13 @@ test.describe("slice 17.18: front fascia HTML drops prototype jargon", () => {
       .getByTestId("panel-stats")
       .getAttribute("data-seat-open");
     if (open === "true") {
-      await expect(deposit).toContainText(formatUsd(depositUsdForMark(1_200)));
+      await expect(deposit).toContainText(formatUsd(depositUsdForMark(2_000)));
     }
     const html = await page.content();
     for (const word of BANNED) {
       expect(html, word).not.toContain(word);
     }
-    expect(html).toContain("$1,200");
+    expect(html).toContain("$2,000");
     expect(html).toContain("$58,000");
     expect(html).toContain("$120,000");
     expect(html).not.toContain("FEATURES.md");

@@ -75,18 +75,18 @@ test.describe("Syne lockup, board marks, seat lead", () => {
       PUBLIC_COPY.hero.caption,
     );
     await expect(page.getByTestId("hero-panel-board")).toHaveCount(0);
-    for (let n = 1; n <= 12; n += 1) {
+    for (let n = 1; n <= 11; n += 1) {
       await expect(page.getByTestId(`hero-panel-board-${n}`)).toHaveCount(0);
       await expect(page.getByTestId(`panel-legend-${n}`)).toBeVisible();
     }
-    await expect(page.getByTestId("view-panel-board-side")).toHaveCount(0);
+    await expect(page.getByTestId("view-panel-board-driver")).toHaveCount(0);
     await expect(page.getByTestId("truck-view-seats")).toHaveAttribute(
       "data-baked-marks",
       "true",
     );
   });
 
-  test("hood seat lead uses Immortal Etch, fascia uses Wrap only", async ({
+  test("hood and fascia seat leads use Immortal Etch; bumpers stay wrap-only", async ({
     page,
   }) => {
     await page.goto("/panels/hood");
@@ -106,9 +106,18 @@ test.describe("Syne lockup, board marks, seat lead", () => {
 
     await page.goto("/panels/front-fascia");
     const fascia = page.getByTestId("seat-lead");
-    await expect(fascia).toContainText("Opens at $1,200");
-    await expect(fascia).toContainText("Wrap only");
+    await expect(fascia).toContainText("Opens at $2,000");
+    await expect(fascia).toContainText("Immortal Etch");
     await expect(fascia).not.toContainText("forever");
+    await expect(page.getByTestId("seat-finish")).toHaveAttribute(
+      "data-etchable",
+      "true",
+    );
+
+    await page.goto("/panels/front-bumper");
+    const bumper = page.getByTestId("seat-lead");
+    await expect(bumper).toContainText("Opens at $500");
+    await expect(bumper).toContainText("Wrap only");
     await expect(page.getByTestId("seat-finish")).toHaveAttribute(
       "data-etchable",
       "false",

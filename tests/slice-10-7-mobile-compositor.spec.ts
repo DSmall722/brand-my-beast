@@ -67,9 +67,10 @@ test.describe("slice 10.7: mobile compositor one view", () => {
     );
   });
 
-  test("unit: truck views are three discrete toggles", () => {
+  test("unit: truck views are four discrete toggles", () => {
     expect(TRUCK_VIEWS.map((row) => row.id)).toEqual([
-      "side",
+      "driver",
+      "passenger",
       "front",
       "rear",
     ]);
@@ -88,7 +89,7 @@ test.describe("slice 10.7: mobile compositor one view", () => {
     const hotspots = page.getByTestId("truck-view-seats");
     await expect(hotspots).toHaveAttribute("data-one-view", "true");
     await expect(page.getByTestId("truck-view-svg")).toHaveCount(1);
-    await expect(hotspots).toHaveAttribute("data-view", "side");
+    await expect(hotspots).toHaveAttribute("data-view", "driver");
 
     await page.getByTestId("truck-view-front").click();
     await expect(hotspots).toHaveAttribute("data-view", "front");

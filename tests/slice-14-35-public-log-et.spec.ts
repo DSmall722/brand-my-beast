@@ -88,7 +88,7 @@ test.describe("slice 14.35: public seat log timestamps America/New_York ET", () 
   test("public seat log UI shows ET times", async ({ page }) => {
     // Use roof (not hood) so parallel 9.9 hood marks do not collide.
     const placed = await placeIntentBid({
-      panelId: "roof",
+      panelId: "front-bumper",
       userId: "et1435-user",
       brandLabel: "ET Log Co",
       tradeLabel: "et snacks",
@@ -102,7 +102,7 @@ test.describe("slice 14.35: public seat log timestamps America/New_York ET", () 
     expect(buildPublicSeatLog([placed.bid])[0]?.timeLabel).toBe(expected);
 
     await signIn(page, "et1435@example.com");
-    await page.goto("/panels/roof");
+    await page.goto("/panels/front-bumper");
     await page.getByTestId("intent-brand").fill("ET UI Brand");
     await page.getByTestId("intent-trade").fill("et ui trade");
     await page.getByTestId("intent-standing").fill("900");

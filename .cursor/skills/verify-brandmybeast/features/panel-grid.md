@@ -5,13 +5,13 @@ Users see twelve stainless panel seats. Eight etchable faces stay locked until b
 ## Sub-features
 
 - `panels-count` renders exactly twelve cards.
-- `panels-index` shows the same 1–12 index as hero callouts (`data-panel-n`, `panel-index-<id>`).
+- `panels-index` shows the same 1–11 index as hero callouts (`data-panel-n`, `panel-index-<id>`).
 - `panels-etch-lock` marks etchable panels locked under buyout while raised is below `$120,000`.
 - `panels-wrap-only` marks non-etchable panels with a `Wrap` badge.
 
 ## How to get to it (user POV)
 
-- Open `/` and move to the twelve panels section (`#panels`).
+- Open `/` and move to the eleven panels section (`#panels`).
 
 ## Driving it with Playwright
 

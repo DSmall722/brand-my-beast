@@ -12,7 +12,7 @@ import {
 import { hotspotPanelIds, hotspotsForView, TRUCK_VIEWS } from "../src/lib/truck-views";
 
 /**
- * Slice 10.1 — hero photo opens Hood; “See the twelve panels” lands on `#panels`.
+ * Slice 10.1 — hero photo opens Hood; “See the eleven panels” lands on `#panels`.
  * Homepage board stills are static. Cards / legend open seats. CLOSE_AT null. No Stripe.
  */
 test.describe("slice 10.1: hero and hotspot links open seats", () => {
@@ -50,7 +50,7 @@ test.describe("slice 10.1: hero and hotspot links open seats", () => {
     }
   });
 
-  test("See the panels lands on the twelve cards, not Hood", async ({
+  test("See the panels lands on the eleven cards, not Hood", async ({
     page,
   }) => {
     await page.goto("/");
@@ -70,7 +70,7 @@ test.describe("slice 10.1: hero and hotspot links open seats", () => {
     await expect(page).toHaveURL(/#panels$/);
     await expect(page.locator("#panels")).toBeVisible();
     await expect(page.getByTestId("panel-grid").locator("article")).toHaveCount(
-      12,
+      11,
     );
     await expect(page).not.toHaveURL(/\/panels\/hood/);
 

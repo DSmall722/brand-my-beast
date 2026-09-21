@@ -60,7 +60,7 @@ test.describe("slice 16.30: etch badge stays PUBLIC_COPY", () => {
 
     const etchable = PANELS.filter((panel) => isEtchable(panel));
     expect(etchable.length).toBeGreaterThan(0);
-    expect(etchable.length).toBeLessThan(12);
+    expect(etchable.length).toBe(9);
   });
 
   test("homepage etch badges match PUBLIC_COPY", async ({ page }) => {

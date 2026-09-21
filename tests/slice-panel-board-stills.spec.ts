@@ -27,7 +27,7 @@ import { vercelJsonIsHoldOrMainOnlyRestore } from "../src/lib/vercel-git-deploy"
 
 const ROOT = process.cwd();
 
-test.describe("panel board stills map 1–12 onto the truck", () => {
+test.describe("panel board stills map 1–11 onto the truck", () => {
   test("campaign money fences stay locked — CLOSE_AT null", () => {
     expect(FLOOR_USD).toBe(58_000);
     expect(GOAL_USD).toBe(120_000);
@@ -46,12 +46,12 @@ test.describe("panel board stills map 1–12 onto the truck", () => {
     expect(vercelJsonIsHoldOrMainOnlyRestore()).toBe(true);
   });
 
-  test("layout maps hood…rear fascia and unique face crops", () => {
+  test("layout maps hood…rear bumper and unique face crops", () => {
     expect(panelBoardIsComplete()).toBe(true);
     expect(panelFaceCropsAreDistinct()).toBe(true);
     expect(PANEL_BOARD_MARKS[0]?.panelId).toBe("hood");
-    expect(PANEL_BOARD_MARKS[11]?.panelId).toBe("rear-fascia");
-    expect(panelBoardMarksForView("side").map((m) => m.panelId)).toEqual(
+    expect(PANEL_BOARD_MARKS[10]?.panelId).toBe("rear-bumper");
+    expect(panelBoardMarksForView("driver").map((m) => m.panelId)).toEqual(
       expect.arrayContaining([
         "hood",
         "front-fascia",
@@ -61,19 +61,20 @@ test.describe("panel board stills map 1–12 onto the truck", () => {
         "tailgate",
       ]),
     );
-    expect(panelBoardMarksForView("front").map((m) => m.panelId)).toEqual(
+    expect(panelBoardMarksForView("passenger").map((m) => m.panelId)).toEqual(
       expect.arrayContaining([
-        "hood",
-        "front-fascia",
-        "driver-door",
         "passenger-door",
+        "passenger-bed",
+        "passenger-rear-quarter",
       ]),
+    );
+    expect(panelBoardMarksForView("front").map((m) => m.panelId)).toEqual(
+      expect.arrayContaining(["hood", "front-fascia", "front-bumper"]),
     );
     expect(panelBoardMarksForView("rear").map((m) => m.panelId)).toEqual(
       expect.arrayContaining([
         "tailgate",
-        "tonneau",
-        "rear-fascia",
+        "rear-bumper",
         "passenger-rear-quarter",
       ]),
     );
@@ -86,9 +87,14 @@ test.describe("panel board stills map 1–12 onto the truck", () => {
     const byId = Object.fromEntries(
       PANEL_BOARD_MARKS.map((mark) => [mark.panelId, mark]),
     );
-    const side = (id: string) => {
-      const pct = byId[id]?.views.side;
-      if (!pct) throw new Error(`missing side mark ${id}`);
+    const driver = (id: string) => {
+      const pct = byId[id]?.views.driver;
+      if (!pct) throw new Error(`missing driver mark ${id}`);
+      return pct;
+    };
+    const passenger = (id: string) => {
+      const pct = byId[id]?.views.passenger;
+      if (!pct) throw new Error(`missing passenger mark ${id}`);
       return pct;
     };
     const front = (id: string) => {
@@ -102,27 +108,30 @@ test.describe("panel board stills map 1–12 onto the truck", () => {
       return pct;
     };
 
-    // Side = driver ¾-rear: nose left, tail right. Hood is not the door.
-    expect(side("front-fascia").x).toBeLessThan(side("hood").x);
-    expect(side("hood").x).toBeLessThan(side("driver-door").x);
-    expect(side("hood").x).toBeLessThan(22);
-    expect(side("driver-door").x).toBeLessThan(side("driver-bed").x);
-    expect(side("driver-bed").x).toBeLessThan(side("driver-rear-quarter").x);
-    expect(side("driver-rear-quarter").x).toBeLessThan(side("tailgate").x);
-    expect(side("roof").y).toBeLessThan(side("tonneau").y);
-    expect(side("tonneau").y).toBeLessThan(side("driver-bed").y);
+    // Driver profile: nose left, tail right.
+    expect(driver("front-fascia").x).toBeLessThan(driver("hood").x);
+    expect(driver("hood").x).toBeLessThan(driver("driver-door").x);
+    expect(driver("driver-door").x).toBeLessThan(driver("driver-bed").x);
+    expect(driver("driver-bed").x).toBeLessThan(driver("driver-rear-quarter").x);
+    expect(driver("driver-rear-quarter").x).toBeLessThan(driver("tailgate").x);
+    expect(driver("front-bumper").y).toBeGreaterThan(driver("front-fascia").y);
+    expect(driver("rear-bumper").y).toBeGreaterThan(driver("tailgate").y);
 
-    // Front = passenger-front: driver far-left, passenger near-right.
-    expect(front("driver-door").x).toBeLessThan(front("hood").x);
-    expect(front("hood").x).toBeLessThan(front("passenger-door").x);
+    // Passenger ¾: nose right, tail left. 4 / 6 / 8 on near steel.
+    expect(passenger("passenger-rear-quarter").x).toBeLessThan(
+      passenger("passenger-bed").x,
+    );
+    expect(passenger("passenger-bed").x).toBeLessThan(passenger("passenger-door").x);
+    expect(passenger("passenger-door").x).toBeLessThan(passenger("hood").x);
+
+    // Front head-on.
     expect(front("front-fascia").y).toBeGreaterThan(front("hood").y);
+    expect(front("front-bumper").y).toBeGreaterThan(front("front-fascia").y);
 
     // Rear = passenger-rear: tail left, passenger side right.
-    expect(rear("driver-rear-quarter").x).toBeLessThan(rear("tailgate").x);
     expect(rear("tailgate").x).toBeLessThan(rear("passenger-rear-quarter").x);
     expect(rear("passenger-rear-quarter").x).toBeLessThan(rear("passenger-bed").x);
-    expect(rear("rear-fascia").y).toBeGreaterThan(rear("tailgate").y);
-    expect(rear("roof").y).toBeLessThan(rear("tonneau").y);
+    expect(rear("rear-bumper").y).toBeGreaterThan(rear("tailgate").y);
   });
 
   test("homepage cards and views use the matching still", async ({ page }) => {
@@ -140,13 +149,18 @@ test.describe("panel board stills map 1–12 onto the truck", () => {
       );
       faces.add(`${mark!.face.still}:${mark!.face.objectPosition}`);
       const bg = await face.evaluate((el) => getComputedStyle(el).backgroundImage);
-      expect(bg).toMatch(/truck-view-(side|front|rear)\.jpg/);
+      expect(bg).toMatch(/truck-view-(driver|passenger|front|rear)\.jpg/);
     }
-    expect(faces.size).toBe(12);
+    expect(faces.size).toBe(11);
 
-    await expect(page.getByTestId("truck-img-board-side")).toHaveAttribute(
+    await expect(page.getByTestId("truck-img-board-driver")).toHaveAttribute(
       "src",
-      TRUCK_VIEW_STILLS.side,
+      TRUCK_VIEW_STILLS.driver,
+    );
+    await page.getByTestId("truck-view-passenger").click();
+    await expect(page.getByTestId("truck-img-board-passenger")).toHaveAttribute(
+      "src",
+      TRUCK_VIEW_STILLS.passenger,
     );
     await page.getByTestId("truck-view-front").click();
     await expect(page.getByTestId("truck-img-board-front")).toHaveAttribute(
@@ -165,9 +179,9 @@ test.describe("panel board stills map 1–12 onto the truck", () => {
     await expect(page.getByTestId("view-panel-board-rear-9")).toHaveCount(0);
     await expect(page.getByTestId("view-panel-board-rear-12")).toHaveCount(0);
     await expect(page.getByTestId("panel-index-tailgate")).toHaveText("9");
-    await expect(page.getByTestId("panel-index-rear-fascia")).toHaveText("12");
+    await expect(page.getByTestId("panel-index-rear-bumper")).toHaveText("11");
 
-    await page.getByTestId("truck-view-side").click();
+    await page.getByTestId("truck-view-driver").click();
     const fit = await page
       .locator(".truck-view-photo")
       .evaluate((el) => getComputedStyle(el).objectFit);

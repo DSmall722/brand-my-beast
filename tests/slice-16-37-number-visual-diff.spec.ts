@@ -55,7 +55,7 @@ test.describe("slice 16.37: numbers, not kerning", () => {
     await page.setViewportSize({ width: 1280, height: 900 });
     await page.goto("/");
     const present: number[] = [];
-    for (let n = 1; n <= 12; n += 1) {
+    for (let n = 1; n <= 11; n += 1) {
       const callout = page.getByTestId(`panel-legend-${n}`);
       await expect(callout).toBeVisible();
       present.push(n);

@@ -67,8 +67,8 @@ test.describe("slice 16.7: held seats keep the number", () => {
     await page.goto("/");
     await expect(page.getByTestId("hero-panel-board")).toHaveCount(0);
 
-    await page.getByTestId("truck-view-side").click();
-    await expect(page.getByTestId("view-panel-board-side-1")).toHaveCount(0);
+    await page.getByTestId("truck-view-driver").click();
+    await expect(page.getByTestId("view-panel-board-driver-1")).toHaveCount(0);
     await expect(page.getByTestId("truck-view-seats")).toHaveAttribute(
       "data-baked-marks",
       "true",
@@ -78,9 +78,9 @@ test.describe("slice 16.7: held seats keep the number", () => {
       "src",
       "/hero-truck-preview.jpg",
     );
-    await expect(page.getByTestId("truck-img-board-side")).toHaveAttribute(
+    await expect(page.getByTestId("truck-img-board-driver")).toHaveAttribute(
       "src",
-      "/truck-view-side.jpg",
+      "/truck-view-driver.jpg",
     );
     const photos = page.locator(".hero img, .truck-view-stage img");
     const photoCount = await photos.count();
@@ -88,7 +88,7 @@ test.describe("slice 16.7: held seats keep the number", () => {
     for (let i = 0; i < photoCount; i += 1) {
       const src = await photos.nth(i).getAttribute("src");
       expect(src).toMatch(
-        /^\/(hero-truck-preview|truck-view-(side|front|rear))\.jpg$/,
+        /^\/(hero-truck-preview|truck-view-(driver|passenger|front|rear))\.jpg$/,
       );
     }
     await expect(

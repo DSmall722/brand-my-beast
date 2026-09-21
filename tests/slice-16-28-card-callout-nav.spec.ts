@@ -50,18 +50,18 @@ test.describe("slice 16.28: card 3 and board number 3 open driver door", () => {
     await expect(index).toHaveText("3");
     await index.click();
     await expect(page).toHaveURL(new RegExp(`${PANEL_PATH}$`));
-    await expect(page.locator("h1")).toContainText("Driver door");
+    await expect(page.locator("h1")).toContainText("Driver doors");
 
     await page.goto("/");
     await expect(
-      page.getByTestId(`view-panel-board-side-${mark.n}`),
+      page.getByTestId(`view-panel-board-driver-${mark.n}`),
     ).toHaveCount(0);
     const legend = page.getByTestId(`panel-legend-${mark.n}`);
     await expect(legend).toHaveAttribute("href", PANEL_PATH);
     await legend.click();
     await expect(page).toHaveURL(new RegExp(`${PANEL_PATH}$`));
     await expect(page.locator("h1")).toContainText("3");
-    await expect(page.locator("h1")).toContainText("Driver door");
+    await expect(page.locator("h1")).toContainText("Driver doors");
   });
 
   test("homepage still does not render FEATURES.md", async ({ request }) => {

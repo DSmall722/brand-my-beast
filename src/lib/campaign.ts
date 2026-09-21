@@ -65,8 +65,9 @@ export type Panel = {
 };
 
 /**
- * Twelve panels. Eight steel faces take Immortal etch only after GOAL_USD.
- * Etchable = finishAtGoal === "wrap_or_etch".
+ * Eleven panels. Nine steel faces take Immortal etch only after GOAL_USD.
+ * Etchable = finishAtGoal === "wrap_or_etch". Front fascia is in.
+ * Front bumper + Rear bumper stay wrap-only.
  */
 export const PANELS: readonly Panel[] = [
   {
@@ -78,22 +79,22 @@ export const PANELS: readonly Panel[] = [
   },
   {
     id: "front-fascia",
-    name: "Front fascia",
-    openingUsd: 1200,
+    name: "Front fascia (stainless)",
+    openingUsd: 2000,
     finishAtFloor: "wrap",
-    finishAtGoal: "wrap",
+    finishAtGoal: "wrap_or_etch",
   },
   {
     id: "driver-door",
-    name: "Driver door",
-    openingUsd: 1500,
+    name: "Driver doors",
+    openingUsd: 2500,
     finishAtFloor: "wrap",
     finishAtGoal: "wrap_or_etch",
   },
   {
     id: "passenger-door",
-    name: "Passenger door",
-    openingUsd: 1500,
+    name: "Passenger doors",
+    openingUsd: 2500,
     finishAtFloor: "wrap",
     finishAtGoal: "wrap_or_etch",
   },
@@ -133,22 +134,15 @@ export const PANELS: readonly Panel[] = [
     finishAtGoal: "wrap_or_etch",
   },
   {
-    id: "tonneau",
-    name: "Tonneau",
-    openingUsd: 800,
+    id: "front-bumper",
+    name: "Front bumper",
+    openingUsd: 500,
     finishAtFloor: "wrap",
     finishAtGoal: "wrap",
   },
   {
-    id: "roof",
-    name: "Roof",
-    openingUsd: 600,
-    finishAtFloor: "wrap",
-    finishAtGoal: "wrap",
-  },
-  {
-    id: "rear-fascia",
-    name: "Rear fascia",
+    id: "rear-bumper",
+    name: "Rear bumper",
     openingUsd: 500,
     finishAtFloor: "wrap",
     finishAtGoal: "wrap",

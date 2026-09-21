@@ -16,7 +16,7 @@ import { vercelJsonIsHoldOrMainOnlyRestore } from "../src/lib/vercel-git-deploy"
  * CLOSE_AT null. No Stripe.
  */
 
-const WRAP_ONLY = ["front-fascia", "roof", "tonneau", "rear-fascia"] as const;
+const WRAP_ONLY = ["front-bumper", "rear-bumper"] as const;
 
 test.describe("slice 17.13: wrap-only seats hide the etch tab", () => {
   test("campaign money fences stay locked — CLOSE_AT null", () => {

@@ -123,7 +123,7 @@ test.describe("slice 20.12: Wave 20 Playwright pack", () => {
     await page.setViewportSize({ width: 390, height: 844 });
     await page.goto("/");
     await expect(page.getByTestId("hero-panel-board")).toHaveCount(0);
-    for (let n = 1; n <= 12; n += 1) {
+    for (let n = 1; n <= 11; n += 1) {
       await expect(page.getByTestId(`hero-panel-board-${n}`)).toHaveCount(0);
     }
     await expect(page.locator("#hero-title")).toHaveText(LOCKED_H1);

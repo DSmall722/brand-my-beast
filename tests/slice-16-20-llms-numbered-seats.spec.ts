@@ -13,7 +13,7 @@ import { PANEL_BOARD_MARKS, panelLegendLabel } from "../src/lib/panel-board";
 import { vercelJsonIsHoldOrMainOnlyRestore } from "../src/lib/vercel-git-deploy";
 
 /**
- * Slice 16.20 — /llms.txt lists floor, buyout, twelve numbered seats,
+ * Slice 16.20 — /llms.txt lists floor, buyout, eleven numbered seats,
  * and no close date. FEATURES.md stays off /.
  */
 
@@ -36,7 +36,7 @@ test.describe("slice 16.20: /llms.txt numbered seats", () => {
     expect(vercelJsonIsHoldOrMainOnlyRestore()).toBe(true);
   });
 
-  test("builder lists floor, buyout, 1-12 seats, and no close date", () => {
+  test("builder lists floor, buyout, 1-11 seats, and no close date", () => {
     const body = buildLlmsTxt();
     expect(body).toContain(
       `Floor ${formatUsd(FLOOR_USD)}. Buyout ${formatUsd(GOAL_USD)}.`,
@@ -44,8 +44,8 @@ test.describe("slice 16.20: /llms.txt numbered seats", () => {
     expect(body).toContain("No close date.");
     expect(body).not.toContain("CLOSE_AT");
     expect(body).not.toContain("null");
-    expect(body).toContain("Twelve numbered seats");
-    expect(PANEL_BOARD_MARKS).toHaveLength(12);
+    expect(body).toContain("Eleven numbered seats");
+    expect(PANEL_BOARD_MARKS).toHaveLength(11);
     for (const mark of PANEL_BOARD_MARKS) {
       expect(body).toContain(panelLegendLabel(mark));
     }
@@ -63,7 +63,7 @@ test.describe("slice 16.20: /llms.txt numbered seats", () => {
     const body = await res.text();
     expect(body).toBe(buildLlmsTxt());
     expect(body).toContain("1 Hood");
-    expect(body).toContain("12 Rear fascia");
+    expect(body).toContain("11 Rear bumper");
   });
 
   test("homepage still does not render FEATURES.md", async ({ request }) => {

@@ -13,7 +13,7 @@ import { PANEL_BOARD_MARKS } from "../src/lib/panel-board";
 import { vercelJsonIsHoldOrMainOnlyRestore } from "../src/lib/vercel-git-deploy";
 
 /**
- * Slice 16.1 — homepage panel cards show the same 1–12 index as hero callouts.
+ * Slice 16.1 — homepage panel cards show the same 1–11 index as hero callouts.
  * CLOSE_AT null. No Stripe. No SEATS_OPEN flip.
  */
 
@@ -37,20 +37,20 @@ test.describe("slice 16.1: panel card indexes match hero callouts", () => {
   });
 
   test("board marks stay 1 hood … 12 rear fascia", () => {
-    expect(PANEL_BOARD_MARKS).toHaveLength(12);
+    expect(PANEL_BOARD_MARKS).toHaveLength(11);
     expect(PANEL_BOARD_MARKS[0]?.panelId).toBe("hood");
     expect(PANEL_BOARD_MARKS[0]?.n).toBe(1);
     expect(PANEL_BOARD_MARKS[2]?.panelId).toBe("driver-door");
     expect(PANEL_BOARD_MARKS[2]?.n).toBe(3);
-    expect(PANEL_BOARD_MARKS[11]?.panelId).toBe("rear-fascia");
-    expect(PANEL_BOARD_MARKS[11]?.n).toBe(12);
+    expect(PANEL_BOARD_MARKS[10]?.panelId).toBe("rear-bumper");
+    expect(PANEL_BOARD_MARKS[10]?.n).toBe(11);
     for (let i = 0; i < PANELS.length; i += 1) {
       expect(PANEL_BOARD_MARKS[i]?.panelId).toBe(PANELS[i]!.id);
       expect(PANEL_BOARD_MARKS[i]?.n).toBe(i + 1);
     }
   });
 
-  test("homepage cards and hero callouts share the same 1–12 indexes", async ({
+  test("homepage cards and hero callouts share the same 1–11 indexes", async ({
     page,
   }) => {
     await page.goto("/");

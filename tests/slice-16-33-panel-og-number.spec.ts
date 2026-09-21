@@ -62,7 +62,7 @@ test.describe("slice 16.33: panel OG image includes number and name", () => {
     const door = PANELS.find((row) => row.id === "driver-door");
     expect(door).toBeTruthy();
     expect(panelBoardMarkFor("driver-door").n).toBe(3);
-    expect(panelSeatH1(door!)).toBe("3 · Driver door");
+    expect(panelSeatH1(door!)).toBe("3 · Driver doors");
   });
 
   test("driver-door OG image is its own 1200x630 png", async ({
@@ -100,6 +100,6 @@ test.describe("slice 16.33: panel OG image includes number and name", () => {
       panelOpenGraphTitle(PANELS.find((row) => row.id === "driver-door")!),
     );
     await expect(page.locator("h1")).toContainText("3");
-    await expect(page.locator("h1")).toContainText("Driver door");
+    await expect(page.locator("h1")).toContainText("Driver doors");
   });
 });

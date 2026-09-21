@@ -39,8 +39,8 @@ function sampleBid(): IntentBid {
     userId: "test:outbid1626@example.com",
     brandLabel: "Subject Co",
     tradeLabel: "subject trade",
-    standingUsd: 1600,
-    depositUsd: 320,
+    standingUsd: 2500,
+    depositUsd: 500,
     status: "outbid",
     createdAt: "2026-09-18T00:00:00.000Z",
     updatedAt: "2026-09-18T00:00:00.000Z",
@@ -120,7 +120,7 @@ test.describe("slice 16.26: failed-winner email subject includes panel number", 
       userId: "test:first1626@example.com",
       brandLabel: "First 1626",
       tradeLabel: "first trade",
-      standingUsd: 1600,
+      standingUsd: 2500,
     });
     expect(first.ok).toBe(true);
     if (!first.ok) return;
@@ -130,7 +130,7 @@ test.describe("slice 16.26: failed-winner email subject includes panel number", 
       userId: "test:second1626@example.com",
       brandLabel: "Second 1626",
       tradeLabel: "second trade",
-      standingUsd: 2000,
+      standingUsd: 2750,
     });
     expect(second.ok).toBe(true);
 

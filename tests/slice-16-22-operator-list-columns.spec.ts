@@ -71,7 +71,7 @@ test.describe("slice 16.22: operator list columns", () => {
       userId: "ops1622-secret-user",
       brandLabel: "Column Brand",
       tradeLabel: "column trade",
-      standingUsd: 1600,
+      standingUsd: 2500,
     });
     expect(placed.ok).toBe(true);
     if (!placed.ok) return;
@@ -98,7 +98,7 @@ test.describe("slice 16.22: operator list columns", () => {
     await page.goto(`/panels/${PANEL_ID}`);
     await page.getByTestId("intent-brand").fill("Column UI Brand");
     await page.getByTestId("intent-trade").fill("column ui trade");
-    await page.getByTestId("intent-standing").fill("1600");
+    await page.getByTestId("intent-standing").fill("2500");
     await page.getByTestId("intent-submit").click();
     await expect(page.getByTestId("intent-success")).toContainText(
       "not charged",

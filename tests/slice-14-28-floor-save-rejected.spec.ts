@@ -53,7 +53,7 @@ test.describe("slice 14.28: floor-save does not raise a rejected mark", () => {
 
   test("fireFloorSaveBid refuses rejected floor-save; mark stays rejected", async () => {
     const save = await placeIntentBid({
-      panelId: "tonneau",
+      panelId: "rear-bumper",
       userId: "fs1428-saver",
       brandLabel: "FS Reject",
       tradeLabel: "fs vinyl",
@@ -84,7 +84,7 @@ test.describe("slice 14.28: floor-save does not raise a rejected mark", () => {
     expect(live?.floorSaveUsd).toBe(900);
     expect(live?.standingUsd).toBe(900);
 
-    const panel = await listBidsForPanel("tonneau");
+    const panel = await listBidsForPanel("rear-bumper");
     const listedStanding = panel.filter(
       (row) =>
         row.status === "listed" &&

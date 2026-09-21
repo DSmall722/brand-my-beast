@@ -15,11 +15,11 @@ import { PUBLIC_COPY, wholeTruckPackageCopy } from "../src/lib/public-copy";
 import { vercelJsonIsHoldOrMainOnlyRestore } from "../src/lib/vercel-git-deploy";
 
 /**
- * Slice 16.25 — whole-truck intent copy lists 1–12 as the package.
+ * Slice 16.25 — whole-truck intent copy lists 1–11 as the package.
  * FEATURES.md stays off /. CLOSE_AT null. No Stripe.
  */
 
-test.describe("slice 16.25: whole-truck package is seats 1-12", () => {
+test.describe("slice 16.25: whole-truck package is seats 1-11", () => {
   test("campaign money fences stay locked — CLOSE_AT null", () => {
     expect(FLOOR_USD).toBe(58_000);
     expect(GOAL_USD).toBe(120_000);
@@ -40,10 +40,10 @@ test.describe("slice 16.25: whole-truck package is seats 1-12", () => {
 
   test("package copy lists every board mark in order", () => {
     const labels = PANEL_BOARD_MARKS.map((mark) => panelLegendLabel(mark));
-    expect(labels).toHaveLength(12);
+    expect(labels).toHaveLength(11);
     expect(labels[0]).toBe("1 Hood");
-    expect(labels[2]).toBe("3 Driver door");
-    expect(labels[11]).toBe("12 Rear fascia");
+    expect(labels[2]).toBe("3 Driver doors");
+    expect(labels[10]).toBe("11 Rear bumper");
 
     const packageLine = wholeTruckPackageCopy();
     expect(packageLine).toBe(`The package is ${labels.join(", ")}.`);
@@ -83,7 +83,7 @@ test.describe("slice 16.25: whole-truck package is seats 1-12", () => {
     await expect(lead).toHaveText(PUBLIC_COPY.board.wholeTruckLead);
     await expect(lead).not.toContainText(wholeTruckPackageCopy());
     await expect(lead).not.toContainText("1 Hood");
-    await expect(lead).not.toContainText("12 Rear fascia");
+    await expect(lead).not.toContainText("11 Rear bumper");
     await expect(page.getByTestId("whole-truck-heading")).toHaveText(
       "Whole truck — $120,000",
     );

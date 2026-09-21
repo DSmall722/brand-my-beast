@@ -67,7 +67,7 @@ test.describe("slice 13.13: floor-save fire gate", () => {
 
   test("fireFloorSaveBid refuses when pledged >= $58,000", async () => {
     const save = await placeIntentBid({
-      panelId: "tonneau",
+      panelId: "rear-bumper",
       userId: "fs1313-saver",
       brandLabel: "FS Saver",
       tradeLabel: "fs vinyl",
@@ -103,7 +103,7 @@ test.describe("slice 13.13: floor-save fire gate", () => {
     }
 
     const blockedList = await placeIntentBid({
-      panelId: "roof",
+      panelId: "front-bumper",
       userId: "fs1313-late",
       brandLabel: "FS Late",
       tradeLabel: "fs late",

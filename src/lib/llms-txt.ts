@@ -3,7 +3,7 @@ import { PANEL_BOARD_MARKS, panelLegendLabel } from "./panel-board";
 import { PUBLIC_COPY } from "./public-copy";
 
 /**
- * Slice 14.21 / 16.20 — `/llms.txt` from PUBLIC_COPY plus the 1–12 seats.
+ * Slice 14.21 / 16.20 — `/llms.txt` from PUBLIC_COPY plus the 1–11 seats.
  * Floor and buyout only. No close date. No Stripe. No lease.
  */
 export function buildLlmsTxt(): string {
@@ -48,7 +48,7 @@ export function buildLlmsTxt(): string {
     // Campaign locks — same numbers PUBLIC_COPY already prints; CLOSE_AT fence.
     `Floor ${formatUsd(FLOOR_USD)}. Buyout ${formatUsd(GOAL_USD)}.`,
     "No close date.",
-    "Twelve numbered seats",
+    "Eleven numbered seats",
     ...PANEL_BOARD_MARKS.map((mark) => panelLegendLabel(mark)),
     "",
   ];

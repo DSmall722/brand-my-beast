@@ -1,20 +1,20 @@
 #!/usr/bin/env python3
-"""Bake readable 1–12 marks onto the stainless Side / Front / Rear stills.
+"""Bake readable 1–11 marks onto the four stainless board stills.
 
 Homepage board views are static JPEGs. Cards stay the clickable inventory.
 Only numbers that read on that angle are painted.
 
-  Side  (driver ¾-rear): 1 2 3 5 7 9 10 11 12
-  Front (passenger-front): 1 2 4 11
-  Rear  (passenger-rear): 6 8 9 10 11 12
+  Driver    (closed-door profile, nose left): 1 2 3 5 7 9 10 11
+  Passenger (¾, nose right):                  1 2 4 6 8 10
+  Front     (head-on):                        1 2 10
+  Rear      (passenger-rear ¾, tail left):    6 8 9 11
 
-Percents match BOARD_LAYOUT in src/lib/panel-board.ts (contain, 16:9 still).
-Lime plate #d6ff3f / ink #07090c — same contrast pair as the live callouts.
+Lime plate #d6ff3f / ink #07090c.
 
 Rerun from repo root after unmarked stills exist:
-  python3 scripts/paint-board-marks.py
 
-Unmarked sources are snapshotted once to scripts/.board-stills-unmarked/.
+  python3 scripts/paint-board-marks.py
+  python3 scripts/credit-board-stills.py
 """
 
 from __future__ import annotations
@@ -34,31 +34,36 @@ INK = (7, 9, 12, 255)
 RING = (7, 9, 12, 220)
 
 # Percents of the 1280×720 still. Skip marks that do not read.
+# Matches src/lib/panel-board.ts BOARD_LAYOUT views.
 MARKS: dict[str, list[tuple[int, float, float]]] = {
-    "side": [
-        (1, 16, 33),
-        (2, 9, 58),
-        (3, 32, 48),
-        (5, 47, 44),
-        (7, 74, 46),
-        (9, 86, 44),
-        (10, 58, 22),
-        (11, 40, 17),
-        (12, 90, 64),
+    "driver": [
+        (1, 22, 38),
+        (2, 12, 50),
+        (3, 42, 48),
+        (5, 68, 46),
+        (7, 80, 46),
+        (9, 88, 40),
+        (10, 10, 58),
+        (11, 92, 58),
+    ],
+    "passenger": [
+        (1, 68, 36),
+        (2, 86, 50),
+        (4, 50, 48),
+        (6, 20, 46),
+        (8, 12, 44),
+        (10, 90, 62),
     ],
     "front": [
-        (1, 40, 38),
-        (2, 36, 76),
-        (4, 76, 46),
-        (11, 48, 12),
+        (1, 50, 26),
+        (2, 50, 48),
+        (10, 50, 80),
     ],
     "rear": [
-        (6, 50, 40),
-        (8, 40, 40),
-        (9, 22, 42),
-        (10, 24, 27),
-        (11, 52, 22),
-        (12, 22, 70),
+        (6, 46, 42),
+        (8, 36, 40),
+        (9, 18, 42),
+        (11, 18, 58),
     ],
 }
 
@@ -103,7 +108,6 @@ def paint(view: str) -> None:
             font=font,
             fill=INK,
         )
-    # Soft drop so the plate sits on steel, not a sticker.
     shadow = Image.new("RGBA", (w, h), (0, 0, 0, 0))
     sd = ImageDraw.Draw(shadow)
     for n, xp, yp in MARKS[view]:

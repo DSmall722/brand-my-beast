@@ -13,6 +13,7 @@ import { findCloseAtViolations } from "../src/lib/close-at-null";
 import {
   WHOLE_TRUCK_PANEL_USD,
   WHOLE_TRUCK_PENDING_ERROR,
+  wholeTruckStandingSum,
   listBidsForPanel,
   placeIntentBid,
   placeWholeTruckIntent,
@@ -43,7 +44,7 @@ test.describe("slice 14.29: whole-truck pending blocks single-panel", () => {
     expect(findCloseAtViolations()).toEqual([]);
     expect(BRAND.name).toBe("BrandMyBeast");
     expect(formatUsd(FLOOR_USD)).toBe("$58,000");
-    expect(WHOLE_TRUCK_PANEL_USD * PANELS.length).toBe(GOAL_USD);
+    expect(wholeTruckStandingSum()).toBe(GOAL_USD);
   });
 
   test("package.json has no stripe", () => {
@@ -62,7 +63,7 @@ test.describe("slice 14.29: whole-truck pending blocks single-panel", () => {
     });
     expect(whole.ok).toBe(true);
     if (!whole.ok) return;
-    expect(whole.bids).toHaveLength(12);
+    expect(whole.bids).toHaveLength(11);
     expect(whole.bids.every((bid) => bid.status === "listed")).toBe(true);
 
     const blocked = await placeIntentBid({

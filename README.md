@@ -47,7 +47,7 @@ If any file disagrees with `CAMPAIGN.md` on money or identity, `CAMPAIGN.md` win
 
 - Under **$58,000**: full refund. No order.
 - **$58,000–$119,999**: order the Cyberbeast + wrap. Operator finances the rest. No etch.
-- **$120,000**: campaign buys the truck. Charger. Etch unlocks on eight steel faces.
+- **$120,000**: campaign buys the truck. Charger. Etch unlocks on nine steel faces.
 
 There is no cheaper trim. Cyberbeast or refund.
 

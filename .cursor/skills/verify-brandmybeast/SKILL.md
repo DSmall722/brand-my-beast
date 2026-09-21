@@ -133,7 +133,7 @@ Stops only the PID recorded by launch. Leaves `artifacts/<run-id>/` in place.
 | `scripts/launch.sh` | Start memory-mode Next on `BMB_VERIFY_PORT` |
 | `scripts/doctor.sh` | Read-only readiness + campaign lock smoke |
 | `scripts/prove-campaign-board.sh` | Drive campaign board; write evidence |
-| `scripts/prove-panel-grid.sh` | Twelve panels + etch lock under buyout |
+| `scripts/prove-panel-grid.sh` | Eleven panels + etch lock under buyout |
 | `scripts/prove-waitlist-signup.sh` | Memory-mode create/exists + next-step CTA |
 | `scripts/prove-identity-locks.sh` | Public strings only; no lease / gmail |
 | `scripts/prove-panel-intent.sh` | Panel mockup + list intent + operator approve |
