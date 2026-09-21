@@ -62,10 +62,10 @@ test.describe("slice 14.0: numbered stainless board", () => {
       expect(PANEL_BOARD_MARKS[i]?.name).toBe(PANELS[i]!.name);
       expect(PANEL_BOARD_MARKS[i]?.n).toBe(i + 1);
     }
-    expect(panelBoardMarksForView("driver").length).toBeGreaterThanOrEqual(6);
-    expect(panelBoardMarksForView("passenger").length).toBeGreaterThanOrEqual(3);
+    expect(panelBoardMarksForView("driver").length).toBe(3);
+    expect(panelBoardMarksForView("passenger").length).toBe(3);
     expect(panelBoardMarksForView("front").length).toBeGreaterThanOrEqual(3);
-    expect(panelBoardMarksForView("rear").length).toBeGreaterThanOrEqual(4);
+    expect(panelBoardMarksForView("rear").length).toBe(2);
   });
 
   test("390px homepage shows ≥6 numbered callouts, H1, Notify me", async ({

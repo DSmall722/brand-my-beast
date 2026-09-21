@@ -51,33 +51,23 @@ test.describe("panel board stills map 1–11 onto the truck", () => {
     expect(panelFaceCropsAreDistinct()).toBe(true);
     expect(PANEL_BOARD_MARKS[0]?.panelId).toBe("hood");
     expect(PANEL_BOARD_MARKS[10]?.panelId).toBe("rear-bumper");
-    expect(panelBoardMarksForView("driver").map((m) => m.panelId)).toEqual(
-      expect.arrayContaining([
-        "hood",
-        "front-fascia",
-        "driver-door",
-        "driver-bed",
-        "driver-rear-quarter",
-        "tailgate",
-      ]),
-    );
-    expect(panelBoardMarksForView("passenger").map((m) => m.panelId)).toEqual(
-      expect.arrayContaining([
-        "passenger-door",
-        "passenger-bed",
-        "passenger-rear-quarter",
-      ]),
-    );
+    expect(panelBoardMarksForView("driver").map((m) => m.panelId)).toEqual([
+      "driver-door",
+      "driver-rear-quarter",
+      "driver-bed",
+    ]);
+    expect(panelBoardMarksForView("passenger").map((m) => m.panelId)).toEqual([
+      "passenger-door",
+      "passenger-rear-quarter",
+      "passenger-bed",
+    ]);
     expect(panelBoardMarksForView("front").map((m) => m.panelId)).toEqual(
       expect.arrayContaining(["hood", "front-fascia", "front-bumper"]),
     );
-    expect(panelBoardMarksForView("rear").map((m) => m.panelId)).toEqual(
-      expect.arrayContaining([
-        "tailgate",
-        "rear-bumper",
-        "passenger-rear-quarter",
-      ]),
-    );
+    expect(panelBoardMarksForView("rear").map((m) => m.panelId)).toEqual([
+      "tailgate",
+      "rear-bumper",
+    ]);
     for (const still of Object.values(TRUCK_VIEW_STILLS)) {
       expect(existsSync(join(ROOT, "public", still.replace(/^\//, "")))).toBe(
         true,
@@ -108,30 +98,37 @@ test.describe("panel board stills map 1–11 onto the truck", () => {
       return pct;
     };
 
-    // Driver profile: nose left, tail right.
-    expect(driver("front-fascia").x).toBeLessThan(driver("hood").x);
-    expect(driver("hood").x).toBeLessThan(driver("driver-door").x);
+    // Driver profile: nose left. Seats 4–6 only — no front/rear bleed.
+    // Gold split: sail sits above the horizontal seam; bed is the wall below.
     expect(driver("driver-door").x).toBeLessThan(driver("driver-bed").x);
-    expect(driver("driver-bed").x).toBeLessThan(driver("driver-rear-quarter").x);
-    expect(driver("driver-rear-quarter").x).toBeLessThan(driver("tailgate").x);
-    expect(driver("front-bumper").y).toBeGreaterThan(driver("front-fascia").y);
-    expect(driver("rear-bumper").y).toBeGreaterThan(driver("tailgate").y);
+    expect(driver("driver-door").x).toBeLessThan(driver("driver-rear-quarter").x);
+    expect(driver("driver-rear-quarter").y).toBeLessThan(driver("driver-bed").y);
+    expect(byId.hood?.views.driver).toBeUndefined();
+    expect(byId["front-fascia"]?.views.driver).toBeUndefined();
+    expect(byId["front-bumper"]?.views.driver).toBeUndefined();
+    expect(byId.tailgate?.views.driver).toBeUndefined();
+    expect(byId["rear-bumper"]?.views.driver).toBeUndefined();
 
-    // Passenger ¾: nose right, tail left. 4 / 6 / 8 on near steel.
+    // Passenger flank: seats 7–9 only. Sail above / bed below, both aft of doors.
     expect(passenger("passenger-rear-quarter").x).toBeLessThan(
-      passenger("passenger-bed").x,
+      passenger("passenger-door").x,
     );
     expect(passenger("passenger-bed").x).toBeLessThan(passenger("passenger-door").x);
-    expect(passenger("passenger-door").x).toBeLessThan(passenger("hood").x);
+    expect(passenger("passenger-rear-quarter").y).toBeLessThan(
+      passenger("passenger-bed").y,
+    );
+    expect(byId.hood?.views.passenger).toBeUndefined();
+    expect(byId["front-fascia"]?.views.passenger).toBeUndefined();
+    expect(byId["front-bumper"]?.views.passenger).toBeUndefined();
 
     // Front head-on.
     expect(front("front-fascia").y).toBeGreaterThan(front("hood").y);
     expect(front("front-bumper").y).toBeGreaterThan(front("front-fascia").y);
 
-    // Rear = passenger-rear: tail left, passenger side right.
-    expect(rear("tailgate").x).toBeLessThan(rear("passenger-rear-quarter").x);
-    expect(rear("passenger-rear-quarter").x).toBeLessThan(rear("passenger-bed").x);
+    // Rear = straight-on forest road: tailgate above bumper.
     expect(rear("rear-bumper").y).toBeGreaterThan(rear("tailgate").y);
+    expect(byId["passenger-bed"]?.views.rear).toBeUndefined();
+    expect(byId["passenger-rear-quarter"]?.views.rear).toBeUndefined();
   });
 
   test("homepage cards and views use the matching still", async ({ page }) => {

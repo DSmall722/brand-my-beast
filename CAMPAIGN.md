@@ -74,10 +74,10 @@ Board index 1–11. Opening marks are the same dollars as `RULES.md`. Floor and 
 | 2 | Front fascia (stainless) | $2,000 |
 | 3 | Front bumper | $500 |
 | 4 | Driver doors | $4,500 |
-| 5 | Driver rear quarter (sail) | $1,000 |
+| 5 | Driver Rear Sail | $1,000 |
 | 6 | Driver bed | $2,000 |
 | 7 | Passenger doors | $4,500 |
-| 8 | Passenger rear quarter (sail) | $1,000 |
+| 8 | Passenger Rear Sail | $1,000 |
 | 9 | Passenger bed | $2,000 |
 | 10 | Tailgate | $2,500 |
 | 11 | Rear bumper | $500 |

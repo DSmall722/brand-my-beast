@@ -1,10 +1,13 @@
 /**
  * Local Cybertruck stills. Hero stays the 1280 / 640 pair. Driver /
- * passenger / front / rear are dedicated faces.
+ * passenger / front / rear are TRACE AID lime flats (2048×1360).
  */
 
 import { HERO_STILL_WIDE } from "./hero-still";
 import type { TruckViewId } from "./truck-views";
+
+/** Dennard-approved TRACE AID teaching plates. Labels are in the pixels. */
+export const TRACE_AID_STILL = { width: 2048, height: 1360 } as const;
 
 export const TRUCK_VIEW_STILLS: Record<TruckViewId, string> = {
   driver: "/truck-view-driver.jpg",

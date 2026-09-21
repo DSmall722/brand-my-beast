@@ -63,10 +63,10 @@ baked still / stainless still
     2 Front fascia (stainless)
     3 Front bumper
     4 Driver doors
-    5 Driver rear quarter (sail)
+    5 Driver Rear Sail
     6 Driver bed
     7 Passenger doors
-    8 Passenger rear quarter (sail)
+    8 Passenger Rear Sail
     9 Passenger bed
     10 Tailgate
     11 Rear bumper

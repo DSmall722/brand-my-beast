@@ -1,7 +1,9 @@
 #!/usr/bin/env python3
-"""Stamp photographer + Pexels URL onto the public board JPEGs.
+"""Stamp photographer + Pexels URL onto unmarked board JPEGs.
 
-Must run after paint-board-marks.py so EXIF/IPTC/XMP survive the bake.
+Do not run this against the production TRACE AID lime flats — it would
+rewrite Dennard's approved 2048×1360 teaching plates. Left for hero /
+archive stills only.
 Uses the Image-ExifTool binary (PATH or /tmp/Image-ExifTool/exiftool).
 """
 
@@ -28,8 +30,8 @@ CREDITS = {
         "url": "https://www.pexels.com/photo/tesla-cyber-truck-24734499/",
     },
     "rear": {
-        "artist": "James Collington",
-        "url": "https://www.pexels.com/photo/futuristic-vehicle-parked-on-california-boardwalk-30073773/",
+        "artist": "Stephen Leonardi",
+        "url": "https://www.pexels.com/photo/futuristic-truck-on-a-forest-road-in-autumn-29278630/",
     },
 }
 

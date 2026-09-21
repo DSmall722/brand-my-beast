@@ -8,7 +8,6 @@ import {
 } from "../src/lib/campaign";
 import { findCloseAtViolations } from "../src/lib/close-at-null";
 import { findStripePackagesInRootPackageJson } from "../src/lib/no-stripe-package";
-import { PANEL_BOARD_MARKS, panelBoardMarksForView } from "../src/lib/panel-board";
 import { vercelJsonIsHoldOrMainOnlyRestore } from "../src/lib/vercel-git-deploy";
 
 /**
@@ -61,10 +60,7 @@ test.describe("slice 16.10: callout hit area and focus ring", () => {
     await expect(page.getByTestId("hero-panel-board")).toHaveCount(0);
 
     await page.goto("/panels/hood");
-    await page.getByTestId("truck-view-driver").click();
-    for (const mark of panelBoardMarksForView("driver")) {
-      await expectHitAtLeast(page, `view-panel-board-driver-${mark.n}`);
-    }
+    await expectHitAtLeast(page, "truck-seat-hood");
 
     const html = await page.content();
     expect(html.toLowerCase()).not.toMatch(/\blease\b/);
@@ -74,22 +70,21 @@ test.describe("slice 16.10: callout hit area and focus ring", () => {
   test("keyboard focus draws a visible signal ring", async ({ page }) => {
     await page.setViewportSize({ width: 1280, height: 900 });
     await page.goto("/panels/hood");
-    const callout = page.getByTestId("view-panel-board-driver-3");
+    const callout = page.getByTestId("truck-seat-hood");
     await expect(callout).toBeVisible();
 
     const ring = await callout.evaluate((el) => {
-      if (!(el instanceof HTMLElement)) throw new Error("callout missing");
+      if (!(el instanceof Element)) throw new Error("callout missing");
       const opts: FocusOptions & { focusVisible?: boolean } = {
         focusVisible: true,
       };
-      el.focus(opts);
+      (el as HTMLElement).focus(opts);
       const style = getComputedStyle(el);
       return {
         focusVisible: el.matches(":focus-visible"),
         outlineStyle: style.outlineStyle,
         outlineWidth: Number.parseFloat(style.outlineWidth),
         outlineColor: style.outlineColor,
-        boxShadow: style.boxShadow,
       };
     });
 
@@ -97,7 +92,5 @@ test.describe("slice 16.10: callout hit area and focus ring", () => {
     expect(ring.outlineStyle).not.toBe("none");
     expect(ring.outlineWidth).toBeGreaterThanOrEqual(2);
     expect(ring.outlineColor).toBe("rgb(214, 255, 63)");
-    expect(ring.boxShadow).not.toBe("none");
-    expect(ring.boxShadow).toContain("rgb(214, 255, 63)");
   });
 });

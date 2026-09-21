@@ -43,7 +43,11 @@ test.describe("slice 17.3: open-seat legend drops 30X", () => {
     await expect(legend).not.toContainText("Held = standing intent");
     await expect(legend).not.toContainText("30X");
     await expect(legend).not.toContainText("Not a 360");
-    await expect(page.getByTestId("truck-seat-hood")).toHaveCount(0);
+    const empty = page.getByTestId("truck-seat-driver-door");
+    await expect(empty).toBeVisible();
+    await expect(empty).toHaveAttribute("aria-label", /open seat$/);
+    const emptyLabel = (await empty.getAttribute("aria-label")) ?? "";
+    expect(emptyLabel).not.toMatch(/30X|Not a 360/);
     await page.goto("/panels/hood");
     const hood = page.getByTestId("truck-seat-hood");
     const hoodOccupied = await hood.getAttribute("data-occupied");
@@ -54,13 +58,6 @@ test.describe("slice 17.3: open-seat legend drops 30X", () => {
     }
     const hoodLabel = (await hood.getAttribute("aria-label")) ?? "";
     expect(hoodLabel).not.toMatch(/30X|Not a 360/);
-    const empty = page
-      .locator('[data-testid^="truck-seat-"][data-occupied="false"]')
-      .first();
-    await expect(empty).toBeVisible();
-    await expect(empty).toHaveAttribute("aria-label", /open seat$/);
-    const emptyLabel = (await empty.getAttribute("aria-label")) ?? "";
-    expect(emptyLabel).not.toMatch(/30X|Not a 360/);
     const html = await page.content();
     expect(html).not.toContain("FEATURES.md");
     expect(html).not.toContain("Raw 30X");
