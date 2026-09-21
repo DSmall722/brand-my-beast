@@ -87,6 +87,7 @@ export const PANELS: readonly Panel[] = [
   {
     id: "driver-door",
     name: "Driver doors",
+    // TBD placeholder. Rank by usable ad space + visibility; must rise above Hood.
     openingUsd: 2500,
     finishAtFloor: "wrap",
     finishAtGoal: "wrap_or_etch",
@@ -94,6 +95,7 @@ export const PANELS: readonly Panel[] = [
   {
     id: "passenger-door",
     name: "Passenger doors",
+    // TBD placeholder. Same hold as Driver doors — do not invent a final dollar.
     openingUsd: 2500,
     finishAtFloor: "wrap",
     finishAtGoal: "wrap_or_etch",

@@ -2,7 +2,7 @@
 
 CAMPAIGN.md wins if this file and another file disagree on money or identity.
 
-Updated: 2026-09-16
+Updated: 2026-09-21
 
 ## Inventory
 
@@ -28,7 +28,9 @@ Nine steel faces can take Immortal etch, and **only after $120,000**: hood, fron
 
 Wrap-only forever: front bumper (leave camera lens/washer clear), rear bumper.
 
-Seat 3 is the driver-side cab door package (front + rear leaf). Seat 4 is the passenger-side package. One seat per side — not a combined both-sides price.
+Seat 3 is the driver-side cab door package (front + rear leaf). Seat 4 is the passenger-side package. One seat per side — not a combined both-sides price. Public names: Driver doors / Passenger doors.
+
+Door-package openings are **TBD**. Keep the **$2,500 placeholders** in this table and in `campaign.ts` until usable ad space and visibility are ranked. They are expected to rise above Hood. Do not invent a new door dollar in a drive-by PR. Front fascia opening stays **$2,000**.
 
 ## Increments
 

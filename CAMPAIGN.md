@@ -82,7 +82,11 @@ Board index 1–11. Opening marks are the same dollars as `RULES.md`. Floor and 
 | 10 | Front bumper | $500 |
 | 11 | Rear bumper | $500 |
 
-Seats 3 and 4 are door packages: front + rear cab leaf on that side, one seat per side. Front fascia is Immortal Etch. Front bumper and Rear bumper are wrap-only. Opening sum is $19,000 — the floor is not this sum.
+Seats 3 and 4 are door packages: front + rear cab leaf on that side, one seat per side. Public names stay **Driver doors** / **Passenger doors**. Front fascia is Immortal Etch. Front bumper and Rear bumper are wrap-only.
+
+Door-package openings are **TBD**. The table still shows **$2,500 placeholders** so cards keep a number. Openings should track usable ad space and visibility. The driver-side package must price **higher than $2,500** once ranked — expected above Hood. Do not treat $2,500 as the locked door-package price. Front fascia stays **$2,000** until separately revised.
+
+Opening sum with these placeholders is $19,000 — the floor is not this sum.
 
 ## Vehicle
 
