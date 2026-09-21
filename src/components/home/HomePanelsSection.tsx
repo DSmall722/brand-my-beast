@@ -1,5 +1,6 @@
 import Link from "next/link";
 import type { CSSProperties } from "react";
+import { ImmortalEtchLockup } from "@/components/ImmortalEtchLockup";
 import { PANELS, currentBidUsd, formatUsd, isEtchable } from "@/lib/campaign";
 import { PANEL_BOARD_MARKS, panelFaceStyle } from "@/lib/panel-board";
 import { PUBLIC_COPY } from "@/lib/public-copy";
@@ -28,7 +29,7 @@ export function HomePanelsSection({
           <div className="panels-lead-stack" data-testid="panels-lead">
             {PUBLIC_COPY.panels.leadLines.map((line) => (
               <p key={line} className="section-lead">
-                {line}
+                <ImmortalEtchLockup text={line} />
               </p>
             ))}
           </div>

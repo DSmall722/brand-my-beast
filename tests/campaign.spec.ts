@@ -58,12 +58,8 @@ test.describe("P1 waitlist campaign locks", () => {
       "alt",
       PUBLIC_COPY.hero.imageAlt,
     );
-    await expect(page.getByTestId("hero-preview-label")).toHaveText(
-      PUBLIC_COPY.hero.caption,
-    );
-    await expect(page.getByTestId("hero-preview-label")).toHaveText(
-      "concept photo",
-    );
+    await expect(page.getByTestId("hero-preview-label")).toHaveCount(0);
+    await expect(page.locator(".hero-lead")).toHaveCount(0);
     await expect(page.getByTestId("hero-panel-board")).toHaveCount(0);
     await expect(page.locator("#hero-title")).toHaveText(HERO_TITLE);
     await expect(page.getByRole("heading", { name: PUBLIC_COPY.board.heading })).toBeVisible();

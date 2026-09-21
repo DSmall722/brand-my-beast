@@ -54,7 +54,7 @@ test.describe("slice 12.31: homepage JSON-LD Organization + Offer", () => {
     expect(org?.description).toBe(PUBLIC_COPY.meta.description);
     expect(offer?.["@type"]).toBe("Offer");
     expect(offer?.name).toBe(PUBLIC_COPY.meta.title);
-    expect(offer?.description).toBe(PUBLIC_COPY.hero.lead);
+    expect(offer?.description).toBe(PUBLIC_COPY.hero.h1);
     expect(offer?.price).toBe(String(FLOOR_USD));
     const raw = JSON.stringify(graph).toLowerCase();
     expect(raw).not.toMatch(/\bimpression/);
@@ -75,7 +75,7 @@ test.describe("slice 12.31: homepage JSON-LD Organization + Offer", () => {
     expect(parsed["@graph"][0]?.["@type"]).toBe("Organization");
     expect(parsed["@graph"][1]?.["@type"]).toBe("Offer");
     expect(parsed["@graph"][0]?.description).toBe(PUBLIC_COPY.meta.description);
-    expect(parsed["@graph"][1]?.description).toBe(PUBLIC_COPY.hero.lead);
+    expect(parsed["@graph"][1]?.description).toBe(PUBLIC_COPY.hero.h1);
 
     const html = (await page.content()).toLowerCase();
     expect(html).not.toMatch(/\blease\b/);

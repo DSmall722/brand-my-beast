@@ -67,7 +67,7 @@ export function buildHomeJsonLd(): HomeJsonLdGraph {
         "@type": "Offer",
         "@id": `${SITE_URL}/#panel-offer`,
         name: PUBLIC_COPY.meta.title,
-        description: PUBLIC_COPY.hero.lead,
+        description: PUBLIC_COPY.hero.h1,
         url: SITE_URL,
         seller: { "@id": orgId },
         priceCurrency: "USD",

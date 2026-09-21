@@ -18,9 +18,9 @@ import { vercelJsonIsHoldOrMainOnlyRestore } from "../src/lib/vercel-git-deploy"
  * No H1 rewrite. CLOSE_AT null. No Stripe. No SEATS_OPEN flip.
  */
 
-const LOCKED_H1 = "Put your brand on the truck people already photograph.";
+const LOCKED_H1 = "Advertise your brand on the truck that people already photograph";
 const PANEL_PHRASE =
-  "Purchase a Highly Visible Vinyl Advertising Wrap for 12 Months.";
+  "Once total active bids cross $120,000, buyers will unlock the option to have their advertisement permanently etched on the stainless surface for 3x the final bid for that panel.";
 
 test.describe("slice 16.12: panel lead matches the numbered cards", () => {
   test("campaign money fences stay locked — CLOSE_AT null", () => {

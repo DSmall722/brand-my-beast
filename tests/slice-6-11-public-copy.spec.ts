@@ -44,7 +44,7 @@ test.describe("slice 6.11: homepage matches PUBLIC_COPY H1 and Notify me", () =>
 
   test("PUBLIC_COPY module still holds locked H1 and Notify me", () => {
     expect(PUBLIC_COPY.hero.h1).toBe(
-      "Put your brand on the truck people already photograph.",
+      "Advertise your brand on the truck that people already photograph",
     );
     expect(PUBLIC_COPY.waitlist.button).toBe("Contact BMB");
   });
@@ -54,7 +54,7 @@ test.describe("slice 6.11: homepage matches PUBLIC_COPY H1 and Notify me", () =>
 
     await expect(page.locator("#hero-title")).toHaveText(PUBLIC_COPY.hero.h1);
     await expect(page.locator("#hero-title")).toHaveText(
-      "Put your brand on the truck people already photograph.",
+      "Advertise your brand on the truck that people already photograph",
     );
     await expect(page.getByTestId("waitlist-submit")).toHaveText(
       PUBLIC_COPY.waitlist.button,
@@ -63,7 +63,7 @@ test.describe("slice 6.11: homepage matches PUBLIC_COPY H1 and Notify me", () =>
 
     const html = (await page.content()).toLowerCase();
     expect(html).toContain(
-      "put your brand on the truck people already photograph.",
+      "advertise your brand on the truck that people already photograph",
     );
     expect(html).toContain("contact bmb");
     expect(html).not.toMatch(/\blease\b/);

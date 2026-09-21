@@ -47,7 +47,7 @@ test.describe("slice 13.5: PUBLIC_COPY seat pack (no H1 rewrite)", () => {
 
   test("seat pack strings exist; homepage H1 unchanged", () => {
     expect(PUBLIC_COPY.hero.h1).toBe(
-      "Put your brand on the truck people already photograph.",
+      "Advertise your brand on the truck that people already photograph",
     );
     expect(PUBLIC_COPY.seat.withdrawSuccess).toContain("withdrawn");
     expect(PUBLIC_COPY.seat.withdrawButton).toMatch(/Withdraw/i);

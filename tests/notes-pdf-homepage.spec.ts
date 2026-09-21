@@ -2,8 +2,10 @@ import { expect, test } from "@playwright/test";
 import { PANELS, currentBidUsd, formatUsd } from "../src/lib/campaign";
 import { PUBLIC_COPY } from "../src/lib/public-copy";
 
-const ETCH_LINE =
-  "If total active bids cross $120,000, buyers will unlock the option to have their advertisement permanently etched on the stainless surface for 3x the final bid for that panel. Immortal Etch is only available on stainless steel panels.";
+const ETCH_UNLOCK =
+  "Once total active bids cross $120,000, buyers will unlock the option to have their advertisement permanently etched on the stainless surface for 3x the final bid for that panel.";
+const ETCH_STEEL =
+  "Immortal Etch is only available on stainless steel panels.";
 
 test.describe("notes PDF homepage sheet", () => {
   test.describe.configure({ mode: "serial" });
@@ -51,10 +53,11 @@ test.describe("notes PDF homepage sheet", () => {
     await expect(page.getByTestId("want-all-panels")).toHaveText(
       "Want to buy all the panels?",
     );
-    await expect(page.getByTestId("panels-lead")).toContainText(
-      "Purchase a Highly Visible Vinyl Advertising Wrap for 12 Months.",
+    await expect(page.getByTestId("panels-lead")).toContainText(ETCH_UNLOCK);
+    await expect(page.getByTestId("panels-lead")).toContainText(ETCH_STEEL);
+    await expect(page.getByTestId("panels-lead").locator(".immortal-etch")).toHaveText(
+      "Immortal Etch",
     );
-    await expect(page.getByTestId("panels-lead")).toContainText(ETCH_LINE);
     await expect(page.getByTestId("panels-lead")).not.toContainText(
       "Eleven seats. Opening prices below.",
     );
@@ -102,15 +105,18 @@ test.describe("notes PDF homepage sheet", () => {
     await expect(page.locator("#story")).toContainText(
       "Maximum of one brand for each kind of business. If someone in your trade is already standing, highest bidder wins.",
     );
-    await expect(page.locator("#story")).toContainText(
-      "$120,000 Immortal Etch Unlocked",
+    await expect(page.locator("#story")).toContainText("$120,000 unlocks");
+    await expect(page.locator("#story .story-step-title .immortal-etch")).toHaveText(
+      "Immortal Etch",
     );
     await expect(page.locator("#story")).not.toContainText(
       "At $120,000 you get every panel and the campaign owns the truck.",
     );
-    await expect(page.getByTestId("story-etch-forever")).toHaveText(
-      PUBLIC_COPY.howItWorks.foreverLine,
-    );
+    const forever = page.getByTestId("story-etch-forever");
+    await expect(forever).toContainText("Vinyl lasts a year,");
+    await expect(forever).toContainText("but Immortal Etch is forever");
+    await expect(forever.locator("br")).toHaveCount(1);
+    await expect(forever.locator(".immortal-etch")).toHaveText("Immortal Etch");
 
     await expect(page.getByTestId("etch-sample-slots")).toBeVisible();
     await expect(page.getByTestId("etch-sample-hood")).toBeVisible();
@@ -121,6 +127,14 @@ test.describe("notes PDF homepage sheet", () => {
     await expect(page.getByTestId("faq-campaign-miss")).toContainText(
       "Full refund",
     );
+
+    await expect(page.locator("#questions-title")).toHaveText("FAQ");
+    await expect(page.locator("#money")).not.toContainText(
+      "Amount is intent only. When bidding opens, a 20% deposit holds your panel.",
+    );
+    await expect(page.getByTestId("hero-preview-label")).toHaveCount(0);
+    await expect(page.locator(".hero-lead")).toHaveCount(0);
+    await expect(page.locator("#hero-title")).toHaveText(PUBLIC_COPY.hero.h1);
 
     await expect(page.locator("#waitlist-title")).toHaveText("Contact Us");
     await expect(page.locator("#waitlist")).not.toContainText(

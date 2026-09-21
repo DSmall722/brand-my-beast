@@ -73,7 +73,7 @@ test.describe("slice 6.15: vercel main-only deploys", () => {
     await page.goto("/");
     await expect(page.locator("#hero-title")).toHaveText(PUBLIC_COPY.hero.h1);
     await expect(page.locator("#hero-title")).toHaveText(
-      "Put your brand on the truck people already photograph.",
+      "Advertise your brand on the truck that people already photograph",
     );
     await expect(page.getByTestId("waitlist-submit")).toHaveText(
       PUBLIC_COPY.waitlist.button,

@@ -7,7 +7,7 @@ Locked: 2026-09-14 — desire first, then the deal, then the catch.
 
 ## Meta
 
-- Title: `BrandMyBeast — Put your brand on the truck people already photograph.`
+- Title: `BrandMyBeast — Advertise your brand on the truck that people already photograph`
 - Description: `Eleven companies. One Cyberbeast. Join the list. Hit $58,000 and the truck is ordered and wrapped for a year. Miss it and nobody pays.`
 
 ## Header
@@ -17,12 +17,12 @@ Locked: 2026-09-14 — desire first, then the deal, then the catch.
 
 ## Hero
 
-- H1: `Put your brand on the truck people already photograph.`
-- Lead: `concept photo`
+- H1: `Advertise your brand on the truck that people already photograph`
+- Lead: (omitted)
 - Primary CTA: `Get on the list`
 - Secondary CTA: `Bid on a Panel`
 - Hero image label (alt): `Concept preview — BrandMyBeast house wrap. Seats are not sold yet.`
-- Hero caption: `concept photo`
+- Hero caption: (omitted)
 
 ## Track the Auction
 
@@ -59,8 +59,8 @@ Locked: 2026-09-14 — desire first, then the deal, then the catch.
 
 - Heading: `The eleven panels`
 - Lead (two stacked lines):
-  1. `Purchase a Highly Visible Vinyl Advertising Wrap for 12 Months.`
-  2. `If total active bids cross $120,000, buyers will unlock the option to have their advertisement permanently etched on the stainless surface for 3x the final bid for that panel. Immortal Etch is only available on stainless steel panels.`
+  1. `Once total active bids cross $120,000, buyers will unlock the option to have their advertisement permanently etched on the stainless surface for 3x the final bid for that panel.`
+  2. `Immortal Etch is only available on stainless steel panels.`
 - Badge etch: `Immortal Etch Locked`
 - Badge wrap: `Wrap only`
 - Standing open: `Open seat`
@@ -74,9 +74,9 @@ Panel card names match the board. No gloss line on the card.
 - 01 body: `Maximum of one brand for each kind of business. If someone in your trade is already standing, highest bidder wins.`
 - 02 title: `$58,000 or the money comes back`
 - 02 body: `Reach $58,000 and the Cyberbeast is ordered and winners are wrapped for twelve months. Miss it and every bid is released.`
-- 03 title: `$120,000 Immortal Etch Unlocked`
+- 03 title: `$120,000 unlocks` / `Immortal Etch` (second line is the Syne lockup)
 - 03 body: `Nine steel faces can be immortally etched with your brand logo.`
-- Full-width line: `Vinyl lasts a year, but Immortal Etch is forever`
+- Full-width line: `Vinyl lasts a year,` / `but Immortal Etch is forever`
 
 ## Immortal Etch
 
@@ -98,7 +98,7 @@ Money facts from CAMPAIGN.md only. Plain English. Not a full contract.
 
 ## Questions
 
-- Heading: `Questions people actually ask`
+- Heading: `FAQ`
 - Q: `Is this Tesla?` A: `No. Independent project. Not affiliated with Tesla, Inc.`
 - Q: `Is there a truck yet?` A: `Not yet. The photo is a preview. The Cyberbeast is ordered only if the auction clears $58,000.`
 - Q: `What am I buying?` A: `A year of your brand on one panel. Not a share of the title.`
@@ -141,7 +141,7 @@ Not homepage. Same voice. No “test login” string when Auth is live.
 ## Seat pack (not homepage H1)
 
 Slice **13.5** / **14.7**. Panel / account strings only. Do **not** rewrite the homepage H1
-(`Put your brand on the truck people already photograph.`).
+(`Advertise your brand on the truck that people already photograph`).
 
 Seat rationale only (slice **14.7**) — opening-bid one-liner from RULES.md Inventory.
 Not a homepage hero rewrite:

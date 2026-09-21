@@ -17,7 +17,7 @@ export function wholeTruckPackageCopy(): string {
 export const PUBLIC_COPY = {
   meta: {
     title:
-      "BrandMyBeast — Put your brand on the truck people already photograph.",
+      "BrandMyBeast — Advertise your brand on the truck that people already photograph",
     description:
       "Eleven companies. One Cyberbeast. Join the list. Hit $58,000 and the truck is ordered and wrapped for a year. Miss it and nobody pays.",
   },
@@ -26,13 +26,13 @@ export const PUBLIC_COPY = {
     nav: "Join the list",
   },
   hero: {
-    h1: "Put your brand on the truck people already photograph.",
-    lead: "concept photo",
+    h1: "Advertise your brand on the truck that people already photograph",
+    lead: "",
     primaryCta: "Get on the list",
     secondaryCta: "Bid on a Panel",
     imageAlt:
       "Concept preview — BrandMyBeast house wrap. Seats are not sold yet.",
-    caption: "concept photo",
+    caption: "",
   },
   board: {
     heading: "Track the Auction",
@@ -79,10 +79,10 @@ export const PUBLIC_COPY = {
   panels: {
     heading: "The eleven panels",
     leadLines: [
-      "Purchase a Highly Visible Vinyl Advertising Wrap for 12 Months.",
-      "If total active bids cross $120,000, buyers will unlock the option to have their advertisement permanently etched on the stainless surface for 3x the final bid for that panel. Immortal Etch is only available on stainless steel panels.",
+      "Once total active bids cross $120,000, buyers will unlock the option to have their advertisement permanently etched on the stainless surface for 3x the final bid for that panel.",
+      "Immortal Etch is only available on stainless steel panels.",
     ],
-    lead: "Purchase a Highly Visible Vinyl Advertising Wrap for 12 Months. If total active bids cross $120,000, buyers will unlock the option to have their advertisement permanently etched on the stainless surface for 3x the final bid for that panel. Immortal Etch is only available on stainless steel panels.",
+    lead: "Once total active bids cross $120,000, buyers will unlock the option to have their advertisement permanently etched on the stainless surface for 3x the final bid for that panel. Immortal Etch is only available on stainless steel panels.",
     badgeEtch: "Immortal Etch Locked",
     badgeWrap: "Wrap only",
     /** Slice 10.9 — panel card standing line when no mark holds. */
@@ -102,11 +102,11 @@ export const PUBLIC_COPY = {
         body: "Reach $58,000 and the Cyberbeast is ordered and winners are wrapped for twelve months. Miss it and every bid is released.",
       },
       {
-        title: "$120,000 Immortal Etch Unlocked",
+        title: "$120,000 unlocks\nImmortal Etch",
         body: "Nine steel faces can be immortally etched with your brand logo.",
       },
     ],
-    foreverLine: "Vinyl lasts a year, but Immortal Etch is forever",
+    foreverLine: "Vinyl lasts a year,\nbut Immortal Etch is forever",
   },
   etch: {
     heading: "Immortal Etch",
@@ -145,7 +145,7 @@ export const PUBLIC_COPY = {
     ],
   },
   questions: {
-    heading: "Questions people actually ask",
+    heading: "FAQ",
     items: [
       {
         q: "Is this Tesla?",

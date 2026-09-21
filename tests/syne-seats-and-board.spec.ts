@@ -11,7 +11,7 @@ import { PUBLIC_COPY } from "../src/lib/public-copy";
 import { findStripePackagesInRootPackageJson } from "../src/lib/no-stripe-package";
 import { vercelJsonIsHoldOrMainOnlyRestore } from "../src/lib/vercel-git-deploy";
 
-const LOCKED_H1 = "Put your brand on the truck people already photograph.";
+const LOCKED_H1 = "Advertise your brand on the truck that people already photograph";
 
 test.describe("Syne lockup, board marks, seat lead", () => {
   test("campaign money fences stay locked — CLOSE_AT null", () => {
@@ -42,7 +42,9 @@ test.describe("Syne lockup, board marks, seat lead", () => {
       await expect(lockup).toHaveText("Immortal Etch");
     }
     const forever = page.getByTestId("story-etch-forever");
-    await expect(forever).toContainText(PUBLIC_COPY.howItWorks.foreverLine);
+    await expect(forever).toContainText("Vinyl lasts a year,");
+    await expect(forever).toContainText("but Immortal Etch is forever");
+    await expect(forever.locator("br")).toHaveCount(1);
     const fonts = await page.evaluate(() => {
       const lockup = document.querySelector("#story .immortal-etch");
       const title = document.querySelector("#story .story-step-title");
@@ -71,9 +73,8 @@ test.describe("Syne lockup, board marks, seat lead", () => {
     await page.goto("/");
     await page.evaluate(() => document.fonts.ready);
     await expect(page.getByTestId("truck-img-hero")).toBeVisible();
-    await expect(page.getByTestId("hero-preview-label")).toHaveText(
-      PUBLIC_COPY.hero.caption,
-    );
+    await expect(page.getByTestId("hero-preview-label")).toHaveCount(0);
+    await expect(page.locator(".hero-lead")).toHaveCount(0);
     await expect(page.getByTestId("hero-panel-board")).toHaveCount(0);
     for (let n = 1; n <= 11; n += 1) {
       await expect(page.getByTestId(`hero-panel-board-${n}`)).toHaveCount(0);

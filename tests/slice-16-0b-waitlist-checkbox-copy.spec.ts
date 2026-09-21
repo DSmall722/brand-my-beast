@@ -20,7 +20,7 @@ import { vercelJsonIsHoldOrMainOnlyRestore } from "../src/lib/vercel-git-deploy"
  */
 
 const LOCKED_H1 =
-  "Put your brand on the truck people already photograph.";
+  "Advertise your brand on the truck that people already photograph";
 const LABEL = "I want the whole truck";
 const HINT =
   "This is interest, not a $120,000 bid. Nothing is charged.";

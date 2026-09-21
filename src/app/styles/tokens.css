@@ -165,7 +165,7 @@ a {
 
 .panels-lead-stack {
   display: grid;
-  gap: 0.4rem;
+  gap: 1rem;
 }
 
 .panels-lead-stack .section-lead {

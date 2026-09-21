@@ -53,13 +53,9 @@ export function HomeHeroSection({
           </a>
           </div>
           <div className="hero-overlay">
-            <p className="hero-preview-label" data-testid="hero-preview-label">
-              {PUBLIC_COPY.hero.caption}
-            </p>
             <div className="hero-copy">
               <h1 id="hero-title">{PUBLIC_COPY.hero.h1}</h1>
             </div>
-            <p className="hero-lead">{PUBLIC_COPY.hero.lead}</p>
             <div className="hero-actions">
               <ArrowFillButton
                 href="#waitlist"

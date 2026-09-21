@@ -2,11 +2,10 @@ import { Fragment } from "react";
 
 const TOKEN = "Immortal Etch";
 
-/** Syne lockup on the product name only. Body copy stays IBM Plex. */
-export function ImmortalEtchLockup({ text }: { readonly text: string }) {
-  const parts = text.split(TOKEN);
+function renderTokens(line: string) {
+  const parts = line.split(TOKEN);
   if (parts.length === 1) {
-    return text;
+    return line;
   }
   return (
     <>
@@ -14,6 +13,29 @@ export function ImmortalEtchLockup({ text }: { readonly text: string }) {
         <Fragment key={index}>
           {index > 0 ? <span className="immortal-etch">{TOKEN}</span> : null}
           {part}
+        </Fragment>
+      ))}
+    </>
+  );
+}
+
+/** Syne lockup on the product name only. Body copy stays IBM Plex. A newline is its own line. */
+export function ImmortalEtchLockup({ text }: { readonly text: string }) {
+  const lines = text.split("\n");
+  if (lines.length === 1) {
+    return renderTokens(lines[0] ?? "");
+  }
+  return (
+    <>
+      {lines.map((line, lineIndex) => (
+        <Fragment key={lineIndex}>
+          {lineIndex > 0 ? (
+            <>
+              {" "}
+              <br />
+            </>
+          ) : null}
+          {renderTokens(line)}
         </Fragment>
       ))}
     </>

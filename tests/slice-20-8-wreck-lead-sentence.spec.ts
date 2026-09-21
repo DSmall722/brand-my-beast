@@ -20,7 +20,7 @@ import { vercelJsonIsHoldOrMainOnlyRestore } from "../src/lib/vercel-git-deploy"
  */
 
 const ROOT = process.cwd();
-const LOCKED_H1 = "Put your brand on the truck people already photograph.";
+const LOCKED_H1 = "Advertise your brand on the truck that people already photograph";
 const COMPLETE_LEAD =
   "Here is what happens if the campaign misses, the wrap year ends early, or Immortal Etch is already cut.";
 const FRAGMENT =

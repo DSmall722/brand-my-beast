@@ -362,6 +362,11 @@
   color: var(--steel-100);
 }
 
+.story-step-title .immortal-etch {
+  display: block;
+  margin-top: 0.15rem;
+}
+
 .story-step-copy {
   color: var(--steel-300);
   line-height: 1.5;

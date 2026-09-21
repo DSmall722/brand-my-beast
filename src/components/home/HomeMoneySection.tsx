@@ -151,13 +151,6 @@ export function HomeMoneySection({
               </dd>
             </div>
           </dl>
-          <p
-            className="section-lead"
-            style={{ marginTop: "1.5rem" }}
-            data-testid="intent-no-charge-note"
-          >
-            Amount is intent only. {PUBLIC_COPY.board.depositLine}
-          </p>
           {isWholeTruckIntentOpen(pledgedUsd) ? (
             <div
               className="whole-truck-intent"
