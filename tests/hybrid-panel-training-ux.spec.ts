@@ -1,6 +1,7 @@
 import { existsSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import { expect, test, type Page } from "@playwright/test";
+import { TRACE_AID_STILL } from "../src/lib/truck-stills";
 import {
   BRAND,
   CLOSE_AT,
@@ -41,6 +42,34 @@ const LOCKED_LABELS = [
   "(10) Tailgate",
   "(11) Rear bumper",
 ] as const;
+
+function jpegSize(buf: Buffer): { width: number; height: number } {
+  if (buf[0] !== 0xff || buf[1] !== 0xd8) {
+    throw new Error("not a jpeg");
+  }
+  let i = 2;
+  while (i + 8 < buf.length) {
+    if (buf[i] !== 0xff) throw new Error("jpeg marker missing");
+    const marker = buf[i + 1] ?? 0;
+    if (marker === 0xd8 || marker === 0xd9) {
+      i += 2;
+      continue;
+    }
+    if (marker === 0x01 || (marker >= 0xd0 && marker <= 0xd7)) {
+      i += 2;
+      continue;
+    }
+    const len = buf.readUInt16BE(i + 2);
+    if (marker === 0xc0 || marker === 0xc1 || marker === 0xc2) {
+      return {
+        height: buf.readUInt16BE(i + 5),
+        width: buf.readUInt16BE(i + 7),
+      };
+    }
+    i += 2 + len;
+  }
+  throw new Error("no SOF");
+}
 
 function fillAlpha(value: string): number {
   const modern = value.match(
@@ -132,23 +161,20 @@ test.describe("hybrid panel training UX", () => {
     ]);
   });
 
-  test("rear still is Stephen Leonardi Pexels 29278630", () => {
-    const bytes = readFileSync(join(ROOT, "public", "truck-view-rear.jpg"));
-    const text = bytes.toString("latin1");
-    expect(text).toContain("Stephen Leonardi");
-    expect(text).toContain(
-      "https://www.pexels.com/photo/futuristic-truck-on-a-forest-road-in-autumn-29278630/",
-    );
-    expect(text).not.toContain("James Collington");
-    expect(text).not.toContain("30073773");
+  test("board stills are TRACE AID lime flats (2048×1360)", () => {
     for (const view of ["driver", "passenger", "front", "rear"] as const) {
-      expect(
-        existsSync(join(ROOT, "public", `truck-view-${view}.jpg`)),
-      ).toBe(true);
+      const path = join(ROOT, "public", `truck-view-${view}.jpg`);
+      expect(existsSync(path)).toBe(true);
+      const bytes = readFileSync(path);
+      expect(jpegSize(bytes)).toEqual({
+        width: TRACE_AID_STILL.width,
+        height: TRACE_AID_STILL.height,
+      });
+      expect(bytes.byteLength).toBeGreaterThan(400_000);
     }
   });
 
-  test("homepage rest wash and hover fill; labels stay (N) Name", async ({
+  test("homepage rest is hit-only; hover fill; no second labels", async ({
     page,
   }) => {
     await page.setViewportSize({ width: 1280, height: 900 });
@@ -161,58 +187,83 @@ test.describe("hybrid panel training UX", () => {
     await expect(seats).toHaveAttribute("data-training", "hybrid");
     await expect(page.getByTestId("truck-view-svg")).toHaveCount(1);
     await expect(page.getByTestId("view-panel-board-driver")).toHaveCount(0);
+    await expect(page.getByTestId("truck-seat-labels")).toHaveCount(0);
 
     await expect(seats).toHaveAttribute("data-view", "driver");
     await expect(page.getByTestId("truck-view-svg").locator("a")).toHaveCount(3);
-    await expect(page.getByTestId("truck-seat-label-driver-door")).toHaveText(
+    await expect(page.getByTestId("truck-seat-driver-door")).toHaveAttribute(
+      "data-seat-label",
       "(4) Driver doors",
     );
-    await expect(page.getByTestId("truck-seat-label-driver-rear-quarter")).toHaveText(
+    await expect(page.getByTestId("truck-seat-driver-rear-quarter")).toHaveAttribute(
+      "data-seat-label",
       "(5) Driver Rear Sail",
     );
-    await expect(page.getByTestId("truck-seat-label-driver-bed")).toHaveText(
+    await expect(page.getByTestId("truck-seat-driver-bed")).toHaveAttribute(
+      "data-seat-label",
       "(6) Driver bed",
     );
+    await expect(page.getByTestId("truck-seat-label-driver-door")).toHaveCount(0);
     await expect(page.getByTestId("truck-seat-hood")).toHaveCount(0);
     await expect(page.getByTestId("truck-seat-front-fascia")).toHaveCount(0);
     await expect(page.getByTestId("truck-seat-front-bumper")).toHaveCount(0);
     await expect(page.getByTestId("truck-seat-tailgate")).toHaveCount(0);
     await expect(page.getByTestId("truck-seat-rear-bumper")).toHaveCount(0);
 
+    const photo = page.locator(".truck-view-photo");
+    const dims = await photo.evaluate((el) => {
+      const img = el as HTMLImageElement;
+      return { w: img.naturalWidth, h: img.naturalHeight };
+    });
+    expect(dims).toEqual({
+      w: TRACE_AID_STILL.width,
+      h: TRACE_AID_STILL.height,
+    });
+
     await page.getByTestId("truck-view-passenger").click();
     await expect(seats).toHaveAttribute("data-view", "passenger");
     await expect(page.getByTestId("truck-view-svg").locator("a")).toHaveCount(3);
-    await expect(page.getByTestId("truck-seat-label-passenger-door")).toHaveText(
+    await expect(page.getByTestId("truck-seat-passenger-door")).toHaveAttribute(
+      "data-seat-label",
       "(7) Passenger doors",
     );
-    await expect(page.getByTestId("truck-seat-label-passenger-rear-quarter")).toHaveText(
+    await expect(page.getByTestId("truck-seat-passenger-rear-quarter")).toHaveAttribute(
+      "data-seat-label",
       "(8) Passenger Rear Sail",
     );
-    await expect(page.getByTestId("truck-seat-label-passenger-bed")).toHaveText(
+    await expect(page.getByTestId("truck-seat-passenger-bed")).toHaveAttribute(
+      "data-seat-label",
       "(9) Passenger bed",
     );
     await expect(page.getByTestId("truck-seat-hood")).toHaveCount(0);
+    await expect(page.getByTestId("truck-seat-label-passenger-door")).toHaveCount(
+      0,
+    );
 
     await page.getByTestId("truck-view-front").click();
     const hood = page.getByTestId("truck-seat-hood");
     await expect(hood).toHaveAttribute("data-seat-label", "(1) Hood");
-    await expect(page.getByTestId("truck-seat-label-hood")).toHaveText("(1) Hood");
-    await expect(page.getByTestId("truck-seat-label-front-fascia")).toHaveText(
+    await expect(page.getByTestId("truck-seat-front-fascia")).toHaveAttribute(
+      "data-seat-label",
       "(2) Front fascia",
     );
-    await expect(page.getByTestId("truck-seat-label-front-bumper")).toHaveText(
+    await expect(page.getByTestId("truck-seat-front-bumper")).toHaveAttribute(
+      "data-seat-label",
       "(3) Front bumper",
     );
+    await expect(page.getByTestId("truck-seat-label-hood")).toHaveCount(0);
 
     const hoodPoly = hood.locator("polygon");
     const restFill = await hoodPoly.evaluate((el) => getComputedStyle(el).fill);
     const restStroke = await hoodPoly.evaluate(
       (el) => getComputedStyle(el).stroke,
     );
-    expect(fillAlpha(restFill), restFill).toBeGreaterThan(0.05);
-    expect(fillAlpha(restFill), restFill).toBeLessThan(0.28);
-    expect(restStroke).not.toBe("none");
-    expect(restStroke).not.toBe("transparent");
+    expect(fillAlpha(restFill), restFill).toBeLessThan(0.05);
+    expect(
+      restStroke === "none" ||
+        restStroke === "transparent" ||
+        fillAlpha(restStroke) === 0,
+    ).toBe(true);
 
     await hoverSeatInterior(page, "truck-seat-hood");
     await expect
@@ -221,13 +272,6 @@ test.describe("hybrid panel training UX", () => {
         return fillAlpha(value);
       })
       .toBeGreaterThanOrEqual(0.35);
-
-    const labels = await page
-      .getByTestId("truck-seat-labels")
-      .locator("[data-seat-label]")
-      .evaluateAll((els) => els.map((el) => el.textContent ?? ""));
-    expect(labels).toEqual(["(1) Hood", "(2) Front fascia", "(3) Front bumper"]);
-    expect(labels.join(" ")).not.toMatch(/\$|opening|wrap-only|etch lock/i);
 
     const html = await page.content();
     expect(html).toContain("$58,000");
@@ -257,7 +301,8 @@ test.describe("hybrid panel training UX", () => {
       "data-seat-label",
       "(1) Hood",
     );
-    await expect(page.getByTestId("truck-seat-label-hood")).toHaveText("(1) Hood");
+    await expect(page.getByTestId("truck-seat-label-hood")).toHaveCount(0);
+    await expect(page.getByTestId("truck-seat-labels")).toHaveCount(0);
     await expect(page.getByTestId("truck-view-svg").locator("a")).toHaveCount(1);
     await expect(page.getByTestId("truck-seat-front-fascia")).toHaveCount(0);
     await expect(page.getByTestId("truck-seat-front-bumper")).toHaveCount(0);

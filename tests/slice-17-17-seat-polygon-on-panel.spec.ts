@@ -72,8 +72,8 @@ test.describe("slice 17.17: seat 2 polygon on the bumper", () => {
     const seatBox = await seat.boundingBox();
     if (!seatBox) throw new Error("seat missing");
     expect(inside(seatBox, photoBox, 8)).toBe(true);
-    await expect(page.getByTestId("truck-seat-label-front-fascia")).toHaveText(
-      "(2) Front fascia",
+    await expect(page.getByTestId("truck-seat-label-front-fascia")).toHaveCount(
+      0,
     );
   });
 });

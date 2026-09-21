@@ -1,7 +1,9 @@
 #!/usr/bin/env python3
-"""Stamp photographer + Pexels URL onto the public board JPEGs.
+"""Stamp photographer + Pexels URL onto unmarked board JPEGs.
 
-Must run after the public JPEGs are written so EXIF/IPTC/XMP stay on the unmarked stills.
+Do not run this against the production TRACE AID lime flats — it would
+rewrite Dennard's approved 2048×1360 teaching plates. Left for hero /
+archive stills only.
 Uses the Image-ExifTool binary (PATH or /tmp/Image-ExifTool/exiftool).
 """
 

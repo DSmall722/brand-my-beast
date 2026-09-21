@@ -1,7 +1,8 @@
 /**
  * Driver / passenger / front / rear truck views + SVG hotspot seats.
- * Unmarked Pexels stills. Lime overlays + `(N) Name` labels live in the DOM.
- * Preview only — no capture, no clock, no invented truck photos.
+ * Production stills are TRACE AID lime flats (2048×1360). SVG is hit /
+ * hover only — `(N) Name` is baked into the JPEG. Preview only — no
+ * capture, no clock, no invented truck photos.
  */
 
 import { FLOOR_USD, GOAL_USD, PANELS, formatUsd, type Panel } from "./campaign";
@@ -15,7 +16,7 @@ export const TRUCK_VIEWS = [
 
 export type TruckViewId = (typeof TRUCK_VIEWS)[number]["id"];
 
-/** Percent box — overlays sit 1:1 on the 16:9 still. */
+/** Percent box — overlays sit 1:1 on the 2048×1360 TRACE AID still. */
 export const TRUCK_VIEW_BOX = { w: 100, h: 100 } as const;
 
 export type TruckHotspot = {
@@ -81,17 +82,17 @@ export function viewOwningPanel(panelId: string): TruckViewId {
 
 /** Door packages stay on cab steel leaves only — no front fender, no glass. */
 export const DRIVER_DOOR_BOUNDS_PCT = {
-  x0: 39,
-  x1: 65,
-  y0: 30,
-  y1: 53,
+  x0: 28,
+  x1: 63,
+  y0: 43,
+  y1: 64,
 } as const;
 
 export const PASSENGER_DOOR_BOUNDS_PCT = {
   x0: 32,
-  x1: 60,
-  y0: 28,
-  y1: 58,
+  x1: 57,
+  y0: 44,
+  y1: 68,
 } as const;
 
 /**
@@ -114,28 +115,28 @@ const DRIVER_HOTSPOTS: readonly TruckHotspot[] = [
   {
     panelId: "driver-door",
     points: pctPoints([
-      [40.5, 31.5],
-      [63, 31.5],
-      [63, 51.5],
-      [40.5, 51.5],
+      [29.8, 44.5],
+      [61.2, 44.5],
+      [61.2, 62.4],
+      [29.8, 62.4],
     ]),
   },
   {
     panelId: "driver-rear-quarter",
     points: pctPoints([
-      [63, 24],
-      [86, 28],
-      [86, 42],
-      [63, 42],
+      [61.2, 36.5],
+      [86.5, 36.5],
+      [86.5, 48.5],
+      [61.2, 48.5],
     ]),
   },
   {
     panelId: "driver-bed",
     points: pctPoints([
-      [63, 42],
-      [86, 42],
-      [86.5, 52],
-      [63, 52],
+      [61.2, 48.5],
+      [86.5, 48.5],
+      [86.5, 62.6],
+      [61.2, 62.6],
     ]),
   },
 ];
@@ -148,28 +149,28 @@ const PASSENGER_HOTSPOTS: readonly TruckHotspot[] = [
   {
     panelId: "passenger-door",
     points: pctPoints([
-      [34, 31],
-      [58, 31],
-      [58, 55],
-      [34, 55],
+      [33.5, 46],
+      [55, 46],
+      [55, 66.5],
+      [33.5, 66.5],
     ]),
   },
   {
     panelId: "passenger-rear-quarter",
     points: pctPoints([
-      [8, 23],
-      [34, 26],
-      [34, 41],
-      [8, 40],
+      [2.5, 22.5],
+      [33.5, 22.5],
+      [33.5, 46],
+      [2.5, 46],
     ]),
   },
   {
     panelId: "passenger-bed",
     points: pctPoints([
-      [8, 40],
-      [34, 41],
-      [34, 55],
-      [9, 55],
+      [2.5, 46],
+      [33.5, 46],
+      [33.5, 66.5],
+      [2.5, 66.5],
     ]),
   },
 ];
@@ -179,54 +180,50 @@ const FRONT_HOTSPOTS: readonly TruckHotspot[] = [
   {
     panelId: "hood",
     points: pctPoints([
-      [28, 11],
-      [72, 11],
-      [82, 36],
-      [18, 36],
+      [10, 25.5],
+      [89.5, 25.5],
+      [89.5, 36.5],
+      [10, 36.5],
     ]),
   },
   {
     panelId: "front-fascia",
     points: pctPoints([
-      [16, 36.5],
-      [84, 36.5],
-      [85, 58],
-      [15, 58],
+      [9.5, 37],
+      [90.5, 37],
+      [90.5, 60],
+      [9.5, 60],
     ]),
   },
   {
     panelId: "front-bumper",
     points: pctPoints([
-      [15, 58.5],
-      [85, 58.5],
-      [88, 74],
-      [80, 82],
-      [20, 82],
-      [12, 74],
+      [8, 62],
+      [91, 62],
+      [91, 76.5],
+      [8, 76.5],
     ]),
   },
 ];
 
-/** Rear: Stephen Leonardi forest-road still. Seats 10 + 11 only. */
+/** Rear: TRACE AID forest-road still. Seats 10 + 11 only. */
 const REAR_HOTSPOTS: readonly TruckHotspot[] = [
   {
     panelId: "tailgate",
     points: pctPoints([
-      [42, 36],
-      [93, 36],
-      [94, 66],
-      [42, 66],
+      [44.5, 43.8],
+      [85.7, 43.8],
+      [85.7, 60.5],
+      [44.5, 60.5],
     ]),
   },
   {
     panelId: "rear-bumper",
     points: pctPoints([
-      [40, 66],
-      [95, 66],
-      [96, 78],
-      [88, 84],
-      [44, 84],
-      [38, 78],
+      [42.2, 62.5],
+      [86, 62.5],
+      [84.5, 74.5],
+      [44, 74.5],
     ]),
   },
 ];

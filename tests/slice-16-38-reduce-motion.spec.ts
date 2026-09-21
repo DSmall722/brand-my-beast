@@ -11,8 +11,8 @@ import { findStripePackagesInRootPackageJson } from "../src/lib/no-stripe-packag
 import { vercelJsonIsHoldOrMainOnlyRestore } from "../src/lib/vercel-git-deploy";
 
 /**
- * Slice 16.38 — prefers-reduced-motion: callouts stay visible, no animation.
- * CLOSE_AT null. No Stripe.
+ * Slice 16.38 — prefers-reduced-motion: seat hit target stays still.
+ * Labels are baked into the TRACE AID JPEG. CLOSE_AT null. No Stripe.
  */
 
 test.describe("slice 16.38: reduced motion keeps callouts still", () => {
@@ -34,14 +34,15 @@ test.describe("slice 16.38: reduced motion keeps callouts still", () => {
     expect(vercelJsonIsHoldOrMainOnlyRestore()).toBe(true);
   });
 
-  test("callouts stay visible with no animation", async ({ page }) => {
+  test("active seat stays visible with no animation", async ({ page }) => {
     await page.emulateMedia({ reducedMotion: "reduce" });
     await page.setViewportSize({ width: 1280, height: 900 });
     await page.goto("/panels/hood");
-    const label = page.getByTestId("truck-seat-label-hood");
-    await expect(label).toBeVisible();
-    await expect(label).toHaveText("(1) Hood");
-    const motion = await label.evaluate((el) => {
+    const seat = page.getByTestId("truck-seat-hood");
+    await expect(seat).toBeVisible();
+    await expect(seat).toHaveAttribute("data-seat-label", "(1) Hood");
+    await expect(page.getByTestId("truck-seat-label-hood")).toHaveCount(0);
+    const motion = await seat.locator("polygon").evaluate((el) => {
       const style = getComputedStyle(el);
       return {
         animationName: style.animationName,
@@ -51,5 +52,8 @@ test.describe("slice 16.38: reduced motion keeps callouts still", () => {
     expect(motion.animationName === "none" || motion.animationName === "").toBe(
       true,
     );
+    expect(
+      motion.transitionProperty === "none" || motion.transitionProperty === "",
+    ).toBe(true);
   });
 });

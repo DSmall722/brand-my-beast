@@ -2522,7 +2522,7 @@
   display: block;
   width: 100%;
   height: auto;
-  aspect-ratio: 16 / 9;
+  aspect-ratio: 2048 / 1360;
   object-fit: contain;
   object-position: 50% 50%;
   vertical-align: middle;
@@ -2560,12 +2560,13 @@
   vector-effect: non-scaling-stroke;
   transition: fill 140ms ease, stroke 140ms ease;
 }
-/* Rest: lime outline + transparent wash. Hover / active: lime shade fill. */
+/* Rest: no second outline — lime is baked into the TRACE AID JPEG.
+   Hover / active: lime shade fill only. */
 .truck-view-seats[data-polygons="outline"] .truck-seat,
 .truck-view-seats[data-polygons="outline"] .truck-seat.is-raw,
 .truck-view-seats[data-polygons="outline"] .truck-seat.is-held {
-  fill: rgb(214 255 63 / 0.16);
-  stroke: #d6ff3f;
+  fill: transparent;
+  stroke: transparent;
 }
 .truck-view-seats[data-polygons="outline"] .truck-seat.is-active,
 .truck-view-seats[data-polygons="outline"] a:hover .truck-seat,
@@ -2584,34 +2585,8 @@
   fill: transparent;
   stroke: transparent;
 }
-.truck-seat-labels {
-  position: absolute;
-  inset: 0;
-  z-index: 4;
-  pointer-events: none;
-}
-.truck-seat-label {
-  position: absolute;
-  transform: translate(-50%, -50%);
-  margin: 0;
-  padding: 0.12rem 0.4rem;
-  border-radius: 0.2rem;
-  background: color-mix(in oklab, #07090c 72%, transparent);
-  color: #fff;
-  font-family: var(--font-display), Syne, system-ui, sans-serif;
-  font-size: clamp(0.72rem, 1.6vw, 0.95rem);
-  font-weight: 700;
-  letter-spacing: 0.02em;
-  line-height: 1.15;
-  white-space: nowrap;
-  text-shadow: 0 1px 2px #07090c;
-}
-.truck-seat-label.is-active {
-  background: color-mix(in oklab, #07090c 82%, transparent);
-}
 @media (prefers-reduced-motion: reduce) {
-  .truck-seat,
-  .truck-seat-label {
+  .truck-seat {
     transition: none;
   }
 }

@@ -41,7 +41,7 @@ export const HERO_MOBILE_CAB_GLASS_MAX_Y = 48;
 
 /**
  * Percents of the still. Hero well is 16:9 fill. Board views use
- * object-fit: contain on a photo well so these map 1:1 to the JPEG.
+ * object-fit: contain on the 2048×1360 TRACE AID well so these map 1:1.
  * Driver = seats 4–6 only. Passenger = seats 7–9 only.
  * Front = seats 1–3. Rear = seats 10–11. No bleed across cameras.
  * Door seats 4 and 7 are packages (front + rear cab leaf on that side).
@@ -51,7 +51,7 @@ const BOARD_LAYOUT: Record<Panel["id"], BoardLayout> = {
     hero: { x: 24, y: 34 },
     heroMobile: { x: 24, y: 52 },
     views: {
-      front: { x: 50, y: 22 },
+      front: { x: 50, y: 31 },
     },
     face: { still: "front", objectPosition: "50% 26%" },
   },
@@ -66,57 +66,57 @@ const BOARD_LAYOUT: Record<Panel["id"], BoardLayout> = {
   "driver-door": {
     hero: { x: 34, y: 42 },
     heroMobile: { x: 34, y: 54 },
-    views: { driver: { x: 52, y: 42 } },
+    views: { driver: { x: 45.5, y: 53.5 } },
     face: { still: "driver", objectPosition: "38% 48%" },
   },
   "passenger-door": {
     hero: { x: 31, y: 22 },
     heroMobile: { x: 28, y: 50 },
-    views: { passenger: { x: 46, y: 43 } },
+    views: { passenger: { x: 44.3, y: 56.3 } },
     face: { still: "passenger", objectPosition: "50% 48%" },
   },
   "driver-bed": {
     hero: { x: 54, y: 42 },
     heroMobile: { x: 54, y: 54 },
-    views: { driver: { x: 75, y: 48 } },
+    views: { driver: { x: 73.9, y: 55.6 } },
     face: { still: "driver", objectPosition: "68% 46%" },
   },
   "passenger-bed": {
     hero: { x: 56, y: 27 },
     heroMobile: { x: 56, y: 50 },
-    views: { passenger: { x: 21, y: 48 } },
+    views: { passenger: { x: 18, y: 56.3 } },
     face: { still: "passenger", objectPosition: "20% 46%" },
   },
   "driver-rear-quarter": {
     hero: { x: 73, y: 43 },
     heroMobile: { x: 73, y: 56 },
-    views: { driver: { x: 75, y: 34 } },
+    views: { driver: { x: 73.9, y: 42.5 } },
     face: { still: "driver", objectPosition: "80% 46%" },
   },
   "passenger-rear-quarter": {
     hero: { x: 76, y: 27 },
     heroMobile: { x: 76, y: 52 },
-    views: { passenger: { x: 21, y: 32 } },
+    views: { passenger: { x: 18, y: 34.3 } },
     face: { still: "passenger", objectPosition: "12% 44%" },
   },
   tailgate: {
     hero: { x: 91, y: 32 },
     heroMobile: { x: 90, y: 54 },
-    views: { rear: { x: 68, y: 52 } },
+    views: { rear: { x: 65, y: 52 } },
     face: { still: "rear", objectPosition: "68% 52%" },
   },
   "front-bumper": {
     hero: { x: 10, y: 62 },
     heroMobile: { x: 10, y: 72 },
     views: {
-      front: { x: 50, y: 72 },
+      front: { x: 50, y: 69 },
     },
     face: { still: "front", objectPosition: "50% 82%" },
   },
   "rear-bumper": {
     hero: { x: 94, y: 58 },
     heroMobile: { x: 92, y: 68 },
-    views: { rear: { x: 68, y: 74 } },
+    views: { rear: { x: 64, y: 68.5 } },
     face: { still: "rear", objectPosition: "68% 74%" },
   },
 };

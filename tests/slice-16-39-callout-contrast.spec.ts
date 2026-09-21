@@ -6,18 +6,16 @@ import {
   GOAL_USD,
   formatUsd,
 } from "../src/lib/campaign";
-import { findCloseAtViolations } from "../src/lib/close-at-null";
 import {
-  compositeOver,
   contrastRatio,
 } from "../src/lib/contrast-ratio";
+import { findCloseAtViolations } from "../src/lib/close-at-null";
 import { findStripePackagesInRootPackageJson } from "../src/lib/no-stripe-package";
 import { vercelJsonIsHoldOrMainOnlyRestore } from "../src/lib/vercel-git-deploy";
 
 /**
- * Slice 16.39 — `(N) Name` chip text vs the plate meets 4.5:1.
- * Hybrid labels sit on a dark chip, not a bare steel disc.
- * CLOSE_AT null. No Stripe.
+ * Slice 16.39 — baked TRACE AID `(1) Hood` ink vs plate meets 4.5:1.
+ * No DOM chip — labels live in the JPEG. CLOSE_AT null. No Stripe.
  */
 
 test.describe("slice 16.39: callout contrast on stainless", () => {
@@ -39,9 +37,14 @@ test.describe("slice 16.39: callout contrast on stainless", () => {
     expect(vercelJsonIsHoldOrMainOnlyRestore()).toBe(true);
   });
 
-  test("(1) Hood chip text vs plate is at least 4.5:1", async ({ page }) => {
+  test("baked (1) Hood ink vs plate is at least 4.5:1", async ({ page }) => {
     await page.setViewportSize({ width: 1280, height: 900 });
     await page.goto("/panels/hood");
+    await expect(page.getByTestId("truck-seat-label-hood")).toHaveCount(0);
+    await expect(page.getByTestId("truck-seat-hood")).toHaveAttribute(
+      "data-seat-label",
+      "(1) Hood",
+    );
     await page.locator(".truck-view-photo").evaluate((el) => {
       const img = el as HTMLImageElement;
       if (img.complete && img.naturalWidth > 0) return;
@@ -53,68 +56,53 @@ test.describe("slice 16.39: callout contrast on stainless", () => {
       });
     });
     const sample = await page.evaluate(() => {
-      const callout = document.querySelector(
-        '[data-testid="truck-seat-label-hood"]',
-      );
       const img = document.querySelector(".truck-view-photo");
-      if (!(callout instanceof HTMLElement) || !(img instanceof HTMLImageElement)) {
+      if (!(img instanceof HTMLImageElement) || img.naturalWidth === 0) {
         return null;
       }
-      const style = getComputedStyle(callout);
-      const paint = document.createElement("canvas");
-      paint.width = 1;
-      paint.height = 1;
-      const paintCtx = paint.getContext("2d");
-      if (!paintCtx) return null;
-      paintCtx.fillStyle = style.backgroundColor;
-      paintCtx.fillRect(0, 0, 1, 1);
-      const badgePx = paintCtx.getImageData(0, 0, 1, 1).data;
-      paintCtx.fillStyle = style.color;
-      paintCtx.fillRect(0, 0, 1, 1);
-      const inkPx = paintCtx.getImageData(0, 0, 1, 1).data;
-
-      const ir = img.getBoundingClientRect();
-      const cr = callout.getBoundingClientRect();
       const canvas = document.createElement("canvas");
       canvas.width = img.naturalWidth;
       canvas.height = img.naturalHeight;
       const ctx = canvas.getContext("2d");
-      if (!ctx || ir.width === 0) return null;
+      if (!ctx) return null;
       ctx.drawImage(img, 0, 0);
-      const sx = Math.min(
-        img.naturalWidth - 1,
-        Math.max(
-          0,
-          Math.round(((cr.left + cr.width / 2 - ir.left) / ir.width) * img.naturalWidth),
-        ),
-      );
-      const sy = Math.min(
-        img.naturalHeight - 1,
-        Math.max(
-          0,
-          Math.round(
-            ((cr.top + cr.height / 2 - ir.top) / ir.height) * img.naturalHeight,
-          ),
-        ),
-      );
-      const steelPx = ctx.getImageData(sx, sy, 1, 1).data;
-      return {
-        ink: [inkPx[0], inkPx[1], inkPx[2]] as [number, number, number],
-        badge: [badgePx[0], badgePx[1], badgePx[2], badgePx[3] / 255] as [
-          number,
-          number,
-          number,
-          number,
-        ],
-        steel: [steelPx[0], steelPx[1], steelPx[2]] as [number, number, number],
-      };
+      // Hood label is centered on the TRACE AID hood flat (~50%, 31%).
+      const cx = Math.round(img.naturalWidth * 0.5);
+      const cy = Math.round(img.naturalHeight * 0.31);
+      const half = 80;
+      let dark: [number, number, number] | null = null;
+      let light: [number, number, number] | null = null;
+      let darkY = 1;
+      let lightY = 0;
+      for (let y = cy - half; y <= cy + half; y += 2) {
+        for (let x = cx - half; x <= cx + half; x += 2) {
+          if (x < 0 || y < 0 || x >= img.naturalWidth || y >= img.naturalHeight) {
+            continue;
+          }
+          const px = ctx.getImageData(x, y, 1, 1).data;
+          const r = px[0] ?? 0;
+          const g = px[1] ?? 0;
+          const b = px[2] ?? 0;
+          const ylin =
+            0.2126 * (r / 255) + 0.7152 * (g / 255) + 0.0722 * (b / 255);
+          if (ylin < darkY) {
+            darkY = ylin;
+            dark = [r, g, b];
+          }
+          if (ylin > lightY) {
+            lightY = ylin;
+            light = [r, g, b];
+          }
+        }
+      }
+      if (!dark || !light) return null;
+      return { dark, light };
     });
     expect(sample).not.toBeNull();
-    const plate = compositeOver(sample!.badge, sample!.steel);
-    const ratio = contrastRatio(sample!.ink, plate);
+    const ratio = contrastRatio(sample!.dark, sample!.light);
     expect(
       ratio,
-      `ink ${sample!.ink.join(",")} badge ${sample!.badge.join(",")} steel ${sample!.steel.join(",")} plate ${plate.join(",")} ratio ${ratio.toFixed(2)}`,
+      `dark ${sample!.dark.join(",")} light ${sample!.light.join(",")} ratio ${ratio.toFixed(2)}`,
     ).toBeGreaterThanOrEqual(4.5);
   });
 });

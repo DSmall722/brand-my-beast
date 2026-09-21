@@ -15,8 +15,8 @@ import { PUBLIC_COPY } from "../src/lib/public-copy";
 import { vercelJsonIsHoldOrMainOnlyRestore } from "../src/lib/vercel-git-deploy";
 
 /**
- * Slice 19.7 — lime outline + wash at rest; fill on the active seat.
- * Homepage stills stay unmarked. Numbered CSS discs stay off.
+ * Slice 19.7 — lime wash on the active seat. TRACE AID flats carry
+ * the resting labels. Numbered CSS discs stay off.
  */
 
 const ROOT = process.cwd();

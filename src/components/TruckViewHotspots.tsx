@@ -8,23 +8,22 @@ import {
   panelBoardMarkFor,
   panelOverlayLabel,
 } from "@/lib/panel-board";
-import { truckViewStillSrc } from "@/lib/truck-stills";
 import { PUBLIC_COPY } from "@/lib/public-copy";
 import { truckImgAlt } from "@/lib/truck-img-alt";
+import { TRACE_AID_STILL, truckViewStillSrc } from "@/lib/truck-stills";
 import {
   TRUCK_VIEWS,
   TRUCK_VIEWS_LEAD,
   TRUCK_VIEW_BOX,
-  hotspotCentroid,
   hotspotsForView,
   viewOwningPanel,
   type TruckViewId,
 } from "@/lib/truck-views";
 
 /**
- * Driver / passenger / front / rear toggles with unmarked stills + seats.
- * Homepage keeps bakedMarks (no CSS discs) and paints lime SVG overlays.
- * Seat pages lock to the owning camera and highlight only that seat.
+ * Driver / passenger / front / rear toggles on TRACE AID lime flats.
+ * Homepage keeps bakedMarks (no CSS discs). SVG is hit/hover only —
+ * `(N) Name` is already in the JPEG. Seat pages lock to the owning camera.
  */
 export function TruckViewHotspots({
   occupiedPanelIds = [],
@@ -103,8 +102,8 @@ export function TruckViewHotspots({
             className="truck-view-photo"
             src={truckViewStillSrc(shownView)}
             alt={truckImgAlt("board")}
-            width={1280}
-            height={720}
+            width={TRACE_AID_STILL.width}
+            height={TRACE_AID_STILL.height}
             decoding="async"
             data-testid={`truck-img-board-${shownView}`}
             data-truck-img={`board-${shownView}`}
@@ -161,34 +160,6 @@ export function TruckViewHotspots({
               );
             })}
           </svg>
-          <div className="truck-seat-labels" data-testid="truck-seat-labels">
-            {spots.map((spot) => {
-              const mark = panelBoardMarkFor(spot.panelId);
-              const label = panelOverlayLabel(mark);
-              const center = hotspotCentroid(spot.points);
-              const active = activePanelId === spot.panelId;
-              return (
-                <span
-                  key={`label-${shownView}-${spot.panelId}`}
-                  className={
-                    active
-                      ? "truck-seat-label is-active"
-                      : "truck-seat-label"
-                  }
-                  style={{
-                    left: `${center.x}%`,
-                    top: `${center.y}%`,
-                  }}
-                  data-testid={`truck-seat-label-${spot.panelId}`}
-                  data-seat-label={label}
-                  data-panel-n={String(mark.n)}
-                  aria-hidden="true"
-                >
-                  {label}
-                </span>
-              );
-            })}
-          </div>
         </div>
         {singleSeat ? null : (
           <p className="truck-view-legend" data-testid="truck-view-legend">
