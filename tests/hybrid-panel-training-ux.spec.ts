@@ -385,10 +385,10 @@ test.describe("hybrid panel training UX", () => {
     await page.evaluate(() => document.fonts.ready);
 
     const probes = [
-      { tab: "truck-view-driver", x: 52, y: 64, seat: "truck-seat-driver-door" },
-      { tab: "truck-view-driver", x: 68, y: 56, seat: "truck-seat-driver-rear-quarter" },
-      { tab: "truck-view-driver", x: 76, y: 63, seat: "truck-seat-driver-bed" },
-      { tab: "truck-view-driver", x: 68, y: 65, seat: null },
+      { tab: "truck-view-driver", x: 52, y: 68, seat: "truck-seat-driver-door" },
+      { tab: "truck-view-driver", x: 78, y: 56, seat: "truck-seat-driver-rear-quarter" },
+      { tab: "truck-view-driver", x: 88, y: 65, seat: "truck-seat-driver-bed" },
+      { tab: "truck-view-driver", x: 76, y: 68, seat: null },
       { tab: "truck-view-driver", x: 25, y: 62, seat: null },
       { tab: "truck-view-passenger", x: 38, y: 58, seat: "truck-seat-passenger-door" },
       { tab: "truck-view-passenger", x: 18, y: 42, seat: "truck-seat-passenger-rear-quarter" },

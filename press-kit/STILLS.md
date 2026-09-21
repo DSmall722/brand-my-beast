@@ -8,7 +8,7 @@ Public site files live in `/public`:
 | File | Angle | Credit |
 |---|---|---|
 | `hero-truck-preview.jpg` / `hero-truck-preview-640.jpg` | Locked hero-master (all-caps R1). BMB hood + BRANDMYBEAST doors. Not as delivered. | Homepage hero |
-| `truck-view-driver.jpg` | Underground garage driver-side profile. Nose left. TRACE AID lime flat, 1792×1104. | Supplied board bake. Seats 4–6 labeled in the pixels. |
+| `truck-view-driver.jpg` | Underground garage driver-side profile, zoomed so the truck reads with the passenger still. Nose left. TRACE AID lime flat, 1792×1104. | Supplied board bake. Seats 4–6 labeled in the pixels. |
 | `truck-view-passenger.jpg` | Plaza passenger-side profile. Nose right. TRACE AID lime flat, 1728×1152. | Supplied board bake. Seats 7–9 labeled in the pixels. |
 | `truck-view-front.jpg` | Head-on front. TRACE AID lime flat. | Photo by Mylo Kaye on Pexels — https://www.pexels.com/photo/tesla-cyber-truck-24734499/ |
 | `truck-view-rear.jpg` | Straight-on rear, forest autumn road. TRACE AID lime flat. | Photo by Stephen Leonardi on Pexels — https://www.pexels.com/photo/futuristic-truck-on-a-forest-road-in-autumn-29278630/ |
