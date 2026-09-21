@@ -136,10 +136,10 @@ export async function seedDemoMixedBoard(): Promise<
       status: "listed",
     }),
   );
-  if (numberedStanding[0]?.n !== 1 || numberedStanding[1]?.n !== 9) {
+  if (numberedStanding[0]?.n !== 1 || numberedStanding[1]?.n !== 10) {
     return {
       ok: false,
-      error: "Numbered standing must be seat 1 and seat 9.",
+      error: "Numbered standing must be seat 1 and seat 10.",
     };
   }
 

@@ -131,7 +131,7 @@ test.describe("slice 8.4: operator CSV export", () => {
     expect(csv.split("\n")[0]).toBe(OPERATOR_CSV_HEADERS.join(","));
     expect(csv).toContain("waitlist,wait@example.com,homepage");
     expect(csv).toContain("intent,,,hood,1,CsvListed");
-    expect(csv).toContain("intent,,,tailgate,9,CsvApproved");
+    expect(csv).toContain("intent,,,tailgate,10,CsvApproved");
     expect(csv).not.toContain("CsvRejected");
     expect(csv.toLowerCase()).not.toMatch(/\blease\b/);
   });

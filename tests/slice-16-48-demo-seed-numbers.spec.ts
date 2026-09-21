@@ -16,11 +16,11 @@ import { seedDemoMixedBoard } from "../src/lib/seed-demo";
 import { vercelJsonIsHoldOrMainOnlyRestore } from "../src/lib/vercel-git-deploy";
 
 /**
- * Slice 16.48 — local seed includes numbered standing on seat 1 and 9.
+ * Slice 16.48 — local seed includes numbered standing on seat 1 and 10.
  * Counts stay 3 pending / 1 approved / 1 outbid. CLOSE_AT null. No Stripe.
  */
 
-test.describe("slice 16.48: demo seed numbered standing on seats 1 and 9", () => {
+test.describe("slice 16.48: demo seed numbered standing on seats 1 and 10", () => {
   test.beforeEach(async () => {
     process.env.INTENT_MODE = "memory";
     await resetIntentStoreForTests();
@@ -34,7 +34,7 @@ test.describe("slice 16.48: demo seed numbered standing on seats 1 and 9", () =>
     expect(BRAND.name).toBe("BrandMyBeast");
     expect(formatUsd(FLOOR_USD)).toBe("$58,000");
     expect(panelBoardMarkFor("hood").n).toBe(1);
-    expect(panelBoardMarkFor("tailgate").n).toBe(9);
+    expect(panelBoardMarkFor("tailgate").n).toBe(10);
   });
 
   test("package.json has no stripe", () => {
@@ -45,7 +45,7 @@ test.describe("slice 16.48: demo seed numbered standing on seats 1 and 9", () =>
     expect(vercelJsonIsHoldOrMainOnlyRestore()).toBe(true);
   });
 
-  test("seed lists standing on seat 1 and seat 9", async () => {
+  test("seed lists standing on seat 1 and seat 10", async () => {
     const seeded = await seedDemoMixedBoard();
     expect(seeded.ok).toBe(true);
     if (!seeded.ok) return;
@@ -55,7 +55,7 @@ test.describe("slice 16.48: demo seed numbered standing on seats 1 and 9", () =>
     expect(seeded.closeAt).toBeNull();
     expect(seeded.numberedStanding).toEqual([
       { n: 1, panelId: "hood", status: "listed" },
-      { n: 9, panelId: "tailgate", status: "listed" },
+      { n: 10, panelId: "tailgate", status: "listed" },
     ]);
 
     const listed = await listBidsWithStatus("listed");
@@ -65,7 +65,7 @@ test.describe("slice 16.48: demo seed numbered standing on seats 1 and 9", () =>
     const sh = readFileSync(join(process.cwd(), "scripts/seed-demo.sh"), "utf8");
     expect(sh).toContain("16.48");
     expect(sh).toContain("seat 1");
-    expect(sh).toContain("seat 9");
+    expect(sh).toContain("seat 10");
     expect(sh).not.toMatch(/\bCLOSE_AT=/);
   });
 });

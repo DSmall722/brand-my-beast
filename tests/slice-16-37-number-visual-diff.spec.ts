@@ -39,11 +39,11 @@ test.describe("slice 16.37: numbers, not kerning", () => {
 
   test("this spec does not pixel-diff fixtures", () => {
     expect(missingBoardNumbers([1, 2, 3])).toEqual([
-      4, 5, 6, 7, 8, 9, 10, 11, 12,
+      4, 5, 6, 7, 8, 9, 10, 11,
     ]);
-    expect(
-      missingBoardNumbers([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]),
-    ).toEqual([]);
+    expect(missingBoardNumbers([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11])).toEqual(
+      [],
+    );
     const helper = readFileSync(
       join(process.cwd(), "src/lib/board-visual-diff.ts"),
       "utf8",
@@ -51,7 +51,7 @@ test.describe("slice 16.37: numbers, not kerning", () => {
     expect(helper).not.toMatch(/screenshot|pixelmatch/i);
   });
 
-  test("hero callouts 1 through 12 are present", async ({ page }) => {
+  test("legend numbers 1 through 11 are present", async ({ page }) => {
     await page.setViewportSize({ width: 1280, height: 900 });
     await page.goto("/");
     const present: number[] = [];

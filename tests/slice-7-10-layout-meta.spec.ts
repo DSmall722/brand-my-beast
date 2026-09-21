@@ -46,7 +46,7 @@ test.describe("slice 7.10: layout meta matches PUBLIC_COPY", () => {
     );
     expect(PUBLIC_COPY.meta.title).not.toMatch(/advertise on a Cybertruck/i);
     expect(PUBLIC_COPY.meta.description).toBe(
-      "Twelve companies. One Cyberbeast. Join the list. Hit $58,000 and the truck is ordered and wrapped for a year. Miss it and nobody pays.",
+      "Eleven companies. One Cyberbeast. Join the list. Hit $58,000 and the truck is ordered and wrapped for a year. Miss it and nobody pays.",
     );
     expect(PUBLIC_COPY.meta.description).not.toMatch(/Bid on a panel/);
   });
