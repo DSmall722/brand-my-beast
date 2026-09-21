@@ -124,8 +124,8 @@ const DRIVER_HOTSPOTS: readonly TruckHotspot[] = [
   {
     panelId: "driver-rear-quarter",
     points: pctPoints([
-      [61.2, 36.5],
-      [86.5, 36.5],
+      [61.2, 29.5],
+      [86.5, 29.5],
       [86.5, 48.5],
       [61.2, 48.5],
     ]),
@@ -175,13 +175,17 @@ const PASSENGER_HOTSPOTS: readonly TruckHotspot[] = [
   },
 ];
 
-/** Front: head-on. Stainless face (2) sits above plastic bumper (3). */
+/**
+ * Front: head-on. Stainless face (2) sits above plastic bumper (3).
+ * Thin TRACE AID bands (hood / sail / rear bumper) are padded to ≥19%
+ * height so the invisible hit target stays ≥44px on a 390px seat well.
+ */
 const FRONT_HOTSPOTS: readonly TruckHotspot[] = [
   {
     panelId: "hood",
     points: pctPoints([
-      [10, 25.5],
-      [89.5, 25.5],
+      [10, 17.5],
+      [89.5, 17.5],
       [89.5, 36.5],
       [10, 36.5],
     ]),
@@ -222,8 +226,8 @@ const REAR_HOTSPOTS: readonly TruckHotspot[] = [
     points: pctPoints([
       [42.2, 62.5],
       [86, 62.5],
-      [84.5, 74.5],
-      [44, 74.5],
+      [84.5, 81.5],
+      [44, 81.5],
     ]),
   },
 ];
