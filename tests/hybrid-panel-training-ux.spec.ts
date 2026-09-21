@@ -84,22 +84,53 @@ function fillAlpha(value: string): number {
   return 1;
 }
 
-async function hoverSeatInterior(page: Page, testId: string) {
-  const point = await page.getByTestId(testId).locator("polygon").evaluate((el) => {
-    const polygon = el as SVGPolygonElement;
-    const svg = polygon.ownerSVGElement;
-    if (!svg) throw new Error("polygon has no svg");
-    const ctm = polygon.getScreenCTM();
-    if (!ctm) throw new Error("no screen CTM");
-    const pts = [...polygon.points].map((pt) => ({ x: pt.x, y: pt.y }));
-    const cx = pts.reduce((sum, pt) => sum + pt.x, 0) / pts.length;
-    const cy = pts.reduce((sum, pt) => sum + pt.y, 0) / pts.length;
+function strokeIsOff(value: string): boolean {
+  return value === "none" || value === "transparent" || fillAlpha(value) === 0;
+}
+
+async function restPaint(page: Page, testId: string) {
+  return page.getByTestId(testId).locator("polygon").evaluate((el) => {
+    const style = getComputedStyle(el);
     return {
-      x: ctm.a * cx + ctm.c * cy + ctm.e,
-      y: ctm.b * cx + ctm.d * cy + ctm.f,
+      fill: style.fill,
+      fillOpacity: style.fillOpacity,
+      stroke: style.stroke,
+      strokeOpacity: style.strokeOpacity,
+      strokeWidth: style.strokeWidth,
     };
   });
-  await page.mouse.move(point.x, point.y);
+}
+
+async function assertRestHitOnly(page: Page, testId: string) {
+  const paint = await restPaint(page, testId);
+  const none = paint.fill === "none" || paint.fill === "transparent";
+  expect(
+    none || fillAlpha(paint.fill) < 0.05,
+    `${testId} rest fill ${paint.fill}`,
+  ).toBe(true);
+  if (!none) {
+    expect(Number(paint.fillOpacity), `${testId} rest fill-opacity`).toBeLessThan(
+      0.05,
+    );
+  }
+  expect(
+    strokeIsOff(paint.stroke),
+    `${testId} rest stroke ${paint.stroke}`,
+  ).toBe(true);
+  expect(Number.parseFloat(paint.strokeWidth), `${testId} rest stroke-width`).toBe(
+    0,
+  );
+}
+
+async function parkPointer(page: Page) {
+  await page.mouse.move(8, 8);
+}
+
+async function hoverSeatInterior(page: Page, testId: string) {
+  const seat = page.getByTestId(testId);
+  await seat.scrollIntoViewIfNeeded();
+  await expect(seat).toBeVisible();
+  await seat.hover({ force: true });
 }
 
 test.describe("hybrid panel training UX", () => {
@@ -253,22 +284,55 @@ test.describe("hybrid panel training UX", () => {
     );
     await expect(page.getByTestId("truck-seat-label-hood")).toHaveCount(0);
 
-    const hoodPoly = hood.locator("polygon");
-    const restFill = await hoodPoly.evaluate((el) => getComputedStyle(el).fill);
-    const restStroke = await hoodPoly.evaluate(
-      (el) => getComputedStyle(el).stroke,
-    );
-    expect(fillAlpha(restFill), restFill).toBeLessThan(0.05);
-    expect(
-      restStroke === "none" ||
-        restStroke === "transparent" ||
-        fillAlpha(restStroke) === 0,
-    ).toBe(true);
+    const cameras = [
+      { tab: "truck-view-driver", seat: "truck-seat-driver-door" },
+      { tab: "truck-view-passenger", seat: "truck-seat-passenger-door" },
+      { tab: "truck-view-front", seat: "truck-seat-hood" },
+      { tab: "truck-view-rear", seat: "truck-seat-tailgate" },
+    ] as const;
+    for (const camera of cameras) {
+      await page.getByTestId(camera.tab).click();
+      await parkPointer(page);
+      await assertRestHitOnly(page, camera.seat);
+    }
 
+    await page.getByTestId("truck-view-front").click();
+    await parkPointer(page);
+    const hoodPoly = hood.locator("polygon");
     await hoverSeatInterior(page, "truck-seat-hood");
     await expect
       .poll(async () => {
         const value = await hoodPoly.evaluate((el) => getComputedStyle(el).fill);
+        return fillAlpha(value);
+      })
+      .toBeGreaterThanOrEqual(0.35);
+
+    await page.getByTestId("truck-view-driver").click();
+    await expect(seats).toHaveAttribute("data-view", "driver");
+    await parkPointer(page);
+    await assertRestHitOnly(page, "truck-seat-driver-door");
+    await hoverSeatInterior(page, "truck-seat-driver-door");
+    await expect
+      .poll(async () => {
+        const value = await page
+          .getByTestId("truck-seat-driver-door")
+          .locator("polygon")
+          .evaluate((el) => getComputedStyle(el).fill);
+        return fillAlpha(value);
+      })
+      .toBeGreaterThanOrEqual(0.35);
+
+    await page.getByTestId("truck-view-passenger").click();
+    await expect(seats).toHaveAttribute("data-view", "passenger");
+    await parkPointer(page);
+    await assertRestHitOnly(page, "truck-seat-passenger-door");
+    await hoverSeatInterior(page, "truck-seat-passenger-door");
+    await expect
+      .poll(async () => {
+        const value = await page
+          .getByTestId("truck-seat-passenger-door")
+          .locator("polygon")
+          .evaluate((el) => getComputedStyle(el).fill);
         return fillAlpha(value);
       })
       .toBeGreaterThanOrEqual(0.35);

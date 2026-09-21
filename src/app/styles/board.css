@@ -2555,18 +2555,28 @@
   stroke-width: 0;
 }
 .truck-seat {
-  stroke: #d6ff3f;
-  stroke-width: 2.5px;
+  /* Rest paint is none on every camera — Driver / Passenger included.
+     `pointer-events: all` keeps the interior a hit target when fill is none. */
+  fill: none;
+  fill-opacity: 0;
+  stroke: none;
+  stroke-opacity: 0;
+  stroke-width: 0;
+  pointer-events: all;
   vector-effect: non-scaling-stroke;
-  transition: fill 140ms ease, stroke 140ms ease;
+  transition: fill 140ms ease, fill-opacity 140ms ease, stroke 140ms ease,
+    stroke-opacity 140ms ease, stroke-width 140ms ease;
 }
-/* Rest: no second outline — lime is baked into the TRACE AID JPEG.
-   Hover / active: lime shade fill only. */
+/* Rest: hit target only. Lime lives in the TRACE AID JPEG, not a second SVG wash.
+   Hover / focus / active: lime shade fill only. Same rule for all four cameras. */
 .truck-view-seats[data-polygons="outline"] .truck-seat,
 .truck-view-seats[data-polygons="outline"] .truck-seat.is-raw,
 .truck-view-seats[data-polygons="outline"] .truck-seat.is-held {
-  fill: transparent;
-  stroke: transparent;
+  fill: none;
+  fill-opacity: 0;
+  stroke: none;
+  stroke-opacity: 0;
+  stroke-width: 0;
 }
 .truck-view-seats[data-polygons="outline"] .truck-seat.is-active,
 .truck-view-seats[data-polygons="outline"] a:hover .truck-seat,
@@ -2574,7 +2584,10 @@
 .truck-view-seats[data-polygons="outline"] a:focus-visible .truck-seat,
 .truck-view-seats[data-polygons="outline"] a[data-active="true"] .truck-seat {
   fill: rgb(214 255 63 / 0.42);
+  fill-opacity: 1;
   stroke: #d6ff3f;
+  stroke-opacity: 1;
+  stroke-width: 2.5px;
 }
 .truck-view-seats[data-polygons="hidden"] .truck-seat,
 .truck-view-seats[data-polygons="hidden"] .truck-seat.is-raw,
@@ -2582,8 +2595,11 @@
 .truck-view-seats[data-polygons="hidden"] .truck-seat.is-active,
 .truck-view-seats[data-polygons="hidden"] a:hover .truck-seat.is-raw,
 .truck-view-seats[data-polygons="hidden"] a:focus-visible .truck-seat.is-raw {
-  fill: transparent;
-  stroke: transparent;
+  fill: none;
+  fill-opacity: 0;
+  stroke: none;
+  stroke-opacity: 0;
+  stroke-width: 0;
 }
 @media (prefers-reduced-motion: reduce) {
   .truck-seat {
