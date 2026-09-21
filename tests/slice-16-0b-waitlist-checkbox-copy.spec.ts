@@ -23,7 +23,7 @@ const LOCKED_H1 =
   "Advertise your brand on the truck that people already photograph";
 const LABEL = "I want the whole truck";
 const HINT =
-  "Check this box for information about becoming the exclusive brand advertised on the entire vehicle.";
+  "Check this box when contacting BMB for information about becoming the exclusive brand advertised on the entire vehicle.";
 
 test.describe("slice 16.0b: PUBLIC_COPY waitlist whole-truck checkbox copy", () => {
   test("campaign money fences stay locked — CLOSE_AT null", () => {

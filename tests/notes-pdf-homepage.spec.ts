@@ -28,6 +28,7 @@ test.describe("notes PDF homepage sheet", () => {
     await expect(page.getByTestId("hero-secondary-cta")).toHaveText(
       "Bid on a Panel",
     );
+    await expect(page.locator("#panels-title")).toHaveText("Bid on a Panel");
     await expect(page.getByTestId("hero-secondary-cta")).toHaveClass(/btn-panel/);
     await expect(page.locator("#truck-views-title")).toHaveText(
       "Preview the Panels",
@@ -126,10 +127,14 @@ test.describe("notes PDF homepage sheet", () => {
       "At $120,000 you get every panel and the campaign owns the truck.",
     );
     const forever = page.getByTestId("story-etch-forever");
-    await expect(forever).toContainText("Vinyl lasts a year,");
-    await expect(forever).toContainText("but Immortal Etch is forever");
+    await expect(forever).toContainText("Vinyl wrap lasts for one year,");
+    await expect(forever).toContainText(
+      "but with Immortal Etch, your ad lasts FOREVER.",
+    );
     await expect(forever.locator("br")).toHaveCount(1);
     await expect(forever.locator(".immortal-etch")).toHaveText("Immortal Etch");
+    await expect(page.locator("#etch-title")).toHaveText("Immortal Etch");
+    await expect(page.locator("#etch-title")).not.toHaveClass(/immortal-etch/);
 
     await expect(page.getByTestId("etch-sample-slots")).toBeVisible();
     await expect(page.getByTestId("etch-sample-hood")).toBeVisible();

@@ -42,8 +42,10 @@ test.describe("Syne lockup, board marks, seat lead", () => {
       await expect(lockup).toHaveText("Immortal Etch");
     }
     const forever = page.getByTestId("story-etch-forever");
-    await expect(forever).toContainText("Vinyl lasts a year,");
-    await expect(forever).toContainText("but Immortal Etch is forever");
+    await expect(forever).toContainText("Vinyl wrap lasts for one year,");
+    await expect(forever).toContainText(
+      "but with Immortal Etch, your ad lasts FOREVER.",
+    );
     await expect(forever.locator("br")).toHaveCount(1);
     const fonts = await page.evaluate(() => {
       const lockup = document.querySelector("#story .immortal-etch");

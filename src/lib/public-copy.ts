@@ -79,7 +79,7 @@ export const PUBLIC_COPY = {
       "One brand per trade. Challengers fight the same panel only.",
   },
   panels: {
-    heading: "The eleven panels",
+    heading: "Bid on a Panel",
     leadLines: [
       "Once total active bids cross $120,000, buyers will unlock the option to have their advertisement permanently etched on the stainless surface for 3x the final bid for that panel.",
       "Immortal Etch is only available on stainless steel panels.",
@@ -108,7 +108,8 @@ export const PUBLIC_COPY = {
         body: "Nine steel faces can be immortally etched with your brand logo.",
       },
     ],
-    foreverLine: "Vinyl lasts a year,\nbut Immortal Etch is forever",
+    foreverLine:
+      "Vinyl wrap lasts for one year,\nbut with Immortal Etch, your ad lasts FOREVER.",
   },
   etch: {
     heading: "Immortal Etch",
@@ -224,7 +225,7 @@ export const PUBLIC_COPY = {
     /** Slice 16.0b — interest checkbox copy. Not pledged. Not on the vault bar. */
     wholeTruckCheckboxLabel: "I want the whole truck",
     wholeTruckCheckboxHint:
-      "Check this box for information about becoming the exclusive brand advertised on the entire vehicle.",
+      "Check this box when contacting BMB for information about becoming the exclusive brand advertised on the entire vehicle.",
   },
   /**
    * Slice 12.17 — /signin copy. Not a homepage section.

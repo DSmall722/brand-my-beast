@@ -57,7 +57,7 @@ Locked: 2026-09-14 — desire first, then the deal, then the catch.
 
 ## Eleven panels
 
-- Heading: `The eleven panels`
+- Heading: `Bid on a Panel`
 - Lead (two stacked lines):
   1. `Once total active bids cross $120,000, buyers will unlock the option to have their advertisement permanently etched on the stainless surface for 3x the final bid for that panel.`
   2. `Immortal Etch is only available on stainless steel panels.`
@@ -76,11 +76,11 @@ Panel card names match the board. No gloss line on the card.
 - 02 body: `Reach $58,000 and the Cyberbeast is ordered and winners are wrapped for twelve months. Miss it and every bid is released.`
 - 03 title: `$120,000 unlocks` / `Immortal Etch` (second line is the Syne lockup)
 - 03 body: `Nine steel faces can be immortally etched with your brand logo.`
-- Full-width line: `Vinyl lasts a year,` / `but Immortal Etch is forever`
+- Full-width line: `Vinyl wrap lasts for one year,` / `but with Immortal Etch, your ad lasts FOREVER.`
 
 ## Immortal Etch
 
-- Heading: `Immortal Etch` — Syne display (`.immortal-etch` → `--font-display`).
+- Heading: `Immortal Etch` — same section header as the other homepage H2s. Body lockup stays `.immortal-etch`.
 - Body: `Wrap is a year of film. Immortal Etch is cut into the steel. It does not peel with the wrap. Nine steel faces. Unlocks with the $120,000 whole-truck package — when the campaign owns the truck.`
 - Why buyout: `Immortal Etch ships with the $120,000 whole-truck package.`
 - Cost: `After Immortal Etch is installed there is no cash refund of that finish.`
@@ -118,7 +118,7 @@ Money facts from CAMPAIGN.md only. Plain English. Not a full contract.
 - Success: `You are on the list. We will email when bidding opens.`
 - Already: `That email is already on the list.`
 - Whole-truck checkbox label (slice 16.0b): `I want the whole truck`
-- Whole-truck checkbox hint (slice 16.0b): `Check this box for information about becoming the exclusive brand advertised on the entire vehicle.`
+- Whole-truck checkbox hint (slice 16.0b): `Check this box when contacting BMB for information about becoming the exclusive brand advertised on the entire vehicle.`
 
 Do **not** rewrite the homepage H1 for 16.0b. Checkbox wires in later slices.
 
