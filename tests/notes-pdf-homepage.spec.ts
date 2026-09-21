@@ -51,8 +51,21 @@ test.describe("notes PDF homepage sheet", () => {
     );
 
     await expect(page.getByTestId("want-all-panels")).toHaveText(
-      "Want to buy all the panels?",
+      "Buy the Whole Truck",
     );
+    await expect(page.getByTestId("vault-goal-label")).toHaveCount(0);
+    await expect(page.getByTestId("goal-progress-copy")).toHaveText(
+      "0% of campaign fully funded",
+    );
+    await expect(page.getByTestId("floor-progress-copy")).toHaveText("0% of floor");
+    const floorMarker = await page.getByTestId("vault-marker-floor").boundingBox();
+    const floorLabel = await page.getByTestId("vault-floor-label").boundingBox();
+    if (!floorMarker || !floorLabel) {
+      throw new Error("floor marker or label missing");
+    }
+    const markerCenter = floorMarker.x + floorMarker.width / 2;
+    const labelCenter = floorLabel.x + floorLabel.width / 2;
+    expect(Math.abs(markerCenter - labelCenter)).toBeLessThan(12);
     await expect(page.getByTestId("panels-lead")).toContainText(ETCH_UNLOCK);
     await expect(page.getByTestId("panels-lead")).toContainText(ETCH_STEEL);
     await expect(page.getByTestId("panels-lead").locator(".immortal-etch")).toHaveText(

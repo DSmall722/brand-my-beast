@@ -107,7 +107,9 @@ test.describe("P1 waitlist campaign locks", () => {
     const shortfallText = (await shortfallTicker.innerText()).toLowerCase();
     expect(shortfallText).not.toMatch(/impression|cpm|reach/i);
     await expect(page.getByTestId("floor-progress-copy")).toHaveText("0% of floor");
-    await expect(page.getByTestId("goal-progress-copy")).toHaveText("0% of buyout");
+    await expect(page.getByTestId("goal-progress-copy")).toHaveText(
+      `0% ${PUBLIC_COPY.board.goalProgressTail}`,
+    );
     await expect(page.getByTestId("visual-vault")).toBeVisible();
     await expect(page.getByTestId("vault-marker-floor")).toBeVisible();
     await expect(page.getByTestId("vault-marker-goal")).toBeVisible();
@@ -154,9 +156,7 @@ test.describe("P1 waitlist campaign locks", () => {
     await expect(page.getByTestId("vault-floor-label")).toHaveText(
       `${PUBLIC_COPY.board.vaultFloorMarkLabel} ${formatUsd(FLOOR_USD)}`,
     );
-    await expect(page.getByTestId("vault-goal-label")).toHaveText(
-      `${PUBLIC_COPY.board.vaultBuyoutMarkLabel} ${formatUsd(GOAL_USD)}`,
-    );
+    await expect(page.getByTestId("vault-goal-label")).toHaveCount(0);
 
     await expect(page.getByTestId("etch-section")).toBeVisible();
     await expect(

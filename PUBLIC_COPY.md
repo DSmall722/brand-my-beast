@@ -41,7 +41,7 @@ Locked: 2026-09-14 — desire first, then the deal, then the catch.
 - Vault empty (pledged $0): `No marks yet`
 - Seat legend: `Open seat = empty. Held seat = standing intent.`
 - Board truck image label (alt): `Stainless Cyberbeast preview. Numbers live on the board.`
-- Want all panels: `Want to buy all the panels?`
+- Want all panels: `Buy the Whole Truck`
 - Whole-truck heading: `Whole truck — $120,000`
 - Whole-truck lead: `One brand on every panel and Immortal Etch on nine steel faces. Standing panel winners released. Nothing is charged on this page.`
 - Whole-truck amount label: `Buyout mark`
@@ -118,7 +118,7 @@ Money facts from CAMPAIGN.md only. Plain English. Not a full contract.
 - Success: `You are on the list. We will email when bidding opens.`
 - Already: `That email is already on the list.`
 - Whole-truck checkbox label (slice 16.0b): `I want the whole truck`
-- Whole-truck checkbox hint (slice 16.0b): `This is interest, not a $120,000 bid. Nothing is charged.`
+- Whole-truck checkbox hint (slice 16.0b): `Contact us for information about becoming the exclusive brand advertised on this vehicle`
 
 Do **not** rewrite the homepage H1 for 16.0b. Checkbox wires in later slices.
 

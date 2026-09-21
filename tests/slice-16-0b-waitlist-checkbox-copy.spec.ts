@@ -23,7 +23,7 @@ const LOCKED_H1 =
   "Advertise your brand on the truck that people already photograph";
 const LABEL = "I want the whole truck";
 const HINT =
-  "This is interest, not a $120,000 bid. Nothing is charged.";
+  "Contact us for information about becoming the exclusive brand advertised on this vehicle";
 
 test.describe("slice 16.0b: PUBLIC_COPY waitlist whole-truck checkbox copy", () => {
   test("campaign money fences stay locked — CLOSE_AT null", () => {
@@ -48,7 +48,7 @@ test.describe("slice 16.0b: PUBLIC_COPY waitlist whole-truck checkbox copy", () 
     expect(PUBLIC_COPY.hero.h1).toBe(LOCKED_H1);
     expect(PUBLIC_COPY.waitlist.wholeTruckCheckboxLabel).toBe(LABEL);
     expect(PUBLIC_COPY.waitlist.wholeTruckCheckboxHint).toBe(HINT);
-    expect(PUBLIC_COPY.waitlist.wholeTruckCheckboxHint).toContain("$120,000");
+    expect(PUBLIC_COPY.waitlist.wholeTruckCheckboxHint).not.toContain("$120,000");
     expect(
       PUBLIC_COPY.waitlist.wholeTruckCheckboxHint.toLowerCase(),
     ).not.toMatch(/\blease\b/);

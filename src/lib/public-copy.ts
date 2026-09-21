@@ -58,7 +58,9 @@ export const PUBLIC_COPY = {
     seatLegend: "Open seat = empty. Held seat = standing intent.",
     truckImageAlt:
       "Stainless Cyberbeast preview. Numbers live on the board.",
-    wantAllPanels: "Want to buy all the panels?",
+    wantAllPanels: "Buy the Whole Truck",
+    /** Right-hand vault percent. Floor percent stays “% of floor”. */
+    goalProgressTail: "of campaign fully funded",
     wholeTruckHeading: "Whole truck — $120,000",
     /** Slice 20.7 — one sentence on `/`. 11-name dump stays on the form. */
     wholeTruckLead:
@@ -222,7 +224,7 @@ export const PUBLIC_COPY = {
     /** Slice 16.0b — interest checkbox copy. Not pledged. Not on the vault bar. */
     wholeTruckCheckboxLabel: "I want the whole truck",
     wholeTruckCheckboxHint:
-      "This is interest, not a $120,000 bid. Nothing is charged.",
+      "Contact us for information about becoming the exclusive brand advertised on this vehicle",
   },
   /**
    * Slice 12.17 — /signin copy. Not a homepage section.

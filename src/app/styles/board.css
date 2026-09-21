@@ -167,15 +167,20 @@
 }
 
 .vault-legend {
-  margin-top: 0.75rem;
-  display: flex;
-  justify-content: space-between;
-  gap: 1rem;
-  flex-wrap: wrap;
+  position: relative;
+  margin-top: 0.85rem;
+  height: 1.15rem;
   color: var(--steel-300);
   font-size: 0.8rem;
   letter-spacing: 0.04em;
   text-transform: uppercase;
+}
+
+.vault-floor-label {
+  position: absolute;
+  top: 0;
+  transform: translateX(-50%);
+  white-space: nowrap;
 }
 
 @keyframes pulse-bar {
@@ -192,10 +197,15 @@
   margin-top: 0.65rem;
   display: flex;
   justify-content: space-between;
+  align-items: flex-start;
   gap: 1rem;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   color: var(--steel-400);
   font-size: 0.85rem;
+}
+
+.progress-meta [data-testid="goal-progress-copy"] {
+  text-align: right;
 }
 
 .shortfall-ticker {

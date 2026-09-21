@@ -102,16 +102,19 @@ export function HomeMoneySection({
               />
             </div>
             <div className="vault-legend" data-testid="vault-legend">
-              <span data-testid="vault-floor-label">
+              <span
+                className="vault-floor-label"
+                data-testid="vault-floor-label"
+                style={{ left: `${floorMarkerPct}%` }}
+              >
                 {PUBLIC_COPY.board.vaultFloorMarkLabel} {floorLabel}
-              </span>
-              <span data-testid="vault-goal-label">
-                {PUBLIC_COPY.board.vaultBuyoutMarkLabel} {goalLabel}
               </span>
             </div>
             <div className="progress-meta">
               <span data-testid="floor-progress-copy">{floorPct}% of floor</span>
-              <span data-testid="goal-progress-copy">{goalPct}% of buyout</span>
+              <span data-testid="goal-progress-copy">
+                {goalPct}% {PUBLIC_COPY.board.goalProgressTail}
+              </span>
               {closeCopy === PUBLIC_COPY.board.clockWhenCloseNull ? null : (
                 <span data-testid="close-copy">{closeCopy}</span>
               )}
