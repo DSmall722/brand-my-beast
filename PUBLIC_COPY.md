@@ -118,7 +118,7 @@ Money facts from CAMPAIGN.md only. Plain English. Not a full contract.
 - Success: `You are on the list. We will email when bidding opens.`
 - Already: `That email is already on the list.`
 - Whole-truck checkbox label (slice 16.0b): `I want the whole truck`
-- Whole-truck checkbox hint (slice 16.0b): `Contact us for information about becoming the exclusive brand advertised on this vehicle`
+- Whole-truck checkbox hint (slice 16.0b): `Check this box for information about becoming the exclusive brand advertised on the entire vehicle.`
 
 Do **not** rewrite the homepage H1 for 16.0b. Checkbox wires in later slices.
 

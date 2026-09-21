@@ -224,7 +224,7 @@ export const PUBLIC_COPY = {
     /** Slice 16.0b — interest checkbox copy. Not pledged. Not on the vault bar. */
     wholeTruckCheckboxLabel: "I want the whole truck",
     wholeTruckCheckboxHint:
-      "Contact us for information about becoming the exclusive brand advertised on this vehicle",
+      "Check this box for information about becoming the exclusive brand advertised on the entire vehicle.",
   },
   /**
    * Slice 12.17 — /signin copy. Not a homepage section.
