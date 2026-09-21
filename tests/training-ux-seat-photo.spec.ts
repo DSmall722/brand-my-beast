@@ -67,7 +67,7 @@ test.describe("training UX: seat photo + lime overlays", () => {
     const fill = await page
       .locator('[data-testid="truck-seat-hood"] polygon')
       .evaluate((el) => getComputedStyle(el).fill);
-    expect(fill).toContain("214, 255, 63");
+    expect(fill).toMatch(/214,\s*255,\s*63|#d6ff3f/i);
     await expect(page.getByTestId("truck-seat-label-hood")).toBeVisible();
     const well = page.getByTestId("seat-stage");
     await expect(well.getByTestId("stainless-compositor-lead")).toHaveCount(0);

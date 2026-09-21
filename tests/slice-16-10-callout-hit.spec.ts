@@ -23,7 +23,7 @@ async function expectHitAtLeast(
 ): Promise<void> {
   const callout = page.getByTestId(testId);
   await expect(callout).toBeVisible();
-  const box = await callout.boundingBox();
+  const box = await callout.locator("polygon").boundingBox();
   if (!box) throw new Error(`${testId} box missing`);
   expect(box.width).toBeGreaterThanOrEqual(HIT_MIN - 0.5);
   expect(box.height).toBeGreaterThanOrEqual(HIT_MIN - 0.5);
@@ -76,11 +76,14 @@ test.describe("slice 16.10: callout hit area and focus ring", () => {
     await expect(callout).toBeVisible();
 
     const ring = await callout.evaluate((el) => {
-      if (!(el instanceof HTMLElement)) throw new Error("callout missing");
+      if (!(el instanceof Element) || !("focus" in el)) {
+        throw new Error("callout missing");
+      }
+      const target = el as SVGElement;
       const opts: FocusOptions & { focusVisible?: boolean } = {
         focusVisible: true,
       };
-      el.focus(opts);
+      target.focus(opts);
       const style = getComputedStyle(el);
       return {
         focusVisible: el.matches(":focus-visible"),

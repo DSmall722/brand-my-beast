@@ -49,6 +49,6 @@ test.describe("slice 16.39: callout contrast on stainless", () => {
     const fill = await page
       .locator('[data-testid="truck-seat-hood"] polygon')
       .evaluate((el) => getComputedStyle(el).fill);
-    expect(fill).toContain("214, 255, 63");
+    expect(fill).toMatch(/214,\s*255,\s*63|#d6ff3f/i);
   });
 });

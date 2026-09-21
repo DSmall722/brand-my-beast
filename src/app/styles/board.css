@@ -1295,6 +1295,10 @@
   margin: 0;
 }
 
+.public-seat .truck-view-photo-well {
+  min-height: 22rem;
+}
+
 .public-seat .truck-view-stage {
   border-radius: 0.9rem;
 }
@@ -2595,14 +2599,14 @@ a:focus-visible .truck-seat.is-raw {
 }
 .truck-view-seats[data-polygons="training"] .truck-seat.is-raw,
 .truck-view-seats[data-polygons="training"] .truck-seat.is-held {
-  fill: color-mix(in oklab, #d6ff3f 14%, transparent);
+  fill: rgba(214, 255, 63, 0.14);
   stroke: #d6ff3f;
   stroke-width: 2.6;
 }
 .truck-view-seats[data-polygons="training"] .truck-seat.is-active,
 .truck-view-seats[data-polygons="training"] a:hover .truck-seat,
 .truck-view-seats[data-polygons="training"] a:focus-visible .truck-seat {
-  fill: color-mix(in oklab, #d6ff3f 82%, transparent);
+  fill: rgba(214, 255, 63, 0.82);
   stroke: #d6ff3f;
   stroke-width: 2.6;
 }
