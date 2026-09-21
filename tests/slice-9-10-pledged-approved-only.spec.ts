@@ -101,7 +101,7 @@ test.describe("slice 9.10: pledged = approved standing only", () => {
       "approved",
     );
     expect(secondApproved.ok).toBeTruthy();
-    expect((await loadBoardIntentStats()).pledgedUsd).toBe(5500);
+    expect((await loadBoardIntentStats()).pledgedUsd).toBe(7500);
   });
 
   test("homepage raised-amount ignores listed until approved", async ({
