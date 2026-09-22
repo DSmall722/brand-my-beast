@@ -378,6 +378,7 @@
 }
 
 .story-step-copy {
+  max-width: 62ch;
   color: var(--steel-300);
   line-height: 1.5;
 }
@@ -453,6 +454,7 @@
 
 .questions-item dd {
   margin: 0;
+  max-width: 62ch;
   color: var(--steel-300);
   line-height: 1.5;
 }
