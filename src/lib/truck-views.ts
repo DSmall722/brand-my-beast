@@ -1,7 +1,7 @@
 /**
  * Driver / passenger / front / rear truck views + SVG hotspot seats.
- * Front / rear stills are 2048×1360. Driver is the 1792×1104 garage
- * bake. Passenger is the 1728×1152 plaza bake. SVG is hit / hover only —
+ * Front, rear, and driver stills are 2048×1360. Passenger is the
+ * 1728×1152 plaza bake. SVG is hit / hover only —
  * `(N) Name` is baked into the JPEG. Preview only — no capture, no
  * clock, no invented truck photos.
  */
@@ -83,17 +83,17 @@ export function viewOwningPanel(panelId: string): TruckViewId {
 
 /** Door packages stay on cab steel leaves only — no front fender, no glass. */
 export const DRIVER_DOOR_BOUNDS_PCT = {
-  x0: 23,
-  x1: 56,
-  y0: 40,
-  y1: 65,
+  x0: 28,
+  x1: 58,
+  y0: 43,
+  y1: 66,
 } as const;
 
 export const PASSENGER_DOOR_BOUNDS_PCT = {
-  x0: 24,
+  x0: 21,
   x1: 54,
   y0: 44,
-  y1: 74,
+  y1: 75,
 } as const;
 
 /**
@@ -109,41 +109,48 @@ export const VIEW_OWNED_PANEL_IDS = {
 
 /**
  * Driver profile: nose left. Seats 4–6 only.
- * 1.70× garage bake, framed on the rear door. Doors = both cab leaves
- * under the belt. Sail = wedge above the beltline. Bed = bedside under
- * that seam, notched over the tire.
+ * Pre-cropped garage bake at full-side framing (no extra zoom).
+ * Doors = both cab leaves under the belt. Sail = wedge on the roof
+ * slope. Bed = bedside under that seam, notched over the tire.
  */
 const DRIVER_HOTSPOTS: readonly TruckHotspot[] = [
   {
     panelId: "driver-door",
     points: pctPoints([
-      [24.3, 44.0],
-      [54.6, 40.9],
-      [54.8, 63.4],
-      [24.3, 63.5],
+      [29.4, 47.6],
+      [35.5, 45.4],
+      [56.2, 44.4],
+      [56.2, 64.6],
+      [29.4, 64.5],
     ]),
   },
   {
     panelId: "driver-rear-quarter",
     points: pctPoints([
-      [54.6, 33.5],
-      [88.5, 41.8],
-      [88.5, 43.2],
-      [54.6, 41.5],
+      [56.3, 44.4],
+      [56.3, 37.2],
+      [66.0, 39.4],
+      [78.0, 42.2],
+      [88.5, 45.2],
+      [82.0, 51.0],
+      [66.0, 51.0],
     ]),
   },
   {
     panelId: "driver-bed",
     points: pctPoints([
-      [54.6, 41.5],
-      [88.5, 43.0],
-      [88.4, 56.3],
-      [80.0, 56.8],
-      [75.5, 54.3],
-      [73.0, 48.0],
-      [60.6, 48.0],
-      [57.6, 58.9],
-      [54.6, 61.5],
+      [56.3, 44.6],
+      [66.0, 51.2],
+      [82.0, 51.2],
+      [88.5, 45.6],
+      [90.5, 46.2],
+      [90.4, 59.5],
+      [79.2, 59.3],
+      [76.5, 55.8],
+      [65.2, 51.8],
+      [61.6, 57.0],
+      [60.2, 61.2],
+      [56.3, 61.4],
     ]),
   },
 ];
@@ -157,35 +164,35 @@ const PASSENGER_HOTSPOTS: readonly TruckHotspot[] = [
   {
     panelId: "passenger-door",
     points: pctPoints([
-      [24.5, 45.2],
-      [52.8, 45.7],
-      [52.8, 73.2],
-      [24.5, 70.2],
+      [21.8, 45.4],
+      [52.8, 45.8],
+      [52.8, 73.6],
+      [21.8, 70.0],
     ]),
   },
   {
     panelId: "passenger-rear-quarter",
     points: pctPoints([
-      [8.0, 45.2],
-      [24.5, 45.2],
-      [23.8, 37.8],
+      [7.8, 45.4],
+      [21.8, 45.4],
+      [22.0, 38.8],
     ]),
   },
   {
     panelId: "passenger-bed",
     points: pctPoints([
-      [2.5, 47.5],
-      [8.0, 45.2],
-      [24.5, 45.2],
-      [24.5, 70.2],
-      [20.0, 69.4],
+      [3.2, 47.0],
+      [7.8, 45.4],
+      [21.8, 45.4],
+      [21.8, 70.0],
+      [19.8, 68.6],
       [18.2, 64.0],
-      [16.5, 56.0],
-      [14.0, 53.0],
-      [9.0, 52.9],
-      [7.0, 58.5],
-      [5.5, 61.7],
-      [2.5, 61.2],
+      [16.6, 56.5],
+      [14.2, 53.2],
+      [8.4, 53.0],
+      [7.0, 58.0],
+      [5.8, 61.6],
+      [3.2, 61.5],
     ]),
   },
 ];

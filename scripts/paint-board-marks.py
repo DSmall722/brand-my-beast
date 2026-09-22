@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """Board plates are locked TRACE AID lime flats. Do not overwrite them.
 
-Production `public/truck-view-*.jpg` are Dennard's approved 2048×1360
-TRACE AID teaching plates (lime outlines + on-panel labels baked in).
+Production `public/truck-view-*.jpg` are the approved TRACE AID
+teaching plates (lime outlines + on-panel labels baked in).
 Do not copy unmarked 1280×720 Pexels stills over them.
 
 This script is a guard. It refuses to replace TRACE AID flats.
@@ -16,7 +16,7 @@ ROOT = Path(__file__).resolve().parents[1]
 PUBLIC = ROOT / "public"
 VIEWS = ("driver", "passenger", "front", "rear")
 TRACE_AID_SIZE = {
-    "driver": (1792, 1104),
+    "driver": (2048, 1360),
     "passenger": (1728, 1152),
     "front": (2048, 1360),
     "rear": (2048, 1360),
