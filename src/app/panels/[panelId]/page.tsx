@@ -11,6 +11,7 @@ import {
   BRAND,
   DEPOSIT_PERCENT,
   FLOOR_USD,
+  GOAL_USD,
   PANELS,
   formatIntegerUsd,
   formatUsd,
@@ -133,6 +134,8 @@ export default async function PanelIntentPage({
         className="shell auth-page panel-intent public-seat"
         data-testid="panel-intent-page"
         data-print-sheet="panels"
+        data-floor={formatUsd(FLOOR_USD)}
+        data-buyout={formatUsd(GOAL_USD)}
       >
         <div className="seat-masthead">
         <p className="eyebrow">
