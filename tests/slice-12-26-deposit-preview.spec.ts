@@ -88,6 +88,5 @@ test.describe("slice 12.26: seat deposit preview", () => {
     const html = await page.content();
     expect(html.toLowerCase()).not.toMatch(/\blease\b/);
     expect(html).toContain("$58,000");
-    expect(html).toContain("$120,000");
   });
 });

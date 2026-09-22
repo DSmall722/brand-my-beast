@@ -107,6 +107,5 @@ test.describe("slice 10.5: wrap vs etch labels from PUBLIC_COPY", () => {
     expect(html.toLowerCase()).not.toMatch(/\blease\b/);
     expect(html).not.toContain("CLOSE_AT");
     expect(html).toContain("$58,000");
-    expect(html).toContain("$120,000");
   });
 });

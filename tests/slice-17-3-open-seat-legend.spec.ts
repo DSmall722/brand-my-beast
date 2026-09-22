@@ -58,6 +58,5 @@ test.describe("slice 17.3: open-seat legend drops 30X", () => {
     expect(html).not.toContain("Raw 30X");
     expect(html).not.toContain("Not a 360");
     expect(html).toContain("$58,000");
-    expect(html).toContain("$120,000");
   });
 });

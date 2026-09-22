@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { ArrowFillButton } from "@/components/block/arrow-fill-button";
 import { ImmortalEtchLockup } from "@/components/ImmortalEtchLockup";
+import { IntentArtworkPreview } from "@/components/IntentArtworkPreview";
 import { IntentBidForm } from "@/components/IntentBidForm";
 import { PanelMockup } from "@/components/PanelMockup";
 import { TruckViewHotspots } from "@/components/TruckViewHotspots";
@@ -354,6 +355,10 @@ export default async function PanelIntentPage({
                         </span>
                       ) : null}
                     </div>
+                    <IntentArtworkPreview
+                      artworkUrl={bid.artworkUrl}
+                      bidId={bid.id}
+                    />
                   </li>
                 );
               })}

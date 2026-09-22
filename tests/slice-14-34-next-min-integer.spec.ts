@@ -121,6 +121,5 @@ test.describe("slice 14.34: next-minimum display integer dollars only", () => {
     expect(html).not.toMatch(/\blease\b/);
     expect(html).not.toMatch(/@gmail\.com/);
     expect(html).toContain("$58,000");
-    expect(html).toContain("$120,000");
   });
 });

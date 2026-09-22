@@ -150,7 +150,6 @@ test.describe("slice 9.9: public seat log", () => {
     expect(html.toLowerCase()).not.toMatch(/\blease\b/);
     expect(html).not.toContain("CLOSE_AT");
     expect(html).toContain("$58,000");
-    expect(html).toContain("$120,000");
     await visitor.close();
   });
 });

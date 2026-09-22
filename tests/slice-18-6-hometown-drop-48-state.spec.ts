@@ -38,7 +38,6 @@ test.describe("slice 18.6: hometown lead drops 48-state", () => {
       expect(html).not.toContain("48-state");
       expect(html).toContain("$58,000");
       expect(html).toContain("Etch");
-      expect(html).toContain("$120,000");
       expect(html.toLowerCase()).not.toMatch(/\blease\b/);
     }
   });

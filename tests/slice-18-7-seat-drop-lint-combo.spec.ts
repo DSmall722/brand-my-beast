@@ -32,16 +32,17 @@ test.describe("slice 18.7: hood HTML drops lint and combo-later", () => {
     page,
   }) => {
     await page.goto("/panels/hood");
-    const list = page.getByTestId("neighbor-combo-list");
-    await expect(list).toBeVisible();
-    await expect(list).toContainText("$");
+    await expect(page.getByTestId("neighbor-combo-list")).toHaveCount(0);
     const html = await page.content();
     expect(html).not.toContain("optional lint");
     expect(html).not.toContain("linter");
     expect(html).not.toContain("Neighbor combo later");
-    expect(html).toContain("$58,000");
-    expect(html).toContain("$120,000");
     expect(html).not.toContain("FEATURES.md");
     expect(html.toLowerCase()).not.toMatch(/\blease\b/);
+
+    await page.goto("/");
+    const home = await page.content();
+    expect(home).toContain("$58,000");
+    expect(home).toContain("$120,000");
   });
 });

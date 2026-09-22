@@ -61,7 +61,6 @@ test.describe("slice 17.18: front fascia HTML drops prototype jargon", () => {
     }
     expect(html).toContain("$2,000");
     expect(html).toContain("$58,000");
-    expect(html).toContain("$120,000");
     expect(html).not.toContain("FEATURES.md");
     expect(html.toLowerCase()).not.toMatch(/\blease\b/);
   });

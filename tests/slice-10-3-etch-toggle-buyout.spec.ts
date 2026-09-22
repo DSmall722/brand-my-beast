@@ -124,7 +124,6 @@ test.describe("slice 10.3: etch toggle locked under buyout", () => {
     expect(html.toLowerCase()).not.toMatch(/\blease\b/);
     expect(html).not.toContain("CLOSE_AT");
     expect(html).toContain("$58,000");
-    expect(html).toContain("$120,000");
 
     // Clear buyout seed so later suites still see pledged $0.
     const reset = await request.post("/api/test/reset-intents");

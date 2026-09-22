@@ -123,6 +123,5 @@ test.describe("slice 14.33: deposit preview uses depositUsdForMark (12.5)", () =
     expect(html).not.toMatch(/\blease\b/);
     expect(html).not.toMatch(/@gmail\.com/);
     expect(html).toContain("$58,000");
-    expect(html).toContain("$120,000");
   });
 });

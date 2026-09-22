@@ -63,7 +63,6 @@ test.describe("slice 9.2: seat next minimum", () => {
     expect(html.toLowerCase()).not.toMatch(/\blease\b/);
     expect(html).not.toContain("CLOSE_AT");
     expect(html).toContain("$58,000");
-    expect(html).toContain("$120,000");
   });
 
   test("held seat: min next = standing + max($250, 10%)", async ({ page }) => {

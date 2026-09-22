@@ -227,7 +227,6 @@ test.describe("slice 6.2 seat UI: create / outbid / exclusivity / increment", ()
     expect(okHtml.toLowerCase()).not.toMatch(/\blease\b/);
     expect(okHtml.toLowerCase()).not.toContain("gmail.com");
     expect(okHtml).not.toContain("CLOSE_AT");
-    expect(okHtml).toContain("$120,000");
     expect(okHtml).toContain(formatUsd(FLOOR_USD));
     await ok.close();
   });

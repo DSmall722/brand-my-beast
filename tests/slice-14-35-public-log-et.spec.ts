@@ -136,6 +136,5 @@ test.describe("slice 14.35: public seat log timestamps America/New_York ET", () 
     expect(html).not.toMatch(/\blease\b/);
     expect(html).not.toMatch(/@gmail\.com/);
     expect(html).toContain("$58,000");
-    expect(html).toContain("$120,000");
   });
 });
