@@ -12,6 +12,7 @@
   --warn: #ff6b3d;
   --hairline: color-mix(in oklab, white 14%, transparent);
   --glow: color-mix(in oklab, var(--signal) 22%, transparent);
+  --page-shell: min(100% - 2rem, 100%);
 }
 
 * {
@@ -82,7 +83,8 @@ a {
 }
 
 .shell {
-  width: min(1120px, calc(100% - 2rem));
+  width: var(--page-shell);
+  max-width: none;
   margin-inline: auto;
 }
 

@@ -29,7 +29,8 @@
 .hero-photo-well {
   position: relative;
   isolation: isolate;
-  width: min(100%, calc(min(70vh, 40rem) * 16 / 9));
+  width: var(--page-shell);
+  max-width: none;
   aspect-ratio: 16 / 9;
   justify-self: center;
   overflow: hidden;
@@ -167,7 +168,8 @@
 .hero-overlay {
   position: relative;
   z-index: 3;
-  width: min(1120px, calc(100% - 2rem));
+  width: var(--page-shell);
+  max-width: none;
   margin-inline: auto;
   padding: 5.5rem 0 2.75rem;
   display: grid;
