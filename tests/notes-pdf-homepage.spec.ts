@@ -200,7 +200,19 @@ test.describe("notes PDF homepage sheet", () => {
     await expect(page.locator("#etch-title")).not.toHaveClass(/immortal-etch/);
 
     await expect(page.getByTestId("etch-sample-slots")).toBeVisible();
-    await expect(page.getByTestId("etch-sample-hood")).toBeVisible();
+    const etchSamples = [
+      ["hood", "/etch-sample-hood.jpg", "Immortal Etch sample, front", 1280, 861],
+      ["door", "/etch-sample-door.jpg", "Immortal Etch sample, side", 1280, 853],
+      ["tailgate", "/etch-sample-tailgate.jpg", "Immortal Etch sample, rear", 1280, 861],
+    ] as const;
+    for (const [id, src, alt, width, height] of etchSamples) {
+      const img = page.getByTestId(`etch-sample-${id}`).locator("img");
+      await expect(img).toBeVisible();
+      await expect(img).toHaveAttribute("src", src);
+      await expect(img).toHaveAttribute("alt", alt);
+      await expect(img).toHaveJSProperty("naturalWidth", width);
+      await expect(img).toHaveJSProperty("naturalHeight", height);
+    }
     await expect(page.getByTestId("etch-section")).not.toContainText(
       "Wrap is a year of film",
     );

@@ -126,9 +126,27 @@ export const PUBLIC_COPY = {
     art: "One color, thick strokes, no gradients, no tiny type. If it cannot be cut, it does not ship.",
     forever: "Immortal Etch is forever.",
     sampleSlots: [
-      { id: "hood", label: "Immortal Etch sample" },
-      { id: "door", label: "Immortal Etch sample" },
-      { id: "tailgate", label: "Immortal Etch sample" },
+      {
+        id: "hood",
+        label: "Immortal Etch sample, front",
+        src: "/etch-sample-hood.jpg",
+        width: 1280,
+        height: 861,
+      },
+      {
+        id: "door",
+        label: "Immortal Etch sample, side",
+        src: "/etch-sample-door.jpg",
+        width: 1280,
+        height: 853,
+      },
+      {
+        id: "tailgate",
+        label: "Immortal Etch sample, rear",
+        src: "/etch-sample-tailgate.jpg",
+        width: 1280,
+        height: 861,
+      },
     ],
   },
   wreck: {
