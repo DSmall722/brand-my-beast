@@ -67,7 +67,8 @@ test.describe("slice 19.4: hide preview toggles while truck does not exist", () 
       "1",
     );
     await expect(page.locator(".panel-mockup-face")).toBeVisible();
-    await expect(page.locator(".panel-mockup-label")).toHaveText("Hood");
+    await expect(page.locator(".panel-mockup-label")).toHaveCount(0);
+    await expect(page.getByTestId("panel-seat-h1")).toHaveText("1 · Hood");
 
     await expect(page.getByTestId("compositor-mode-wrap")).toHaveCount(0);
     await expect(page.getByTestId("compositor-mode-etch")).toHaveCount(0);
