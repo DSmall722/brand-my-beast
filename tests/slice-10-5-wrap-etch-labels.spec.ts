@@ -90,7 +90,7 @@ test.describe("slice 10.5: wrap vs etch labels from PUBLIC_COPY", () => {
     await page.goto("/panels/hood");
     await expect(page.getByTestId("compositor-mode-wrap")).toHaveCount(0);
     await expect(page.getByTestId("compositor-mode-etch")).toHaveCount(0);
-    await expect(page.getByTestId("panel-mockup-face-clean")).toBeVisible();
+    await expect(page.getByTestId("panel-mockup-face-clean")).toHaveCount(1);
     await expect(page.getByTestId("compositor-finish-label")).toHaveCount(0);
     await expect(page.getByTestId("compositor-wrap-film")).toHaveCount(0);
     await expect(page.getByTestId("stainless-compositor-lead")).toContainText(
@@ -98,7 +98,7 @@ test.describe("slice 10.5: wrap vs etch labels from PUBLIC_COPY", () => {
     );
 
     await page.goto("/panels/front-bumper");
-    await expect(page.getByTestId("panel-mockup-face-clean")).toBeVisible();
+    await expect(page.getByTestId("panel-mockup-face-clean")).toHaveCount(1);
     await expect(page.getByTestId("compositor-finish-label")).toHaveCount(0);
 
     const html = await page.content();

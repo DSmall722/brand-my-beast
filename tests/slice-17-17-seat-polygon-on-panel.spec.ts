@@ -60,14 +60,14 @@ test.describe("slice 17.17: seat 2 polygon on the bumper", () => {
 
     await expect(page.getByTestId("truck-view-seats")).toHaveAttribute(
       "data-polygons",
-      "outline",
+      "hidden",
     );
     await expect(page.getByTestId("truck-view-seats")).toHaveAttribute(
       "data-single-seat",
       "true",
     );
     const seat = page.getByTestId("truck-seat-front-fascia");
-    await expect(seat).toHaveAttribute("data-active", "true");
+    await expect(seat).toHaveAttribute("data-active", "false");
     await expect(seat).toHaveAttribute("data-seat-label", "(2) Front Fascia");
     const seatBox = await seat.boundingBox();
     if (!seatBox) throw new Error("seat missing");

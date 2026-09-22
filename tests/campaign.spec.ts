@@ -171,7 +171,8 @@ test.describe("P1 waitlist campaign locks", () => {
     ).toBeVisible();
 
     await expect(page.getByTestId("wreck-refund-faq")).toHaveCount(0);
-    for (const item of PUBLIC_COPY.wreck.items) {
+    for (const item of PUBLIC_COPY.questions.items) {
+      if (!("id" in item) || !item.id) continue;
       const faq = page.getByTestId(`faq-${item.id}`);
       await expect(faq).toContainText(item.q);
       await expect(faq).toContainText(item.a);
@@ -182,9 +183,7 @@ test.describe("P1 waitlist campaign locks", () => {
     await expect(page.getByTestId("faq-wrap-pro-rata")).toContainText(
       "pro-rata",
     );
-    await expect(page.getByTestId("faq-immortal-fragment")).toContainText(
-      "vault certificate",
-    );
+    await expect(page.getByTestId("faq-immortal-fragment")).toHaveCount(0);
     const wreckHtml = (
       await page.getByTestId("questions-section").innerText()
     ).toLowerCase();

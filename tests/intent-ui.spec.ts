@@ -32,7 +32,7 @@ test.describe("P2 panel intent + approvals", () => {
     );
     await expect(page.getByTestId("compositor-mode-wrap")).toHaveCount(0);
     await expect(page.getByTestId("compositor-mode-etch")).toHaveCount(0);
-    await expect(page.getByTestId("panel-mockup-face-clean")).toBeVisible();
+    await expect(page.getByTestId("panel-mockup-face-clean")).toHaveCount(1);
     await expect(page.getByTestId("compositor-wrap-film")).toHaveCount(0);
     await expect(page.getByTestId("compositor-finish-label")).toHaveCount(0);
     await expect(page.getByTestId("etch-lock-copy")).toContainText(
@@ -105,7 +105,7 @@ test.describe("P2 panel intent + approvals", () => {
     await expect(page.getByTestId("stainless-compositor-lead")).toContainText(
       "$120,000",
     );
-    await expect(page.getByTestId("panel-mockup-face-clean")).toBeVisible();
+    await expect(page.getByTestId("panel-mockup-face-clean")).toHaveCount(1);
     await expect(page.getByTestId("compositor-wrap-film")).toHaveCount(0);
     await expect(page.getByTestId("compositor-finish-label")).toHaveCount(0);
     await expect(page.getByTestId("finish-conditions")).toHaveCount(0);

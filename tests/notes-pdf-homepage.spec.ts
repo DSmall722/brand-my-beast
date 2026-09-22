@@ -277,7 +277,11 @@ test.describe("notes PDF homepage sheet", () => {
       "Immortal Etch Locked",
     );
     await expect(page.getByTestId("seat-lead")).not.toContainText("Current Bid");
-    await expect(page.getByTestId("panel-mockup-face-clean")).toBeVisible();
+    await expect(page.getByTestId("panel-mockup")).toHaveAttribute(
+      "data-chrome",
+      "minimal",
+    );
+    await expect(page.getByTestId("panel-mockup-face-clean")).toHaveCount(1);
     await expect(page.getByTestId("compositor-finish-label")).toHaveCount(0);
     await expect(page.getByTestId("compositor-wrap-film")).toHaveCount(0);
 

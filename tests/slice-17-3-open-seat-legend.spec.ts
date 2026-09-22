@@ -17,6 +17,11 @@ import { vercelJsonIsHoldOrMainOnlyRestore } from "../src/lib/vercel-git-deploy"
  */
 
 test.describe("slice 17.3: open-seat legend drops 30X", () => {
+  test.beforeEach(async ({ request }) => {
+    const res = await request.post("/api/test/reset-intents");
+    expect(res.ok()).toBeTruthy();
+  });
+
   test("campaign money fences stay locked — CLOSE_AT null", () => {
     expect(FLOOR_USD).toBe(58_000);
     expect(GOAL_USD).toBe(120_000);

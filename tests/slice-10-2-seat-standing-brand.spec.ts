@@ -18,8 +18,8 @@ async function signIn(page: import("@playwright/test").Page, email: string) {
 }
 
 /**
- * Slice 10.2 — seat compositor renders the standing brand, not only a typed preview.
- * CLOSE_AT null. No Stripe.
+ * QA 1047PM — seat preview stays a clean photo (no Open seat stack).
+ * Standing brand still shows in the bid activity tile when listed.
  */
 test.describe("slice 10.2: compositor standing brand", () => {
   test.describe.configure({ mode: "serial" });
@@ -53,14 +53,16 @@ test.describe("slice 10.2: compositor standing brand", () => {
     );
   });
 
-  test("open seat compositor says Open seat; listed brand paints the face", async ({
+  test("clean seat preview; listed brand appears in the activity tile", async ({
     browser,
   }) => {
     const open = await browser.newPage();
     await open.goto("/panels/hood");
-    await expect(open.getByTestId("compositor-standing-brand")).toHaveText(
-      "Open seat",
+    await expect(open.getByTestId("panel-mockup")).toHaveAttribute(
+      "data-chrome",
+      "minimal",
     );
+    await expect(open.getByTestId("compositor-standing-brand")).toHaveCount(0);
     await open.close();
 
     const bidder = await browser.newPage();
@@ -74,9 +76,7 @@ test.describe("slice 10.2: compositor standing brand", () => {
       "not charged",
       { timeout: 10_000 },
     );
-    await expect(bidder.getByTestId("compositor-standing-brand")).toHaveText(
-      "Steel Face Co",
-    );
+    await expect(bidder.getByTestId("compositor-standing-brand")).toHaveCount(0);
     await expect(bidder.getByTestId("public-standing-brand")).toHaveText(
       "Steel Face Co",
     );
@@ -84,7 +84,8 @@ test.describe("slice 10.2: compositor standing brand", () => {
 
     const visitor = await browser.newPage();
     await visitor.goto("/panels/hood");
-    await expect(visitor.getByTestId("compositor-standing-brand")).toHaveText(
+    await expect(visitor.getByTestId("compositor-standing-brand")).toHaveCount(0);
+    await expect(visitor.getByTestId("public-standing-brand")).toHaveText(
       "Steel Face Co",
     );
     const html = await visitor.content();

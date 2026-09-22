@@ -285,7 +285,6 @@ export function PanelMockup({
       ) : (
         <div
           className="panel-mockup-face panel-mockup-face-clean"
-          aria-hidden="true"
           data-testid="panel-mockup-face-clean"
         />
       )}

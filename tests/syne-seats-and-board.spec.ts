@@ -47,10 +47,10 @@ test.describe("Syne lockup, board marks, seat lead", () => {
     const lockups = page.locator("#story .immortal-etch");
     await expect(lockups).toHaveCount(1);
     await expect(lockups).toHaveText("Immortal Etch");
-    await expect(page.locator("#story .story-step-copy")).toContainText(
+    await expect(page.locator("#story .story-step-copy").nth(2)).toContainText(
       "Vinyl wrap lasts for one year,",
     );
-    await expect(page.locator("#story .story-step-copy")).toContainText(
+    await expect(page.locator("#story .story-step-copy").nth(2)).toContainText(
       "but with Immortal Etch, your ad lasts FOREVER.",
     );
     await expect(page.getByTestId("story-etch-forever")).toHaveCount(0);

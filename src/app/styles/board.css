@@ -2751,7 +2751,9 @@
 
 .public-seat .panel-mockup-face-clean {
   aspect-ratio: 16 / 9;
+  min-height: 10rem;
   padding: 0;
+  width: 100%;
 }
 
 .public-seat .seat-finish {

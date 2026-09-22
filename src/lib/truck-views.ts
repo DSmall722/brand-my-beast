@@ -206,29 +206,31 @@ const PASSENGER_HOTSPOTS: readonly TruckHotspot[] = [
 const FRONT_HOTSPOTS: readonly TruckHotspot[] = [
   {
     panelId: "hood",
+    // ≥19% tall for ≥44px hit on seat wells; shorter than pre-QA face wash.
     points: pctPoints([
-      [12, 20],
-      [88, 20],
-      [88, 32],
-      [12, 32],
+      [12, 17],
+      [88, 17],
+      [88, 36],
+      [12, 36],
     ]),
   },
   {
     panelId: "front-fascia",
     points: pctPoints([
-      [10, 33],
-      [90, 33],
-      [90, 57],
-      [10, 57],
+      [10, 37],
+      [90, 37],
+      [90, 54],
+      [10, 54],
     ]),
   },
   {
     panelId: "front-bumper",
+    // Larger than main’s ~14.5% band — plastic bumper reads as the lower third.
     points: pctPoints([
-      [8, 58],
-      [91, 58],
-      [91, 78],
-      [8, 78],
+      [8, 55],
+      [91, 55],
+      [91, 80],
+      [8, 80],
     ]),
   },
 ];
