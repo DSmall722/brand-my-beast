@@ -3,7 +3,8 @@
   "git": {
     "deploymentEnabled": {
       "*": false,
-      "main": true
+      "main": true,
+      "cursor/desktop-full-width-shell-79b4": true
     }
   }
 }
