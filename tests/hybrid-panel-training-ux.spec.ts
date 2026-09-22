@@ -484,9 +484,8 @@ test.describe("hybrid panel training UX", () => {
     await expect(page.getByTestId("seat-lead")).toContainText(
       "Vinyl Wrap for 12 Months after Installation.",
     );
-    await expect(page.getByTestId("etch-lock-copy")).toContainText(
-      "Etch stays locked until buyout",
-    );
+    await expect(page.getByTestId("etch-lock-copy")).toHaveCount(0);
+    await expect(page.getByTestId("panel-mockup")).toHaveCount(0);
     await expect(page.getByTestId("intent-only-banner")).toHaveCount(0);
     await expect(page.getByTestId("adjacent-neighbors")).toHaveCount(0);
     await expect(page.getByTestId("seat-primary-cta")).toBeVisible();

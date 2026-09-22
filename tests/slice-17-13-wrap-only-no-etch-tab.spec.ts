@@ -42,18 +42,13 @@ test.describe("slice 17.13: wrap-only seats hide the etch tab", () => {
   }) => {
     await page.goto("/panels/hood");
     await expect(page.getByTestId("compositor-mode-etch")).toHaveCount(0);
-    await expect(page.getByTestId("etch-lock-copy")).toContainText(
-      "Etch stays locked until buyout",
-    );
+    await expect(page.getByTestId("etch-lock-copy")).toHaveCount(0);
+    await expect(page.getByTestId("panel-mockup")).toHaveCount(0);
 
     for (const id of WRAP_ONLY) {
       await page.goto(`/panels/${id}`);
-      await expect(page.getByTestId("panel-mockup")).toHaveAttribute(
-        "data-etchable",
-        "false",
-      );
+      await expect(page.getByTestId("panel-mockup")).toHaveCount(0);
       await expect(page.getByTestId("compositor-mode-etch")).toHaveCount(0);
-      await expect(page.getByTestId("panel-mockup-face-clean")).toHaveCount(1);
       await expect(page.getByTestId("compositor-finish-label")).toHaveCount(0);
       await expect(page.getByTestId("seat-lead")).toHaveText(
         "Vinyl Wrap is the only option available for the Bumper.",

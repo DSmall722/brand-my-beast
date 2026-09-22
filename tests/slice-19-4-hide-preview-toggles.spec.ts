@@ -58,17 +58,15 @@ test.describe("slice 19.4: hide preview toggles while truck does not exist", () 
   }) => {
     await page.goto("/panels/hood");
     await expect(page.getByTestId("panel-intent-page")).toBeVisible();
-    const mockup = page.getByTestId("panel-mockup");
-    await expect(mockup).toBeVisible();
-    await expect(mockup).toHaveAttribute("data-truck-exists", "false");
-    await expect(mockup).toHaveAttribute("data-preview-toggles", "false");
+    await expect(page.getByTestId("panel-mockup")).toHaveCount(0);
+    await expect(page.getByTestId("seat-photo-stage")).toBeVisible();
     await expect(page.getByTestId("panel-seat-h1")).toHaveAttribute(
       "data-panel-n",
       "1",
     );
-    await expect(page.locator(".panel-mockup-face")).toHaveCount(1);
+    await expect(page.locator(".panel-mockup-face")).toHaveCount(0);
     await expect(page.locator(".panel-mockup-label")).toHaveCount(0);
-    await expect(page.getByTestId("panel-mockup-face-clean")).toHaveCount(1);
+    await expect(page.getByTestId("panel-mockup-face-clean")).toHaveCount(0);
 
     await expect(page.getByTestId("compositor-mode-wrap")).toHaveCount(0);
     await expect(page.getByTestId("compositor-mode-etch")).toHaveCount(0);

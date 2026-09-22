@@ -153,6 +153,24 @@ test.describe("notes PDF homepage sheet", () => {
       .evaluate((el) => getComputedStyle(el).getPropertyValue("--panel-face-size"));
     expect(rearSize.trim()).toBe("175% auto");
 
+    // Sail + bed cards center aft panels (not doors).
+    await expect(page.getByTestId("panel-face-driver-rear-quarter")).toHaveAttribute(
+      "data-face-pos",
+      "74% 34%",
+    );
+    await expect(page.getByTestId("panel-face-driver-bed")).toHaveAttribute(
+      "data-face-pos",
+      "88% 58%",
+    );
+    await expect(page.getByTestId("panel-face-passenger-rear-quarter")).toHaveAttribute(
+      "data-face-pos",
+      "2% 32%",
+    );
+    await expect(page.getByTestId("panel-face-passenger-bed")).toHaveAttribute(
+      "data-face-pos",
+      "0% 60%",
+    );
+
     await expect(page.locator("#story")).toContainText(
       "Maximum of one brand for each kind of business. If someone in your trade is already standing, highest bidder wins.",
     );
@@ -277,11 +295,9 @@ test.describe("notes PDF homepage sheet", () => {
       "Immortal Etch Locked",
     );
     await expect(page.getByTestId("seat-lead")).not.toContainText("Current Bid");
-    await expect(page.getByTestId("panel-mockup")).toHaveAttribute(
-      "data-chrome",
-      "minimal",
-    );
-    await expect(page.getByTestId("panel-mockup-face-clean")).toHaveCount(1);
+    await expect(page.getByTestId("panel-mockup")).toHaveCount(0);
+    await expect(page.getByTestId("stainless-compositor-lead")).toHaveCount(0);
+    await expect(page.getByTestId("etch-lock-copy")).toHaveCount(0);
     await expect(page.getByTestId("compositor-finish-label")).toHaveCount(0);
     await expect(page.getByTestId("compositor-wrap-film")).toHaveCount(0);
 

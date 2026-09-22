@@ -89,8 +89,9 @@ const BOARD_LAYOUT: Record<Panel["id"], BoardLayout> = {
     views: { driver: { x: 82, y: 52 } },
     face: {
       still: "driver",
-      objectPosition: "18% 54%",
-      backgroundSize: "165% auto",
+      // Aft bedside under the sail — not doors/sail.
+      objectPosition: "88% 58%",
+      backgroundSize: "240% auto",
     },
   },
   "passenger-bed": {
@@ -99,8 +100,9 @@ const BOARD_LAYOUT: Record<Panel["id"], BoardLayout> = {
     views: { passenger: { x: 20, y: 55 } },
     face: {
       still: "passenger",
-      objectPosition: "78% 54%",
-      backgroundSize: "165% auto",
+      // Nose-right still: bed sits on the left edge.
+      objectPosition: "0% 60%",
+      backgroundSize: "280% auto",
     },
   },
   "driver-rear-quarter": {
@@ -109,8 +111,9 @@ const BOARD_LAYOUT: Record<Panel["id"], BoardLayout> = {
     views: { driver: { x: 66, y: 43 } },
     face: {
       still: "driver",
-      objectPosition: "24% 40%",
-      backgroundSize: "175% auto",
+      // Roof-slope sail aft of the doors — whole triangle in frame.
+      objectPosition: "74% 34%",
+      backgroundSize: "230% auto",
     },
   },
   "passenger-rear-quarter": {
@@ -119,10 +122,11 @@ const BOARD_LAYOUT: Record<Panel["id"], BoardLayout> = {
     views: { passenger: { x: 18, y: 42 } },
     face: {
       still: "passenger",
-      objectPosition: "78% 40%",
-      backgroundSize: "175% auto",
+      objectPosition: "2% 32%",
+      backgroundSize: "260% auto",
     },
   },
+
   tailgate: {
     hero: { x: 91, y: 32 },
     heroMobile: { x: 90, y: 54 },

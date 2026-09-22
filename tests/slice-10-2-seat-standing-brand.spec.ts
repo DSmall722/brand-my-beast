@@ -58,10 +58,7 @@ test.describe("slice 10.2: compositor standing brand", () => {
   }) => {
     const open = await browser.newPage();
     await open.goto("/panels/hood");
-    await expect(open.getByTestId("panel-mockup")).toHaveAttribute(
-      "data-chrome",
-      "minimal",
-    );
+    await expect(open.getByTestId("panel-mockup")).toHaveCount(0);
     await expect(open.getByTestId("compositor-standing-brand")).toHaveCount(0);
     await open.close();
 

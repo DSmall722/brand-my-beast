@@ -91,7 +91,8 @@ test.describe("panel detail cleanup", () => {
       await expect(page.getByTestId("panel-seat-h1")).toHaveText(
         panelSeatH1(panel),
       );
-      await expect(page.getByTestId("panel-mockup")).toBeVisible();
+      await expect(page.getByTestId("panel-mockup")).toHaveCount(0);
+      await expect(page.getByTestId("seat-photo-stage")).toBeVisible();
       await expect(page.getByTestId("seat-lead")).toContainText(
         isEtchable(panel)
           ? PUBLIC_COPY.seat.wrapTwelveMonths

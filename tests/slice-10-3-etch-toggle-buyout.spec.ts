@@ -68,25 +68,17 @@ test.describe("slice 10.3: etch toggle locked under buyout", () => {
     expect(etchLockCopy(GOAL_USD)).toContain("unlocked");
   });
 
-  test("seat: etch disabled under buyout; enabled at $120,000", async ({
+  test("seat: etch disabled under buyout; no duplicate compositor pane", async ({
     page,
     request,
   }) => {
     await page.goto("/panels/hood");
-    await expect(page.getByTestId("panel-mockup")).toHaveAttribute(
-      "data-etchable",
-      "true",
-    );
-    await expect(page.getByTestId("panel-mockup")).toHaveAttribute(
-      "data-etch-unlocked",
-      "false",
-    );
+    await expect(page.getByTestId("panel-mockup")).toHaveCount(0);
     await expect(page.getByTestId("compositor-mode-etch")).toHaveCount(0);
-    await expect(page.getByTestId("etch-lock-copy")).toContainText(
-      "Etch stays locked until buyout",
-    );
-    await expect(page.getByTestId("stainless-compositor-lead")).toContainText(
-      "$120,000",
+    await expect(page.getByTestId("etch-lock-copy")).toHaveCount(0);
+    await expect(page.getByTestId("stainless-compositor-lead")).toHaveCount(0);
+    await expect(page.getByTestId("seat-lead")).toContainText(
+      "Immortal Etch Locked",
     );
 
     const seed = await request.post("/api/test/seed-buyout");
@@ -95,33 +87,18 @@ test.describe("slice 10.3: etch toggle locked under buyout", () => {
     expect(body.pledgedUsd).toBe(GOAL_USD);
 
     await page.goto("/panels/hood");
-    await expect(page.getByTestId("panel-mockup")).toHaveAttribute(
-      "data-etch-unlocked",
-      "true",
-    );
-    await expect(page.getByTestId("panel-mockup")).toHaveAttribute(
-      "data-preview-toggles",
-      "false",
-    );
+    await expect(page.getByTestId("panel-mockup")).toHaveCount(0);
     await expect(page.getByTestId("compositor-mode-etch")).toHaveCount(0);
-    await expect(page.getByTestId("etch-lock-copy")).toContainText(
-      "Etch unlocked",
-    );
-    await expect(page.getByTestId("panel-mockup")).toHaveAttribute(
-      "data-finish",
-      "wrap",
-    );
+    await expect(page.getByTestId("etch-lock-copy")).toHaveCount(0);
     await expect(page.getByTestId("compositor-etch-mark")).toHaveCount(0);
 
-    // Wrap-only panel does not render the Etch tab, even at buyout.
+    // Wrap-only panel: no compositor pane, bumper wrap copy stays.
     await page.goto("/panels/front-bumper");
-    await expect(page.getByTestId("panel-mockup")).toHaveAttribute(
-      "data-etchable",
-      "false",
-    );
+    await expect(page.getByTestId("panel-mockup")).toHaveCount(0);
     await expect(page.getByTestId("compositor-mode-etch")).toHaveCount(0);
-    await expect(page.getByTestId("panel-mockup-face-clean")).toHaveCount(1);
-    await expect(page.getByTestId("compositor-finish-label")).toHaveCount(0);
+    await expect(page.getByTestId("seat-lead")).toHaveText(
+      "Vinyl Wrap is the only option available for the Bumper.",
+    );
 
     const html = await page.content();
     expect(html.toLowerCase()).not.toMatch(/\blease\b/);

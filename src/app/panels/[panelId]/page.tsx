@@ -4,7 +4,6 @@ import { notFound } from "next/navigation";
 import { ImmortalEtchLockup } from "@/components/ImmortalEtchLockup";
 import { IntentArtworkPreview } from "@/components/IntentArtworkPreview";
 import { IntentBidForm } from "@/components/IntentBidForm";
-import { PanelMockup } from "@/components/PanelMockup";
 import { TruckViewHotspots } from "@/components/TruckViewHotspots";
 import { SiteChrome } from "@/components/SiteChrome";
 import { auth } from "@/lib/auth";
@@ -12,7 +11,6 @@ import {
   BRAND,
   DEPOSIT_PERCENT,
   FLOOR_USD,
-  TRUCK_EXISTS,
   PANELS,
   formatIntegerUsd,
   formatUsd,
@@ -26,7 +24,6 @@ import {
 import { intentStatusClass, intentStatusLabel } from "@/lib/intent-labels";
 import {
   listBidsForPanel,
-  loadBoardIntentStats,
   loadStandingHoldersByPanel,
   minimumIntentUsd,
   standingForPanel,
@@ -85,7 +82,6 @@ export default async function PanelIntentPage({
   const standing = await standingForPanel(panel.id);
   const minimum = await minimumIntentUsd(panel.id);
   const bids = await listBidsForPanel(panel.id);
-  const board = await loadBoardIntentStats();
   const seatsOpen = resolveSeatsOpen();
   const holdersRaw = await loadStandingHoldersByPanel();
   const holdersByPanel = new Map<string, AdjacentSeatHolder | null>();
@@ -179,13 +175,6 @@ export default async function PanelIntentPage({
         />
         </div>
 
-        <PanelMockup
-          panel={panel}
-          raisedUsd={board.pledgedUsd}
-          standingBrand={holder?.brandLabel ?? null}
-          truckExists={TRUCK_EXISTS}
-        />
-
         <dl
           className="panel-stats"
           data-testid="panel-stats"
@@ -215,8 +204,7 @@ export default async function PanelIntentPage({
           <div>
             <dt>Deposit shown</dt>
             <dd data-testid="panel-deposit-shown">
-              {DEPOSIT_PERCENT}% · {formatUsd(depositUsdForMark(standing))}{" "}
-              (not charged)
+              {DEPOSIT_PERCENT}% · {formatUsd(depositUsdForMark(standing))}
             </dd>
           </div>
         </dl>
