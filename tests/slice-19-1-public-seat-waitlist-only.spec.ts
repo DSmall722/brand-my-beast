@@ -91,9 +91,15 @@ test.describe("slice 19.1: public seats waitlist-only while closed", () => {
 
     await page.goto("/panels/hood");
     await expect(page.getByTestId("panel-intent-page")).toBeVisible();
-    await expect(page.getByTestId("public-seat-waitlist-cta")).toBeVisible();
-    await expect(page.getByTestId("public-seat-waitlist-cta")).toContainText(
-      "Join the waitlist",
+    await expect(page.getByTestId("seat-primary-cta")).toBeVisible();
+    await expect(page.getByTestId("seat-primary-cta")).toHaveAttribute(
+      "data-cta",
+      "contact",
+    );
+    await expect(page.getByTestId("seat-primary-cta")).toHaveText("Contact BMB");
+    await expect(page.getByTestId("seat-primary-cta")).toHaveAttribute(
+      "href",
+      "/#waitlist",
     );
     await expect(page.getByTestId("intent-signin-needed")).toHaveCount(0);
     await expect(page.getByTestId("intent-bid-form")).toHaveCount(0);
@@ -115,7 +121,7 @@ test.describe("slice 19.1: public seats waitlist-only while closed", () => {
     await page.goto("/panels/hood");
     await expect(page.getByTestId("intent-bid-form")).toHaveCount(0);
     await expect(page.getByTestId("intent-signin-needed")).toHaveCount(0);
-    await expect(page.getByTestId("public-seat-waitlist-cta")).toBeVisible();
+    await expect(page.getByTestId("seat-primary-cta")).toHaveText("Contact BMB");
     const signedVisible = await page.locator("body").innerText();
     expect(signedVisible).not.toContain("Sign in to list an intent");
 

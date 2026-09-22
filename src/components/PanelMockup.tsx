@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, type CSSProperties } from "react";
-import { EtchConstraintLinter } from "@/components/EtchConstraintLinter";
 import { ImmortalEtchLockup } from "@/components/ImmortalEtchLockup";
 import {
   GOAL_USD,
@@ -282,7 +281,6 @@ export function PanelMockup({
         />
       </div>
       )}
-      {etchable ? <EtchConstraintLinter /> : null}
     </div>
   );
 }

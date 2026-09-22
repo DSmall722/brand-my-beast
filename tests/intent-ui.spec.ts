@@ -1,5 +1,4 @@
 import { expect, test } from "@playwright/test";
-import { PUBLIC_COPY } from "../src/lib/public-copy";
 
 async function signIn(page: import("@playwright/test").Page, email: string) {
   await page.goto("/signin");
@@ -80,15 +79,17 @@ test.describe("P2 panel intent + approvals", () => {
   test("slice 1.7: /panels/[id] is the public seat", async ({ page }) => {
     await page.goto("/panels/hood");
     await expect(page.getByTestId("panel-intent-page")).toBeVisible();
-    await expect(page.getByTestId("public-seat-label")).toHaveText("Public seat");
-    await expect(page.getByTestId("public-seat-status")).toBeVisible();
-    await expect(page.getByTestId("seat-occupancy")).toHaveText("Seat open");
+    await expect(page.getByTestId("public-seat-label")).toHaveCount(0);
+    await expect(page.getByTestId("public-seat-status")).toHaveCount(0);
+    await expect(page.getByTestId("seat-occupancy")).toHaveCount(0);
     await expect(
       page.getByTestId("panel-intent-page").getByRole("link", { name: "Panels" }),
     ).toHaveAttribute("href", "/#panels");
-    await expect(page.getByTestId("public-seat-waitlist-cta")).toContainText(
-      "waitlist",
+    await expect(page.getByTestId("seat-primary-cta")).toHaveAttribute(
+      "data-cta",
+      "bid",
     );
+    await expect(page.getByTestId("seat-lead")).toContainText("Current Bid");
     await expect(page.getByTestId("panel-mockup")).toBeVisible();
     await expect(page.getByTestId("panel-mockup")).toHaveAttribute(
       "data-preview-toggles",
@@ -114,31 +115,13 @@ test.describe("P2 panel intent + approvals", () => {
     await expect(page.getByTestId("finish-condition-dirty")).toHaveCount(0);
     await expect(page.getByTestId("dirty-clean-pair-toggle")).toHaveCount(0);
     await expect(page.getByTestId("dirty-clean-pair")).toHaveCount(0);
-    await expect(page.getByTestId("adjacent-neighbors")).toBeVisible();
-    await expect(page.getByTestId("adjacent-neighbors-empty")).toBeVisible();
-    await expect(page.getByTestId("neighbor-combo")).toBeVisible();
-    await expect(page.getByTestId("neighbor-combo-lead")).toContainText(
-      "not a joint bid",
-    );
-    await expect(page.getByTestId("neighbor-combo-lead")).toContainText(
-      "$58,000",
-    );
-    await expect(page.getByTestId("neighbor-combo-lead")).toContainText(
-      "$120,000",
-    );
-    await expect(page.getByTestId("neighbor-combo-front-fascia")).toBeVisible();
-    await expect(
-      page.getByTestId("neighbor-combo-front-fascia").locator("a"),
-    ).toHaveAttribute("href", "/panels/front-fascia");
-    await expect(page.getByTestId("neighbor-combo-front-bumper")).toHaveCount(0);
-    await expect(page.getByTestId("neighbor-combo-driver-door")).toBeVisible();
-    await expect(page.getByTestId("neighbor-combo-passenger-door")).toBeVisible();
+    await expect(page.getByTestId("adjacent-neighbors")).toHaveCount(0);
+    await expect(page.getByTestId("neighbor-combo")).toHaveCount(0);
     await expect(page.getByTestId("hometown-lane")).toHaveCount(0);
     await expect(page.getByTestId("panel-stats")).toBeVisible();
-    await expect(page.getByTestId("intent-only-banner")).toContainText(
-      "Intent only",
-    );
-    await expect(page.getByTestId("intent-signin-needed")).toBeVisible();
+    await expect(page.getByTestId("intent-only-banner")).toHaveCount(0);
+    await expect(page.getByTestId("intent-signin-needed")).toHaveCount(0);
+    await expect(page.getByTestId("seat-primary-cta")).toBeVisible();
     const html = await page.content();
     expect(html.toLowerCase()).not.toMatch(/\blease\b/);
     expect(html).not.toContain("CLOSE_AT");
@@ -170,14 +153,10 @@ test.describe("P2 panel intent + approvals", () => {
       "data-etchable",
       "true",
     );
-    await expect(page.getByTestId("etch-constraints")).toBeVisible();
-    await expect(page.getByTestId("etch-constraint-list")).toBeVisible();
-    await expect(page.getByTestId("etch-constraint-one-color")).toBeVisible();
-    await expect(page.getByTestId("etch-constraint-no-gradients")).toBeVisible();
-    await expect(page.getByTestId("etch-constraint-no-fine-type")).toBeVisible();
-    await page.getByTestId("etch-art-notes").fill("full color gradient photo");
-    await expect(page.getByTestId("etch-lint-issues")).toBeVisible();
-    await expect(page.getByTestId("etch-lint-etch-forbidden-art")).toBeVisible();
+    await expect(page.getByTestId("etch-constraints")).toHaveCount(0);
+    await expect(page.getByTestId("etch-art-notes")).toHaveCount(0);
+    await expect(page.getByText("No gradients")).toHaveCount(0);
+    await expect(page.getByText("No 8-pt type")).toHaveCount(0);
     const html = await page.content();
     expect(html.toLowerCase()).not.toMatch(/\blease\b/);
     expect(html).not.toContain("CLOSE_AT");
@@ -200,9 +179,7 @@ test.describe("P2 panel intent + approvals", () => {
     const bidder = await browser.newPage();
     await signIn(bidder, "clash@example.com");
     await bidder.goto("/panels/hood");
-    await expect(bidder.getByTestId("adjacent-neighbors-list")).toContainText(
-      "Acme Steel",
-    );
+    await expect(bidder.getByTestId("adjacent-neighbors")).toHaveCount(0);
     await bidder.getByTestId("intent-brand").fill("Acme Steel");
     await expect(bidder.getByTestId("adjacent-clash-hint")).toBeVisible();
     await expect(
@@ -238,7 +215,8 @@ test.describe("P2 panel intent + approvals", () => {
 
     await signIn(page, "slice13@example.com");
     await page.goto("/panels/hood");
-    await expect(page.getByTestId("intent-only-banner")).toContainText(
+    await expect(page.getByTestId("intent-only-banner")).toHaveCount(0);
+    await expect(page.getByTestId("intent-amount-note")).toContainText(
       "does not charge",
     );
     await expect(page.getByTestId("panel-deposit-shown")).toContainText(
@@ -588,12 +566,10 @@ test.describe("P2 panel intent + approvals", () => {
     const holder = await browser.newPage();
     await signIn(holder, "slice14-holder@example.com");
     await holder.goto("/panels/hood");
-    await expect(holder.getByTestId("intent-trade-rule")).toContainText(
-      "One brand per trade",
-    );
-    await expect(holder.getByTestId("intent-trade-rule")).toContainText(
-      "same panel only",
-    );
+    await expect(holder.getByTestId("intent-trade-rule")).toHaveCount(0);
+    await expect(
+      holder.getByRole("heading", { name: "One brand per trade" }),
+    ).toHaveCount(0);
     await holder.getByTestId("intent-brand").fill("Slice Fourteen Hold");
     await holder.getByTestId("intent-trade").fill("Panel Seats");
     await holder.getByTestId("intent-standing").fill("2500");
@@ -636,12 +612,9 @@ test.describe("P2 panel intent + approvals", () => {
   }) => {
     const seat = await browser.newPage();
     await seat.goto("/panels/hood");
-    await expect(seat.getByTestId("seat-exclusivity")).toBeVisible();
-    await expect(seat.getByTestId("seat-exclusivity")).toContainText(
-      PUBLIC_COPY.seatExclusivity.heading,
-    );
-    await expect(seat.getByTestId("seat-exclusivity-body")).toHaveText(
-      PUBLIC_COPY.seatExclusivity.body,
+    await expect(seat.getByTestId("seat-exclusivity")).toHaveCount(0);
+    await expect(seat.getByRole("heading", { name: "One brand per trade" })).toHaveCount(
+      0,
     );
     // Slice 0.9 locked body drops the old "no public category list" phrase;
     // prove taxonomy UI is still absent.
@@ -657,9 +630,8 @@ test.describe("P2 panel intent + approvals", () => {
     const signedIn = await browser.newPage();
     await signIn(signedIn, "slice46-exclusivity@example.com");
     await signedIn.goto("/panels/hood");
-    await expect(signedIn.getByTestId("intent-trade-rule")).toHaveText(
-      PUBLIC_COPY.seatExclusivity.formHint,
-    );
+    await expect(signedIn.getByTestId("intent-trade-rule")).toHaveCount(0);
+    await expect(signedIn.getByTestId("seat-exclusivity")).toHaveCount(0);
     await signedIn.close();
 
     const home = await browser.newPage();
@@ -702,7 +674,8 @@ test.describe("P2 panel intent + approvals", () => {
 
     const visitor = await browser.newPage();
     await visitor.goto("/panels/hood");
-    await expect(visitor.getByTestId("seat-occupancy")).toHaveText("Seat held");
+    await expect(visitor.getByTestId("seat-occupancy")).toHaveCount(0);
+    await expect(visitor.getByTestId("public-seat-log")).toBeVisible();
     await expect(visitor.getByTestId("public-standing-brand")).toHaveText(
       "Public Standing Co",
     );

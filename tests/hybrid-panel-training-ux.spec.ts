@@ -455,8 +455,9 @@ test.describe("hybrid panel training UX", () => {
     await expect(page.getByTestId("etch-lock-copy")).toContainText(
       "Etch stays locked until buyout",
     );
-    await expect(page.getByTestId("intent-only-banner")).toBeVisible();
-    await expect(page.getByTestId("adjacent-neighbors")).toBeVisible();
+    await expect(page.getByTestId("intent-only-banner")).toHaveCount(0);
+    await expect(page.getByTestId("adjacent-neighbors")).toHaveCount(0);
+    await expect(page.getByTestId("seat-primary-cta")).toBeVisible();
     await expect(page.getByTestId("panel-stats")).toBeVisible();
 
     const html = await page.content();

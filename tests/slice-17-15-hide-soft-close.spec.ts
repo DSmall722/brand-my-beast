@@ -47,6 +47,7 @@ test.describe("slice 17.15: hide soft-close while bidding is closed", () => {
       await expect(page.getByTestId("panel-extended-until")).toHaveCount(0);
       const html = await page.content();
       expect(html).not.toContain("CLOSE_AT");
+      expect(html).not.toContain("Soft-close extension");
       expect(CLOSE_AT).toBeNull();
 
       const opened = await request.post("/api/test/seats-open", {
@@ -54,7 +55,8 @@ test.describe("slice 17.15: hide soft-close while bidding is closed", () => {
       });
       expect(opened.ok()).toBeTruthy();
       await page.goto("/panels/hood");
-      await expect(page.getByTestId("panel-extended-until")).toBeVisible();
+      await expect(page.getByTestId("panel-extended-until")).toHaveCount(0);
+      await expect(page.getByText("Soft-close extension")).toHaveCount(0);
     } finally {
       const reset = await request.post("/api/test/seats-open", {
         data: { reset: true },
