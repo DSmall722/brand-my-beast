@@ -180,21 +180,30 @@ test.describe("notes PDF homepage sheet", () => {
     expect(bedSize.trim()).toBe("380% auto");
 
     await expect(page.locator("#story")).toContainText(
-      "Maximum of one brand for each kind of business. If someone in your trade is already standing, highest bidder wins.",
+      "Choose a seat on the Cyberbeast. One brand per trade. The highest standing bid holds the panel.",
     );
+    await expect(page.locator("#story .story-step-title")).toHaveText([
+      "Pick a panel",
+      "Place a bid",
+      "Get on the truck",
+    ]);
     await expect(page.locator("#story .story-step-title").nth(2)).toHaveText(
-      "$120,000 unlocks Immortal Etch",
+      "Get on the truck",
     );
     await expect(page.locator("#story .story-step-title .immortal-etch")).toHaveCount(0);
     await expect(page.locator("#story .story-step-copy .immortal-etch")).toHaveText(
       "Immortal Etch",
     );
     await expect(page.locator("#story")).toContainText(
-      "Vinyl wrap lasts for one year,",
+      "Nothing else is charged until you win.",
     );
     await expect(page.locator("#story")).toContainText(
-      "but with Immortal Etch, your ad lasts FOREVER.",
+      "Approved artwork goes on the wrap, and on",
     );
+    await expect(page.locator("#story")).not.toContainText(
+      "$58,000 or the money comes back",
+    );
+    await expect(page.locator("#story")).not.toContainText("FOREVER");
     await expect(page.getByTestId("story-etch-forever")).toHaveCount(0);
     await expect(page.locator("#etch-title")).toHaveText("Immortal Etch");
     await expect(page.locator("#etch-title")).not.toHaveClass(/immortal-etch/);

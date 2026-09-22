@@ -94,19 +94,17 @@ export const PUBLIC_COPY = {
     steps: [
       {
         title: "Pick a panel",
-        body: "Maximum of one brand for each kind of business. If someone in your trade is already standing, highest bidder wins.",
+        body: "Choose a seat on the Cyberbeast. One brand per trade. The highest standing bid holds the panel.",
       },
       {
-        title: "$58,000 or the money comes back",
-        body: "Reach $58,000 and the Cyberbeast is ordered and winners are wrapped for twelve months. Miss it and every bid is released.",
+        title: "Place a bid",
+        body: "Open the bid desk. Enter your brand, email, and logo, and put down the deposit. Nothing else is charged until you win.",
       },
       {
-        title: "$120,000 unlocks Immortal Etch",
-        body: "Vinyl wrap lasts for one year,\nbut with Immortal Etch, your ad lasts FOREVER.",
+        title: "Get on the truck",
+        body: "If you win, finish payment. Approved artwork goes on the wrap, and on Immortal Etch if that finish is unlocked. Outbid? Bid again.",
       },
     ],
-    foreverLine:
-      "Vinyl wrap lasts for one year,\nbut with Immortal Etch, your ad lasts FOREVER.",
   },
   etch: {
     heading: "Immortal Etch",

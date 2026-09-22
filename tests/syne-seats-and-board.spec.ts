@@ -38,7 +38,18 @@ test.describe("Syne lockup, board marks, seat lead", () => {
     await page.setViewportSize({ width: 1280, height: 900 });
     await page.goto("/");
     await page.evaluate(() => document.fonts.ready);
+    await expect(page.locator("#story .story-step-title")).toHaveText([
+      "Pick a panel",
+      "Place a bid",
+      "Get on the truck",
+    ]);
     await expect(page.locator("#story .story-step-title").nth(2)).toHaveText(
+      "Get on the truck",
+    );
+    await expect(page.locator("#story")).not.toContainText(
+      "$58,000 or the money comes back",
+    );
+    await expect(page.locator("#story")).not.toContainText(
       "$120,000 unlocks Immortal Etch",
     );
     await expect(page.locator("#story .story-step-title .immortal-etch")).toHaveCount(
@@ -48,11 +59,16 @@ test.describe("Syne lockup, board marks, seat lead", () => {
     await expect(lockups).toHaveCount(1);
     await expect(lockups).toHaveText("Immortal Etch");
     await expect(page.locator("#story .story-step-copy").nth(2)).toContainText(
-      "Vinyl wrap lasts for one year,",
+      "Approved artwork goes on the wrap",
     );
     await expect(page.locator("#story .story-step-copy").nth(2)).toContainText(
-      "but with Immortal Etch, your ad lasts FOREVER.",
+      "if that finish is unlocked",
     );
+    const stepTops = await page.locator("#story .story-list > li").evaluateAll(
+      (items) => items.map((item) => Math.round(item.getBoundingClientRect().top)),
+    );
+    expect(stepTops).toHaveLength(3);
+    expect(new Set(stepTops).size).toBe(1);
     await expect(page.getByTestId("story-etch-forever")).toHaveCount(0);
     const fonts = await page.evaluate(() => {
       const lockup = document.querySelector("#story .immortal-etch");
