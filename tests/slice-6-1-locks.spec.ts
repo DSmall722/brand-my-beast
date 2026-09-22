@@ -91,11 +91,10 @@ test.describe("slice 6.1: floor, buyout, etch lock, no lease, no personal handle
       "false",
     );
     await expect(page.getByTestId("compositor-mode-etch")).toHaveCount(0);
-    await expect(page.getByTestId("etch-lock-copy")).toContainText(
-      "Etch stays locked until buyout",
-    );
-    await expect(page.getByTestId("stainless-compositor-lead")).toContainText(
-      formatUsd(GOAL_USD),
+    await expect(page.getByTestId("etch-lock-copy")).toHaveCount(0);
+    await expect(page.getByTestId("stainless-compositor-lead")).toHaveCount(0);
+    await expect(page.getByTestId("seat-finish")).toContainText(
+      "Immortal Etch Locked",
     );
 
     const html = await page.content();

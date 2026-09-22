@@ -61,10 +61,8 @@ test.describe("slice 14.7: PUBLIC_COPY seat rationale; no H1 rewrite", () => {
 
   test("seat page shows rationale; home H1 unchanged", async ({ page }) => {
     await page.goto("/panels/hood");
-    const line = page.getByTestId("opening-bid-rationale");
-    await expect(line).toBeVisible();
-    await expect(line).toContainText("The floor is not the sum of openings");
-    await expect(line).toContainText("$58,000");
+    await expect(page.getByTestId("opening-bid-rationale")).toHaveCount(0);
+    await expect(page.getByTestId("seat-lead")).toContainText("Current Bid");
 
     await page.goto("/");
     await expect(page.getByRole("heading", { level: 1 })).toHaveText(LOCKED_H1);

@@ -93,7 +93,7 @@ test.describe("slice 19.1: public seats waitlist-only while closed", () => {
     await expect(page.getByTestId("panel-intent-page")).toBeVisible();
     await expect(page.getByTestId("public-seat-waitlist-cta")).toBeVisible();
     await expect(page.getByTestId("public-seat-waitlist-cta")).toContainText(
-      "Join the waitlist",
+      "Get on the list",
     );
     await expect(page.getByTestId("intent-signin-needed")).toHaveCount(0);
     await expect(page.getByTestId("intent-bid-form")).toHaveCount(0);

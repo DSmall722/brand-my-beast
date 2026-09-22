@@ -66,21 +66,9 @@ test.describe("slice 19.5: one compositor disclaimer", () => {
     page,
   }) => {
     await page.goto("/panels/hood");
-    const lead = page.getByTestId("stainless-compositor-lead");
-    await expect(lead).toContainText("$58,000");
-    await expect(lead).toContainText("$120,000");
-    await expect(page.getByTestId("etch-lock-copy")).not.toContainText(
-      "$58,000",
-    );
-    await expect(page.getByTestId("etch-lock-copy")).not.toContainText(
-      "$120,000",
-    );
-    await expect(page.getByTestId("compositor-finish-label")).not.toContainText(
-      "$58,000",
-    );
-    await expect(page.getByTestId("compositor-finish-label")).not.toContainText(
-      "$120,000",
-    );
+    await expect(page.getByTestId("stainless-compositor-lead")).toHaveCount(0);
+    await expect(page.getByTestId("etch-lock-copy")).toHaveCount(0);
+    await expect(page.getByTestId("compositor-finish-label")).toHaveCount(0);
     const html = await page.content();
     expect(html).toContain("$58,000");
     expect(html).toContain("$120,000");

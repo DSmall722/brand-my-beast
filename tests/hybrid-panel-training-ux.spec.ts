@@ -452,12 +452,11 @@ test.describe("hybrid panel training UX", () => {
     expect(fillAlpha(activeFill), activeFill).toBeGreaterThanOrEqual(0.35);
 
     await expect(page.getByTestId("seat-lead")).toContainText("$2,500");
-    await expect(page.getByTestId("etch-lock-copy")).toContainText(
-      "Etch stays locked until buyout",
-    );
-    await expect(page.getByTestId("intent-only-banner")).toBeVisible();
-    await expect(page.getByTestId("adjacent-neighbors")).toBeVisible();
-    await expect(page.getByTestId("panel-stats")).toBeVisible();
+    await expect(page.getByTestId("etch-lock-copy")).toHaveCount(0);
+    await expect(page.getByTestId("intent-only-banner")).toHaveCount(0);
+    await expect(page.getByTestId("adjacent-neighbors")).toHaveCount(0);
+    await expect(page.getByTestId("panel-stats")).toHaveCount(0);
+    await expect(page.getByTestId("public-seat-waitlist-cta")).toBeVisible();
 
     const html = await page.content();
     expect(html).toContain("$58,000");

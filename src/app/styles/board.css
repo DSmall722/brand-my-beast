@@ -395,7 +395,7 @@
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 0.75rem;
-  margin-top: 0.25rem;
+  margin-top: 1rem;
 }
 
 .etch-sample-frame {
@@ -1306,6 +1306,16 @@
 .public-seat .seat-masthead .section-lead {
   margin-bottom: 0;
   font-size: 1.05rem;
+}
+
+.public-seat .seat-holder-line {
+  margin: 0.4rem 0 0;
+  color: var(--steel-200);
+}
+
+.public-seat .seat-cta {
+  display: flex;
+  margin: 1.5rem 0 0;
 }
 
 .public-seat .seat-finish {

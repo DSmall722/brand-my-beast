@@ -82,11 +82,10 @@ test.describe("slice 10.3: etch toggle locked under buyout", () => {
       "false",
     );
     await expect(page.getByTestId("compositor-mode-etch")).toHaveCount(0);
-    await expect(page.getByTestId("etch-lock-copy")).toContainText(
-      "Etch stays locked until buyout",
-    );
-    await expect(page.getByTestId("stainless-compositor-lead")).toContainText(
-      "$120,000",
+    await expect(page.getByTestId("etch-lock-copy")).toHaveCount(0);
+    await expect(page.getByTestId("stainless-compositor-lead")).toHaveCount(0);
+    await expect(page.getByTestId("seat-finish")).toContainText(
+      "Immortal Etch Locked",
     );
 
     const seed = await request.post("/api/test/seed-buyout");
@@ -104,9 +103,7 @@ test.describe("slice 10.3: etch toggle locked under buyout", () => {
       "false",
     );
     await expect(page.getByTestId("compositor-mode-etch")).toHaveCount(0);
-    await expect(page.getByTestId("etch-lock-copy")).toContainText(
-      "Etch unlocked",
-    );
+    await expect(page.getByTestId("etch-lock-copy")).toHaveCount(0);
     await expect(page.getByTestId("panel-mockup")).toHaveAttribute(
       "data-finish",
       "wrap",
@@ -120,9 +117,8 @@ test.describe("slice 10.3: etch toggle locked under buyout", () => {
       "false",
     );
     await expect(page.getByTestId("compositor-mode-etch")).toHaveCount(0);
-    await expect(page.getByTestId("compositor-finish-label")).toHaveText(
-      "Wrap only",
-    );
+    await expect(page.getByTestId("compositor-finish-label")).toHaveCount(0);
+    await expect(page.getByTestId("seat-finish")).toHaveText("Wrap only");
 
     const html = await page.content();
     expect(html.toLowerCase()).not.toMatch(/\blease\b/);

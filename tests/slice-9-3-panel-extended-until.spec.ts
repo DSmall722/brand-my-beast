@@ -121,14 +121,8 @@ test.describe("slice 9.3: panelExtendedUntil", () => {
 
   test("seat shows unset extension copy without CLOSE_AT", async ({ page }) => {
     await page.goto("/panels/hood");
-    await expect(page.getByTestId("panel-extended-until")).toBeVisible();
-    await expect(page.getByTestId("panel-extended-until")).toHaveAttribute(
-      "data-extended",
-      "false",
-    );
-    await expect(page.getByTestId("panel-extended-until-copy")).toHaveText(
-      PUBLIC_COPY.panelExtension.unset,
-    );
+    await expect(page.getByTestId("panel-extended-until")).toHaveCount(0);
+    await expect(page.getByText("Soft-close extension")).toHaveCount(0);
     const html = await page.content();
     expect(html).not.toContain("CLOSE_AT");
     expect(html.toLowerCase()).not.toMatch(/\blease\b/);
@@ -156,21 +150,10 @@ test.describe("slice 9.3: panelExtendedUntil", () => {
     expect(CLOSE_AT).toBeNull();
 
     await page.goto("/panels/hood");
-    await expect(page.getByTestId("panel-extended-until")).toHaveAttribute(
-      "data-extended",
-      "true",
-    );
-    await expect(page.getByTestId("panel-extended-until")).toHaveAttribute(
-      "data-until",
-      until,
-    );
-    const expected = panelExtendedUntilCopy(until).body;
-    await expect(page.getByTestId("panel-extended-until-copy")).toHaveText(
-      expected,
-    );
+    await expect(page.getByTestId("panel-extended-until")).toHaveCount(0);
+    await expect(page.getByText("Soft-close extension")).toHaveCount(0);
     const html = await page.content();
     expect(html).not.toContain("CLOSE_AT");
     expect(html.toLowerCase()).not.toMatch(/\blease\b/);
-    expect(html).toContain(until);
   });
 });

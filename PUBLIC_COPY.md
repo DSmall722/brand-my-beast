@@ -86,6 +86,7 @@ Panel card names match the board. No gloss line on the card.
 - Why buyout: `Immortal Etch ships with the $120,000 whole-truck package.`
 - Cost: `After Immortal Etch is installed there is no cash refund of that finish.`
 - Art: `One color, thick strokes, no gradients, no tiny type. If it cannot be cut, it does not ship.`
+- Requirements: `Immortal Etch artwork must use bold, simple shapes that can be permanently etched into stainless steel. Gradients, fine details, and very small text cannot be etched reliably. Final artwork will be reviewed before approval.`
 
 ## Wreck & refund
 
@@ -107,6 +108,7 @@ Money facts from CAMPAIGN.md only. Plain English. Not a full contract.
 - Q: `What is Immortal Etch?` A: `Cut into the stainless — not vinyl. Nine steel panels. Vinyl lasts a year. Immortal Etch is forever.`
 - Q: `Why is Immortal Etch locked until $120,000?` A: `Immortal Etch ships with the whole-truck buyout. At $58,000 the campaign can order the truck and fund wrap. The permanent cut waits until $120,000, when the campaign owns the truck and the whole-truck + Immortal Etch package is met. Panel bids stay the seat price.`
 - Q: `When does bidding start?` A: `When seats open. There is no date on this page yet.`
+- Q: `What happens if someone bids at the last second?` A: `A qualifying last-second bid extends that panel’s closing time so other bidders have a fair chance to respond.`
 - Q: `Will I be charged if I join the list?` A: `No. The waitlist is an email.`
 
 ## Waitlist

@@ -56,19 +56,9 @@ test.describe("slice 9.2: seat next minimum", () => {
     page,
   }) => {
     await page.goto("/panels/hood");
-    await expect(page.getByTestId("panel-standing")).toHaveText("$2,500");
-    await expect(page.getByTestId("panel-minimum")).toHaveText("$2,500");
-    await expect(page.getByTestId("panel-increment")).toHaveText("—");
-    await expect(page.getByTestId("panel-stats")).toHaveAttribute(
-      "data-seat-open",
-      "true",
-    );
-    await expect(page.getByTestId("seat-next-minimum-rule")).toContainText(
-      "opening mark",
-    );
-    await expect(page.getByTestId("seat-next-minimum-rule")).toContainText(
-      "no card",
-    );
+    await expect(page.getByTestId("seat-lead")).toContainText("Current Bid $2,500");
+    await expect(page.getByTestId("panel-stats")).toHaveCount(0);
+    await expect(page.getByTestId("seat-next-minimum-rule")).toHaveCount(0);
     const html = await page.content();
     expect(html.toLowerCase()).not.toMatch(/\blease\b/);
     expect(html).not.toContain("CLOSE_AT");
@@ -94,33 +84,11 @@ test.describe("slice 9.2: seat next minimum", () => {
       { timeout: 10_000 },
     );
 
-    await expect(page.getByTestId("panel-standing")).toHaveText(
-      formatUsd(standingUsd),
+    await expect(page.getByTestId("seat-lead")).toContainText(
+      `Current Bid ${formatUsd(standingUsd)}`,
     );
-    await expect(page.getByTestId("panel-minimum")).toHaveText(
-      formatUsd(nextMin),
-    );
-    await expect(page.getByTestId("panel-increment")).toHaveText(
-      formatUsd(increment),
-    );
-    await expect(page.getByTestId("panel-stats")).toHaveAttribute(
-      "data-seat-open",
-      "false",
-    );
-    await expect(page.getByTestId("panel-stats")).toHaveAttribute(
-      "data-minimum-usd",
-      String(nextMin),
-    );
-    await expect(page.getByTestId("panel-stats")).toHaveAttribute(
-      "data-increment-usd",
-      String(increment),
-    );
-    await expect(page.getByTestId("seat-next-minimum-rule")).toContainText(
-      "standing + max($250, 10%)",
-    );
-    await expect(page.getByTestId("seat-next-minimum-rule")).toContainText(
-      formatUsd(nextMin),
-    );
+    await expect(page.getByTestId("panel-stats")).toHaveCount(0);
+    await expect(page.getByTestId("seat-next-minimum-rule")).toHaveCount(0);
     await expect(page.getByTestId("intent-standing")).toHaveAttribute(
       "min",
       String(nextMin),
@@ -144,11 +112,11 @@ test.describe("slice 9.2: seat next minimum", () => {
 
     expect(minIncrementUsd(3000)).toBe(300);
     expect(nextStandingUsd(3000)).toBe(3300);
-    await expect(page.getByTestId("panel-standing")).toHaveText("$3,000");
-    await expect(page.getByTestId("panel-increment")).toHaveText("$300");
-    await expect(page.getByTestId("panel-minimum")).toHaveText("$3,300");
-    await expect(page.getByTestId("seat-next-minimum-rule")).toContainText(
-      "$3,300",
+    await expect(page.getByTestId("seat-lead")).toContainText("Current Bid $3,000");
+    await expect(page.getByTestId("intent-standing")).toHaveAttribute(
+      "min",
+      "3300",
     );
+    await expect(page.getByTestId("seat-next-minimum-rule")).toHaveCount(0);
   });
 });

@@ -59,11 +59,8 @@ test.describe("slice 12.27: opening-bid rationale from RULES.md", () => {
     page,
   }) => {
     await page.goto("/panels/hood");
-    const line = page.getByTestId("opening-bid-rationale");
-    await expect(line).toBeVisible();
-    await expect(line).toHaveAttribute("data-source", "RULES.md");
-    await expect(line).toContainText("The floor is not the sum of openings");
-    await expect(line).toContainText("$58,000");
+    await expect(page.getByTestId("opening-bid-rationale")).toHaveCount(0);
+    await expect(page.getByTestId("seat-lead")).toContainText("Current Bid $2,500");
 
     const html = await page.content();
     expect(html.toLowerCase()).not.toMatch(/\blease\b/);

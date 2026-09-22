@@ -108,8 +108,10 @@ test.describe("slice 14.34: next-minimum display integer dollars only", () => {
     expect(shown).toMatch(WHOLE_DOLLAR);
     expect(shown).not.toMatch(/\.\d/);
     expect(shown).toBe(formatIntegerUsd(nextMin));
-    await expect(page.getByTestId("seat-next-minimum-rule")).toContainText(
-      formatIntegerUsd(nextMin),
+    await expect(page.getByTestId("seat-next-minimum-rule")).toHaveCount(0);
+    await expect(page.getByTestId("intent-standing")).toHaveAttribute(
+      "min",
+      String(nextMin),
     );
     await expect(page.getByTestId("intent-amount-note")).toContainText(
       formatIntegerUsd(nextMin),
