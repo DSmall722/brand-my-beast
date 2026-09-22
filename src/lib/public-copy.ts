@@ -344,7 +344,17 @@ export const PUBLIC_COPY = {
    */
   bidDesk: {
     dayHeading: "Day by day",
-    unpaid: "unpaid",
+    heldBy: "Held by",
+    topHeading: "Top 3",
+    topEmpty: "No standing bids yet.",
+    todayHeading: "Today's action",
+    todayEmpty: "No bids yet today.",
+    leaderboardLink: "Leaderboard",
+    leaderboardHeading: "Leaderboard",
+    leaderboardEvery: "Every bid ever placed, highest first.",
+    leaderboardStay: "Outbid bids stay on this list.",
+    leaderboardEmpty: "No bids yet.",
+    leaderboardRest: "The rest of the field",
     modalTitle: "Place a bid",
     closedLead:
       "Bidding is not open. No deposit is taken on this form. Join the list or contact hello@brandmybeast.com.",

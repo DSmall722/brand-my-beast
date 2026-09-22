@@ -1,5 +1,7 @@
 import { expect, type Page, test } from "@playwright/test";
+import { buildAuctionLive, buildLeaderboard } from "../src/lib/auction-board";
 import { buildDayByDay, bidDeskMode } from "../src/lib/bid-desk";
+import { publicLogoUrl } from "../src/lib/public-mark";
 import { CLOSE_AT, FLOOR_USD, GOAL_USD } from "../src/lib/campaign";
 import type { IntentBid } from "../src/lib/intent";
 import { PUBLIC_COPY } from "../src/lib/public-copy";
@@ -149,6 +151,54 @@ test.describe("bid desk: modal, hidden sign-in, unpaid, day by day", () => {
       "hood-win",
     ]);
     expect(buildDayByDay(live, { panelId: "front-bumper" }).days).toEqual([]);
+
+    expect(
+      publicLogoUrl({
+        status: "listed",
+        artworkUrl: "https://cdn.example.com/pending.png",
+        artworkApproval: "pending",
+      }),
+    ).toBeNull();
+    expect(
+      publicLogoUrl({
+        status: "approved",
+        artworkUrl: "https://cdn.example.com/live.png",
+        artworkApproval: "approved",
+      }),
+    ).toBe("https://cdn.example.com/live.png");
+    expect(
+      publicLogoUrl({
+        status: "outbid",
+        artworkUrl: "https://cdn.example.com/live.png",
+        artworkApproval: "approved",
+      }),
+    ).toBe("https://cdn.example.com/live.png");
+
+    const board = buildLeaderboard(live);
+    expect(board.bidCount).toBe(4);
+    expect(board.rows.map((row) => row.bidId)).toEqual([
+      "hood-listed",
+      "hood-win",
+      "tail-win",
+      "tail-old",
+    ]);
+    expect(board.rows[0]?.publicLogoUrl).toBeNull();
+    expect(board.rows[1]?.publicLogoUrl).toBeNull();
+    const liveMarks = live.map((bid) =>
+      bid.id === "hood-win"
+        ? { ...bid, artworkUrl: "https://cdn.example.com/hood.png", artworkApproval: "approved" as const }
+        : bid,
+    );
+    expect(buildLeaderboard(liveMarks).rows[1]?.publicLogoUrl).toBe(
+      "https://cdn.example.com/hood.png",
+    );
+    expect(buildAuctionLive(live, new Date("2026-09-02T18:00:00.000Z")).today).toHaveLength(
+      2,
+    );
+    expect(buildAuctionLive(live, new Date("2026-09-03T18:00:00.000Z")).today).toEqual(
+      [],
+    );
+    expect(buildAuctionLive([], new Date("2026-09-02T18:00:00.000Z")).top).toEqual([]);
   });
 
   test("homepage bid modal stays on the page and does not charge", async ({
@@ -179,6 +229,25 @@ test.describe("bid desk: modal, hidden sign-in, unpaid, day by day", () => {
     await expect(history).not.toContainText("unpaid");
     await expect(history).not.toContainText("paid");
     await expect(page.getByTestId("raised-amount")).toHaveText("$0");
+    await expect(page.locator("#main-content")).not.toContainText("unpaid");
+    await expect(page.getByTestId("auction-top")).toContainText(
+      "No standing bids yet.",
+    );
+    await expect(page.getByTestId("auction-today")).toContainText(
+      "No bids yet today.",
+    );
+    await expect(page.getByTestId("leaderboard-link")).toHaveAttribute(
+      "href",
+      "/leaderboard",
+    );
+    await page.goto("/leaderboard");
+    await expect(page.getByTestId("leaderboard-page")).toHaveAttribute(
+      "data-empty",
+      "true",
+    );
+    await expect(page.getByTestId("leaderboard-empty")).toHaveText("No bids yet.");
+    await expect(page.getByTestId("leaderboard-page")).not.toContainText("unpaid");
+    await page.goto("/");
 
     await page.getByTestId("panel-link-hood").click();
     await expect(page).toHaveURL(/\/$/);
@@ -364,5 +433,61 @@ test.describe("bid desk: modal, hidden sign-in, unpaid, day by day", () => {
     await expect(page.getByTestId("day-by-day").locator(".day-by-day-list")).toHaveCount(
       0,
     );
+  });
+
+  test("held by stays name-only until the operator approves the logo", async ({
+    page,
+    browser,
+    request,
+  }) => {
+    const reset = await request.post("/api/test/reset-intents");
+    expect(reset.ok()).toBeTruthy();
+    const logo = "https://cdn.example.com/desk-logo.png";
+
+    const bidder = await browser.newPage();
+    await signIn(bidder, "logo-bidder@example.com");
+    await bidder.goto("/panels/hood");
+    await bidder.getByTestId("intent-brand").fill("Logo Brand");
+    await bidder.getByTestId("intent-trade").fill("paint");
+    await bidder.getByTestId("intent-standing").fill("2500");
+    await bidder.getByTestId("intent-artwork-url").fill(logo);
+    await bidder.getByTestId("intent-submit").click();
+    await expect(bidder.getByTestId("intent-success")).toBeVisible();
+    await bidder.close();
+
+    await page.goto("/");
+    const held = page.getByTestId("panel-standing-hood");
+    await expect(held).toHaveText("Logo Brand");
+    await expect(held.locator("img")).toHaveCount(0);
+    await expect(held.locator(".public-mark")).toHaveAttribute("data-artwork", "name");
+    await expect(page.locator("#panels")).not.toContainText("unpaid");
+    await expect(page.getByTestId("auction-top")).toContainText("Logo Brand");
+    await expect(page.getByTestId("auction-top").locator("img")).toHaveCount(0);
+    await expect(page.getByTestId("auction-today")).not.toContainText("unpaid");
+
+    const operator = await browser.newPage();
+    await signIn(operator, "operator@example.com");
+    await operator.goto("/operator");
+    await operator.locator('[data-testid^="approve-"]').first().click();
+    await expect(operator.getByTestId("approvals-empty")).toBeVisible();
+    await operator.close();
+
+    await page.goto("/");
+    await expect(page.getByTestId("panel-standing-hood").locator("img")).toHaveAttribute(
+      "src",
+      logo,
+    );
+    await expect(page.getByTestId("auction-top").locator("img")).toHaveAttribute(
+      "src",
+      logo,
+    );
+    await page.goto("/leaderboard");
+    await expect(page.getByTestId("leaderboard-count")).toContainText("1 bid from 1 brand");
+    await expect(page.getByTestId("leaderboard-page")).toContainText("Logo Brand");
+    await expect(page.getByTestId("leaderboard-page").locator("img")).toHaveAttribute(
+      "src",
+      logo,
+    );
+    await expect(page.getByTestId("leaderboard-page")).not.toContainText("unpaid");
   });
 });

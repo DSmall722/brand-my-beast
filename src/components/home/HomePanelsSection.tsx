@@ -3,6 +3,7 @@
 import Link from "next/link";
 import type { CSSProperties, MouseEvent } from "react";
 import { ImmortalEtchLockup } from "@/components/ImmortalEtchLockup";
+import { PublicMark } from "@/components/PublicMark";
 import { useOpenBid } from "@/components/home/BidDesk";
 import { PANELS, currentBidUsd, formatUsd, isEtchable } from "@/lib/campaign";
 import { PANEL_BOARD_MARKS, panelFaceStyle } from "@/lib/panel-board";
@@ -12,6 +13,7 @@ export type PanelCardStanding = {
   brandLabel: string;
   tradeLabel: string;
   standingUsd: number;
+  publicLogoUrl: string | null;
 };
 
 /** Slice 7.1 / 10.9 / 16.1 — panel grid; cards show 1–12 index + standing. */
@@ -63,7 +65,6 @@ export function HomePanelsSection({
               const etchable = isEtchable(panel);
               const gloss = PUBLIC_COPY.panels.gloss[panel.id];
               const standing = standingByPanel[panel.id] ?? null;
-              const standingLabel = standing ? standing.brandLabel : "";
               const bidUsd = currentBidUsd(
                 panel.openingUsd,
                 standing?.standingUsd,
@@ -109,11 +110,21 @@ export function HomePanelsSection({
                         <span className="panel-gloss"> ({gloss})</span>
                       ) : null}
                     </div>
+                    {standing ? (
+                      <div className="panel-held-kicker">
+                        {PUBLIC_COPY.bidDesk.heldBy}
+                      </div>
+                    ) : null}
                     <div
                       className="panel-standing"
                       data-testid={`panel-standing-${panel.id}`}
                     >
-                      {standingLabel}
+                      {standing ? (
+                        <PublicMark
+                          brandLabel={standing.brandLabel}
+                          logoUrl={standing.publicLogoUrl}
+                        />
+                      ) : null}
                     </div>
                     <div
                       className="panel-meta"
@@ -133,11 +144,6 @@ export function HomePanelsSection({
                         {PUBLIC_COPY.panels.badgeWrap}
                       </span>
                     )}
-                    {standing ? (
-                      <span className="badge badge-unpaid" data-payment="unpaid">
-                        {PUBLIC_COPY.bidDesk.unpaid}
-                      </span>
-                    ) : null}
                   </Link>
                 </article>
               );

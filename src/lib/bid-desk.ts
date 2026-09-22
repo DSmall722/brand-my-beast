@@ -1,6 +1,6 @@
 /**
  * Homepage bid desk. Money stays informational.
- * A standing winner is unpaid because no capture path exists.
+ * No card capture in this slice. The live board does not label winners unpaid.
  */
 
 import { CLOSE_AT, PANELS, formatUsd } from "@/lib/campaign";
@@ -15,11 +15,6 @@ export function bidDeskMode(closeAt: string | null = CLOSE_AT): BidDeskMode {
   if (closeAt === null) return { kind: "closed" };
   return { kind: "intent" };
 }
-
-/** No Stripe capture in this slice. A standing winner has not paid. */
-export const STANDING_WINNER_PAYMENT = "unpaid" as const;
-
-export type StandingWinnerPayment = typeof STANDING_WINNER_PAYMENT;
 
 export type BidPanelQuote = {
   id: string;

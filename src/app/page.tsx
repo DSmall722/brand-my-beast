@@ -15,6 +15,7 @@ import {
 } from "@/components/home/truck-exists-sections";
 import { HomeTruckViewsSection } from "@/components/home/HomeTruckViewsSection";
 import { HomeWaitlistSection } from "@/components/home/HomeWaitlistSection";
+import { buildAuctionLive } from "@/lib/auction-board";
 import { bidDeskMode, buildDayByDay } from "@/lib/bid-desk";
 import type { BidPanelQuote } from "@/lib/bid-desk";
 import {
@@ -49,6 +50,7 @@ export default async function HomePage() {
     await Promise.all(PANELS.map((panel) => listBidsForPanel(panel.id)))
   ).flat();
   const dayByDay = buildDayByDay(activity);
+  const auctionLive = buildAuctionLive(activity);
   const quotes: BidPanelQuote[] = PANELS.map((panel) => {
     const standing = standingHolders.get(panel.id);
     const current = currentBidUsd(panel.openingUsd, standing?.standingUsd);
@@ -102,6 +104,7 @@ export default async function HomePage() {
           openSeats={board.openSeats}
           pledgedUsd={pledgedUsd}
           dayByDay={dayByDay}
+          auctionLive={auctionLive}
         />
         <HomePanelsSection
           etchUnlocked={etchUnlocked}

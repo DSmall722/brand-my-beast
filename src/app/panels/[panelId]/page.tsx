@@ -39,6 +39,7 @@ import {
   holdersOnAdjacentPanels,
   type AdjacentSeatHolder,
 } from "@/lib/panel-clash";
+import { publicLogoUrl } from "@/lib/public-mark";
 import { buildPublicSeatLog, formatSeatLogTime } from "@/lib/seat-log";
 import { resolveSeatsOpen } from "@/lib/seats-open";
 
@@ -384,10 +385,12 @@ export default async function PanelIntentPage({
                         {formatUsd(FLOOR_USD)} (not charged)
                       </span>
                     ) : null}
-                    <IntentArtworkPreview
-                      artworkUrl={bid.artworkUrl}
-                      bidId={bid.id}
-                    />
+                    {publicLogoUrl(bid) ? (
+                      <IntentArtworkPreview
+                        artworkUrl={bid.artworkUrl}
+                        bidId={bid.id}
+                      />
+                    ) : null}
                   </li>
                 );
               })}

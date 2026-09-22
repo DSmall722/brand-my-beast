@@ -1,5 +1,7 @@
+import { AuctionLive } from "@/components/home/AuctionLive";
 import { DayByDay } from "@/components/home/DayByDay";
 import { WantAllPanelsLink } from "@/components/home/WantAllPanelsLink";
+import type { AuctionLive as AuctionLiveModel } from "@/lib/auction-board";
 import type { DayByDay as DayByDayModel } from "@/lib/bid-desk";
 import { FLOOR_USD, GOAL_USD, PANELS, formatUsd } from "@/lib/campaign";
 import { isWholeTruckIntentOpen } from "@/lib/intent-store";
@@ -18,6 +20,7 @@ type HomeMoneySectionProps = {
   openSeats: number;
   pledgedUsd: number;
   dayByDay: DayByDayModel;
+  auctionLive: AuctionLiveModel;
 };
 
 /**
@@ -38,6 +41,7 @@ export function HomeMoneySection({
   openSeats,
   pledgedUsd,
   dayByDay,
+  auctionLive,
 }: HomeMoneySectionProps) {
   return (
         <section
@@ -175,6 +179,7 @@ export function HomeMoneySection({
               {PUBLIC_COPY.board.wholeTruckMet}
             </p>
           )}
+          <AuctionLive model={auctionLive} />
           <DayByDay model={dayByDay} />
         </section>
   );

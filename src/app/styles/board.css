@@ -295,11 +295,40 @@
   min-width: 1.15rem;
 }
 
+.panel-held-kicker {
+  margin-top: 0.55rem;
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--steel-400);
+}
+
 .panel-standing {
-  margin-top: 0.35rem;
+  margin-top: 0.2rem;
   font-size: 0.95rem;
   color: var(--steel-100);
   letter-spacing: -0.01em;
+}
+
+.public-mark {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  min-width: 0;
+  max-width: 100%;
+}
+
+.public-mark-name {
+  overflow-wrap: anywhere;
+}
+
+.public-mark-logo {
+  width: 1.65rem;
+  height: 1.65rem;
+  flex: 0 0 auto;
+  object-fit: contain;
+  background: white;
+  border-radius: 0.2rem;
 }
 
 .panel[data-standing="open"] .panel-standing {
@@ -2932,14 +2961,77 @@
   }
 }
 
-.badge-unpaid {
-  margin-left: 0.45rem;
-  color: var(--signal-ink);
-  background: var(--signal);
-  border-color: var(--signal);
-  text-transform: none;
-  letter-spacing: 0;
+.auction-live {
+  display: grid;
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
+
+.auction-live h3,
+.leaderboard h1 {
+  margin: 0 0 0.65rem;
+  font-family: var(--font-display), Syne, system-ui, sans-serif;
+  letter-spacing: -0.04em;
+  text-transform: uppercase;
+}
+
+.auction-top-list,
+.auction-today-list,
+.leaderboard-podium,
+.leaderboard-rest {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0.65rem;
+}
+
+.auction-top-list li,
+.auction-today-list li,
+.leaderboard-podium li,
+.leaderboard-rest li {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1.4fr) minmax(0, 1fr) auto;
+  gap: 0.35rem 0.75rem;
+  align-items: center;
+  min-width: 0;
+}
+
+.auction-rank {
+  color: var(--signal);
+  font-variant-numeric: tabular-nums;
   font-weight: 700;
+}
+
+.auction-amount {
+  font-variant-numeric: tabular-nums;
+  font-weight: 700;
+}
+
+.auction-leaderboard-link {
+  margin: 0.85rem 0 0;
+}
+
+.leaderboard-podium li {
+  padding: 0.85rem 0;
+  border-bottom: 1px solid var(--hairline);
+  font-size: 1.15rem;
+}
+
+@media (max-width: 640px) {
+  .auction-top-list li,
+  .auction-today-list li,
+  .leaderboard-podium li,
+  .leaderboard-rest li {
+    grid-template-columns: auto minmax(0, 1fr);
+  }
+
+  .auction-top-list li > :nth-child(3),
+  .auction-today-list time,
+  .leaderboard-podium li > :nth-child(3),
+  .leaderboard-rest li > :nth-child(3) {
+    grid-column: 2;
+  }
 }
 
 .day-by-day {
