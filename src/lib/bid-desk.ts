@@ -45,7 +45,6 @@ export type DayByDayBucket = {
 };
 
 export type DayByDay = {
-  source: "live" | "sample";
   days: DayByDayBucket[];
 };
 
@@ -55,41 +54,7 @@ const HISTORY_STATUSES = new Set<IntentBidStatus>([
   "outbid",
 ]);
 
-const SAMPLE_DAY_BY_DAY: DayByDay = {
-  source: "sample",
-  days: [
-    {
-      dayKey: "sample-standing",
-      dayLabel: "2 Sep",
-      bidCount: 1,
-      bidUsd: 2500,
-      standingUsd: 2500,
-      rows: [
-        {
-          panelName: "Hood",
-          brandLabel: "Sample Mark",
-          amountUsd: 2500,
-          stillStanding: true,
-        },
-      ],
-    },
-    {
-      dayKey: "sample-beaten",
-      dayLabel: "1 Sep",
-      bidCount: 1,
-      bidUsd: 500,
-      standingUsd: 0,
-      rows: [
-        {
-          panelName: "Rear bumper",
-          brandLabel: "Sample Mark",
-          amountUsd: 500,
-          stillStanding: false,
-        },
-      ],
-    },
-  ],
-};
+const EMPTY_DAY_BY_DAY: DayByDay = { days: [] };
 
 function panelName(panelId: string): string {
   return PANELS.find((panel) => panel.id === panelId)?.name ?? panelId;
@@ -126,15 +91,12 @@ function topActiveUsd(
   return Math.max(...active.map((bid) => bid.standingUsd));
 }
 
-/**
- * Group public marks by Eastern calendar day.
- * An empty ledger returns the labeled sample. Sample dollars are not pledged.
- */
+/** Group bids that were actually entered, by Eastern calendar day. */
 export function buildDayByDay(bids: readonly IntentBid[]): DayByDay {
   const publicBids = bids.filter(
     (bid) => HISTORY_STATUSES.has(bid.status) && !isFloorSaveBid(bid),
   );
-  if (publicBids.length === 0) return SAMPLE_DAY_BY_DAY;
+  if (publicBids.length === 0) return EMPTY_DAY_BY_DAY;
 
   const buckets = new Map<string, DayByDayBucket>();
   for (const bid of publicBids) {
@@ -172,8 +134,8 @@ export function buildDayByDay(bids: readonly IntentBid[]): DayByDay {
   const days = [...buckets.values()].sort((a, b) =>
     b.dayKey.localeCompare(a.dayKey),
   );
-  if (days.length === 0) return SAMPLE_DAY_BY_DAY;
-  return { source: "live", days };
+  if (days.length === 0) return EMPTY_DAY_BY_DAY;
+  return { days };
 }
 
 export function formatDayMoney(amountUsd: number): string {

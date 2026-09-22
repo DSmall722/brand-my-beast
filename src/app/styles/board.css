@@ -2958,8 +2958,9 @@
 
 .day-by-day-list summary {
   display: flex;
+  flex-wrap: wrap;
   justify-content: space-between;
-  gap: 1rem;
+  gap: 0.35rem 1rem;
   cursor: pointer;
   font-weight: 600;
 }
@@ -2979,13 +2980,23 @@
   border-top: 1px solid var(--hairline);
 }
 
+html:has(.bid-modal-root),
+body:has(.bid-modal-root) {
+  overflow: hidden;
+  max-width: 100%;
+}
+
 .bid-modal-root {
   position: fixed;
   inset: 0;
   z-index: 40;
+  box-sizing: border-box;
   display: grid;
   place-items: center;
-  padding: 1.25rem;
+  width: 100%;
+  max-width: 100vw;
+  overflow: hidden;
+  padding: 0.5rem;
 }
 
 .bid-modal-backdrop {
@@ -2999,13 +3010,41 @@
 .bid-modal {
   position: relative;
   z-index: 1;
-  width: min(32rem, 100%);
+  box-sizing: border-box;
+  width: 100%;
+  min-width: 0;
+  max-width: min(32rem, calc(100vw - 1rem));
   max-height: min(90vh, 48rem);
-  overflow: auto;
-  padding: 1.25rem 1.35rem 1.5rem;
+  overflow-x: hidden;
+  overflow-y: auto;
+  padding: 1.25rem 1rem 1.5rem;
   border: 1px solid color-mix(in oklab, var(--signal) 45%, var(--hairline));
   background: var(--steel-900);
   box-shadow: 0 24px 80px color-mix(in oklab, black 45%, transparent);
+}
+
+.bid-modal-bar,
+.bid-modal-form,
+.bid-modal-note,
+.bid-modal-money,
+.bid-modal-actions {
+  min-width: 0;
+  max-width: 100%;
+}
+
+.bid-modal-bar h2,
+.bid-modal-note,
+.bid-modal .auth-hint,
+.bid-modal .auth-label {
+  overflow-wrap: anywhere;
+}
+
+.bid-modal .auth-input,
+.bid-modal select {
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
 }
 
 .bid-modal-bar {
@@ -3018,14 +3057,17 @@
 
 .bid-modal-bar h2 {
   margin: 0;
+  min-width: 0;
   font-family: var(--font-display), Syne, system-ui, sans-serif;
   font-size: 1.35rem;
   letter-spacing: -0.04em;
   text-transform: uppercase;
+  overflow-wrap: anywhere;
 }
 
 .bid-modal-close {
   appearance: none;
+  flex: 0 0 auto;
   border: 0;
   background: transparent;
   color: var(--steel-100);

@@ -85,11 +85,15 @@ function BidModal({
       if (event.key === "Escape") onClose();
     };
     document.addEventListener("keydown", onKey);
-    const previous = document.body.style.overflow;
+    const html = document.documentElement;
+    const previousHtml = html.style.overflow;
+    const previousBody = document.body.style.overflow;
+    html.style.overflow = "hidden";
     document.body.style.overflow = "hidden";
     return () => {
       document.removeEventListener("keydown", onKey);
-      document.body.style.overflow = previous;
+      html.style.overflow = previousHtml;
+      document.body.style.overflow = previousBody;
     };
   }, [onClose]);
 

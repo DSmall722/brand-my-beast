@@ -346,10 +346,6 @@ export const PUBLIC_COPY = {
    */
   bidDesk: {
     dayHeading: "Day by day",
-    daySampleLead:
-      "Sample history. No live bids yet. Standing figures here are not pledged. Nothing is charged.",
-    dayLiveLead:
-      "Every public mark, grouped by day (ET). The standing figure is what nobody has beaten. Nothing is charged.",
     unpaid: "unpaid",
     modalTitle: "Place a bid",
     closedLead:
