@@ -47,11 +47,9 @@ export default async function SignInPage({
         </p>
       ) : null}
 
-      {hasTest ? (
-        <>
-          <TestSignInForm callbackUrl={callbackUrl} />
-        </>
-      ) : null}
+      <p className="section-lead" data-testid="manage-bids-magic-link">
+        {PUBLIC_COPY.bidDesk.magicLink}
+      </p>
 
       {hasResend ? (
         <>
@@ -60,6 +58,12 @@ export default async function SignInPage({
           </p>
           <MagicLinkSignInForm callbackUrl={callbackUrl} />
         </>
+      ) : null}
+
+      {hasTest ? (
+        <div className="auth-credentials-hatch" data-testid="credentials-hatch">
+          <TestSignInForm callbackUrl={callbackUrl} />
+        </div>
       ) : null}
 
       {hasGithub ? (

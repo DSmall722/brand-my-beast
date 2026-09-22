@@ -1,3 +1,4 @@
+import { BidDeskProvider } from "@/components/home/BidDesk";
 import { HomeEtchSection } from "@/components/home/HomeEtchSection";
 import { HomeFooter } from "@/components/home/HomeFooter";
 import { HomeHeader } from "@/components/home/HomeHeader";
@@ -14,11 +15,15 @@ import {
 } from "@/components/home/truck-exists-sections";
 import { HomeTruckViewsSection } from "@/components/home/HomeTruckViewsSection";
 import { HomeWaitlistSection } from "@/components/home/HomeWaitlistSection";
+import { bidDeskMode, buildDayByDay } from "@/lib/bid-desk";
+import type { BidPanelQuote } from "@/lib/bid-desk";
 import {
   CLOSE_AT,
   FLOOR_USD,
   GOAL_USD,
+  PANELS,
   TRUCK_EXISTS,
+  currentBidUsd,
   floorMarkerPercentOnGoalTrack,
   floorProgressPercent,
   formatUsd,
@@ -26,7 +31,9 @@ import {
   shortfallToFloorUsd,
   shortfallToGoalUsd,
 } from "@/lib/campaign";
+import { nextStandingUsd } from "@/lib/intent";
 import {
+  listBidsForPanel,
   loadBoardIntentStats,
   loadStandingHoldersByPanel,
 } from "@/lib/intent-store";
@@ -38,6 +45,20 @@ export const dynamic = "force-dynamic";
 export default async function HomePage() {
   const board = await loadBoardIntentStats();
   const standingHolders = await loadStandingHoldersByPanel();
+  const activity = (
+    await Promise.all(PANELS.map((panel) => listBidsForPanel(panel.id)))
+  ).flat();
+  const dayByDay = buildDayByDay(activity);
+  const quotes: BidPanelQuote[] = PANELS.map((panel) => {
+    const standing = standingHolders.get(panel.id);
+    const current = currentBidUsd(panel.openingUsd, standing?.standingUsd);
+    return {
+      id: panel.id,
+      name: panel.name,
+      currentBidUsd: current,
+      minimumBidUsd: standing ? nextStandingUsd(current) : panel.openingUsd,
+    };
+  });
   const occupiedPanelIds = [...standingHolders.keys()];
   const pledgedUsd = board.pledgedUsd;
   const floorLabel = formatUsd(FLOOR_USD);
@@ -65,6 +86,7 @@ export default async function HomePage() {
         data-testid="home-main"
         data-truck-exists={TRUCK_EXISTS ? "true" : "false"}
       >
+        <BidDeskProvider quotes={quotes} mode={bidDeskMode(CLOSE_AT)}>
         <HomeHeroSection occupiedPanelIds={occupiedPanelIds} />
         <HomeTruckViewsSection occupiedPanelIds={occupiedPanelIds} />
         <HomeMoneySection
@@ -79,11 +101,13 @@ export default async function HomePage() {
           shortfallGoal={shortfallGoal}
           openSeats={board.openSeats}
           pledgedUsd={pledgedUsd}
+          dayByDay={dayByDay}
         />
         <HomePanelsSection
           etchUnlocked={etchUnlocked}
-          standingByPanel={standingHolders}
+          standingByPanel={Object.fromEntries(standingHolders)}
         />
+        </BidDeskProvider>
         <HomeStorySection />
         <HomeEtchSection />
         <HomeQuestionsSection />

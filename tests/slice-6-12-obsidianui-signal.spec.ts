@@ -61,7 +61,6 @@ test.describe("slice 6.12: obsidianui signal button", () => {
     await expect(cta.locator(".obsidian-arrow-fill-btn__text")).toHaveText(
       "Bid on a Panel",
     );
-    await expect(cta).toHaveAttribute("href", "#panels");
     await expect(cta).toHaveClass(/obsidian-arrow-fill-btn/);
 
     const contact = page.getByTestId("hero-secondary-cta");
@@ -70,7 +69,7 @@ test.describe("slice 6.12: obsidianui signal button", () => {
     await expect(contact).not.toHaveClass(/obsidian-arrow-fill-btn/);
 
     const tag = await cta.evaluate((el) => el.tagName.toLowerCase());
-    expect(tag).toBe("a");
+    expect(tag).toBe("button");
 
     const html = (await page.content()).toLowerCase();
     expect(html).not.toMatch(/\blease\b/);

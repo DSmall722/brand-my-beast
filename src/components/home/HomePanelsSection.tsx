@@ -1,6 +1,9 @@
+"use client";
+
 import Link from "next/link";
-import type { CSSProperties } from "react";
+import type { CSSProperties, MouseEvent } from "react";
 import { ImmortalEtchLockup } from "@/components/ImmortalEtchLockup";
+import { useOpenBid } from "@/components/home/BidDesk";
 import { PANELS, currentBidUsd, formatUsd, isEtchable } from "@/lib/campaign";
 import { PANEL_BOARD_MARKS, panelFaceStyle } from "@/lib/panel-board";
 import { PUBLIC_COPY } from "@/lib/public-copy";
@@ -17,8 +20,24 @@ export function HomePanelsSection({
   standingByPanel,
 }: {
   etchUnlocked: boolean;
-  standingByPanel: ReadonlyMap<string, PanelCardStanding>;
+  standingByPanel: Readonly<Record<string, PanelCardStanding>>;
 }) {
+  const openBid = useOpenBid();
+
+  function onPanelClick(event: MouseEvent<HTMLAnchorElement>, panelId: string) {
+    if (
+      event.metaKey ||
+      event.ctrlKey ||
+      event.shiftKey ||
+      event.altKey ||
+      event.button !== 0
+    ) {
+      return;
+    }
+    event.preventDefault();
+    openBid(panelId);
+  }
+
   return (
         <section
           className="shell section"
@@ -43,7 +62,7 @@ export function HomePanelsSection({
               }
               const etchable = isEtchable(panel);
               const gloss = PUBLIC_COPY.panels.gloss[panel.id];
-              const standing = standingByPanel.get(panel.id) ?? null;
+              const standing = standingByPanel[panel.id] ?? null;
               const standingLabel = standing ? standing.brandLabel : "";
               const bidUsd = currentBidUsd(
                 panel.openingUsd,
@@ -65,6 +84,8 @@ export function HomePanelsSection({
                     prefetch={true}
                     data-testid={`panel-link-${panel.id}`}
                     data-prefetch-panel={panel.id}
+                    aria-haspopup="dialog"
+                    onClick={(event) => onPanelClick(event, panel.id)}
                   >
                     <div
                       className="panel-face"
@@ -112,6 +133,11 @@ export function HomePanelsSection({
                         {PUBLIC_COPY.panels.badgeWrap}
                       </span>
                     )}
+                    {standing ? (
+                      <span className="badge badge-unpaid" data-payment="unpaid">
+                        {PUBLIC_COPY.bidDesk.unpaid}
+                      </span>
+                    ) : null}
                   </Link>
                 </article>
               );

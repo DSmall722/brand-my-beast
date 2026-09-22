@@ -15,7 +15,7 @@ import { PUBLIC_COPY } from "../src/lib/public-copy";
 import { vercelJsonIsHoldOrMainOnlyRestore } from "../src/lib/vercel-git-deploy";
 
 /**
- * Slice 19.9 — mobile header stays one row: wordmark + Join / Sign in.
+ * Slice 19.9 — mobile header stays one row: wordmark + Contact BMB.
  * Safe-area already 17.7. CLOSE_AT null. No Stripe.
  */
 
@@ -51,39 +51,34 @@ test.describe("slice 19.9: mobile header stays one row", () => {
     expect(SEATS_OPEN).toBe(true);
   });
 
-  test("wordmark, Join the list, and Sign in share one row", async ({
-    page,
-  }) => {
+  test("wordmark and Contact BMB share one row", async ({ page }) => {
     await page.goto("/");
     await page.evaluate(() => document.fonts.ready);
 
     const header = page.locator(".site-header");
     await expect(header).toHaveAttribute("data-header-row", "single");
+    await expect(header).toHaveAttribute("data-signin-closed", "true");
 
     const wordmark = page.getByTestId("brand-wordmark");
     const join = header.getByRole("link", { name: PUBLIC_COPY.header.nav });
-    const signin = page.getByTestId("signin-link");
 
     await expect(wordmark).toHaveText("BrandMyBeast");
     await expect(join).toHaveText(PUBLIC_COPY.header.nav);
-    await expect(signin).toHaveText("Sign in");
+    await expect(page.getByTestId("signin-link")).toHaveCount(0);
 
     const wordBox = await wordmark.boundingBox();
     const joinBox = await join.boundingBox();
-    const signBox = await signin.boundingBox();
-    if (!wordBox || !joinBox || !signBox) {
+    if (!wordBox || !joinBox) {
       throw new Error("header item missing");
     }
 
-    const tops = [wordBox.y, joinBox.y, signBox.y];
+    const tops = [wordBox.y, joinBox.y];
     expect(Math.max(...tops) - Math.min(...tops)).toBeLessThan(8);
 
     expect(wordBox.x + wordBox.width).toBeLessThanOrEqual(joinBox.x + 1);
-    expect(joinBox.x + joinBox.width).toBeLessThanOrEqual(signBox.x + 1);
 
     expect(wordBox.height).toBeLessThan(36);
     expect(joinBox.height).toBeLessThan(36);
-    expect(signBox.height).toBeLessThan(36);
 
     await expect(page.locator("#hero-title")).toHaveText(LOCKED_H1);
     const html = await page.content();

@@ -262,6 +262,9 @@ test.describe("P1 waitlist campaign locks", () => {
     }
 
     await page.getByTestId("panel-link-hood").click();
+    await expect(page).toHaveURL(/\/$/);
+    await expect(page.getByTestId("bid-modal")).toBeVisible();
+    await page.getByTestId("bid-modal-seat-link").click();
     await expect(page).toHaveURL(/\/panels\/hood$/);
     await expect(page.getByTestId("panel-intent-page")).toBeVisible();
     await expect(page.getByTestId("public-seat-label")).toHaveCount(0);

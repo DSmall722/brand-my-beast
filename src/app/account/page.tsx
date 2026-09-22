@@ -63,6 +63,9 @@ export default async function AccountPage() {
           {formatUsd(GOAL_USD)}. Deposit shown later is {DEPOSIT_PERCENT}% — not
           charged here.
         </p>
+        <p className="auth-hint" data-testid="account-magic-link">
+          {PUBLIC_COPY.bidDesk.magicLink} {PUBLIC_COPY.bidDesk.artwork}
+        </p>
 
         <dl className="auth-dl">
           <div>
