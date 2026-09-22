@@ -1,7 +1,6 @@
 import { ImmortalEtchLockup } from "@/components/ImmortalEtchLockup";
 import { PUBLIC_COPY } from "@/lib/public-copy";
 
-/** Immortal Etch stays on the homepage. Sample frames wait on real etch photos. */
 export function HomeEtchSection() {
   return (
     <section
@@ -28,10 +27,17 @@ export function HomeEtchSection() {
           <div
             key={slot.id}
             className="etch-sample-frame"
-            role="img"
-            aria-label={slot.label}
             data-testid={`etch-sample-${slot.id}`}
-          />
+          >
+            {/* eslint-disable-next-line @next/next/no-img-element -- local etch samples in /public */}
+            <img
+              src={slot.src}
+              alt={slot.label}
+              width={slot.width}
+              height={slot.height}
+              decoding="async"
+            />
+          </div>
         ))}
       </div>
     </section>
