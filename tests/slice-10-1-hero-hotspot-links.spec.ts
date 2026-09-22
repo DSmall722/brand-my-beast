@@ -85,7 +85,8 @@ test.describe("slice 10.1: hero and hotspot links open seats", () => {
     await page.goto("/");
     await page.getByTestId("hero-truck-preview").click();
     await expect(page).toHaveURL(/\/panels\/hood$/);
-    await expect(page.getByTestId("intent-signin-needed")).toBeVisible();
+    await expect(page.getByTestId("intent-signin-needed")).toHaveCount(0);
+    await expect(page.getByTestId("public-seat-waitlist-cta")).toBeVisible();
 
     await page.goto("/");
     await page.getByTestId("panel-link-hood").click();
@@ -95,6 +96,5 @@ test.describe("slice 10.1: hero and hotspot links open seats", () => {
     expect(html.toLowerCase()).not.toMatch(/\blease\b/);
     expect(html).not.toContain("CLOSE_AT");
     expect(html).toContain("$58,000");
-    expect(html).toContain("$120,000");
   });
 });

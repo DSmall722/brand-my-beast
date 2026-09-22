@@ -97,13 +97,10 @@ test.describe("slice 16.21: seat log shows panel number", () => {
       { timeout: 10_000 },
     );
 
-    await expect(page.getByTestId("public-seat-log-lead")).toContainText(
-      "panel number",
+    await expect(page.getByTestId("public-seat-log")).toContainText(
+      "Bid Activity",
     );
-    await expect(page.getByTestId("public-seat-log-lead")).toContainText("ET");
-    await expect(page.getByTestId("public-seat-log-lead")).toContainText(
-      "No bidder email",
-    );
+    await expect(page.getByTestId("public-seat-log-lead")).toHaveCount(0);
 
     const row = page.locator('[data-testid^="seat-log-row-"]').first();
     await expect(row).toBeVisible();
@@ -127,7 +124,6 @@ test.describe("slice 16.21: seat log shows panel number", () => {
     expect(html.toLowerCase()).not.toMatch(/\blease\b/);
     expect(html).not.toContain("FEATURES.md");
     expect(html).toContain("$58,000");
-    expect(html).toContain("$120,000");
   });
 
   test("homepage still does not render FEATURES.md", async ({ request }) => {

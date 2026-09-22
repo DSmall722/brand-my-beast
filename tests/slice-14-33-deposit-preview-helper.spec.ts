@@ -82,8 +82,7 @@ test.describe("slice 14.33: deposit preview uses depositUsdForMark (12.5)", () =
       join(ROOT, "src/app/panels/[panelId]/page.tsx"),
       "utf8",
     );
-    expect(panel).toContain("depositUsdForMark");
-    expect(panel).toContain("panel-deposit-shown");
+    expect(panel).not.toContain("panel-deposit-shown");
     expect(panel).not.toMatch(/standing\s*\*\s*0\.2/);
     expect(panel.toLowerCase()).not.toMatch(/\blease\b/);
 
@@ -102,10 +101,7 @@ test.describe("slice 14.33: deposit preview uses depositUsdForMark (12.5)", () =
     const expected = depositUsdForMark(opening);
     expect(expected).toBe(500);
 
-    const panelDeposit = page.getByTestId("panel-deposit-shown");
-    await expect(panelDeposit).toContainText(`${DEPOSIT_PERCENT}%`);
-    await expect(panelDeposit).toContainText(formatUsd(expected));
-    await expect(panelDeposit).toContainText("not charged");
+    await expect(page.getByTestId("panel-deposit-shown")).toHaveCount(0);
 
     await expect(page.getByTestId("intent-bid-form")).toBeVisible();
     const preview = page.getByTestId("intent-deposit-preview");
@@ -127,6 +123,5 @@ test.describe("slice 14.33: deposit preview uses depositUsdForMark (12.5)", () =
     expect(html).not.toMatch(/\blease\b/);
     expect(html).not.toMatch(/@gmail\.com/);
     expect(html).toContain("$58,000");
-    expect(html).toContain("$120,000");
   });
 });

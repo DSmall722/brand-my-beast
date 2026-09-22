@@ -108,8 +108,10 @@ test.describe("slice 14.34: next-minimum display integer dollars only", () => {
     expect(shown).toMatch(WHOLE_DOLLAR);
     expect(shown).not.toMatch(/\.\d/);
     expect(shown).toBe(formatIntegerUsd(nextMin));
-    await expect(page.getByTestId("seat-next-minimum-rule")).toContainText(
-      formatIntegerUsd(nextMin),
+    await expect(page.getByTestId("seat-next-minimum-rule")).toHaveCount(0);
+    await expect(page.getByTestId("intent-standing")).toHaveAttribute(
+      "min",
+      String(nextMin),
     );
     await expect(page.getByTestId("intent-amount-note")).toContainText(
       formatIntegerUsd(nextMin),
@@ -119,6 +121,5 @@ test.describe("slice 14.34: next-minimum display integer dollars only", () => {
     expect(html).not.toMatch(/\blease\b/);
     expect(html).not.toMatch(/@gmail\.com/);
     expect(html).toContain("$58,000");
-    expect(html).toContain("$120,000");
   });
 });

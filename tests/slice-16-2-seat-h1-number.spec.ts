@@ -76,6 +76,5 @@ test.describe("slice 16.2: seat page H1 includes board number", () => {
     expect(html.toLowerCase()).not.toMatch(/\blease\b/);
     expect(html).not.toMatch(/@gmail\.com/i);
     expect(html).toContain("$58,000");
-    expect(html).toContain("$120,000");
   });
 });

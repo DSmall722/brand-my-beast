@@ -93,7 +93,7 @@ test.describe("slice 19.1: public seats waitlist-only while closed", () => {
     await expect(page.getByTestId("panel-intent-page")).toBeVisible();
     await expect(page.getByTestId("public-seat-waitlist-cta")).toBeVisible();
     await expect(page.getByTestId("public-seat-waitlist-cta")).toContainText(
-      "Join the waitlist",
+      "Get on the list",
     );
     await expect(page.getByTestId("intent-signin-needed")).toHaveCount(0);
     await expect(page.getByTestId("intent-bid-form")).toHaveCount(0);
@@ -106,7 +106,6 @@ test.describe("slice 19.1: public seats waitlist-only while closed", () => {
     expect(visible).not.toContain("Sign in to list an intent");
     const html = await page.content();
     expect(html).toContain("$58,000");
-    expect(html).toContain("$120,000");
     expect(html).not.toContain("FEATURES.md");
     expect(html.toLowerCase()).not.toMatch(/\blease\b/);
     expect(html).not.toMatch(/@gmail\.com/);

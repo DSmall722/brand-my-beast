@@ -110,9 +110,7 @@ test.describe("slice 9.9: public seat log", () => {
       { timeout: 10_000 },
     );
     await expect(bidder.getByTestId("public-seat-log")).toBeVisible();
-    await expect(bidder.getByTestId("public-seat-log-list")).toContainText(
-      "$3,000",
-    );
+    await expect(bidder.getByTestId("intent-list")).toContainText("$3,000");
     const row = bidder.locator('[data-testid^="seat-log-row-"]').first();
     await expect(row).toBeVisible();
     const bidId = (await row.getAttribute("data-testid"))!.replace(
@@ -135,9 +133,10 @@ test.describe("slice 9.9: public seat log", () => {
     const visitor = await browser.newPage();
     await visitor.goto("/panels/hood");
     await expect(visitor.getByTestId("public-seat-log")).toBeVisible();
-    await expect(visitor.getByTestId("public-seat-log-lead")).toContainText(
-      "No bidder email",
+    await expect(visitor.getByTestId("public-seat-log")).toContainText(
+      "Bid Activity",
     );
+    await expect(visitor.getByTestId("public-seat-log-lead")).toHaveCount(0);
     await expect(visitor.getByTestId(`seat-log-amount-${bidId}`)).toHaveText(
       "$3,000",
     );
@@ -151,7 +150,6 @@ test.describe("slice 9.9: public seat log", () => {
     expect(html.toLowerCase()).not.toMatch(/\blease\b/);
     expect(html).not.toContain("CLOSE_AT");
     expect(html).toContain("$58,000");
-    expect(html).toContain("$120,000");
     await visitor.close();
   });
 });

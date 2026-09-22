@@ -162,7 +162,6 @@ test.describe("slice 9.6: failed-winner offer", () => {
     expect(html.toLowerCase()).not.toMatch(/\blease\b/);
     expect(html).not.toContain("CLOSE_AT");
     expect(html).toContain("$58,000");
-    expect(html).toContain("$120,000");
     expect(CLOSE_AT).toBeNull();
     await outbid.close();
   });

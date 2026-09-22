@@ -113,7 +113,10 @@ test.describe("slice 14.35: public seat log timestamps America/New_York ET", () 
     );
 
     await expect(page.getByTestId("public-seat-log")).toBeVisible();
-    await expect(page.getByTestId("public-seat-log-lead")).toContainText("ET");
+    await expect(page.getByTestId("public-seat-log")).toContainText(
+      "Bid Activity",
+    );
+    await expect(page.getByTestId("public-seat-log-lead")).toHaveCount(0);
     const row = page.locator('[data-testid^="seat-log-row-"]').first();
     await expect(row).toBeVisible();
     const bidId = (await row.getAttribute("data-testid"))!.replace(
@@ -133,6 +136,5 @@ test.describe("slice 14.35: public seat log timestamps America/New_York ET", () 
     expect(html).not.toMatch(/\blease\b/);
     expect(html).not.toMatch(/@gmail\.com/);
     expect(html).toContain("$58,000");
-    expect(html).toContain("$120,000");
   });
 });

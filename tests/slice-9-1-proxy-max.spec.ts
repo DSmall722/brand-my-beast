@@ -217,9 +217,6 @@ test.describe("slice 9.1: proxy max agent", () => {
     expect(html.toLowerCase()).not.toMatch(/\blease\b/);
     expect(html).not.toContain("CLOSE_AT");
     expect(html).toContain("$58,000");
-    expect(html).toContain("$120,000");
-    await expect(page.getByTestId("intent-only-banner")).toContainText(
-      "Intent only",
-    );
+    await expect(page.getByTestId("intent-only-banner")).toHaveCount(0);
   });
 });

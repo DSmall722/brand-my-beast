@@ -43,15 +43,14 @@ await page.goto(`${url}/panels/hood`, { waitUntil: "networkidle" });
 for (const id of [
   "panel-intent-page",
   "panel-mockup",
-  "panel-stats",
-  "intent-only-banner",
-  "intent-signin-needed",
+  "seat-lead",
+  "public-seat-waitlist-cta",
 ]) {
   await page.getByTestId(id).waitFor();
 }
-const banner = await page.getByTestId("intent-only-banner").innerText();
-if (!/Intent only/i.test(banner) || /stripe/i.test(banner)) {
-  throw new Error(`bad intent banner: ${banner}`);
+const cta = await page.getByTestId("public-seat-waitlist-cta").innerText();
+if (!/Get on the list/i.test(cta)) {
+  throw new Error(`bad seat CTA: ${cta}`);
 }
 const html = await page.content();
 if (/\blease\b/i.test(html)) throw new Error("lease copy on panel intent page");

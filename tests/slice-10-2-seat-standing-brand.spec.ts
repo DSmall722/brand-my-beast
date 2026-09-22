@@ -58,9 +58,8 @@ test.describe("slice 10.2: compositor standing brand", () => {
   }) => {
     const open = await browser.newPage();
     await open.goto("/panels/hood");
-    await expect(open.getByTestId("compositor-standing-brand")).toHaveText(
-      "Open seat",
-    );
+    await expect(open.getByTestId("compositor-standing-brand")).toHaveCount(0);
+    await expect(open.getByText("Open seat", { exact: true })).toHaveCount(0);
     await open.close();
 
     const bidder = await browser.newPage();
@@ -74,9 +73,7 @@ test.describe("slice 10.2: compositor standing brand", () => {
       "not charged",
       { timeout: 10_000 },
     );
-    await expect(bidder.getByTestId("compositor-standing-brand")).toHaveText(
-      "Steel Face Co",
-    );
+    await expect(bidder.getByTestId("compositor-standing-brand")).toHaveCount(0);
     await expect(bidder.getByTestId("public-standing-brand")).toHaveText(
       "Steel Face Co",
     );
@@ -84,7 +81,8 @@ test.describe("slice 10.2: compositor standing brand", () => {
 
     const visitor = await browser.newPage();
     await visitor.goto("/panels/hood");
-    await expect(visitor.getByTestId("compositor-standing-brand")).toHaveText(
+    await expect(visitor.getByTestId("compositor-standing-brand")).toHaveCount(0);
+    await expect(visitor.getByTestId("public-standing-brand")).toHaveText(
       "Steel Face Co",
     );
     const html = await visitor.content();
@@ -92,7 +90,6 @@ test.describe("slice 10.2: compositor standing brand", () => {
     expect(html.toLowerCase()).not.toMatch(/\blease\b/);
     expect(html).not.toContain("CLOSE_AT");
     expect(html).toContain("$58,000");
-    expect(html).toContain("$120,000");
     await visitor.close();
   });
 });

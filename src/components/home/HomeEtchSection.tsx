@@ -1,3 +1,4 @@
+import { ImmortalEtchLockup } from "@/components/ImmortalEtchLockup";
 import { PUBLIC_COPY } from "@/lib/public-copy";
 
 /** Immortal Etch stays on the homepage. Sample frames wait on real etch photos. */
@@ -12,6 +13,9 @@ export function HomeEtchSection() {
       <h2 id="etch-title">
         {PUBLIC_COPY.etch.heading}
       </h2>
+      <p className="section-lead" data-testid="etch-requirements">
+        <ImmortalEtchLockup text={PUBLIC_COPY.etch.requirements} />
+      </p>
       <div className="etch-samples" data-testid="etch-sample-slots">
         {PUBLIC_COPY.etch.sampleSlots.map((slot) => (
           <div

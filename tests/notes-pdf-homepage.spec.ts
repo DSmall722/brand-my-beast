@@ -149,8 +149,14 @@ test.describe("notes PDF homepage sheet", () => {
 
     await expect(page.getByTestId("etch-sample-slots")).toBeVisible();
     await expect(page.getByTestId("etch-sample-hood")).toBeVisible();
+    await expect(page.getByTestId("etch-requirements")).toContainText(
+      "Immortal Etch artwork must use bold, simple shapes",
+    );
     await expect(page.getByTestId("etch-section")).not.toContainText(
       "Wrap is a year of film",
+    );
+    await expect(page.getByTestId("faq-last-second-bid")).toContainText(
+      "What happens if someone bids at the last second?",
     );
     await expect(page.getByTestId("wreck-refund-faq")).toHaveCount(0);
     await expect(page.getByTestId("faq-campaign-miss")).toContainText(

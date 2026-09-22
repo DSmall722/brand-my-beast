@@ -175,7 +175,6 @@ test.describe("slice 13.14: withdraw leaves no ghost standing", () => {
     const html = await page.content();
     expect(html.toLowerCase()).not.toMatch(/\blease\b/);
     expect(html).toContain("$58,000");
-    expect(html).toContain("$120,000");
     expect(CLOSE_AT).toBeNull();
     await page.close();
   });

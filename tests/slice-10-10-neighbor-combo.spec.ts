@@ -68,33 +68,26 @@ test.describe("slice 10.10: neighbor combo display only", () => {
     );
   });
 
-  test("seat: neighbor combo is display only — openings, no combo price", async ({
+  test("seat: neighbor combo is gone from the public seat", async ({
     page,
   }) => {
     await page.goto("/panels/hood");
-    const card = page.getByTestId("neighbor-combo");
-    await expect(card).toBeVisible();
-    await expect(card).toHaveAttribute("data-combo-price", "none");
-    await expect(card).toHaveAttribute("data-display-only", "true");
-    await expect(page.getByTestId("neighbor-combo-lead")).toContainText(
-      "no combo price",
-    );
-    await expect(page.getByTestId("neighbor-combo-lead")).toContainText(
-      "not a joint bid",
-    );
-    await expect(page.getByTestId("neighbor-combo-list")).toBeVisible();
-
-    const text = await card.innerText();
-    expect(comboLotInventedPrice(text)).toBe(false);
-    expect(text.toLowerCase()).toContain("no combo price");
-    expect(text.toLowerCase()).not.toMatch(/(?<!\bno\s)combo price/);
-    expect(text.toLowerCase()).not.toMatch(/bundle for \$/);
-    expect(text).toContain("opening");
+    await expect(page.getByTestId("neighbor-combo")).toHaveCount(0);
+    await expect(page.getByTestId("neighbor-combo-lead")).toHaveCount(0);
+    await expect(page.getByTestId("neighbor-combo-list")).toHaveCount(0);
+    await expect(page.getByText("Neighboring seats")).toHaveCount(0);
+    await expect(page.getByText("Adjacent seats")).toHaveCount(0);
 
     const html = await page.content();
+    expect(html).not.toContain("Neighbor combo");
+    expect(html).not.toContain("Neighboring seats");
     expect(html.toLowerCase()).not.toMatch(/\blease\b/);
     expect(html).not.toContain("CLOSE_AT");
-    expect(html).toContain("$58,000");
-    expect(html).toContain("$120,000");
+    expect(html).not.toContain("FEATURES.md");
+
+    await page.goto("/");
+    const home = await page.content();
+    expect(home).toContain("$58,000");
+    expect(home).toContain("$120,000");
   });
 });

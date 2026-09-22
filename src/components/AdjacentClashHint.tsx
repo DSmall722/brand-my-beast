@@ -43,35 +43,3 @@ export function AdjacentClashHint({
     </div>
   );
 }
-
-export function AdjacentNeighborsCard({
-  neighbors,
-}: {
-  neighbors: readonly AdjacentSeatHolder[];
-}) {
-  return (
-    <div className="adjacent-neighbors" data-testid="adjacent-neighbors">
-      <p className="adjacent-neighbors-title">Adjacent seats</p>
-      {neighbors.length === 0 ? (
-        <p className="auth-hint" data-testid="adjacent-neighbors-empty">
-          No standing intents on neighboring panels yet.
-        </p>
-      ) : (
-        <ul
-          className="adjacent-neighbors-list"
-          data-testid="adjacent-neighbors-list"
-        >
-          {neighbors.map((n) => (
-            <li key={n.panelId} data-testid={`adjacent-neighbor-${n.panelId}`}>
-              <a href={`/panels/${n.panelId}`}>{n.panelName}</a>
-              {" · "}
-              <strong>{n.brandLabel}</strong>
-              {" · "}
-              {n.tradeLabel}
-            </li>
-          ))}
-        </ul>
-      )}
-    </div>
-  );
-}

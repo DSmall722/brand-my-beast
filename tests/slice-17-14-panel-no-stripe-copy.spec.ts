@@ -38,16 +38,13 @@ test.describe("slice 17.14: panel HTML drops the Stripe vendor name", () => {
     page,
   }) => {
     await page.goto("/panels/front-fascia");
-    const banner = page.getByTestId("intent-only-banner");
-    await expect(banner).toContainText("Intent only");
-    await expect(banner).toContainText("does not charge");
-    await expect(banner).toContainText("No close clock");
+    await expect(page.getByTestId("intent-only-banner")).toHaveCount(0);
+    await expect(page.getByTestId("public-seat-waitlist-cta")).toBeVisible();
     const html = await page.content();
     expect(html).not.toContain("Stripe");
     expect(html).not.toContain("No Stripe capture");
     expect(html).toContain("$2,000");
     expect(html).toContain("$58,000");
-    expect(html).toContain("$120,000");
     expect(html.toLowerCase()).not.toMatch(/\blease\b/);
   });
 });

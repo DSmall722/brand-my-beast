@@ -118,6 +118,8 @@ export const PUBLIC_COPY = {
       "Immortal Etch ships with the $120,000 whole-truck package.",
     cost: "After Immortal Etch is installed there is no cash refund of that finish.",
     art: "One color, thick strokes, no gradients, no tiny type. If it cannot be cut, it does not ship.",
+    requirements:
+      "Immortal Etch artwork must use bold, simple shapes that can be permanently etched into stainless steel. Gradients, fine details, and very small text cannot be etched reliably. Final artwork will be reviewed before approval.",
     forever: "Immortal Etch is forever.",
     sampleSlots: [
       { id: "hood", label: "Immortal Etch sample" },
@@ -177,6 +179,11 @@ export const PUBLIC_COPY = {
       {
         q: "When does bidding start?",
         a: "When seats open. There is no date on this page yet.",
+      },
+      {
+        id: "last-second-bid",
+        q: "What happens if someone bids at the last second?",
+        a: "A qualifying last-second bid extends that panel’s closing time so other bidders have a fair chance to respond.",
       },
       {
         q: "Will I be charged if I join the list?",

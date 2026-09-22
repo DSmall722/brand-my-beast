@@ -139,9 +139,8 @@ test.describe("slice 6.2 seat UI: create / outbid / exclusivity / increment", ()
     await expect(holder.getByTestId("intent-increment-rule")).toContainText(
       "standing + max($250, 10%)",
     );
-    await expect(holder.getByTestId("seat-exclusivity")).toBeVisible();
-    await expect(holder.getByTestId("panel-standing")).toHaveText("$2,500");
-    await expect(holder.getByTestId("panel-minimum")).toHaveText("$2,500");
+    await expect(holder.getByTestId("seat-exclusivity")).toHaveCount(0);
+    await expect(holder.getByTestId("seat-lead")).toContainText("Current Bid $2,500");
 
     await holder.getByTestId("intent-brand").fill("Slice Sixty Two UI Hold");
     await holder.getByTestId("intent-trade").fill("Circuit Snacks");
@@ -154,8 +153,11 @@ test.describe("slice 6.2 seat UI: create / outbid / exclusivity / increment", ()
     await expect(holder.getByTestId("intent-list")).toContainText(
       "Slice Sixty Two UI Hold",
     );
-    await expect(holder.getByTestId("panel-standing")).toHaveText("$2,500");
-    await expect(holder.getByTestId("panel-minimum")).toHaveText("$2,750");
+    await expect(holder.getByTestId("seat-lead")).toContainText("Current Bid $2,500");
+    await expect(holder.getByTestId("intent-standing")).toHaveAttribute(
+      "min",
+      "2750",
+    );
     const holderHtml = await holder.content();
     expect(holderHtml.toLowerCase()).not.toMatch(/\blease\b/);
     expect(holderHtml).not.toContain("CLOSE_AT");
@@ -164,8 +166,11 @@ test.describe("slice 6.2 seat UI: create / outbid / exclusivity / increment", ()
     const low = await browser.newPage();
     await signIn(low, "slice62-ui-low@example.com");
     await low.goto("/panels/hood");
-    await expect(low.getByTestId("panel-standing")).toHaveText("$2,500");
-    await expect(low.getByTestId("panel-minimum")).toHaveText("$2,750");
+    await expect(low.getByTestId("seat-lead")).toContainText("Current Bid $2,500");
+    await expect(low.getByTestId("intent-standing")).toHaveAttribute(
+      "min",
+      "2750",
+    );
     await low.getByTestId("intent-brand").fill("Slice Sixty Two UI Low");
     await low.getByTestId("intent-trade").fill("Circuit Tools");
     await low
@@ -198,7 +203,10 @@ test.describe("slice 6.2 seat UI: create / outbid / exclusivity / increment", ()
     const ok = await browser.newPage();
     await signIn(ok, "slice62-ui-ok@example.com");
     await ok.goto("/panels/hood");
-    await expect(ok.getByTestId("panel-minimum")).toHaveText("$2,750");
+    await expect(ok.getByTestId("intent-standing")).toHaveAttribute(
+      "min",
+      "2750",
+    );
     await ok.getByTestId("intent-brand").fill("Slice Sixty Two UI Ok");
     await ok.getByTestId("intent-trade").fill("Circuit Vinyl");
     await ok.getByTestId("intent-standing").fill("2750");
@@ -209,14 +217,16 @@ test.describe("slice 6.2 seat UI: create / outbid / exclusivity / increment", ()
     await expect(ok.getByTestId("intent-list")).toContainText(
       "Slice Sixty Two UI Ok",
     );
-    await expect(ok.getByTestId("panel-standing")).toHaveText("$2,750");
-    await expect(ok.getByTestId("panel-minimum")).toHaveText("$3,025");
-    await expect(ok.getByTestId("seat-exclusivity")).toBeVisible();
+    await expect(ok.getByTestId("seat-lead")).toContainText("Current Bid $2,750");
+    await expect(ok.getByTestId("intent-standing")).toHaveAttribute(
+      "min",
+      "3025",
+    );
+    await expect(ok.getByTestId("seat-exclusivity")).toHaveCount(0);
     const okHtml = await ok.content();
     expect(okHtml.toLowerCase()).not.toMatch(/\blease\b/);
     expect(okHtml.toLowerCase()).not.toContain("gmail.com");
     expect(okHtml).not.toContain("CLOSE_AT");
-    expect(okHtml).toContain("$120,000");
     expect(okHtml).toContain(formatUsd(FLOOR_USD));
     await ok.close();
   });
