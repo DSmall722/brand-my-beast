@@ -24,13 +24,11 @@ export function HomeHeroSection({
           data-hero-stack="under-photo"
         >
           <div className="hero-photo-well" data-testid="hero-photo-well">
-          <a
-            className="hero-truck-link"
-            href="/panels/hood"
+          <figure
+            className="hero-truck-still"
             data-testid="hero-truck-preview"
-            aria-label="Concept preview — open the Hood seat"
           >
-            {/* eslint-disable-next-line @next/next/no-img-element -- local 1280 + 640 stills in /public */}
+            {/* eslint-disable-next-line @next/next/no-img-element -- local 1728 + 640 stills in /public */}
             <picture>
               <source
                 media={HERO_STILL_NARROW_MEDIA}
@@ -50,7 +48,7 @@ export function HomeHeroSection({
                 data-truck-img="hero"
               />
             </picture>
-          </a>
+          </figure>
           </div>
           <div className="hero-overlay">
             <div className="hero-copy">

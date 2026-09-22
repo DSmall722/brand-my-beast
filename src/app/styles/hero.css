@@ -10,18 +10,17 @@
   background: linear-gradient(180deg, #07090c 0%, #0c0e11 55%, #10151c 100%);
 }
 
-/* Layout A: house-wrap concept still fills the hero well; photo tap opens Hood. */
-.hero-truck-link {
+/* Layout A: house-wrap concept still fills the hero well. The photo does not navigate. */
+.hero-truck-still {
   position: absolute;
   inset: 0;
   z-index: 0;
   display: block;
+  margin: 0;
   overflow: hidden;
-  text-decoration: none;
-  color: inherit;
 }
 
-.hero-truck-link picture {
+.hero-truck-still picture {
   position: absolute;
   inset: 0;
   display: block;
@@ -37,7 +36,7 @@
   background: #0a0d12;
 }
 
-.hero-photo-well .hero-truck-link,
+.hero-photo-well .hero-truck-still,
 .hero-photo-well .panel-board {
   position: absolute;
   inset: 0;
@@ -66,27 +65,9 @@
   inset: 0;
   width: 100%;
   height: 100%;
-  object-fit: fill;
+  object-fit: cover;
   object-position: 50% 50%;
   transform: none;
-}
-
-.hero-truck-link:hover .hero-truck-image,
-.hero-truck-link:focus-visible .hero-truck-image {
-  transform: none;
-}
-
-.hero-truck-link:focus-visible {
-  outline: none;
-}
-
-.hero-truck-link:focus-visible::after {
-  content: "";
-  position: absolute;
-  inset: 0.75rem;
-  border: 2px solid var(--signal);
-  pointer-events: none;
-  z-index: 2;
 }
 
 /* Slice 14.0 — numbered 1–12 stainless board callouts on the hero still. */
@@ -194,8 +175,7 @@
   pointer-events: none;
 }
 
-.hero-overlay a,
-.hero-overlay .hero-truck-link {
+.hero-overlay a {
   pointer-events: auto;
 }
 

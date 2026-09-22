@@ -46,10 +46,9 @@ test.describe("UX locks: concept lead, baked board, etch, CTA, wrap blend", () =
     await expect(page.locator(".hero-lead")).toHaveCount(0);
     await expect(page.getByTestId("hero-preview-label")).toHaveCount(0);
     await expect(page.locator("#hero-title")).not.toContainText("Twelve companies");
-    await expect(page.getByTestId("hero-truck-preview")).toHaveAttribute(
-      "href",
-      "/panels/hood",
-    );
+    const hero = page.getByTestId("hero-truck-preview");
+    await expect(hero).toHaveJSProperty("tagName", "FIGURE");
+    await expect(hero).not.toHaveAttribute("href");
     await expect(page.getByTestId("hero-primary-cta")).toHaveAttribute(
       "href",
       "#panels",
