@@ -78,7 +78,7 @@ Apply this list when you add or review public UI and marketing. Do not restyle t
 - Dot grids
 - Sparkle icons
 - Animated arrows
-- Missing terms. BrandMyBeast deliberately has no `/terms` page. It was deleted. Do not recreate one. Privacy stays at `/privacy` as a real policy.
+- Missing terms. Keep `/terms` as the live Terms of Use.
 - Missing privacy policy. Keep `/privacy` as a real policy.
 - Hover animations for their own sake
 - Neon colors used as decoration. The locked site lime stays. That token is `--signal`, the BrandMyBeast lime lockup.
