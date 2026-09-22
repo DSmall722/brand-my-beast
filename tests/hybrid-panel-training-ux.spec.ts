@@ -1,7 +1,11 @@
 import { existsSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import { expect, test, type Page } from "@playwright/test";
-import { TRACE_AID_STILL } from "../src/lib/truck-stills";
+import {
+  DRIVER_BOARD_STILL,
+  PASSENGER_BOARD_STILL,
+  TRACE_AID_STILL,
+} from "../src/lib/truck-stills";
 import {
   BRAND,
   CLOSE_AT,
@@ -31,14 +35,14 @@ const ROOT = process.cwd();
 
 const LOCKED_LABELS = [
   "(1) Hood",
-  "(2) Front fascia",
+  "(2) Front Fascia",
   "(3) Front bumper",
-  "(4) Driver doors",
+  "(4) Driver Side Doors",
   "(5) Driver Rear Sail",
-  "(6) Driver bed",
-  "(7) Passenger doors",
+  "(6) Driver Side Bed",
+  "(7) Passenger Side Doors",
   "(8) Passenger Rear Sail",
-  "(9) Passenger bed",
+  "(9) Passenger Side Bed",
   "(10) Tailgate",
   "(11) Rear bumper",
 ] as const;
@@ -211,16 +215,22 @@ test.describe("hybrid panel training UX", () => {
     ]);
   });
 
-  test("board stills are TRACE AID lime flats (2048×1360)", () => {
+  test("board stills are TRACE AID lime flats", () => {
+    const expected = {
+      driver: DRIVER_BOARD_STILL,
+      passenger: PASSENGER_BOARD_STILL,
+      front: TRACE_AID_STILL,
+      rear: TRACE_AID_STILL,
+    } as const;
     for (const view of ["driver", "passenger", "front", "rear"] as const) {
       const path = join(ROOT, "public", `truck-view-${view}.jpg`);
       expect(existsSync(path)).toBe(true);
       const bytes = readFileSync(path);
       expect(jpegSize(bytes)).toEqual({
-        width: TRACE_AID_STILL.width,
-        height: TRACE_AID_STILL.height,
+        width: expected[view].width,
+        height: expected[view].height,
       });
-      expect(bytes.byteLength).toBeGreaterThan(400_000);
+      expect(bytes.byteLength).toBeGreaterThan(350_000);
     }
   });
 
@@ -243,7 +253,7 @@ test.describe("hybrid panel training UX", () => {
     await expect(page.getByTestId("truck-view-svg").locator("a")).toHaveCount(3);
     await expect(page.getByTestId("truck-seat-driver-door")).toHaveAttribute(
       "data-seat-label",
-      "(4) Driver doors",
+      "(4) Driver Side Doors",
     );
     await expect(page.getByTestId("truck-seat-driver-rear-quarter")).toHaveAttribute(
       "data-seat-label",
@@ -251,7 +261,7 @@ test.describe("hybrid panel training UX", () => {
     );
     await expect(page.getByTestId("truck-seat-driver-bed")).toHaveAttribute(
       "data-seat-label",
-      "(6) Driver bed",
+      "(6) Driver Side Bed",
     );
     await expect(page.getByTestId("truck-seat-label-driver-door")).toHaveCount(0);
     await expect(page.getByTestId("truck-seat-hood")).toHaveCount(0);
@@ -266,8 +276,8 @@ test.describe("hybrid panel training UX", () => {
       return { w: img.naturalWidth, h: img.naturalHeight };
     });
     expect(dims).toEqual({
-      w: TRACE_AID_STILL.width,
-      h: TRACE_AID_STILL.height,
+      w: DRIVER_BOARD_STILL.width,
+      h: DRIVER_BOARD_STILL.height,
     });
 
     await page.getByTestId("truck-view-passenger").click();
@@ -275,7 +285,7 @@ test.describe("hybrid panel training UX", () => {
     await expect(page.getByTestId("truck-view-svg").locator("a")).toHaveCount(3);
     await expect(page.getByTestId("truck-seat-passenger-door")).toHaveAttribute(
       "data-seat-label",
-      "(7) Passenger doors",
+      "(7) Passenger Side Doors",
     );
     await expect(page.getByTestId("truck-seat-passenger-rear-quarter")).toHaveAttribute(
       "data-seat-label",
@@ -283,19 +293,24 @@ test.describe("hybrid panel training UX", () => {
     );
     await expect(page.getByTestId("truck-seat-passenger-bed")).toHaveAttribute(
       "data-seat-label",
-      "(9) Passenger bed",
+      "(9) Passenger Side Bed",
     );
     await expect(page.getByTestId("truck-seat-hood")).toHaveCount(0);
     await expect(page.getByTestId("truck-seat-label-passenger-door")).toHaveCount(
       0,
     );
+    await expect
+      .poll(async () =>
+        photo.evaluate((el) => (el as HTMLImageElement).naturalWidth),
+      )
+      .toBe(PASSENGER_BOARD_STILL.width);
 
     await page.getByTestId("truck-view-front").click();
     const hood = page.getByTestId("truck-seat-hood");
     await expect(hood).toHaveAttribute("data-seat-label", "(1) Hood");
     await expect(page.getByTestId("truck-seat-front-fascia")).toHaveAttribute(
       "data-seat-label",
-      "(2) Front fascia",
+      "(2) Front Fascia",
     );
     await expect(page.getByTestId("truck-seat-front-bumper")).toHaveAttribute(
       "data-seat-label",
@@ -370,13 +385,15 @@ test.describe("hybrid panel training UX", () => {
     await page.evaluate(() => document.fonts.ready);
 
     const probes = [
-      { tab: "truck-view-driver", x: 40, y: 55, seat: "truck-seat-driver-door" },
-      { tab: "truck-view-driver", x: 17, y: 36, seat: "truck-seat-driver-rear-quarter" },
-      { tab: "truck-view-driver", x: 20, y: 52, seat: "truck-seat-driver-bed" },
-      { tab: "truck-view-driver", x: 68, y: 58, seat: null },
-      { tab: "truck-view-passenger", x: 43, y: 51, seat: "truck-seat-passenger-door" },
-      { tab: "truck-view-passenger", x: 66, y: 38, seat: "truck-seat-passenger-rear-quarter" },
-      { tab: "truck-view-passenger", x: 84, y: 50, seat: "truck-seat-passenger-bed" },
+      { tab: "truck-view-driver", x: 40, y: 52, seat: "truck-seat-driver-door" },
+      { tab: "truck-view-driver", x: 70, y: 39, seat: "truck-seat-driver-rear-quarter" },
+      { tab: "truck-view-driver", x: 82, y: 52, seat: "truck-seat-driver-bed" },
+      { tab: "truck-view-driver", x: 66, y: 55, seat: null },
+      { tab: "truck-view-driver", x: 12, y: 50, seat: null },
+      { tab: "truck-view-passenger", x: 38, y: 58, seat: "truck-seat-passenger-door" },
+      { tab: "truck-view-passenger", x: 18, y: 42, seat: "truck-seat-passenger-rear-quarter" },
+      { tab: "truck-view-passenger", x: 20, y: 55, seat: "truck-seat-passenger-bed" },
+      { tab: "truck-view-passenger", x: 12, y: 62, seat: null },
       { tab: "truck-view-passenger", x: 70, y: 55, seat: null },
     ] as const;
 

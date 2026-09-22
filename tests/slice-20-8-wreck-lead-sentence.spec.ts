@@ -20,7 +20,7 @@ import { vercelJsonIsHoldOrMainOnlyRestore } from "../src/lib/vercel-git-deploy"
  */
 
 const ROOT = process.cwd();
-const LOCKED_H1 = "Put your brand on the truck people already photograph.";
+const LOCKED_H1 = "Advertise your brand on the truck that people already photograph";
 const COMPLETE_LEAD =
   "Here is what happens if the campaign misses, the wrap year ends early, or Immortal Etch is already cut.";
 const FRAGMENT =
@@ -69,11 +69,11 @@ test.describe("slice 20.8: wreck lead is a complete sentence", () => {
   test("homepage wreck lead prints the complete sentence", async ({
     page,
   }) => {
-    await page.goto("/#wreck");
-    await expect(page.getByTestId("wreck-lead")).toHaveText(
-      PUBLIC_COPY.wreck.lead,
+    await page.goto("/#questions");
+    await expect(page.getByTestId("wreck-lead")).toHaveCount(0);
+    await expect(page.getByTestId("faq-campaign-miss")).toContainText(
+      "Full refund",
     );
-    await expect(page.getByTestId("wreck-lead")).not.toHaveText(FRAGMENT);
     await expect(page.locator("#hero-title")).toHaveText(LOCKED_H1);
     const html = await page.content();
     expect(html).toContain("$58,000");

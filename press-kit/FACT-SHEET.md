@@ -5,13 +5,13 @@ BrandMyBeast is an all-or-nothing auction of eleven stainless panels on a 2026 T
 ## Board order
 
 1. Hood
-2. Front fascia (stainless)
+2. Front Fascia
 3. Front bumper (wrap-only, simple-mark only)
-4. Driver doors (front + rear cab package)
+4. Driver Side Doors
 5. Driver Rear Sail
-6. Driver bed
-7. Passenger doors (front + rear cab package)
+6. Driver Side Bed
+7. Passenger Side Doors
 8. Passenger Rear Sail
-9. Passenger bed
+9. Passenger Side Bed
 10. Tailgate
 11. Rear bumper (wrap-only, simple-mark only)

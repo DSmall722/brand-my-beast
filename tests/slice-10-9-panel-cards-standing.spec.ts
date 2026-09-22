@@ -71,12 +71,7 @@ test.describe("slice 10.9: panel cards standing or Open", () => {
   }) => {
     const visitor = await browser.newPage();
     await visitor.goto("/#panels");
-    await expect(visitor.getByTestId("panel-open-seat-once")).toHaveText(
-      PUBLIC_COPY.panels.standingOpen,
-    );
-    expect(
-      await visitor.getByTestId("panel-open-seat-once").count(),
-    ).toBe(1);
+    await expect(visitor.getByTestId("panel-open-seat-once")).toHaveCount(0);
     for (const panel of PANELS) {
       await expect(
         visitor.getByTestId(`panel-standing-${panel.id}`),
@@ -113,8 +108,9 @@ test.describe("slice 10.9: panel cards standing or Open", () => {
       "held",
     );
     await expect(after.getByTestId("panel-standing-front-bumper")).toHaveText("");
-    await expect(after.getByTestId("panel-open-seat-once")).toHaveText(
-      "Open seat",
+    await expect(after.getByTestId("panel-open-seat-once")).toHaveCount(0);
+    await expect(after.getByTestId("panel-current-bid-hood")).toHaveText(
+      "Current Bid $2,500",
     );
 
     const html = await after.content();

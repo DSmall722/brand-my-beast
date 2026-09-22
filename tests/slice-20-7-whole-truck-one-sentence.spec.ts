@@ -20,7 +20,7 @@ import { vercelJsonIsHoldOrMainOnlyRestore } from "../src/lib/vercel-git-deploy"
  */
 
 const ROOT = process.cwd();
-const LOCKED_H1 = "Put your brand on the truck people already photograph.";
+const LOCKED_H1 = "Advertise your brand on the truck that people already photograph";
 const ONE_SENTENCE =
   "One brand on every panel and Immortal Etch on nine steel faces. Standing panel winners released. Nothing is charged on this page.";
 
@@ -66,15 +66,11 @@ test.describe("slice 20.7: whole-truck lead is one sentence", () => {
     page,
   }) => {
     await page.goto("/#money");
-    await expect(page.getByTestId("whole-truck-lead")).toHaveText(
-      PUBLIC_COPY.board.wholeTruckLead,
+    await expect(page.getByTestId("want-all-panels")).toHaveText(
+      PUBLIC_COPY.board.wantAllPanels,
     );
-    await expect(page.getByTestId("whole-truck-lead")).not.toContainText(
-      "1 Hood",
-    );
-    await expect(page.getByTestId("whole-truck-heading")).toHaveText(
-      "Whole truck — $120,000",
-    );
+    await expect(page.getByTestId("whole-truck-lead")).toHaveCount(0);
+    await expect(page.getByTestId("whole-truck-heading")).toHaveCount(0);
     await expect(page.locator("#hero-title")).toHaveText(LOCKED_H1);
     const html = await page.content();
     expect(html).not.toContain("The package is 1 Hood");

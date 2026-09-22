@@ -20,7 +20,7 @@ import { vercelJsonIsHoldOrMainOnlyRestore } from "../src/lib/vercel-git-deploy"
  */
 
 const ROOT = process.cwd();
-const LOCKED_H1 = "Put your brand on the truck people already photograph.";
+const LOCKED_H1 = "Advertise your brand on the truck that people already photograph";
 
 test.describe("slice 19.9: mobile header stays one row", () => {
   test.use({ viewport: { width: 390, height: 844 } });
@@ -61,7 +61,7 @@ test.describe("slice 19.9: mobile header stays one row", () => {
     await expect(header).toHaveAttribute("data-header-row", "single");
 
     const wordmark = page.getByTestId("brand-wordmark");
-    const join = page.getByRole("link", { name: PUBLIC_COPY.header.nav });
+    const join = header.getByRole("link", { name: PUBLIC_COPY.header.nav });
     const signin = page.getByTestId("signin-link");
 
     await expect(wordmark).toHaveText("BrandMyBeast");

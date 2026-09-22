@@ -20,7 +20,7 @@ import { vercelJsonIsHoldOrMainOnlyRestore } from "../src/lib/vercel-git-deploy"
  */
 
 const ROOT = process.cwd();
-const LOCKED_H1 = "Put your brand on the truck people already photograph.";
+const LOCKED_H1 = "Advertise your brand on the truck that people already photograph";
 
 test.describe("slice 19.6: neighbor heading drops combo", () => {
   test("campaign money fences stay locked — CLOSE_AT null", () => {
@@ -73,7 +73,7 @@ test.describe("slice 19.6: neighbor heading drops combo", () => {
     await page.goto("/");
     await expect(page.locator("#hero-title")).toHaveText(LOCKED_H1);
     await expect(page.locator("#hero-title")).toHaveText(PUBLIC_COPY.hero.h1);
-    await expect(page.getByTestId("waitlist-submit")).toHaveText("Notify me");
+    await expect(page.getByTestId("waitlist-submit")).toHaveText("Contact BMB");
     const html = (await page.content()).toLowerCase();
     expect(html).not.toMatch(/\blease\b/);
     expect(html).not.toContain("features.md");

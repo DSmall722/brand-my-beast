@@ -11,12 +11,19 @@ export function HomeQuestionsSection() {
         >
           <h2 id="questions-title">{PUBLIC_COPY.questions.heading}</h2>
           <dl className="questions-list">
-            {PUBLIC_COPY.questions.items.map((item) => (
-              <div key={item.q} className="questions-item">
-                <dt>{item.q}</dt>
-                <dd>{item.a}</dd>
-              </div>
-            ))}
+            {PUBLIC_COPY.questions.items.map((item) => {
+              const id = "id" in item ? item.id : undefined;
+              return (
+                <div
+                  key={item.q}
+                  className="questions-item"
+                  data-testid={id ? `faq-${id}` : undefined}
+                >
+                  <dt>{item.q}</dt>
+                  <dd>{item.a}</dd>
+                </div>
+              );
+            })}
           </dl>
         </section>
   );

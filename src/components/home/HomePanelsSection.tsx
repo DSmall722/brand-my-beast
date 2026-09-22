@@ -1,6 +1,7 @@
 import Link from "next/link";
 import type { CSSProperties } from "react";
-import { PANELS, formatUsd, isEtchable } from "@/lib/campaign";
+import { ImmortalEtchLockup } from "@/components/ImmortalEtchLockup";
+import { PANELS, currentBidUsd, formatUsd, isEtchable } from "@/lib/campaign";
 import { PANEL_BOARD_MARKS, panelFaceStyle } from "@/lib/panel-board";
 import { PUBLIC_COPY } from "@/lib/public-copy";
 
@@ -28,18 +29,10 @@ export function HomePanelsSection({
           <div className="panels-lead-stack" data-testid="panels-lead">
             {PUBLIC_COPY.panels.leadLines.map((line) => (
               <p key={line} className="section-lead">
-                {line}
+                <ImmortalEtchLockup text={line} />
               </p>
             ))}
           </div>
-          {PANELS.some((panel) => !standingByPanel.get(panel.id)) ? (
-            <p
-              className="section-lead"
-              data-testid="panel-open-seat-once"
-            >
-              {PUBLIC_COPY.panels.standingOpen}
-            </p>
-          ) : null}
           <div className="panel-grid" data-testid="panel-grid">
             {PANELS.map((panel, index) => {
               const mark = PANEL_BOARD_MARKS[index];
@@ -52,6 +45,10 @@ export function HomePanelsSection({
               const gloss = PUBLIC_COPY.panels.gloss[panel.id];
               const standing = standingByPanel.get(panel.id) ?? null;
               const standingLabel = standing ? standing.brandLabel : "";
+              const bidUsd = currentBidUsd(
+                panel.openingUsd,
+                standing?.standingUsd,
+              );
               return (
                 <article
                   key={panel.id}
@@ -97,8 +94,11 @@ export function HomePanelsSection({
                     >
                       {standingLabel}
                     </div>
-                    <div className="panel-meta">
-                      Opens at {formatUsd(panel.openingUsd)}
+                    <div
+                      className="panel-meta"
+                      data-testid={`panel-current-bid-${panel.id}`}
+                    >
+                      Current Bid {formatUsd(bidUsd)}
                     </div>
                     {etchable ? (
                       <span

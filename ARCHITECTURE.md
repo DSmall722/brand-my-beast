@@ -60,14 +60,14 @@ baked still / stainless still
   schematic SVG (seat pages)
   numbered overlay (seat pages) or baked numbers (homepage)
     1 Hood
-    2 Front fascia (stainless)
+    2 Front Fascia
     3 Front bumper
-    4 Driver doors
+    4 Driver Side Doors
     5 Driver Rear Sail
-    6 Driver bed
-    7 Passenger doors
+    6 Driver Side Bed
+    7 Passenger Side Doors
     8 Passenger Rear Sail
-    9 Passenger bed
+    9 Passenger Side Bed
     10 Tailgate
     11 Rear bumper
 ```

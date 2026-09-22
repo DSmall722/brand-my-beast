@@ -18,8 +18,9 @@ import { vercelJsonIsHoldOrMainOnlyRestore } from "../src/lib/vercel-git-deploy"
  * No H1 rewrite. CLOSE_AT null. No Stripe. No SEATS_OPEN flip.
  */
 
-const LOCKED_H1 = "Put your brand on the truck people already photograph.";
-const PANEL_PHRASE = "Eleven seats. Opening prices below.";
+const LOCKED_H1 = "Advertise your brand on the truck that people already photograph";
+const PANEL_PHRASE =
+  "Once total active bids cross $120,000, buyers will unlock the option to have their advertisement permanently etched on the stainless surface for 3x the final bid for that panel.";
 
 test.describe("slice 16.12: panel lead matches the numbered cards", () => {
   test("campaign money fences stay locked — CLOSE_AT null", () => {
@@ -42,7 +43,7 @@ test.describe("slice 16.12: panel lead matches the numbered cards", () => {
 
   test("panel lead mentions the phrase and H1 stays locked", () => {
     expect(PUBLIC_COPY.hero.h1).toBe(LOCKED_H1);
-    expect(PUBLIC_COPY.panels.leadLines).toHaveLength(3);
+    expect(PUBLIC_COPY.panels.leadLines).toHaveLength(2);
     expect(PUBLIC_COPY.panels.lead).toContain(PANEL_PHRASE);
     expect(PUBLIC_COPY.panels.lead.toLowerCase()).not.toMatch(/\blease\b/);
     const md = readFileSync(join(process.cwd(), "PUBLIC_COPY.md"), "utf8");

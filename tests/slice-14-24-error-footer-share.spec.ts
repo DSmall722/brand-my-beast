@@ -75,8 +75,8 @@ test.describe("slice 14.24: 404 and 500 share footer strings", () => {
     await expect(page.getByTestId("not-found-footer-line")).toHaveText(
       PUBLIC_COPY.footer.line,
     );
-    await expect(page.getByTestId("not-found-footer-independent")).toHaveText(
-      PUBLIC_COPY.footer.independent,
+    await expect(page.getByTestId("not-found-footer-independent")).toHaveCount(
+      0,
     );
     const html = (await page.content()).toLowerCase();
     expect(html).not.toMatch(/\blease\b/);

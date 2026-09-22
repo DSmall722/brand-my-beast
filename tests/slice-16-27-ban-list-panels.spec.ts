@@ -93,7 +93,7 @@ test.describe("slice 16.27: ban-list last run shows panel numbers", () => {
     const sweep = await rejectListedMatchingBanRule(added.rule);
     expect(sweep.blockedPanelIds.sort()).toEqual(["driver-door", "rear-bumper"]);
     expect(sweep.rejectedIds).toHaveLength(2);
-    expect(panelLegendLabel(door)).toBe("4 Driver doors");
+    expect(panelLegendLabel(door)).toBe("4 Driver Side Doors");
     expect(panelLegendLabel(cover)).toBe("11 Rear bumper");
   });
 

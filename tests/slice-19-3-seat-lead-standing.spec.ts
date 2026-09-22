@@ -21,7 +21,7 @@ import { vercelJsonIsHoldOrMainOnlyRestore } from "../src/lib/vercel-git-deploy"
  */
 
 const ROOT = process.cwd();
-const LOCKED_H1 = "Put your brand on the truck people already photograph.";
+const LOCKED_H1 = "Advertise your brand on the truck that people already photograph";
 
 async function signIn(page: Page, email: string) {
   await page.context().clearCookies();
@@ -79,7 +79,7 @@ test.describe("slice 19.3: seat lead standing only when a mark exists", () => {
     const lead = page.getByTestId("seat-lead");
     await expect(lead).toBeVisible();
     await expect(lead).toHaveAttribute("data-has-standing", "false");
-    await expect(lead).toContainText("Opens at $2,500");
+    await expect(lead).toContainText("Current Bid $2,500");
     await expect(lead).not.toContainText("Current standing");
     const visible = await page.locator("body").innerText();
     expect(visible).not.toContain("Current standing $2,500");
@@ -101,15 +101,15 @@ test.describe("slice 19.3: seat lead standing only when a mark exists", () => {
     await expect(page.getByTestId("intent-success")).toContainText("not charged");
     const lead = page.getByTestId("seat-lead");
     await expect(lead).toHaveAttribute("data-has-standing", "true");
-    await expect(lead).toContainText("Opens at $2,500");
-    await expect(lead).toContainText("Current standing $2,500");
+    await expect(lead).toContainText("Current Bid $2,500");
+    await expect(lead).not.toContainText("Current standing");
   });
 
   test("homepage H1 is unchanged and Notify me stays", async ({ page }) => {
     await page.goto("/");
     await expect(page.locator("#hero-title")).toHaveText(LOCKED_H1);
     await expect(page.locator("#hero-title")).toHaveText(PUBLIC_COPY.hero.h1);
-    await expect(page.getByTestId("waitlist-submit")).toHaveText("Notify me");
+    await expect(page.getByTestId("waitlist-submit")).toHaveText("Contact BMB");
     const html = (await page.content()).toLowerCase();
     expect(html).not.toMatch(/\blease\b/);
     expect(html).not.toContain("features.md");

@@ -53,26 +53,22 @@ export function HomeHeroSection({
           </a>
           </div>
           <div className="hero-overlay">
-            <p className="hero-preview-label" data-testid="hero-preview-label">
-              {PUBLIC_COPY.hero.caption}
-            </p>
             <div className="hero-copy">
               <h1 id="hero-title">{PUBLIC_COPY.hero.h1}</h1>
             </div>
-            <p className="hero-lead">{PUBLIC_COPY.hero.lead}</p>
             <div className="hero-actions">
               <ArrowFillButton
-                href="#waitlist"
+                href="#panels"
                 data-testid="hero-primary-cta"
               >
-                {PUBLIC_COPY.hero.primaryCta}
+                {PUBLIC_COPY.hero.secondaryCta}
               </ArrowFillButton>
               <a
-                className="btn btn-ghost"
-                href="#panels"
+                className="btn btn-panel"
+                href="#waitlist"
                 data-testid="hero-secondary-cta"
               >
-                {PUBLIC_COPY.hero.secondaryCta}
+                {PUBLIC_COPY.header.nav}
               </a>
             </div>
           </div>

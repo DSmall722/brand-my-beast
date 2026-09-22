@@ -21,12 +21,12 @@ import {
 import { vercelJsonIsHoldOrMainOnlyRestore } from "../src/lib/vercel-git-deploy";
 
 /**
- * Slice 16.24 — shop PDF title is `Seat 04 — Driver doors`, not only the slug.
+ * Slice 16.24 — shop PDF title is `Seat 04 — Driver Side Doors`, not only the slug.
  * FEATURES.md stays off /. CLOSE_AT null. No Stripe.
  */
 
 const PANEL_ID = "driver-door" as const;
-const TITLE = "Seat 04 — Driver doors";
+const TITLE = "Seat 04 — Driver Side Doors";
 
 async function signIn(page: Page, email: string) {
   await page.context().clearCookies();
@@ -65,7 +65,7 @@ test.describe("slice 16.24: shop PDF title is numbered seat", () => {
     expect(vercelJsonIsHoldOrMainOnlyRestore()).toBe(true);
   });
 
-  test("title is Seat 04 — Driver doors, not the slug", async () => {
+  test("title is Seat 04 — Driver Side Doors, not the slug", async () => {
     const placed = await placeIntentBid({
       panelId: PANEL_ID,
       userId: "ops1624-secret-user",

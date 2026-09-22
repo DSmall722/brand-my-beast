@@ -45,14 +45,14 @@ test.describe("slice 0.9: PUBLIC_COPY v2 on /", () => {
   test("PUBLIC_COPY module matches locked H1, lead, and Notify me", () => {
     const md = readFileSync(join(process.cwd(), "PUBLIC_COPY.md"), "utf8");
     expect(PUBLIC_COPY.hero.h1).toBe(
-      "Put your brand on the truck people already photograph.",
+      "Advertise your brand on the truck that people already photograph",
     );
-    expect(PUBLIC_COPY.hero.lead).toBe("concept photo");
-    expect(PUBLIC_COPY.hero.caption).toBe("concept photo");
-    expect(md).toContain("- Lead: `concept photo`");
-    expect(md).toContain("- Hero caption: `concept photo`");
+    expect(PUBLIC_COPY.hero.lead).toBe("");
+    expect(PUBLIC_COPY.hero.caption).toBe("");
+    expect(md).toContain("- Lead: (omitted)");
+    expect(md).toContain("- Hero caption: (omitted)");
     expect(md).not.toMatch(/- Lead: `Concept preview`/);
-    expect(PUBLIC_COPY.waitlist.button).toBe("Notify me");
+    expect(PUBLIC_COPY.waitlist.button).toBe("Contact BMB");
     expect(PUBLIC_COPY.board.raisedLabel.toLowerCase()).not.toContain(
       "pledged intent",
     );
@@ -70,7 +70,8 @@ test.describe("slice 0.9: PUBLIC_COPY v2 on /", () => {
   }) => {
     await page.goto("/");
     await expect(page.locator("#hero-title")).toHaveText(PUBLIC_COPY.hero.h1);
-    await expect(page.locator(".hero-lead")).toHaveText(PUBLIC_COPY.hero.lead);
+    await expect(page.locator(".hero-lead")).toHaveCount(0);
+    await expect(page.getByTestId("hero-preview-label")).toHaveCount(0);
     await expect(page.getByTestId("waitlist-submit")).toHaveText(
       PUBLIC_COPY.waitlist.button,
     );
@@ -92,7 +93,7 @@ test.describe("slice 0.9: PUBLIC_COPY v2 on /", () => {
     expect(lower).not.toMatch(/pledged intent/);
     expect(lower).not.toMatch(/operator[- ]financ/);
     expect(html).toContain(PUBLIC_COPY.hero.h1);
-    expect(html).toContain("concept photo");
-    expect(html).toContain("Notify me");
+    expect(html.toLowerCase()).not.toContain("concept photo");
+    expect(html).toContain("Contact BMB");
   });
 });

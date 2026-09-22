@@ -20,7 +20,7 @@ import { vercelJsonIsHoldOrMainOnlyRestore } from "../src/lib/vercel-git-deploy"
  */
 
 const LOCKED_H1 =
-  "Put your brand on the truck people already photograph.";
+  "Advertise your brand on the truck that people already photograph";
 
 test.describe("slice 14.7: PUBLIC_COPY seat rationale; no H1 rewrite", () => {
   test("campaign money fences stay locked — CLOSE_AT null", () => {

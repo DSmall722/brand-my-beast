@@ -10,7 +10,6 @@ export function HomeWaitlistSection() {
           aria-labelledby="waitlist-title"
         >
           <h2 id="waitlist-title">{PUBLIC_COPY.waitlist.heading}</h2>
-          <p className="section-lead">{PUBLIC_COPY.waitlist.lead}</p>
           <WaitlistForm />
         </section>
   );

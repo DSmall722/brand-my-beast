@@ -21,7 +21,7 @@ import { vercelJsonIsHoldOrMainOnlyRestore } from "../src/lib/vercel-git-deploy"
  */
 
 const ROOT = process.cwd();
-const LOCKED_H1 = "Put your brand on the truck people already photograph.";
+const LOCKED_H1 = "Advertise your brand on the truck that people already photograph";
 
 test.describe("slice 20.1: hide homepage Sign in while closed", () => {
   test("campaign money fences stay locked — CLOSE_AT null", () => {
@@ -66,8 +66,8 @@ test.describe("slice 20.1: hide homepage Sign in while closed", () => {
     const header = page.locator(".site-header");
     await expect(header).toHaveAttribute("data-signin-closed", "false");
     await expect(
-      page.getByRole("link", { name: PUBLIC_COPY.header.nav }),
-    ).toHaveText("Join the list");
+      header.getByRole("link", { name: PUBLIC_COPY.header.nav }),
+    ).toHaveText("Contact BMB");
     await expect(page.getByTestId("signin-link")).toBeVisible();
     await expect(page.locator("#hero-title")).toHaveText(LOCKED_H1);
     const html = await page.content();

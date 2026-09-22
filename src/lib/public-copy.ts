@@ -5,14 +5,8 @@
 
 import { PANEL_BOARD_MARKS, panelLegendLabel } from "./panel-board";
 
-const PANEL_GLOSS: Readonly<Record<string, string>> = {
-  "front-fascia": "stainless steel face",
-  "driver-door": "front + rear cab door",
-  "passenger-door": "front + rear cab door",
-  "front-bumper":
-    "simple-mark only: website and/or phone number — wrap-only, leave camera lens/washer clear",
-  "rear-bumper": "simple-mark only: website and/or phone number — wrap-only",
-};
+/** Card gloss is off. Panel names carry the seat; bumper rules stay in RULES.md. */
+const PANEL_GLOSS: Readonly<Record<string, string>> = {};
 
 /** Slice 16.25 — whole-truck package is the numbered board, 1 Hood through 11 Rear bumper. */
 export function wholeTruckPackageCopy(): string {
@@ -23,33 +17,32 @@ export function wholeTruckPackageCopy(): string {
 export const PUBLIC_COPY = {
   meta: {
     title:
-      "BrandMyBeast — Put your brand on the truck people already photograph.",
+      "BrandMyBeast — Advertise your brand on the truck that people already photograph",
     description:
       "Eleven companies. One Cyberbeast. Join the list. Hit $58,000 and the truck is ordered and wrapped for a year. Miss it and nobody pays.",
   },
   header: {
     wordmark: "BrandMyBeast",
-    nav: "Join the list",
+    nav: "Contact BMB",
   },
   hero: {
-    h1: "Put your brand on the truck people already photograph.",
-    lead: "concept photo",
+    h1: "Advertise your brand on the truck that people already photograph",
+    lead: "",
     primaryCta: "Get on the list",
-    secondaryCta: "See the eleven panels",
+    secondaryCta: "Bid on a Panel",
     imageAlt:
       "Concept preview — BrandMyBeast house wrap. Seats are not sold yet.",
-    caption: "concept photo",
+    caption: "",
   },
   board: {
-    heading: "The numbers",
-    lead: "This is ad space on the truck — not a share of the title.",
+    heading: "Track the Auction",
+    lead: "",
     raisedLabel: "Pledged so far",
-    raisedHint:
-      "No seats sold yet. Miss the floor and every bid is refunded.",
+    raisedHint: "",
     floorLabel: "Floor — $58,000",
-    floorHint: "Orders the truck and pays for the wrap.",
-    buyoutLabel: "Buyout — $120,000",
-    buyoutHint: "Buys every panel — one brand on the whole truck.",
+    floorHint: "Miss the floor and every bid is refunded.",
+    buyoutLabel: "Unlock Immortal Etch",
+    buyoutHint: "",
     clockWhenCloseNull:
       "Bidding is not open. Nothing is charged on this page.",
     depositLine:
@@ -65,6 +58,9 @@ export const PUBLIC_COPY = {
     seatLegend: "Open seat = empty. Held seat = standing intent.",
     truckImageAlt:
       "Stainless Cyberbeast preview. Numbers live on the board.",
+    wantAllPanels: "Buy the Whole Truck",
+    /** Right-hand vault percent. Floor percent stays “% of floor”. */
+    goalProgressTail: "of campaign fully funded",
     wholeTruckHeading: "Whole truck — $120,000",
     /** Slice 20.7 — one sentence on `/`. 11-name dump stays on the form. */
     wholeTruckLead:
@@ -83,14 +79,13 @@ export const PUBLIC_COPY = {
       "One brand per trade. Challengers fight the same panel only.",
   },
   panels: {
-    heading: "The eleven panels",
+    heading: "Bid on a Panel",
     leadLines: [
-      "Eleven seats. Opening prices below.",
-      "Wrap is vinyl for twelve months, then it comes off.",
-      "Immortal Etch at $120k means that steel can take a permanent cut once the campaign owns the truck.",
+      "Once total active bids cross $120,000, buyers will unlock the option to have their advertisement permanently etched on the stainless surface for 3x the final bid for that panel.",
+      "Immortal Etch is only available on stainless steel panels.",
     ],
-    lead: "Eleven seats. Opening prices below. Wrap is vinyl for twelve months, then it comes off. Immortal Etch at $120k means that steel can take a permanent cut once the campaign owns the truck.",
-    badgeEtch: "Immortal Etch locked until $120k",
+    lead: "Once total active bids cross $120,000, buyers will unlock the option to have their advertisement permanently etched on the stainless surface for 3x the final bid for that panel. Immortal Etch is only available on stainless steel panels.",
+    badgeEtch: "Immortal Etch Locked",
     badgeWrap: "Wrap only",
     /** Slice 10.9 — panel card standing line when no mark holds. */
     /** Slice 20.3 — print once, not on every open card. */
@@ -102,17 +97,19 @@ export const PUBLIC_COPY = {
     steps: [
       {
         title: "Pick a panel",
-        body: "One brand per kind of business. If someone in your trade is already standing, you bid against them.",
+        body: "Maximum of one brand for each kind of business. If someone in your trade is already standing, highest bidder wins.",
       },
       {
         title: "$58,000 or the money comes back",
         body: "Reach $58,000 and the Cyberbeast is ordered and winners are wrapped for twelve months. Miss it and every bid is released.",
       },
       {
-        title: "$120,000 — whole truck + Immortal Etch",
-        body: "At $120,000 you get every panel and the campaign owns the truck. Nine steel faces can be immortally etched with your brand logo. Vinyl lasts a year. Immortal Etch is forever.",
+        title: "$120,000 unlocks\nImmortal Etch",
+        body: "Nine steel faces can be immortally etched with your brand logo.",
       },
     ],
+    foreverLine:
+      "Vinyl wrap lasts for one year,\nbut with Immortal Etch, your ad lasts FOREVER.",
   },
   etch: {
     heading: "Immortal Etch",
@@ -122,6 +119,11 @@ export const PUBLIC_COPY = {
     cost: "After Immortal Etch is installed there is no cash refund of that finish.",
     art: "One color, thick strokes, no gradients, no tiny type. If it cannot be cut, it does not ship.",
     forever: "Immortal Etch is forever.",
+    sampleSlots: [
+      { id: "hood", label: "Immortal Etch sample" },
+      { id: "door", label: "Immortal Etch sample" },
+      { id: "tailgate", label: "Immortal Etch sample" },
+    ],
   },
   wreck: {
     heading: "Wreck & refund",
@@ -146,7 +148,7 @@ export const PUBLIC_COPY = {
     ],
   },
   questions: {
-    heading: "Questions people actually ask",
+    heading: "FAQ",
     items: [
       {
         q: "Is this Tesla?",
@@ -180,13 +182,31 @@ export const PUBLIC_COPY = {
         q: "Will I be charged if I join the list?",
         a: "No. The waitlist is an email.",
       },
+      {
+        id: "campaign-miss",
+        q: "What if the board misses $58,000?",
+        a: "Full refund. No order. No wrap. No Immortal Etch.",
+      },
+      {
+        id: "wrap-pro-rata",
+        q: "What if the wrap year is cut short?",
+        a: "Wrap lasts twelve months from install. If the truck is totaled or sold before month 12, wrap seats get a pro-rata refund for the months left.",
+      },
+      {
+        id: "immortal-fragment",
+        q: "What if Immortal Etch is already installed?",
+        a: "No cash refund of that finish. The record is a piece of the cut panel and a vault certificate.",
+      },
     ],
   },
+  truckViews: {
+    heading: "Preview the Panels",
+  },
   waitlist: {
-    heading: "Get on the list",
-    lead: "Seats are not for sale yet. Leave an email. We will tell you when they are.",
+    heading: "Contact Us",
+    lead: "",
     placeholder: "you@company.com",
-    button: "Notify me",
+    button: "Contact BMB",
     idleNote: "We only email when seats open.",
     /** Slice 13.39 — privacy stub waitlist retention. */
     retention: "Waitlist retention: until seats open or user deletes.",
@@ -205,7 +225,7 @@ export const PUBLIC_COPY = {
     /** Slice 16.0b — interest checkbox copy. Not pledged. Not on the vault bar. */
     wholeTruckCheckboxLabel: "I want the whole truck",
     wholeTruckCheckboxHint:
-      "This is interest, not a $120,000 bid. Nothing is charged.",
+      "Check this box when contacting BMB for information about becoming the exclusive brand advertised on the entire vehicle.",
   },
   /**
    * Slice 12.17 — /signin copy. Not a homepage section.

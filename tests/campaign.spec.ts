@@ -58,12 +58,8 @@ test.describe("P1 waitlist campaign locks", () => {
       "alt",
       PUBLIC_COPY.hero.imageAlt,
     );
-    await expect(page.getByTestId("hero-preview-label")).toHaveText(
-      PUBLIC_COPY.hero.caption,
-    );
-    await expect(page.getByTestId("hero-preview-label")).toHaveText(
-      "concept photo",
-    );
+    await expect(page.getByTestId("hero-preview-label")).toHaveCount(0);
+    await expect(page.locator(".hero-lead")).toHaveCount(0);
     await expect(page.getByTestId("hero-panel-board")).toHaveCount(0);
     await expect(page.locator("#hero-title")).toHaveText(HERO_TITLE);
     await expect(page.getByRole("heading", { name: PUBLIC_COPY.board.heading })).toBeVisible();
@@ -75,12 +71,11 @@ test.describe("P1 waitlist campaign locks", () => {
     );
     await expect(page.getByTestId("raised-amount")).toHaveText(formatUsd(0));
     await expect(page.getByTestId("whole-truck-intent")).toBeVisible();
-    await expect(page.getByTestId("whole-truck-heading")).toHaveText(
-      PUBLIC_COPY.board.wholeTruckHeading,
+    await expect(page.getByTestId("want-all-panels")).toHaveText(
+      PUBLIC_COPY.board.wantAllPanels,
     );
-    await expect(page.getByTestId("whole-truck-lead")).toHaveText(
-      PUBLIC_COPY.board.wholeTruckLead,
-    );
+    await expect(page.getByTestId("whole-truck-heading")).toHaveCount(0);
+    await expect(page.getByTestId("whole-truck-lead")).toHaveCount(0);
     // Slice 16.0a — public `/` explanation only; no sign-in CTA / form.
     await expect(page.getByTestId("whole-truck-signin")).toHaveCount(0);
     await expect(page.getByTestId("whole-truck-intent-form")).toHaveCount(0);
@@ -88,17 +83,12 @@ test.describe("P1 waitlist campaign locks", () => {
       PUBLIC_COPY.board.raisedLabel,
     );
     expect(PUBLIC_COPY.board.raisedLabel.toLowerCase()).toContain("pledged so far");
-    expect(PUBLIC_COPY.board.raisedHint.toLowerCase()).not.toMatch(/\bp3\b/);
-    expect(PUBLIC_COPY.board.raisedHint.toLowerCase()).not.toMatch(
-      /operator[- ]financ/,
+    expect(PUBLIC_COPY.board.floorHint.toLowerCase()).toMatch(/refund/);
+    await expect(page.getByTestId("raised-hint")).toHaveCount(0);
+    await expect(page.getByTestId("floor-hint")).toHaveText(
+      PUBLIC_COPY.board.floorHint,
     );
-    expect(PUBLIC_COPY.board.raisedHint.toLowerCase()).toMatch(/refund/);
-    await expect(page.getByTestId("raised-hint")).toHaveText(
-      PUBLIC_COPY.board.raisedHint,
-    );
-    await expect(page.getByTestId("close-copy")).toHaveText(
-      PUBLIC_COPY.board.clockWhenCloseNull,
-    );
+    await expect(page.getByTestId("close-copy")).toHaveCount(0);
     await expect(page.getByTestId("shortfall-ticker")).toBeVisible();
     await expect(page.getByTestId("shortfall-floor-label")).toHaveCount(0);
     await expect(page.getByTestId("shortfall-floor")).toHaveCount(0);
@@ -117,7 +107,9 @@ test.describe("P1 waitlist campaign locks", () => {
     const shortfallText = (await shortfallTicker.innerText()).toLowerCase();
     expect(shortfallText).not.toMatch(/impression|cpm|reach/i);
     await expect(page.getByTestId("floor-progress-copy")).toHaveText("0% of floor");
-    await expect(page.getByTestId("goal-progress-copy")).toHaveText("0% of buyout");
+    await expect(page.getByTestId("goal-progress-copy")).toHaveText(
+      `0% ${PUBLIC_COPY.board.goalProgressTail}`,
+    );
     await expect(page.getByTestId("visual-vault")).toBeVisible();
     await expect(page.getByTestId("vault-marker-floor")).toBeVisible();
     await expect(page.getByTestId("vault-marker-goal")).toBeVisible();
@@ -164,9 +156,7 @@ test.describe("P1 waitlist campaign locks", () => {
     await expect(page.getByTestId("vault-floor-label")).toHaveText(
       `${PUBLIC_COPY.board.vaultFloorMarkLabel} ${formatUsd(FLOOR_USD)}`,
     );
-    await expect(page.getByTestId("vault-goal-label")).toHaveText(
-      `${PUBLIC_COPY.board.vaultBuyoutMarkLabel} ${formatUsd(GOAL_USD)}`,
-    );
+    await expect(page.getByTestId("vault-goal-label")).toHaveCount(0);
 
     await expect(page.getByTestId("etch-section")).toBeVisible();
     await expect(
@@ -180,33 +170,23 @@ test.describe("P1 waitlist campaign locks", () => {
       page.getByRole("heading", { name: PUBLIC_COPY.waitlist.heading }),
     ).toBeVisible();
 
-    await expect(page.getByTestId("wreck-refund-faq")).toBeVisible();
-    await expect(page.getByTestId("wreck-refund-rules")).toBeVisible();
-    await expect(
-      page.getByRole("heading", { name: PUBLIC_COPY.wreck.heading }),
-    ).toBeVisible();
-    await expect(page.getByTestId("wreck-refund-faq")).toContainText(
-      PUBLIC_COPY.wreck.lead,
-    );
+    await expect(page.getByTestId("wreck-refund-faq")).toHaveCount(0);
     for (const item of PUBLIC_COPY.wreck.items) {
-      await expect(page.getByTestId(`wreck-title-${item.id}`)).toHaveText(
-        item.q,
-      );
-      await expect(page.getByTestId(`wreck-body-${item.id}`)).toHaveText(
-        item.a,
-      );
+      const faq = page.getByTestId(`faq-${item.id}`);
+      await expect(faq).toContainText(item.q);
+      await expect(faq).toContainText(item.a);
     }
-    await expect(page.getByTestId("wreck-body-campaign-miss")).toHaveText(
+    await expect(page.getByTestId("faq-campaign-miss")).toContainText(
       PUBLIC_COPY.wreck.items.find((item) => item.id === "campaign-miss")!.a,
     );
-    await expect(page.getByTestId("wreck-body-wrap-pro-rata")).toContainText(
+    await expect(page.getByTestId("faq-wrap-pro-rata")).toContainText(
       "pro-rata",
     );
-    await expect(page.getByTestId("wreck-body-immortal-fragment")).toContainText(
+    await expect(page.getByTestId("faq-immortal-fragment")).toContainText(
       "vault certificate",
     );
     const wreckHtml = (
-      await page.getByTestId("wreck-refund-faq").innerText()
+      await page.getByTestId("questions-section").innerText()
     ).toLowerCase();
     expect(wreckHtml).not.toMatch(
       /force majeure|indemnif|arbitration|consequential damages|hereby|hereinafter|jurisdiction|statute|\blease\b|stripe/i,
@@ -238,15 +218,11 @@ test.describe("P1 waitlist campaign locks", () => {
       await expect(page.getByTestId(board)).toHaveCount(0);
     }
 
-    await expect(page.getByTestId("raised-hint")).toHaveText(
-      PUBLIC_COPY.board.raisedHint,
-    );
+    await expect(page.getByTestId("raised-hint")).toHaveCount(0);
     await expect(page.getByTestId("floor-hint")).toHaveText(
       PUBLIC_COPY.board.floorHint,
     );
-    await expect(page.getByTestId("goal-hint")).toHaveText(
-      PUBLIC_COPY.board.buyoutHint,
-    );
+    await expect(page.getByTestId("goal-hint")).toHaveCount(0);
   });
 
   test("shows eleven panels with etch locked under buyout", async ({

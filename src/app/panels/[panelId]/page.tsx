@@ -165,8 +165,7 @@ export default async function PanelIntentPage({
           data-testid="seat-lead"
           data-has-standing={holder ? "true" : "false"}
         >
-          Opens at {formatUsd(panel.openingUsd)}.
-          {holder ? ` Current standing ${formatUsd(standing)}.` : ""}{" "}
+          Current Bid {formatUsd(standing)}.{" "}
           <span
             className="seat-finish"
             data-testid="seat-finish"

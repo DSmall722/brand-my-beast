@@ -66,13 +66,14 @@ test.describe("slice 7.1: page section components", () => {
 
     await expect(page.locator("#hero-title")).toHaveText(PUBLIC_COPY.hero.h1);
     expect(PUBLIC_COPY.hero.h1).toBe(
-      "Put your brand on the truck people already photograph.",
+      "Advertise your brand on the truck that people already photograph",
     );
-    await expect(page.locator(".hero-lead")).toHaveText(PUBLIC_COPY.hero.lead);
+    await expect(page.locator(".hero-lead")).toHaveCount(0);
+    await expect(page.getByTestId("hero-preview-label")).toHaveCount(0);
     await expect(page.getByTestId("waitlist-submit")).toHaveText(
       PUBLIC_COPY.waitlist.button,
     );
-    expect(PUBLIC_COPY.waitlist.button).toBe("Notify me");
+    expect(PUBLIC_COPY.waitlist.button).toBe("Contact BMB");
     await expect(page.getByTestId("floor-amount")).toHaveText(
       formatUsd(FLOOR_USD),
     );

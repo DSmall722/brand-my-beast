@@ -41,7 +41,7 @@ export const HERO_MOBILE_CAB_GLASS_MAX_Y = 48;
 
 /**
  * Percents of the still. Hero well is 16:9 fill. Board views use
- * object-fit: contain on the 2048×1360 TRACE AID well so these map 1:1.
+ * object-fit: contain. Each camera JPEG’s width and height set the well so these map 1:1.
  * Driver = seats 4–6 only. Passenger = seats 7–9 only.
  * Front = seats 1–3. Rear = seats 10–11. No bleed across cameras.
  * Door seats 4 and 7 are packages (front + rear cab leaf on that side).
@@ -66,38 +66,62 @@ const BOARD_LAYOUT: Record<Panel["id"], BoardLayout> = {
   "driver-door": {
     hero: { x: 34, y: 42 },
     heroMobile: { x: 34, y: 54 },
-    views: { driver: { x: 38.6, y: 55.8 } },
-    face: { still: "driver", objectPosition: "39% 56%" },
+    views: { driver: { x: 38, y: 52 } },
+    face: {
+      still: "driver",
+      objectPosition: "39% 56%",
+      backgroundSize: "320% auto",
+    },
   },
   "passenger-door": {
     hero: { x: 31, y: 22 },
     heroMobile: { x: 28, y: 50 },
-    views: { passenger: { x: 43.2, y: 51 } },
-    face: { still: "passenger", objectPosition: "43% 51%" },
+    views: { passenger: { x: 39, y: 58 } },
+    face: {
+      still: "passenger",
+      objectPosition: "43% 52%",
+      backgroundSize: "320% auto",
+    },
   },
   "driver-bed": {
     hero: { x: 54, y: 42 },
     heroMobile: { x: 54, y: 54 },
-    views: { driver: { x: 16, y: 52 } },
-    face: { still: "driver", objectPosition: "16% 52%" },
+    views: { driver: { x: 82, y: 52 } },
+    face: {
+      still: "driver",
+      objectPosition: "14% 55%",
+      backgroundSize: "400% auto",
+    },
   },
   "passenger-bed": {
     hero: { x: 56, y: 27 },
     heroMobile: { x: 56, y: 50 },
-    views: { passenger: { x: 82, y: 49 } },
-    face: { still: "passenger", objectPosition: "82% 49%" },
+    views: { passenger: { x: 20, y: 55 } },
+    face: {
+      still: "passenger",
+      objectPosition: "73% 52%",
+      backgroundSize: "340% auto",
+    },
   },
   "driver-rear-quarter": {
     hero: { x: 73, y: 43 },
     heroMobile: { x: 73, y: 56 },
-    views: { driver: { x: 17, y: 36 } },
-    face: { still: "driver", objectPosition: "17% 36%" },
+    views: { driver: { x: 68, y: 39 } },
+    face: {
+      still: "driver",
+      objectPosition: "16% 36%",
+      backgroundSize: "480% auto",
+    },
   },
   "passenger-rear-quarter": {
     hero: { x: 76, y: 27 },
     heroMobile: { x: 76, y: 52 },
-    views: { passenger: { x: 68, y: 37.5 } },
-    face: { still: "passenger", objectPosition: "68% 38%" },
+    views: { passenger: { x: 18, y: 42 } },
+    face: {
+      still: "passenger",
+      objectPosition: "73% 38%",
+      backgroundSize: "360% auto",
+    },
   },
   tailgate: {
     hero: { x: 91, y: 32 },
@@ -169,11 +193,13 @@ export function panelFaceStillSrc(panelId: string): string {
 export function panelFaceStyle(panelId: string): {
   ["--panel-face-image"]: string;
   ["--panel-face-pos"]: string;
+  ["--panel-face-size"]: string;
 } {
   const crop = panelFaceCropFor(panelId);
   return {
     ["--panel-face-image"]: `url("${truckStillSrc(crop.still)}")`,
     ["--panel-face-pos"]: crop.objectPosition,
+    ["--panel-face-size"]: crop.backgroundSize ?? "cover",
   };
 }
 
@@ -194,14 +220,14 @@ export function panelLegendLabel(mark: Pick<PanelBoardMark, "n" | "name">): stri
  */
 export const PANEL_OVERLAY_NAME = {
   hood: "Hood",
-  "front-fascia": "Front fascia",
+  "front-fascia": "Front Fascia",
   "front-bumper": "Front bumper",
-  "driver-door": "Driver doors",
+  "driver-door": "Driver Side Doors",
   "driver-rear-quarter": "Driver Rear Sail",
-  "driver-bed": "Driver bed",
-  "passenger-door": "Passenger doors",
+  "driver-bed": "Driver Side Bed",
+  "passenger-door": "Passenger Side Doors",
   "passenger-rear-quarter": "Passenger Rear Sail",
-  "passenger-bed": "Passenger bed",
+  "passenger-bed": "Passenger Side Bed",
   tailgate: "Tailgate",
   "rear-bumper": "Rear bumper",
 } as const;

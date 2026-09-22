@@ -20,10 +20,10 @@ import { vercelJsonIsHoldOrMainOnlyRestore } from "../src/lib/vercel-git-deploy"
  */
 
 const LOCKED_H1 =
-  "Put your brand on the truck people already photograph.";
+  "Advertise your brand on the truck that people already photograph";
 const LABEL = "I want the whole truck";
 const HINT =
-  "This is interest, not a $120,000 bid. Nothing is charged.";
+  "Check this box when contacting BMB for information about becoming the exclusive brand advertised on the entire vehicle.";
 
 test.describe("slice 16.0b: PUBLIC_COPY waitlist whole-truck checkbox copy", () => {
   test("campaign money fences stay locked — CLOSE_AT null", () => {
@@ -48,7 +48,7 @@ test.describe("slice 16.0b: PUBLIC_COPY waitlist whole-truck checkbox copy", () 
     expect(PUBLIC_COPY.hero.h1).toBe(LOCKED_H1);
     expect(PUBLIC_COPY.waitlist.wholeTruckCheckboxLabel).toBe(LABEL);
     expect(PUBLIC_COPY.waitlist.wholeTruckCheckboxHint).toBe(HINT);
-    expect(PUBLIC_COPY.waitlist.wholeTruckCheckboxHint).toContain("$120,000");
+    expect(PUBLIC_COPY.waitlist.wholeTruckCheckboxHint).not.toContain("$120,000");
     expect(
       PUBLIC_COPY.waitlist.wholeTruckCheckboxHint.toLowerCase(),
     ).not.toMatch(/\blease\b/);
@@ -64,7 +64,7 @@ test.describe("slice 16.0b: PUBLIC_COPY waitlist whole-truck checkbox copy", () 
   test("homepage H1 unchanged; Notify me still present", async ({ page }) => {
     await page.goto("/");
     await expect(page.getByRole("heading", { level: 1 })).toHaveText(LOCKED_H1);
-    await expect(page.getByRole("button", { name: "Notify me" })).toBeVisible();
+    await expect(page.getByRole("button", { name: "Contact BMB" })).toBeVisible();
     // 16.0e wires the checkbox; 16.0b only locked the copy strings.
     const html = await page.content();
     expect(html.toLowerCase()).not.toMatch(/\blease\b/);

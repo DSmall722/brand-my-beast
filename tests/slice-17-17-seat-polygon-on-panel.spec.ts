@@ -68,7 +68,7 @@ test.describe("slice 17.17: seat 2 polygon on the bumper", () => {
     );
     const seat = page.getByTestId("truck-seat-front-fascia");
     await expect(seat).toHaveAttribute("data-active", "true");
-    await expect(seat).toHaveAttribute("data-seat-label", "(2) Front fascia");
+    await expect(seat).toHaveAttribute("data-seat-label", "(2) Front Fascia");
     const seatBox = await seat.boundingBox();
     if (!seatBox) throw new Error("seat missing");
     expect(inside(seatBox, photoBox, 8)).toBe(true);

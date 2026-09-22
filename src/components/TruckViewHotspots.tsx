@@ -8,12 +8,10 @@ import {
   panelBoardMarkFor,
   panelOverlayLabel,
 } from "@/lib/panel-board";
-import { PUBLIC_COPY } from "@/lib/public-copy";
 import { truckImgAlt } from "@/lib/truck-img-alt";
-import { TRACE_AID_STILL, truckViewStillSrc } from "@/lib/truck-stills";
+import { truckViewStillSize, truckViewStillSrc } from "@/lib/truck-stills";
 import {
   TRUCK_VIEWS,
-  TRUCK_VIEWS_LEAD,
   TRUCK_VIEW_BOX,
   hotspotsForView,
   viewOwningPanel,
@@ -47,6 +45,7 @@ export function TruckViewHotspots({
     singleSeat ? spot.panelId === activePanelId : true,
   );
   const shownView = singleSeat ? ownerView : view;
+  const stillSize = truckViewStillSize(shownView);
 
   return (
     <div
@@ -63,11 +62,6 @@ export function TruckViewHotspots({
       data-single-seat={singleSeat ? "true" : "false"}
       data-training="hybrid"
     >
-      {singleSeat ? null : (
-        <p className="auth-hint truck-view-lead" data-testid="truck-view-lead">
-          {TRUCK_VIEWS_LEAD}
-        </p>
-      )}
       {singleSeat ? null : (
         <div
           className="truck-view-toolbar"
@@ -102,8 +96,8 @@ export function TruckViewHotspots({
             className="truck-view-photo"
             src={truckViewStillSrc(shownView)}
             alt={truckImgAlt("board")}
-            width={TRACE_AID_STILL.width}
-            height={TRACE_AID_STILL.height}
+            width={stillSize.width}
+            height={stillSize.height}
             decoding="async"
             data-testid={`truck-img-board-${shownView}`}
             data-truck-img={`board-${shownView}`}
@@ -162,11 +156,6 @@ export function TruckViewHotspots({
             })}
           </svg>
         </div>
-        {singleSeat ? null : (
-          <p className="truck-view-legend" data-testid="truck-view-legend">
-            {PUBLIC_COPY.board.seatLegend}
-          </p>
-        )}
       </div>
     </div>
   );

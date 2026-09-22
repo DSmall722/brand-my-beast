@@ -20,7 +20,7 @@ import { vercelJsonIsHoldOrMainOnlyRestore } from "../src/lib/vercel-git-deploy"
  */
 
 const ROOT = process.cwd();
-const LOCKED_H1 = "Put your brand on the truck people already photograph.";
+const LOCKED_H1 = "Advertise your brand on the truck that people already photograph";
 
 test.describe("slice 20.12: Wave 20 Playwright pack", () => {
   test.describe.configure({ mode: "serial" });
@@ -57,24 +57,19 @@ test.describe("slice 20.12: Wave 20 Playwright pack", () => {
     await page.goto("/");
     await expect(page.locator("#hero-title")).toHaveText(LOCKED_H1);
     await expect(page.locator("#hero-title")).toHaveText(PUBLIC_COPY.hero.h1);
-    await expect(page.getByTestId("waitlist-submit")).toHaveText("Notify me");
+    await expect(page.getByTestId("waitlist-submit")).toHaveText("Contact BMB");
     await expect(
-      page.getByRole("link", { name: PUBLIC_COPY.header.nav }),
-    ).toHaveText("Join the list");
-    await expect(page.getByTestId("panel-open-seat-once")).toHaveText(
-      PUBLIC_COPY.panels.standingOpen,
-    );
-    expect(await page.getByTestId("panel-open-seat-once").count()).toBe(1);
+      page.locator(".site-header").getByRole("link", { name: PUBLIC_COPY.header.nav }),
+    ).toHaveText("Contact BMB");
+    await expect(page.getByTestId("panel-open-seat-once")).toHaveCount(0);
     await expect(page.getByTestId("shortfall-floor")).toHaveCount(0);
     await expect(page.getByTestId("shortfall-goal")).toHaveCount(0);
-    await expect(page.getByTestId("truck-view-legend")).toHaveText(
-      PUBLIC_COPY.board.seatLegend,
+    await expect(page.getByTestId("truck-view-legend")).toHaveCount(0);
+    await expect(page.getByTestId("want-all-panels")).toHaveText(
+      PUBLIC_COPY.board.wantAllPanels,
     );
-    await expect(page.getByTestId("whole-truck-lead")).toHaveText(
-      PUBLIC_COPY.board.wholeTruckLead,
-    );
-    await expect(page.getByTestId("wreck-lead")).toHaveText(
-      PUBLIC_COPY.wreck.lead,
+    await expect(page.getByTestId("faq-campaign-miss")).toContainText(
+      PUBLIC_COPY.wreck.items[0]!.a,
     );
     await expect(page.locator('meta[name="description"]')).toHaveAttribute(
       "content",

@@ -15,7 +15,12 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 PUBLIC = ROOT / "public"
 VIEWS = ("driver", "passenger", "front", "rear")
-TRACE_AID_SIZE = (2048, 1360)
+TRACE_AID_SIZE = {
+    "driver": (1792, 1104),
+    "passenger": (1728, 1152),
+    "front": (2048, 1360),
+    "rear": (2048, 1360),
+}
 
 
 def jpeg_size(path: Path) -> tuple[int, int]:
@@ -45,10 +50,11 @@ def main() -> None:
         if not dest.is_file():
             raise FileNotFoundError(dest)
         size = jpeg_size(dest)
-        if size != TRACE_AID_SIZE:
+        expected = TRACE_AID_SIZE[view]
+        if size != expected:
             raise SystemExit(
                 f"{dest.name} is {size[0]}×{size[1]}, expected TRACE AID "
-                f"{TRACE_AID_SIZE[0]}×{TRACE_AID_SIZE[1]}. Do not overwrite "
+                f"{expected[0]}×{expected[1]}. Do not overwrite "
                 "with unmarked Pexels stills."
             )
         print(f"kept TRACE AID {dest.name} {size[0]}×{size[1]} (no unmarked copy)")

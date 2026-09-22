@@ -231,11 +231,9 @@ test.describe("P2 panel intent + approvals", () => {
     page,
   }) => {
     await page.goto("/");
-    await expect(page.getByTestId("intent-no-charge-note")).toContainText(
-      "intent only",
-    );
-    await expect(page.getByTestId("intent-no-charge-note")).toContainText(
-      "Nothing is charged",
+    await expect(page.getByTestId("intent-no-charge-note")).toHaveCount(0);
+    await expect(page.locator("#money")).not.toContainText(
+      "Amount is intent only. When bidding opens, a 20% deposit holds your panel. Nothing is charged on this page.",
     );
 
     await signIn(page, "slice13@example.com");
@@ -1171,9 +1169,9 @@ test.describe("P2 panel intent + approvals", () => {
       "data-baked-marks",
       "true",
     );
-    await expect(page.getByTestId("truck-view-lead")).toContainText("$58,000");
-    await expect(page.getByTestId("truck-view-lead")).toContainText("$120,000");
-    await expect(page.getByTestId("truck-view-lead")).not.toContainText("30X");
+    await expect(page.getByTestId("truck-view-lead")).toHaveCount(0);
+    await expect(page.getByTestId("floor-amount")).toContainText("$58,000");
+    await expect(page.getByTestId("goal-amount")).toContainText("$120,000");
     await expect(page.getByTestId("truck-view-driver")).toHaveAttribute(
       "aria-pressed",
       "true",

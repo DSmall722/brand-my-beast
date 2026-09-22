@@ -20,7 +20,7 @@ import { vercelJsonIsHoldOrMainOnlyRestore } from "../src/lib/vercel-git-deploy"
  */
 
 const ROOT = process.cwd();
-const LOCKED_H1 = "Put your brand on the truck people already photograph.";
+const LOCKED_H1 = "Advertise your brand on the truck that people already photograph";
 const CALLOUTS = [2, 3, 5] as const;
 
 test.describe("slice 19.8: desktop H1 clears callouts 2 3 5", () => {
@@ -87,6 +87,6 @@ test.describe("slice 19.8: desktop H1 clears callouts 2 3 5", () => {
 
   test("Notify me stays on the homepage", async ({ page }) => {
     await page.goto("/");
-    await expect(page.getByTestId("waitlist-submit")).toHaveText("Notify me");
+    await expect(page.getByTestId("waitlist-submit")).toHaveText("Contact BMB");
   });
 });

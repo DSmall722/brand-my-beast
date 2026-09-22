@@ -20,7 +20,7 @@ import { vercelJsonIsHoldOrMainOnlyRestore } from "../src/lib/vercel-git-deploy"
  */
 
 const ROOT = process.cwd();
-const LOCKED_H1 = "Put your brand on the truck people already photograph.";
+const LOCKED_H1 = "Advertise your brand on the truck that people already photograph";
 
 test.describe("slice 19.10: vault at $0 says no marks yet", () => {
   test("campaign money fences stay locked — CLOSE_AT null", () => {
@@ -62,12 +62,9 @@ test.describe("slice 19.10: vault at $0 says no marks yet", () => {
     await expect(page.getByTestId("raised-amount")).toHaveText(formatUsd(0));
     const vault = page.getByTestId("visual-vault");
     await expect(vault).toHaveAttribute("data-vault-empty", "true");
-    await expect(page.getByTestId("vault-empty")).toHaveText(
-      PUBLIC_COPY.board.vaultEmpty,
-    );
-    await expect(page.getByTestId("vault-empty")).toHaveText("No marks yet");
+    await expect(page.getByTestId("vault-empty")).toHaveCount(0);
     const aria = (await vault.getAttribute("aria-label")) ?? "";
-    expect(aria).toMatch(/No marks yet/);
+    expect(aria).not.toMatch(/No marks yet/);
     expect(aria.toLowerCase()).not.toMatch(/\bauction\b/);
     await expect(page.locator("#hero-title")).toHaveText(LOCKED_H1);
     const html = await page.content();

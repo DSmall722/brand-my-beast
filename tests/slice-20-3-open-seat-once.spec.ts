@@ -12,7 +12,6 @@ import {
 } from "../src/lib/campaign";
 import { findCloseAtViolations } from "../src/lib/close-at-null";
 import { findStripePackagesInRootPackageJson } from "../src/lib/no-stripe-package";
-import { PUBLIC_COPY } from "../src/lib/public-copy";
 import { vercelJsonIsHoldOrMainOnlyRestore } from "../src/lib/vercel-git-deploy";
 
 /**
@@ -21,7 +20,7 @@ import { vercelJsonIsHoldOrMainOnlyRestore } from "../src/lib/vercel-git-deploy"
  */
 
 const ROOT = process.cwd();
-const LOCKED_H1 = "Put your brand on the truck people already photograph.";
+const LOCKED_H1 = "Advertise your brand on the truck that people already photograph";
 
 test.describe("slice 20.3: Open seat once, not a chorus", () => {
   test("campaign money fences stay locked — CLOSE_AT null", () => {
@@ -54,10 +53,7 @@ test.describe("slice 20.3: Open seat once, not a chorus", () => {
     page,
   }) => {
     await page.goto("/#panels");
-    await expect(page.getByTestId("panel-open-seat-once")).toHaveText(
-      PUBLIC_COPY.panels.standingOpen,
-    );
-    expect(await page.getByTestId("panel-open-seat-once").count()).toBe(1);
+    await expect(page.getByTestId("panel-open-seat-once")).toHaveCount(0);
     const standing = await page.locator(".panel-standing").allInnerTexts();
     expect(standing.filter((line) => line.trim() === "Open.").length).toBe(0);
     expect(PANELS.length).toBe(11);

@@ -43,16 +43,14 @@ test.describe("UX locks: concept lead, baked board, etch, CTA, wrap blend", () =
     await page.evaluate(() => document.fonts.ready);
 
     await expect(page.locator("#hero-title")).toHaveText(PUBLIC_COPY.hero.h1);
-    await expect(page.locator(".hero-lead")).toHaveText("concept photo");
-    await expect(page.getByTestId("hero-preview-label")).toHaveText(
-      "concept photo",
-    );
-    await expect(page.locator(".hero-lead")).not.toContainText("Twelve companies");
+    await expect(page.locator(".hero-lead")).toHaveCount(0);
+    await expect(page.getByTestId("hero-preview-label")).toHaveCount(0);
+    await expect(page.locator("#hero-title")).not.toContainText("Twelve companies");
     await expect(page.getByTestId("hero-truck-preview")).toHaveAttribute(
       "href",
       "/panels/hood",
     );
-    await expect(page.getByTestId("hero-secondary-cta")).toHaveAttribute(
+    await expect(page.getByTestId("hero-primary-cta")).toHaveAttribute(
       "href",
       "#panels",
     );
@@ -79,10 +77,10 @@ test.describe("UX locks: concept lead, baked board, etch, CTA, wrap blend", () =
     const etchable = PANELS.find((panel) => isEtchable(panel));
     expect(etchable).toBeTruthy();
     await expect(page.getByTestId(`etch-lock-${etchable!.id}`)).toHaveText(
-      "Immortal Etch locked until $120k",
+      "Immortal Etch Locked",
     );
 
-    await page.getByTestId("hero-secondary-cta").click();
+    await page.getByTestId("hero-primary-cta").click();
     await expect(page).toHaveURL(/#panels$/);
     await expect(page.locator("#panels")).toBeVisible();
     await expect(page).not.toHaveURL(/\/panels\/hood/);

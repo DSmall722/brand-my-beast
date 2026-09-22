@@ -43,7 +43,7 @@ test.describe("slice 16.25: whole-truck package is seats 1-11", () => {
     expect(labels).toHaveLength(11);
     expect(labels[0]).toBe("1 Hood");
     expect(labels[2]).toBe("3 Front bumper");
-    expect(labels[3]).toBe("4 Driver doors");
+    expect(labels[3]).toBe("4 Driver Side Doors");
     expect(labels[10]).toBe("11 Rear bumper");
 
     const packageLine = wholeTruckPackageCopy();
@@ -79,15 +79,12 @@ test.describe("slice 16.25: whole-truck package is seats 1-11", () => {
     page,
   }) => {
     await page.goto("/");
-    const lead = page.getByTestId("whole-truck-lead");
-    await expect(lead).toBeVisible();
-    await expect(lead).toHaveText(PUBLIC_COPY.board.wholeTruckLead);
-    await expect(lead).not.toContainText(wholeTruckPackageCopy());
-    await expect(lead).not.toContainText("1 Hood");
-    await expect(lead).not.toContainText("11 Rear bumper");
-    await expect(page.getByTestId("whole-truck-heading")).toHaveText(
-      "Whole truck — $120,000",
-    );
+    const cta = page.getByTestId("want-all-panels");
+    await expect(cta).toBeVisible();
+    await expect(cta).toHaveText(PUBLIC_COPY.board.wantAllPanels);
+    await expect(cta).not.toContainText(wholeTruckPackageCopy());
+    await expect(cta).not.toContainText("1 Hood");
+    await expect(page.getByTestId("whole-truck-lead")).toHaveCount(0);
     await expect(page.getByTestId("whole-truck-intent-form")).toHaveCount(0);
     await expect(page.getByTestId("floor-amount")).toHaveText("$58,000");
     await expect(page.getByTestId("goal-amount")).toHaveText("$120,000");
@@ -101,7 +98,7 @@ test.describe("slice 16.25: whole-truck package is seats 1-11", () => {
     expect(html).toContain("$58,000");
     expect(html).toContain("$120,000");
     expect(html).not.toContain("The package is 1 Hood");
-    expect(html).toContain(PUBLIC_COPY.board.wholeTruckLead);
+    expect(html).toContain(PUBLIC_COPY.board.wantAllPanels);
     expect(html.toLowerCase()).not.toMatch(/\blease\b/);
   });
 });

@@ -64,7 +64,7 @@ test.describe("slice 13.28: wins empty state from PUBLIC_COPY", () => {
       "No approved seats yet. Operator approval on a listed intent opens this sheet. Still no card charge.";
     expect(PUBLIC_COPY.seat.winsEmpty).toBe(expected);
     expect(PUBLIC_COPY.hero.h1).toBe(
-      "Put your brand on the truck people already photograph.",
+      "Advertise your brand on the truck that people already photograph",
     );
 
     const mdPath = join(process.cwd(), "PUBLIC_COPY.md");

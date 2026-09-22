@@ -50,7 +50,7 @@ test.describe("slice 16.28: card 4 and board number 4 open driver door", () => {
     await expect(index).toHaveText("4");
     await index.click();
     await expect(page).toHaveURL(new RegExp(`${PANEL_PATH}$`));
-    await expect(page.locator("h1")).toContainText("Driver doors");
+    await expect(page.locator("h1")).toContainText("Driver Side Doors");
 
     await page.goto("/");
     await expect(
@@ -61,7 +61,7 @@ test.describe("slice 16.28: card 4 and board number 4 open driver door", () => {
     await legend.click();
     await expect(page).toHaveURL(new RegExp(`${PANEL_PATH}$`));
     await expect(page.locator("h1")).toContainText("4");
-    await expect(page.locator("h1")).toContainText("Driver doors");
+    await expect(page.locator("h1")).toContainText("Driver Side Doors");
   });
 
   test("homepage still does not render FEATURES.md", async ({ request }) => {

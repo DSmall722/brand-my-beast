@@ -66,9 +66,7 @@ test.describe("slice 6.13: branded 404", () => {
     await expect(page.getByTestId("not-found-footer-line")).toHaveText(
       PUBLIC_COPY.footer.line,
     );
-    await expect(page.getByTestId("not-found-footer-independent")).toHaveText(
-      PUBLIC_COPY.footer.independent,
-    );
+    await expect(page.getByTestId("not-found-footer-independent")).toHaveCount(0);
 
     const html = (await page.content()).toLowerCase();
     expect(html).not.toMatch(/\blease\b/);

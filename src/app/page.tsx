@@ -14,7 +14,6 @@ import {
 } from "@/components/home/truck-exists-sections";
 import { HomeTruckViewsSection } from "@/components/home/HomeTruckViewsSection";
 import { HomeWaitlistSection } from "@/components/home/HomeWaitlistSection";
-import { HomeWreckSection } from "@/components/home/HomeWreckSection";
 import {
   CLOSE_AT,
   FLOOR_USD,
@@ -87,7 +86,6 @@ export default async function HomePage() {
         />
         <HomeStorySection />
         <HomeEtchSection />
-        <HomeWreckSection />
         <HomeQuestionsSection />
         <TruckExistsBoardSlot />
         <HomeWaitlistSection />

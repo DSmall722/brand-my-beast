@@ -11,17 +11,13 @@ export type SiteChromeFooterIds = {
 
 export function SiteChromeFooter({
   lineTestId,
-  independentTestId,
 }: {
   lineTestId: string;
-  independentTestId: string;
+  independentTestId?: string;
 }) {
   return (
     <footer className="shell site-footer">
       <div data-testid={lineTestId}>{PUBLIC_COPY.footer.line}</div>
-      <p className="fine-print" data-testid={independentTestId}>
-        {PUBLIC_COPY.footer.independent}
-      </p>
     </footer>
   );
 }

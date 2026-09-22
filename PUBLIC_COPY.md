@@ -7,33 +7,31 @@ Locked: 2026-09-14 — desire first, then the deal, then the catch.
 
 ## Meta
 
-- Title: `BrandMyBeast — Put your brand on the truck people already photograph.`
+- Title: `BrandMyBeast — Advertise your brand on the truck that people already photograph`
 - Description: `Eleven companies. One Cyberbeast. Join the list. Hit $58,000 and the truck is ordered and wrapped for a year. Miss it and nobody pays.`
 
 ## Header
 
 - Wordmark: `BrandMyBeast`
-- Nav: `Join the list`
+- Nav: `Contact BMB`
 
 ## Hero
 
-- H1: `Put your brand on the truck people already photograph.`
-- Lead: `concept photo`
-- Primary CTA: `Get on the list`
-- Secondary CTA: `See the eleven panels`
+- H1: `Advertise your brand on the truck that people already photograph`
+- Lead: (omitted)
+- First CTA (arrow): `Bid on a Panel` → panel inventory
+- Second CTA (plain, no arrow): `Contact BMB` → Contact Us
+- Off-homepage CTA (404, error, sign-in): `Get on the list`
 - Hero image label (alt): `Concept preview — BrandMyBeast house wrap. Seats are not sold yet.`
-- Hero caption: `concept photo`
+- Hero caption: (omitted)
 
-## The numbers
+## Track the Auction
 
-- Heading: `The numbers`
-- Lead: `This is ad space on the truck — not a share of the title.`
+- Heading: `Track the Auction`
 - Raised label: `Pledged so far`
-- Raised hint (under floor): `No seats sold yet. Miss the floor and every bid is refunded.`
 - Floor label: `Floor — $58,000`
-- Floor hint: `Orders the truck and pays for the wrap.`
-- Buyout label: `Buyout — $120,000`
-- Buyout hint: `Buys every panel — one brand on the whole truck.`
+- Floor hint: `Miss the floor and every bid is refunded.`
+- Buyout label: `Unlock Immortal Etch`
 - Clock line when CLOSE_AT is null: `Bidding is not open. Nothing is charged on this page.`
 - Deposit line: `When bidding opens, a 20% deposit holds your panel. Nothing is charged on this page.`
 - Shortfall floor label: `Short of floor`
@@ -44,6 +42,7 @@ Locked: 2026-09-14 — desire first, then the deal, then the catch.
 - Vault empty (pledged $0): `No marks yet`
 - Seat legend: `Open seat = empty. Held seat = standing intent.`
 - Board truck image label (alt): `Stainless Cyberbeast preview. Numbers live on the board.`
+- Want all panels: `Buy the Whole Truck`
 - Whole-truck heading: `Whole truck — $120,000`
 - Whole-truck lead: `One brand on every panel and Immortal Etch on nine steel faces. Standing panel winners released. Nothing is charged on this page.`
 - Whole-truck amount label: `Buyout mark`
@@ -59,35 +58,30 @@ Locked: 2026-09-14 — desire first, then the deal, then the catch.
 
 ## Eleven panels
 
-- Heading: `The eleven panels`
-- Lead (three stacked lines):
-  1. `Eleven seats. Opening prices below.`
-  2. `Wrap is vinyl for twelve months, then it comes off.`
-  3. `Immortal Etch at $120k means that steel can take a permanent cut once the campaign owns the truck.`
-- Badge etch: `Immortal Etch locked until $120k`
+- Heading: `Bid on a Panel`
+- Lead (two stacked lines):
+  1. `Once total active bids cross $120,000, buyers will unlock the option to have their advertisement permanently etched on the stainless surface for 3x the final bid for that panel.`
+  2. `Immortal Etch is only available on stainless steel panels.`
+- Badge etch: `Immortal Etch Locked`
 - Badge wrap: `Wrap only`
 - Standing open: `Open seat`
 
-Keep panel names. Optional short gloss on the card, not a rename:
-- Front fascia — stainless steel face
-- Driver doors — front + rear cab door
-- Passenger doors — front + rear cab door
-- Front bumper — simple-mark only: website and/or phone number — wrap-only; leave camera lens/washer clear
-- Rear bumper — simple-mark only: website and/or phone number — wrap-only
+Panel card names match the board. No gloss line on the card.
 
 ## How it works
 
 - Heading: `How it works`
 - 01 title: `Pick a panel`
-- 01 body: `One brand per kind of business. If someone in your trade is already standing, you bid against them.`
+- 01 body: `Maximum of one brand for each kind of business. If someone in your trade is already standing, highest bidder wins.`
 - 02 title: `$58,000 or the money comes back`
 - 02 body: `Reach $58,000 and the Cyberbeast is ordered and winners are wrapped for twelve months. Miss it and every bid is released.`
-- 03 title: `$120,000 — whole truck + Immortal Etch`
-- 03 body: `At $120,000 you get every panel and the campaign owns the truck. Nine steel faces can be immortally etched with your brand logo. Vinyl lasts a year. Immortal Etch is forever.`
+- 03 title: `$120,000 unlocks` / `Immortal Etch` (second line is the Syne lockup)
+- 03 body: `Nine steel faces can be immortally etched with your brand logo.`
+- Full-width line: `Vinyl wrap lasts for one year,` / `but with Immortal Etch, your ad lasts FOREVER.`
 
 ## Immortal Etch
 
-- Heading: `Immortal Etch` — Syne display (`.immortal-etch` → `--font-display`).
+- Heading: `Immortal Etch` — same section header as the other homepage H2s. Body lockup stays `.immortal-etch`.
 - Body: `Wrap is a year of film. Immortal Etch is cut into the steel. It does not peel with the wrap. Nine steel faces. Unlocks with the $120,000 whole-truck package — when the campaign owns the truck.`
 - Why buyout: `Immortal Etch ships with the $120,000 whole-truck package.`
 - Cost: `After Immortal Etch is installed there is no cash refund of that finish.`
@@ -105,7 +99,7 @@ Money facts from CAMPAIGN.md only. Plain English. Not a full contract.
 
 ## Questions
 
-- Heading: `Questions people actually ask`
+- Heading: `FAQ`
 - Q: `Is this Tesla?` A: `No. Independent project. Not affiliated with Tesla, Inc.`
 - Q: `Is there a truck yet?` A: `Not yet. The photo is a preview. The Cyberbeast is ordered only if the auction clears $58,000.`
 - Q: `What am I buying?` A: `A year of your brand on one panel. Not a share of the title.`
@@ -117,16 +111,15 @@ Money facts from CAMPAIGN.md only. Plain English. Not a full contract.
 
 ## Waitlist
 
-- Heading: `Get on the list`
-- Lead: `Seats are not for sale yet. Leave an email. We will tell you when they are.`
+- Heading: `Contact Us`
 - Placeholder: `you@company.com`
-- Button: `Notify me`
+- Button: `Contact BMB`
 - Idle note: `We only email when seats open.`
 - Retention: `Waitlist retention: until seats open or user deletes.`
 - Success: `You are on the list. We will email when bidding opens.`
 - Already: `That email is already on the list.`
 - Whole-truck checkbox label (slice 16.0b): `I want the whole truck`
-- Whole-truck checkbox hint (slice 16.0b): `This is interest, not a $120,000 bid. Nothing is charged.`
+- Whole-truck checkbox hint (slice 16.0b): `Check this box when contacting BMB for information about becoming the exclusive brand advertised on the entire vehicle.`
 
 Do **not** rewrite the homepage H1 for 16.0b. Checkbox wires in later slices.
 
@@ -149,7 +142,7 @@ Not homepage. Same voice. No “test login” string when Auth is live.
 ## Seat pack (not homepage H1)
 
 Slice **13.5** / **14.7**. Panel / account strings only. Do **not** rewrite the homepage H1
-(`Put your brand on the truck people already photograph.`).
+(`Advertise your brand on the truck that people already photograph`).
 
 Seat rationale only (slice **14.7**) — opening-bid one-liner from RULES.md Inventory.
 Not a homepage hero rewrite:
