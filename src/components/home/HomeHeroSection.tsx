@@ -10,7 +10,7 @@ import { PANEL_BOARD_MARKS, panelLegendLabel } from "@/lib/panel-board";
 import { PUBLIC_COPY } from "@/lib/public-copy";
 import { truckImgAlt } from "@/lib/truck-img-alt";
 
-/** Slice 7.1 / 16.3 / 16.9 — house-wrap concept still. Numbers live on the board. */
+/** Slice 7.1 / 16.3 / 16.9 — bare stainless still. Numbers live on the legend. */
 export function HomeHeroSection({
   occupiedPanelIds: _occupiedPanelIds = [],
 }: {

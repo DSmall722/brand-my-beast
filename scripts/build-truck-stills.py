@@ -52,8 +52,7 @@ SOURCES = {
     },
 }
 
-# Homepage hero is the locked house-wrap C plate (scripts/blend-hero-wrap.py).
-# Do not rembg-rebuild it here — black wrap would be eaten.
+# Homepage hero is the slice 0.7 stainless JPEG in public/. Do not rebuild it here.
 OUTPUTS = {
     "side": PUBLIC / "truck-view-side.jpg",
     "front": PUBLIC / "truck-view-front.jpg",
