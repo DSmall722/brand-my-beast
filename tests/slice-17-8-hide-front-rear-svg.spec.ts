@@ -53,7 +53,7 @@ test.describe("slice 17.8: front and rear hide the side schematic", () => {
   }) => {
     await page.goto("/");
     const photo = page.locator(".truck-view-photo");
-    await expect(photo).toHaveAttribute("src", DRIVER);
+    await expect(photo).toHaveAttribute("src", FRONT);
     await expect(page.getByTestId("truck-view-seats")).toHaveAttribute(
       "data-baked-marks",
       "true",
@@ -61,6 +61,13 @@ test.describe("slice 17.8: front and rear hide the side schematic", () => {
     await expect(page.locator(".truck-view-body")).toHaveCount(0);
     await expect(page.locator(".truck-view-cab")).toHaveCount(0);
     await expect(page.getByTestId("truck-view-svg")).toHaveCount(1);
+
+    await page.getByTestId("truck-view-driver").click();
+    await expect(page.getByTestId("truck-view-seats")).toHaveAttribute(
+      "data-view",
+      "driver",
+    );
+    await expect(photo).toHaveAttribute("src", DRIVER);
 
     await page.getByTestId("truck-view-front").click();
     await expect(page.getByTestId("truck-view-seats")).toHaveAttribute(

@@ -150,6 +150,11 @@ test.describe("panel board stills map 1–11 onto the truck", () => {
     }
     expect(faces.size).toBe(11);
 
+    await expect(page.getByTestId("truck-img-board-front")).toHaveAttribute(
+      "src",
+      TRUCK_VIEW_STILLS.front,
+    );
+    await page.getByTestId("truck-view-driver").click();
     await expect(page.getByTestId("truck-img-board-driver")).toHaveAttribute(
       "src",
       TRUCK_VIEW_STILLS.driver,
@@ -158,6 +163,11 @@ test.describe("panel board stills map 1–11 onto the truck", () => {
     await expect(page.getByTestId("truck-img-board-passenger")).toHaveAttribute(
       "src",
       TRUCK_VIEW_STILLS.passenger,
+    );
+    await page.getByTestId("truck-view-rear").click();
+    await expect(page.getByTestId("truck-img-board-rear")).toHaveAttribute(
+      "src",
+      TRUCK_VIEW_STILLS.rear,
     );
     await page.getByTestId("truck-view-front").click();
     await expect(page.getByTestId("truck-img-board-front")).toHaveAttribute(

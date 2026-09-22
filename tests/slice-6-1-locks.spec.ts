@@ -82,20 +82,12 @@ test.describe("slice 6.1: floor, buyout, etch lock, no lease, no personal handle
 
   test("seat etch controls stay locked under buyout", async ({ page }) => {
     await page.goto("/panels/hood");
-    await expect(page.getByTestId("panel-mockup")).toHaveAttribute(
-      "data-etchable",
-      "true",
-    );
-    await expect(page.getByTestId("panel-mockup")).toHaveAttribute(
-      "data-etch-unlocked",
-      "false",
-    );
+    await expect(page.getByTestId("panel-mockup")).toHaveCount(0);
     await expect(page.getByTestId("compositor-mode-etch")).toHaveCount(0);
-    await expect(page.getByTestId("etch-lock-copy")).toContainText(
-      "Etch stays locked until buyout",
-    );
-    await expect(page.getByTestId("stainless-compositor-lead")).toContainText(
-      formatUsd(GOAL_USD),
+    await expect(page.getByTestId("etch-lock-copy")).toHaveCount(0);
+    await expect(page.getByTestId("stainless-compositor-lead")).toHaveCount(0);
+    await expect(page.getByTestId("seat-lead")).toContainText(
+      "Immortal Etch Locked",
     );
 
     const html = await page.content();

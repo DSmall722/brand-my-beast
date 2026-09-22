@@ -71,7 +71,7 @@ test.describe("slice 12.36: globals.css split tokens/hero/board", () => {
     );
     await expect(page.getByTestId("hero-panel-board")).toHaveCount(0);
     await expect(page.getByTestId("view-panel-board-driver")).toHaveCount(0);
-    await expect(page.getByTestId("truck-img-board-driver")).toBeVisible();
+    await expect(page.getByTestId("truck-img-board-front")).toBeVisible();
     const html = (await page.content()).toLowerCase();
     expect(html).not.toMatch(/\blease\b/);
     expect(html).not.toMatch(/@gmail\.com/);

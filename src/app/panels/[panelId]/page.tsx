@@ -4,7 +4,6 @@ import { notFound } from "next/navigation";
 import { ImmortalEtchLockup } from "@/components/ImmortalEtchLockup";
 import { IntentArtworkPreview } from "@/components/IntentArtworkPreview";
 import { IntentBidForm } from "@/components/IntentBidForm";
-import { PanelMockup } from "@/components/PanelMockup";
 import { TruckViewHotspots } from "@/components/TruckViewHotspots";
 import { SiteChrome } from "@/components/SiteChrome";
 import { auth } from "@/lib/auth";
@@ -12,7 +11,7 @@ import {
   BRAND,
   DEPOSIT_PERCENT,
   FLOOR_USD,
-  TRUCK_EXISTS,
+  GOAL_USD,
   PANELS,
   formatIntegerUsd,
   formatUsd,
@@ -26,7 +25,6 @@ import {
 import { intentStatusClass, intentStatusLabel } from "@/lib/intent-labels";
 import {
   listBidsForPanel,
-  loadBoardIntentStats,
   loadStandingHoldersByPanel,
   minimumIntentUsd,
   standingForPanel,
@@ -85,7 +83,6 @@ export default async function PanelIntentPage({
   const standing = await standingForPanel(panel.id);
   const minimum = await minimumIntentUsd(panel.id);
   const bids = await listBidsForPanel(panel.id);
-  const board = await loadBoardIntentStats();
   const seatsOpen = resolveSeatsOpen();
   const holdersRaw = await loadStandingHoldersByPanel();
   const holdersByPanel = new Map<string, AdjacentSeatHolder | null>();
@@ -137,6 +134,8 @@ export default async function PanelIntentPage({
         className="shell auth-page panel-intent public-seat"
         data-testid="panel-intent-page"
         data-print-sheet="panels"
+        data-floor={formatUsd(FLOOR_USD)}
+        data-buyout={formatUsd(GOAL_USD)}
       >
         <div className="seat-masthead">
         <p className="eyebrow">
@@ -150,23 +149,24 @@ export default async function PanelIntentPage({
           data-testid="seat-lead"
           data-has-standing={holder ? "true" : "false"}
         >
-          Current Bid {formatUsd(standing)}.{" "}
           <span
             className="seat-finish"
             data-testid="seat-finish"
             data-etchable={etchable ? "true" : "false"}
           >
             {etchable ? (
-              <ImmortalEtchLockup text={PUBLIC_COPY.panels.badgeEtch} />
+              <>
+                <span data-testid="seat-wrap-line">
+                  {PUBLIC_COPY.seat.wrapTwelveMonths}
+                </span>{" "}
+                <ImmortalEtchLockup text={PUBLIC_COPY.panels.badgeEtch} />
+              </>
             ) : (
-              PUBLIC_COPY.panels.badgeWrap
+              <span data-testid="seat-wrap-line">
+                {PUBLIC_COPY.seat.bumperWrapOnly}
+              </span>
             )}
           </span>
-        </p>
-        <p className="seat-context" data-testid="seat-context">
-          {etchable
-            ? "Wrap for twelve months from install. Immortal Etch unlocks at $120,000."
-            : "Wrap for twelve months from install."}
         </p>
         </div>
 
@@ -177,13 +177,6 @@ export default async function PanelIntentPage({
           compact
         />
         </div>
-
-        <PanelMockup
-          panel={panel}
-          raisedUsd={board.pledgedUsd}
-          standingBrand={holder?.brandLabel ?? null}
-          truckExists={TRUCK_EXISTS}
-        />
 
         <dl
           className="panel-stats"
@@ -214,8 +207,7 @@ export default async function PanelIntentPage({
           <div>
             <dt>Deposit shown</dt>
             <dd data-testid="panel-deposit-shown">
-              {DEPOSIT_PERCENT}% · {formatUsd(depositUsdForMark(standing))}{" "}
-              (not charged)
+              {DEPOSIT_PERCENT}% · {formatUsd(depositUsdForMark(standing))}
             </dd>
           </div>
         </dl>

@@ -8,10 +8,11 @@
 
 import { FLOOR_USD, GOAL_USD, PANELS, formatUsd, type Panel } from "./campaign";
 
+/** QA 1047PM — Preview the Panels tab order: Front → Driver → Passenger → Rear. */
 export const TRUCK_VIEWS = [
+  { id: "front", label: "Front" },
   { id: "driver", label: "Driver" },
   { id: "passenger", label: "Passenger" },
-  { id: "front", label: "Front" },
   { id: "rear", label: "Rear" },
 ] as const;
 
@@ -205,29 +206,31 @@ const PASSENGER_HOTSPOTS: readonly TruckHotspot[] = [
 const FRONT_HOTSPOTS: readonly TruckHotspot[] = [
   {
     panelId: "hood",
+    // ≥19% tall for ≥44px hit on seat wells; shorter than pre-QA face wash.
     points: pctPoints([
-      [10, 17.5],
-      [89.5, 17.5],
-      [89.5, 36.5],
-      [10, 36.5],
+      [12, 17],
+      [88, 17],
+      [88, 36],
+      [12, 36],
     ]),
   },
   {
     panelId: "front-fascia",
     points: pctPoints([
-      [9.5, 37],
-      [90.5, 37],
-      [90.5, 60],
-      [9.5, 60],
+      [10, 37],
+      [90, 37],
+      [90, 54],
+      [10, 54],
     ]),
   },
   {
     panelId: "front-bumper",
+    // Larger than main’s ~14.5% band — plastic bumper reads as the lower third.
     points: pctPoints([
-      [8, 62],
-      [91, 62],
-      [91, 76.5],
-      [8, 76.5],
+      [8, 55],
+      [91, 55],
+      [91, 80],
+      [8, 80],
     ]),
   },
 ];

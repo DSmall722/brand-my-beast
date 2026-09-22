@@ -915,6 +915,13 @@
   font-size: 0.9rem;
 }
 
+.legal-stub-body h2 {
+  font-family: var(--font-display), Syne, system-ui, sans-serif;
+  font-size: 1.05rem;
+  letter-spacing: -0.02em;
+  margin: 1.35rem 0 0.35rem;
+}
+
 .legal-stub-body p {
   margin: 0 0 1rem;
   max-width: 42rem;
@@ -2688,9 +2695,7 @@
 }
 .truck-view-seats[data-polygons="outline"] .truck-seat.is-active,
 .truck-view-seats[data-polygons="outline"] a:hover .truck-seat,
-.truck-view-seats[data-polygons="outline"] a:focus .truck-seat,
-.truck-view-seats[data-polygons="outline"] a:focus-visible .truck-seat,
-.truck-view-seats[data-polygons="outline"] a[data-active="true"] .truck-seat {
+.truck-view-seats[data-polygons="outline"] a:focus-visible .truck-seat {
   fill: rgb(214 255 63 / 0.42);
   fill-opacity: 1;
   stroke: #d6ff3f;
@@ -2714,6 +2719,28 @@
     transition: none;
   }
 }
+.truck-view-credit {
+  margin: 0.65rem 0 0;
+  font-size: 0.82rem;
+  line-height: 1.4;
+  color: var(--steel-400);
+}
+
+.truck-view-credit p {
+  margin: 0;
+}
+
+.truck-view-credit a {
+  color: var(--steel-200);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.truck-view-credit a:hover,
+.truck-view-credit a:focus-visible {
+  color: white;
+}
+
 .truck-view-legend {
   grid-row: 2;
   position: relative;
@@ -2724,6 +2751,31 @@
   color: var(--steel-400);
   background: color-mix(in oklab, #0e1218 88%, transparent);
 }
+
+.panel-mockup-face-clean {
+  min-height: 8rem;
+}
+
+.public-seat .panel-mockup-face-clean {
+  aspect-ratio: 16 / 9;
+  min-height: 10rem;
+  padding: 0;
+  width: 100%;
+}
+
+.public-seat .seat-finish {
+  display: block;
+}
+
+.public-seat .seat-finish .immortal-etch {
+  display: inline;
+}
+
+.auth-back .btn {
+  display: inline-flex;
+  text-decoration: none;
+}
+
 
 /* Slice 6.13 — branded 404 */
 .not-found-page {

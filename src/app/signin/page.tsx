@@ -41,16 +41,14 @@ export default async function SignInPage({
     <main className="shell auth-page" data-testid="signin-page" data-auth-mode={mode}>
       <p className="eyebrow">BrandMyBeast</p>
       <h1>{copy.heading}</h1>
-      <p className="section-lead" data-testid="signin-lead">
-        {copy.lead}
-      </p>
+      {copy.lead ? (
+        <p className="section-lead" data-testid="signin-lead">
+          {copy.lead}
+        </p>
+      ) : null}
 
       {hasTest ? (
         <>
-          <p className="auth-hint" data-testid="test-login-hint">
-            {copy.testHint}{" "}
-            <code>{process.env.AUTH_TEST_PASSWORD ?? "test"}</code>.
-          </p>
           <TestSignInForm callbackUrl={callbackUrl} />
         </>
       ) : null}

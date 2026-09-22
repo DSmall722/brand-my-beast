@@ -55,7 +55,7 @@ test.describe("slice 17.18: front fascia HTML drops prototype jargon", () => {
     await expect(page.getByTestId("panel-seat-h1")).toContainText("Front Fascia");
     const deposit = page.getByTestId("panel-deposit-shown");
     await expect(deposit).toContainText(`${DEPOSIT_PERCENT}%`);
-    await expect(deposit).toContainText("not charged");
+    await expect(deposit).not.toContainText("not charged");
     const open = await page
       .getByTestId("panel-stats")
       .getAttribute("data-seat-open");

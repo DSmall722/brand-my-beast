@@ -32,21 +32,28 @@ test.describe("Syne lockup, board marks, seat lead", () => {
     expect(vercelJsonIsHoldOrMainOnlyRestore()).toBe(true);
   });
 
-  test("How it works puts only Immortal Etch in Syne", async ({ page }) => {
+  test("How it works puts Immortal Etch in Syne only in the step body", async ({
+    page,
+  }) => {
     await page.setViewportSize({ width: 1280, height: 900 });
     await page.goto("/");
     await page.evaluate(() => document.fonts.ready);
+    await expect(page.locator("#story .story-step-title").nth(2)).toHaveText(
+      "$120,000 unlocks Immortal Etch",
+    );
+    await expect(page.locator("#story .story-step-title .immortal-etch")).toHaveCount(
+      0,
+    );
     const lockups = page.locator("#story .immortal-etch");
-    await expect(lockups).toHaveCount(2);
-    for (const lockup of await lockups.all()) {
-      await expect(lockup).toHaveText("Immortal Etch");
-    }
-    const forever = page.getByTestId("story-etch-forever");
-    await expect(forever).toContainText("Vinyl wrap lasts for one year,");
-    await expect(forever).toContainText(
+    await expect(lockups).toHaveCount(1);
+    await expect(lockups).toHaveText("Immortal Etch");
+    await expect(page.locator("#story .story-step-copy").nth(2)).toContainText(
+      "Vinyl wrap lasts for one year,",
+    );
+    await expect(page.locator("#story .story-step-copy").nth(2)).toContainText(
       "but with Immortal Etch, your ad lasts FOREVER.",
     );
-    await expect(forever.locator("br")).toHaveCount(1);
+    await expect(page.getByTestId("story-etch-forever")).toHaveCount(0);
     const fonts = await page.evaluate(() => {
       const lockup = document.querySelector("#story .immortal-etch");
       const title = document.querySelector("#story .story-step-title");
@@ -97,8 +104,9 @@ test.describe("Syne lockup, board marks, seat lead", () => {
     expect(reset.ok()).toBeTruthy();
     await page.goto("/panels/hood");
     const hood = page.getByTestId("seat-lead");
-    await expect(hood).toContainText("Current Bid $2,500");
-    await expect(hood).toContainText("Immortal Etch");
+    await expect(hood).toContainText(PUBLIC_COPY.seat.wrapTwelveMonths);
+    await expect(hood).toContainText("Immortal Etch Locked");
+    await expect(hood).not.toContainText("Current Bid");
     await expect(hood).not.toContainText("Etchable only");
     await expect(page.getByTestId("seat-finish")).toHaveAttribute(
       "data-etchable",
@@ -112,8 +120,8 @@ test.describe("Syne lockup, board marks, seat lead", () => {
 
     await page.goto("/panels/front-fascia");
     const fascia = page.getByTestId("seat-lead");
-    await expect(fascia).toContainText("Current Bid $2,000");
-    await expect(fascia).toContainText("Immortal Etch");
+    await expect(fascia).toContainText(PUBLIC_COPY.seat.wrapTwelveMonths);
+    await expect(fascia).toContainText("Immortal Etch Locked");
     await expect(fascia).not.toContainText("forever");
     await expect(page.getByTestId("seat-finish")).toHaveAttribute(
       "data-etchable",
@@ -122,8 +130,8 @@ test.describe("Syne lockup, board marks, seat lead", () => {
 
     await page.goto("/panels/front-bumper");
     const bumper = page.getByTestId("seat-lead");
-    await expect(bumper).toContainText("Current Bid $500");
-    await expect(bumper).toContainText("Wrap only");
+    await expect(bumper).toHaveText(PUBLIC_COPY.seat.bumperWrapOnly);
+    await expect(bumper).not.toContainText("Current Bid");
     await expect(page.getByTestId("seat-finish")).toHaveAttribute(
       "data-etchable",
       "false",

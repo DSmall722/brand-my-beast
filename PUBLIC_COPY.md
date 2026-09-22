@@ -29,7 +29,7 @@ Locked: 2026-09-14 — desire first, then the deal, then the catch.
 
 - Heading: `Track the Auction`
 - Raised label: `Pledged so far`
-- Floor label: `Floor — $58,000`
+- Floor label: `Floor`
 - Floor hint: `Miss the floor and every bid is refunded.`
 - Buyout label: `Unlock Immortal Etch`
 - Clock line when CLOSE_AT is null: `Bidding is not open. Nothing is charged on this page.`
@@ -59,9 +59,7 @@ Locked: 2026-09-14 — desire first, then the deal, then the catch.
 ## Eleven panels
 
 - Heading: `Bid on a Panel`
-- Lead (two stacked lines):
-  1. `Once total active bids cross $120,000, buyers will unlock the option to have their advertisement permanently etched on the stainless surface for 3x the final bid for that panel.`
-  2. `Immortal Etch is only available on stainless steel panels.`
+- Lead: `Select a panel below for more details.`
 - Badge etch: `Immortal Etch Locked`
 - Badge wrap: `Wrap only`
 - Standing open: `Open seat`
@@ -75,13 +73,16 @@ Panel card names match the board. No gloss line on the card.
 - 01 body: `Maximum of one brand for each kind of business. If someone in your trade is already standing, highest bidder wins.`
 - 02 title: `$58,000 or the money comes back`
 - 02 body: `Reach $58,000 and the Cyberbeast is ordered and winners are wrapped for twelve months. Miss it and every bid is released.`
-- 03 title: `$120,000 unlocks` / `Immortal Etch` (second line is the Syne lockup)
-- 03 body: `Nine steel faces can be immortally etched with your brand logo.`
-- Full-width line: `Vinyl wrap lasts for one year,` / `but with Immortal Etch, your ad lasts FOREVER.`
+- 03 title: `$120,000 unlocks Immortal Etch` (one line; no Syne lockup in the heading)
+- 03 body: `Vinyl wrap lasts for one year,` / `but with Immortal Etch, your ad lasts FOREVER.` (Immortal Etch stylized only here)
 
 ## Immortal Etch
 
 - Heading: `Immortal Etch` — same section header as the other homepage H2s. Body lockup stays `.immortal-etch`.
+- Unlock (moved from Bid on a Panel):
+  1. `Once total active bids cross $120,000, buyers will unlock the option to have their advertisement permanently etched on the stainless surface for 3x the final bid for that panel.`
+  2. `Immortal Etch is only available on stainless steel panels.`
+- Requirements: `Immortal Etch artwork must use bold, simple shapes that can be permanently etched into stainless steel. Gradients, fine details, and very small text cannot be etched reliably. Final artwork will be reviewed before approval.`
 - Body: `Wrap is a year of film. Immortal Etch is cut into the steel. It does not peel with the wrap. Nine steel faces. Unlocks with the $120,000 whole-truck package — when the campaign owns the truck.`
 - Why buyout: `Immortal Etch ships with the $120,000 whole-truck package.`
 - Cost: `After Immortal Etch is installed there is no cash refund of that finish.`
@@ -101,13 +102,18 @@ Money facts from CAMPAIGN.md only. Plain English. Not a full contract.
 
 - Heading: `FAQ`
 - Q: `Is this Tesla?` A: `No. Independent project. Not affiliated with Tesla, Inc.`
-- Q: `Is there a truck yet?` A: `Not yet. The photo is a preview. The Cyberbeast is ordered only if the auction clears $58,000.`
 - Q: `What am I buying?` A: `A year of your brand on one panel. Not a share of the title.`
 - Q: `What if two of us sell the same thing?` A: `You bid against each other for that panel.`
 - Q: `What is Immortal Etch?` A: `Cut into the stainless — not vinyl. Nine steel panels. Vinyl lasts a year. Immortal Etch is forever.`
-- Q: `Why is Immortal Etch locked until $120,000?` A: `Immortal Etch ships with the whole-truck buyout. At $58,000 the campaign can order the truck and fund wrap. The permanent cut waits until $120,000, when the campaign owns the truck and the whole-truck + Immortal Etch package is met. Panel bids stay the seat price.`
-- Q: `When does bidding start?` A: `When seats open. There is no date on this page yet.`
-- Q: `Will I be charged if I join the list?` A: `No. The waitlist is an email.`
+- Q: `What happens if someone bids at the last second?` A: `A qualifying last-second bid extends that panel’s closing time so others have a fair chance to respond.`
+- Q: `What if the board misses $58,000?` A: `Full refund. No order. No wrap. No Immortal Etch.`
+- Q: `What if the wrap year is cut short?` A: `Wrap lasts twelve months from install. If the truck is totaled or sold before month 12, wrap seats get a pro-rata refund for the months left.`
+
+## Preview the Panels
+
+- Heading: `Preview the Panels`
+- Tab order: Front, Driver, Passenger, Rear
+- Under each still: Pexels photographer credit (linked to original) + `Edited with Higgsfield.ai and Grok Image`
 
 ## Waitlist
 
@@ -128,13 +134,13 @@ Do **not** rewrite the homepage H1 for 16.0b. Checkbox wires in later slices.
 Not homepage. Same voice. No “test login” string when Auth is live.
 
 - Heading: `Sign in`
-- Lead: `Accounts unlock intent marks on panels. This page does not charge cards.`
+- Lead: `This page does not charge cards.`
 - Magic-link hint: `We email a one-time link. No password. This page does not charge cards.`
 - Magic-link button: `Email me a sign-in link`
 - Credentials button: `Sign in`
 - Missing-providers lead: `Live sign-in is on, but no providers are configured yet. The operator needs AUTH_SECRET, AUTH_URL, RESEND_API_KEY, and DATABASE_URL.`
 - Not open yet (slice **17.5**): `Sign-in is not open yet. Join the list. Nothing is charged.`
-- Test-mode hint (AUTH_MODE=test only): `CI path: use any @example.com email and the test password.`
+- Test-mode hint (AUTH_MODE=test only, not rendered on the page): `Use any @example.com email and the test password.`
 - Check-email heading: `Check your email`
 - Check-email success: `If that address is valid, a sign-in link is on the way. The link expires soon. No card is charged on this path.`
 - Sign-out button (slice **14.25**, `/account`): `Sign out`

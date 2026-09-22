@@ -103,9 +103,10 @@ test.describe("slice 14.33: deposit preview uses depositUsdForMark (12.5)", () =
     expect(expected).toBe(500);
 
     const panelDeposit = page.getByTestId("panel-deposit-shown");
-    await expect(panelDeposit).toContainText(`${DEPOSIT_PERCENT}%`);
-    await expect(panelDeposit).toContainText(formatUsd(expected));
-    await expect(panelDeposit).toContainText("not charged");
+    await expect(panelDeposit).toHaveText(
+      `${DEPOSIT_PERCENT}% · ${formatUsd(expected)}`,
+    );
+    await expect(panelDeposit).not.toContainText("not charged");
 
     await expect(page.getByTestId("intent-bid-form")).toBeVisible();
     const preview = page.getByTestId("intent-deposit-preview");

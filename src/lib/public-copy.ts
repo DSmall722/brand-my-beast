@@ -39,7 +39,7 @@ export const PUBLIC_COPY = {
     lead: "",
     raisedLabel: "Pledged so far",
     raisedHint: "",
-    floorLabel: "Floor — $58,000",
+    floorLabel: "Floor",
     floorHint: "Miss the floor and every bid is refunded.",
     buyoutLabel: "Unlock Immortal Etch",
     buyoutHint: "",
@@ -80,11 +80,8 @@ export const PUBLIC_COPY = {
   },
   panels: {
     heading: "Bid on a Panel",
-    leadLines: [
-      "Once total active bids cross $120,000, buyers will unlock the option to have their advertisement permanently etched on the stainless surface for 3x the final bid for that panel.",
-      "Immortal Etch is only available on stainless steel panels.",
-    ],
-    lead: "Once total active bids cross $120,000, buyers will unlock the option to have their advertisement permanently etched on the stainless surface for 3x the final bid for that panel. Immortal Etch is only available on stainless steel panels.",
+    leadLines: ["Select a panel below for more details."],
+    lead: "Select a panel below for more details.",
     badgeEtch: "Immortal Etch Locked",
     badgeWrap: "Wrap only",
     /** Slice 10.9 — panel card standing line when no mark holds. */
@@ -104,8 +101,8 @@ export const PUBLIC_COPY = {
         body: "Reach $58,000 and the Cyberbeast is ordered and winners are wrapped for twelve months. Miss it and every bid is released.",
       },
       {
-        title: "$120,000 unlocks\nImmortal Etch",
-        body: "Nine steel faces can be immortally etched with your brand logo.",
+        title: "$120,000 unlocks Immortal Etch",
+        body: "Vinyl wrap lasts for one year,\nbut with Immortal Etch, your ad lasts FOREVER.",
       },
     ],
     foreverLine:
@@ -113,6 +110,12 @@ export const PUBLIC_COPY = {
   },
   etch: {
     heading: "Immortal Etch",
+    unlockLines: [
+      "Once total active bids cross $120,000, buyers will unlock the option to have their advertisement permanently etched on the stainless surface for 3x the final bid for that panel.",
+      "Immortal Etch is only available on stainless steel panels.",
+    ],
+    unlock:
+      "Once total active bids cross $120,000, buyers will unlock the option to have their advertisement permanently etched on the stainless surface for 3x the final bid for that panel. Immortal Etch is only available on stainless steel panels.",
     /** Seat-page art rules, restated once on the homepage Immortal Etch section. */
     requirements:
       "Immortal Etch artwork must use bold, simple shapes that can be permanently etched into stainless steel. Gradients, fine details, and very small text cannot be etched reliably. Final artwork will be reviewed before approval.",
@@ -158,10 +161,6 @@ export const PUBLIC_COPY = {
         a: "No. Independent project. Not affiliated with Tesla, Inc.",
       },
       {
-        q: "Is there a truck yet?",
-        a: "Not yet. The photo is a preview. The Cyberbeast is ordered only if the auction clears $58,000.",
-      },
-      {
         q: "What am I buying?",
         a: "A year of your brand on one panel. Not a share of the title.",
       },
@@ -174,21 +173,9 @@ export const PUBLIC_COPY = {
         a: "Cut into the stainless — not vinyl. Nine steel panels. Vinyl lasts a year. Immortal Etch is forever.",
       },
       {
-        q: "Why is Immortal Etch locked until $120,000?",
-        a: "Immortal Etch ships with the whole-truck buyout. At $58,000 the campaign can order the truck and fund wrap. The permanent cut waits until $120,000, when the campaign owns the truck and the whole-truck + Immortal Etch package is met. Panel bids stay the seat price.",
-      },
-      {
-        q: "When does bidding start?",
-        a: "When seats open. There is no date on this page yet.",
-      },
-      {
         id: "last-second-bid",
         q: "What happens if someone bids at the last second?",
         a: "A qualifying last-second bid extends that panel’s closing time so others have a fair chance to respond.",
-      },
-      {
-        q: "Will I be charged if I join the list?",
-        a: "No. The waitlist is an email.",
       },
       {
         id: "campaign-miss",
@@ -200,15 +187,11 @@ export const PUBLIC_COPY = {
         q: "What if the wrap year is cut short?",
         a: "Wrap lasts twelve months from install. If the truck is totaled or sold before month 12, wrap seats get a pro-rata refund for the months left.",
       },
-      {
-        id: "immortal-fragment",
-        q: "What if Immortal Etch is already installed?",
-        a: "No cash refund of that finish. The record is a piece of the cut panel and a vault certificate.",
-      },
     ],
   },
   truckViews: {
     heading: "Preview the Panels",
+    editedWith: "Edited with Higgsfield.ai and Grok Image",
   },
   waitlist: {
     heading: "Contact Us",
@@ -241,7 +224,7 @@ export const PUBLIC_COPY = {
    */
   signIn: {
     heading: "Sign in",
-    lead: "Accounts unlock intent marks on panels. This page does not charge cards.",
+    lead: "This page does not charge cards.",
     magicLinkHint:
       "We email a one-time link. No password. This page does not charge cards.",
     magicLinkButton: "Email me a sign-in link",
@@ -251,8 +234,7 @@ export const PUBLIC_COPY = {
     /** Slice 17.5 — live empty state. No env key names. */
     notOpenYet: "Sign-in is not open yet. Join the list. Nothing is charged.",
     /** AUTH_MODE=test only — never render under live. */
-    testHint:
-      "CI path: use any @example.com email and the test password.",
+    testHint: "Use any @example.com email and the test password.",
     /** Slice 12.39 — /signin/check-email success line. */
     checkEmailHeading: "Check your email",
     checkEmailSuccess:
@@ -270,6 +252,10 @@ export const PUBLIC_COPY = {
      */
     openingRationale:
       "Opening marks start the seat. The floor is not the sum of openings — bidding has to carry the board to $58,000.",
+    /** QA 1047PM — stainless seat chrome above Immortal Etch Locked. */
+    wrapTwelveMonths: "Vinyl Wrap for 12 Months after Installation.",
+    /** QA 1047PM — bumper seats are wrap-only. */
+    bumperWrapOnly: "Vinyl Wrap is the only option available for the Bumper.",
     withdrawSuccess: "Intent withdrawn. Still not charged.",
     withdrawButton: "Withdraw pending intent",
     failedWinnerWaitlist:

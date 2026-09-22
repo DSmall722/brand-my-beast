@@ -1906,9 +1906,9 @@ test.describe("intent artwork attachment (no capture)", () => {
 test.describe("truck view hotspots (no capture)", () => {
   test("slice 3.7: side/front/rear hotspots map to real panels", () => {
     expect(TRUCK_VIEWS.map((v) => v.id)).toEqual([
+      "front",
       "driver",
       "passenger",
-      "front",
       "rear",
     ]);
     expect(truckHotspotsAreValid()).toBe(true);

@@ -1,7 +1,6 @@
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import { expect, test } from "@playwright/test";
-import { isPublicSignInClosed } from "../src/lib/auth/mode";
 import {
   BRAND,
   CLOSE_AT,
@@ -16,14 +15,13 @@ import { PUBLIC_COPY } from "../src/lib/public-copy";
 import { vercelJsonIsHoldOrMainOnlyRestore } from "../src/lib/vercel-git-deploy";
 
 /**
- * Slice 20.1 — homepage header hides Sign in while public sign-in is closed.
- * Join the list stays. CI test login stays available. CLOSE_AT null.
+ * QA 1047PM — desktop header keeps Sign in. CLOSED_AT null.
  */
 
 const ROOT = process.cwd();
 const LOCKED_H1 = "Advertise your brand on the truck that people already photograph";
 
-test.describe("slice 20.1: hide homepage Sign in while closed", () => {
+test.describe("slice 20.1: homepage Sign in stays in the header", () => {
   test("campaign money fences stay locked — CLOSE_AT null", () => {
     expect(FLOOR_USD).toBe(58_000);
     expect(GOAL_USD).toBe(120_000);
@@ -50,18 +48,10 @@ test.describe("slice 20.1: hide homepage Sign in while closed", () => {
     expect(SEATS_OPEN).toBe(true);
   });
 
-  test("live without a buyer provider is closed; test login is not", () => {
-    expect(
-      isPublicSignInClosed({
-        AUTH_MODE: "live",
-        NODE_ENV: "production",
-        VERCEL_ENV: "production",
-      }),
-    ).toBe(true);
-    expect(isPublicSignInClosed({ AUTH_MODE: "test" })).toBe(false);
-  });
-
-  test("homepage keeps Join the list; H1 unchanged", async ({ page }) => {
+  test("homepage keeps Contact BMB and Sign in; H1 unchanged", async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width: 1280, height: 900 });
     await page.goto("/");
     const header = page.locator(".site-header");
     await expect(header).toHaveAttribute("data-signin-closed", "false");

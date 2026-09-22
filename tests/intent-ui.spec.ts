@@ -16,60 +16,34 @@ test.describe("P2 panel intent + approvals", () => {
     expect(res.ok()).toBeTruthy();
   });
 
-  test("slice 3.1: stainless compositor on the seat is preview only", async ({
+  test("slice 3.1: seat page drops duplicate compositor pane", async ({
     page,
   }) => {
     await page.goto("/panels/hood");
     await expect(page.getByTestId("panel-intent-page")).toBeVisible();
-    await expect(page.getByTestId("panel-mockup")).toBeVisible();
-    await expect(page.getByTestId("panel-mockup")).toHaveAttribute(
-      "data-preview-toggles",
-      "false",
-    );
+    await expect(page.getByTestId("seat-photo-stage")).toBeVisible();
+    await expect(page.getByTestId("panel-mockup")).toHaveCount(0);
     await expect(page.getByTestId("stainless-compositor")).toHaveCount(0);
-    await expect(page.getByTestId("stainless-compositor-lead")).toContainText(
-      "preview only",
-    );
+    await expect(page.getByTestId("stainless-compositor-lead")).toHaveCount(0);
+    await expect(page.getByTestId("etch-lock-copy")).toHaveCount(0);
     await expect(page.getByTestId("compositor-mode-wrap")).toHaveCount(0);
     await expect(page.getByTestId("compositor-mode-etch")).toHaveCount(0);
-    await expect(page.getByTestId("compositor-wrap-film")).toBeVisible();
-    await expect(page.getByTestId("compositor-finish-label")).toContainText(
-      "Wrap",
-    );
-    await expect(page.getByTestId("etch-lock-copy")).toContainText(
-      "Etch stays locked until buyout",
-    );
-    await expect(page.getByTestId("stainless-compositor-lead")).toContainText(
-      "$58,000",
-    );
-    await expect(page.getByTestId("stainless-compositor-lead")).toContainText(
-      "$120,000",
-    );
     const html = await page.content();
     expect(html.toLowerCase()).not.toMatch(/\blease\b/);
     expect(html).not.toContain("CLOSE_AT");
+    expect(html).not.toContain("Seat preview only");
   });
 
-  test("slice 3.2: etch controls disabled while raised < $120,000", async ({
+  test("slice 3.2: etch controls stay off the seat while raised < $120,000", async ({
     page,
   }) => {
     await page.goto("/panels/hood");
-    await expect(page.getByTestId("panel-mockup")).toHaveAttribute(
-      "data-etchable",
-      "true",
-    );
-    await expect(page.getByTestId("panel-mockup")).toHaveAttribute(
-      "data-etch-unlocked",
-      "false",
-    );
+    await expect(page.getByTestId("panel-mockup")).toHaveCount(0);
     await expect(page.getByTestId("compositor-mode-etch")).toHaveCount(0);
     await expect(page.getByTestId("compositor-mode-wrap")).toHaveCount(0);
-    await expect(page.getByTestId("etch-lock-copy")).toContainText(
-      "Etch stays locked until buyout",
-    );
-    await expect(page.getByTestId("panel-mockup")).toHaveAttribute(
-      "data-finish",
-      "wrap",
+    await expect(page.getByTestId("etch-lock-copy")).toHaveCount(0);
+    await expect(page.getByTestId("seat-lead")).toContainText(
+      "Immortal Etch Locked",
     );
     const html = await page.content();
     expect(html.toLowerCase()).not.toMatch(/\blease\b/);
@@ -89,25 +63,18 @@ test.describe("P2 panel intent + approvals", () => {
       "data-cta",
       "bid",
     );
-    await expect(page.getByTestId("seat-lead")).toContainText("Current Bid");
-    await expect(page.getByTestId("panel-mockup")).toBeVisible();
-    await expect(page.getByTestId("panel-mockup")).toHaveAttribute(
-      "data-preview-toggles",
-      "false",
+    await expect(page.getByTestId("seat-lead")).toContainText(
+      "Vinyl Wrap for 12 Months after Installation.",
     );
+    await expect(page.getByTestId("panel-mockup")).toHaveCount(0);
     await expect(page.getByTestId("stainless-compositor")).toHaveCount(0);
     await expect(page.getByTestId("compositor-mode-wrap")).toHaveCount(0);
     await expect(page.getByTestId("compositor-mode-etch")).toHaveCount(0);
-    await expect(page.getByTestId("etch-lock-copy")).toContainText(
-      "Etch stays locked until buyout",
-    );
-    await expect(page.getByTestId("stainless-compositor-lead")).toContainText(
-      "$120,000",
-    );
-    await expect(page.getByTestId("compositor-wrap-film")).toBeVisible();
-    await expect(page.getByTestId("compositor-finish-label")).toContainText(
-      "Wrap",
-    );
+    await expect(page.getByTestId("etch-lock-copy")).toHaveCount(0);
+    await expect(page.getByTestId("stainless-compositor-lead")).toHaveCount(0);
+    await expect(page.getByTestId("panel-mockup-face-clean")).toHaveCount(0);
+    await expect(page.getByTestId("compositor-wrap-film")).toHaveCount(0);
+    await expect(page.getByTestId("compositor-finish-label")).toHaveCount(0);
     await expect(page.getByTestId("finish-conditions")).toHaveCount(0);
     await expect(page.getByTestId("finish-condition-day")).toHaveCount(0);
     await expect(page.getByTestId("finish-condition-night")).toHaveCount(0);
@@ -149,10 +116,7 @@ test.describe("P2 panel intent + approvals", () => {
     page,
   }) => {
     await page.goto("/panels/hood");
-    await expect(page.getByTestId("panel-mockup")).toHaveAttribute(
-      "data-etchable",
-      "true",
-    );
+    await expect(page.getByTestId("panel-mockup")).toHaveCount(0);
     await expect(page.getByTestId("etch-constraints")).toHaveCount(0);
     await expect(page.getByTestId("etch-art-notes")).toHaveCount(0);
     await expect(page.getByText("No gradients")).toHaveCount(0);
@@ -219,7 +183,10 @@ test.describe("P2 panel intent + approvals", () => {
     await expect(page.getByTestId("intent-amount-note")).toContainText(
       "does not charge",
     );
-    await expect(page.getByTestId("panel-deposit-shown")).toContainText(
+    await expect(page.getByTestId("panel-deposit-shown")).toHaveText(
+      "20% · $500",
+    );
+    await expect(page.getByTestId("panel-deposit-shown")).not.toContainText(
       "not charged",
     );
     await expect(page.getByTestId("intent-amount-note")).toContainText(
@@ -1060,19 +1027,12 @@ test.describe("P2 panel intent + approvals", () => {
     page,
   }) => {
     await page.goto("/panels/hood");
-    await expect(page.getByTestId("panel-mockup")).toHaveAttribute(
-      "data-preview-toggles",
-      "false",
-    );
+    await expect(page.getByTestId("panel-mockup")).toHaveCount(0);
     await expect(page.getByTestId("finish-conditions-lead")).toHaveCount(0);
     await expect(page.getByTestId("finish-conditions")).toHaveCount(0);
     for (const id of ["day", "night", "wet", "dirty"] as const) {
       await expect(page.getByTestId(`finish-condition-${id}`)).toHaveCount(0);
     }
-    await expect(page.getByTestId("panel-mockup")).toHaveAttribute(
-      "data-condition",
-      "day",
-    );
     const html = await page.content();
     expect(html.toLowerCase()).not.toMatch(/\blease\b/);
     expect(html).not.toContain("CLOSE_AT");
@@ -1145,12 +1105,18 @@ test.describe("P2 panel intent + approvals", () => {
     await expect(page.getByTestId("truck-view-lead")).toHaveCount(0);
     await expect(page.getByTestId("floor-amount")).toContainText("$58,000");
     await expect(page.getByTestId("goal-amount")).toContainText("$120,000");
-    await expect(page.getByTestId("truck-view-driver")).toHaveAttribute(
+    await expect(page.getByTestId("truck-view-front")).toHaveAttribute(
       "aria-pressed",
       "true",
     );
+    await expect(page.getByTestId("truck-seat-hood")).toBeVisible();
+    await expect(page.getByTestId("truck-seat-driver-door")).toHaveCount(0);
+    await page.getByTestId("truck-view-driver").click();
+    await expect(page.getByTestId("truck-view-seats")).toHaveAttribute(
+      "data-view",
+      "driver",
+    );
     await expect(page.getByTestId("truck-seat-driver-door")).toBeVisible();
-    await expect(page.getByTestId("truck-seat-hood")).toHaveCount(0);
     await page.getByTestId("truck-view-front").click();
     await expect(page.getByTestId("truck-view-seats")).toHaveAttribute(
       "data-view",
@@ -1166,9 +1132,14 @@ test.describe("P2 panel intent + approvals", () => {
     await page.getByTestId("panel-link-tailgate").click();
     await expect(page).toHaveURL(/\/panels\/tailgate/);
     await expect(page.getByTestId("truck-view-seats")).toBeVisible();
+    // QA 1047PM — seat pages clear sticky board overlays (no active wash).
+    await expect(page.getByTestId("truck-view-seats")).toHaveAttribute(
+      "data-polygons",
+      "hidden",
+    );
     await expect(page.getByTestId("truck-seat-tailgate")).toHaveAttribute(
       "data-active",
-      "true",
+      "false",
     );
     const html = await page.content();
     expect(html.toLowerCase()).not.toMatch(/\blease\b/);

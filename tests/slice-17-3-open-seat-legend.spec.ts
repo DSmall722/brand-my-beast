@@ -17,6 +17,11 @@ import { vercelJsonIsHoldOrMainOnlyRestore } from "../src/lib/vercel-git-deploy"
  */
 
 test.describe("slice 17.3: open-seat legend drops 30X", () => {
+  test.beforeEach(async ({ request }) => {
+    const res = await request.post("/api/test/reset-intents");
+    expect(res.ok()).toBeTruthy();
+  });
+
   test("campaign money fences stay locked — CLOSE_AT null", () => {
     expect(FLOOR_USD).toBe(58_000);
     expect(GOAL_USD).toBe(120_000);
@@ -38,7 +43,7 @@ test.describe("slice 17.3: open-seat legend drops 30X", () => {
   test("homepage legend and aria use buyer seat words", async ({ page }) => {
     await page.goto("/");
     await expect(page.getByTestId("truck-view-legend")).toHaveCount(0);
-    const empty = page.getByTestId("truck-seat-driver-door");
+    const empty = page.getByTestId("truck-seat-hood");
     await expect(empty).toBeVisible();
     await expect(empty).toHaveAttribute("aria-label", /open seat$/);
     const emptyLabel = (await empty.getAttribute("aria-label")) ?? "";

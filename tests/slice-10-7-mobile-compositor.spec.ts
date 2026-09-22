@@ -69,9 +69,9 @@ test.describe("slice 10.7: mobile compositor one view", () => {
 
   test("unit: truck views are four discrete toggles", () => {
     expect(TRUCK_VIEWS.map((row) => row.id)).toEqual([
+      "front",
       "driver",
       "passenger",
-      "front",
       "rear",
     ]);
   });
@@ -102,7 +102,7 @@ test.describe("slice 10.7: mobile compositor one view", () => {
     await expectUnclippedInViewport(page, stage);
 
     const mockup = page.getByTestId("panel-mockup");
-    await expect(mockup).toHaveAttribute("data-finish", "wrap");
+    await expect(mockup).toHaveCount(0);
     await expect(page.getByTestId("compositor-mode-wrap")).toHaveCount(0);
     await expect(page.getByTestId("dirty-clean-pair-toggle")).toHaveCount(0);
     await expect(page.getByTestId("dirty-clean-pair")).toHaveCount(0);

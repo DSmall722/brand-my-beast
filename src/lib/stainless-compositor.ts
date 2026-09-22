@@ -10,7 +10,7 @@ import { PUBLIC_COPY } from "./public-copy";
 export type CompositorFinish = "wrap" | "etch";
 
 export const STAINLESS_COMPOSITOR_LEAD =
-  `Seat preview only. Wrap film and Immortal Etch are not a photo of a truck that does not exist. Floor ${formatUsd(FLOOR_USD)}. Buyout ${formatUsd(GOAL_USD)}. Etch stays locked until buyout. Still no card charge.`;
+  `Seat preview only. Floor ${formatUsd(FLOOR_USD)}. Buyout ${formatUsd(GOAL_USD)}. Still no card charge.`;
 
 export function compositorModeLabel(finish: CompositorFinish): string {
   return finish === "etch"

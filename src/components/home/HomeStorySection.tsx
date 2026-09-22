@@ -17,9 +17,7 @@ export function HomeStorySection() {
                   {String(index + 1).padStart(2, "0")}
                 </span>
                 <span className="story-body">
-                  <strong className="story-step-title">
-                    <ImmortalEtchLockup text={step.title} />
-                  </strong>
+                  <strong className="story-step-title">{step.title}</strong>
                   <span className="story-step-copy">
                     <ImmortalEtchLockup text={step.body} />
                   </span>
@@ -27,9 +25,6 @@ export function HomeStorySection() {
               </li>
             ))}
           </ol>
-          <p className="story-forever" data-testid="story-etch-forever">
-            <ImmortalEtchLockup text={PUBLIC_COPY.howItWorks.foreverLine} />
-          </p>
         </section>
   );
 }

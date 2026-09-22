@@ -14,12 +14,13 @@ import { PUBLIC_COPY } from "../src/lib/public-copy";
 import { vercelJsonIsHoldOrMainOnlyRestore } from "../src/lib/vercel-git-deploy";
 
 /**
- * Slice 16.12 — PUBLIC_COPY panel lead mentions the numbered cards.
- * No H1 rewrite. CLOSE_AT null. No Stripe. No SEATS_OPEN flip.
+ * QA 1047PM — Bid on a Panel lead is the select-a-panel line.
+ * Unlock copy lives under Immortal Etch. CLOSE_AT null. No Stripe.
  */
 
 const LOCKED_H1 = "Advertise your brand on the truck that people already photograph";
-const PANEL_PHRASE =
+const PANEL_SELECT = "Select a panel below for more details.";
+const ETCH_UNLOCK =
   "Once total active bids cross $120,000, buyers will unlock the option to have their advertisement permanently etched on the stainless surface for 3x the final bid for that panel.";
 
 test.describe("slice 16.12: panel lead matches the numbered cards", () => {
@@ -41,15 +42,15 @@ test.describe("slice 16.12: panel lead matches the numbered cards", () => {
     expect(vercelJsonIsHoldOrMainOnlyRestore()).toBe(true);
   });
 
-  test("panel lead mentions the phrase and H1 stays locked", () => {
+  test("panel lead selects a panel; unlock copy is on Immortal Etch", () => {
     expect(PUBLIC_COPY.hero.h1).toBe(LOCKED_H1);
-    expect(PUBLIC_COPY.panels.leadLines).toHaveLength(2);
-    expect(PUBLIC_COPY.panels.lead).toContain(PANEL_PHRASE);
+    expect(PUBLIC_COPY.panels.leadLines).toEqual([PANEL_SELECT]);
+    expect(PUBLIC_COPY.panels.lead).toBe(PANEL_SELECT);
+    expect(PUBLIC_COPY.etch.unlock).toContain(ETCH_UNLOCK);
     expect(PUBLIC_COPY.panels.lead.toLowerCase()).not.toMatch(/\blease\b/);
     const md = readFileSync(join(process.cwd(), "PUBLIC_COPY.md"), "utf8");
-    for (const line of PUBLIC_COPY.panels.leadLines) {
-      expect(md).toContain(line);
-    }
+    expect(md).toContain(PANEL_SELECT);
+    expect(md).toContain(ETCH_UNLOCK);
     expect(md).toContain(LOCKED_H1);
   });
 
@@ -58,10 +59,8 @@ test.describe("slice 16.12: panel lead matches the numbered cards", () => {
   }) => {
     await page.goto("/");
     await expect(page.locator("#hero-title")).toHaveText(LOCKED_H1);
-    await expect(page.getByTestId("panels-lead")).toContainText(PANEL_PHRASE);
-    for (const line of PUBLIC_COPY.panels.leadLines) {
-      await expect(page.getByTestId("panels-lead")).toContainText(line);
-    }
+    await expect(page.getByTestId("panels-lead")).toHaveText(PANEL_SELECT);
+    await expect(page.getByTestId("etch-unlock")).toContainText(ETCH_UNLOCK);
     const html = await page.content();
     expect(html.toLowerCase()).not.toMatch(/\blease\b/);
     expect(html).not.toMatch(/@gmail\.com/i);

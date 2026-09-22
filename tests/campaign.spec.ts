@@ -171,7 +171,8 @@ test.describe("P1 waitlist campaign locks", () => {
     ).toBeVisible();
 
     await expect(page.getByTestId("wreck-refund-faq")).toHaveCount(0);
-    for (const item of PUBLIC_COPY.wreck.items) {
+    for (const item of PUBLIC_COPY.questions.items) {
+      if (!("id" in item) || !item.id) continue;
       const faq = page.getByTestId(`faq-${item.id}`);
       await expect(faq).toContainText(item.q);
       await expect(faq).toContainText(item.a);
@@ -182,9 +183,7 @@ test.describe("P1 waitlist campaign locks", () => {
     await expect(page.getByTestId("faq-wrap-pro-rata")).toContainText(
       "pro-rata",
     );
-    await expect(page.getByTestId("faq-immortal-fragment")).toContainText(
-      "vault certificate",
-    );
+    await expect(page.getByTestId("faq-immortal-fragment")).toHaveCount(0);
     const wreckHtml = (
       await page.getByTestId("questions-section").innerText()
     ).toLowerCase();
@@ -265,7 +264,9 @@ test.describe("P1 waitlist campaign locks", () => {
     await expect(page).toHaveURL(/\/panels\/hood$/);
     await expect(page.getByTestId("panel-intent-page")).toBeVisible();
     await expect(page.getByTestId("public-seat-label")).toHaveCount(0);
-    await expect(page.getByTestId("seat-lead")).toContainText("Current Bid");
+    await expect(page.getByTestId("seat-lead")).toContainText(
+      PUBLIC_COPY.seat.wrapTwelveMonths,
+    );
     await expect(page.getByRole("heading", { level: 1 })).toContainText(/hood/i);
     const html = await page.content();
     expect(html.toLowerCase()).not.toMatch(/\blease\b/);

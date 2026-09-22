@@ -69,8 +69,8 @@ const BOARD_LAYOUT: Record<Panel["id"], BoardLayout> = {
     views: { driver: { x: 38, y: 52 } },
     face: {
       still: "driver",
-      objectPosition: "39% 56%",
-      backgroundSize: "320% auto",
+      objectPosition: "42% 54%",
+      backgroundSize: "150% auto",
     },
   },
   "passenger-door": {
@@ -79,8 +79,8 @@ const BOARD_LAYOUT: Record<Panel["id"], BoardLayout> = {
     views: { passenger: { x: 39, y: 58 } },
     face: {
       still: "passenger",
-      objectPosition: "43% 52%",
-      backgroundSize: "320% auto",
+      objectPosition: "40% 54%",
+      backgroundSize: "150% auto",
     },
   },
   "driver-bed": {
@@ -89,8 +89,9 @@ const BOARD_LAYOUT: Record<Panel["id"], BoardLayout> = {
     views: { driver: { x: 82, y: 52 } },
     face: {
       still: "driver",
-      objectPosition: "14% 55%",
-      backgroundSize: "400% auto",
+      // Aft bedside under the sail — not doors/sail.
+      objectPosition: "88% 58%",
+      backgroundSize: "240% auto",
     },
   },
   "passenger-bed": {
@@ -99,8 +100,9 @@ const BOARD_LAYOUT: Record<Panel["id"], BoardLayout> = {
     views: { passenger: { x: 20, y: 55 } },
     face: {
       still: "passenger",
-      objectPosition: "73% 52%",
-      backgroundSize: "340% auto",
+      // Nose-right still. Flat bedside wash, a little wheel and top edge in frame.
+      objectPosition: "2% 50%",
+      backgroundSize: "380% auto",
     },
   },
   "driver-rear-quarter": {
@@ -109,8 +111,9 @@ const BOARD_LAYOUT: Record<Panel["id"], BoardLayout> = {
     views: { driver: { x: 66, y: 43 } },
     face: {
       still: "driver",
-      objectPosition: "16% 36%",
-      backgroundSize: "480% auto",
+      // Roof-slope sail aft of the doors — whole triangle in frame.
+      objectPosition: "74% 34%",
+      backgroundSize: "230% auto",
     },
   },
   "passenger-rear-quarter": {
@@ -119,15 +122,22 @@ const BOARD_LAYOUT: Record<Panel["id"], BoardLayout> = {
     views: { passenger: { x: 18, y: 42 } },
     face: {
       still: "passenger",
-      objectPosition: "73% 38%",
+      // Rear-quarter triangle is low and aft (left on this nose-right still).
+      // 360% keeps that metal in the phone card; 440% had landed on the glass.
+      objectPosition: "0% 44%",
       backgroundSize: "360% auto",
     },
   },
+
   tailgate: {
     hero: { x: 91, y: 32 },
     heroMobile: { x: 90, y: 54 },
     views: { rear: { x: 65, y: 52 } },
-    face: { still: "rear", objectPosition: "68% 52%" },
+    face: {
+      still: "rear",
+      objectPosition: "65% 52%",
+      backgroundSize: "175% auto",
+    },
   },
   "front-bumper": {
     hero: { x: 10, y: 62 },
@@ -141,7 +151,11 @@ const BOARD_LAYOUT: Record<Panel["id"], BoardLayout> = {
     hero: { x: 94, y: 58 },
     heroMobile: { x: 92, y: 68 },
     views: { rear: { x: 64, y: 68.5 } },
-    face: { still: "rear", objectPosition: "68% 74%" },
+    face: {
+      still: "rear",
+      objectPosition: "65% 72%",
+      backgroundSize: "175% auto",
+    },
   },
 };
 

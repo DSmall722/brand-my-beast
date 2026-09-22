@@ -249,6 +249,37 @@ test.describe("hybrid panel training UX", () => {
     await expect(page.getByTestId("view-panel-board-driver")).toHaveCount(0);
     await expect(page.getByTestId("truck-seat-labels")).toHaveCount(0);
 
+    await expect(seats).toHaveAttribute("data-view", "front");
+    await expect(page.getByTestId("truck-view-svg").locator("a")).toHaveCount(3);
+    await expect(page.getByTestId("truck-seat-hood")).toHaveAttribute(
+      "data-seat-label",
+      "(1) Hood",
+    );
+    await expect(page.getByTestId("truck-seat-front-fascia")).toHaveAttribute(
+      "data-seat-label",
+      "(2) Front Fascia",
+    );
+    await expect(page.getByTestId("truck-seat-front-bumper")).toHaveAttribute(
+      "data-seat-label",
+      "(3) Front bumper",
+    );
+    await expect(page.getByTestId("truck-seat-label-hood")).toHaveCount(0);
+    await expect(page.getByTestId("truck-seat-driver-door")).toHaveCount(0);
+    await expect(page.getByTestId("truck-seat-driver-bed")).toHaveCount(0);
+    await expect(page.getByTestId("truck-seat-tailgate")).toHaveCount(0);
+    await expect(page.getByTestId("truck-seat-rear-bumper")).toHaveCount(0);
+
+    const photo = page.locator(".truck-view-photo");
+    const dims = await photo.evaluate((el) => {
+      const img = el as HTMLImageElement;
+      return { w: img.naturalWidth, h: img.naturalHeight };
+    });
+    expect(dims).toEqual({
+      w: TRACE_AID_STILL.width,
+      h: TRACE_AID_STILL.height,
+    });
+
+    await page.getByTestId("truck-view-driver").click();
     await expect(seats).toHaveAttribute("data-view", "driver");
     await expect(page.getByTestId("truck-view-svg").locator("a")).toHaveCount(3);
     await expect(page.getByTestId("truck-seat-driver-door")).toHaveAttribute(
@@ -270,12 +301,11 @@ test.describe("hybrid panel training UX", () => {
     await expect(page.getByTestId("truck-seat-tailgate")).toHaveCount(0);
     await expect(page.getByTestId("truck-seat-rear-bumper")).toHaveCount(0);
 
-    const photo = page.locator(".truck-view-photo");
-    const dims = await photo.evaluate((el) => {
+    const driverDims = await photo.evaluate((el) => {
       const img = el as HTMLImageElement;
       return { w: img.naturalWidth, h: img.naturalHeight };
     });
-    expect(dims).toEqual({
+    expect(driverDims).toEqual({
       w: DRIVER_BOARD_STILL.width,
       h: DRIVER_BOARD_STILL.height,
     });
@@ -423,13 +453,13 @@ test.describe("hybrid panel training UX", () => {
     const seats = page.getByTestId("truck-view-seats");
     await expect(seats).toHaveAttribute("data-single-seat", "true");
     await expect(seats).toHaveAttribute("data-view", "front");
-    await expect(seats).toHaveAttribute("data-polygons", "outline");
+    await expect(seats).toHaveAttribute("data-polygons", "hidden");
     await expect(page.getByTestId("truck-view-toolbar")).toHaveCount(0);
     await expect(page.getByTestId("truck-view-lead")).toHaveCount(0);
     await expect(page.getByTestId("truck-img-board-front")).toBeVisible();
     await expect(page.getByTestId("truck-seat-hood")).toHaveAttribute(
       "data-active",
-      "true",
+      "false",
     );
     await expect(page.getByTestId("truck-seat-hood")).toHaveAttribute(
       "data-seat-label",
@@ -449,12 +479,13 @@ test.describe("hybrid panel training UX", () => {
 
     const hoodPoly = page.getByTestId("truck-seat-hood").locator("polygon");
     const activeFill = await hoodPoly.evaluate((el) => getComputedStyle(el).fill);
-    expect(fillAlpha(activeFill), activeFill).toBeGreaterThanOrEqual(0.35);
+    expect(fillAlpha(activeFill), activeFill).toBe(0);
 
-    await expect(page.getByTestId("seat-lead")).toContainText("$2,500");
-    await expect(page.getByTestId("etch-lock-copy")).toContainText(
-      "Etch stays locked until buyout",
+    await expect(page.getByTestId("seat-lead")).toContainText(
+      "Vinyl Wrap for 12 Months after Installation.",
     );
+    await expect(page.getByTestId("etch-lock-copy")).toHaveCount(0);
+    await expect(page.getByTestId("panel-mockup")).toHaveCount(0);
     await expect(page.getByTestId("intent-only-banner")).toHaveCount(0);
     await expect(page.getByTestId("adjacent-neighbors")).toHaveCount(0);
     await expect(page.getByTestId("seat-primary-cta")).toBeVisible();
