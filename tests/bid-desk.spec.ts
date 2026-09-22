@@ -339,6 +339,39 @@ test.describe("bid desk: modal, hidden sign-in, unpaid, day by day", () => {
     await expect(modal).toContainText(PUBLIC_COPY.bidDesk.closedLead);
   });
 
+  test("seat Bid opens the same desk on that panel", async ({ page, request }) => {
+    const reset = await request.post("/api/test/reset-intents");
+    expect(reset.ok()).toBeTruthy();
+
+    await page.goto("/panels/tailgate");
+    const cta = page.getByTestId("seat-primary-cta");
+    await expect(cta).toHaveRole("button");
+    await expect(cta).toHaveText("Bid");
+    await expect(cta).toHaveAttribute("data-cta", "bid");
+    await cta.click();
+
+    await expect(page).toHaveURL(/\/panels\/tailgate$/);
+    const modal = page.getByTestId("bid-modal");
+    await expect(modal).toBeVisible();
+    await expect(modal.getByRole("heading", { name: "Place a bid" })).toBeVisible();
+    await expect(modal).toHaveAttribute("data-panel-id", "tailgate");
+    await expect(page.getByTestId("bid-modal-panel")).toHaveValue("tailgate");
+    await expect(page.getByTestId("bid-modal-email")).toBeVisible();
+    await expect(page.getByTestId("bid-modal-brand")).toBeVisible();
+    await expect(page.getByTestId("bid-modal-magic")).toContainText(
+      "one-time email link",
+    );
+    await expect(page).not.toHaveURL(/signin/);
+
+    await page.getByTestId("bid-modal-brand").fill("Seat Brand");
+    await page.getByTestId("bid-modal-email").fill("seat@brandmybeast.com");
+    await page.getByTestId("bid-modal-submit").click();
+    await expect(page.getByTestId("bid-modal-result")).toHaveText(
+      PUBLIC_COPY.bidDesk.closedResult,
+    );
+    await expect(page).toHaveURL(/\/panels\/tailgate$/);
+  });
+
   test("day standing sums to raised; bid total includes beaten marks", async ({
     page,
     browser,

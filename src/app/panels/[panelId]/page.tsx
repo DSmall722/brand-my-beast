@@ -2,24 +2,28 @@ import Link from "next/link";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { DayByDay } from "@/components/home/DayByDay";
+import { SeatBidDesk } from "@/components/home/SeatBidDesk";
 import { ImmortalEtchLockup } from "@/components/ImmortalEtchLockup";
 import { IntentArtworkPreview } from "@/components/IntentArtworkPreview";
 import { IntentBidForm } from "@/components/IntentBidForm";
 import { TruckViewHotspots } from "@/components/TruckViewHotspots";
 import { SiteChrome } from "@/components/SiteChrome";
 import { auth } from "@/lib/auth";
-import { buildDayByDay } from "@/lib/bid-desk";
+import { bidDeskMode, buildDayByDay } from "@/lib/bid-desk";
+import type { BidPanelQuote } from "@/lib/bid-desk";
 import {
   BRAND,
+  CLOSE_AT,
   DEPOSIT_PERCENT,
   FLOOR_USD,
   GOAL_USD,
   PANELS,
+  currentBidUsd,
   formatIntegerUsd,
   formatUsd,
   isEtchable,
 } from "@/lib/campaign";
-import { depositUsdForMark, minIncrementUsd } from "@/lib/intent";
+import { depositUsdForMark, minIncrementUsd, nextStandingUsd } from "@/lib/intent";
 import {
   failedWinnerOfferCopy,
   resolveFailedWinnerOfferForViewer,
@@ -125,6 +129,16 @@ export default async function PanelIntentPage({
   );
   const seatLog = buildPublicSeatLog(bids);
   const dayByDay = buildDayByDay(bids, { panelId: panel.id });
+  const quotes: BidPanelQuote[] = PANELS.map((row) => {
+    const held = holdersRaw.get(row.id);
+    const current = currentBidUsd(row.openingUsd, held?.standingUsd);
+    return {
+      id: row.id,
+      name: row.name,
+      currentBidUsd: current,
+      minimumBidUsd: held ? nextStandingUsd(current) : row.openingUsd,
+    };
+  });
 
   const seatOpen = !holder;
   // Slice 9.2 — next minimum is standing + max($250, 10%) once a mark holds.
@@ -273,19 +287,21 @@ export default async function PanelIntentPage({
               seatsOpen={seatsOpen}
             />
           </section>
+        ) : seatsOpen ? (
+          <SeatBidDesk
+            quotes={quotes}
+            mode={bidDeskMode(CLOSE_AT)}
+            panelId={panel.id}
+          />
         ) : (
           <p className="seat-primary">
             <Link
               className="btn btn-signal"
-              href={
-                seatsOpen
-                  ? `/signin?callbackUrl=/panels/${panel.id}`
-                  : "/#waitlist"
-              }
+              href="/#waitlist"
               data-testid="seat-primary-cta"
-              data-cta={seatsOpen ? "bid" : "contact"}
+              data-cta="contact"
             >
-              {seatsOpen ? "Bid" : "Contact BMB"}
+              Contact BMB
             </Link>
           </p>
         )}
