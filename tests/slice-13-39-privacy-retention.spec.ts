@@ -12,8 +12,7 @@ import { PUBLIC_COPY } from "../src/lib/public-copy";
 import { vercelJsonIsHoldOrMainOnlyRestore } from "../src/lib/vercel-git-deploy";
 
 /**
- * Slice 13.39 — Privacy stub waitlist retention:
- * until seats open or user deletes.
+ * QA 1047PM — privacy retention lives in the short policy body.
  * CLOSE_AT null. No Stripe. Hold-mode untouched.
  */
 
@@ -52,24 +51,20 @@ test.describe("slice 13.39: privacy waitlist retention", () => {
     );
   });
 
-  test("privacy page shows waitlist retention copy", async ({ page }) => {
+  test("privacy page covers retention without auction process notes", async ({
+    page,
+  }) => {
     await page.goto("/privacy");
     await expect(page.getByTestId("privacy-page")).toBeVisible();
-    await expect(page.getByTestId("privacy-waitlist-retention")).toHaveText(
-      "Waitlist retention: until seats open or user deletes.",
-    );
-    await expect(page.getByTestId("privacy-waitlist-retention")).toContainText(
-      "until seats open or user deletes",
+    await expect(page.getByTestId("privacy-retention")).toContainText(
+      "until seats open",
     );
     await expect(page.getByTestId("privacy-contact")).toContainText(BRAND.email);
-    await expect(page.getByTestId("privacy-waitlist")).toContainText(
-      PUBLIC_COPY.waitlist.idleNote,
-    );
+    await expect(page.getByTestId("privacy-waitlist")).toHaveCount(0);
+    await expect(page.getByTestId("privacy-waitlist-retention")).toHaveCount(0);
 
     const html = await page.content();
     expect(html).toContain("BrandMyBeast");
-    expect(html).toContain("$58,000");
-    expect(html).toContain("$120,000");
     expect(html.toLowerCase()).not.toMatch(/\blease\b/);
     expect(html).not.toContain("CLOSE_AT");
     expect(html.toLowerCase()).not.toMatch(/stripe/);

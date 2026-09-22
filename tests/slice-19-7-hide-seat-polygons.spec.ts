@@ -15,8 +15,7 @@ import { PUBLIC_COPY } from "../src/lib/public-copy";
 import { vercelJsonIsHoldOrMainOnlyRestore } from "../src/lib/vercel-git-deploy";
 
 /**
- * Slice 19.7 — lime wash on the active seat. TRACE AID flats carry
- * the resting labels. Numbered CSS discs stay off.
+ * QA 1047PM — seat pages clear board overlays (no sticky lime wash).
  */
 
 const ROOT = process.cwd();
@@ -49,18 +48,17 @@ test.describe("slice 19.7: hide board-truck seat polygons", () => {
     expect(SEATS_OPEN).toBe(true);
   });
 
-  test("seat overlay outlines at rest; homepage keeps legend 1–11", async ({
+  test("seat page clears overlays; homepage keeps legend 1–11", async ({
     page,
   }) => {
     await page.goto("/panels/hood");
     const seats = page.getByTestId("truck-view-seats");
-    await expect(seats).toHaveAttribute("data-polygons", "outline");
+    await expect(seats).toHaveAttribute("data-polygons", "hidden");
     const polygon = page.locator('[data-testid="truck-seat-hood"] polygon');
     const fill = await polygon.evaluate((el) => getComputedStyle(el).fill);
-    expect(fill === "transparent" || fill === "none").toBe(false);
-    const stroke = await polygon.evaluate((el) => getComputedStyle(el).stroke);
-    expect(stroke).not.toBe("none");
-    expect(stroke).not.toBe("transparent");
+    expect(fill === "none" || fill === "transparent" || fill === "rgba(0, 0, 0, 0)").toBe(
+      true,
+    );
 
     await page.goto("/");
     await expect(page.getByTestId("hero-panel-board")).toHaveCount(0);

@@ -3,7 +3,7 @@ import {
   PrivacyStubBody,
 } from "@/components/LegalStub";
 
-/** Slice 7.9 — privacy stub from CAMPAIGN + PUBLIC_COPY only. */
+/** Short real privacy policy. No auction process notes. */
 export default function PrivacyPage() {
   return (
     <LegalStubShell title="Privacy" testId="privacy-page">

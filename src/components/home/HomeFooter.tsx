@@ -12,9 +12,6 @@ export function HomeFooter() {
         <Link href="/privacy" data-testid="footer-privacy-link">
           Privacy
         </Link>
-        <Link href="/terms" data-testid="footer-terms-link">
-          Terms
-        </Link>
       </nav>
     </footer>
   );

@@ -1,7 +1,6 @@
 import { expect, test } from "@playwright/test";
 import {
   PANELS,
-  formatUsd,
   isEtchable,
 } from "../src/lib/campaign";
 import { panelSeatH1 } from "../src/lib/panel-board";
@@ -94,22 +93,24 @@ test.describe("panel detail cleanup", () => {
       );
       await expect(page.getByTestId("panel-mockup")).toBeVisible();
       await expect(page.getByTestId("seat-lead")).toContainText(
-        `Current Bid ${formatUsd(panel.openingUsd)}`,
+        isEtchable(panel)
+          ? PUBLIC_COPY.seat.wrapTwelveMonths
+          : PUBLIC_COPY.seat.bumperWrapOnly,
       );
-      await expect(page.getByTestId("seat-context")).toBeVisible();
+      await expect(page.getByTestId("seat-lead")).not.toContainText("Current Bid");
       if (isEtchable(panel)) {
         await expect(page.getByTestId("seat-finish")).toContainText(
           "Immortal Etch Locked",
         );
-        await expect(page.getByTestId("seat-context")).toContainText(
-          "Immortal Etch unlocks at $120,000",
-        );
       } else {
-        await expect(page.getByTestId("seat-finish")).toHaveText("Wrap only");
+        await expect(page.getByTestId("seat-finish")).toHaveText(
+          PUBLIC_COPY.seat.bumperWrapOnly,
+        );
         await expect(page.getByTestId("seat-finish")).not.toContainText(
           "Immortal Etch Locked",
         );
       }
+      await expect(page.getByTestId("seat-context")).toHaveCount(0);
       const cta = page.getByTestId("seat-primary-cta");
       await expect(cta).toBeVisible();
       await expect(cta).toHaveAttribute("data-cta", "bid");

@@ -6,6 +6,15 @@ import {
 
 const nextConfig: NextConfig = {
   allowedDevOrigins: ["127.0.0.1", "localhost"],
+  async redirects() {
+    return [
+      {
+        source: "/terms",
+        destination: "/privacy",
+        permanent: true,
+      },
+    ];
+  },
   async headers() {
     return [
       {

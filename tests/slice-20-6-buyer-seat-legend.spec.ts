@@ -63,7 +63,7 @@ test.describe("slice 20.6: buyer seat legend sentence", () => {
   }) => {
     await page.goto("/");
     await expect(page.getByTestId("truck-view-legend")).toHaveCount(0);
-    const empty = page.getByTestId("truck-seat-driver-door");
+    const empty = page.getByTestId("truck-seat-hood");
     await expect(empty).toBeVisible();
     await expect(empty).toHaveAttribute("aria-label", /open seat$/);
     await expect(page.locator("#hero-title")).toHaveText(LOCKED_H1);

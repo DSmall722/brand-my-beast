@@ -150,23 +150,24 @@ export default async function PanelIntentPage({
           data-testid="seat-lead"
           data-has-standing={holder ? "true" : "false"}
         >
-          Current Bid {formatUsd(standing)}.{" "}
           <span
             className="seat-finish"
             data-testid="seat-finish"
             data-etchable={etchable ? "true" : "false"}
           >
             {etchable ? (
-              <ImmortalEtchLockup text={PUBLIC_COPY.panels.badgeEtch} />
+              <>
+                <span data-testid="seat-wrap-line">
+                  {PUBLIC_COPY.seat.wrapTwelveMonths}
+                </span>{" "}
+                <ImmortalEtchLockup text={PUBLIC_COPY.panels.badgeEtch} />
+              </>
             ) : (
-              PUBLIC_COPY.panels.badgeWrap
+              <span data-testid="seat-wrap-line">
+                {PUBLIC_COPY.seat.bumperWrapOnly}
+              </span>
             )}
           </span>
-        </p>
-        <p className="seat-context" data-testid="seat-context">
-          {etchable
-            ? "Wrap for twelve months from install. Immortal Etch unlocks at $120,000."
-            : "Wrap for twelve months from install."}
         </p>
         </div>
 

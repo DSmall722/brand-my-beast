@@ -1,11 +1,9 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
-import { BRAND, FLOOR_USD, formatUsd } from "@/lib/campaign";
-import { PUBLIC_COPY } from "@/lib/public-copy";
+import { BRAND } from "@/lib/campaign";
 
 /**
- * Slice 7.9 — stub pages. Copy only from CAMPAIGN / PUBLIC_COPY / BRAND.
- * No invented legal terms.
+ * Privacy page shell. Back control is a real button.
  */
 export function LegalStubShell({
   title,
@@ -22,59 +20,53 @@ export function LegalStubShell({
       <h1>{title}</h1>
       <div className="section-lead legal-stub-body">{children}</div>
       <p className="auth-back">
-        <Link href="/">Back to the board</Link>
+        <Link
+          href="/"
+          className="btn btn-panel"
+          data-testid="legal-back-button"
+        >
+          Back to the board
+        </Link>
       </p>
     </main>
   );
 }
 
+/** Short useful privacy policy — what we collect, why, and how to reach us. */
 export function PrivacyStubBody() {
   return (
     <>
+      <p data-testid="privacy-collect">
+        We collect the email address you submit on the waitlist or when you
+        sign in, plus basic technical logs needed to run the site (for example
+        IP address, user agent, and request timing).
+      </p>
+      <p data-testid="privacy-why">
+        We use that information to contact you when seats open, to keep your
+        account working, and to operate and secure the board. We do not sell
+        your personal information.
+      </p>
+      <p data-testid="privacy-providers">
+        Providers that may process data on our behalf include our hosting and
+        database vendors, email delivery for sign-in and waitlist mail, and
+        analytics if enabled. They only receive what they need to perform that
+        work.
+      </p>
+      <p data-testid="privacy-retention">
+        Waitlist emails are kept until seats open or you ask us to delete them.
+        Account data stays while your account is open. Server logs are kept only
+        as long as needed for security and operations.
+      </p>
+      <p data-testid="privacy-access">
+        To access or delete your information, email{" "}
+        <a href={`mailto:${BRAND.email}`}>{BRAND.email}</a>.
+      </p>
+      <p data-testid="privacy-cookies">
+        We use essential cookies for sign-in sessions. If analytics cookies are
+        enabled, they help us understand aggregate traffic — not to sell ads.
+      </p>
       <p data-testid="privacy-contact">
         Contact:{" "}
-        <a href={`mailto:${BRAND.email}`}>{BRAND.email}</a>
-      </p>
-      <p data-testid="privacy-waitlist">{PUBLIC_COPY.waitlist.idleNote}</p>
-      <p data-testid="privacy-waitlist-retention">
-        {PUBLIC_COPY.waitlist.retention}
-      </p>
-      <p data-testid="privacy-independent">{PUBLIC_COPY.footer.independent}</p>
-      <p data-testid="privacy-identity">
-        Public brand: {BRAND.name}. Public handle: {BRAND.handle}. Domain:{" "}
-        {BRAND.domain}. Operator on this site is called {BRAND.operator}.
-      </p>
-    </>
-  );
-}
-
-export function TermsStubBody() {
-  const miss = PUBLIC_COPY.wreck.items.find(
-    (item) => item.id === "campaign-miss",
-  );
-  const buying = PUBLIC_COPY.questions.items.find(
-    (item) => item.q === "What am I buying?",
-  );
-  const when = PUBLIC_COPY.questions.items.find(
-    (item) => item.q === "When does bidding start?",
-  );
-
-  return (
-    <>
-      <p data-testid="terms-independent">{PUBLIC_COPY.footer.independent}</p>
-      <p data-testid="terms-intent">
-        {buying?.a} Cards are not charged until the money path is live. The
-        current page only records intent.{" "}
-        <span data-testid="terms-intent-not-charge">
-          {PUBLIC_COPY.footer.intentNotACharge}
-        </span>
-      </p>
-      <p data-testid="terms-floor">
-        Floor {formatUsd(FLOOR_USD)}. {miss?.a}
-      </p>
-      <p data-testid="terms-clock">{when?.a}</p>
-      <p data-testid="terms-contact">
-        Questions:{" "}
         <a href={`mailto:${BRAND.email}`}>{BRAND.email}</a>
       </p>
     </>

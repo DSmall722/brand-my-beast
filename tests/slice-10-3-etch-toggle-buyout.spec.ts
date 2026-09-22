@@ -120,9 +120,8 @@ test.describe("slice 10.3: etch toggle locked under buyout", () => {
       "false",
     );
     await expect(page.getByTestId("compositor-mode-etch")).toHaveCount(0);
-    await expect(page.getByTestId("compositor-finish-label")).toHaveText(
-      "Wrap only",
-    );
+    await expect(page.getByTestId("panel-mockup-face-clean")).toBeVisible();
+    await expect(page.getByTestId("compositor-finish-label")).toHaveCount(0);
 
     const html = await page.content();
     expect(html.toLowerCase()).not.toMatch(/\blease\b/);

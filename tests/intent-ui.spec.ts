@@ -32,10 +32,9 @@ test.describe("P2 panel intent + approvals", () => {
     );
     await expect(page.getByTestId("compositor-mode-wrap")).toHaveCount(0);
     await expect(page.getByTestId("compositor-mode-etch")).toHaveCount(0);
-    await expect(page.getByTestId("compositor-wrap-film")).toBeVisible();
-    await expect(page.getByTestId("compositor-finish-label")).toContainText(
-      "Wrap",
-    );
+    await expect(page.getByTestId("panel-mockup-face-clean")).toBeVisible();
+    await expect(page.getByTestId("compositor-wrap-film")).toHaveCount(0);
+    await expect(page.getByTestId("compositor-finish-label")).toHaveCount(0);
     await expect(page.getByTestId("etch-lock-copy")).toContainText(
       "Etch stays locked until buyout",
     );
@@ -89,7 +88,9 @@ test.describe("P2 panel intent + approvals", () => {
       "data-cta",
       "bid",
     );
-    await expect(page.getByTestId("seat-lead")).toContainText("Current Bid");
+    await expect(page.getByTestId("seat-lead")).toContainText(
+      "Vinyl Wrap for 12 Months after Installation.",
+    );
     await expect(page.getByTestId("panel-mockup")).toBeVisible();
     await expect(page.getByTestId("panel-mockup")).toHaveAttribute(
       "data-preview-toggles",
@@ -104,10 +105,9 @@ test.describe("P2 panel intent + approvals", () => {
     await expect(page.getByTestId("stainless-compositor-lead")).toContainText(
       "$120,000",
     );
-    await expect(page.getByTestId("compositor-wrap-film")).toBeVisible();
-    await expect(page.getByTestId("compositor-finish-label")).toContainText(
-      "Wrap",
-    );
+    await expect(page.getByTestId("panel-mockup-face-clean")).toBeVisible();
+    await expect(page.getByTestId("compositor-wrap-film")).toHaveCount(0);
+    await expect(page.getByTestId("compositor-finish-label")).toHaveCount(0);
     await expect(page.getByTestId("finish-conditions")).toHaveCount(0);
     await expect(page.getByTestId("finish-condition-day")).toHaveCount(0);
     await expect(page.getByTestId("finish-condition-night")).toHaveCount(0);
@@ -1145,12 +1145,18 @@ test.describe("P2 panel intent + approvals", () => {
     await expect(page.getByTestId("truck-view-lead")).toHaveCount(0);
     await expect(page.getByTestId("floor-amount")).toContainText("$58,000");
     await expect(page.getByTestId("goal-amount")).toContainText("$120,000");
-    await expect(page.getByTestId("truck-view-driver")).toHaveAttribute(
+    await expect(page.getByTestId("truck-view-front")).toHaveAttribute(
       "aria-pressed",
       "true",
     );
+    await expect(page.getByTestId("truck-seat-hood")).toBeVisible();
+    await expect(page.getByTestId("truck-seat-driver-door")).toHaveCount(0);
+    await page.getByTestId("truck-view-driver").click();
+    await expect(page.getByTestId("truck-view-seats")).toHaveAttribute(
+      "data-view",
+      "driver",
+    );
     await expect(page.getByTestId("truck-seat-driver-door")).toBeVisible();
-    await expect(page.getByTestId("truck-seat-hood")).toHaveCount(0);
     await page.getByTestId("truck-view-front").click();
     await expect(page.getByTestId("truck-view-seats")).toHaveAttribute(
       "data-view",

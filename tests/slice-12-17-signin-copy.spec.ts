@@ -13,6 +13,7 @@ import { PUBLIC_COPY } from "../src/lib/public-copy";
 
 /**
  * Slice 12.17 — sign-in page copy from PUBLIC_COPY.
+ * QA 1047PM — no “Accounts unlock…” / “CI path…” chrome.
  * No “test login” string in live mode. CLOSE_AT null. No Stripe.
  */
 test.describe("slice 12.17: sign-in PUBLIC_COPY; no test login in live", () => {
@@ -45,6 +46,8 @@ test.describe("slice 12.17: sign-in PUBLIC_COPY; no test login in live", () => {
     const copy = PUBLIC_COPY.signIn;
     expect(copy.heading).toBe("Sign in");
     expect(copy.lead).toContain("does not charge cards");
+    expect(copy.lead).not.toContain("Accounts unlock");
+    expect(copy.testHint).not.toContain("CI path");
     expect(copy.magicLinkHint).toContain("one-time link");
     expect(copy.magicLinkButton).toBe("Email me a sign-in link");
     expect(copy.credentialsButton).toBe("Sign in");
@@ -82,7 +85,6 @@ test.describe("slice 12.17: sign-in PUBLIC_COPY; no test login in live", () => {
     );
     expect(pageSrc).toContain("PUBLIC_COPY.signIn");
     expect(pageSrc).not.toMatch(/AUTH_ENABLE_TEST_LOGIN/);
-    // Live missing-providers block uses PUBLIC_COPY only — no hatch env named in UI.
     expect(pageSrc).toContain("copy.missingProvidersLead");
 
     const authSrc = readFileSync(
@@ -92,7 +94,7 @@ test.describe("slice 12.17: sign-in PUBLIC_COPY; no test login in live", () => {
     expect(authSrc.toLowerCase()).not.toMatch(/name:\s*"test login"/);
   });
 
-  test("signin page renders PUBLIC_COPY lead in test mode", async ({
+  test("signin page renders PUBLIC_COPY lead without CI path chrome", async ({
     page,
   }) => {
     await page.goto("/signin");
@@ -101,8 +103,10 @@ test.describe("slice 12.17: sign-in PUBLIC_COPY; no test login in live", () => {
       PUBLIC_COPY.signIn.lead,
     );
     await expect(page.getByRole("heading", { name: "Sign in" })).toBeVisible();
-    await expect(page.getByTestId("test-login-hint")).toContainText(
-      PUBLIC_COPY.signIn.testHint,
+    await expect(page.getByTestId("test-login-hint")).toHaveCount(0);
+    await expect(page.getByTestId("signin-page")).not.toContainText("CI path");
+    await expect(page.getByTestId("signin-page")).not.toContainText(
+      "Accounts unlock",
     );
     await expect(page.getByTestId("signin-submit")).toHaveText(
       PUBLIC_COPY.signIn.credentialsButton,

@@ -8,8 +8,13 @@ import {
   panelBoardMarkFor,
   panelOverlayLabel,
 } from "@/lib/panel-board";
+import { PUBLIC_COPY } from "@/lib/public-copy";
 import { truckImgAlt } from "@/lib/truck-img-alt";
 import { truckViewStillSize, truckViewStillSrc } from "@/lib/truck-stills";
+import {
+  TRUCK_VIEW_CREDITS,
+  truckViewCreditLine,
+} from "@/lib/truck-view-credits";
 import {
   TRUCK_VIEWS,
   TRUCK_VIEW_BOX,
@@ -38,7 +43,7 @@ export function TruckViewHotspots({
   bakedMarks?: boolean;
 }) {
   const singleSeat = Boolean(activePanelId) && compact;
-  const ownerView = activePanelId ? viewOwningPanel(activePanelId) : "driver";
+  const ownerView = activePanelId ? viewOwningPanel(activePanelId) : "front";
   const [view, setView] = useState<TruckViewId>(ownerView);
   const occupied = new Set(occupiedPanelIds);
   const spots = hotspotsForView(singleSeat ? ownerView : view).filter((spot) =>
@@ -46,6 +51,9 @@ export function TruckViewHotspots({
   );
   const shownView = singleSeat ? ownerView : view;
   const stillSize = truckViewStillSize(shownView);
+  const credit = TRUCK_VIEW_CREDITS[shownView];
+  /** Seat pages clear board overlays — sticky hover/active must not follow. */
+  const polygonsMode = singleSeat ? "hidden" : "outline";
 
   return (
     <div
@@ -57,7 +65,7 @@ export function TruckViewHotspots({
       data-testid="truck-view-seats"
       data-view={shownView}
       data-one-view="true"
-      data-polygons="outline"
+      data-polygons={polygonsMode}
       data-baked-marks={bakedMarks ? "true" : "false"}
       data-single-seat={singleSeat ? "true" : "false"}
       data-training="hybrid"
@@ -132,17 +140,20 @@ export function TruckViewHotspots({
                   href={`/panels/${spot.panelId}`}
                   data-testid={`truck-seat-${spot.panelId}`}
                   data-occupied={held ? "true" : "false"}
-                  data-active={active ? "true" : "false"}
+                  data-active={singleSeat ? "false" : active ? "true" : "false"}
                   data-raw={held ? "false" : "true"}
                   data-seat-label={label}
                   data-panel-n={String(mark.n)}
                   aria-label={
                     held ? `${label} — held seat` : `${label} — open seat`
                   }
+                  onClick={(event) => {
+                    (event.currentTarget as HTMLAnchorElement).blur();
+                  }}
                 >
                   <polygon
                     className={
-                      active
+                      !singleSeat && active
                         ? "truck-seat is-active"
                         : held
                           ? "truck-seat is-held"
@@ -156,6 +167,26 @@ export function TruckViewHotspots({
             })}
           </svg>
         </div>
+        {singleSeat ? null : (
+          <div className="truck-view-credit" data-testid="truck-view-credit">
+            <p data-testid="truck-view-credit-photo">
+              Photo by{" "}
+              <a
+                href={credit.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                data-testid="truck-view-credit-link"
+              >
+                {credit.artist}
+              </a>{" "}
+              on Pexels
+              <span className="sr-only"> — {truckViewCreditLine(credit)}</span>
+            </p>
+            <p data-testid="truck-view-credit-edit">
+              {PUBLIC_COPY.truckViews.editedWith}
+            </p>
+          </div>
+        )}
       </div>
     </div>
   );

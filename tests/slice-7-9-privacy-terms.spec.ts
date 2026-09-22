@@ -11,10 +11,10 @@ import {
 import { PUBLIC_COPY } from "../src/lib/public-copy";
 
 /**
- * Slice 7.9 — /privacy and /terms stubs from CAMPAIGN + PUBLIC_COPY only.
- * Footer links them. No invented legal terms.
+ * QA 1047PM — /privacy is a short real policy; /terms is gone.
+ * Footer keeps Privacy only. Back to the board is a button.
  */
-test.describe("slice 7.9: privacy and terms stubs", () => {
+test.describe("slice 7.9: privacy policy; terms removed", () => {
   test("campaign money fences stay locked", () => {
     expect(FLOOR_USD).toBe(58_000);
     expect(GOAL_USD).toBe(120_000);
@@ -41,7 +41,7 @@ test.describe("slice 7.9: privacy and terms stubs", () => {
     );
   });
 
-  test("footer links privacy and terms; keeps PUBLIC_COPY strings", async ({
+  test("footer links privacy only; keeps PUBLIC_COPY strings", async ({
     page,
   }) => {
     await page.goto("/");
@@ -53,13 +53,10 @@ test.describe("slice 7.9: privacy and terms stubs", () => {
       "href",
       "/privacy",
     );
-    await expect(page.getByTestId("footer-terms-link")).toHaveAttribute(
-      "href",
-      "/terms",
-    );
+    await expect(page.getByTestId("footer-terms-link")).toHaveCount(0);
   });
 
-  test("privacy stub uses hello@ and PUBLIC_COPY lines only", async ({
+  test("privacy page is a short useful policy with a real back button", async ({
     page,
   }) => {
     await page.goto("/privacy");
@@ -67,42 +64,27 @@ test.describe("slice 7.9: privacy and terms stubs", () => {
     await expect(page.getByTestId("privacy-contact")).toContainText(
       BRAND.email,
     );
-    await expect(page.getByTestId("privacy-waitlist")).toContainText(
-      PUBLIC_COPY.waitlist.idleNote,
+    await expect(page.getByTestId("privacy-collect")).toBeVisible();
+    await expect(page.getByTestId("privacy-why")).toBeVisible();
+    await expect(page.getByTestId("privacy-providers")).toBeVisible();
+    await expect(page.getByTestId("privacy-retention")).toBeVisible();
+    await expect(page.getByTestId("privacy-access")).toBeVisible();
+    await expect(page.getByTestId("privacy-cookies")).toBeVisible();
+    await expect(page.getByTestId("legal-back-button")).toHaveText(
+      "Back to the board",
     );
-    // Slice 13.39 — waitlist retention locked on the privacy stub.
-    await expect(page.getByTestId("privacy-waitlist-retention")).toHaveText(
-      PUBLIC_COPY.waitlist.retention,
-    );
-    await expect(page.getByTestId("privacy-independent")).toContainText(
-      PUBLIC_COPY.footer.independent,
-    );
+    await expect(page.getByTestId("legal-back-button")).toHaveClass(/btn/);
+    await expect(page.getByTestId("privacy-independent")).toHaveCount(0);
     const html = (await page.content()).toLowerCase();
     expect(html).not.toMatch(/\blease\b/);
     expect(html).not.toContain("close_at");
-    expect(html).not.toMatch(/gdpr|ccpa|liability|indemnif|arbitration/);
+    expect(html).not.toContain("independent. not tesla");
   });
 
-  test("terms stub uses floor refund and intent copy", async ({ page }) => {
+  test("terms redirects to privacy", async ({ page }) => {
     await page.goto("/terms");
-    await expect(page.getByTestId("terms-page")).toBeVisible();
-    await expect(page.getByTestId("terms-floor")).toContainText("$58,000");
-    await expect(page.getByTestId("terms-floor")).toContainText(
-      "Full refund. No order. No wrap. No Immortal Etch.",
-    );
-    await expect(page.getByTestId("terms-intent")).toContainText(
-      "Cards are not charged until the money path is live",
-    );
-    // Slice 13.38 — exact phrase locked on the terms stub.
-    await expect(page.getByTestId("terms-intent-not-charge")).toHaveText(
-      PUBLIC_COPY.footer.intentNotACharge,
-    );
-    await expect(page.getByTestId("terms-clock")).toHaveText(
-      "When seats open. There is no date on this page yet.",
-    );
-    await expect(page.getByTestId("terms-contact")).toContainText(BRAND.email);
-    const html = (await page.content()).toLowerCase();
-    expect(html).not.toMatch(/\blease\b/);
-    expect(html).not.toMatch(/gdpr|ccpa|liability|indemnif|arbitration/);
+    await expect(page).toHaveURL(/\/privacy$/);
+    await expect(page.getByTestId("privacy-page")).toBeVisible();
+    await expect(page.getByTestId("terms-page")).toHaveCount(0);
   });
 });

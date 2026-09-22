@@ -33,7 +33,8 @@ test.describe("slice 18.7: hood HTML drops lint and combo-later", () => {
   }) => {
     await page.goto("/panels/hood");
     await expect(page.getByTestId("neighbor-combo-list")).toHaveCount(0);
-    await expect(page.getByTestId("seat-lead")).toContainText("$2,500");
+    await expect(page.getByTestId("panel-standing")).toContainText("$2,500");
+    await expect(page.getByTestId("seat-lead")).not.toContainText("Current Bid");
     const html = await page.content();
     expect(html).not.toContain("optional lint");
     expect(html).not.toContain("linter");

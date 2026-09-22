@@ -69,9 +69,9 @@ test.describe("slice 10.7: mobile compositor one view", () => {
 
   test("unit: truck views are four discrete toggles", () => {
     expect(TRUCK_VIEWS.map((row) => row.id)).toEqual([
+      "front",
       "driver",
       "passenger",
-      "front",
       "rear",
     ]);
   });

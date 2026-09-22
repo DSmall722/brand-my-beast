@@ -45,7 +45,7 @@ test.describe("P2 Auth.js wiring", () => {
     page,
   }) => {
     await page.goto("/signin");
-    await expect(page.getByTestId("test-login-hint")).toBeVisible();
+    await expect(page.getByTestId("test-login-hint")).toHaveCount(0);
     await expect(page.getByTestId("magic-link-form")).toHaveCount(0);
     await page.getByTestId("signin-email").fill("bidder@example.com");
     await page.getByTestId("signin-password").fill("test");

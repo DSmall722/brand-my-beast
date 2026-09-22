@@ -8,10 +8,11 @@
 
 import { FLOOR_USD, GOAL_USD, PANELS, formatUsd, type Panel } from "./campaign";
 
+/** QA 1047PM — Preview the Panels tab order: Front → Driver → Passenger → Rear. */
 export const TRUCK_VIEWS = [
+  { id: "front", label: "Front" },
   { id: "driver", label: "Driver" },
   { id: "passenger", label: "Passenger" },
-  { id: "front", label: "Front" },
   { id: "rear", label: "Rear" },
 ] as const;
 
@@ -206,28 +207,28 @@ const FRONT_HOTSPOTS: readonly TruckHotspot[] = [
   {
     panelId: "hood",
     points: pctPoints([
-      [10, 17.5],
-      [89.5, 17.5],
-      [89.5, 36.5],
-      [10, 36.5],
+      [12, 20],
+      [88, 20],
+      [88, 32],
+      [12, 32],
     ]),
   },
   {
     panelId: "front-fascia",
     points: pctPoints([
-      [9.5, 37],
-      [90.5, 37],
-      [90.5, 60],
-      [9.5, 60],
+      [10, 33],
+      [90, 33],
+      [90, 57],
+      [10, 57],
     ]),
   },
   {
     panelId: "front-bumper",
     points: pctPoints([
-      [8, 62],
-      [91, 62],
-      [91, 76.5],
-      [8, 76.5],
+      [8, 58],
+      [91, 58],
+      [91, 78],
+      [8, 78],
     ]),
   },
 ];

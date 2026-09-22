@@ -1,6 +1,7 @@
 import { expect, test } from "@playwright/test";
-import { PANELS, currentBidUsd, formatUsd } from "../src/lib/campaign";
+import { PANELS, currentBidUsd, formatUsd, isEtchable } from "../src/lib/campaign";
 import { PUBLIC_COPY } from "../src/lib/public-copy";
+import { TRUCK_VIEWS } from "../src/lib/truck-views";
 
 const ETCH_UNLOCK =
   "Once total active bids cross $120,000, buyers will unlock the option to have their advertisement permanently etched on the stainless surface for 3x the final bid for that panel.";
@@ -39,17 +40,35 @@ test.describe("notes PDF homepage sheet", () => {
     await expect(
       page.locator('.site-header a.nav-link[href="#waitlist"]'),
     ).toHaveText("Contact BMB");
+    await expect(page.getByTestId("signin-link")).toBeVisible();
     await expect(page.locator("#panels-title")).toHaveText("Bid on a Panel");
     await expect(page.locator("#truck-views-title")).toHaveText(
       "Preview the Panels",
     );
     await expect(page.getByTestId("truck-view-lead")).toHaveCount(0);
     await expect(page.getByTestId("truck-view-legend")).toHaveCount(0);
+    expect(TRUCK_VIEWS.map((row) => row.id)).toEqual([
+      "front",
+      "driver",
+      "passenger",
+      "rear",
+    ]);
+    await expect(page.getByTestId("truck-view-credit-edit")).toHaveText(
+      "Edited with Higgsfield.ai and Grok Image",
+    );
+    await expect(page.getByTestId("truck-view-credit-link")).toBeVisible();
 
     await expect(page.locator("#money-title")).toHaveText("Track the Auction");
     await expect(page.getByTestId("floor-hint")).toHaveText(
       "Miss the floor and every bid is refunded.",
     );
+    await expect(page.locator("#money .money-cell").nth(1).locator(".label")).toHaveText(
+      "Floor",
+    );
+    await expect(page.locator("#money .money-cell").nth(1).locator(".label")).not.toContainText(
+      "$58,000",
+    );
+    await expect(page.getByTestId("floor-amount")).toHaveText("$58,000");
     await expect(page.getByTestId("goal-amount")).toHaveText("$120,000");
     await expect(page.locator("#money")).toContainText("Unlock Immortal Etch");
     await expect(page.locator("#money")).not.toContainText("No marks yet");
@@ -77,9 +96,13 @@ test.describe("notes PDF homepage sheet", () => {
     const markerCenter = floorMarker.x + floorMarker.width / 2;
     const labelCenter = floorLabel.x + floorLabel.width / 2;
     expect(Math.abs(markerCenter - labelCenter)).toBeLessThan(12);
-    await expect(page.getByTestId("panels-lead")).toContainText(ETCH_UNLOCK);
-    await expect(page.getByTestId("panels-lead")).toContainText(ETCH_STEEL);
-    await expect(page.getByTestId("panels-lead").locator(".immortal-etch")).toHaveText(
+    await expect(page.getByTestId("panels-lead")).toHaveText(
+      "Select a panel below for more details.",
+    );
+    await expect(page.getByTestId("panels-lead")).not.toContainText(ETCH_UNLOCK);
+    await expect(page.getByTestId("etch-unlock")).toContainText(ETCH_UNLOCK);
+    await expect(page.getByTestId("etch-unlock")).toContainText(ETCH_STEEL);
+    await expect(page.getByTestId("etch-unlock").locator(".immortal-etch")).toHaveText(
       "Immortal Etch",
     );
     await expect(page.getByTestId("panels-lead")).not.toContainText(
@@ -120,30 +143,33 @@ test.describe("notes PDF homepage sheet", () => {
     const doorSize = await page
       .getByTestId("panel-face-driver-door")
       .evaluate((el) => getComputedStyle(el).getPropertyValue("--panel-face-size"));
-    expect(doorSize.trim()).toBe("320% auto");
+    expect(doorSize.trim()).toBe("150% auto");
     const hoodSize = await page
       .getByTestId("panel-face-hood")
       .evaluate((el) => getComputedStyle(el).getPropertyValue("--panel-face-size"));
     expect(hoodSize.trim()).toBe("cover");
+    const rearSize = await page
+      .getByTestId("panel-face-tailgate")
+      .evaluate((el) => getComputedStyle(el).getPropertyValue("--panel-face-size"));
+    expect(rearSize.trim()).toBe("175% auto");
 
     await expect(page.locator("#story")).toContainText(
       "Maximum of one brand for each kind of business. If someone in your trade is already standing, highest bidder wins.",
     );
-    await expect(page.locator("#story")).toContainText("$120,000 unlocks");
-    await expect(page.locator("#story .story-step-title .immortal-etch")).toHaveText(
+    await expect(page.locator("#story .story-step-title").nth(2)).toHaveText(
+      "$120,000 unlocks Immortal Etch",
+    );
+    await expect(page.locator("#story .story-step-title .immortal-etch")).toHaveCount(0);
+    await expect(page.locator("#story .story-step-copy .immortal-etch")).toHaveText(
       "Immortal Etch",
     );
-    await expect(page.locator("#story")).not.toContainText(
-      "At $120,000 you get every panel and the campaign owns the truck.",
+    await expect(page.locator("#story")).toContainText(
+      "Vinyl wrap lasts for one year,",
     );
-    const forever = page.getByTestId("story-etch-forever");
-    await expect(forever).toContainText("Vinyl wrap lasts for one year,");
-    await expect(forever).toContainText(
+    await expect(page.locator("#story")).toContainText(
       "but with Immortal Etch, your ad lasts FOREVER.",
     );
-    await expect(forever.locator("br")).toHaveCount(1);
-    await expect(forever.locator(".immortal-etch")).toHaveText("Immortal Etch");
-    await expect(forever.locator("strong")).toHaveText("FOREVER");
+    await expect(page.getByTestId("story-etch-forever")).toHaveCount(0);
     await expect(page.locator("#etch-title")).toHaveText("Immortal Etch");
     await expect(page.locator("#etch-title")).not.toHaveClass(/immortal-etch/);
 
@@ -155,6 +181,21 @@ test.describe("notes PDF homepage sheet", () => {
     await expect(page.getByTestId("wreck-refund-faq")).toHaveCount(0);
     await expect(page.getByTestId("faq-campaign-miss")).toContainText(
       "Full refund",
+    );
+    await expect(page.locator("#questions")).not.toContainText(
+      "When does bidding start?",
+    );
+    await expect(page.locator("#questions")).not.toContainText(
+      "Will I be charged",
+    );
+    await expect(page.locator("#questions")).not.toContainText(
+      "Is there a truck yet?",
+    );
+    await expect(page.locator("#questions")).not.toContainText(
+      "Why is Immortal Etch locked until $120k",
+    );
+    await expect(page.locator("#questions")).not.toContainText(
+      "What if Immortal Etch is already installed",
     );
 
     await expect(page.locator("#questions-title")).toHaveText("FAQ");
@@ -174,6 +215,8 @@ test.describe("notes PDF homepage sheet", () => {
       "We only email when seats open.",
     );
     await expect(page.getByTestId("site-footer-independent")).toHaveCount(0);
+    await expect(page.getByTestId("footer-privacy-link")).toBeVisible();
+    await expect(page.getByTestId("footer-terms-link")).toHaveCount(0);
 
     await page.getByTestId("want-all-panels").click();
     await expect(page).toHaveURL(/#waitlist$/);
@@ -184,6 +227,7 @@ test.describe("notes PDF homepage sheet", () => {
     expect(html).toContain("$120,000");
     expect(html.toLowerCase()).not.toMatch(/\blease\b/);
     expect(html).not.toContain("FEATURES.md");
+    expect(html).not.toContain("Higglesfield");
   });
 
   test("a real bid replaces the opening on the card", async ({ page }) => {
@@ -201,8 +245,9 @@ test.describe("notes PDF homepage sheet", () => {
     await expect(page.getByTestId("intent-success")).toContainText("not charged", {
       timeout: 10_000,
     });
-    await expect(page.getByTestId("seat-lead")).toContainText(
-      `Current Bid ${formatUsd(2750)}`,
+    await expect(page.getByTestId("seat-lead")).not.toContainText("Current Bid");
+    await expect(page.getByTestId("panel-standing")).toContainText(
+      formatUsd(2750),
     );
 
     await page.goto("/");
@@ -212,5 +257,41 @@ test.describe("notes PDF homepage sheet", () => {
     await expect(page.getByTestId("panel-current-bid-front-bumper")).toHaveText(
       "Current Bid $500",
     );
+  });
+
+  test("seat pages use wrap strings and clear sticky overlays", async ({
+    page,
+  }) => {
+    await page.goto("/");
+    await page.getByTestId("truck-view-front").click();
+    await page.getByTestId("truck-seat-hood").click();
+    await expect(page).toHaveURL(/\/panels\/hood/);
+    await expect(page.getByTestId("truck-view-seats")).toHaveAttribute(
+      "data-polygons",
+      "hidden",
+    );
+    await expect(page.getByTestId("seat-lead")).toContainText(
+      PUBLIC_COPY.seat.wrapTwelveMonths,
+    );
+    await expect(page.getByTestId("seat-lead")).toContainText(
+      "Immortal Etch Locked",
+    );
+    await expect(page.getByTestId("seat-lead")).not.toContainText("Current Bid");
+    await expect(page.getByTestId("panel-mockup-face-clean")).toBeVisible();
+    await expect(page.getByTestId("compositor-finish-label")).toHaveCount(0);
+    await expect(page.getByTestId("compositor-wrap-film")).toHaveCount(0);
+
+    await page.goto("/panels/front-bumper");
+    await expect(page.getByTestId("seat-lead")).toHaveText(
+      PUBLIC_COPY.seat.bumperWrapOnly,
+    );
+    await expect(page.getByTestId("seat-lead")).not.toContainText("Current Bid");
+
+    for (const panel of PANELS.filter((row) => isEtchable(row)).slice(0, 2)) {
+      await page.goto(`/panels/${panel.id}`);
+      await expect(page.getByTestId("seat-wrap-line")).toHaveText(
+        PUBLIC_COPY.seat.wrapTwelveMonths,
+      );
+    }
   });
 });

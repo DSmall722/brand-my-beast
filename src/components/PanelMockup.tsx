@@ -56,6 +56,7 @@ function CompositorStandingBrand({
  * PROCESS-safe stainless compositor: CSS preview of wrap vs etch on the steel
  * face, plus day/night/wet/dirty condition shaders and a dirty-vs-clean pair.
  * Etch controls stay off until board raised clears buyout — no capture, no clock.
+ * Default (truck not yet ordered): clean panel photo, minimal chrome.
  */
 export function PanelMockup({
   panel,
@@ -97,6 +98,7 @@ export function PanelMockup({
       data-pair={showingPair ? "true" : "false"}
       data-truck-exists={truckExists ? "true" : "false"}
       data-preview-toggles={showPreviewToggles ? "true" : "false"}
+      data-chrome={showPreviewToggles ? "full" : "minimal"}
     >
       <p
         className="auth-hint stainless-compositor-lead"
@@ -240,7 +242,7 @@ export function PanelMockup({
             </div>
           </div>
         </div>
-      ) : (
+      ) : showPreviewToggles ? (
       <div className="panel-mockup-face" aria-hidden="true">
         <span className="panel-mockup-label">{panel.name}</span>
         <CompositorStandingBrand
@@ -280,6 +282,12 @@ export function PanelMockup({
           data-condition={condition}
         />
       </div>
+      ) : (
+        <div
+          className="panel-mockup-face panel-mockup-face-clean"
+          aria-hidden="true"
+          data-testid="panel-mockup-face-clean"
+        />
       )}
     </div>
   );

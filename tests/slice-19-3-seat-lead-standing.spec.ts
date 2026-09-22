@@ -71,7 +71,7 @@ test.describe("slice 19.3: seat lead standing only when a mark exists", () => {
     expect(SEATS_OPEN).toBe(true);
   });
 
-  test("empty hood lead is opening only — no Current standing $2,500", async ({
+  test("empty hood lead is wrap + etch lock — no Current Bid in chrome", async ({
     page,
   }) => {
     await page.goto("/panels/hood");
@@ -79,8 +79,11 @@ test.describe("slice 19.3: seat lead standing only when a mark exists", () => {
     const lead = page.getByTestId("seat-lead");
     await expect(lead).toBeVisible();
     await expect(lead).toHaveAttribute("data-has-standing", "false");
-    await expect(lead).toContainText("Current Bid $2,500");
+    await expect(lead).toContainText(PUBLIC_COPY.seat.wrapTwelveMonths);
+    await expect(lead).toContainText("Immortal Etch Locked");
+    await expect(lead).not.toContainText("Current Bid");
     await expect(lead).not.toContainText("Current standing");
+    await expect(page.getByTestId("panel-standing")).toHaveText("$2,500");
     const visible = await page.locator("body").innerText();
     expect(visible).not.toContain("Current standing $2,500");
     const html = await page.content();
@@ -91,7 +94,7 @@ test.describe("slice 19.3: seat lead standing only when a mark exists", () => {
     expect(html).not.toMatch(/@gmail\.com/);
   });
 
-  test("standing line appears only after a mark exists", async ({ page }) => {
+  test("standing amount lives in the tile after a mark exists", async ({ page }) => {
     await signIn(page, "slice-19-3@example.com");
     await page.goto("/panels/hood");
     await page.getByTestId("intent-brand").fill("Seat Lead Co");
@@ -101,8 +104,9 @@ test.describe("slice 19.3: seat lead standing only when a mark exists", () => {
     await expect(page.getByTestId("intent-success")).toContainText("not charged");
     const lead = page.getByTestId("seat-lead");
     await expect(lead).toHaveAttribute("data-has-standing", "true");
-    await expect(lead).toContainText("Current Bid $2,500");
+    await expect(lead).not.toContainText("Current Bid");
     await expect(lead).not.toContainText("Current standing");
+    await expect(page.getByTestId("panel-standing")).toHaveText("$2,500");
   });
 
   test("homepage H1 is unchanged and Notify me stays", async ({ page }) => {

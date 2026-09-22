@@ -38,7 +38,7 @@ test.describe("slice 17.3: open-seat legend drops 30X", () => {
   test("homepage legend and aria use buyer seat words", async ({ page }) => {
     await page.goto("/");
     await expect(page.getByTestId("truck-view-legend")).toHaveCount(0);
-    const empty = page.getByTestId("truck-seat-driver-door");
+    const empty = page.getByTestId("truck-seat-hood");
     await expect(empty).toBeVisible();
     await expect(empty).toHaveAttribute("aria-label", /open seat$/);
     const emptyLabel = (await empty.getAttribute("aria-label")) ?? "";
