@@ -1172,9 +1172,14 @@ test.describe("P2 panel intent + approvals", () => {
     await page.getByTestId("panel-link-tailgate").click();
     await expect(page).toHaveURL(/\/panels\/tailgate/);
     await expect(page.getByTestId("truck-view-seats")).toBeVisible();
+    // QA 1047PM — seat pages clear sticky board overlays (no active wash).
+    await expect(page.getByTestId("truck-view-seats")).toHaveAttribute(
+      "data-polygons",
+      "hidden",
+    );
     await expect(page.getByTestId("truck-seat-tailgate")).toHaveAttribute(
       "data-active",
-      "true",
+      "false",
     );
     const html = await page.content();
     expect(html.toLowerCase()).not.toMatch(/\blease\b/);
