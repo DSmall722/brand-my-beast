@@ -20,7 +20,7 @@ import { findStripePackagesInRootPackageJson } from "../src/lib/no-stripe-packag
 import { vercelJsonIsHoldOrMainOnlyRestore } from "../src/lib/vercel-git-deploy";
 
 /**
- * Slice 16.9 — hero still ships a 1280-wide and a 640-wide local asset.
+ * Slice 16.9 — hero still ships a 1728-wide and a 640-wide local asset.
  * No Tesla CDN. CLOSE_AT null. No Stripe. No SEATS_OPEN flip.
  */
 
@@ -52,7 +52,7 @@ function jpegSize(buf: Buffer): { width: number; height: number } {
   throw new Error("jpeg size missing");
 }
 
-test.describe("slice 16.9: hero 1280 and 640 stills, no Tesla CDN", () => {
+test.describe("slice 16.9: hero 1728 and 640 stills, no Tesla CDN", () => {
   test("campaign money fences stay locked — CLOSE_AT null", () => {
     expect(FLOOR_USD).toBe(58_000);
     expect(GOAL_USD).toBe(120_000);
@@ -71,7 +71,7 @@ test.describe("slice 16.9: hero 1280 and 640 stills, no Tesla CDN", () => {
     expect(vercelJsonIsHoldOrMainOnlyRestore()).toBe(true);
   });
 
-  test("public files are 1280-wide and 640-wide local jpegs", () => {
+  test("public files are 1728-wide and 640-wide local jpegs", () => {
     for (const still of [HERO_STILL_WIDE, HERO_STILL_NARROW]) {
       expect(isLocalHeroStillPath(still.src)).toBe(true);
       expect(still.src).not.toMatch(/https?:/i);
@@ -82,7 +82,8 @@ test.describe("slice 16.9: hero 1280 and 640 stills, no Tesla CDN", () => {
         height: still.height,
       });
     }
-    expect(HERO_STILL_WIDE.width).toBe(1280);
+    expect(HERO_STILL_WIDE.width).toBe(1728);
+    expect(HERO_STILL_WIDE.height).toBe(972);
     expect(HERO_STILL_NARROW.width).toBe(640);
     expect(HERO_STILL_SRCSET).toContain(HERO_STILL_WIDE.src);
     expect(HERO_STILL_SRCSET).toContain(HERO_STILL_NARROW.src);

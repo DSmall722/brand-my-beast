@@ -12,7 +12,7 @@ import {
 import { hotspotPanelIds, hotspotsForView, TRUCK_VIEWS } from "../src/lib/truck-views";
 
 /**
- * Slice 10.1 — hero photo opens Hood; “See the eleven panels” lands on `#panels`.
+ * Slice 10.1 — hero photo does not navigate; “See the eleven panels” lands on `#panels`.
  * Homepage board stills are static. Cards / legend open seats. CLOSE_AT null. No Stripe.
  */
 test.describe("slice 10.1: hero and hotspot links open seats", () => {
@@ -55,7 +55,8 @@ test.describe("slice 10.1: hero and hotspot links open seats", () => {
   }) => {
     await page.goto("/");
     const hero = page.getByTestId("hero-truck-preview");
-    await expect(hero).toHaveAttribute("href", "/panels/hood");
+    await expect(hero).toHaveJSProperty("tagName", "FIGURE");
+    await expect(hero).not.toHaveAttribute("href");
     await expect(page.getByTestId("hero-primary-cta")).toHaveAttribute(
       "href",
       "#panels",
@@ -84,9 +85,8 @@ test.describe("slice 10.1: hero and hotspot links open seats", () => {
 
     await page.goto("/");
     await page.getByTestId("hero-truck-preview").click();
-    await expect(page).toHaveURL(/\/panels\/hood$/);
-    await expect(page.getByTestId("seat-primary-cta")).toBeVisible();
-    await expect(page.getByTestId("intent-signin-needed")).toHaveCount(0);
+    await expect(page).toHaveURL(/\/$/);
+    await expect(page).not.toHaveURL(/\/panels\/hood/);
 
     await page.goto("/");
     await page.getByTestId("panel-link-hood").click();

@@ -1,12 +1,13 @@
 /**
- * Slice 16.9 — local hero stills. 1280-wide and 640-wide. No Tesla CDN.
- * Default src stays the 1280 file so existing seat photos keep that path.
+ * Slice 16.9 — local hero stills. 1728-wide master and 640-wide phone.
+ * No Tesla CDN. Wide file is the concept master cropped to the 16:9 well.
+ * Default src stays `/hero-truck-preview.jpg`.
  */
 
 export const HERO_STILL_WIDE = {
   src: "/hero-truck-preview.jpg",
-  width: 1280,
-  height: 720,
+  width: 1728,
+  height: 972,
 } as const;
 
 export const HERO_STILL_NARROW = {
@@ -15,10 +16,10 @@ export const HERO_STILL_NARROW = {
   height: 360,
 } as const;
 
-/** Phones under the hero CSS break get the 640 file. Wider viewports get 1280. */
+/** Phones under the hero CSS break get the 640 file. Wider viewports get 1728. */
 export const HERO_STILL_NARROW_MEDIA = "(max-width: 720px)";
 
-export const HERO_STILL_SIZES = `${HERO_STILL_NARROW_MEDIA} 640px, 1280px`;
+export const HERO_STILL_SIZES = `${HERO_STILL_NARROW_MEDIA} 640px, 1728px`;
 
 export const HERO_STILL_SRCSET = `${HERO_STILL_NARROW.src} ${HERO_STILL_NARROW.width}w, ${HERO_STILL_WIDE.src} ${HERO_STILL_WIDE.width}w`;
 
