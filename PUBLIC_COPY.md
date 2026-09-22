@@ -69,14 +69,10 @@ Panel card names match the board. No gloss line on the card.
 ## How it works
 
 - Heading: `How it works`
-- 01 title: `Pick a panel`
-- 01 body: `Choose a seat on the Cyberbeast. One brand per trade. The highest standing bid holds the panel.`
-- 02 title: `Place a bid`
-- 02 body: `Open the bid desk. Enter your brand, email, and logo, and put down the deposit. Nothing else is charged until you win.`
-- 03 title: `Get on the truck` (one line; no Syne lockup in the heading)
-- 03 body: `If you win, finish payment. Approved artwork goes on the wrap, and on Immortal Etch if that finish is unlocked. Outbid? Bid again.` (Immortal Etch stylized only in this body)
+- Title: `Pick a panel`
+- Body: `Choose a seat on the Cyberbeast. One brand per trade. The highest standing bid holds the panel.`
 
-Floor and buyout stay in Track the Auction, Immortal Etch, and the FAQ. They are not How it works steps.
+One block. Floor and buyout stay in Track the Auction, Immortal Etch, and the FAQ. They are not How it works steps.
 
 ## Immortal Etch
 

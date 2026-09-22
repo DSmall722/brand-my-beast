@@ -96,14 +96,6 @@ export const PUBLIC_COPY = {
         title: "Pick a panel",
         body: "Choose a seat on the Cyberbeast. One brand per trade. The highest standing bid holds the panel.",
       },
-      {
-        title: "Place a bid",
-        body: "Open the bid desk. Enter your brand, email, and logo, and put down the deposit. Nothing else is charged until you win.",
-      },
-      {
-        title: "Get on the truck",
-        body: "If you win, finish payment. Approved artwork goes on the wrap, and on Immortal Etch if that finish is unlocked. Outbid? Bid again.",
-      },
     ],
   },
   etch: {

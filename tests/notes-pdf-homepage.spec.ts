@@ -182,26 +182,20 @@ test.describe("notes PDF homepage sheet", () => {
     await expect(page.locator("#story")).toContainText(
       "Choose a seat on the Cyberbeast. One brand per trade. The highest standing bid holds the panel.",
     );
-    await expect(page.locator("#story .story-step-title")).toHaveText([
+    await expect(page.locator("#story .story-step-title")).toHaveText(
       "Pick a panel",
-      "Place a bid",
-      "Get on the truck",
-    ]);
-    await expect(page.locator("#story .story-step-title").nth(2)).toHaveText(
-      "Get on the truck",
     );
-    await expect(page.locator("#story .story-step-title .immortal-etch")).toHaveCount(0);
-    await expect(page.locator("#story .story-step-copy .immortal-etch")).toHaveText(
-      "Immortal Etch",
-    );
-    await expect(page.locator("#story")).toContainText(
-      "Nothing else is charged until you win.",
-    );
-    await expect(page.locator("#story")).toContainText(
-      "Approved artwork goes on the wrap, and on",
-    );
+    await expect(page.locator("#story .story-step-title")).toHaveCount(1);
+    await expect(page.getByTestId("how-it-works")).toBeVisible();
+    await expect(page.locator("#story .immortal-etch")).toHaveCount(0);
+    await expect(page.locator("#story .story-list")).toHaveCount(0);
+    await expect(page.locator("#story")).not.toContainText("Place a bid");
+    await expect(page.locator("#story")).not.toContainText("Get on the truck");
     await expect(page.locator("#story")).not.toContainText(
       "$58,000 or the money comes back",
+    );
+    await expect(page.locator("#story")).not.toContainText(
+      "$120,000 unlocks Immortal Etch",
     );
     await expect(page.locator("#story")).not.toContainText("FOREVER");
     await expect(page.getByTestId("story-etch-forever")).toHaveCount(0);

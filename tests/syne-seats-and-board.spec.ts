@@ -32,19 +32,17 @@ test.describe("Syne lockup, board marks, seat lead", () => {
     expect(vercelJsonIsHoldOrMainOnlyRestore()).toBe(true);
   });
 
-  test("How it works puts Immortal Etch in Syne only in the step body", async ({
+  test("How it works is one panel step, not a three-column row", async ({
     page,
   }) => {
     await page.setViewportSize({ width: 1280, height: 900 });
     await page.goto("/");
     await page.evaluate(() => document.fonts.ready);
-    await expect(page.locator("#story .story-step-title")).toHaveText([
+    await expect(page.locator("#story .story-step-title")).toHaveText(
       "Pick a panel",
-      "Place a bid",
-      "Get on the truck",
-    ]);
-    await expect(page.locator("#story .story-step-title").nth(2)).toHaveText(
-      "Get on the truck",
+    );
+    await expect(page.locator("#story .story-step-copy")).toHaveText(
+      "Choose a seat on the Cyberbeast. One brand per trade. The highest standing bid holds the panel.",
     );
     await expect(page.locator("#story")).not.toContainText(
       "$58,000 or the money comes back",
@@ -52,41 +50,38 @@ test.describe("Syne lockup, board marks, seat lead", () => {
     await expect(page.locator("#story")).not.toContainText(
       "$120,000 unlocks Immortal Etch",
     );
-    await expect(page.locator("#story .story-step-title .immortal-etch")).toHaveCount(
-      0,
-    );
-    const lockups = page.locator("#story .immortal-etch");
-    await expect(lockups).toHaveCount(1);
-    await expect(lockups).toHaveText("Immortal Etch");
-    await expect(page.locator("#story .story-step-copy").nth(2)).toContainText(
-      "Approved artwork goes on the wrap",
-    );
-    await expect(page.locator("#story .story-step-copy").nth(2)).toContainText(
-      "if that finish is unlocked",
-    );
-    const stepTops = await page.locator("#story .story-list > li").evaluateAll(
-      (items) => items.map((item) => Math.round(item.getBoundingClientRect().top)),
-    );
-    expect(stepTops).toHaveLength(3);
-    expect(new Set(stepTops).size).toBe(1);
+    await expect(page.locator("#story")).not.toContainText("Place a bid");
+    await expect(page.locator("#story")).not.toContainText("Get on the truck");
+    await expect(page.locator("#story .immortal-etch")).toHaveCount(0);
+    await expect(page.locator("#story .story-list")).toHaveCount(0);
     await expect(page.getByTestId("story-etch-forever")).toHaveCount(0);
+    const layout = await page.locator("#story .story-block").evaluate((el) => {
+      const block = el.getBoundingClientRect();
+      const section = el.closest("section")?.getBoundingClientRect();
+      return {
+        blockWidth: block.width,
+        sectionWidth: section?.width ?? 0,
+        columns: getComputedStyle(el).gridTemplateColumns,
+      };
+    });
+    expect(layout.sectionWidth).toBeGreaterThan(900);
+    expect(layout.columns.split(" ").filter(Boolean)).toHaveLength(1);
+    expect(layout.blockWidth).toBeGreaterThan(layout.sectionWidth * 0.4);
+    expect(layout.blockWidth).toBeLessThan(layout.sectionWidth);
     const fonts = await page.evaluate(() => {
-      const lockup = document.querySelector("#story .immortal-etch");
+      const lockup = document.querySelector("#etch .immortal-etch");
       const title = document.querySelector("#story .story-step-title");
-      const num = document.querySelector("#story .story-num");
       const copy = document.querySelector("#story .story-step-copy");
-      if (!lockup || !title || !num || !copy) return null;
+      if (!lockup || !title || !copy) return null;
       return {
         lockup: getComputedStyle(lockup).fontFamily,
         title: getComputedStyle(title).fontFamily,
-        num: getComputedStyle(num).fontFamily,
         copy: getComputedStyle(copy).fontFamily,
       };
     });
     expect(fonts).not.toBeNull();
     expect(fonts!.lockup.toLowerCase()).toMatch(/syne/);
     expect(fonts!.title.toLowerCase()).not.toMatch(/syne/);
-    expect(fonts!.num.toLowerCase()).not.toMatch(/syne/);
     expect(fonts!.copy.toLowerCase()).not.toMatch(/syne/);
     await expect(page.locator("#hero-title")).toHaveText(LOCKED_H1);
   });

@@ -1,30 +1,22 @@
 import { ImmortalEtchLockup } from "@/components/ImmortalEtchLockup";
 import { PUBLIC_COPY } from "@/lib/public-copy";
 
-/** Slice 7.1 — extracted from `src/app/page.tsx`. Copy unchanged. */
+/** One guest step: pick a panel and bid. Floor and etch live in other sections. */
 export function HomeStorySection() {
+  const step = PUBLIC_COPY.howItWorks.steps[0];
   return (
-        <section
-          className="shell section"
-          id="story"
-          aria-labelledby="story-title"
-        >
-          <h2 id="story-title">{PUBLIC_COPY.howItWorks.heading}</h2>
-          <ol className="story-list">
-            {PUBLIC_COPY.howItWorks.steps.map((step, index) => (
-              <li key={step.title}>
-                <span className="story-num">
-                  {String(index + 1).padStart(2, "0")}
-                </span>
-                <span className="story-body">
-                  <strong className="story-step-title">{step.title}</strong>
-                  <span className="story-step-copy">
-                    <ImmortalEtchLockup text={step.body} />
-                  </span>
-                </span>
-              </li>
-            ))}
-          </ol>
-        </section>
+    <section
+      className="shell section"
+      id="story"
+      aria-labelledby="story-title"
+    >
+      <h2 id="story-title">{PUBLIC_COPY.howItWorks.heading}</h2>
+      <div className="story-block" data-testid="how-it-works">
+        <strong className="story-step-title">{step.title}</strong>
+        <p className="story-step-copy">
+          <ImmortalEtchLockup text={step.body} />
+        </p>
+      </div>
+    </section>
   );
 }
