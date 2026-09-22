@@ -164,12 +164,20 @@ test.describe("notes PDF homepage sheet", () => {
     );
     await expect(page.getByTestId("panel-face-passenger-rear-quarter")).toHaveAttribute(
       "data-face-pos",
-      "2% 32%",
+      "23% 30%",
     );
     await expect(page.getByTestId("panel-face-passenger-bed")).toHaveAttribute(
       "data-face-pos",
-      "0% 60%",
+      "3% 50%",
     );
+    const sailSize = await page
+      .getByTestId("panel-face-passenger-rear-quarter")
+      .evaluate((el) => getComputedStyle(el).getPropertyValue("--panel-face-size"));
+    expect(sailSize.trim()).toBe("440% auto");
+    const bedSize = await page
+      .getByTestId("panel-face-passenger-bed")
+      .evaluate((el) => getComputedStyle(el).getPropertyValue("--panel-face-size"));
+    expect(bedSize.trim()).toBe("500% auto");
 
     await expect(page.locator("#story")).toContainText(
       "Maximum of one brand for each kind of business. If someone in your trade is already standing, highest bidder wins.",
