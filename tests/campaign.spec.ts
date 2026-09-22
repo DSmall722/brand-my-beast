@@ -264,9 +264,8 @@ test.describe("P1 waitlist campaign locks", () => {
     await page.getByTestId("panel-link-hood").click();
     await expect(page).toHaveURL(/\/panels\/hood$/);
     await expect(page.getByTestId("panel-intent-page")).toBeVisible();
-    await expect(page.getByTestId("public-seat-label")).toHaveText(
-      "Public seat",
-    );
+    await expect(page.getByTestId("public-seat-label")).toHaveCount(0);
+    await expect(page.getByTestId("seat-lead")).toContainText("Current Bid");
     await expect(page.getByRole("heading", { level: 1 })).toContainText(/hood/i);
     const html = await page.content();
     expect(html.toLowerCase()).not.toMatch(/\blease\b/);

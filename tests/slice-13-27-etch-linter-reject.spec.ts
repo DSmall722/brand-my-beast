@@ -130,16 +130,10 @@ test.describe("slice 13.27: etch linter reject; wrap still lists", () => {
     page,
   }) => {
     await page.goto("/panels/hood");
-    await expect(page.getByTestId("etch-constraints")).toBeVisible();
-    await expect(page.getByTestId("etch-lint-idle")).toContainText(
-      /wrap art may still list/i,
-    );
-
-    await page
-      .getByTestId("etch-art-notes")
-      .fill("full color gradient photo mark");
-    await expect(page.getByTestId("etch-lint-issues")).toBeVisible();
-    await expect(page.getByTestId("etch-lint-etch-forbidden-art")).toBeVisible();
+    await expect(page.getByTestId("etch-constraints")).toHaveCount(0);
+    await expect(page.getByTestId("etch-art-notes")).toHaveCount(0);
+    await expect(page.getByText("No gradients")).toHaveCount(0);
+    await expect(page.getByText("Art notes")).toHaveCount(0);
 
     await signIn(page, "bidder-a@example.com");
     await page.goto("/panels/hood");

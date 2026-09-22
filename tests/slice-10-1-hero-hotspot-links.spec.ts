@@ -85,7 +85,8 @@ test.describe("slice 10.1: hero and hotspot links open seats", () => {
     await page.goto("/");
     await page.getByTestId("hero-truck-preview").click();
     await expect(page).toHaveURL(/\/panels\/hood$/);
-    await expect(page.getByTestId("intent-signin-needed")).toBeVisible();
+    await expect(page.getByTestId("seat-primary-cta")).toBeVisible();
+    await expect(page.getByTestId("intent-signin-needed")).toHaveCount(0);
 
     await page.goto("/");
     await page.getByTestId("panel-link-hood").click();

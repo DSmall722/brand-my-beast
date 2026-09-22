@@ -63,11 +63,9 @@ test.describe("slice 9.2: seat next minimum", () => {
       "data-seat-open",
       "true",
     );
-    await expect(page.getByTestId("seat-next-minimum-rule")).toContainText(
-      "opening mark",
-    );
-    await expect(page.getByTestId("seat-next-minimum-rule")).toContainText(
-      "no card",
+    await expect(page.getByTestId("seat-next-minimum-rule")).toHaveCount(0);
+    await expect(page.getByTestId("panel-intent-page")).not.toContainText(
+      "Still intent only — no card.",
     );
     const html = await page.content();
     expect(html.toLowerCase()).not.toMatch(/\blease\b/);
@@ -115,10 +113,11 @@ test.describe("slice 9.2: seat next minimum", () => {
       "data-increment-usd",
       String(increment),
     );
-    await expect(page.getByTestId("seat-next-minimum-rule")).toContainText(
+    await expect(page.getByTestId("seat-next-minimum-rule")).toHaveCount(0);
+    await expect(page.getByTestId("intent-increment-rule")).toContainText(
       "standing + max($250, 10%)",
     );
-    await expect(page.getByTestId("seat-next-minimum-rule")).toContainText(
+    await expect(page.getByTestId("panel-minimum")).toHaveText(
       formatUsd(nextMin),
     );
     await expect(page.getByTestId("intent-standing")).toHaveAttribute(
@@ -147,8 +146,6 @@ test.describe("slice 9.2: seat next minimum", () => {
     await expect(page.getByTestId("panel-standing")).toHaveText("$3,000");
     await expect(page.getByTestId("panel-increment")).toHaveText("$300");
     await expect(page.getByTestId("panel-minimum")).toHaveText("$3,300");
-    await expect(page.getByTestId("seat-next-minimum-rule")).toContainText(
-      "$3,300",
-    );
+    await expect(page.getByTestId("seat-next-minimum-rule")).toHaveCount(0);
   });
 });

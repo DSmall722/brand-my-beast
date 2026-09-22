@@ -68,28 +68,16 @@ test.describe("slice 10.10: neighbor combo display only", () => {
     );
   });
 
-  test("seat: neighbor combo is display only — openings, no combo price", async ({
+  test("seat: neighboring seats block is gone; no combo price", async ({
     page,
   }) => {
     await page.goto("/panels/hood");
-    const card = page.getByTestId("neighbor-combo");
-    await expect(card).toBeVisible();
-    await expect(card).toHaveAttribute("data-combo-price", "none");
-    await expect(card).toHaveAttribute("data-display-only", "true");
-    await expect(page.getByTestId("neighbor-combo-lead")).toContainText(
-      "no combo price",
-    );
-    await expect(page.getByTestId("neighbor-combo-lead")).toContainText(
-      "not a joint bid",
-    );
-    await expect(page.getByTestId("neighbor-combo-list")).toBeVisible();
-
-    const text = await card.innerText();
+    await expect(page.getByTestId("neighbor-combo")).toHaveCount(0);
+    await expect(page.getByTestId("adjacent-neighbors")).toHaveCount(0);
+    await expect(page.getByText("Neighboring seats")).toHaveCount(0);
+    const text = await page.getByTestId("panel-intent-page").innerText();
     expect(comboLotInventedPrice(text)).toBe(false);
-    expect(text.toLowerCase()).toContain("no combo price");
-    expect(text.toLowerCase()).not.toMatch(/(?<!\bno\s)combo price/);
     expect(text.toLowerCase()).not.toMatch(/bundle for \$/);
-    expect(text).toContain("opening");
 
     const html = await page.content();
     expect(html.toLowerCase()).not.toMatch(/\blease\b/);

@@ -12,6 +12,9 @@ export function HomeEtchSection() {
       <h2 id="etch-title">
         {PUBLIC_COPY.etch.heading}
       </h2>
+      <p className="etch-requirements" data-testid="etch-requirements">
+        {PUBLIC_COPY.etch.requirements}
+      </p>
       <div className="etch-samples" data-testid="etch-sample-slots">
         {PUBLIC_COPY.etch.sampleSlots.map((slot) => (
           <div

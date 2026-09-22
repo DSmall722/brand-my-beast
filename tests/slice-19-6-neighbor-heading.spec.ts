@@ -49,17 +49,15 @@ test.describe("slice 19.6: neighbor heading drops combo", () => {
     expect(SEATS_OPEN).toBe(true);
   });
 
-  test("hood neighbor heading has no combo; openings stay formatUsd", async ({
+  test("hood drops neighboring seats; openings stay on the seat", async ({
     page,
   }) => {
     await page.goto("/panels/hood");
-    const heading = page.getByTestId("neighbor-combo-heading");
-    await expect(heading).toBeVisible();
-    await expect(heading).toHaveText("Neighboring seats");
-    await expect(heading).not.toContainText(/combo/i);
-    await expect(page.getByTestId("neighbor-combo-front-fascia")).toContainText(
-      formatUsd(2000),
-    );
+    await expect(page.getByTestId("neighbor-combo")).toHaveCount(0);
+    await expect(page.getByTestId("neighbor-combo-heading")).toHaveCount(0);
+    await expect(page.getByText("Neighboring seats")).toHaveCount(0);
+    await expect(page.getByText("Adjacent seats")).toHaveCount(0);
+    await expect(page.getByTestId("seat-lead")).toContainText(formatUsd(2500));
     const html = await page.content();
     expect(html).not.toContain("Neighbor combo");
     expect(html).toContain("$58,000");

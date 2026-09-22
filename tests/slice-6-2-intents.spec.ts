@@ -139,7 +139,7 @@ test.describe("slice 6.2 seat UI: create / outbid / exclusivity / increment", ()
     await expect(holder.getByTestId("intent-increment-rule")).toContainText(
       "standing + max($250, 10%)",
     );
-    await expect(holder.getByTestId("seat-exclusivity")).toBeVisible();
+    await expect(holder.getByTestId("seat-exclusivity")).toHaveCount(0);
     await expect(holder.getByTestId("panel-standing")).toHaveText("$2,500");
     await expect(holder.getByTestId("panel-minimum")).toHaveText("$2,500");
 
@@ -211,7 +211,7 @@ test.describe("slice 6.2 seat UI: create / outbid / exclusivity / increment", ()
     );
     await expect(ok.getByTestId("panel-standing")).toHaveText("$2,750");
     await expect(ok.getByTestId("panel-minimum")).toHaveText("$3,025");
-    await expect(ok.getByTestId("seat-exclusivity")).toBeVisible();
+    await expect(ok.getByTestId("seat-exclusivity")).toHaveCount(0);
     const okHtml = await ok.content();
     expect(okHtml.toLowerCase()).not.toMatch(/\blease\b/);
     expect(okHtml.toLowerCase()).not.toContain("gmail.com");

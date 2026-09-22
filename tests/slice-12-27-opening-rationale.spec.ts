@@ -55,15 +55,14 @@ test.describe("slice 12.27: opening-bid rationale from RULES.md", () => {
     expect(rules).toContain("$58,000");
   });
 
-  test("seat page shows the one-liner sourced from RULES.md", async ({
+  test("seat page no longer prints the opening-marks one-liner", async ({
     page,
   }) => {
     await page.goto("/panels/hood");
-    const line = page.getByTestId("opening-bid-rationale");
-    await expect(line).toBeVisible();
-    await expect(line).toHaveAttribute("data-source", "RULES.md");
-    await expect(line).toContainText("The floor is not the sum of openings");
-    await expect(line).toContainText("$58,000");
+    await expect(page.getByTestId("opening-bid-rationale")).toHaveCount(0);
+    await expect(page.getByTestId("panel-intent-page")).not.toContainText(
+      "Opening marks start the seat",
+    );
 
     const html = await page.content();
     expect(html.toLowerCase()).not.toMatch(/\blease\b/);

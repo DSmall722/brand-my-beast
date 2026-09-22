@@ -113,6 +113,9 @@ export const PUBLIC_COPY = {
   },
   etch: {
     heading: "Immortal Etch",
+    /** Seat-page art rules, restated once on the homepage Immortal Etch section. */
+    requirements:
+      "Immortal Etch artwork must use bold, simple shapes that can be permanently etched into stainless steel. Gradients, fine details, and very small text cannot be etched reliably. Final artwork will be reviewed before approval.",
     body: "Wrap is a year of film. Immortal Etch is cut into the steel. It does not peel with the wrap. Nine steel faces. Unlocks with the $120,000 whole-truck package — when the campaign owns the truck.",
     whyBuyout:
       "Immortal Etch ships with the $120,000 whole-truck package.",
@@ -177,6 +180,11 @@ export const PUBLIC_COPY = {
       {
         q: "When does bidding start?",
         a: "When seats open. There is no date on this page yet.",
+      },
+      {
+        id: "last-second-bid",
+        q: "What happens if someone bids at the last second?",
+        a: "A qualifying last-second bid extends that panel’s closing time so others have a fair chance to respond.",
       },
       {
         q: "Will I be charged if I join the list?",

@@ -12,7 +12,6 @@ import { formatIntegerUsd, formatUsd } from "@/lib/campaign";
 import { tryDepositPreviewCopy } from "@/lib/deposit-preview";
 import { ARTWORK_MAX_DATA_URL_CHARS } from "@/lib/intent-artwork";
 import type { AdjacentSeatHolder } from "@/lib/panel-clash";
-import { PUBLIC_COPY } from "@/lib/public-copy";
 import { intentFormMode, intentWaitlistOnlyCopy } from "@/lib/seats-open";
 
 const initial: IntentActionState = { ok: false };
@@ -152,7 +151,7 @@ export function IntentBidForm({
         neighbors={adjacentNeighbors}
       />
       <label className="auth-label" htmlFor="tradeLabel">
-        Trade (one brand per trade)
+        Trade
       </label>
       <input
         id="tradeLabel"
@@ -166,9 +165,6 @@ export function IntentBidForm({
         className="auth-input"
         defaultValue={suggestedTrade}
       />
-      <p className="auth-hint" data-testid="intent-trade-rule">
-        {PUBLIC_COPY.seatExclusivity.formHint}
-      </p>
       <label className="auth-label" htmlFor="standingUsd">
         Intent mark (USD)
       </label>

@@ -114,11 +114,9 @@ test.describe("slice 10.6: export seat PNG", () => {
     await expect(owner.getByTestId("intent-success")).toBeVisible({
       timeout: 10_000,
     });
-    await expect(owner.getByTestId("seat-export-png-link")).toBeVisible();
-    await expect(owner.getByTestId("seat-export-png-link")).toHaveAttribute(
-      "href",
-      "/api/panels/hood/export",
-    );
+    await expect(owner.getByTestId("seat-export-png-link")).toHaveCount(0);
+    await expect(owner.getByTestId("seat-export-png-signin")).toHaveCount(0);
+    await expect(owner.getByText("Download seat PNG")).toHaveCount(0);
 
     const ownerRes = await owner.request.get("/api/panels/hood/export");
     expect(ownerRes.ok()).toBeTruthy();
