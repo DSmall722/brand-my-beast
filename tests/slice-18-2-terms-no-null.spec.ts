@@ -35,13 +35,12 @@ test.describe("slice 18.2: terms clock drops null", () => {
     expect(vercelJsonIsHoldOrMainOnlyRestore()).toBe(true);
   });
 
-  test("terms HTML keeps floor and drops null clock", async ({ page }) => {
+  test("terms HTML drops null clock", async ({ page }) => {
     await page.goto("/terms");
-    await expect(page.getByTestId("terms-clock")).toHaveText(WHEN ?? "");
-    await expect(page.getByTestId("terms-floor")).toContainText("$58,000");
+    await expect(page.getByTestId("terms-page")).toBeVisible();
+    await expect(page.getByRole("heading", { name: "Governing law" })).toBeVisible();
     const html = await page.content();
     const body = await page.locator("main").innerHTML();
-    expect(html).toContain("$58,000");
     expect(body).not.toContain("null");
     expect(html).not.toContain("(null)");
     expect(html).not.toContain("CLOSE_AT");

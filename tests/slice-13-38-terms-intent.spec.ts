@@ -51,27 +51,21 @@ test.describe("slice 13.38: terms stub intent is not a charge", () => {
     );
   });
 
-  test("terms page shows Intent is not a charge", async ({ page }) => {
+  test("terms page shows bids and payment without a close clock", async ({
+    page,
+  }) => {
     await page.goto("/terms");
     await expect(page.getByTestId("terms-page")).toBeVisible();
-    await expect(page.getByTestId("terms-intent-not-charge")).toHaveText(
-      "Intent is not a charge.",
-    );
-    await expect(page.getByTestId("terms-intent")).toContainText(
-      "Intent is not a charge.",
-    );
-    await expect(page.getByTestId("terms-floor")).toContainText("$58,000");
-    await expect(page.getByTestId("terms-clock")).toHaveText(
-      "When seats open. There is no date on this page yet.",
+    await expect(page.getByTestId("terms-bids")).toContainText(
+      "Displayed \"Current Bid\" amounts are opening prices until a live bid is placed on that seat.",
     );
     await expect(page.getByTestId("terms-contact")).toContainText(BRAND.email);
 
     const html = await page.content();
     expect(html).toContain("BrandMyBeast");
-    expect(html).toContain("$58,000");
-    expect(html).toContain("$120,000");
     expect(html.toLowerCase()).not.toMatch(/\blease\b/);
     expect(html).not.toContain("CLOSE_AT");
+    expect(html).not.toContain("Close date is unset");
     expect(html.toLowerCase()).not.toMatch(/stripe/);
   });
 });
