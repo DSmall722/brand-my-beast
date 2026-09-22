@@ -21,6 +21,8 @@ export type StandingMark = {
 
 export type TodayMark = StandingMark & {
   timeLabel: string;
+  /** Brief verb for today's list. Never a payment chip. */
+  actionLabel: "Bid" | "Outbid";
 };
 
 export type AuctionLive = {
@@ -105,6 +107,22 @@ function standingBids(bids: readonly IntentBid[]): IntentBid[] {
   });
 }
 
+function todayActionLabel(
+  status: "listed" | "approved" | "outbid",
+): TodayMark["actionLabel"] {
+  switch (status) {
+    case "listed":
+    case "approved":
+      return "Bid";
+    case "outbid":
+      return "Outbid";
+    default: {
+      const exhaustive: never = status;
+      return exhaustive;
+    }
+  }
+}
+
 /** Top standing marks and the bids entered today (Eastern). */
 export function buildAuctionLive(
   bids: readonly IntentBid[],
@@ -113,11 +131,20 @@ export function buildAuctionLive(
   const top = standingBids(bids).slice(0, 3).map(toStanding);
   const todayKey = etDayKey(now.toISOString());
   const today = publicBids(bids)
+    .filter(
+      (
+        bid,
+      ): bid is IntentBid & { status: "listed" | "approved" | "outbid" } =>
+        bid.status === "listed" ||
+        bid.status === "approved" ||
+        bid.status === "outbid",
+    )
     .filter((bid) => etDayKey(bid.createdAt) === todayKey)
     .sort((a, b) => b.createdAt.localeCompare(a.createdAt))
     .map((bid) => ({
       ...toStanding(bid),
       timeLabel: formatSeatLogTime(bid.createdAt),
+      actionLabel: todayActionLabel(bid.status),
     }));
   return { top, today };
 }

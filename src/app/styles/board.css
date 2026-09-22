@@ -2963,8 +2963,32 @@
 
 .auction-live {
   display: grid;
-  gap: 1.5rem;
+  gap: 1rem;
   margin-top: 2rem;
+}
+
+.auction-callout {
+  min-width: 0;
+  padding: 1rem 1.1rem 1.15rem;
+  border: 1px solid color-mix(in oklab, var(--signal) 42%, var(--hairline));
+  background: color-mix(in oklab, var(--signal) 7%, transparent);
+}
+
+.auction-empty {
+  margin: 0;
+  color: var(--steel-300);
+  line-height: 1.45;
+}
+
+@media (min-width: 900px) {
+  .auction-live {
+    grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+    align-items: stretch;
+  }
+
+  .auction-leaderboard-link {
+    grid-column: 1 / -1;
+  }
 }
 
 .auction-live h3,
@@ -3004,8 +3028,18 @@
 }
 
 .auction-amount {
+  font-family: var(--font-display), Syne, system-ui, sans-serif;
   font-variant-numeric: tabular-nums;
   font-weight: 700;
+  color: var(--signal);
+  letter-spacing: -0.03em;
+}
+
+.auction-verb {
+  color: var(--steel-300);
+  font-size: 0.85rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
 }
 
 .auction-leaderboard-link {

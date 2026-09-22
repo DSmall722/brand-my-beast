@@ -10,14 +10,14 @@ export function AuctionLive({ model }: { model: AuctionLiveModel }) {
   return (
     <div className="auction-live">
       <section
-        className="auction-top"
+        className="auction-callout auction-top"
         data-testid="auction-top"
         data-empty={model.top.length === 0 ? "true" : "false"}
         aria-labelledby="auction-top-title"
       >
         <h3 id="auction-top-title">{copy.topHeading}</h3>
         {model.top.length === 0 ? (
-          <p className="auth-hint">{copy.topEmpty}</p>
+          <p className="auction-empty">{copy.topEmpty}</p>
         ) : (
           <ol className="auction-top-list">
             {model.top.map((mark, index) => (
@@ -38,35 +38,37 @@ export function AuctionLive({ model }: { model: AuctionLiveModel }) {
       </section>
 
       <section
-        className="auction-today"
+        className="auction-callout auction-today"
         data-testid="auction-today"
         data-empty={model.today.length === 0 ? "true" : "false"}
         aria-labelledby="auction-today-title"
       >
         <h3 id="auction-today-title">{copy.todayHeading}</h3>
         {model.today.length === 0 ? (
-          <p className="auth-hint">{copy.todayEmpty}</p>
+          <p className="auction-empty">{copy.todayEmpty}</p>
         ) : (
           <ul className="auction-today-list">
             {model.today.map((mark) => (
               <li key={mark.bidId}>
-                <time>{mark.timeLabel}</time>
                 <PublicMark
                   brandLabel={mark.brandLabel}
                   logoUrl={mark.publicLogoUrl}
                 />
-                <span>{mark.panelName}</span>
-                <span>{formatUsd(mark.standingUsd)}</span>
+                <span className="auction-panel">{mark.panelName}</span>
+                <span className="auction-verb">{mark.actionLabel}</span>
+                <span className="auction-amount">
+                  {formatUsd(mark.standingUsd)}
+                </span>
               </li>
             ))}
           </ul>
         )}
-        <p className="auction-leaderboard-link">
-          <Link href="/leaderboard" data-testid="leaderboard-link">
-            {copy.leaderboardLink}
-          </Link>
-        </p>
       </section>
+      <p className="auction-leaderboard-link">
+        <Link href="/leaderboard" data-testid="leaderboard-link">
+          {copy.leaderboardLink}
+        </Link>
+      </p>
     </div>
   );
 }

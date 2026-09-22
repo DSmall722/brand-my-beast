@@ -345,10 +345,10 @@ export const PUBLIC_COPY = {
   bidDesk: {
     dayHeading: "Day by day",
     heldBy: "Held by",
-    topHeading: "Top 3",
+    topHeading: "Top brands",
     topEmpty: "No standing bids yet.",
     todayHeading: "Today's action",
-    todayEmpty: "No bids yet today.",
+    todayEmpty: "No bid or outbid yet today. Be the first.",
     leaderboardLink: "Leaderboard",
     leaderboardHeading: "Leaderboard",
     leaderboardEvery: "Every bid ever placed, highest first.",

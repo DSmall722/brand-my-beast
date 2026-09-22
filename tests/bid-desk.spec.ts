@@ -192,6 +192,8 @@ test.describe("bid desk: modal, hidden sign-in, unpaid, day by day", () => {
     expect(buildLeaderboard(liveMarks).rows[1]?.publicLogoUrl).toBe(
       "https://cdn.example.com/hood.png",
     );
+    const sep1 = buildAuctionLive(live, new Date("2026-09-01T18:00:00.000Z")).today;
+    expect(sep1.map((row) => row.actionLabel)).toEqual(["Bid", "Outbid"]);
     expect(buildAuctionLive(live, new Date("2026-09-02T18:00:00.000Z")).today).toHaveLength(
       2,
     );
@@ -234,8 +236,9 @@ test.describe("bid desk: modal, hidden sign-in, unpaid, day by day", () => {
       "No standing bids yet.",
     );
     await expect(page.getByTestId("auction-today")).toContainText(
-      "No bids yet today.",
+      "No bid or outbid yet today. Be the first.",
     );
+    await expect(page.getByTestId("auction-top")).toContainText("Top brands");
     await expect(page.getByTestId("leaderboard-link")).toHaveAttribute(
       "href",
       "/leaderboard",
