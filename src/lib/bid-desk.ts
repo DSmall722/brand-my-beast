@@ -119,14 +119,22 @@ function raisedBidIds(bids: readonly IntentBid[]): Set<string> {
  * board raised, attributed to the day each of those marks was entered.
  * Summing `standingUsd` across days equals raised. Outbid and still-listed
  * rows stay in the day total and in the line items, with standing 0.
+ * Pass `panelId` for one seat: same math, that panel only.
  */
-export function buildDayByDay(bids: readonly IntentBid[]): DayByDay {
-  const publicBids = bids.filter(
+export function buildDayByDay(
+  bids: readonly IntentBid[],
+  options?: { panelId?: string },
+): DayByDay {
+  const scoped =
+    options?.panelId == null
+      ? bids
+      : bids.filter((bid) => bid.panelId === options.panelId);
+  const publicBids = scoped.filter(
     (bid) => HISTORY_STATUSES.has(bid.status) && !isFloorSaveBid(bid),
   );
   if (publicBids.length === 0) return EMPTY_DAY_BY_DAY;
 
-  const standingIds = raisedBidIds(bids);
+  const standingIds = raisedBidIds(scoped);
   const buckets = new Map<string, DayByDayBucket>();
   const ordered = publicBids.slice().sort((a, b) => {
     const byTime = b.createdAt.localeCompare(a.createdAt);

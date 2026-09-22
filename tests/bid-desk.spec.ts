@@ -139,6 +139,16 @@ test.describe("bid desk: modal, hidden sign-in, unpaid, day by day", () => {
     expect(days.days.some((day) => day.rows.some((row) => row.bidId === "gone"))).toBe(
       false,
     );
+
+    const hoodOnly = buildDayByDay(live, { panelId: "hood" });
+    expect(hoodOnly.days).toHaveLength(1);
+    expect(hoodOnly.days[0]?.bidUsd).toBe(5500);
+    expect(hoodOnly.days[0]?.standingUsd).toBe(2500);
+    expect(hoodOnly.days[0]?.rows.map((row) => row.bidId)).toEqual([
+      "hood-listed",
+      "hood-win",
+    ]);
+    expect(buildDayByDay(live, { panelId: "front-bumper" }).days).toEqual([]);
   });
 
   test("homepage bid modal stays on the page and does not charge", async ({
@@ -328,5 +338,31 @@ test.describe("bid desk: modal, hidden sign-in, unpaid, day by day", () => {
     await expect(page.getByTestId("day-by-day")).toContainText("Early Brand");
     await expect(page.getByTestId("day-by-day")).not.toContainText("unpaid");
     await expect(page.getByTestId("day-by-day")).not.toContainText("paid");
+
+    await page.goto("/panels/hood");
+    const hoodHistory = page.getByTestId("day-by-day");
+    await expect(hoodHistory).toHaveAttribute("data-empty", "false");
+    await expect(hoodHistory).not.toContainText("Sample history");
+    await expect(hoodHistory).not.toContainText("unpaid");
+    await expect(hoodHistory).not.toContainText("paid");
+    await expect(hoodHistory).not.toContainText("Hood");
+    const hoodStanding = hoodHistory.locator("[data-standing]");
+    await expect(hoodStanding).toHaveAttribute("data-standing", "2750");
+    await expect(hoodStanding).toHaveAttribute("data-bid-usd", "5250");
+    await expect(hoodHistory.locator(".day-by-day-line")).toHaveCount(2);
+    await expect(hoodHistory).toContainText("Standing Brand");
+    await expect(hoodHistory).toContainText("Early Brand");
+    await expect(hoodHistory.locator("time").first()).toContainText("ET");
+    await hoodHistory.locator("summary").click();
+    await expect(hoodHistory.locator("details")).not.toHaveJSProperty("open", true);
+
+    await page.goto("/panels/tailgate");
+    await expect(page.getByTestId("day-by-day")).toHaveAttribute(
+      "data-empty",
+      "true",
+    );
+    await expect(page.getByTestId("day-by-day").locator(".day-by-day-list")).toHaveCount(
+      0,
+    );
   });
 });

@@ -2,7 +2,14 @@ import type { DayByDay as DayByDayModel } from "@/lib/bid-desk";
 import { formatDayMoney } from "@/lib/bid-desk";
 import { PUBLIC_COPY } from "@/lib/public-copy";
 
-export function DayByDay({ model }: { model: DayByDayModel }) {
+export function DayByDay({
+  model,
+  showPanel = true,
+}: {
+  model: DayByDayModel;
+  /** Homepage rows name the panel. A seat page already is that panel. */
+  showPanel?: boolean;
+}) {
   const copy = PUBLIC_COPY.bidDesk;
   const empty = model.days.length === 0;
 
@@ -37,14 +44,18 @@ export function DayByDay({ model }: { model: DayByDayModel }) {
                 </summary>
                 <ul className="day-by-day-lines">
                   {day.rows.map((row) => (
-                    <li
+                      <li
                       key={row.bidId}
-                      className="day-by-day-line"
+                      className={
+                        showPanel
+                          ? "day-by-day-line"
+                          : "day-by-day-line day-by-day-line-panel"
+                      }
                       data-testid={`day-line-${row.bidId}`}
                     >
                       <time>{row.timeLabel}</time>
                       <span>{row.brandLabel}</span>
-                      <span>{row.panelName}</span>
+                      {showPanel ? <span>{row.panelName}</span> : null}
                       <span>{formatDayMoney(row.amountUsd)}</span>
                     </li>
                   ))}

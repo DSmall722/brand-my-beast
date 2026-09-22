@@ -346,6 +346,18 @@
   gap: 1rem;
 }
 
+@media (min-width: 900px) {
+  .story-list {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1.25rem 1.5rem;
+    align-items: start;
+  }
+
+  .story-step-copy {
+    max-width: none;
+  }
+}
+
 .story-list li {
   display: grid;
   grid-template-columns: 3rem 1fr;
@@ -3008,6 +3020,10 @@
   align-items: baseline;
   min-width: 0;
   overflow-wrap: anywhere;
+}
+
+.day-by-day-line-panel {
+  grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr) auto;
 }
 
 .day-by-day-line span:last-child {

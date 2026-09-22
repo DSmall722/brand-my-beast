@@ -1,12 +1,14 @@
 import Link from "next/link";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
+import { DayByDay } from "@/components/home/DayByDay";
 import { ImmortalEtchLockup } from "@/components/ImmortalEtchLockup";
 import { IntentArtworkPreview } from "@/components/IntentArtworkPreview";
 import { IntentBidForm } from "@/components/IntentBidForm";
 import { TruckViewHotspots } from "@/components/TruckViewHotspots";
 import { SiteChrome } from "@/components/SiteChrome";
 import { auth } from "@/lib/auth";
+import { buildDayByDay } from "@/lib/bid-desk";
 import {
   BRAND,
   DEPOSIT_PERCENT,
@@ -121,6 +123,7 @@ export default async function PanelIntentPage({
     (bid) => bid.status === "listed" || bid.status === "approved",
   );
   const seatLog = buildPublicSeatLog(bids);
+  const dayByDay = buildDayByDay(bids, { panelId: panel.id });
 
   const seatOpen = !holder;
   // Slice 9.2 — next minimum is standing + max($250, 10%) once a mark holds.
@@ -285,6 +288,8 @@ export default async function PanelIntentPage({
             </Link>
           </p>
         )}
+
+        <DayByDay model={dayByDay} showPanel={false} />
 
         {seatLog.length === 0 ? null : (
         <section
