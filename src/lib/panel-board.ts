@@ -100,10 +100,9 @@ const BOARD_LAYOUT: Record<Panel["id"], BoardLayout> = {
     views: { passenger: { x: 20, y: 55 } },
     face: {
       still: "passenger",
-      // Nose-right still. Flat bedside wash is x≈3–22, above the wheel.
-      // 500% keeps the window on that wash (wheel is a sliver, door stays out).
-      objectPosition: "3% 50%",
-      backgroundSize: "500% auto",
+      // Nose-right still. Flat bedside wash, a little wheel and top edge in frame.
+      objectPosition: "2% 50%",
+      backgroundSize: "380% auto",
     },
   },
   "driver-rear-quarter": {
@@ -123,10 +122,10 @@ const BOARD_LAYOUT: Record<Panel["id"], BoardLayout> = {
     views: { passenger: { x: 18, y: 42 } },
     face: {
       still: "passenger",
-      // Sail triangle sits mid-still (not the foliage at the left edge).
-      // 440% centers that triangle in the wide phone card.
-      objectPosition: "23% 30%",
-      backgroundSize: "440% auto",
+      // Rear-quarter triangle is low and aft (left on this nose-right still).
+      // 360% keeps that metal in the phone card; 440% had landed on the glass.
+      objectPosition: "0% 44%",
+      backgroundSize: "360% auto",
     },
   },
 
