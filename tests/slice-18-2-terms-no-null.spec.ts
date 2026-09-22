@@ -11,9 +11,9 @@ import { findStripePackagesInRootPackageJson } from "../src/lib/no-stripe-packag
 import { vercelJsonIsHoldOrMainOnlyRestore } from "../src/lib/vercel-git-deploy";
 
 /**
- * QA 1047PM — /terms deleted (was close-date/(null) cleanup target).
+ * Slice 18.2 — approved /terms drops Close date is unset and (null).
  */
-test.describe("slice 18.2: terms removed", () => {
+test.describe("slice 18.2: terms clock drops null", () => {
   test("campaign money fences stay locked — CLOSE_AT null", () => {
     expect(FLOOR_USD).toBe(58_000);
     expect(GOAL_USD).toBe(120_000);
@@ -32,12 +32,16 @@ test.describe("slice 18.2: terms removed", () => {
     expect(vercelJsonIsHoldOrMainOnlyRestore()).toBe(true);
   });
 
-  test("/terms redirects to privacy without a terms page", async ({ page }) => {
+  test("terms HTML drops null clock", async ({ page }) => {
     await page.goto("/terms");
-    await expect(page).toHaveURL(/\/privacy$/);
-    await expect(page.getByTestId("privacy-page")).toBeVisible();
+    await expect(page.getByTestId("terms-page")).toBeVisible();
+    await expect(page.getByRole("heading", { name: "Governing law" })).toBeVisible();
     const html = await page.content();
-    expect(html.toLowerCase()).not.toContain("close date is unset");
+    const body = await page.locator("main").innerHTML();
+    expect(body).not.toContain("null");
     expect(html).not.toContain("(null)");
+    expect(html).not.toContain("CLOSE_AT");
+    expect(html).not.toContain("Close date is unset");
+    expect(html.toLowerCase()).not.toMatch(/\blease\b/);
   });
 });

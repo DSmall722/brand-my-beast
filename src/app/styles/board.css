@@ -915,6 +915,13 @@
   font-size: 0.9rem;
 }
 
+.legal-stub-body h2 {
+  font-family: var(--font-display), Syne, system-ui, sans-serif;
+  font-size: 1.05rem;
+  letter-spacing: -0.02em;
+  margin: 1.35rem 0 0.35rem;
+}
+
 .legal-stub-body p {
   margin: 0 0 1rem;
   max-width: 42rem;

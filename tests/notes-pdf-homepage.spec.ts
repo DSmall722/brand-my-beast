@@ -241,8 +241,14 @@ test.describe("notes PDF homepage sheet", () => {
       "We only email when seats open.",
     );
     await expect(page.getByTestId("site-footer-independent")).toHaveCount(0);
-    await expect(page.getByTestId("footer-privacy-link")).toBeVisible();
-    await expect(page.getByTestId("footer-terms-link")).toHaveCount(0);
+    await expect(page.getByTestId("footer-privacy-link")).toHaveAttribute(
+      "href",
+      "/privacy",
+    );
+    await expect(page.getByTestId("footer-terms-link")).toHaveAttribute(
+      "href",
+      "/terms",
+    );
 
     await page.getByTestId("want-all-panels").click();
     await expect(page).toHaveURL(/#waitlist$/);

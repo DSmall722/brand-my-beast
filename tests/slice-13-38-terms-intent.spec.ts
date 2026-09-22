@@ -12,9 +12,10 @@ import { PUBLIC_COPY } from "../src/lib/public-copy";
 import { vercelJsonIsHoldOrMainOnlyRestore } from "../src/lib/vercel-git-deploy";
 
 /**
- * QA 1047PM — /terms deleted. Intent-is-not-a-charge stays in PUBLIC_COPY.footer.
+ * Slice 13.38 — approved Terms page. Intent-is-not-a-charge stays in PUBLIC_COPY.
+ * CLOSE_AT null. No Stripe. Hold-mode untouched.
  */
-test.describe("slice 13.38: terms removed; intent phrase kept in copy", () => {
+test.describe("slice 13.38: terms bids and payment", () => {
   test("campaign money fences stay locked — CLOSE_AT null", () => {
     expect(FLOOR_USD).toBe(58_000);
     expect(GOAL_USD).toBe(120_000);
@@ -33,13 +34,27 @@ test.describe("slice 13.38: terms removed; intent phrase kept in copy", () => {
     expect(vercelJsonIsHoldOrMainOnlyRestore()).toBe(true);
   });
 
-  test("intent phrase stays in PUBLIC_COPY; /terms redirects to privacy", async ({
+  test("unit: PUBLIC_COPY locks intent-is-not-a-charge line", () => {
+    expect(PUBLIC_COPY.footer.intentNotACharge).toBe(
+      "Intent is not a charge.",
+    );
+  });
+
+  test("terms page shows bids and payment without a close clock", async ({
     page,
   }) => {
-    expect(PUBLIC_COPY.footer.intentNotACharge).toBe("Intent is not a charge.");
     await page.goto("/terms");
-    await expect(page).toHaveURL(/\/privacy$/);
-    await expect(page.getByTestId("privacy-page")).toBeVisible();
-    await expect(page.getByTestId("terms-page")).toHaveCount(0);
+    await expect(page.getByTestId("terms-page")).toBeVisible();
+    await expect(page.getByTestId("terms-bids")).toContainText(
+      'Displayed "Current Bid" amounts are opening prices until a live bid is placed on that seat.',
+    );
+    await expect(page.getByTestId("terms-contact")).toContainText(BRAND.email);
+
+    const html = await page.content();
+    expect(html).toContain("BrandMyBeast");
+    expect(html.toLowerCase()).not.toMatch(/\blease\b/);
+    expect(html).not.toContain("CLOSE_AT");
+    expect(html).not.toContain("Close date is unset");
+    expect(html.toLowerCase()).not.toMatch(/stripe/);
   });
 });
