@@ -1,4 +1,4 @@
-import { expect, test } from "@playwright/test";
+import { expect, type Page, test } from "@playwright/test";
 import { buildDayByDay, bidDeskMode } from "../src/lib/bid-desk";
 import { CLOSE_AT, FLOOR_USD, GOAL_USD } from "../src/lib/campaign";
 import type { IntentBid } from "../src/lib/intent";
@@ -20,7 +20,16 @@ function mark(overrides: Partial<IntentBid> & Pick<IntentBid, "id" | "panelId" |
   };
 }
 
+async function signIn(page: Page, email: string) {
+  await page.goto("/signin");
+  await page.getByTestId("signin-email").fill(email);
+  await page.getByTestId("signin-password").fill("test");
+  await page.getByTestId("signin-submit").click();
+  await expect(page.getByTestId("account-page")).toBeVisible();
+}
+
 test.describe("bid desk: modal, hidden sign-in, unpaid, day by day", () => {
+  test.describe.configure({ mode: "serial" });
   test("empty ledger has no invented days; live marks group by day", () => {
     expect(FLOOR_USD).toBe(58_000);
     expect(GOAL_USD).toBe(120_000);
@@ -30,7 +39,7 @@ test.describe("bid desk: modal, hidden sign-in, unpaid, day by day", () => {
     const empty = buildDayByDay([]);
     expect(empty.days).toEqual([]);
 
-    const live = buildDayByDay([
+    const listedOnly = buildDayByDay([
       mark({
         id: "late",
         panelId: "hood",
@@ -48,12 +57,88 @@ test.describe("bid desk: modal, hidden sign-in, unpaid, day by day", () => {
         brandLabel: "Early Brand",
       }),
     ]);
-    expect(live.days.map((day) => day.dayKey)).toEqual([
+    expect(listedOnly.days.map((day) => day.dayKey)).toEqual([
       "2026-09-02",
       "2026-09-01",
     ]);
-    expect(live.days[0]?.standingUsd).toBe(2500);
-    expect(live.days[1]?.standingUsd).toBe(0);
+    expect(listedOnly.days[0]?.bidCount).toBe(1);
+    expect(listedOnly.days[0]?.bidUsd).toBe(2500);
+    expect(listedOnly.days[0]?.standingUsd).toBe(0);
+    expect(listedOnly.days[1]?.bidUsd).toBe(500);
+    expect(listedOnly.days[1]?.standingUsd).toBe(0);
+    expect(listedOnly.days[0]?.rows[0]?.timeLabel).toContain("ET");
+    expect(listedOnly.days[0]?.rows[0]?.brandLabel).toBe("Late Brand");
+    expect(listedOnly.days[0]?.rows[0]?.panelName).toBe("Hood");
+
+    const live = [
+      mark({
+        id: "hood-win",
+        panelId: "hood",
+        standingUsd: 2500,
+        status: "approved",
+        createdAt: "2026-09-02T16:00:00.000Z",
+        brandLabel: "Hood Brand",
+      }),
+      mark({
+        id: "hood-listed",
+        panelId: "hood",
+        standingUsd: 3000,
+        status: "listed",
+        createdAt: "2026-09-02T18:00:00.000Z",
+        brandLabel: "Pending Brand",
+      }),
+      mark({
+        id: "tail-win",
+        panelId: "tailgate",
+        standingUsd: 1500,
+        status: "approved",
+        createdAt: "2026-09-01T16:00:00.000Z",
+        brandLabel: "Tail Brand",
+      }),
+      mark({
+        id: "tail-old",
+        panelId: "tailgate",
+        standingUsd: 800,
+        status: "outbid",
+        createdAt: "2026-09-01T15:00:00.000Z",
+        brandLabel: "Beaten Brand",
+      }),
+      mark({
+        id: "floor-save",
+        panelId: "front-fascia",
+        standingUsd: 9000,
+        status: "approved",
+        createdAt: "2026-09-02T12:00:00.000Z",
+        floorSaveUsd: 9000,
+      }),
+      mark({
+        id: "gone",
+        panelId: "front-bumper",
+        standingUsd: 700,
+        status: "withdrawn",
+        createdAt: "2026-09-01T12:00:00.000Z",
+      }),
+    ];
+    const days = buildDayByDay(live);
+    const standingSum = days.days.reduce((sum, day) => sum + day.standingUsd, 0);
+    expect(standingSum).toBe(4000);
+    expect(days.days[0]?.dayKey).toBe("2026-09-02");
+    expect(days.days[0]?.bidCount).toBe(2);
+    expect(days.days[0]?.bidUsd).toBe(5500);
+    expect(days.days[0]?.standingUsd).toBe(2500);
+    expect(days.days[0]?.rows.map((row) => row.bidId)).toEqual([
+      "hood-listed",
+      "hood-win",
+    ]);
+    expect(days.days[1]?.bidCount).toBe(2);
+    expect(days.days[1]?.bidUsd).toBe(2300);
+    expect(days.days[1]?.standingUsd).toBe(1500);
+    expect(days.days.some((day) => day.rows.some((row) => row.bidId === "floor-save"))).toBe(
+      false,
+    );
+    expect(days.days.some((day) => day.rows.some((row) => row.bidId === "gone"))).toBe(
+      false,
+    );
   });
 
   test("homepage bid modal stays on the page and does not charge", async ({
@@ -170,5 +255,78 @@ test.describe("bid desk: modal, hidden sign-in, unpaid, day by day", () => {
     expect(overflow.scrollWidth).toBeLessThanOrEqual(overflow.clientWidth + 1);
 
     await expect(modal).toContainText(PUBLIC_COPY.bidDesk.closedLead);
+  });
+
+  test("day standing sums to raised; bid total includes beaten marks", async ({
+    page,
+    browser,
+    request,
+  }) => {
+    const reset = await request.post("/api/test/reset-intents");
+    expect(reset.ok()).toBeTruthy();
+
+    const first = await browser.newPage();
+    await signIn(first, "day-first@example.com");
+    await first.goto("/panels/hood");
+    await first.getByTestId("intent-brand").fill("Early Brand");
+    await first.getByTestId("intent-trade").fill("tools");
+    await first.getByTestId("intent-standing").fill("2500");
+    await first.getByTestId("intent-submit").click();
+    await expect(first.getByTestId("intent-success")).toBeVisible();
+    await first.close();
+
+    await page.goto("/");
+    const history = page.getByTestId("day-by-day");
+    await expect(history).toHaveAttribute("data-empty", "false");
+    await expect(history).not.toContainText("Sample history");
+    await expect(history).not.toContainText("unpaid");
+    await expect(history).not.toContainText("paid");
+    await expect(page.getByTestId("raised-amount")).toHaveText("$0");
+    const listedStanding = history.locator("[data-standing]");
+    await expect(listedStanding).toHaveCount(1);
+    await expect(listedStanding).toHaveAttribute("data-standing", "0");
+    await expect(listedStanding).toHaveAttribute("data-bid-usd", "2500");
+    await expect(history.locator(".day-by-day-line")).toContainText("Early Brand");
+    await expect(history.locator(".day-by-day-line")).toContainText("Hood");
+    await expect(history.locator(".day-by-day-line")).toContainText("ET");
+
+    const details = history.locator("details");
+    await details.locator("summary").click();
+    await expect(details).not.toHaveJSProperty("open", true);
+    await details.locator("summary").click();
+    await expect(history.locator(".day-by-day-line")).toBeVisible();
+
+    const second = await browser.newPage();
+    await signIn(second, "day-second@example.com");
+    await second.goto("/panels/hood");
+    await second.getByTestId("intent-brand").fill("Standing Brand");
+    await second.getByTestId("intent-trade").fill("paint");
+    await second.getByTestId("intent-standing").fill("2750");
+    await second.getByTestId("intent-submit").click();
+    await expect(second.getByTestId("intent-success")).toBeVisible();
+    await second.close();
+
+    const operator = await browser.newPage();
+    await signIn(operator, "operator@example.com");
+    await operator.goto("/operator");
+    await expect(operator.getByTestId("approvals-list")).toContainText(
+      "Standing Brand",
+    );
+    await operator.locator('[data-testid^="approve-"]').first().click();
+    await expect(operator.getByTestId("approvals-empty")).toBeVisible();
+    await operator.close();
+
+    await page.goto("/");
+    await expect(page.getByTestId("raised-amount")).toHaveText("$2,750");
+    const approved = page.getByTestId("day-by-day").locator("[data-standing]");
+    await expect(approved).toHaveCount(1);
+    await expect(approved).toHaveAttribute("data-standing", "2750");
+    await expect(approved).toHaveAttribute("data-bid-usd", "5250");
+    const lines = page.getByTestId("day-by-day").locator(".day-by-day-line");
+    await expect(lines).toHaveCount(2);
+    await expect(page.getByTestId("day-by-day")).toContainText("Standing Brand");
+    await expect(page.getByTestId("day-by-day")).toContainText("Early Brand");
+    await expect(page.getByTestId("day-by-day")).not.toContainText("unpaid");
+    await expect(page.getByTestId("day-by-day")).not.toContainText("paid");
   });
 });

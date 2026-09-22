@@ -2957,21 +2957,73 @@
 }
 
 .day-by-day-list summary {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  gap: 0.35rem 1rem;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 0.5rem 1rem;
   cursor: pointer;
-  font-weight: 600;
+  min-width: 0;
 }
 
-.day-by-day-list ul {
+.day-by-day-meta {
+  display: grid;
+  gap: 0.15rem;
+  min-width: 0;
+}
+
+.day-by-day-date {
+  font-weight: 700;
+}
+
+.day-by-day-count {
+  color: var(--steel-300);
+  font-size: 0.92rem;
+}
+
+.day-by-day-standing {
+  font-family: var(--font-display), Syne, system-ui, sans-serif;
+  font-size: clamp(1.55rem, 4vw, 2.35rem);
+  font-weight: 750;
+  letter-spacing: -0.04em;
+  line-height: 1;
+  color: var(--signal);
+  font-variant-numeric: tabular-nums;
+}
+
+.day-by-day-lines {
   list-style: none;
   margin: 0.85rem 0 0;
-  padding: 0;
+  padding: 0.85rem 0 0;
+  border-top: 1px solid var(--hairline);
   display: grid;
-  gap: 0.45rem;
+  gap: 0.55rem;
   color: var(--steel-300);
+  min-width: 0;
+}
+
+.day-by-day-line {
+  display: grid;
+  grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr) minmax(0, 1fr) auto;
+  gap: 0.25rem 0.75rem;
+  align-items: baseline;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.day-by-day-line span:last-child {
+  font-variant-numeric: tabular-nums;
+  color: white;
+  font-weight: 650;
+}
+
+@media (max-width: 640px) {
+  .day-by-day-line {
+    grid-template-columns: minmax(0, 1fr) auto;
+  }
+
+  .day-by-day-line time {
+    grid-column: 1 / -1;
+  }
 }
 
 .auth-credentials-hatch {

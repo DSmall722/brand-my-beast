@@ -20,18 +20,32 @@ export function DayByDay({ model }: { model: DayByDayModel }) {
             <li key={day.dayKey}>
               <details open={index === 0}>
                 <summary data-testid={`day-by-day-${day.dayKey}`}>
-                  <span>{day.dayLabel}</span>
-                  <span>
-                    {day.bidCount} {day.bidCount === 1 ? "bid" : "bids"} ·{" "}
-                    {formatDayMoney(day.bidUsd)} bid ·{" "}
-                    {formatDayMoney(day.standingUsd)} standing
+                  <span className="day-by-day-meta">
+                    <span className="day-by-day-date">{day.dayLabel}</span>
+                    <span className="day-by-day-count">
+                      {day.bidCount} {day.bidCount === 1 ? "bid" : "bids"} ·{" "}
+                      {formatDayMoney(day.bidUsd)} bid
+                    </span>
+                  </span>
+                  <span
+                    className="day-by-day-standing"
+                    data-standing={day.standingUsd}
+                    data-bid-usd={day.bidUsd}
+                  >
+                    {formatDayMoney(day.standingUsd)}
                   </span>
                 </summary>
-                <ul>
-                  {day.rows.map((row, rowIndex) => (
-                    <li key={`${day.dayKey}:${rowIndex}`}>
-                      {row.panelName} · {row.brandLabel} ·{" "}
-                      {formatDayMoney(row.amountUsd)}
+                <ul className="day-by-day-lines">
+                  {day.rows.map((row) => (
+                    <li
+                      key={row.bidId}
+                      className="day-by-day-line"
+                      data-testid={`day-line-${row.bidId}`}
+                    >
+                      <time>{row.timeLabel}</time>
+                      <span>{row.brandLabel}</span>
+                      <span>{row.panelName}</span>
+                      <span>{formatDayMoney(row.amountUsd)}</span>
                     </li>
                   ))}
                 </ul>
