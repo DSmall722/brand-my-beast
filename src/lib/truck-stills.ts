@@ -1,7 +1,7 @@
 /**
- * Local Cybertruck stills. Hero stays the 1280 / 640 pair. Front and rear
- * TRACE AID flats are 2048×1360. Driver is the garage bake (1792×1104).
- * Passenger is the plaza bake (1728×1152).
+ * Local Cybertruck stills. Hero stays the 1280 / 640 pair. Front, rear,
+ * and driver TRACE AID flats are 2048×1360. Passenger is the plaza bake
+ * (1728×1152). The driver plate is the pre-cropped full side — no extra zoom.
  */
 
 import { HERO_STILL_WIDE } from "./hero-still";
@@ -10,8 +10,8 @@ import type { TruckViewId } from "./truck-views";
 /** Front and rear TRACE AID teaching plates. */
 export const TRACE_AID_STILL = { width: 2048, height: 1360 } as const;
 
-/** Driver Preview the Panels bake. Nose left. Seats 4–6 labeled in the pixels. */
-export const DRIVER_BOARD_STILL = { width: 1792, height: 1104 } as const;
+/** Driver Preview the Panels bake. Nose left. Full side, 2048×1360. */
+export const DRIVER_BOARD_STILL = { width: 2048, height: 1360 } as const;
 
 /** Passenger Preview the Panels bake. Nose right. Seats 7–9 labeled in the pixels. */
 export const PASSENGER_BOARD_STILL = { width: 1728, height: 1152 } as const;

@@ -106,7 +106,7 @@ const BOARD_LAYOUT: Record<Panel["id"], BoardLayout> = {
   "driver-rear-quarter": {
     hero: { x: 73, y: 43 },
     heroMobile: { x: 73, y: 56 },
-    views: { driver: { x: 68, y: 39 } },
+    views: { driver: { x: 66, y: 43 } },
     face: {
       still: "driver",
       objectPosition: "16% 36%",
