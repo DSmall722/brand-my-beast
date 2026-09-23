@@ -66,9 +66,7 @@ test.describe("slice 20.7: whole-truck lead is one sentence", () => {
     page,
   }) => {
     await page.goto("/#money");
-    await expect(page.getByTestId("want-all-panels")).toHaveText(
-      PUBLIC_COPY.board.wantAllPanels,
-    );
+    await expect(page.getByTestId("want-all-panels")).toHaveCount(0);
     await expect(page.getByTestId("whole-truck-lead")).toHaveCount(0);
     await expect(page.getByTestId("whole-truck-heading")).toHaveCount(0);
     await expect(page.locator("#hero-title")).toHaveText(LOCKED_H1);
