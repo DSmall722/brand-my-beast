@@ -79,11 +79,7 @@ test.describe("slice 16.25: whole-truck package is seats 1-11", () => {
     page,
   }) => {
     await page.goto("/");
-    const cta = page.getByTestId("want-all-panels");
-    await expect(cta).toBeVisible();
-    await expect(cta).toHaveText(PUBLIC_COPY.board.wantAllPanels);
-    await expect(cta).not.toContainText(wholeTruckPackageCopy());
-    await expect(cta).not.toContainText("1 Hood");
+    await expect(page.getByTestId("want-all-panels")).toHaveCount(0);
     await expect(page.getByTestId("whole-truck-lead")).toHaveCount(0);
     await expect(page.getByTestId("whole-truck-intent-form")).toHaveCount(0);
     await expect(page.getByTestId("floor-amount")).toHaveText("$58,000");
@@ -98,7 +94,7 @@ test.describe("slice 16.25: whole-truck package is seats 1-11", () => {
     expect(html).toContain("$58,000");
     expect(html).toContain("$120,000");
     expect(html).not.toContain("The package is 1 Hood");
-    expect(html).toContain(PUBLIC_COPY.board.wantAllPanels);
+    expect(html).not.toContain(PUBLIC_COPY.board.wantAllPanels);
     expect(html.toLowerCase()).not.toMatch(/\blease\b/);
   });
 });
