@@ -72,7 +72,7 @@ test.describe("slice 20.8: wreck lead is a complete sentence", () => {
     await page.goto("/#questions");
     await expect(page.getByTestId("wreck-lead")).toHaveCount(0);
     await expect(page.getByTestId("faq-campaign-miss")).toContainText(
-      "Full refund",
+      "Every hold is released. Nobody is charged.",
     );
     await expect(page.locator("#hero-title")).toHaveText(LOCKED_H1);
     const html = await page.content();

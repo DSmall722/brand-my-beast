@@ -69,7 +69,7 @@ test.describe("slice 20.12: Wave 20 Playwright pack", () => {
       PUBLIC_COPY.board.wantAllPanels,
     );
     await expect(page.getByTestId("faq-campaign-miss")).toContainText(
-      PUBLIC_COPY.wreck.items[0]!.a,
+      "Every hold is released. Nobody is charged.",
     );
     await expect(page.locator('meta[name="description"]')).toHaveAttribute(
       "content",
