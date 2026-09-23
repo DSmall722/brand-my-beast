@@ -117,9 +117,9 @@ export const PUBLIC_COPY = {
     /** Seat-page art rules, restated once on the homepage Immortal Etch section. */
     requirements:
       "Immortal Etch artwork must use bold, simple shapes that can be permanently etched into stainless steel. Gradients, fine details, and very small text cannot be etched reliably. Final artwork will be reviewed before approval.",
-    body: "Wrap is a year of film. Immortal Etch is cut into the steel. It does not peel with the wrap. Nine steel faces. Unlocks with the $120,000 whole-truck package — when the campaign owns the truck.",
+    body: "Wrap is a year of film. Immortal Etch is a shallow frost of your mark in the stainless. It does not peel with the wrap. Nine steel faces. Unlocks once standing crosses $120,000.",
     whyBuyout:
-      "Immortal Etch ships with the $120,000 whole-truck package.",
+      "Immortal Etch unlocks once standing crosses $120,000.",
     cost: "After Immortal Etch is installed there is no cash refund of that finish.",
     art: "One color, thick strokes, no gradients, no tiny type. If it cannot be cut, it does not ship.",
     forever: "Immortal Etch is forever.",
@@ -174,34 +174,66 @@ export const PUBLIC_COPY = {
     items: [
       {
         q: "Is this Tesla?",
-        a: "No. Independent project. Not affiliated with Tesla, Inc.",
+        a: "No. BrandMyBeast is independent. Cyberbeast is the trim this campaign funds. Tesla doesn’t run this, endorse it, or get a cut.",
       },
       {
-        q: "What am I buying?",
-        a: "A year of your brand on one panel. Not a share of the title.",
+        q: "What am I actually buying?",
+        a: "A seat on the truck for your brand. There are eleven panels. Vinyl wrap is available on all of them. Immortal Etch — a frost of your mark in the stainless — is available on nine of them once standing crosses $120,000. The two bumpers stay wrap. You’re buying the panel, the finish, and a year of miles. Not a follower count. Not a guaranteed number of views.",
       },
       {
-        q: "What if two of us sell the same thing?",
-        a: "You bid against each other for that panel.",
+        q: "How long is my brand on the truck?",
+        a: "Wraps run twelve months from install. Etch stays in the steel.",
       },
       {
-        q: "What is Immortal Etch?",
-        a: "Cut into the stainless — not vinyl. Nine steel panels. Vinyl lasts a year. Immortal Etch is forever.",
+        q: "What if two of us are in the same business?",
+        a: "One trade, one brand on the truck. Name your business when you bid. If that trade is already standing on a panel, that’s the seat you bid.",
       },
       {
-        id: "last-second-bid",
-        q: "What happens if someone bids at the last second?",
-        a: "A qualifying last-second bid extends that panel’s closing time so others have a fair chance to respond.",
+        q: "How does payment work?",
+        a: "Twenty percent holds your bid on the card. The rest is charged if you win the panel and the campaign hits $58,000. Get outbid, or miss that floor, and the hold comes back.",
+      },
+      {
+        id: "outbid",
+        q: "What if someone outbids me?",
+        a: "You’re off that panel. The 20% is an authorization, not a captured charge — it releases back to the same card. Most banks drop the pending line in a few days. You can bid again on another seat, or come back at the new number.",
+      },
+      {
+        q: "Can I take more than one panel?",
+        a: "Yes. Pick whatever panels your business needs to maximize this advertising opportunity.",
+      },
+      {
+        q: "What if I want every panel?",
+        a: "Check the box on the contact form. That starts a whole-truck conversation. It does not buy the board from this page.",
+      },
+      {
+        q: "What’s the difference between wrap and etch?",
+        a: "Wrap is full-color vinyl on any of the eleven seats. Etch is a shallow frost of your mark into the stainless, on the nine steel seats, once standing crosses $120,000. Front bumper and rear bumper stay wrap.",
+      },
+      {
+        q: "Do I need finished artwork to bid?",
+        a: "A name and a logo is enough to stand. Final files come after you win — vector for wrap, one-color and readable at ten feet for etch. Nothing gets cut or etched until you’ve approved it.",
       },
       {
         id: "campaign-miss",
-        q: "What if the board misses $58,000?",
-        a: "Full refund. No order. No wrap. No Immortal Etch.",
+        q: "What if the $58,000 floor is missed?",
+        a: "Every hold is released. Nobody is charged.",
       },
       {
-        id: "wrap-pro-rata",
-        q: "What if the wrap year is cut short?",
-        a: "Wrap lasts twelve months from install. If the truck is totaled or sold before month 12, wrap seats get a pro-rata refund for the months left.",
+        id: "close-date",
+        q: "When does this close?",
+        a: "TBD.",
+      },
+      {
+        q: "Where does the truck actually run?",
+        a: "Work miles in the Southeast — South Carolina most weeks (Charleston, Columbia, Greenville, Florence, Beaufort, Clemson and the roads between them), plus Atlanta, Charlotte, and the Florida panhandle when the job goes there.",
+      },
+      {
+        q: "Will something I don’t want sitting next to my brand end up on this truck?",
+        a: "No. We don’t take porn, hate, scams, or anything that can’t sit in a school line or a grocery lot. If you’re unsure about a category, email hello@brandmybeast.com before you bid.",
+      },
+      {
+        q: "How do I start?",
+        a: "Pick a panel. Twenty percent holds the seat. Questions before that: hello@brandmybeast.com.",
       },
     ],
   },
@@ -324,7 +356,7 @@ export const PUBLIC_COPY = {
     finishWrapOnly: "Wrap only",
     finishEtch: "Immortal Etch preview",
     wrapFilm: "Vinyl film layer",
-    etchMark: "Laser on stainless",
+    etchMark: "Chemical frost on stainless",
   },
   /**
    * Slice 20.10 — 404 / partner / error chrome. Not a shop tease.

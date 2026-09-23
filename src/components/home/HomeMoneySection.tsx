@@ -1,6 +1,5 @@
 import { AuctionLive } from "@/components/home/AuctionLive";
 import { DayByDay } from "@/components/home/DayByDay";
-import { WantAllPanelsLink } from "@/components/home/WantAllPanelsLink";
 import type { AuctionLive as AuctionLiveModel } from "@/lib/auction-board";
 import type { DayByDay as DayByDayModel } from "@/lib/bid-desk";
 import { FLOOR_USD, GOAL_USD, PANELS, formatUsd } from "@/lib/campaign";
@@ -162,15 +161,7 @@ export function HomeMoneySection({
               </dd>
             </div>
           </dl>
-          {isWholeTruckIntentOpen(pledgedUsd) ? (
-            <div
-              className="whole-truck-intent"
-              data-testid="whole-truck-intent"
-              style={{ marginTop: "1.75rem" }}
-            >
-              <WantAllPanelsLink />
-            </div>
-          ) : (
+          {isWholeTruckIntentOpen(pledgedUsd) ? null : (
             <p
               className="section-lead"
               style={{ marginTop: "1.75rem" }}

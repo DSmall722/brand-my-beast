@@ -3,7 +3,7 @@
 Voice lock for `/`. CAMPAIGN.md still wins money and identity.
 Use these strings in slice 0.9. Do not invent a closer, warmer, or snarkier variant.
 
-Locked: 2026-09-14 — desire first, then the deal, then the catch.
+Locked: 2026-09-23 — 15 buyer FAQ, no “Who is this for,” $120k is the etch threshold.
 
 ## Meta
 
@@ -50,6 +50,8 @@ Locked: 2026-09-14 — desire first, then the deal, then the catch.
 - Whole-truck sign-in: `Sign in to list a whole-truck intent`
 - Whole-truck met: `Whole-truck buyout is met at $120,000. The field is closed. Still nothing charged on this page.`
 
+The **Buy the Whole Truck** board button is not rendered on `/`. Whole-truck interest is the Contact Us checkbox only.
+
 ## Seat exclusivity
 
 - Heading: `One brand per trade`
@@ -64,7 +66,7 @@ Locked: 2026-09-14 — desire first, then the deal, then the catch.
 - Badge wrap: `Wrap only`
 - Standing open: `Open seat`
 
-Panel card names match the board. No gloss line on the card.
+Panel card names match the board. No gloss line on the card. Eleven seats. Nine etch. Roof, tonneau, and rear fascia are retired.
 
 ## How it works
 
@@ -85,14 +87,14 @@ Three guest steps, side by side from 900px. Floor and buyout stay in Track the A
   1. `Once total active bids cross $120,000, buyers will unlock the option to have their advertisement permanently etched on the stainless surface for 3x the final bid for that panel.`
   2. `Immortal Etch is only available on stainless steel panels.`
 - Requirements: `Immortal Etch artwork must use bold, simple shapes that can be permanently etched into stainless steel. Gradients, fine details, and very small text cannot be etched reliably. Final artwork will be reviewed before approval.`
-- Body: `Wrap is a year of film. Immortal Etch is cut into the steel. It does not peel with the wrap. Nine steel faces. Unlocks with the $120,000 whole-truck package — when the campaign owns the truck.`
-- Why buyout: `Immortal Etch ships with the $120,000 whole-truck package.`
+- Body: `Wrap is a year of film. Immortal Etch is a shallow frost of your mark in the stainless. It does not peel with the wrap. Nine steel faces. Unlocks once standing crosses $120,000.`
+- Why buyout: `Immortal Etch unlocks once standing crosses $120,000.`
 - Cost: `After Immortal Etch is installed there is no cash refund of that finish.`
 - Art: `One color, thick strokes, no gradients, no tiny type. If it cannot be cut, it does not ship.`
 
 ## Wreck & refund
 
-Money facts from CAMPAIGN.md only. Plain English. Not a full contract.
+Money facts from CAMPAIGN.md only. Plain English. Not a full contract. Contract language stays here. It is not the homepage FAQ.
 
 - Heading: `Wreck & refund`
 - Lead: `Here is what happens if the campaign misses, the wrap year ends early, or Immortal Etch is already cut.`
@@ -102,14 +104,24 @@ Money facts from CAMPAIGN.md only. Plain English. Not a full contract.
 
 ## Questions
 
+Fifteen buyer questions. No “Who is this for.” No wreck / totaled / last-second on `/`.
+
 - Heading: `FAQ`
-- Q: `Is this Tesla?` A: `No. Independent project. Not affiliated with Tesla, Inc.`
-- Q: `What am I buying?` A: `A year of your brand on one panel. Not a share of the title.`
-- Q: `What if two of us sell the same thing?` A: `You bid against each other for that panel.`
-- Q: `What is Immortal Etch?` A: `Cut into the stainless — not vinyl. Nine steel panels. Vinyl lasts a year. Immortal Etch is forever.`
-- Q: `What happens if someone bids at the last second?` A: `A qualifying last-second bid extends that panel’s closing time so others have a fair chance to respond.`
-- Q: `What if the board misses $58,000?` A: `Full refund. No order. No wrap. No Immortal Etch.`
-- Q: `What if the wrap year is cut short?` A: `Wrap lasts twelve months from install. If the truck is totaled or sold before month 12, wrap seats get a pro-rata refund for the months left.`
+- Q: `Is this Tesla?` A: `No. BrandMyBeast is independent. Cyberbeast is the trim this campaign funds. Tesla doesn’t run this, endorse it, or get a cut.`
+- Q: `What am I actually buying?` A: `A seat on the truck for your brand. There are eleven panels. Vinyl wrap is available on all of them. Immortal Etch — a frost of your mark in the stainless — is available on nine of them once standing crosses $120,000. The two bumpers stay wrap. You’re buying the panel, the finish, and a year of miles. Not a follower count. Not a guaranteed number of views.`
+- Q: `How long is my brand on the truck?` A: `Wraps run twelve months from install. Etch stays in the steel.`
+- Q: `What if two of us are in the same business?` A: `One trade, one brand on the truck. Name your business when you bid. If that trade is already standing on a panel, that’s the seat you bid.`
+- Q: `How does payment work?` A: `Twenty percent holds your bid on the card. The rest is charged if you win the panel and the campaign hits $58,000. Get outbid, or miss that floor, and the hold comes back.`
+- Q: `What if someone outbids me?` A: `You’re off that panel. The 20% is an authorization, not a captured charge — it releases back to the same card. Most banks drop the pending line in a few days. You can bid again on another seat, or come back at the new number.`
+- Q: `Can I take more than one panel?` A: `Yes. Pick whatever panels your business needs to maximize this advertising opportunity.`
+- Q: `What if I want every panel?` A: `Check the box on the contact form. That starts a whole-truck conversation. It does not buy the board from this page.`
+- Q: `What’s the difference between wrap and etch?` A: `Wrap is full-color vinyl on any of the eleven seats. Etch is a shallow frost of your mark into the stainless, on the nine steel seats, once standing crosses $120,000. Front bumper and rear bumper stay wrap.`
+- Q: `Do I need finished artwork to bid?` A: `A name and a logo is enough to stand. Final files come after you win — vector for wrap, one-color and readable at ten feet for etch. Nothing gets cut or etched until you’ve approved it.`
+- Q: `What if the $58,000 floor is missed?` A: `Every hold is released. Nobody is charged.`
+- Q: `When does this close?` A: `TBD.`
+- Q: `Where does the truck actually run?` A: `Work miles in the Southeast — South Carolina most weeks (Charleston, Columbia, Greenville, Florence, Beaufort, Clemson and the roads between them), plus Atlanta, Charlotte, and the Florida panhandle when the job goes there.`
+- Q: `Will something I don’t want sitting next to my brand end up on this truck?` A: `No. We don’t take porn, hate, scams, or anything that can’t sit in a school line or a grocery lot. If you’re unsure about a category, email hello@brandmybeast.com before you bid.`
+- Q: `How do I start?` A: `Pick a panel. Twenty percent holds the seat. Questions before that: hello@brandmybeast.com.`
 
 ## Preview the Panels
 
@@ -176,4 +188,4 @@ Not a homepage hero rewrite:
 
 ## Banned on this page
 
-First person. Personal name or handle. Lease. Close date. Cabin plaque in the header. FEATURES backlog. teslacyberbeast. 48-state tour. Invented miles or impressions. House-mark lecture. A per-panel etch dollar amount we have not quoted. The words P3, pledged intent, operator finances, 30X in the hero.
+First person. Personal name or handle. Lease. Cabin plaque in the header. FEATURES backlog. teslacyberbeast. 48-state tour. Invented miles or impressions. House-mark lecture. A per-panel etch dollar amount we have not quoted. The words P3, pledged intent, operator finances, 30X in the hero. “Who is this for.” Totals / wreck copy in the FAQ.
