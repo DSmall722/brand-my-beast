@@ -12,7 +12,7 @@ See [docs/LOCAL-PREVIEW.md](./docs/LOCAL-PREVIEW.md) (slice 16.8). `npm i && npm
 
 ## What this repo is
 
-- The **harness + Next.js app** for an all-or-nothing auction of **12 stainless panels** on a **Cyberbeast** that does not exist until the board clears the floor.
+- The **harness + Next.js app** for an all-or-nothing auction of **11 panels** (9 etchable steel faces + 2 wrap-only bumpers) on a **Cyberbeast** that does not exist until the board clears the floor.
 - **`SLICES.md`** is the only build order. **Now** = the first unchecked box.
 - Product lock: **`CAMPAIGN.md`**. Stack lock: **`ARCHITECTURE.md`**. Stop rules: **`AGENTS.md`**.
 - Intent-only soft auction today: waitlist, Auth.js magic link, panel intents, operator approvals. Playwright is the merge gate.
