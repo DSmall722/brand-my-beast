@@ -3,8 +3,7 @@
   "git": {
     "deploymentEnabled": {
       "*": false,
-      "main": true,
-      "cursor/brandmymac-bid-modal-d6b5": true
+      "main": true
     }
   }
 }
