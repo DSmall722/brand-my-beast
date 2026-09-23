@@ -15,7 +15,7 @@ export function LegalStubShell({
   children: ReactNode;
 }) {
   return (
-    <main className="shell auth-page" data-testid={testId}>
+    <main className="shell auth-page legal-page" data-testid={testId}>
       <p className="eyebrow">{BRAND.name}</p>
       <h1>{title}</h1>
       <div className="section-lead legal-stub-body">{children}</div>

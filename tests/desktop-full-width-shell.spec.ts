@@ -2,8 +2,9 @@ import { expect, test, type Page } from "@playwright/test";
 import { CLOSE_AT, FLOOR_USD, GOAL_USD } from "../src/lib/campaign";
 
 /**
- * Desktop content uses the viewport. Side inset stays 1rem.
+ * The shell still fills the viewport. Side inset stays 1rem.
  * Phone shell stays `100% - 2rem`. Hero photo stays full-bleed under 720px.
+ * Inner blocks (panel grid, etch copy) use the centered desk measure.
  */
 
 const SHELLS = [
@@ -22,10 +23,12 @@ type Measure = {
   photo: number | null;
   overlay: number | null;
   panelGrid: number | null;
+  panelGridLeft: number | null;
   faqAnswer: number | null;
   storyCopy: number | null;
   etchRequirements: number | null;
   proseCap: number;
+  deskMeasure: number;
 };
 
 async function measure(page: Page): Promise<Measure> {
@@ -42,6 +45,14 @@ async function measure(page: Page): Promise<Measure> {
     document.body.appendChild(probe);
     const proseCap = probe.getBoundingClientRect().width;
     probe.remove();
+    const deskProbe = document.createElement("div");
+    deskProbe.style.width = "var(--desk-measure)";
+    deskProbe.style.position = "absolute";
+    deskProbe.style.visibility = "hidden";
+    document.body.appendChild(deskProbe);
+    const deskMeasure = deskProbe.getBoundingClientRect().width;
+    deskProbe.remove();
+    const panelGrid = document.querySelector("[data-testid='panel-grid']");
     return {
       clientWidth: document.documentElement.clientWidth,
       scrollWidth: document.documentElement.scrollWidth,
@@ -51,11 +62,13 @@ async function measure(page: Page): Promise<Measure> {
       })),
       photo: widthOf("[data-testid='hero-photo-well']"),
       overlay: widthOf(".hero-overlay"),
-      panelGrid: widthOf("[data-testid='panel-grid']"),
+      panelGrid: panelGrid ? panelGrid.getBoundingClientRect().width : null,
+      panelGridLeft: panelGrid ? panelGrid.getBoundingClientRect().left : null,
       faqAnswer: widthOf("#questions .questions-item dd"),
       storyCopy: widthOf(".story-step-copy"),
       etchRequirements: widthOf("[data-testid='etch-requirements']"),
       proseCap,
+      deskMeasure,
     };
   }, [...SHELLS]);
 }
@@ -93,14 +106,25 @@ test.describe("desktop shell fills the viewport", () => {
       }
       expectWidth(box.photo, shellWidth, "hero photo");
       expectWidth(box.overlay, shellWidth, "hero overlay");
-      expectWidth(box.panelGrid, shellWidth, "panel grid");
+
+      const contentWidth = Math.min(shellWidth, box.deskMeasure);
+      expectWidth(box.panelGrid, contentWidth, "panel grid");
+      expect(box.panelGridLeft).not.toBeNull();
+      expect(
+        Math.abs(
+          (box.panelGridLeft as number) -
+            (box.clientWidth - (box.panelGrid as number)) / 2,
+        ),
+        "panel grid centered",
+      ).toBeLessThanOrEqual(2);
 
       expect(box.faqAnswer).not.toBeNull();
       expect(box.storyCopy).not.toBeNull();
       expect(box.etchRequirements).not.toBeNull();
       expect(box.faqAnswer as number).toBeLessThanOrEqual(box.proseCap + 1);
       expect(box.storyCopy as number).toBeLessThanOrEqual(box.proseCap + 1);
-      expect(box.etchRequirements as number).toBeLessThanOrEqual(box.proseCap + 1);
+      expect(box.etchRequirements as number).toBeGreaterThan(box.proseCap + 40);
+      expectWidth(box.etchRequirements, contentWidth, "etch requirements");
       expect(box.faqAnswer as number).toBeLessThan(shellWidth - 400);
     });
   }

@@ -280,6 +280,27 @@
   }
 }
 
+/* Desktop: center the copy column in the full-width shell and spread the two CTAs.
+   H1 alignment stays as written. Bid on a Panel stays the arrow-fill primary. */
+@media (min-width: 960px) {
+  .hero-copy,
+  .hero-actions {
+    width: min(100%, var(--desk-measure));
+    margin-inline: auto;
+  }
+
+  .hero-actions {
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .panel-number-legend ol {
+    width: min(100%, var(--desk-measure));
+    margin-inline: auto;
+    justify-content: center;
+  }
+}
+
 @media (max-width: 720px) {
   .hero {
     min-height: 0;
