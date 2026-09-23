@@ -49,7 +49,7 @@ test.describe("panel detail cleanup", () => {
     await expect(heroPanel.locator(".obsidian-arrow-fill-btn__text")).toHaveText(
       "Bid on a Panel",
     );
-    await expect(heroPanel).toHaveAttribute("href", "#panels");
+    await expect(heroPanel).toHaveJSProperty("tagName", "BUTTON");
     const heroContact = page.getByTestId("hero-secondary-cta");
     await expect(heroContact).toHaveText("Contact BMB");
     await expect(heroContact).toHaveAttribute("href", "#waitlist");
@@ -116,10 +116,9 @@ test.describe("panel detail cleanup", () => {
       await expect(cta).toBeVisible();
       await expect(cta).toHaveAttribute("data-cta", "bid");
       await expect(cta).toHaveText("Bid");
-      await expect(cta).toHaveAttribute(
-        "href",
-        `/signin?callbackUrl=/panels/${panel.id}`,
-      );
+      await expect(cta).toHaveRole("button");
+      const href = await cta.getAttribute("href");
+      expect(href ?? "").not.toContain("/signin");
       await expect(page.getByTestId("public-seat-log")).toHaveCount(0);
       await expect(page.getByTestId("intent-list")).toHaveCount(0);
 

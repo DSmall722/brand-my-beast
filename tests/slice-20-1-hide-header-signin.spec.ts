@@ -15,13 +15,13 @@ import { PUBLIC_COPY } from "../src/lib/public-copy";
 import { vercelJsonIsHoldOrMainOnlyRestore } from "../src/lib/vercel-git-deploy";
 
 /**
- * QA 1047PM — desktop header keeps Sign in. CLOSED_AT null.
+ * Guest header hides Sign in. Manage bids from the email link. CLOSE_AT null.
  */
 
 const ROOT = process.cwd();
 const LOCKED_H1 = "Advertise your brand on the truck that people already photograph";
 
-test.describe("slice 20.1: homepage Sign in stays in the header", () => {
+test.describe("slice 20.1: homepage hides guest Sign in", () => {
   test("campaign money fences stay locked — CLOSE_AT null", () => {
     expect(FLOOR_USD).toBe(58_000);
     expect(GOAL_USD).toBe(120_000);
@@ -48,17 +48,18 @@ test.describe("slice 20.1: homepage Sign in stays in the header", () => {
     expect(SEATS_OPEN).toBe(true);
   });
 
-  test("homepage keeps Contact BMB and Sign in; H1 unchanged", async ({
+  test("homepage keeps Contact BMB and hides Sign in; H1 unchanged", async ({
     page,
   }) => {
     await page.setViewportSize({ width: 1280, height: 900 });
     await page.goto("/");
     const header = page.locator(".site-header");
-    await expect(header).toHaveAttribute("data-signin-closed", "false");
+    await expect(header).toHaveAttribute("data-signin-closed", "true");
     await expect(
       header.getByRole("link", { name: PUBLIC_COPY.header.nav }),
     ).toHaveText("Contact BMB");
-    await expect(page.getByTestId("signin-link")).toBeVisible();
+    await expect(page.getByTestId("signin-link")).toHaveCount(0);
+    await expect(header).not.toContainText("Sign in");
     await expect(page.locator("#hero-title")).toHaveText(LOCKED_H1);
     const html = await page.content();
     expect(html).toContain("$58,000");

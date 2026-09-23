@@ -1129,7 +1129,7 @@ test.describe("P2 panel intent + approvals", () => {
       "rear",
     );
     await expect(page.getByTestId("truck-seat-tailgate")).toBeVisible();
-    await page.getByTestId("panel-link-tailgate").click();
+    await page.goto("/panels/tailgate");
     await expect(page).toHaveURL(/\/panels\/tailgate/);
     await expect(page.getByTestId("truck-view-seats")).toBeVisible();
     // QA 1047PM — seat pages clear sticky board overlays (no active wash).

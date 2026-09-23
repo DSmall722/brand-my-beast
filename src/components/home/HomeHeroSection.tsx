@@ -1,4 +1,4 @@
-import { ArrowFillButton } from "@/components/block/arrow-fill-button";
+import { HeroBidButton } from "@/components/home/HeroBidButton";
 import {
   HERO_STILL_NARROW,
   HERO_STILL_NARROW_MEDIA,
@@ -55,12 +55,7 @@ export function HomeHeroSection({
               <h1 id="hero-title">{PUBLIC_COPY.hero.h1}</h1>
             </div>
             <div className="hero-actions">
-              <ArrowFillButton
-                href="#panels"
-                data-testid="hero-primary-cta"
-              >
-                {PUBLIC_COPY.hero.secondaryCta}
-              </ArrowFillButton>
+              <HeroBidButton />
               <a
                 className="btn btn-panel"
                 href="#waitlist"

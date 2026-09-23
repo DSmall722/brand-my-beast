@@ -7,7 +7,7 @@ export async function HomeHeader() {
       <header
         className="shell site-header"
         data-header-row="single"
-        data-signin-closed="false"
+        data-signin-closed="true"
       >
         <div className="wordmark" data-testid="brand-wordmark">
           {PUBLIC_COPY.header.wordmark}

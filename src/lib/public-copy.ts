@@ -94,19 +94,17 @@ export const PUBLIC_COPY = {
     steps: [
       {
         title: "Pick a panel",
-        body: "Maximum of one brand for each kind of business. If someone in your trade is already standing, highest bidder wins.",
+        body: "Choose a seat on the Cyberbeast. One brand per trade.",
       },
       {
-        title: "$58,000 or the money comes back",
-        body: "Reach $58,000 and the Cyberbeast is ordered and winners are wrapped for twelve months. Miss it and every bid is released.",
+        title: "Place a bid",
+        body: "Open Place a bid, enter your mark, and hold the panel with the highest standing bid.",
       },
       {
-        title: "$120,000 unlocks Immortal Etch",
-        body: "Vinyl wrap lasts for one year,\nbut with Immortal Etch, your ad lasts FOREVER.",
+        title: "Get on the truck",
+        body: "When the campaign clears the floor, winning brands go on the Cyberbeast.",
       },
     ],
-    foreverLine:
-      "Vinyl wrap lasts for one year,\nbut with Immortal Etch, your ad lasts FOREVER.",
   },
   etch: {
     heading: "Immortal Etch",
@@ -339,5 +337,48 @@ export const PUBLIC_COPY = {
     independent: "Independent. Not Tesla.",
     /** Slice 13.38 — terms stub. Intent listing is not a card charge. */
     intentNotACharge: "Intent is not a charge.",
+  },
+  /**
+   * Homepage bid desk. Informational until the money path is live.
+   * Not a PUBLIC_COPY.md section. Never a card charge.
+   */
+  bidDesk: {
+    dayHeading: "Day by day",
+    daySampleLead:
+      "Sample history. No live bids yet. Standing figures here are not pledged. Nothing is charged.",
+    dayLiveLead:
+      "Every public mark, grouped by day (ET). The standing figure is what nobody has beaten. Nothing is charged.",
+    heldBy: "Held by",
+    topHeading: "Top brands",
+    topEmpty: "No standing bids yet.",
+    todayHeading: "Today's action",
+    todayEmpty: "No bid or outbid yet today. Be the first.",
+    leaderboardLink: "Leaderboard",
+    leaderboardHeading: "Leaderboard",
+    leaderboardEvery: "Every bid ever placed, highest first.",
+    leaderboardStay: "Outbid bids stay on this list.",
+    leaderboardEmpty: "No bids yet.",
+    leaderboardRest: "The rest of the field",
+    modalTitle: "Place a bid",
+    closedLead:
+      "Bidding is not open. No deposit is taken on this form. Join the list or contact hello@brandmybeast.com.",
+    closedResult:
+      "No deposit was taken. Bidding is not open. Join the list or contact hello@brandmybeast.com.",
+    intentResult:
+      "This mark stays intent only. No card was charged. The operator still approves artwork.",
+    artwork:
+      "The operator approves artwork before it can run. Signing in does not put a logo on the truck.",
+    magicLink:
+      "Manage a bid with a one-time email link. No password. This form does not charge a card.",
+    placeBid: "Place bid",
+    yourBid: "Your bid",
+    brandName: "Brand name",
+    website: "Website (optional)",
+    logo: "Logo",
+    panel: "Panel",
+    currentBid: "Current bid",
+    minimumBid: "Minimum bid",
+    viewSeat: "View this seat",
+    contact: "Contact BMB",
   },
 } as const;

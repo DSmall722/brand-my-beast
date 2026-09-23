@@ -45,6 +45,11 @@ import {
   type IntentWriteErrorCode,
   type UserId,
 } from "./intent";
+import {
+  artworkApprovalAfterOperatorApprove,
+  artworkApprovalForNewMark,
+  publicLogoUrl,
+} from "./public-mark";
 import { winnerSeatsFor } from "./winner-portal";
 
 /** Slice 9.1 — cap mutual proxy wars (still no card). */
@@ -181,6 +186,11 @@ function rowToBid(row: IntentBidRow): IntentBid {
     updatedAt: row.updatedAt.toISOString(),
     idempotencyKey: row.idempotencyKey ?? null,
     artworkUrl: row.artworkUrl ?? null,
+    artworkApproval: row.artworkUrl
+      ? row.status === "approved"
+        ? "approved"
+        : "pending"
+      : null,
     proxyMaxUsd: row.proxyMaxUsd ?? null,
     floorSaveUsd: row.floorSaveUsd ?? null,
     deletedAt: row.deletedAt ? row.deletedAt.toISOString() : null,
@@ -914,6 +924,7 @@ export async function placeIntentBid(
           createdAt: new Date().toISOString(),
           updatedAt: nextUpdatedAtIso(),
           artworkUrl,
+          artworkApproval: artworkApprovalForNewMark(artworkUrl),
           proxyMaxUsd: null,
           floorSaveUsd: y,
           idempotencyKey,
@@ -1017,6 +1028,7 @@ export async function placeIntentBid(
         createdAt: new Date().toISOString(),
         updatedAt: nextUpdatedAtIso(),
         artworkUrl,
+        artworkApproval: artworkApprovalForNewMark(artworkUrl),
         proxyMaxUsd,
         floorSaveUsd: null,
         idempotencyKey,
@@ -1258,6 +1270,9 @@ export async function setIntentStatus(
           }
         }
         live.status = "approved";
+        live.artworkApproval = artworkApprovalAfterOperatorApprove(
+          live.artworkUrl,
+        );
         live.updatedAt = nextUpdatedAtIso(live.updatedAt);
         assertIntentOnly(live);
         logIntentStatusChange({
@@ -1751,6 +1766,7 @@ export async function editPendingIntent(input: {
     live.brandLabel = brandLabel;
     live.tradeLabel = tradeLabel;
     live.artworkUrl = artworkUrl;
+    live.artworkApproval = artworkApprovalForNewMark(artworkUrl);
     live.updatedAt = nextUpdatedAtIso(live.updatedAt);
     assertIntentOnly(live);
     await recordIntentRevisionSafe(live);
@@ -2136,6 +2152,8 @@ export type StandingHolder = {
   standingUsd: number;
   /** Slice 13.36 — seat owner userId for download gates. */
   userId: string;
+  /** Public logo. Null until the operator approves artwork. */
+  publicLogoUrl: string | null;
 };
 
 export async function loadStandingHoldersByPanel(): Promise<
@@ -2158,6 +2176,7 @@ export async function loadStandingHoldersByPanel(): Promise<
         tradeLabel: top.tradeLabel,
         standingUsd: top.standingUsd,
         userId: top.userId,
+        publicLogoUrl: publicLogoUrl(top),
       });
     }
   }

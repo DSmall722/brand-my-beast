@@ -70,11 +70,13 @@ Panel card names match the board. No gloss line on the card.
 
 - Heading: `How it works`
 - 01 title: `Pick a panel`
-- 01 body: `Maximum of one brand for each kind of business. If someone in your trade is already standing, highest bidder wins.`
-- 02 title: `$58,000 or the money comes back`
-- 02 body: `Reach $58,000 and the Cyberbeast is ordered and winners are wrapped for twelve months. Miss it and every bid is released.`
-- 03 title: `$120,000 unlocks Immortal Etch` (one line; no Syne lockup in the heading)
-- 03 body: `Vinyl wrap lasts for one year,` / `but with Immortal Etch, your ad lasts FOREVER.` (Immortal Etch stylized only here)
+- 01 body: `Choose a seat on the Cyberbeast. One brand per trade.`
+- 02 title: `Place a bid`
+- 02 body: `Open Place a bid, enter your mark, and hold the panel with the highest standing bid.`
+- 03 title: `Get on the truck`
+- 03 body: `When the campaign clears the floor, winning brands go on the Cyberbeast.`
+
+Three guest steps, side by side from 900px. Floor and buyout stay in Track the Auction, Immortal Etch, and the FAQ. They are not How it works steps.
 
 ## Immortal Etch
 

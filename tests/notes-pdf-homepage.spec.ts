@@ -30,7 +30,7 @@ test.describe("notes PDF homepage sheet", () => {
     await expect(heroPanel.locator(".obsidian-arrow-fill-btn__text")).toHaveText(
       "Bid on a Panel",
     );
-    await expect(heroPanel).toHaveAttribute("href", "#panels");
+    await expect(heroPanel).toHaveJSProperty("tagName", "BUTTON");
     await expect(heroPanel).toHaveClass(/obsidian-arrow-fill-btn/);
     const heroContact = page.getByTestId("hero-secondary-cta");
     await expect(heroContact).toHaveText("Contact BMB");
@@ -40,7 +40,7 @@ test.describe("notes PDF homepage sheet", () => {
     await expect(
       page.locator('.site-header a.nav-link[href="#waitlist"]'),
     ).toHaveText("Contact BMB");
-    await expect(page.getByTestId("signin-link")).toBeVisible();
+    await expect(page.getByTestId("signin-link")).toHaveCount(0);
     await expect(page.locator("#panels-title")).toHaveText("Bid on a Panel");
     await expect(page.locator("#truck-views-title")).toHaveText(
       "Preview the Panels",
@@ -179,22 +179,25 @@ test.describe("notes PDF homepage sheet", () => {
       .evaluate((el) => getComputedStyle(el).getPropertyValue("--panel-face-size"));
     expect(bedSize.trim()).toBe("380% auto");
 
-    await expect(page.locator("#story")).toContainText(
-      "Maximum of one brand for each kind of business. If someone in your trade is already standing, highest bidder wins.",
+    await expect(page.locator("#story .story-step-title")).toHaveText([
+      "Pick a panel",
+      "Place a bid",
+      "Get on the truck",
+    ]);
+    await expect(page.locator("#story .story-step-copy")).toHaveText([
+      "Choose a seat on the Cyberbeast. One brand per trade.",
+      "Open Place a bid, enter your mark, and hold the panel with the highest standing bid.",
+      "When the campaign clears the floor, winning brands go on the Cyberbeast.",
+    ]);
+    await expect(page.getByTestId("how-it-works")).toBeVisible();
+    await expect(page.locator("#story .immortal-etch")).toHaveCount(0);
+    await expect(page.locator("#story")).not.toContainText(
+      "$58,000 or the money comes back",
     );
-    await expect(page.locator("#story .story-step-title").nth(2)).toHaveText(
+    await expect(page.locator("#story")).not.toContainText(
       "$120,000 unlocks Immortal Etch",
     );
-    await expect(page.locator("#story .story-step-title .immortal-etch")).toHaveCount(0);
-    await expect(page.locator("#story .story-step-copy .immortal-etch")).toHaveText(
-      "Immortal Etch",
-    );
-    await expect(page.locator("#story")).toContainText(
-      "Vinyl wrap lasts for one year,",
-    );
-    await expect(page.locator("#story")).toContainText(
-      "but with Immortal Etch, your ad lasts FOREVER.",
-    );
+    await expect(page.locator("#story")).not.toContainText("FOREVER");
     await expect(page.getByTestId("story-etch-forever")).toHaveCount(0);
     await expect(page.locator("#etch-title")).toHaveText("Immortal Etch");
     await expect(page.locator("#etch-title")).not.toHaveClass(/immortal-etch/);

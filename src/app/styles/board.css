@@ -295,11 +295,40 @@
   min-width: 1.15rem;
 }
 
+.panel-held-kicker {
+  margin-top: 0.55rem;
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--steel-400);
+}
+
 .panel-standing {
-  margin-top: 0.35rem;
+  margin-top: 0.2rem;
   font-size: 0.95rem;
   color: var(--steel-100);
   letter-spacing: -0.01em;
+}
+
+.public-mark {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  min-width: 0;
+  max-width: 100%;
+}
+
+.public-mark-name {
+  overflow-wrap: anywhere;
+}
+
+.public-mark-logo {
+  width: 1.65rem;
+  height: 1.65rem;
+  flex: 0 0 auto;
+  object-fit: contain;
+  background: white;
+  border-radius: 0.2rem;
 }
 
 .panel[data-standing="open"] .panel-standing {
@@ -343,19 +372,28 @@
   padding: 0;
   list-style: none;
   display: grid;
-  gap: 1rem;
+  gap: 1.25rem;
+}
+
+@media (min-width: 900px) {
+  .story-list {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1.25rem 1.5rem;
+    align-items: start;
+  }
 }
 
 .story-list li {
   display: grid;
-  grid-template-columns: 3rem 1fr;
-  gap: 0.85rem;
+  grid-template-columns: auto 1fr;
+  gap: 0.75rem;
   align-items: start;
+  min-width: 0;
 }
 
 .story-num {
   color: var(--signal);
-  font-size: 1.4rem;
+  font-size: 1.15rem;
   font-weight: 600;
   font-variant-numeric: tabular-nums;
 }
@@ -363,6 +401,7 @@
 .story-body {
   display: grid;
   gap: 0.35rem;
+  min-width: 0;
 }
 
 .story-step-title {
@@ -372,13 +411,9 @@
   color: var(--steel-100);
 }
 
-.story-step-title .immortal-etch {
-  display: block;
-  margin-top: 0.15rem;
-}
-
 .story-step-copy {
   max-width: 62ch;
+  margin: 0;
   color: var(--steel-300);
   line-height: 1.5;
 }
@@ -2918,4 +2953,358 @@
     color: #111;
     text-decoration: none;
   }
+}
+
+.auction-live {
+  display: grid;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+.auction-callout {
+  min-width: 0;
+  padding: 1rem 1.1rem 1.15rem;
+  border: 1px solid color-mix(in oklab, var(--signal) 42%, var(--hairline));
+  background: color-mix(in oklab, var(--signal) 7%, transparent);
+}
+
+.auction-empty {
+  margin: 0;
+  color: var(--steel-300);
+  line-height: 1.45;
+}
+
+@media (min-width: 900px) {
+  .auction-live {
+    grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+    align-items: stretch;
+  }
+
+  .auction-leaderboard-link {
+    grid-column: 1 / -1;
+  }
+}
+
+.auction-live h3,
+.leaderboard h1 {
+  margin: 0 0 0.65rem;
+  font-family: var(--font-display), Syne, system-ui, sans-serif;
+  letter-spacing: -0.04em;
+  text-transform: uppercase;
+}
+
+.auction-top-list,
+.auction-today-list,
+.leaderboard-podium,
+.leaderboard-rest {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0.65rem;
+}
+
+.auction-top-list li,
+.auction-today-list li,
+.leaderboard-podium li,
+.leaderboard-rest li {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1.4fr) minmax(0, 1fr) auto;
+  gap: 0.35rem 0.75rem;
+  align-items: center;
+  min-width: 0;
+}
+
+.auction-rank {
+  color: var(--signal);
+  font-variant-numeric: tabular-nums;
+  font-weight: 700;
+}
+
+.auction-amount {
+  font-family: var(--font-display), Syne, system-ui, sans-serif;
+  font-variant-numeric: tabular-nums;
+  font-weight: 700;
+  color: var(--signal);
+  letter-spacing: -0.03em;
+}
+
+.auction-verb {
+  color: var(--steel-300);
+  font-size: 0.85rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.auction-leaderboard-link {
+  margin: 0.85rem 0 0;
+}
+
+.leaderboard-podium li {
+  padding: 0.85rem 0;
+  border-bottom: 1px solid var(--hairline);
+  font-size: 1.15rem;
+}
+
+@media (max-width: 640px) {
+  .auction-top-list li,
+  .auction-today-list li,
+  .leaderboard-podium li,
+  .leaderboard-rest li {
+    grid-template-columns: auto minmax(0, 1fr);
+  }
+
+  .auction-top-list li > :nth-child(3),
+  .auction-today-list time,
+  .leaderboard-podium li > :nth-child(3),
+  .leaderboard-rest li > :nth-child(3) {
+    grid-column: 2;
+  }
+}
+
+.day-by-day {
+  margin-top: 2.5rem;
+}
+
+.day-by-day h3 {
+  margin: 0 0 0.75rem;
+  font-family: var(--font-display), Syne, system-ui, sans-serif;
+  font-size: clamp(1.4rem, 3vw, 1.8rem);
+  letter-spacing: -0.04em;
+  text-transform: uppercase;
+}
+
+.day-by-day-lead {
+  margin: -0.25rem 0 0.9rem;
+  max-width: 62ch;
+  color: var(--steel-300);
+  line-height: 1.5;
+}
+
+.day-by-day-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0.75rem;
+}
+
+.day-by-day-list details {
+  border: 1px solid var(--hairline);
+  background: color-mix(in oklab, white 3%, transparent);
+  padding: 0.85rem 1rem;
+}
+
+.day-by-day-list summary {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 0.5rem 1rem;
+  cursor: pointer;
+  min-width: 0;
+}
+
+.day-by-day-meta {
+  display: grid;
+  gap: 0.15rem;
+  min-width: 0;
+}
+
+.day-by-day-date {
+  font-weight: 700;
+}
+
+.day-by-day-count {
+  color: var(--steel-300);
+  font-size: 0.92rem;
+}
+
+.day-by-day-standing {
+  font-family: var(--font-display), Syne, system-ui, sans-serif;
+  font-size: clamp(1.55rem, 4vw, 2.35rem);
+  font-weight: 750;
+  letter-spacing: -0.04em;
+  line-height: 1;
+  color: var(--signal);
+  font-variant-numeric: tabular-nums;
+}
+
+.day-by-day-lines {
+  list-style: none;
+  margin: 0.85rem 0 0;
+  padding: 0.85rem 0 0;
+  border-top: 1px solid var(--hairline);
+  display: grid;
+  gap: 0.55rem;
+  color: var(--steel-300);
+  min-width: 0;
+}
+
+.day-by-day-line {
+  display: grid;
+  grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr) minmax(0, 1fr) auto;
+  gap: 0.25rem 0.75rem;
+  align-items: baseline;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.day-by-day-line-panel {
+  grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr) auto;
+}
+
+.day-by-day-line span:last-child {
+  font-variant-numeric: tabular-nums;
+  color: white;
+  font-weight: 650;
+}
+
+@media (max-width: 640px) {
+  .day-by-day-line {
+    grid-template-columns: minmax(0, 1fr) auto;
+  }
+
+  .day-by-day-line time {
+    grid-column: 1 / -1;
+  }
+}
+
+.auth-credentials-hatch {
+  margin-top: 1.5rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--hairline);
+}
+
+html:has(.bid-modal-root),
+body:has(.bid-modal-root) {
+  overflow: hidden;
+  max-width: 100%;
+}
+
+.bid-modal-root {
+  position: fixed;
+  inset: 0;
+  z-index: 40;
+  box-sizing: border-box;
+  display: grid;
+  place-items: center;
+  width: 100%;
+  max-width: 100vw;
+  overflow: hidden;
+  padding: 0.5rem;
+}
+
+.bid-modal-backdrop {
+  position: absolute;
+  inset: 0;
+  border: 0;
+  background: color-mix(in oklab, var(--steel-950) 72%, transparent);
+  cursor: pointer;
+}
+
+.bid-modal {
+  position: relative;
+  z-index: 1;
+  box-sizing: border-box;
+  width: 100%;
+  min-width: 0;
+  max-width: min(32rem, calc(100vw - 1rem));
+  max-height: min(90vh, 48rem);
+  overflow-x: hidden;
+  overflow-y: auto;
+  padding: 1.25rem 1rem 1.5rem;
+  border: 1px solid color-mix(in oklab, var(--signal) 45%, var(--hairline));
+  background: var(--steel-900);
+  box-shadow: 0 24px 80px color-mix(in oklab, black 45%, transparent);
+}
+
+.bid-modal-bar,
+.bid-modal-form,
+.bid-modal-note,
+.bid-modal-money,
+.bid-modal-actions {
+  min-width: 0;
+  max-width: 100%;
+}
+
+.bid-modal-bar h2,
+.bid-modal-note,
+.bid-modal .auth-hint,
+.bid-modal .auth-label {
+  overflow-wrap: anywhere;
+}
+
+.bid-modal .auth-input,
+.bid-modal select {
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+}
+
+.bid-modal-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 0.75rem;
+}
+
+.bid-modal-bar h2 {
+  margin: 0;
+  min-width: 0;
+  font-family: var(--font-display), Syne, system-ui, sans-serif;
+  font-size: 1.35rem;
+  letter-spacing: -0.04em;
+  text-transform: uppercase;
+  overflow-wrap: anywhere;
+}
+
+.bid-modal-close {
+  appearance: none;
+  flex: 0 0 auto;
+  border: 0;
+  background: transparent;
+  color: var(--steel-100);
+  font: inherit;
+  cursor: pointer;
+}
+
+.bid-modal-note {
+  margin: 0 0 1rem;
+  color: var(--steel-100);
+  line-height: 1.45;
+}
+
+.bid-modal-form {
+  display: grid;
+  gap: 0.45rem;
+}
+
+.bid-modal-money {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem;
+  margin: 0.35rem 0 0.5rem;
+}
+
+.bid-modal-money dt {
+  color: var(--steel-400);
+  font-size: 0.78rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.bid-modal-money dd {
+  margin: 0.2rem 0 0;
+  font-family: var(--font-display), Syne, system-ui, sans-serif;
+  font-size: 1.35rem;
+}
+
+.bid-modal-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem;
+  margin-top: 0.75rem;
 }

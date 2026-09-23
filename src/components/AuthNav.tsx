@@ -2,7 +2,12 @@ import Link from "next/link";
 import { auth } from "@/lib/auth";
 import { signOutAction } from "@/app/actions/auth";
 
-export async function AuthNav() {
+export async function AuthNav({
+  showGuestSignIn = false,
+}: {
+  /** Guest header stays clear. The public path is the email link on /signin. */
+  showGuestSignIn?: boolean;
+} = {}) {
   const session = await auth();
 
   if (session?.user) {
@@ -23,6 +28,8 @@ export async function AuthNav() {
       </div>
     );
   }
+
+  if (!showGuestSignIn) return null;
 
   return (
     <div className="auth-nav" data-testid="auth-nav">

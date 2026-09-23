@@ -32,45 +32,49 @@ test.describe("Syne lockup, board marks, seat lead", () => {
     expect(vercelJsonIsHoldOrMainOnlyRestore()).toBe(true);
   });
 
-  test("How it works puts Immortal Etch in Syne only in the step body", async ({
+  test("How it works shows three guest steps side by side", async ({
     page,
   }) => {
     await page.setViewportSize({ width: 1280, height: 900 });
     await page.goto("/");
     await page.evaluate(() => document.fonts.ready);
-    await expect(page.locator("#story .story-step-title").nth(2)).toHaveText(
+    await expect(page.locator("#story .story-step-title")).toHaveText([
+      "Pick a panel",
+      "Place a bid",
+      "Get on the truck",
+    ]);
+    await expect(page.locator("#story .story-step-copy")).toHaveText([
+      "Choose a seat on the Cyberbeast. One brand per trade.",
+      "Open Place a bid, enter your mark, and hold the panel with the highest standing bid.",
+      "When the campaign clears the floor, winning brands go on the Cyberbeast.",
+    ]);
+    await expect(page.locator("#story")).not.toContainText(
+      "$58,000 or the money comes back",
+    );
+    await expect(page.locator("#story")).not.toContainText(
       "$120,000 unlocks Immortal Etch",
     );
-    await expect(page.locator("#story .story-step-title .immortal-etch")).toHaveCount(
-      0,
-    );
-    const lockups = page.locator("#story .immortal-etch");
-    await expect(lockups).toHaveCount(1);
-    await expect(lockups).toHaveText("Immortal Etch");
-    await expect(page.locator("#story .story-step-copy").nth(2)).toContainText(
-      "Vinyl wrap lasts for one year,",
-    );
-    await expect(page.locator("#story .story-step-copy").nth(2)).toContainText(
-      "but with Immortal Etch, your ad lasts FOREVER.",
-    );
+    await expect(page.locator("#story .immortal-etch")).toHaveCount(0);
     await expect(page.getByTestId("story-etch-forever")).toHaveCount(0);
+    const stepTops = await page.locator("#story .story-list > li").evaluateAll(
+      (items) => items.map((item) => Math.round(item.getBoundingClientRect().top)),
+    );
+    expect(stepTops).toHaveLength(3);
+    expect(new Set(stepTops).size).toBe(1);
     const fonts = await page.evaluate(() => {
-      const lockup = document.querySelector("#story .immortal-etch");
+      const lockup = document.querySelector("#etch .immortal-etch");
       const title = document.querySelector("#story .story-step-title");
-      const num = document.querySelector("#story .story-num");
       const copy = document.querySelector("#story .story-step-copy");
-      if (!lockup || !title || !num || !copy) return null;
+      if (!lockup || !title || !copy) return null;
       return {
         lockup: getComputedStyle(lockup).fontFamily,
         title: getComputedStyle(title).fontFamily,
-        num: getComputedStyle(num).fontFamily,
         copy: getComputedStyle(copy).fontFamily,
       };
     });
     expect(fonts).not.toBeNull();
     expect(fonts!.lockup.toLowerCase()).toMatch(/syne/);
     expect(fonts!.title.toLowerCase()).not.toMatch(/syne/);
-    expect(fonts!.num.toLowerCase()).not.toMatch(/syne/);
     expect(fonts!.copy.toLowerCase()).not.toMatch(/syne/);
     await expect(page.locator("#hero-title")).toHaveText(LOCKED_H1);
   });

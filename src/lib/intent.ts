@@ -46,6 +46,12 @@ export type IntentBid = {
    */
   artworkUrl: string | null;
   /**
+   * Public logo gate. `pending` keeps the upload off the board.
+   * `approved` is set when the operator clears the mark, and stays
+   * approved if that mark is later outbid. Null means no logo file.
+   */
+  artworkApproval?: "pending" | "approved" | null;
+  /**
    * Optional proxy ceiling (slice 9.1). When outbid, the agent steps
    * standing + max($250, 10%) up to this max. Still intent only — no card.
    */

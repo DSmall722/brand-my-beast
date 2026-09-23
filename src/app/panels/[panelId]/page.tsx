@@ -1,23 +1,29 @@
 import Link from "next/link";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
+import { DayByDay } from "@/components/home/DayByDay";
+import { SeatBidDesk } from "@/components/home/SeatBidDesk";
 import { ImmortalEtchLockup } from "@/components/ImmortalEtchLockup";
 import { IntentArtworkPreview } from "@/components/IntentArtworkPreview";
 import { IntentBidForm } from "@/components/IntentBidForm";
 import { TruckViewHotspots } from "@/components/TruckViewHotspots";
 import { SiteChrome } from "@/components/SiteChrome";
 import { auth } from "@/lib/auth";
+import { bidDeskMode, buildDayByDay } from "@/lib/bid-desk";
+import type { BidPanelQuote } from "@/lib/bid-desk";
 import {
   BRAND,
+  CLOSE_AT,
   DEPOSIT_PERCENT,
   FLOOR_USD,
   GOAL_USD,
   PANELS,
+  currentBidUsd,
   formatIntegerUsd,
   formatUsd,
   isEtchable,
 } from "@/lib/campaign";
-import { depositUsdForMark, minIncrementUsd } from "@/lib/intent";
+import { depositUsdForMark, minIncrementUsd, nextStandingUsd } from "@/lib/intent";
 import {
   failedWinnerOfferCopy,
   resolveFailedWinnerOfferForViewer,
@@ -37,6 +43,7 @@ import {
   holdersOnAdjacentPanels,
   type AdjacentSeatHolder,
 } from "@/lib/panel-clash";
+import { publicLogoUrl } from "@/lib/public-mark";
 import { buildPublicSeatLog, formatSeatLogTime } from "@/lib/seat-log";
 import { resolveSeatsOpen } from "@/lib/seats-open";
 
@@ -83,6 +90,9 @@ export default async function PanelIntentPage({
   const standing = await standingForPanel(panel.id);
   const minimum = await minimumIntentUsd(panel.id);
   const bids = await listBidsForPanel(panel.id);
+  const ledger = (
+    await Promise.all(PANELS.map((row) => listBidsForPanel(row.id)))
+  ).flat();
   const seatsOpen = resolveSeatsOpen();
   const holdersRaw = await loadStandingHoldersByPanel();
   const holdersByPanel = new Map<string, AdjacentSeatHolder | null>();
@@ -121,6 +131,17 @@ export default async function PanelIntentPage({
     (bid) => bid.status === "listed" || bid.status === "approved",
   );
   const seatLog = buildPublicSeatLog(bids);
+  const dayByDay = buildDayByDay(ledger, { panelId: panel.id });
+  const quotes: BidPanelQuote[] = PANELS.map((row) => {
+    const held = holdersRaw.get(row.id);
+    const current = currentBidUsd(row.openingUsd, held?.standingUsd);
+    return {
+      id: row.id,
+      name: row.name,
+      currentBidUsd: current,
+      minimumBidUsd: held ? nextStandingUsd(current) : row.openingUsd,
+    };
+  });
 
   const seatOpen = !holder;
   // Slice 9.2 — next minimum is standing + max($250, 10%) once a mark holds.
@@ -269,22 +290,26 @@ export default async function PanelIntentPage({
               seatsOpen={seatsOpen}
             />
           </section>
+        ) : seatsOpen ? (
+          <SeatBidDesk
+            quotes={quotes}
+            mode={bidDeskMode(CLOSE_AT)}
+            panelId={panel.id}
+          />
         ) : (
           <p className="seat-primary">
             <Link
               className="btn btn-signal"
-              href={
-                seatsOpen
-                  ? `/signin?callbackUrl=/panels/${panel.id}`
-                  : "/#waitlist"
-              }
+              href="/#waitlist"
               data-testid="seat-primary-cta"
-              data-cta={seatsOpen ? "bid" : "contact"}
+              data-cta="contact"
             >
-              {seatsOpen ? "Bid" : "Contact BMB"}
+              Contact BMB
             </Link>
           </p>
         )}
+
+        <DayByDay model={dayByDay} showPanel={false} />
 
         {seatLog.length === 0 ? null : (
         <section
@@ -379,10 +404,12 @@ export default async function PanelIntentPage({
                         {formatUsd(FLOOR_USD)} (not charged)
                       </span>
                     ) : null}
-                    <IntentArtworkPreview
-                      artworkUrl={bid.artworkUrl}
-                      bidId={bid.id}
-                    />
+                    {publicLogoUrl(bid) ? (
+                      <IntentArtworkPreview
+                        artworkUrl={bid.artworkUrl}
+                        bidId={bid.id}
+                      />
+                    ) : null}
                   </li>
                 );
               })}
