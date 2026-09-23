@@ -60,10 +60,8 @@ test.describe("slice 9.5: hide whole-truck at buyout", () => {
     page,
   }) => {
     await page.goto("/#money");
-    await expect(page.getByTestId("whole-truck-intent")).toBeVisible();
-    await expect(page.getByTestId("want-all-panels")).toHaveText(
-      PUBLIC_COPY.board.wantAllPanels,
-    );
+    await expect(page.getByTestId("whole-truck-intent")).toHaveCount(0);
+    await expect(page.getByTestId("want-all-panels")).toHaveCount(0);
     await expect(page.getByTestId("whole-truck-lead")).toHaveCount(0);
     // Slice 16.0a — heading + lead only; no public form or sign-in.
     await expect(page.getByTestId("whole-truck-signin")).toHaveCount(0);
