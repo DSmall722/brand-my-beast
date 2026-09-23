@@ -65,11 +65,9 @@ test.describe("slice 20.12: Wave 20 Playwright pack", () => {
     await expect(page.getByTestId("shortfall-floor")).toHaveCount(0);
     await expect(page.getByTestId("shortfall-goal")).toHaveCount(0);
     await expect(page.getByTestId("truck-view-legend")).toHaveCount(0);
-    await expect(page.getByTestId("want-all-panels")).toHaveText(
-      PUBLIC_COPY.board.wantAllPanels,
-    );
+    await expect(page.getByTestId("want-all-panels")).toHaveCount(0);
     await expect(page.getByTestId("faq-campaign-miss")).toContainText(
-      PUBLIC_COPY.wreck.items[0]!.a,
+      PUBLIC_COPY.questions.items.find((item) => "id" in item && item.id === "campaign-miss")!.a,
     );
     await expect(page.locator('meta[name="description"]')).toHaveAttribute(
       "content",

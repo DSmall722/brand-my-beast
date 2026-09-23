@@ -7,7 +7,7 @@ import { panelSeatH1 } from "../src/lib/panel-board";
 import { PUBLIC_COPY } from "../src/lib/public-copy";
 
 /**
- * QA pass 1816pm — lean seat pages + Immortal Etch requirements + last-second FAQ.
+ * QA pass 1816pm — lean seat pages + Immortal Etch requirements + locked buyer FAQ.
  * Preview only. Does not flip CLOSE_AT or money locks.
  */
 
@@ -41,7 +41,7 @@ test.describe("panel detail cleanup", () => {
     await request.post("/api/test/seats-open", { data: { reset: true } });
   });
 
-  test("homepage keeps hero order and adds etch requirements plus last-second FAQ", async ({
+  test("homepage keeps hero order and adds etch requirements plus locked buyer FAQ", async ({
     page,
   }) => {
     await page.goto("/");
@@ -67,13 +67,18 @@ test.describe("panel detail cleanup", () => {
     });
     expect(reqStyle.fontFamily).toBe(bodyStyle.fontFamily);
     expect(reqStyle.fontSize).toBe(bodyStyle.fontSize);
-    const faq = page.getByTestId("faq-last-second-bid");
+    await expect(page.getByTestId("faq-last-second-bid")).toHaveCount(0);
+    const faq = page.getByTestId("faq-outbid");
     await expect(faq.locator("dt")).toHaveText(
-      "What happens if someone bids at the last second?",
+      "What if someone outbids me?",
     );
-    await expect(faq.locator("dd")).toHaveText(
-      "A qualifying last-second bid extends that panel’s closing time so others have a fair chance to respond.",
+    await expect(faq.locator("dd")).toContainText(
+      "The 20% is an authorization, not a captured charge",
     );
+    await expect(page.getByTestId("faq-campaign-miss")).toContainText(
+      "Every hold is released",
+    );
+    await expect(page.getByTestId("faq-close-date")).toContainText("TBD");
 
     const html = await page.content();
     expect(html).toContain("$58,000");
