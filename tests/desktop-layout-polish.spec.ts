@@ -243,4 +243,18 @@ test.describe("desktop layout polish", () => {
     expect(placed.questionTops[2]).toBeGreaterThan(placed.questionTops[0]);
     expect(placed.columns.split(" ").length).toBe(2);
   });
+
+  test("hero Bid on a Panel scrolls to the seat grid", async ({ page }) => {
+    await page.setViewportSize({ width: 1440, height: 900 });
+    await page.goto("/");
+    const cta = page.getByTestId("hero-primary-cta");
+    await expect(cta).toHaveAttribute("href", "#panels");
+    await cta.click();
+    await expect(page).toHaveURL(/#panels$/);
+    await expect(page.locator("#panels-title")).toBeInViewport();
+    await expect(page.locator("#panels-title")).toHaveText("Bid on a Panel");
+    await expect(page.getByTestId("panel-grid").locator("article")).toHaveCount(11);
+    await expect(page.getByTestId("bid-modal")).toHaveCount(0);
+    await expect(page).not.toHaveURL(/\/panels\/hood/);
+  });
 });

@@ -51,7 +51,11 @@ test.describe("UX locks: concept lead, baked board, etch, CTA, wrap blend", () =
     await expect(hero).not.toHaveAttribute("href");
     await expect(page.getByTestId("hero-primary-cta")).toHaveJSProperty(
       "tagName",
-      "BUTTON",
+      "A",
+    );
+    await expect(page.getByTestId("hero-primary-cta")).toHaveAttribute(
+      "href",
+      "#panels",
     );
 
     await expect(page.getByTestId("truck-view-seats")).toHaveAttribute(
@@ -80,8 +84,9 @@ test.describe("UX locks: concept lead, baked board, etch, CTA, wrap blend", () =
     );
 
     await page.getByTestId("hero-primary-cta").click();
-    await expect(page.getByTestId("bid-modal")).toBeVisible();
-    await expect(page.locator("#panels")).toBeVisible();
+    await expect(page).toHaveURL(/#panels$/);
+    await expect(page.locator("#panels-title")).toBeInViewport();
+    await expect(page.getByTestId("bid-modal")).toHaveCount(0);
     await expect(page).not.toHaveURL(/\/panels\/hood/);
 
     const html = await page.content();

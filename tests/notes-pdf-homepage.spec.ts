@@ -30,7 +30,8 @@ test.describe("notes PDF homepage sheet", () => {
     await expect(heroPanel.locator(".obsidian-arrow-fill-btn__text")).toHaveText(
       "Bid on a Panel",
     );
-    await expect(heroPanel).toHaveJSProperty("tagName", "BUTTON");
+    await expect(heroPanel).toHaveJSProperty("tagName", "A");
+    await expect(heroPanel).toHaveAttribute("href", "#panels");
     await expect(heroPanel).toHaveClass(/obsidian-arrow-fill-btn/);
     const heroContact = page.getByTestId("hero-secondary-cta");
     await expect(heroContact).toHaveText("Contact BMB");

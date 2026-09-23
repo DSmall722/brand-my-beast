@@ -49,7 +49,8 @@ test.describe("panel detail cleanup", () => {
     await expect(heroPanel.locator(".obsidian-arrow-fill-btn__text")).toHaveText(
       "Bid on a Panel",
     );
-    await expect(heroPanel).toHaveJSProperty("tagName", "BUTTON");
+    await expect(heroPanel).toHaveJSProperty("tagName", "A");
+    await expect(heroPanel).toHaveAttribute("href", "#panels");
     const heroContact = page.getByTestId("hero-secondary-cta");
     await expect(heroContact).toHaveText("Contact BMB");
     await expect(heroContact).toHaveAttribute("href", "#waitlist");

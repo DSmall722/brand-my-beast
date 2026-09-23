@@ -334,6 +334,11 @@ test.describe("bid desk: modal, hidden sign-in, unpaid, day by day", () => {
     await expect(page).toHaveURL(/\/$/);
 
     await page.getByTestId("hero-primary-cta").click();
+    await expect(page).toHaveURL(/#panels$/);
+    await expect(page.locator("#panels-title")).toBeInViewport();
+    await expect(page.getByTestId("bid-modal")).toHaveCount(0);
+
+    await page.getByTestId("panel-link-hood").click();
     await expect(page.getByTestId("bid-modal")).toBeVisible();
     await page.getByTestId("bid-modal-brand").fill("Desk Brand");
     await page.getByTestId("bid-modal-email").fill("desk@brandmybeast.com");
