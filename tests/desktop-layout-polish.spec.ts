@@ -174,7 +174,10 @@ test.describe("desktop layout polish", () => {
 
   test("chips, day-by-day, how it works, and FAQ follow the desktop QA", async ({
     page,
+    request,
   }) => {
+    const reset = await request.post("/api/test/reset-intents");
+    expect(reset.ok()).toBeTruthy();
     await page.setViewportSize({ width: 1440, height: 900 });
     await page.goto("/");
 
