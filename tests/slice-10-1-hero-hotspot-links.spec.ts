@@ -59,7 +59,11 @@ test.describe("slice 10.1: hero and hotspot links open seats", () => {
     await expect(hero).not.toHaveAttribute("href");
     await expect(page.getByTestId("hero-primary-cta")).toHaveJSProperty(
       "tagName",
-      "BUTTON",
+      "A",
+    );
+    await expect(page.getByTestId("hero-primary-cta")).toHaveAttribute(
+      "href",
+      "#panels",
     );
     await expect(page.getByTestId("truck-seat-hood")).toHaveAttribute(
       "href",
@@ -76,13 +80,13 @@ test.describe("slice 10.1: hero and hotspot links open seats", () => {
     );
 
     await page.getByTestId("hero-primary-cta").click();
-    await expect(page.getByTestId("bid-modal")).toBeVisible();
-    await expect(page.locator("#panels")).toBeVisible();
+    await expect(page).toHaveURL(/#panels$/);
+    await expect(page.locator("#panels-title")).toBeInViewport();
+    await expect(page.getByTestId("bid-modal")).toHaveCount(0);
     await expect(page.getByTestId("panel-grid").locator("article")).toHaveCount(
       11,
     );
     await expect(page).not.toHaveURL(/\/panels\/hood/);
-    await page.getByTestId("bid-modal-close").click();
 
     await page.goto("/");
     await page.getByTestId("hero-truck-preview").click();

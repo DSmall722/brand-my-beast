@@ -260,9 +260,9 @@ test.describe("bid desk: modal, hidden sign-in, unpaid, day by day", () => {
     await expect(history).toHaveAttribute("data-source", "sample");
     await expect(history).toHaveAttribute("data-empty", "false");
     await expect(history.getByRole("heading", { name: "Day by day" })).toBeVisible();
-    await expect(history.getByTestId("day-by-day-lead")).toHaveText(
-      PUBLIC_COPY.bidDesk.daySampleLead,
-    );
+    await expect(history.getByTestId("day-by-day-lead")).toHaveCount(0);
+    await expect(history).not.toContainText("Sample history");
+    await expect(history).not.toContainText("No live bids yet");
     await expect(history.getByTestId("day-by-day-sample-standing")).toContainText(
       "2 Sep",
     );
@@ -301,6 +301,11 @@ test.describe("bid desk: modal, hidden sign-in, unpaid, day by day", () => {
       "href",
       "/leaderboard",
     );
+    await expect(page.getByTestId("leaderboard-link")).toHaveClass(/btn-panel/);
+    await expect(page.getByTestId("leaderboard-link")).toHaveJSProperty(
+      "tagName",
+      "A",
+    );
     await page.goto("/leaderboard");
     await expect(page.getByTestId("leaderboard-page")).toHaveAttribute(
       "data-empty",
@@ -334,6 +339,11 @@ test.describe("bid desk: modal, hidden sign-in, unpaid, day by day", () => {
     await expect(page).toHaveURL(/\/$/);
 
     await page.getByTestId("hero-primary-cta").click();
+    await expect(page).toHaveURL(/#panels$/);
+    await expect(page.locator("#panels-title")).toBeInViewport();
+    await expect(page.getByTestId("bid-modal")).toHaveCount(0);
+
+    await page.getByTestId("panel-link-hood").click();
     await expect(page.getByTestId("bid-modal")).toBeVisible();
     await page.getByTestId("bid-modal-brand").fill("Desk Brand");
     await page.getByTestId("bid-modal-email").fill("desk@brandmybeast.com");
@@ -454,9 +464,9 @@ test.describe("bid desk: modal, hidden sign-in, unpaid, day by day", () => {
     await expect(history).toHaveAttribute("data-empty", "false");
     await expect(history).not.toContainText("Sample history");
     await expect(history).not.toContainText("Sample Mark");
-    await expect(history.getByTestId("day-by-day-lead")).toHaveText(
-      PUBLIC_COPY.bidDesk.dayLiveLead,
-    );
+    await expect(history.getByTestId("day-by-day-lead")).toHaveCount(0);
+    await expect(history).not.toContainText("No live bids yet");
+    await expect(history).not.toContainText(PUBLIC_COPY.bidDesk.dayLiveLead);
     await expect(history).not.toContainText("unpaid");
     await expect(history).not.toContainText("paid");
     await expect(page.getByTestId("raised-amount")).toHaveText("$0");

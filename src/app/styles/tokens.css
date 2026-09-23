@@ -13,6 +13,10 @@
   --hairline: color-mix(in oklab, white 14%, transparent);
   --glow: color-mix(in oklab, var(--signal) 22%, transparent);
   --page-shell: min(100% - 2rem, 100%);
+  /* Desktop content column inside the full-width shell. */
+  --desk-measure: 68rem;
+  /* Preview the Panels sits inside that column, smaller than the shell. */
+  --preview-measure: 56rem;
 }
 
 * {

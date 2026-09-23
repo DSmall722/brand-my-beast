@@ -64,11 +64,15 @@ export function AuctionLive({ model }: { model: AuctionLiveModel }) {
           </ul>
         )}
       </section>
-      <p className="auction-leaderboard-link">
-        <Link href="/leaderboard" data-testid="leaderboard-link">
+      <div className="auction-leaderboard-link">
+        <Link
+          className="btn btn-panel"
+          href="/leaderboard"
+          data-testid="leaderboard-link"
+        >
           {copy.leaderboardLink}
         </Link>
-      </p>
+      </div>
     </div>
   );
 }

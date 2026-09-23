@@ -69,7 +69,8 @@ test.describe("slice 6.12: obsidianui signal button", () => {
     await expect(contact).not.toHaveClass(/obsidian-arrow-fill-btn/);
 
     const tag = await cta.evaluate((el) => el.tagName.toLowerCase());
-    expect(tag).toBe("button");
+    expect(tag).toBe("a");
+    await expect(cta).toHaveAttribute("href", "#panels");
 
     const html = (await page.content()).toLowerCase();
     expect(html).not.toMatch(/\blease\b/);

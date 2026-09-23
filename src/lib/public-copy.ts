@@ -93,16 +93,16 @@ export const PUBLIC_COPY = {
     heading: "How it works",
     steps: [
       {
-        title: "Pick a panel",
-        body: "Choose a seat on the Cyberbeast. One brand per trade.",
+        title: "Pick a Panel",
+        body: "Choose from 11 different available high visibility advertising spaces.",
       },
       {
-        title: "Place a bid",
-        body: "Open Place a bid, enter your mark, and hold the panel with the highest standing bid.",
+        title: "Place a Bid",
+        body: "Lock your bid to the board with a 20% down payment, processed securely through Stripe.",
       },
       {
-        title: "Get on the truck",
-        body: "When the campaign clears the floor, winning brands go on the Cyberbeast.",
+        title: "Get on the Truck",
+        body: "When the campaign ends, winning brands will have their approved ad printed on high quality vinyl wrap and proudly displayed on the truck for 12 full months.",
       },
     ],
   },

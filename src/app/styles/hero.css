@@ -280,6 +280,21 @@
   }
 }
 
+/* Desktop: center the copy column in the full-width shell and spread the two CTAs.
+   H1 alignment stays as written. Bid on a Panel stays the arrow-fill primary. */
+@media (min-width: 960px) {
+  .hero-copy,
+  .hero-actions {
+    width: min(100%, var(--desk-measure));
+    margin-inline: auto;
+  }
+
+  .hero-actions {
+    justify-content: space-between;
+    align-items: center;
+  }
+}
+
 @media (max-width: 720px) {
   .hero {
     min-height: 0;
@@ -374,6 +389,16 @@
   margin: 0;
   padding: 0;
   list-style: none;
+}
+
+/* The base rule sets margin: 0. This block has to follow it or the chips
+   stay stuck on the shell's left edge. */
+@media (min-width: 960px) {
+  .panel-number-legend ol {
+    width: min(100%, var(--desk-measure));
+    margin: 0 auto;
+    justify-content: center;
+  }
 }
 
 .panel-number-legend a {

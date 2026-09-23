@@ -1356,7 +1356,7 @@
 }
 
 .panel-intent.public-seat {
-  max-width: 56rem;
+  max-width: 64rem;
 }
 
 .public-seat .seat-masthead {
@@ -3307,4 +3307,112 @@ body:has(.bid-modal-root) {
   align-items: center;
   gap: 0.75rem;
   margin-top: 0.75rem;
+}
+
+/* Desktop layout polish: the shell stays full width. Inner blocks center
+   in a shared measure so copy is not stuck on the left of a wide viewport.
+   How it works stays three action steps in one row. No card chrome. */
+@media (min-width: 960px) {
+  main .shell.section > * {
+    width: min(100%, var(--desk-measure));
+    margin-inline: auto;
+  }
+
+  #truck-views.shell.section > * {
+    width: min(100%, var(--preview-measure));
+  }
+
+  #questions.shell.section > .questions-list {
+    width: min(100%, var(--desk-measure));
+    margin-inline: auto;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: 2rem;
+    align-items: start;
+  }
+
+  #questions .questions-item dd {
+    max-width: none;
+  }
+
+  #waitlist.shell.section > .waitlist-form {
+    max-width: var(--desk-measure);
+  }
+
+  #etch .etch-unlock .section-lead,
+  #etch .etch-requirements {
+    max-width: none;
+  }
+
+  #etch .etch-unlock .section-lead {
+    width: 100%;
+  }
+
+  .story-list {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .site-footer {
+    align-items: center;
+    text-align: center;
+  }
+
+  .site-footer-legal {
+    justify-content: center;
+  }
+}
+
+/* Eleven seats: 4-4-3 on a wide desktop, 3-3-3-2 when four columns get tight.
+   Last row uses the same card width and sits centered. */
+@media (min-width: 720px) and (max-width: 959px) {
+  .panel-grid {
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+  }
+
+  .panel-grid > .panel {
+    grid-column: span 4;
+  }
+
+  .panel-grid > .panel:nth-child(10) {
+    grid-column: 3 / span 4;
+    grid-row: 4;
+  }
+
+  .panel-grid > .panel:nth-child(11) {
+    grid-column: 7 / span 4;
+    grid-row: 4;
+  }
+}
+
+@media (min-width: 960px) {
+  .panel-grid {
+    grid-template-columns: repeat(24, minmax(0, 1fr));
+  }
+
+  .panel-grid > .panel {
+    grid-column: span 6;
+  }
+
+  .panel-grid > .panel:nth-child(9) {
+    grid-column: 4 / span 6;
+    grid-row: 3;
+  }
+
+  .panel-grid > .panel:nth-child(10) {
+    grid-column: 10 / span 6;
+    grid-row: 3;
+  }
+
+  .panel-grid > .panel:nth-child(11) {
+    grid-column: 16 / span 6;
+    grid-row: 3;
+  }
+}
+
+.auth-page.legal-page {
+  max-width: 48rem;
+}
+
+.legal-page .legal-stub-body.section-lead,
+.legal-page .legal-stub-body p {
+  max-width: none;
 }
