@@ -90,6 +90,9 @@ export default async function PanelIntentPage({
   const standing = await standingForPanel(panel.id);
   const minimum = await minimumIntentUsd(panel.id);
   const bids = await listBidsForPanel(panel.id);
+  const ledger = (
+    await Promise.all(PANELS.map((row) => listBidsForPanel(row.id)))
+  ).flat();
   const seatsOpen = resolveSeatsOpen();
   const holdersRaw = await loadStandingHoldersByPanel();
   const holdersByPanel = new Map<string, AdjacentSeatHolder | null>();
@@ -128,7 +131,7 @@ export default async function PanelIntentPage({
     (bid) => bid.status === "listed" || bid.status === "approved",
   );
   const seatLog = buildPublicSeatLog(bids);
-  const dayByDay = buildDayByDay(bids, { panelId: panel.id });
+  const dayByDay = buildDayByDay(ledger, { panelId: panel.id });
   const quotes: BidPanelQuote[] = PANELS.map((row) => {
     const held = holdersRaw.get(row.id);
     const current = currentBidUsd(row.openingUsd, held?.standingUsd);

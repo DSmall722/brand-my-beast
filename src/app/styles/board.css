@@ -3074,6 +3074,13 @@
   text-transform: uppercase;
 }
 
+.day-by-day-lead {
+  margin: -0.25rem 0 0.9rem;
+  max-width: 62ch;
+  color: var(--steel-300);
+  line-height: 1.5;
+}
+
 .day-by-day-list {
   list-style: none;
   margin: 0;

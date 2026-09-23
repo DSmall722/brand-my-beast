@@ -44,6 +44,7 @@ export type DayByDayBucket = {
 };
 
 export type DayByDay = {
+  source: "live" | "sample";
   days: DayByDayBucket[];
 };
 
@@ -53,7 +54,61 @@ const HISTORY_STATUSES = new Set<IntentBidStatus>([
   "outbid",
 ]);
 
-const EMPTY_DAY_BY_DAY: DayByDay = { days: [] };
+const EMPTY_LIVE_DAY_BY_DAY: DayByDay = { source: "live", days: [] };
+
+/**
+ * Demo history only. These dollars are not written to the ledger
+ * and are not pledged.
+ */
+const SAMPLE_DAYS: readonly {
+  dayKey: string;
+  dayLabel: string;
+  panelId: string;
+  row: DayByDayRow;
+}[] = [
+  {
+    dayKey: "sample-standing",
+    dayLabel: "2 Sep",
+    panelId: "hood",
+    row: {
+      bidId: "sample-hood",
+      panelName: "Hood",
+      brandLabel: "Sample Mark",
+      amountUsd: 2500,
+      timeLabel: formatSeatLogTime("2026-09-02T16:00:00.000Z"),
+      stillStanding: true,
+    },
+  },
+  {
+    dayKey: "sample-beaten",
+    dayLabel: "1 Sep",
+    panelId: "rear-bumper",
+    row: {
+      bidId: "sample-rear-bumper",
+      panelName: "Rear bumper",
+      brandLabel: "Sample Mark",
+      amountUsd: 500,
+      timeLabel: formatSeatLogTime("2026-09-01T16:00:00.000Z"),
+      stillStanding: false,
+    },
+  },
+];
+
+function sampleDayByDay(panelId?: string): DayByDay {
+  const days: DayByDayBucket[] = [];
+  for (const sample of SAMPLE_DAYS) {
+    if (panelId != null && sample.panelId !== panelId) continue;
+    days.push({
+      dayKey: sample.dayKey,
+      dayLabel: sample.dayLabel,
+      bidCount: 1,
+      bidUsd: sample.row.amountUsd,
+      standingUsd: sample.row.stillStanding ? sample.row.amountUsd : 0,
+      rows: [sample.row],
+    });
+  }
+  return { source: "sample", days };
+}
 
 function panelName(panelId: string): string {
   return PANELS.find((panel) => panel.id === panelId)?.name ?? panelId;
@@ -115,19 +170,26 @@ function raisedBidIds(bids: readonly IntentBid[]): Set<string> {
  * Summing `standingUsd` across days equals raised. Outbid and still-listed
  * rows stay in the day total and in the line items, with standing 0.
  * Pass `panelId` for one seat: same math, that panel only.
+ * An empty public ledger (no listed, approved, or outbid mark outside
+ * a floor-save) returns the labeled sample. Sample dollars are not pledged.
+ * A seat filter applies after that check, so one empty panel does not
+ * invent sample rows while another panel has a real mark.
  */
 export function buildDayByDay(
   bids: readonly IntentBid[],
   options?: { panelId?: string },
 ): DayByDay {
-  const scoped =
-    options?.panelId == null
-      ? bids
-      : bids.filter((bid) => bid.panelId === options.panelId);
-  const publicBids = scoped.filter(
+  const publicLedger = bids.filter(
     (bid) => HISTORY_STATUSES.has(bid.status) && !isFloorSaveBid(bid),
   );
-  if (publicBids.length === 0) return EMPTY_DAY_BY_DAY;
+  if (publicLedger.length === 0) return sampleDayByDay(options?.panelId);
+
+  const scoped =
+    options?.panelId == null
+      ? publicLedger
+      : publicLedger.filter((bid) => bid.panelId === options.panelId);
+  const publicBids = scoped;
+  if (publicBids.length === 0) return EMPTY_LIVE_DAY_BY_DAY;
 
   const standingIds = raisedBidIds(scoped);
   const buckets = new Map<string, DayByDayBucket>();
@@ -170,8 +232,8 @@ export function buildDayByDay(
   const days = [...buckets.values()].sort((a, b) =>
     b.dayKey.localeCompare(a.dayKey),
   );
-  if (days.length === 0) return EMPTY_DAY_BY_DAY;
-  return { days };
+  if (days.length === 0) return EMPTY_LIVE_DAY_BY_DAY;
+  return { source: "live", days };
 }
 
 export function formatDayMoney(amountUsd: number): string {

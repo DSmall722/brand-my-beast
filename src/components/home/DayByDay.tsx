@@ -2,6 +2,20 @@ import type { DayByDay as DayByDayModel } from "@/lib/bid-desk";
 import { formatDayMoney } from "@/lib/bid-desk";
 import { PUBLIC_COPY } from "@/lib/public-copy";
 
+function dayLead(model: DayByDayModel): string | null {
+  if (model.days.length === 0) return null;
+  switch (model.source) {
+    case "sample":
+      return PUBLIC_COPY.bidDesk.daySampleLead;
+    case "live":
+      return PUBLIC_COPY.bidDesk.dayLiveLead;
+    default: {
+      const unreachable: never = model.source;
+      return unreachable;
+    }
+  }
+}
+
 export function DayByDay({
   model,
   showPanel = true,
@@ -12,15 +26,22 @@ export function DayByDay({
 }) {
   const copy = PUBLIC_COPY.bidDesk;
   const empty = model.days.length === 0;
+  const lead = dayLead(model);
 
   return (
     <section
       className="day-by-day"
       data-testid="day-by-day"
+      data-source={model.source}
       data-empty={empty ? "true" : "false"}
       aria-labelledby="day-by-day-title"
     >
       <h3 id="day-by-day-title">{copy.dayHeading}</h3>
+      {lead ? (
+        <p className="day-by-day-lead" data-testid="day-by-day-lead">
+          {lead}
+        </p>
+      ) : null}
       {empty ? null : (
         <ol className="day-by-day-list">
           {model.days.map((day, index) => (
