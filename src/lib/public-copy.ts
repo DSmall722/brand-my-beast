@@ -94,7 +94,15 @@ export const PUBLIC_COPY = {
     steps: [
       {
         title: "Pick a panel",
-        body: "Choose a seat on the Cyberbeast. One brand per trade. The highest standing bid holds the panel.",
+        body: "Choose a seat on the Cyberbeast. One brand per trade.",
+      },
+      {
+        title: "Place a bid",
+        body: "Open Place a bid, enter your mark, and hold the panel with the highest standing bid.",
+      },
+      {
+        title: "Get on the truck",
+        body: "When the campaign clears the floor, winning brands go on the Cyberbeast.",
       },
     ],
   },

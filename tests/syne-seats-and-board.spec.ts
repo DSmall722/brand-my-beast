@@ -32,42 +32,35 @@ test.describe("Syne lockup, board marks, seat lead", () => {
     expect(vercelJsonIsHoldOrMainOnlyRestore()).toBe(true);
   });
 
-  test("How it works is one panel step, not a three-column row", async ({
+  test("How it works shows three guest steps side by side", async ({
     page,
   }) => {
     await page.setViewportSize({ width: 1280, height: 900 });
     await page.goto("/");
     await page.evaluate(() => document.fonts.ready);
-    await expect(page.locator("#story .story-step-title")).toHaveText(
+    await expect(page.locator("#story .story-step-title")).toHaveText([
       "Pick a panel",
-    );
-    await expect(page.locator("#story .story-step-copy")).toHaveText(
-      "Choose a seat on the Cyberbeast. One brand per trade. The highest standing bid holds the panel.",
-    );
+      "Place a bid",
+      "Get on the truck",
+    ]);
+    await expect(page.locator("#story .story-step-copy")).toHaveText([
+      "Choose a seat on the Cyberbeast. One brand per trade.",
+      "Open Place a bid, enter your mark, and hold the panel with the highest standing bid.",
+      "When the campaign clears the floor, winning brands go on the Cyberbeast.",
+    ]);
     await expect(page.locator("#story")).not.toContainText(
       "$58,000 or the money comes back",
     );
     await expect(page.locator("#story")).not.toContainText(
       "$120,000 unlocks Immortal Etch",
     );
-    await expect(page.locator("#story")).not.toContainText("Place a bid");
-    await expect(page.locator("#story")).not.toContainText("Get on the truck");
     await expect(page.locator("#story .immortal-etch")).toHaveCount(0);
-    await expect(page.locator("#story .story-list")).toHaveCount(0);
     await expect(page.getByTestId("story-etch-forever")).toHaveCount(0);
-    const layout = await page.locator("#story .story-block").evaluate((el) => {
-      const block = el.getBoundingClientRect();
-      const section = el.closest("section")?.getBoundingClientRect();
-      return {
-        blockWidth: block.width,
-        sectionWidth: section?.width ?? 0,
-        columns: getComputedStyle(el).gridTemplateColumns,
-      };
-    });
-    expect(layout.sectionWidth).toBeGreaterThan(900);
-    expect(layout.columns.split(" ").filter(Boolean)).toHaveLength(1);
-    expect(layout.blockWidth).toBeGreaterThan(layout.sectionWidth * 0.4);
-    expect(layout.blockWidth).toBeLessThan(layout.sectionWidth);
+    const stepTops = await page.locator("#story .story-list > li").evaluateAll(
+      (items) => items.map((item) => Math.round(item.getBoundingClientRect().top)),
+    );
+    expect(stepTops).toHaveLength(3);
+    expect(new Set(stepTops).size).toBe(1);
     const fonts = await page.evaluate(() => {
       const lockup = document.querySelector("#etch .immortal-etch");
       const title = document.querySelector("#story .story-step-title");

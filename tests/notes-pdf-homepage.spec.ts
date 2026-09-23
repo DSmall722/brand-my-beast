@@ -179,18 +179,18 @@ test.describe("notes PDF homepage sheet", () => {
       .evaluate((el) => getComputedStyle(el).getPropertyValue("--panel-face-size"));
     expect(bedSize.trim()).toBe("380% auto");
 
-    await expect(page.locator("#story")).toContainText(
-      "Choose a seat on the Cyberbeast. One brand per trade. The highest standing bid holds the panel.",
-    );
-    await expect(page.locator("#story .story-step-title")).toHaveText(
+    await expect(page.locator("#story .story-step-title")).toHaveText([
       "Pick a panel",
-    );
-    await expect(page.locator("#story .story-step-title")).toHaveCount(1);
+      "Place a bid",
+      "Get on the truck",
+    ]);
+    await expect(page.locator("#story .story-step-copy")).toHaveText([
+      "Choose a seat on the Cyberbeast. One brand per trade.",
+      "Open Place a bid, enter your mark, and hold the panel with the highest standing bid.",
+      "When the campaign clears the floor, winning brands go on the Cyberbeast.",
+    ]);
     await expect(page.getByTestId("how-it-works")).toBeVisible();
     await expect(page.locator("#story .immortal-etch")).toHaveCount(0);
-    await expect(page.locator("#story .story-list")).toHaveCount(0);
-    await expect(page.locator("#story")).not.toContainText("Place a bid");
-    await expect(page.locator("#story")).not.toContainText("Get on the truck");
     await expect(page.locator("#story")).not.toContainText(
       "$58,000 or the money comes back",
     );
