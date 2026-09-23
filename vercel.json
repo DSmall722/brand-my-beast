@@ -3,8 +3,7 @@
   "git": {
     "deploymentEnabled": {
       "*": false,
-      "main": true,
-      "cursor/desktop-layout-polish-5b9a": true
+      "main": true
     }
   }
 }
