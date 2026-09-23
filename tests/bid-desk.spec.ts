@@ -301,6 +301,11 @@ test.describe("bid desk: modal, hidden sign-in, unpaid, day by day", () => {
       "href",
       "/leaderboard",
     );
+    await expect(page.getByTestId("leaderboard-link")).toHaveClass(/btn-panel/);
+    await expect(page.getByTestId("leaderboard-link")).toHaveJSProperty(
+      "tagName",
+      "A",
+    );
     await page.goto("/leaderboard");
     await expect(page.getByTestId("leaderboard-page")).toHaveAttribute(
       "data-empty",
