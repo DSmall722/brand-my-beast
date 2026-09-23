@@ -74,7 +74,7 @@ Panel card names match the board. No gloss line on the card.
 - 02 title: `Place a Bid`
 - 02 body: `Lock your bid to the board with a 20% down payment, processed securely through Stripe.`
 - 03 title: `Get on the Truck`
-- 03 body: `When the campaign ends, winning brands will have their approved ad printed on high quality vinyl wrap and applied to the truck for 12 full months.`
+- 03 body: `When the campaign ends, winning brands will have their approved ad printed on high quality vinyl wrap and proudly displayed on the truck for 12 full months.`
 
 Three guest steps, side by side from 900px. Floor and buyout stay in Track the Auction, Immortal Etch, and the FAQ. They are not How it works steps.
 

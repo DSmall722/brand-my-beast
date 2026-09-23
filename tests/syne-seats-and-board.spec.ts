@@ -46,7 +46,7 @@ test.describe("Syne lockup, board marks, seat lead", () => {
     await expect(page.locator("#story .story-step-copy")).toHaveText([
       "Choose from 11 different available high visibility advertising spaces.",
       "Lock your bid to the board with a 20% down payment, processed securely through Stripe.",
-      "When the campaign ends, winning brands will have their approved ad printed on high quality vinyl wrap and applied to the truck for 12 full months.",
+      "When the campaign ends, winning brands will have their approved ad printed on high quality vinyl wrap and proudly displayed on the truck for 12 full months.",
     ]);
     await expect(page.locator("#story")).not.toContainText(
       "$58,000 or the money comes back",

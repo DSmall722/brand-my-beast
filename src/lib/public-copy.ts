@@ -102,7 +102,7 @@ export const PUBLIC_COPY = {
       },
       {
         title: "Get on the Truck",
-        body: "When the campaign ends, winning brands will have their approved ad printed on high quality vinyl wrap and applied to the truck for 12 full months.",
+        body: "When the campaign ends, winning brands will have their approved ad printed on high quality vinyl wrap and proudly displayed on the truck for 12 full months.",
       },
     ],
   },
