@@ -58,7 +58,8 @@ test.describe("slice 14.21: /llms.txt PUBLIC_COPY facts only", () => {
     expect(body).toContain(BRAND.email);
     expect(body.toLowerCase()).not.toMatch(/\blease\b/);
     expect(body).not.toMatch(/@gmail\.com/);
-    expect(body.toLowerCase()).not.toMatch(/stripe/);
+    expect(body).toContain(PUBLIC_COPY.howItWorks.steps[1].body);
+    expect(body.toLowerCase()).not.toMatch(/stripe\.com|payment_intent|setup_intent/);
     // No invented warmer homepage H1
     expect(body).not.toMatch(/advertise on steel/i);
   });

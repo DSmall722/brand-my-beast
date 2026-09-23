@@ -53,7 +53,10 @@ test.describe("slice 16.20: /llms.txt numbered seats", () => {
     expect(body).not.toMatch(/October 1/);
     expect(body.toLowerCase()).not.toMatch(/\blease\b/);
     expect(body).not.toMatch(/@gmail\.com/);
-    expect(body.toLowerCase()).not.toMatch(/stripe/);
+    expect(body).toContain(
+      "processed securely through Stripe",
+    );
+    expect(body.toLowerCase()).not.toMatch(/stripe\.com|payment_intent|setup_intent/);
   });
 
   test("GET /llms.txt is the same plain text", async ({ request }) => {

@@ -171,4 +171,76 @@ test.describe("desktop layout polish", () => {
     expect(photo.objectFit).toBe("contain");
     expect(photo.objectPosition).toBe("50% 50%");
   });
+
+  test("chips, day-by-day, how it works, and FAQ follow the desktop QA", async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width: 1440, height: 900 });
+    await page.goto("/");
+
+    const placed = await page.evaluate(() => {
+      const rect = (selector: string) => {
+        const el = document.querySelector(selector);
+        if (!el) return null;
+        const box = el.getBoundingClientRect();
+        return { left: box.left, width: box.width };
+      };
+      const questions = [
+        ...document.querySelectorAll("#questions .questions-item"),
+      ].map((el) => Math.round(el.getBoundingClientRect().top));
+      return {
+        shell: rect("header.shell"),
+        heroCopy: rect(".hero-copy"),
+        legend: rect("[data-testid='panel-number-legend'] ol"),
+        questionsTitle: rect("#questions-title"),
+        questionsList: rect("#questions .questions-list"),
+        questionTops: questions,
+        columns: getComputedStyle(
+          document.querySelector("#questions .questions-list") as Element,
+        ).gridTemplateColumns,
+      };
+    });
+
+    expect(placed.shell).not.toBeNull();
+    expect(placed.heroCopy).not.toBeNull();
+    expect(placed.legend).not.toBeNull();
+    expect(placed.legend!.left).toBeGreaterThan(placed.shell!.left + 40);
+    expect(Math.abs(placed.legend!.left - placed.heroCopy!.left)).toBeLessThanOrEqual(2);
+    expect(Math.abs(placed.legend!.width - placed.heroCopy!.width)).toBeLessThanOrEqual(2);
+
+    const history = page.getByTestId("day-by-day");
+    await expect(history.getByRole("heading", { name: "Day by day" })).toBeVisible();
+    await expect(history.getByTestId("day-by-day-lead")).toHaveCount(0);
+    await expect(history).not.toContainText("Sample history");
+    await expect(history).not.toContainText("No live bids yet");
+    await expect(history).toContainText("Sample Mark");
+    await expect(history).not.toContainText("unpaid");
+    await expect(history).not.toContainText("paid");
+
+    await expect(page.locator("#story .story-step-title")).toHaveText([
+      "Pick a Panel",
+      "Place a Bid",
+      "Get on the Truck",
+    ]);
+    await expect(page.locator("#story .story-step-copy")).toHaveText([
+      "Choose from 11 different available high visibility advertising spaces.",
+      "Lock your bid to the board with a 20% down payment, processed securely through Stripe.",
+      "When the campaign ends, winning brands will have their approved ad printed on high quality vinyl wrap and applied to the truck for 12 full months.",
+    ]);
+    await expect(page.locator("#story")).not.toContainText("$58,000");
+    await expect(page.locator("#story")).not.toContainText("$120,000");
+
+    expect(placed.questionsTitle).not.toBeNull();
+    expect(placed.questionsList).not.toBeNull();
+    expect(
+      Math.abs(placed.questionsList!.left - placed.questionsTitle!.left),
+    ).toBeLessThanOrEqual(2);
+    expect(
+      Math.abs(placed.questionsList!.width - placed.questionsTitle!.width),
+    ).toBeLessThanOrEqual(2);
+    expect(placed.questionTops.length).toBeGreaterThan(2);
+    expect(placed.questionTops[0]).toBe(placed.questionTops[1]);
+    expect(placed.questionTops[2]).toBeGreaterThan(placed.questionTops[0]);
+    expect(placed.columns.split(" ").length).toBe(2);
+  });
 });

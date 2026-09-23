@@ -121,7 +121,8 @@ test.describe("desktop shell fills the viewport", () => {
       expect(box.faqAnswer).not.toBeNull();
       expect(box.storyCopy).not.toBeNull();
       expect(box.etchRequirements).not.toBeNull();
-      expect(box.faqAnswer as number).toBeLessThanOrEqual(box.proseCap + 1);
+      expect(box.faqAnswer as number).toBeGreaterThan(240);
+      expect(box.faqAnswer as number).toBeLessThan(contentWidth * 0.65);
       expect(box.storyCopy as number).toBeLessThanOrEqual(box.proseCap + 1);
       expect(box.etchRequirements as number).toBeGreaterThan(box.proseCap + 40);
       expectWidth(box.etchRequirements, contentWidth, "etch requirements");

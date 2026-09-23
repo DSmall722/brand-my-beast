@@ -293,12 +293,6 @@
     justify-content: space-between;
     align-items: center;
   }
-
-  .panel-number-legend ol {
-    width: min(100%, var(--desk-measure));
-    margin-inline: auto;
-    justify-content: center;
-  }
 }
 
 @media (max-width: 720px) {
@@ -395,6 +389,16 @@
   margin: 0;
   padding: 0;
   list-style: none;
+}
+
+/* The base rule sets margin: 0. This block has to follow it or the chips
+   stay stuck on the shell's left edge. */
+@media (min-width: 960px) {
+  .panel-number-legend ol {
+    width: min(100%, var(--desk-measure));
+    margin: 0 auto;
+    justify-content: center;
+  }
 }
 
 .panel-number-legend a {

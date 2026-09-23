@@ -260,9 +260,9 @@ test.describe("bid desk: modal, hidden sign-in, unpaid, day by day", () => {
     await expect(history).toHaveAttribute("data-source", "sample");
     await expect(history).toHaveAttribute("data-empty", "false");
     await expect(history.getByRole("heading", { name: "Day by day" })).toBeVisible();
-    await expect(history.getByTestId("day-by-day-lead")).toHaveText(
-      PUBLIC_COPY.bidDesk.daySampleLead,
-    );
+    await expect(history.getByTestId("day-by-day-lead")).toHaveCount(0);
+    await expect(history).not.toContainText("Sample history");
+    await expect(history).not.toContainText("No live bids yet");
     await expect(history.getByTestId("day-by-day-sample-standing")).toContainText(
       "2 Sep",
     );
@@ -454,9 +454,9 @@ test.describe("bid desk: modal, hidden sign-in, unpaid, day by day", () => {
     await expect(history).toHaveAttribute("data-empty", "false");
     await expect(history).not.toContainText("Sample history");
     await expect(history).not.toContainText("Sample Mark");
-    await expect(history.getByTestId("day-by-day-lead")).toHaveText(
-      PUBLIC_COPY.bidDesk.dayLiveLead,
-    );
+    await expect(history.getByTestId("day-by-day-lead")).toHaveCount(0);
+    await expect(history).not.toContainText("No live bids yet");
+    await expect(history).not.toContainText(PUBLIC_COPY.bidDesk.dayLiveLead);
     await expect(history).not.toContainText("unpaid");
     await expect(history).not.toContainText("paid");
     await expect(page.getByTestId("raised-amount")).toHaveText("$0");

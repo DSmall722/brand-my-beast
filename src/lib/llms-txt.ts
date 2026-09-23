@@ -4,7 +4,8 @@ import { PUBLIC_COPY } from "./public-copy";
 
 /**
  * Slice 14.21 / 16.20 — `/llms.txt` from PUBLIC_COPY plus the 1–11 seats.
- * Floor and buyout only. No close date. No Stripe. No lease.
+ * Floor and buyout only. No close date. No lease. How it works names
+ * Stripe as the processor. No Stripe package and no payment URL.
  */
 export function buildLlmsTxt(): string {
   const lines: string[] = [

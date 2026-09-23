@@ -180,14 +180,14 @@ test.describe("notes PDF homepage sheet", () => {
     expect(bedSize.trim()).toBe("380% auto");
 
     await expect(page.locator("#story .story-step-title")).toHaveText([
-      "Pick a panel",
-      "Place a bid",
-      "Get on the truck",
+      "Pick a Panel",
+      "Place a Bid",
+      "Get on the Truck",
     ]);
     await expect(page.locator("#story .story-step-copy")).toHaveText([
-      "Choose a seat on the Cyberbeast. One brand per trade.",
-      "Open Place a bid, enter your mark, and hold the panel with the highest standing bid.",
-      "When the campaign clears the floor, winning brands go on the Cyberbeast.",
+      "Choose from 11 different available high visibility advertising spaces.",
+      "Lock your bid to the board with a 20% down payment, processed securely through Stripe.",
+      "When the campaign ends, winning brands will have their approved ad printed on high quality vinyl wrap and applied to the truck for 12 full months.",
     ]);
     await expect(page.getByTestId("how-it-works")).toBeVisible();
     await expect(page.locator("#story .immortal-etch")).toHaveCount(0);
