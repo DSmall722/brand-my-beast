@@ -62,7 +62,7 @@ test.describe("slice 16.0a: hide public whole-truck sign-in", () => {
     expect(src).not.toMatch(/from ["']@\/components\/WholeTruckIntentForm["']/);
     expect(src).not.toMatch(/data-testid="whole-truck-signin"/);
     expect(src).not.toMatch(/callbackUrl=\/#money/);
-    expect(src).toContain("WantAllPanelsLink");
+    expect(src).not.toContain("WantAllPanelsLink");
     expect(src).not.toContain("whole-truck-heading");
   });
 
@@ -77,9 +77,7 @@ test.describe("slice 16.0a: hide public whole-truck sign-in", () => {
     await expect(page.getByTestId("waitlist-submit")).toHaveText("Contact BMB");
     await expect(page.getByTestId("whole-truck-signin")).toHaveCount(0);
     await expect(page.getByTestId("whole-truck-intent-form")).toHaveCount(0);
-    await expect(page.getByTestId("want-all-panels")).toHaveText(
-      PUBLIC_COPY.board.wantAllPanels,
-    );
+    await expect(page.getByTestId("want-all-panels")).toHaveCount(0);
     await expect(page.getByTestId("whole-truck-heading")).toHaveCount(0);
     await expect(page.getByTestId("goal-amount")).toHaveText("$120,000");
     await expect(page.getByTestId("floor-amount")).toHaveText("$58,000");
