@@ -57,6 +57,7 @@ test.describe("desktop layout polish", () => {
       const primaryRect = primary?.getBoundingClientRect();
       const secondaryRect = secondary?.getBoundingClientRect();
       const actionsRect = actions?.getBoundingClientRect();
+      const storyHeading = document.querySelector("#how-it-works");
       const seat = document.querySelector("[data-testid='truck-seat-hood']");
       const seatBox = seat?.getBoundingClientRect();
       return {
@@ -76,9 +77,15 @@ test.describe("desktop layout polish", () => {
         storyBackgrounds: story.map((step) => step.background),
         heroAlign: title ? getComputedStyle(title).textAlign : null,
         primaryLeft: primaryRect?.left ?? null,
+        primaryRight: primaryRect?.right ?? null,
+        primaryTop: primaryRect?.top ?? null,
+        secondaryLeft: secondaryRect?.left ?? null,
         secondaryRight: secondaryRect?.right ?? null,
+        secondaryTop: secondaryRect?.top ?? null,
         actionsLeft: actionsRect?.left ?? null,
         actionsRight: actionsRect?.right ?? null,
+        contactHref: secondary?.getAttribute("href") ?? "",
+        howItWorks: storyHeading?.textContent ?? "",
         primaryClass: primary?.className ?? "",
         hoodHit: seatBox
           ? { width: seatBox.width, height: seatBox.height }
@@ -121,11 +128,25 @@ test.describe("desktop layout polish", () => {
 
     expect(layout.heroAlign === "start" || layout.heroAlign === "left").toBe(true);
     expect(layout.primaryClass).toContain("obsidian-arrow-fill-btn");
+    expect(layout.contactHref).toBe("#how-it-works");
+    expect(layout.howItWorks).toBe("How it works");
     expect(layout.primaryLeft).not.toBeNull();
     expect(layout.secondaryRight).not.toBeNull();
-    expect(Math.abs((layout.primaryLeft as number) - (layout.actionsLeft as number))).toBeLessThanOrEqual(2);
-    expect(Math.abs((layout.secondaryRight as number) - (layout.actionsRight as number))).toBeLessThanOrEqual(2);
-    expect((layout.secondaryRight as number) - (layout.primaryLeft as number)).toBeGreaterThan(400);
+    const pairCenter =
+      ((layout.primaryLeft as number) + (layout.secondaryRight as number)) / 2;
+    const actionsCenter =
+      ((layout.actionsLeft as number) + (layout.actionsRight as number)) / 2;
+    expect(Math.abs(pairCenter - actionsCenter)).toBeLessThanOrEqual(4);
+    expect((layout.primaryLeft as number) - (layout.actionsLeft as number)).toBeGreaterThan(40);
+    expect((layout.actionsRight as number) - (layout.secondaryRight as number)).toBeGreaterThan(40);
+    expect((layout.secondaryLeft as number) - (layout.primaryRight as number)).toBeGreaterThan(8);
+    expect((layout.secondaryLeft as number) - (layout.primaryRight as number)).toBeLessThan(32);
+    expect(Math.abs((layout.primaryTop as number) - (layout.secondaryTop as number))).toBeLessThanOrEqual(8);
+
+    await page.getByTestId("hero-secondary-cta").click();
+    await expect(page).toHaveURL(/#how-it-works$/);
+    await expect(page.locator("#how-it-works")).toBeInViewport();
+    await expect(page.locator("#how-it-works")).toHaveText("How it works");
 
     expect(layout.hoodHit).not.toBeNull();
     expect(layout.hoodHit!.width).toBeGreaterThan(80);

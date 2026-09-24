@@ -245,6 +245,7 @@
   margin-top: 1.75rem;
   display: flex;
   flex-wrap: wrap;
+  justify-content: center;
   gap: 0.75rem 1rem;
   pointer-events: auto;
   padding-right: env(safe-area-inset-right, 0px);
@@ -280,7 +281,7 @@
   }
 }
 
-/* Desktop: center the copy column in the full-width shell and spread the two CTAs.
+/* Desktop: center the copy column. The two caption CTAs sit in one centered row.
    H1 alignment stays as written. Bid on a Panel stays the arrow-fill primary. */
 @media (min-width: 960px) {
   .hero-copy,
@@ -290,8 +291,9 @@
   }
 
   .hero-actions {
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
+    flex-wrap: nowrap;
   }
 }
 

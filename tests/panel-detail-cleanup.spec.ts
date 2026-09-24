@@ -53,7 +53,7 @@ test.describe("panel detail cleanup", () => {
     await expect(heroPanel).toHaveAttribute("href", "#panels");
     const heroContact = page.getByTestId("hero-secondary-cta");
     await expect(heroContact).toHaveText("Contact BMB");
-    await expect(heroContact).toHaveAttribute("href", "#waitlist");
+    await expect(heroContact).toHaveAttribute("href", "#how-it-works");
 
     const requirements = page.getByTestId("etch-requirements");
     await expect(requirements).toHaveText(PUBLIC_COPY.etch.requirements);

@@ -35,7 +35,7 @@ test.describe("notes PDF homepage sheet", () => {
     await expect(heroPanel).toHaveClass(/obsidian-arrow-fill-btn/);
     const heroContact = page.getByTestId("hero-secondary-cta");
     await expect(heroContact).toHaveText("Contact BMB");
-    await expect(heroContact).toHaveAttribute("href", "#waitlist");
+    await expect(heroContact).toHaveAttribute("href", "#how-it-works");
     await expect(heroContact).toHaveClass(/btn-panel/);
     await expect(heroContact).not.toHaveClass(/obsidian-arrow-fill-btn/);
     await expect(
