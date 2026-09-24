@@ -3,7 +3,8 @@
   "git": {
     "deploymentEnabled": {
       "*": false,
-      "main": true
+      "main": true,
+      "cursor/preview-panels-name-chips-5c11": true
     }
   }
 }
