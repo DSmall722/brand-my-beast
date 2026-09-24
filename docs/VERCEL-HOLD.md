@@ -51,7 +51,3 @@ Until then:
 4. Then continue Wave 12 / P3 human steps.
 
 No app change in this slice. No Stripe. Auction clock stays unset.
-
-## Branch preview exception (strip before merge)
-
-`cursor/preview-panels-name-chips-5c11` is `true` in `git.deploymentEnabled` so this branch can deploy a preview. Before merge, delete that branch key. Restore the file so only `*` is false and `main` is true.
