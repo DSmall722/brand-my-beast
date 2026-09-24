@@ -993,7 +993,10 @@ test.describe("P2 panel intent + approvals", () => {
     await page.close();
   });
 
-  test("slice 3.5: artwork URL attaches on the intent mark", async ({ page }) => {
+  test("slice 3.5: artwork URL attaches on the intent mark", async ({
+    page,
+    browser,
+  }) => {
     await signIn(page, "slice35-art@example.com");
     await page.goto("/panels/hood");
     await expect(page.getByTestId("intent-artwork-fields")).toBeVisible();
@@ -1015,21 +1018,23 @@ test.describe("P2 panel intent + approvals", () => {
       page.locator('[data-testid^="intent-artwork-"][data-artwork-kind="url"]'),
     ).toHaveCount(0);
 
-    await signIn(page, "operator@example.com");
-    await page.goto("/operator");
-    await expect(page.getByTestId("approvals-list")).toContainText(
+    const operator = await browser.newPage();
+    await signIn(operator, "operator@example.com");
+    await operator.goto("/operator");
+    await expect(operator.getByTestId("approvals-list")).toContainText(
       "Slice ThirtyFive Art",
     );
     await expect(
-      page
+      operator
         .locator('[data-testid^="intent-artwork-"][data-artwork-kind="url"]')
         .first(),
     ).toBeVisible();
     await expect(
-      page.locator('[data-testid^="intent-artwork-link-"]').first(),
+      operator.locator('[data-testid^="intent-artwork-link-"]').first(),
     ).toHaveAttribute("href", "https://cdn.example.com/slice35.png");
-    await page.locator('[data-testid^="approve-"]').first().click();
-    await expect(page.getByTestId("approvals-empty")).toBeVisible();
+    await operator.locator('[data-testid^="approve-"]').first().click();
+    await expect(operator.getByTestId("approvals-empty")).toBeVisible();
+    await operator.close();
 
     await page.goto("/panels/hood");
     await expect(
