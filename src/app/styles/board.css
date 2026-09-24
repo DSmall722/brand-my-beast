@@ -728,6 +728,22 @@
   line-height: 1.45;
 }
 
+#contactus {
+  position: relative;
+}
+
+#contactus > #waitlist {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 1px;
+  height: 1px;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
 .waitlist-form {
   max-width: 34rem;
 }
@@ -3346,7 +3362,7 @@ body:has(.bid-modal-root) {
     max-width: none;
   }
 
-  #waitlist.shell.section > .waitlist-form {
+  #contactus.shell.section > .waitlist-form {
     max-width: var(--desk-measure);
   }
 

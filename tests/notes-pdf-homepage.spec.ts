@@ -34,12 +34,12 @@ test.describe("notes PDF homepage sheet", () => {
     await expect(heroPanel).toHaveAttribute("href", "#panels");
     await expect(heroPanel).toHaveClass(/obsidian-arrow-fill-btn/);
     const heroContact = page.getByTestId("hero-secondary-cta");
-    await expect(heroContact).toHaveText("Contact BMB");
+    await expect(heroContact).toHaveText("How it Works");
     await expect(heroContact).toHaveAttribute("href", "#how-it-works");
     await expect(heroContact).toHaveClass(/btn-panel/);
     await expect(heroContact).not.toHaveClass(/obsidian-arrow-fill-btn/);
     await expect(
-      page.locator('.site-header a.nav-link[href="#waitlist"]'),
+      page.locator('.site-header a.nav-link[href="#contactus"]'),
     ).toHaveText("Contact BMB");
     await expect(page.getByTestId("signin-link")).toHaveCount(0);
     await expect(page.locator("#panels-title")).toHaveText("Bid on a Panel");
@@ -247,11 +247,11 @@ test.describe("notes PDF homepage sheet", () => {
     await expect(page.locator("#hero-title")).toHaveText(PUBLIC_COPY.hero.h1);
 
     await expect(page.locator("#waitlist-title")).toHaveText("Contact Us");
-    await expect(page.locator("#waitlist")).not.toContainText(
+    await expect(page.locator("#contactus")).not.toContainText(
       "Seats are not for sale yet",
     );
     await expect(page.getByTestId("waitlist-submit")).toHaveText("Contact BMB");
-    await expect(page.locator("#waitlist")).not.toContainText(
+    await expect(page.locator("#contactus")).not.toContainText(
       "We only email when seats open.",
     );
     await expect(page.getByTestId("site-footer-independent")).toHaveCount(0);

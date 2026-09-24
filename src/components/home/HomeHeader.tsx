@@ -13,7 +13,7 @@ export async function HomeHeader() {
           {PUBLIC_COPY.header.wordmark}
         </div>
         <nav className="header-nav" aria-label="Primary">
-          <a className="nav-link" href="#waitlist">
+          <a className="nav-link" href="#contactus">
             {PUBLIC_COPY.header.nav}
           </a>
           <AuthNav />

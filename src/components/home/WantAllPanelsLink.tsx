@@ -9,7 +9,7 @@ export function WantAllPanelsLink() {
   return (
     <a
       className="btn btn-signal"
-      href="#waitlist"
+      href="#contactus"
       data-testid="want-all-panels"
       onClick={() => {
         window.dispatchEvent(new Event(WANT_WHOLE_TRUCK_EVENT));

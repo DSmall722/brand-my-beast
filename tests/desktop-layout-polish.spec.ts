@@ -85,6 +85,7 @@ test.describe("desktop layout polish", () => {
         actionsLeft: actionsRect?.left ?? null,
         actionsRight: actionsRect?.right ?? null,
         contactHref: secondary?.getAttribute("href") ?? "",
+        contactLabel: secondary?.textContent?.trim() ?? "",
         howItWorks: storyHeading?.textContent ?? "",
         primaryClass: primary?.className ?? "",
         hoodHit: seatBox
@@ -129,6 +130,7 @@ test.describe("desktop layout polish", () => {
     expect(layout.heroAlign === "start" || layout.heroAlign === "left").toBe(true);
     expect(layout.primaryClass).toContain("obsidian-arrow-fill-btn");
     expect(layout.contactHref).toBe("#how-it-works");
+    expect(layout.contactLabel).toBe("How it Works");
     expect(layout.howItWorks).toBe("How it works");
     expect(layout.primaryLeft).not.toBeNull();
     expect(layout.secondaryRight).not.toBeNull();
@@ -139,8 +141,9 @@ test.describe("desktop layout polish", () => {
     expect(Math.abs(pairCenter - actionsCenter)).toBeLessThanOrEqual(4);
     expect((layout.primaryLeft as number) - (layout.actionsLeft as number)).toBeGreaterThan(40);
     expect((layout.actionsRight as number) - (layout.secondaryRight as number)).toBeGreaterThan(40);
-    expect((layout.secondaryLeft as number) - (layout.primaryRight as number)).toBeGreaterThan(8);
-    expect((layout.secondaryLeft as number) - (layout.primaryRight as number)).toBeLessThan(32);
+    const captionGap =
+      (layout.secondaryLeft as number) - (layout.primaryRight as number);
+    expect(Math.abs(captionGap - 16)).toBeLessThanOrEqual(1);
     expect(Math.abs((layout.primaryTop as number) - (layout.secondaryTop as number))).toBeLessThanOrEqual(8);
 
     await page.getByTestId("hero-secondary-cta").click();
@@ -280,5 +283,61 @@ test.describe("desktop layout polish", () => {
     await expect(page.getByTestId("panel-grid").locator("article")).toHaveCount(11);
     await expect(page.getByTestId("bid-modal")).toHaveCount(0);
     await expect(page).not.toHaveURL(/\/panels\/hood/);
+  });
+
+  test("390 caption buttons stay centered with a 16px gap", async ({ page }) => {
+    await page.setViewportSize({ width: 390, height: 844 });
+    await page.goto("/");
+    const row = await page.evaluate(() => {
+      const primary = document.querySelector("[data-testid='hero-primary-cta']");
+      const secondary = document.querySelector("[data-testid='hero-secondary-cta']");
+      const actions = document.querySelector(".hero-actions");
+      const primaryRect = primary?.getBoundingClientRect();
+      const secondaryRect = secondary?.getBoundingClientRect();
+      const actionsRect = actions?.getBoundingClientRect();
+      return {
+        primaryLeft: primaryRect?.left ?? null,
+        primaryRight: primaryRect?.right ?? null,
+        primaryTop: primaryRect?.top ?? null,
+        secondaryLeft: secondaryRect?.left ?? null,
+        secondaryRight: secondaryRect?.right ?? null,
+        secondaryTop: secondaryRect?.top ?? null,
+        actionsLeft: actionsRect?.left ?? null,
+        actionsRight: actionsRect?.right ?? null,
+        label: secondary?.textContent?.trim() ?? "",
+        href: secondary?.getAttribute("href") ?? "",
+        clientWidth: document.documentElement.clientWidth,
+      };
+    });
+    expect(row.label).toBe("How it Works");
+    expect(row.href).toBe("#how-it-works");
+    expect(row.primaryLeft).not.toBeNull();
+    expect(row.secondaryRight).not.toBeNull();
+    const pairCenter = ((row.primaryLeft as number) + (row.secondaryRight as number)) / 2;
+    const actionsCenter = ((row.actionsLeft as number) + (row.actionsRight as number)) / 2;
+    expect(Math.abs(pairCenter - actionsCenter)).toBeLessThanOrEqual(4);
+    expect(Math.abs(pairCenter - row.clientWidth / 2)).toBeLessThanOrEqual(8);
+    expect(Math.abs((row.secondaryLeft as number) - (row.primaryRight as number) - 16)).toBeLessThanOrEqual(1);
+    expect(Math.abs((row.primaryTop as number) - (row.secondaryTop as number))).toBeLessThanOrEqual(8);
+    expect(row.secondaryLeft as number).toBeGreaterThan(row.primaryRight as number);
+  });
+
+  test("contact anchor is #contactus and #waitlist still lands there", async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width: 1440, height: 900 });
+    await page.goto("/");
+    await expect(page.locator("#contactus")).toBeAttached();
+    await expect(page.locator("#waitlist-title")).toHaveText("Contact Us");
+    await expect(
+      page.locator('.site-header a.nav-link[href="#contactus"]'),
+    ).toHaveText("Contact BMB");
+    await page.goto("/#contactus");
+    await expect(page.locator("#waitlist-title")).toBeInViewport();
+    await page.goto("/#waitlist");
+    await expect(page).toHaveURL(/#waitlist$/);
+    await expect(page.locator("#contactus")).toBeAttached();
+    await expect(page.locator("#waitlist-title")).toBeInViewport();
+    await expect(page.getByTestId("waitlist-email")).toBeVisible();
   });
 });

@@ -60,7 +60,7 @@ export function IntentBidForm({
           {intentWaitlistOnlyCopy()}
         </p>
         <p>
-          <Link href="/#waitlist" data-testid="intent-waitlist-only-link">
+          <Link href="/#contactus" data-testid="intent-waitlist-only-link">
             Join the waitlist
           </Link>
         </p>

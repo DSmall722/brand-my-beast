@@ -11,7 +11,7 @@ Users leave an email so BrandMyBeast can notify them when soft auction seats ope
 
 ## How to get to it (user POV)
 
-- Open `/#waitlist`.
+- Open `/#contactus`. Old `/#waitlist` links still land on this section.
 - Enter an email and choose `Join waitlist`.
 
 ## Driving it with Playwright
