@@ -537,4 +537,131 @@ test.describe("hybrid panel training UX", () => {
     expect(html.toLowerCase()).not.toMatch(/\blease\b/);
     expect(html).not.toMatch(/@gmail\.com/i);
   });
+
+  test("name chip highlight stays on the pill and clears after a seat visit", async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width: 1280, height: 900 });
+    await page.goto("/");
+    await page.evaluate(() => document.fonts.ready);
+
+    const fasciaSeat = page.getByTestId("truck-seat-front-fascia");
+    const fasciaPoly = fasciaSeat.locator("polygon");
+    const fasciaChip = page.getByTestId("truck-name-chip-front-fascia");
+    const chipLink = page.locator(
+      "a.truck-name-chip-link[data-seat-id='front-fascia']",
+    );
+
+    await fasciaChip.hover();
+    await expect
+      .poll(async () =>
+        fillAlpha(
+          await fasciaPoly.evaluate((el) => getComputedStyle(el).fill),
+        ),
+      )
+      .toBe(0);
+    await expect
+      .poll(async () =>
+        fasciaPoly.evaluate((el) => getComputedStyle(el).strokeWidth),
+      )
+      .toBe("0px");
+    const hoverChip = await fasciaChip.evaluate((el) => {
+      const style = getComputedStyle(el);
+      return {
+        stroke: style.stroke,
+        fill: style.fill,
+        strokeWidth: style.strokeWidth,
+      };
+    });
+    expect(hoverChip.stroke).toMatch(/214,\s*255,\s*63|rgb\(214 255 63/);
+    expect(fillAlpha(hoverChip.fill)).toBeGreaterThan(0);
+    expect(Number.parseFloat(hoverChip.strokeWidth)).toBeGreaterThan(1.5);
+    await expect
+      .poll(async () => chipLink.evaluate((el) => getComputedStyle(el).outlineStyle))
+      .toBe("none");
+
+    await parkPointer(page);
+    await fasciaSeat.focus();
+    await expect(fasciaSeat).toBeFocused();
+    await expect(fasciaChip).toHaveClass(/is-lit/);
+    const focusPaint = await fasciaPoly.evaluate((el) => {
+      const style = getComputedStyle(el);
+      return { fill: style.fill, strokeWidth: style.strokeWidth };
+    });
+    expect(fillAlpha(focusPaint.fill)).toBe(0);
+    expect(focusPaint.strokeWidth).toBe("0px");
+    expect(
+      await fasciaSeat.evaluate((el) => getComputedStyle(el).outlineStyle),
+    ).toBe("none");
+
+    await page.evaluate(() => {
+      window.dispatchEvent(
+        new PageTransitionEvent("pageshow", { persisted: true }),
+      );
+    });
+    await expect(fasciaChip).not.toHaveClass(/is-lit/);
+    await expect(fasciaSeat).not.toBeFocused();
+
+    await page.evaluate(() => {
+      const stop = (event: Event) => {
+        event.preventDefault();
+      };
+      (window as unknown as { __stopChipClick?: (event: Event) => void }).__stopChipClick =
+        stop;
+      document.querySelectorAll(".truck-view-svg a").forEach((anchor) => {
+        anchor.addEventListener("click", stop, { capture: true });
+      });
+    });
+    const box = await fasciaChip.boundingBox();
+    if (!box) throw new Error("fascia chip box missing");
+    await page.mouse.move(box.x + box.width / 2, box.y + box.height / 2);
+    await page.mouse.down();
+    expect(
+      await page.evaluate(() => {
+        const active = document.activeElement;
+        return Boolean(
+          active instanceof Element &&
+            active.closest("[data-testid='truck-view-seats']"),
+        );
+      }),
+    ).toBe(false);
+    expect(
+      fillAlpha(await fasciaPoly.evaluate((el) => getComputedStyle(el).fill)),
+    ).toBe(0);
+    await page.mouse.up();
+    await page.evaluate(() => {
+      const stop = (window as unknown as { __stopChipClick?: (event: Event) => void })
+        .__stopChipClick;
+      if (!stop) return;
+      document.querySelectorAll(".truck-view-svg a").forEach((anchor) => {
+        anchor.removeEventListener("click", stop, { capture: true });
+      });
+    });
+    await parkPointer(page);
+    await assertRestHitOnly(page, "truck-seat-front-fascia");
+
+    await fasciaChip.click();
+    await page.waitForURL("**/panels/front-fascia");
+    await page.goBack();
+    await expect(page.getByTestId("truck-view-seats")).toHaveAttribute(
+      "data-name-chips",
+      "true",
+    );
+    await expect
+      .poll(async () =>
+        page.evaluate(() => {
+          const active = document.activeElement;
+          return {
+            inBoard: Boolean(
+              active instanceof Element &&
+                active.closest("[data-testid='truck-view-seats']"),
+            ),
+            lit: Boolean(document.querySelector(".truck-name-chip.is-lit")),
+          };
+        }),
+      )
+      .toEqual({ inBoard: false, lit: false });
+    await parkPointer(page);
+    await assertRestHitOnly(page, "truck-seat-front-fascia");
+  });
 });

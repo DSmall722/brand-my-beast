@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { PanelBoardCallouts } from "@/components/PanelBoardCallouts";
 import { PANELS, type Panel } from "@/lib/campaign";
 import {
@@ -49,6 +49,30 @@ export function TruckViewHotspots({
   const ownerView = activePanelId ? viewOwningPanel(activePanelId) : "front";
   const [view, setView] = useState<TruckViewId>(ownerView);
   const [litPanelId, setLitPanelId] = useState<string | null>(null);
+  useEffect(() => {
+    const blurBoardFocus = () => {
+      const active = document.activeElement;
+      if (
+        !(active instanceof Element) ||
+        !active.closest("[data-testid='truck-view-seats']")
+      ) {
+        return;
+      }
+      if (active instanceof HTMLElement || active instanceof SVGElement) {
+        active.blur();
+      }
+    };
+    const onPageShow = () => {
+      setLitPanelId(null);
+      blurBoardFocus();
+    };
+    window.addEventListener("pagehide", blurBoardFocus);
+    window.addEventListener("pageshow", onPageShow);
+    return () => {
+      window.removeEventListener("pagehide", blurBoardFocus);
+      window.removeEventListener("pageshow", onPageShow);
+    };
+  }, []);
   const occupied = new Set(occupiedPanelIds);
   const spots = hotspotsForView(singleSeat ? ownerView : view).filter((spot) =>
     singleSeat ? spot.panelId === activePanelId : true,
@@ -156,12 +180,16 @@ export function TruckViewHotspots({
                   aria-label={
                     held ? `${label} — held seat` : `${label} — open seat`
                   }
+                  onMouseDown={(event) => {
+                    event.preventDefault();
+                  }}
                   onMouseEnter={light}
                   onMouseLeave={dim}
                   onFocus={light}
                   onBlur={dim}
                   onClick={(event) => {
-                    (event.currentTarget as HTMLAnchorElement).blur();
+                    dim();
+                    event.currentTarget.blur();
                   }}
                 >
                   <polygon
@@ -191,8 +219,17 @@ export function TruckViewHotspots({
                   tabIndex={-1}
                   aria-hidden="true"
                   data-seat-id={spot.panelId}
+                  onMouseDown={(event) => {
+                    event.preventDefault();
+                  }}
                   onMouseEnter={() => setLitPanelId(spot.panelId)}
                   onMouseLeave={() => setLitPanelId(null)}
+                  onFocus={() => setLitPanelId(spot.panelId)}
+                  onBlur={() => setLitPanelId(null)}
+                  onClick={(event) => {
+                    setLitPanelId(null);
+                    event.currentTarget.blur();
+                  }}
                 >
                   <rect
                     className={lit ? "truck-name-chip is-lit" : "truck-name-chip"}
