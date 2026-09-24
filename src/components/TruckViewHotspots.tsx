@@ -16,17 +16,20 @@ import {
   truckViewCreditLine,
 } from "@/lib/truck-view-credits";
 import {
+  NAME_CHIP_RX_PER_RY,
   TRUCK_VIEWS,
   TRUCK_VIEW_BOX,
   hotspotsForView,
+  nameChipsForView,
   viewOwningPanel,
   type TruckViewId,
 } from "@/lib/truck-views";
 
 /**
  * Driver / passenger / front / rear toggles on TRACE AID lime flats.
- * Homepage keeps bakedMarks (no CSS discs). SVG is hit/hover only —
- * `(N) Name` is already in the JPEG. Seat pages lock to the owning camera.
+ * Homepage keeps bakedMarks. The polygon is an invisible hit pad.
+ * A small lime pill sits on the baked `(N) Name` ink. Seat pages
+ * lock to the owning camera and do not paint chips.
  */
 export function TruckViewHotspots({
   occupiedPanelIds = [],
@@ -45,11 +48,13 @@ export function TruckViewHotspots({
   const singleSeat = Boolean(activePanelId) && compact;
   const ownerView = activePanelId ? viewOwningPanel(activePanelId) : "front";
   const [view, setView] = useState<TruckViewId>(ownerView);
+  const [litPanelId, setLitPanelId] = useState<string | null>(null);
   const occupied = new Set(occupiedPanelIds);
   const spots = hotspotsForView(singleSeat ? ownerView : view).filter((spot) =>
     singleSeat ? spot.panelId === activePanelId : true,
   );
   const shownView = singleSeat ? ownerView : view;
+  const chips = singleSeat ? [] : nameChipsForView(shownView);
   const stillSize = truckViewStillSize(shownView);
   const credit = TRUCK_VIEW_CREDITS[shownView];
   /** Seat pages clear board overlays — sticky hover/active must not follow. */
@@ -66,6 +71,7 @@ export function TruckViewHotspots({
       data-view={shownView}
       data-one-view="true"
       data-polygons={polygonsMode}
+      data-name-chips={singleSeat ? "false" : "true"}
       data-baked-marks={bakedMarks ? "true" : "false"}
       data-single-seat={singleSeat ? "true" : "false"}
       data-training="hybrid"
@@ -134,11 +140,14 @@ export function TruckViewHotspots({
               const label = panelOverlayLabel(mark);
               const held = occupied.has(spot.panelId);
               const active = activePanelId === spot.panelId;
+              const light = () => setLitPanelId(spot.panelId);
+              const dim = () => setLitPanelId(null);
               return (
                 <a
                   key={`${shownView}-${spot.panelId}`}
                   href={`/panels/${spot.panelId}`}
                   data-testid={`truck-seat-${spot.panelId}`}
+                  data-seat-id={spot.panelId}
                   data-occupied={held ? "true" : "false"}
                   data-active={singleSeat ? "false" : active ? "true" : "false"}
                   data-raw={held ? "false" : "true"}
@@ -147,6 +156,10 @@ export function TruckViewHotspots({
                   aria-label={
                     held ? `${label} — held seat` : `${label} — open seat`
                   }
+                  onMouseEnter={light}
+                  onMouseLeave={dim}
+                  onFocus={light}
+                  onBlur={dim}
                   onClick={(event) => {
                     (event.currentTarget as HTMLAnchorElement).blur();
                   }}
@@ -161,6 +174,35 @@ export function TruckViewHotspots({
                     }
                     points={spot.points}
                     fill="none"
+                  />
+                </a>
+              );
+            })}
+            {spots.map((spot) => {
+              const chip = chips.find((row) => row.panelId === spot.panelId);
+              if (!chip) return null;
+              const chipRy = chip.h / 2;
+              const lit = litPanelId === spot.panelId;
+              return (
+                <a
+                  key={`${shownView}-chip-${spot.panelId}`}
+                  className="truck-name-chip-link"
+                  href={`/panels/${spot.panelId}`}
+                  tabIndex={-1}
+                  aria-hidden="true"
+                  data-seat-id={spot.panelId}
+                  onMouseEnter={() => setLitPanelId(spot.panelId)}
+                  onMouseLeave={() => setLitPanelId(null)}
+                >
+                  <rect
+                    className={lit ? "truck-name-chip is-lit" : "truck-name-chip"}
+                    data-testid={`truck-name-chip-${spot.panelId}`}
+                    x={chip.x}
+                    y={chip.y}
+                    width={chip.w}
+                    height={chip.h}
+                    rx={chipRy * NAME_CHIP_RX_PER_RY}
+                    ry={chipRy}
                   />
                 </a>
               );

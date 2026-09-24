@@ -27,6 +27,21 @@ export type TruckHotspot = {
   points: string;
 };
 
+/**
+ * Visible pill around baked `(N) Name` ink. Percent of the still,
+ * already padded. The hotspot polygon stays the invisible hit pad.
+ * Stills are 3:2, so a round cap uses rx = ry * 2/3 in this viewBox.
+ */
+export type NameChip = {
+  panelId: Panel["id"];
+  x: number;
+  y: number;
+  w: number;
+  h: number;
+};
+
+export const NAME_CHIP_RX_PER_RY = 2 / 3;
+
 export type PctPoint = readonly [number, number];
 
 export const TRUCK_VIEWS_LEAD = `Driver, passenger, front, and rear of the same stainless preview. Open seats stay unmarked. Floor ${formatUsd(FLOOR_USD)}. Buyout ${formatUsd(GOAL_USD)}. Nothing is charged.`;
@@ -264,12 +279,38 @@ const HOTSPOTS_BY_VIEW: Record<TruckViewId, readonly TruckHotspot[]> = {
   rear: REAR_HOTSPOTS,
 };
 
+const NAME_CHIPS: Record<TruckViewId, readonly NameChip[]> = {
+  front: [
+    { panelId: "hood", x: 44.92, y: 29.12, w: 8.94, h: 4.93 },
+    { panelId: "front-fascia", x: 42.19, y: 47.35, w: 15.28, h: 5.0 },
+    { panelId: "front-bumper", x: 41.41, y: 65.29, w: 16.89, h: 5.0 },
+  ],
+  driver: [
+    { panelId: "driver-door", x: 35.45, y: 52.5, w: 14.84, h: 4.41 },
+    { panelId: "driver-rear-quarter", x: 58.45, y: 40.88, w: 13.62, h: 3.75 },
+    { panelId: "driver-bed", x: 76.71, y: 50.59, w: 12.5, h: 4.34 },
+  ],
+  passenger: [
+    { panelId: "passenger-rear-quarter", x: 9.26, y: 43.66, w: 12.85, h: 4.17 },
+    { panelId: "passenger-bed", x: 5.67, y: 48.7, w: 13.02, h: 4.69 },
+    { panelId: "passenger-door", x: 34.84, y: 55.64, w: 17.25, h: 5.12 },
+  ],
+  rear: [
+    { panelId: "tailgate", x: 58.84, y: 49.71, w: 11.87, h: 4.85 },
+    { panelId: "rear-bumper", x: 56.54, y: 67.65, w: 15.82, h: 4.71 },
+  ],
+};
+
 export function isTruckViewId(value: string): value is TruckViewId {
   return TRUCK_VIEWS.some((row) => row.id === value);
 }
 
 export function hotspotsForView(view: TruckViewId): readonly TruckHotspot[] {
   return HOTSPOTS_BY_VIEW[view];
+}
+
+export function nameChipsForView(view: TruckViewId): readonly NameChip[] {
+  return NAME_CHIPS[view];
 }
 
 /** Every panel id that appears as a hotspot in any view. */
@@ -347,6 +388,18 @@ export function truckHotspotsAreValid(): boolean {
     const ids = HOTSPOTS_BY_VIEW[view.id].map((spot) => spot.panelId);
     if (ids.join(",") !== VIEW_OWNED_PANEL_IDS[view.id].join(",")) {
       return false;
+    }
+  }
+  for (const view of TRUCK_VIEWS) {
+    const chips = NAME_CHIPS[view.id];
+    const spots = HOTSPOTS_BY_VIEW[view.id];
+    if (chips.length !== spots.length) return false;
+    for (const spot of spots) {
+      const chip = chips.find((row) => row.panelId === spot.panelId);
+      if (!chip) return false;
+      if (chip.w < 6 || chip.w > 22 || chip.h < 2 || chip.h > 8) return false;
+      if (chip.x < 0 || chip.y < 0) return false;
+      if (chip.x + chip.w > 100 || chip.y + chip.h > 100) return false;
     }
   }
   return (

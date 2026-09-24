@@ -151,8 +151,9 @@ async function seatAtPercent(
   await page.mouse.move(x, y);
   return page.evaluate(({ x, y }) => {
     const el = document.elementFromPoint(x, y);
-    const seat = el?.closest("[data-testid^='truck-seat-']");
-    return seat?.getAttribute("data-testid") ?? null;
+    const marked = el?.closest("[data-seat-id]");
+    const seatId = marked?.getAttribute("data-seat-id");
+    return seatId ? `truck-seat-${seatId}` : null;
   }, { x, y });
 }
 
@@ -234,7 +235,7 @@ test.describe("hybrid panel training UX", () => {
     }
   });
 
-  test("homepage rest is hit-only; hover fill; no second labels", async ({
+  test("homepage rest is hit-only; name chips; no silhouette fill", async ({
     page,
   }) => {
     await page.setViewportSize({ width: 1280, height: 900 });
@@ -244,13 +245,14 @@ test.describe("hybrid panel training UX", () => {
     const seats = page.getByTestId("truck-view-seats");
     await expect(seats).toHaveAttribute("data-baked-marks", "true");
     await expect(seats).toHaveAttribute("data-polygons", "outline");
+    await expect(seats).toHaveAttribute("data-name-chips", "true");
     await expect(seats).toHaveAttribute("data-training", "hybrid");
     await expect(page.getByTestId("truck-view-svg")).toHaveCount(1);
     await expect(page.getByTestId("view-panel-board-driver")).toHaveCount(0);
     await expect(page.getByTestId("truck-seat-labels")).toHaveCount(0);
 
     await expect(seats).toHaveAttribute("data-view", "front");
-    await expect(page.getByTestId("truck-view-svg").locator("a")).toHaveCount(3);
+    await expect(page.getByTestId("truck-view-svg").locator("a[data-testid^='truck-seat-']")).toHaveCount(3);
     await expect(page.getByTestId("truck-seat-hood")).toHaveAttribute(
       "data-seat-label",
       "(1) Hood",
@@ -281,7 +283,7 @@ test.describe("hybrid panel training UX", () => {
 
     await page.getByTestId("truck-view-driver").click();
     await expect(seats).toHaveAttribute("data-view", "driver");
-    await expect(page.getByTestId("truck-view-svg").locator("a")).toHaveCount(3);
+    await expect(page.getByTestId("truck-view-svg").locator("a[data-testid^='truck-seat-']")).toHaveCount(3);
     await expect(page.getByTestId("truck-seat-driver-door")).toHaveAttribute(
       "data-seat-label",
       "(4) Driver Side Doors",
@@ -312,7 +314,7 @@ test.describe("hybrid panel training UX", () => {
 
     await page.getByTestId("truck-view-passenger").click();
     await expect(seats).toHaveAttribute("data-view", "passenger");
-    await expect(page.getByTestId("truck-view-svg").locator("a")).toHaveCount(3);
+    await expect(page.getByTestId("truck-view-svg").locator("a[data-testid^='truck-seat-']")).toHaveCount(3);
     await expect(page.getByTestId("truck-seat-passenger-door")).toHaveAttribute(
       "data-seat-label",
       "(7) Passenger Side Doors",
@@ -369,7 +371,25 @@ test.describe("hybrid panel training UX", () => {
         const value = await hoodPoly.evaluate((el) => getComputedStyle(el).fill);
         return fillAlpha(value);
       })
-      .toBeGreaterThanOrEqual(0.35);
+      .toBe(0);
+    await expect
+      .poll(async () =>
+        hoodPoly.evaluate((el) => getComputedStyle(el).strokeWidth),
+      )
+      .toBe("0px");
+    const hoodChip = page.getByTestId("truck-name-chip-hood");
+    await expect(hoodChip).toHaveCount(1);
+    const hoodChipBox = await hoodChip.evaluate((el) => {
+      const rect = el as SVGRectElement;
+      return {
+        w: rect.width.baseVal.value,
+        h: rect.height.baseVal.value,
+        stroke: getComputedStyle(el).stroke,
+      };
+    });
+    expect(hoodChipBox.w).toBeLessThan(22);
+    expect(hoodChipBox.h).toBeLessThan(8);
+    expect(hoodChipBox.stroke).toMatch(/214,\s*255,\s*63|rgb\(214 255 63/);
 
     await page.getByTestId("truck-view-driver").click();
     await expect(seats).toHaveAttribute("data-view", "driver");
@@ -384,7 +404,10 @@ test.describe("hybrid panel training UX", () => {
           .evaluate((el) => getComputedStyle(el).fill);
         return fillAlpha(value);
       })
-      .toBeGreaterThanOrEqual(0.35);
+      .toBe(0);
+    await expect(page.getByTestId("truck-name-chip-driver-door")).toHaveCount(1);
+    await expect(page.getByTestId("truck-name-chip-driver-rear-quarter")).toHaveCount(1);
+    await expect(page.getByTestId("truck-name-chip-driver-bed")).toHaveCount(1);
 
     await page.getByTestId("truck-view-passenger").click();
     await expect(seats).toHaveAttribute("data-view", "passenger");
@@ -399,7 +422,19 @@ test.describe("hybrid panel training UX", () => {
           .evaluate((el) => getComputedStyle(el).fill);
         return fillAlpha(value);
       })
-      .toBeGreaterThanOrEqual(0.35);
+      .toBe(0);
+    await expect(page.getByTestId("truck-name-chip-passenger-door")).toHaveCount(1);
+    await expect(page.getByTestId("truck-name-chip-passenger-rear-quarter")).toHaveCount(1);
+    await expect(page.getByTestId("truck-name-chip-passenger-bed")).toHaveCount(1);
+
+    await page.getByTestId("truck-view-rear").click();
+    await expect(page.getByTestId("truck-name-chip-tailgate")).toHaveCount(1);
+    await expect(page.getByTestId("truck-name-chip-rear-bumper")).toHaveCount(1);
+    await expect(page.locator(".truck-view-svg polygon")).toHaveCount(2);
+    const rearStrokes = await page.locator(".truck-view-svg polygon").evaluateAll((nodes) =>
+      nodes.map((el) => getComputedStyle(el).strokeWidth),
+    );
+    expect(rearStrokes.every((width) => width === "0px")).toBe(true);
 
     const html = await page.content();
     expect(html).toContain("$58,000");
@@ -454,6 +489,8 @@ test.describe("hybrid panel training UX", () => {
     await expect(seats).toHaveAttribute("data-single-seat", "true");
     await expect(seats).toHaveAttribute("data-view", "front");
     await expect(seats).toHaveAttribute("data-polygons", "hidden");
+    await expect(seats).toHaveAttribute("data-name-chips", "false");
+    await expect(page.getByTestId("truck-name-chip-hood")).toHaveCount(0);
     await expect(page.getByTestId("truck-view-toolbar")).toHaveCount(0);
     await expect(page.getByTestId("truck-view-lead")).toHaveCount(0);
     await expect(page.getByTestId("truck-img-board-front")).toBeVisible();
@@ -467,7 +504,7 @@ test.describe("hybrid panel training UX", () => {
     );
     await expect(page.getByTestId("truck-seat-label-hood")).toHaveCount(0);
     await expect(page.getByTestId("truck-seat-labels")).toHaveCount(0);
-    await expect(page.getByTestId("truck-view-svg").locator("a")).toHaveCount(1);
+    await expect(page.getByTestId("truck-view-svg").locator("a[data-testid^='truck-seat-']")).toHaveCount(1);
     await expect(page.getByTestId("truck-seat-front-fascia")).toHaveCount(0);
     await expect(page.getByTestId("truck-seat-front-bumper")).toHaveCount(0);
 
