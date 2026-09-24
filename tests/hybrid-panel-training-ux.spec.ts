@@ -387,8 +387,10 @@ test.describe("hybrid panel training UX", () => {
         stroke: getComputedStyle(el).stroke,
       };
     });
-    expect(hoodChipBox.w).toBeLessThan(22);
-    expect(hoodChipBox.h).toBeLessThan(8);
+    expect(hoodChipBox.w).toBeGreaterThan(12);
+    expect(hoodChipBox.h).toBeGreaterThan(10);
+    expect(hoodChipBox.w).toBeLessThan(26);
+    expect(hoodChipBox.h).toBeLessThan(16);
     expect(hoodChipBox.stroke).toMatch(/214,\s*255,\s*63|rgb\(214 255 63/);
 
     await page.getByTestId("truck-view-driver").click();

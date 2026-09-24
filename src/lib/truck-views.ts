@@ -279,26 +279,128 @@ const HOTSPOTS_BY_VIEW: Record<TruckViewId, readonly TruckHotspot[]> = {
   rear: REAR_HOTSPOTS,
 };
 
+type InkPx = {
+  panelId: Panel["id"];
+  x0: number;
+  y0: number;
+  x1: number;
+  y1: number;
+};
+
+type ChipPad = {
+  left: number;
+  right: number;
+  top: number;
+  bottom: number;
+};
+
+/**
+ * Pixel pad around baked `(N) Name` ink.
+ * 72px on a 2048-wide still is about 12px when the board is 350px wide.
+ * Passenger scales to 61px on its 1728-wide still so the visual pad matches.
+ * Sail and bed names are 34px apart, so that shared edge stays at 14px.
+ */
+const NAME_CHIP_PAD_PX = 72;
+const PASSENGER_CHIP_PAD_PX = 61;
+const PASSENGER_STACK_PAD_PX = 14;
+
+function evenPad(px: number): ChipPad {
+  return { left: px, right: px, top: px, bottom: px };
+}
+
+function nameChip(
+  imgW: number,
+  imgH: number,
+  ink: InkPx,
+  pad: ChipPad,
+): NameChip {
+  const x0 = ink.x0 - pad.left;
+  const y0 = ink.y0 - pad.top;
+  const x1 = ink.x1 + pad.right;
+  const y1 = ink.y1 + pad.bottom;
+  const pct = (n: number, span: number) =>
+    Number(((n / span) * 100).toFixed(2));
+  return {
+    panelId: ink.panelId,
+    x: pct(x0, imgW),
+    y: pct(y0, imgH),
+    w: pct(x1 - x0, imgW),
+    h: pct(y1 - y0, imgH),
+  };
+}
+
+const FRONT_STILL = { w: 2048, h: 1360 } as const;
+const PASSENGER_STILL = { w: 1728, h: 1152 } as const;
+
 const NAME_CHIPS: Record<TruckViewId, readonly NameChip[]> = {
   front: [
-    { panelId: "hood", x: 44.92, y: 29.12, w: 8.94, h: 4.93 },
-    { panelId: "front-fascia", x: 42.19, y: 47.35, w: 15.28, h: 5.0 },
-    { panelId: "front-bumper", x: 41.41, y: 65.29, w: 16.89, h: 5.0 },
-  ],
+    { panelId: "hood", x0: 932, y0: 408, x1: 1091, y1: 451 },
+    { panelId: "front-fascia", x0: 876, y0: 656, x1: 1165, y1: 700 },
+    { panelId: "front-bumper", x0: 860, y0: 900, x1: 1182, y1: 944 },
+  ].map((ink) =>
+    nameChip(FRONT_STILL.w, FRONT_STILL.h, ink, evenPad(NAME_CHIP_PAD_PX)),
+  ),
   driver: [
-    { panelId: "driver-door", x: 35.45, y: 52.5, w: 14.84, h: 4.41 },
-    { panelId: "driver-rear-quarter", x: 58.45, y: 40.88, w: 13.62, h: 3.75 },
-    { panelId: "driver-bed", x: 76.71, y: 50.59, w: 12.5, h: 4.34 },
-  ],
+    { panelId: "driver-door", x0: 738, y0: 726, x1: 1018, y1: 762 },
+    { panelId: "driver-rear-quarter", x0: 1209, y0: 568, x1: 1464, y1: 595 },
+    { panelId: "driver-bed", x0: 1583, y0: 700, x1: 1815, y1: 735 },
+  ].map((ink) =>
+    nameChip(FRONT_STILL.w, FRONT_STILL.h, ink, evenPad(NAME_CHIP_PAD_PX)),
+  ),
   passenger: [
-    { panelId: "passenger-rear-quarter", x: 9.26, y: 43.66, w: 12.85, h: 4.17 },
-    { panelId: "passenger-bed", x: 5.67, y: 48.7, w: 13.02, h: 4.69 },
-    { panelId: "passenger-door", x: 34.84, y: 55.64, w: 17.25, h: 5.12 },
+    nameChip(
+      PASSENGER_STILL.w,
+      PASSENGER_STILL.h,
+      {
+        panelId: "passenger-rear-quarter",
+        x0: 172,
+        y0: 515,
+        x1: 370,
+        y1: 539,
+      },
+      {
+        left: PASSENGER_CHIP_PAD_PX,
+        right: PASSENGER_CHIP_PAD_PX,
+        top: PASSENGER_CHIP_PAD_PX,
+        bottom: PASSENGER_STACK_PAD_PX,
+      },
+    ),
+    nameChip(
+      PASSENGER_STILL.w,
+      PASSENGER_STILL.h,
+      {
+        panelId: "passenger-bed",
+        x0: 110,
+        y0: 573,
+        x1: 311,
+        y1: 603,
+      },
+      {
+        left: PASSENGER_CHIP_PAD_PX,
+        right: PASSENGER_CHIP_PAD_PX,
+        top: PASSENGER_STACK_PAD_PX,
+        bottom: PASSENGER_CHIP_PAD_PX,
+      },
+    ),
+    nameChip(
+      PASSENGER_STILL.w,
+      PASSENGER_STILL.h,
+      {
+        panelId: "passenger-door",
+        x0: 614,
+        y0: 653,
+        x1: 888,
+        y1: 688,
+      },
+      evenPad(PASSENGER_CHIP_PAD_PX),
+    ),
   ],
   rear: [
-    { panelId: "tailgate", x: 58.84, y: 49.71, w: 11.87, h: 4.85 },
-    { panelId: "rear-bumper", x: 56.54, y: 67.65, w: 15.82, h: 4.71 },
-  ],
+    { panelId: "tailgate", x0: 1217, y0: 688, x1: 1436, y1: 730 },
+    { panelId: "rear-bumper", x0: 1170, y0: 932, x1: 1470, y1: 972 },
+  ].map((ink) =>
+    nameChip(FRONT_STILL.w, FRONT_STILL.h, ink, evenPad(NAME_CHIP_PAD_PX)),
+  ),
 };
 
 export function isTruckViewId(value: string): value is TruckViewId {
@@ -397,7 +499,7 @@ export function truckHotspotsAreValid(): boolean {
     for (const spot of spots) {
       const chip = chips.find((row) => row.panelId === spot.panelId);
       if (!chip) return false;
-      if (chip.w < 6 || chip.w > 22 || chip.h < 2 || chip.h > 8) return false;
+      if (chip.w < 10 || chip.w > 26 || chip.h < 6 || chip.h > 16) return false;
       if (chip.x < 0 || chip.y < 0) return false;
       if (chip.x + chip.w > 100 || chip.y + chip.h > 100) return false;
     }
