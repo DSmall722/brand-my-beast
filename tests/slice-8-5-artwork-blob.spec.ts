@@ -163,6 +163,12 @@ test.describe("slice 8.5: artwork blob storage", () => {
     });
 
     await page.goto("/panels/hood");
+    await expect(page.getByTestId("intent-list")).toContainText("BlobUiCo");
+    // Pending upload stays off the public seat until the operator approves.
+    await expect(page.getByTestId(/^intent-artwork-thumb-/)).toHaveCount(0);
+
+    await signIn(page, "operator@example.com");
+    await page.goto("/operator");
     const thumb = page.getByTestId(/^intent-artwork-thumb-/).first();
     await expect(thumb).toBeVisible();
     const src = await thumb.getAttribute("src");
@@ -173,6 +179,13 @@ test.describe("slice 8.5: artwork blob storage", () => {
     const imgRes = await request.get(src!);
     expect(imgRes.status()).toBe(200);
     expect(imgRes.headers()["content-type"]).toMatch(/image\/png/);
+
+    await page.locator('[data-testid^="approve-"]').first().click();
+    await expect(page.getByTestId("approvals-empty")).toBeVisible();
+    await page.goto("/panels/hood");
+    const publicThumb = page.getByTestId(/^intent-artwork-thumb-/).first();
+    await expect(publicThumb).toBeVisible();
+    await expect(publicThumb).toHaveAttribute("src", src!);
 
     const html = (await page.content()).toLowerCase();
     expect(html).not.toMatch(/\blease\b/);

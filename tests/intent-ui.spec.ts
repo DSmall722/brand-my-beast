@@ -1010,6 +1010,28 @@ test.describe("P2 panel intent + approvals", () => {
     await expect(page.getByTestId("intent-list")).toContainText(
       "Slice ThirtyFive Art",
     );
+    // Public seat stays name-only until the operator approves the logo.
+    await expect(
+      page.locator('[data-testid^="intent-artwork-"][data-artwork-kind="url"]'),
+    ).toHaveCount(0);
+
+    await signIn(page, "operator@example.com");
+    await page.goto("/operator");
+    await expect(page.getByTestId("approvals-list")).toContainText(
+      "Slice ThirtyFive Art",
+    );
+    await expect(
+      page
+        .locator('[data-testid^="intent-artwork-"][data-artwork-kind="url"]')
+        .first(),
+    ).toBeVisible();
+    await expect(
+      page.locator('[data-testid^="intent-artwork-link-"]').first(),
+    ).toHaveAttribute("href", "https://cdn.example.com/slice35.png");
+    await page.locator('[data-testid^="approve-"]').first().click();
+    await expect(page.getByTestId("approvals-empty")).toBeVisible();
+
+    await page.goto("/panels/hood");
     await expect(
       page
         .locator('[data-testid^="intent-artwork-"][data-artwork-kind="url"]')

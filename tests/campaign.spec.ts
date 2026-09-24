@@ -44,7 +44,13 @@ async function expectHeroTitleUnclipped(page: Page) {
 test.describe("P1 waitlist campaign locks", () => {
   test("renders brand, floor, buyout, and bidding-not-open copy", async ({
     page,
+    request,
   }) => {
+    // CI is one memory ledger. The bid-desk spec can leave an approved
+    // hood mark at the $2,500 opening. Sample day-by-day is not pledged.
+    const reset = await request.post("/api/test/reset-intents");
+    expect(reset.ok()).toBeTruthy();
+
     await page.goto("/");
     await expect(page.getByTestId("brand-wordmark")).toHaveText("BrandMyBeast");
     const heroTruck = page.getByTestId("hero-truck-preview");
@@ -71,6 +77,11 @@ test.describe("P1 waitlist campaign locks", () => {
       formatUsd(GOAL_USD),
     );
     await expect(page.getByTestId("raised-amount")).toHaveText(formatUsd(0));
+    await expect(page.getByTestId("day-by-day")).toHaveAttribute(
+      "data-source",
+      "sample",
+    );
+    await expect(page.getByTestId("day-by-day-sample-standing")).toBeVisible();
     await expect(page.getByTestId("whole-truck-intent")).toHaveCount(0);
     await expect(page.getByTestId("want-all-panels")).toHaveCount(0);
     await expect(page.getByTestId("whole-truck-heading")).toHaveCount(0);
