@@ -12,13 +12,14 @@ import { panelBoardMarkFor } from "../src/lib/panel-board";
 import { vercelJsonIsHoldOrMainOnlyRestore } from "../src/lib/vercel-git-deploy";
 
 /**
- * Slice 16.28 — card #4 and board number 4 both open /panels/driver-door.
+ * Slice 16.28 — card #4 keeps the driver-door href and opens the bid desk.
+ * Board number 4 still opens /panels/driver-door.
  * Hero has no painted seat numbers. FEATURES.md stays off /. CLOSE_AT null. No Stripe.
  */
 
 const PANEL_PATH = "/panels/driver-door";
 
-test.describe("slice 16.28: card 4 and board number 4 open driver door", () => {
+test.describe("slice 16.28: card 4 opens the bid desk; board number 4 opens driver door", () => {
   test("campaign money fences stay locked — CLOSE_AT null", () => {
     expect(FLOOR_USD).toBe(58_000);
     expect(GOAL_USD).toBe(120_000);
@@ -37,7 +38,7 @@ test.describe("slice 16.28: card 4 and board number 4 open driver door", () => {
     expect(vercelJsonIsHoldOrMainOnlyRestore()).toBe(true);
   });
 
-  test("card #4 and board number 4 both go to driver-door", async ({
+  test("card #4 opens the driver-door desk; board number 4 opens the seat", async ({
     page,
   }) => {
     const mark = panelBoardMarkFor("driver-door");
@@ -48,7 +49,18 @@ test.describe("slice 16.28: card 4 and board number 4 open driver door", () => {
     await expect(card).toHaveAttribute("data-panel-n", "4");
     const index = page.getByTestId(`panel-index-${mark.panelId}`);
     await expect(index).toHaveText("4");
+    const link = page.getByTestId(`panel-link-${mark.panelId}`);
+    await expect(link).toHaveAttribute("href", PANEL_PATH);
     await index.click();
+    await expect(page).toHaveURL(/\/$/);
+    const modal = page.getByTestId("bid-modal");
+    await expect(modal).toBeVisible();
+    await expect(modal).toHaveAttribute("data-panel-id", mark.panelId);
+    await expect(page.getByTestId("bid-modal-seat-link")).toHaveAttribute(
+      "href",
+      PANEL_PATH,
+    );
+    await page.getByTestId("bid-modal-seat-link").click();
     await expect(page).toHaveURL(new RegExp(`${PANEL_PATH}$`));
     await expect(page.locator("h1")).toContainText("Driver Side Doors");
 

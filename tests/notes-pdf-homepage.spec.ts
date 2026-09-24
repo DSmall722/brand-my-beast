@@ -81,9 +81,7 @@ test.describe("notes PDF homepage sheet", () => {
       `11 of ${PANELS.length}`,
     );
 
-    await expect(page.getByTestId("want-all-panels")).toHaveText(
-      "Buy the Whole Truck",
-    );
+    await expect(page.getByTestId("want-all-panels")).toHaveCount(0);
     await expect(page.getByTestId("vault-goal-label")).toHaveCount(0);
     await expect(page.getByTestId("goal-progress-copy")).toHaveText(
       "0% of campaign fully funded",
@@ -222,7 +220,7 @@ test.describe("notes PDF homepage sheet", () => {
     );
     await expect(page.getByTestId("wreck-refund-faq")).toHaveCount(0);
     await expect(page.getByTestId("faq-campaign-miss")).toContainText(
-      "Full refund",
+      "Every hold is released",
     );
     await expect(page.locator("#questions")).not.toContainText(
       "When does bidding start?",
@@ -266,9 +264,7 @@ test.describe("notes PDF homepage sheet", () => {
       "/terms",
     );
 
-    await page.getByTestId("want-all-panels").click();
-    await expect(page).toHaveURL(/#waitlist$/);
-    await expect(page.getByTestId("waitlist-want-whole-truck")).toBeChecked();
+    await expect(page.getByTestId("waitlist-want-whole-truck")).not.toBeChecked();
 
     const html = await page.content();
     expect(html).toContain("$58,000");

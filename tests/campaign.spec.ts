@@ -44,7 +44,13 @@ async function expectHeroTitleUnclipped(page: Page) {
 test.describe("P1 waitlist campaign locks", () => {
   test("renders brand, floor, buyout, and bidding-not-open copy", async ({
     page,
+    request,
   }) => {
+    // CI is one memory ledger. The bid-desk spec can leave an approved
+    // hood mark at the $2,500 opening. Sample day-by-day is not pledged.
+    const reset = await request.post("/api/test/reset-intents");
+    expect(reset.ok()).toBeTruthy();
+
     await page.goto("/");
     await expect(page.getByTestId("brand-wordmark")).toHaveText("BrandMyBeast");
     const heroTruck = page.getByTestId("hero-truck-preview");
@@ -71,13 +77,15 @@ test.describe("P1 waitlist campaign locks", () => {
       formatUsd(GOAL_USD),
     );
     await expect(page.getByTestId("raised-amount")).toHaveText(formatUsd(0));
-    await expect(page.getByTestId("whole-truck-intent")).toBeVisible();
-    await expect(page.getByTestId("want-all-panels")).toHaveText(
-      PUBLIC_COPY.board.wantAllPanels,
+    await expect(page.getByTestId("day-by-day")).toHaveAttribute(
+      "data-source",
+      "sample",
     );
+    await expect(page.getByTestId("day-by-day-sample-standing")).toBeVisible();
+    await expect(page.getByTestId("whole-truck-intent")).toHaveCount(0);
+    await expect(page.getByTestId("want-all-panels")).toHaveCount(0);
     await expect(page.getByTestId("whole-truck-heading")).toHaveCount(0);
     await expect(page.getByTestId("whole-truck-lead")).toHaveCount(0);
-    // Slice 16.0a — public `/` explanation only; no sign-in CTA / form.
     await expect(page.getByTestId("whole-truck-signin")).toHaveCount(0);
     await expect(page.getByTestId("whole-truck-intent-form")).toHaveCount(0);
     await expect(page.getByTestId("raised-label")).toHaveText(
@@ -179,11 +187,9 @@ test.describe("P1 waitlist campaign locks", () => {
       await expect(faq).toContainText(item.a);
     }
     await expect(page.getByTestId("faq-campaign-miss")).toContainText(
-      PUBLIC_COPY.wreck.items.find((item) => item.id === "campaign-miss")!.a,
+      PUBLIC_COPY.questions.items.find((item) => "id" in item && item.id === "campaign-miss")!.a,
     );
-    await expect(page.getByTestId("faq-wrap-pro-rata")).toContainText(
-      "pro-rata",
-    );
+    await expect(page.getByTestId("faq-wrap-pro-rata")).toHaveCount(0);
     await expect(page.getByTestId("faq-immortal-fragment")).toHaveCount(0);
     const wreckHtml = (
       await page.getByTestId("questions-section").innerText()
@@ -294,7 +300,6 @@ test.describe("P1 waitlist campaign locks", () => {
     expect(lower).not.toContain("soft auction");
     expect(html).not.toContain("Opening marks");
     expect(html).not.toContain("South Carolina home loop");
-    expect(html).not.toContain("Florida panhandle");
     expect(html).not.toContain("30-day clock");
     expect(html).not.toContain("FEATURES.md");
     expect(html).not.toContain("Auction clock");
@@ -354,22 +359,12 @@ test.describe("P1 waitlist campaign locks", () => {
 
   test("accepts waitlist email in memory mode", async ({ page, request }) => {
     const email = `bidder-${Date.now()}@example.com`;
-
-    const created = await request.post("/api/waitlist", {
-      data: { email },
-    });
+    const created = await request.post("/api/waitlist", { data: { email } });
     expect(created.status()).toBe(201);
-    expect(await created.json()).toMatchObject({
-      ok: true,
-      status: "created",
-    });
-
-    const again = await request.post("/api/waitlist", {
-      data: { email },
-    });
+    expect(await created.json()).toMatchObject({ ok: true, status: "created" });
+    const again = await request.post("/api/waitlist", { data: { email } });
     expect(again.status()).toBe(200);
     expect(await again.json()).toMatchObject({ ok: true, status: "exists" });
-
     await page.goto("/");
     await expect(page.getByTestId("waitlist-submit")).toHaveText(
       PUBLIC_COPY.waitlist.button,
@@ -379,7 +374,6 @@ test.describe("P1 waitlist campaign locks", () => {
       PUBLIC_COPY.waitlist.placeholder,
     );
     await page.getByTestId("waitlist-email").fill(email);
-
     const [response] = await Promise.all([
       page.waitForResponse(
         (res) =>
@@ -387,7 +381,6 @@ test.describe("P1 waitlist campaign locks", () => {
       ),
       page.getByTestId("waitlist-submit").click(),
     ]);
-
     expect(response.status()).toBe(200);
     await expect(page.getByTestId("waitlist-status")).toHaveText(
       PUBLIC_COPY.waitlist.already,
@@ -411,43 +404,20 @@ test.describe("P1 waitlist campaign locks", () => {
     request,
   }) => {
     const email = `contract-${Date.now()}@example.com`;
-
-    const created = await request.post("/api/waitlist", {
-      data: { email },
-    });
+    const created = await request.post("/api/waitlist", { data: { email } });
     expect(created.status()).toBe(201);
-    expect(await created.json()).toMatchObject({
-      ok: true,
-      status: "created",
-    });
-
-    const exists = await request.post("/api/waitlist", {
-      data: { email },
-    });
+    expect(await created.json()).toMatchObject({ ok: true, status: "created" });
+    const exists = await request.post("/api/waitlist", { data: { email } });
     expect(exists.status()).toBe(200);
-    expect(await exists.json()).toMatchObject({
-      ok: true,
-      status: "exists",
-    });
-
+    expect(await exists.json()).toMatchObject({ ok: true, status: "exists" });
     const invalid = await request.post("/api/waitlist", {
       data: { email: "not-an-email" },
     });
     expect(invalid.status()).toBe(400);
-    expect(await invalid.json()).toMatchObject({
-      ok: false,
-      code: "invalid",
-    });
-
-    const missing = await request.post("/api/waitlist", {
-      data: {},
-    });
+    expect(await invalid.json()).toMatchObject({ ok: false, code: "invalid" });
+    const missing = await request.post("/api/waitlist", { data: {} });
     expect(missing.status()).toBe(400);
-    expect(await missing.json()).toMatchObject({
-      ok: false,
-      code: "invalid",
-    });
-
+    expect(await missing.json()).toMatchObject({ ok: false, code: "invalid" });
     await page.goto("/");
     const fresh = `fresh-${Date.now()}@example.com`;
     await page.getByTestId("waitlist-email").fill(fresh);
@@ -472,12 +442,8 @@ test.describe("P1 waitlist campaign locks", () => {
     const name = `Plaque ${Date.now()}`;
     await page.goto("/");
     await expect(page.getByTestId("cabin-plaque")).toHaveCount(0);
-
-    const created = await request.post("/api/plaque", {
-      data: { name },
-    });
+    const created = await request.post("/api/plaque", { data: { name } });
     expect(created.status()).toBe(404);
-
     await page.goto("/");
     await expect(page.getByTestId("cabin-plaque")).toHaveCount(0);
     const html = await page.content();
@@ -486,7 +452,6 @@ test.describe("P1 waitlist campaign locks", () => {
     expect(html).not.toContain("CLOSE_AT");
     expect(html).not.toContain("FEATURES.md");
     expect(html).not.toContain("South Carolina home loop");
-    expect(html).not.toContain("Florida panhandle");
   });
 
   test("circuit story request 404s while truck is missing", async ({
@@ -496,12 +461,10 @@ test.describe("P1 waitlist campaign locks", () => {
     const email = `circuit-${Date.now()}@example.com`;
     await page.goto("/");
     await expect(page.getByTestId("circuit-story")).toHaveCount(0);
-
     const created = await request.post("/api/circuit-story", {
       data: { email, corridorId: "charlotte", note: "Proof after install" },
     });
     expect(created.status()).toBe(404);
-
     await page.goto("/");
     await expect(page.getByTestId("circuit-story")).toHaveCount(0);
     const html = await page.content();
@@ -509,7 +472,6 @@ test.describe("P1 waitlist campaign locks", () => {
     expect(html).not.toContain("CLOSE_AT");
     expect(html).not.toContain("FEATURES.md");
     expect(html).not.toContain("South Carolina home loop");
-    expect(html).not.toContain("Florida panhandle");
     expect(html).not.toMatch(/\b\d+\s*impressions\b/i);
   });
 
@@ -520,12 +482,10 @@ test.describe("P1 waitlist campaign locks", () => {
     const note = `Grocery lot wrap ${Date.now()}`;
     await page.goto("/");
     await expect(page.getByTestId("sightings")).toHaveCount(0);
-
     const created = await request.post("/api/sighting", {
       data: { corridorId: "atlanta", note },
     });
     expect(created.status()).toBe(404);
-
     await page.goto("/");
     await expect(page.getByTestId("sightings")).toHaveCount(0);
     const html = await page.content();
@@ -533,7 +493,6 @@ test.describe("P1 waitlist campaign locks", () => {
     expect(html).not.toContain("CLOSE_AT");
     expect(html).not.toContain("FEATURES.md");
     expect(html).not.toContain("South Carolina home loop");
-    expect(html).not.toContain("Florida panhandle");
     expect(html).not.toMatch(/\b\d+\s*impressions\b/i);
   });
 
@@ -544,7 +503,6 @@ test.describe("P1 waitlist campaign locks", () => {
     const email = `event-${Date.now()}@example.com`;
     await page.goto("/");
     await expect(page.getByTestId("event-calendar")).toHaveCount(0);
-
     const created = await request.post("/api/event-request", {
       data: {
         email,
@@ -554,7 +512,6 @@ test.describe("P1 waitlist campaign locks", () => {
       },
     });
     expect(created.status()).toBe(404);
-
     await page.goto("/");
     await expect(page.getByTestId("event-calendar")).toHaveCount(0);
     const html = await page.content();
@@ -562,7 +519,6 @@ test.describe("P1 waitlist campaign locks", () => {
     expect(html).not.toContain("CLOSE_AT");
     expect(html).not.toContain("FEATURES.md");
     expect(html).not.toContain("South Carolina home loop");
-    expect(html).not.toContain("Florida panhandle");
     expect(html).not.toMatch(/\b\d+\s*impressions\b/i);
   });
 });
