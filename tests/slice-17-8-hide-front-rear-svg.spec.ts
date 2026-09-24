@@ -84,7 +84,9 @@ test.describe("slice 17.8: front and rear hide the side schematic", () => {
     );
     await expect(photo).toHaveAttribute("src", REAR);
     await expect(page.getByTestId("truck-seat-tailgate")).toBeVisible();
-    await expect(page.getByTestId("truck-view-svg").locator("a")).toHaveCount(2);
+    await expect(
+      page.getByTestId("truck-view-svg").locator("a[data-testid^='truck-seat-']"),
+    ).toHaveCount(2);
 
     await page.goto("/panels/hood");
     await expect(page.getByTestId("truck-view-seats")).toHaveAttribute(
