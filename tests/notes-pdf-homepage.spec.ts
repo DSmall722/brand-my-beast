@@ -312,7 +312,7 @@ test.describe("notes PDF homepage sheet", () => {
   }) => {
     await page.goto("/");
     await page.getByTestId("truck-view-front").click();
-    await page.getByTestId("truck-seat-hood").click();
+    await page.getByTestId("truck-name-chip-hood").click();
     await expect(page).toHaveURL(/\/panels\/hood/);
     await expect(page.getByTestId("truck-view-seats")).toHaveAttribute(
       "data-polygons",
