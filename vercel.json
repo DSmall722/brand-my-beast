@@ -3,8 +3,7 @@
   "git": {
     "deploymentEnabled": {
       "*": false,
-      "main": true,
-      "cursor/name-chip-focus-b759": true
+      "main": true
     }
   }
 }
