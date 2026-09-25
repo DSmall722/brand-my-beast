@@ -99,7 +99,7 @@ test.describe("slice 19.1: public seats waitlist-only while closed", () => {
     await expect(page.getByTestId("seat-primary-cta")).toHaveText("Contact BMB");
     await expect(page.getByTestId("seat-primary-cta")).toHaveAttribute(
       "href",
-      "/#waitlist",
+      "/#contactus",
     );
     await expect(page.getByTestId("intent-signin-needed")).toHaveCount(0);
     await expect(page.getByTestId("intent-bid-form")).toHaveCount(0);

@@ -58,10 +58,10 @@ export function HomeHeroSection({
               <HeroBidButton />
               <a
                 className="btn btn-panel"
-                href="#waitlist"
+                href="#how-it-works"
                 data-testid="hero-secondary-cta"
               >
-                {PUBLIC_COPY.header.nav}
+                {PUBLIC_COPY.hero.howItWorksCta}
               </a>
             </div>
           </div>

@@ -64,8 +64,8 @@ test.describe("slice 6.12: obsidianui signal button", () => {
     await expect(cta).toHaveClass(/obsidian-arrow-fill-btn/);
 
     const contact = page.getByTestId("hero-secondary-cta");
-    await expect(contact).toHaveText("Contact BMB");
-    await expect(contact).toHaveAttribute("href", "#waitlist");
+    await expect(contact).toHaveText("How it Works");
+    await expect(contact).toHaveAttribute("href", "#how-it-works");
     await expect(contact).not.toHaveClass(/obsidian-arrow-fill-btn/);
 
     const tag = await cta.evaluate((el) => el.tagName.toLowerCase());

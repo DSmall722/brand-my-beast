@@ -446,7 +446,7 @@ test.describe("P2 panel intent + approvals", () => {
       outbidViewer.getByTestId("failed-winner-waitlist").getByRole("link", {
         name: /waitlist/i,
       }),
-    ).toHaveAttribute("href", "/#waitlist");
+    ).toHaveAttribute("href", "/#contactus");
     const html = await outbidViewer.content();
     expect(html.toLowerCase()).not.toMatch(/\blease\b/);
     expect(html).not.toContain("CLOSE_AT");
@@ -493,7 +493,7 @@ test.describe("P2 panel intent + approvals", () => {
     await expect(handoff).toBeVisible();
     await expect(
       handoff.getByRole("link", { name: "Join the waitlist" }),
-    ).toHaveAttribute("href", "/#waitlist");
+    ).toHaveAttribute("href", "/#contactus");
     await account.close();
   });
 

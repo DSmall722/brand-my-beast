@@ -61,7 +61,7 @@ test.describe("slice 6.13: branded 404", () => {
     const waitlist = page.getByTestId("not-found-waitlist");
     await expect(waitlist).toHaveText(PUBLIC_COPY.hero.primaryCta);
     await expect(waitlist).toHaveText("Get on the list");
-    await expect(waitlist).toHaveAttribute("href", "/#waitlist");
+    await expect(waitlist).toHaveAttribute("href", "/#contactus");
 
     await expect(page.getByTestId("not-found-footer-line")).toHaveText(
       PUBLIC_COPY.footer.line,

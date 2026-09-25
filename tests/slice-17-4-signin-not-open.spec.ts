@@ -41,7 +41,7 @@ test.describe("slice 17.4: sign-in live empty state", () => {
     const src = readFileSync(PAGE, "utf8");
     const live = src.split('data-testid="signin-not-open"')[1]?.split("mode !== \"live\"")[0] ?? "";
     expect(src).toContain('data-testid="signin-not-open"');
-    expect(src).toContain('href="/#waitlist"');
+    expect(src).toContain('href="/#contactus"');
     expect(live).not.toMatch(/AUTH_|RESEND_|DATABASE_URL/);
     expect(src).toContain('mode !== "live"');
   });

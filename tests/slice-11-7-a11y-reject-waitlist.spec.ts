@@ -61,7 +61,7 @@ test.describe("slice 11.7: a11y reject-note + waitlist field errors", () => {
   test("waitlist errors link to the email field via aria-describedby", async ({
     page,
   }) => {
-    await page.goto("/#waitlist");
+    await page.goto("/#contactus");
     const email = page.getByTestId("waitlist-email");
     await expect(email).toHaveAttribute("aria-describedby", "waitlist-status");
 

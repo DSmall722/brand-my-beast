@@ -34,7 +34,7 @@ export function WholeTruckIntentForm({
           {intentWaitlistOnlyCopy()}
         </p>
         <p>
-          <Link href="/#waitlist" data-testid="whole-truck-waitlist-only-link">
+          <Link href="/#contactus" data-testid="whole-truck-waitlist-only-link">
             Join the waitlist
           </Link>
         </p>

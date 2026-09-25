@@ -163,7 +163,7 @@ export default async function AccountPage() {
                         data-testid={`account-outbid-waitlist-${bid.id}`}
                       >
                         Outbid on this seat — still no charge.{" "}
-                        <Link href="/#waitlist">Join the waitlist</Link> for the
+                        <Link href="/#contactus">Join the waitlist</Link> for the
                         next open panel, or{" "}
                         <Link href={`/panels/${bid.panelId}`}>re-list higher</Link>
                         .

@@ -53,7 +53,7 @@ test.describe("slice 12.38: waitlist focus restore after submit", () => {
   test("submitting waitlist moves focus to status message", async ({
     page,
   }) => {
-    await page.goto("/#waitlist");
+    await page.goto("/#contactus");
     await page.getByTestId("waitlist-email").fill("focus38@example.com");
     await page.getByTestId("waitlist-submit").click();
     await expect(page.getByTestId("waitlist-status")).toContainText(

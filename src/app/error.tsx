@@ -58,7 +58,7 @@ export default function Error({
           </Link>
           <Link
             className="btn btn-ghost"
-            href="/#waitlist"
+            href="/#contactus"
             data-testid="error-waitlist"
           >
             {PUBLIC_COPY.hero.primaryCta}

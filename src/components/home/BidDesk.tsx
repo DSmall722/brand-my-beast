@@ -312,7 +312,7 @@ function BidModalForm({
         >
           {copy.placeBid}
         </button>
-        <a className="btn btn-panel" href="#waitlist" onClick={onClose}>
+        <a className="btn btn-panel" href="#contactus" onClick={onClose}>
           {copy.contact}
         </a>
         <Link

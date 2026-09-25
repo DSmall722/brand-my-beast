@@ -40,7 +40,7 @@ export default function NotFound() {
           </Link>
           <Link
             className="btn btn-ghost"
-            href="/#waitlist"
+            href="/#contactus"
             data-testid="not-found-waitlist"
           >
             {PUBLIC_COPY.hero.primaryCta}

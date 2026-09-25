@@ -7,9 +7,9 @@ export function HomeStorySection() {
     <section
       className="shell section"
       id="story"
-      aria-labelledby="story-title"
+      aria-labelledby="how-it-works"
     >
-      <h2 id="story-title">{PUBLIC_COPY.howItWorks.heading}</h2>
+      <h2 id="how-it-works">{PUBLIC_COPY.howItWorks.heading}</h2>
       <ol className="story-list" data-testid="how-it-works">
         {PUBLIC_COPY.howItWorks.steps.map((step, index) => (
           <li key={step.title}>

@@ -30,6 +30,7 @@ export const PUBLIC_COPY = {
     lead: "",
     primaryCta: "Get on the list",
     secondaryCta: "Bid on a Panel",
+    howItWorksCta: "How it Works",
     imageAlt:
       "Concept preview — BrandMyBeast house wrap. Seats are not sold yet.",
     caption: "",

@@ -728,6 +728,22 @@
   line-height: 1.45;
 }
 
+#contactus {
+  position: relative;
+}
+
+#contactus > #waitlist {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 1px;
+  height: 1px;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
 .waitlist-form {
   max-width: 34rem;
 }
@@ -2704,12 +2720,13 @@
 }
 .truck-view-svg a {
   pointer-events: auto;
+  -webkit-tap-highlight-color: transparent;
 }
 .truck-view-svg a:focus-visible {
   outline: 2px solid #d6ff3f;
   outline-offset: 2px;
 }
-.truck-view-seats[data-polygons="outline"] .truck-view-svg a:focus-visible {
+.truck-view-seats[data-name-chips="true"] .truck-view-svg a:is(:focus, :focus-visible, :active) {
   outline: none;
 }
 .truck-view-body,
@@ -2752,8 +2769,9 @@
   vector-effect: non-scaling-stroke;
 }
 .truck-name-chip.is-lit,
-.truck-name-chip-link:hover .truck-name-chip {
-  stroke-width: 2.25px;
+.truck-name-chip-link:is(:hover, :focus-visible, :active) .truck-name-chip {
+  fill: rgb(214 255 63 / 0.2);
+  stroke-width: 2.75px;
 }
 .truck-name-chip-link {
   pointer-events: auto;
@@ -3344,7 +3362,7 @@ body:has(.bid-modal-root) {
     max-width: none;
   }
 
-  #waitlist.shell.section > .waitlist-form {
+  #contactus.shell.section > .waitlist-form {
     max-width: var(--desk-measure);
   }
 

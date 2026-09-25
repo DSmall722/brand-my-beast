@@ -50,7 +50,7 @@ if (invalid.status !== 400 || invalid.json?.code !== "invalid") {
 
 const browser = await chromium.launch();
 const page = await browser.newPage({ viewport: { width: 1280, height: 800 } });
-await page.goto(`${url}/#waitlist`, { waitUntil: "networkidle" });
+await page.goto(`${url}/#contactus`, { waitUntil: "networkidle" });
 await page.getByTestId("waitlist-email").fill(email);
 const [response] = await Promise.all([
   page.waitForResponse(

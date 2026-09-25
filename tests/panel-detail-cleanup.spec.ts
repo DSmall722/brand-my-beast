@@ -52,8 +52,8 @@ test.describe("panel detail cleanup", () => {
     await expect(heroPanel).toHaveJSProperty("tagName", "A");
     await expect(heroPanel).toHaveAttribute("href", "#panels");
     const heroContact = page.getByTestId("hero-secondary-cta");
-    await expect(heroContact).toHaveText("Contact BMB");
-    await expect(heroContact).toHaveAttribute("href", "#waitlist");
+    await expect(heroContact).toHaveText("How it Works");
+    await expect(heroContact).toHaveAttribute("href", "#how-it-works");
 
     const requirements = page.getByTestId("etch-requirements");
     await expect(requirements).toHaveText(PUBLIC_COPY.etch.requirements);
@@ -150,7 +150,7 @@ test.describe("panel detail cleanup", () => {
       const cta = page.getByTestId("seat-primary-cta");
       await expect(cta).toHaveAttribute("data-cta", "contact");
       await expect(cta).toHaveText("Contact BMB");
-      await expect(cta).toHaveAttribute("href", "/#waitlist");
+      await expect(cta).toHaveAttribute("href", "/#contactus");
       await expect(page.getByTestId("intent-bid-form")).toHaveCount(0);
       await expect(page.getByTestId("intent-signin-needed")).toHaveCount(0);
     } finally {
