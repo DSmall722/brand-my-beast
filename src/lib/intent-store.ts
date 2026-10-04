@@ -32,6 +32,7 @@ import {
   assertIntentOnly,
   activeStandingUsd,
   canFireFloorSave,
+  countsAsPublicStanding,
   depositUsdForMark,
   isFloorSaveBid,
   INTENT_STALE_WRITE,
@@ -2111,11 +2112,10 @@ export type BoardIntentStats = {
 };
 
 /**
- * Public board standing = sum of approved intents only (slice 4.1).
- * Listed (not yet approved) does not count toward pledged intent.
- * Empty panels do not count opening marks as pledged.
- * Soft-fails to an empty board if the ledger is unreachable (e.g. migration
- * not applied yet on preview) so the homepage can still render.
+ * Operator / gate pledged = sum of approved intents (slice 4.1).
+ * The public Raised figure is separate: only a paid 20% deposit counts.
+ * Listed does not count. Empty panels do not count opening marks.
+ * Soft-fails to an empty board if the ledger is unreachable.
  */
 export async function loadBoardIntentStats(): Promise<BoardIntentStats> {
   const empty: BoardIntentStats = {
@@ -2145,7 +2145,7 @@ export async function loadBoardIntentStats(): Promise<BoardIntentStats> {
   }
 }
 
-/** Standing holder (highest listed/approved) per panel, if any. */
+/** Paid standing holder per panel, if any. Unpaid marks are not holders. */
 export type StandingHolder = {
   brandLabel: string;
   tradeLabel: string;
@@ -2156,31 +2156,43 @@ export type StandingHolder = {
   publicLogoUrl: string | null;
 };
 
+async function holdersMatching(
+  pick: (bids: IntentBid[]) => IntentBid[],
+): Promise<Map<string, StandingHolder>> {
+  const map = new Map<string, StandingHolder>();
+  for (const panel of PANELS) {
+    const top = pick(await listBidsForPanel(panel.id)).sort(
+      (a, b) => b.standingUsd - a.standingUsd,
+    )[0];
+    if (!top) continue;
+    map.set(panel.id, {
+      brandLabel: top.brandLabel,
+      tradeLabel: top.tradeLabel,
+      standingUsd: top.standingUsd,
+      userId: top.userId,
+      publicLogoUrl: publicLogoUrl(top),
+    });
+  }
+  return map;
+}
+
+/** Listed or approved mark. Clash and seat PNG use this. Not public Held by. */
+export async function loadActiveMarkHoldersByPanel(): Promise<
+  Map<string, StandingHolder>
+> {
+  return holdersMatching((bids) =>
+    bids.filter(
+      (bid) =>
+        (bid.status === "listed" || bid.status === "approved") &&
+        !isFloorSaveBid(bid),
+    ),
+  );
+}
+
 export async function loadStandingHoldersByPanel(): Promise<
   Map<string, StandingHolder>
 > {
-  const map = new Map<string, StandingHolder>();
-  for (const panel of PANELS) {
-    const bids = await listBidsForPanel(panel.id);
-    const active = bids
-      .filter(
-        (bid) =>
-          (bid.status === "listed" || bid.status === "approved") &&
-          !isFloorSaveBid(bid),
-      )
-      .sort((a, b) => b.standingUsd - a.standingUsd);
-    const top = active[0];
-    if (top) {
-      map.set(panel.id, {
-        brandLabel: top.brandLabel,
-        tradeLabel: top.tradeLabel,
-        standingUsd: top.standingUsd,
-        userId: top.userId,
-        publicLogoUrl: publicLogoUrl(top),
-      });
-    }
-  }
-  return map;
+  return holdersMatching((bids) => bids.filter(countsAsPublicStanding));
 }
 
 /**

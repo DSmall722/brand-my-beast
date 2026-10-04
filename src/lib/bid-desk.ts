@@ -5,7 +5,11 @@
 
 import { CLOSE_AT, PANELS, formatUsd } from "@/lib/campaign";
 import type { IntentBid, IntentBidStatus } from "@/lib/intent";
-import { isFloorSaveBid } from "@/lib/intent";
+import {
+  countsAsPublicStanding,
+  isFloorSaveBid,
+  isPendingPublicBid,
+} from "@/lib/intent";
 import { SEAT_LOG_TIME_ZONE, formatSeatLogTime } from "@/lib/seat-log";
 
 export type BidDeskMode = { kind: "closed" } | { kind: "intent" };
@@ -32,6 +36,8 @@ export type DayByDayRow = {
   timeLabel: string;
   /** This row is the panel's approved mark counted in board raised. */
   stillStanding: boolean;
+  /** Unpaid public mark. Standing dollars on this row are 0. */
+  pending: boolean;
 };
 
 export type DayByDayBucket = {
@@ -77,6 +83,7 @@ const SAMPLE_DAYS: readonly {
       amountUsd: 2500,
       timeLabel: formatSeatLogTime("2026-09-02T16:00:00.000Z"),
       stillStanding: true,
+      pending: false,
     },
   },
   {
@@ -90,6 +97,7 @@ const SAMPLE_DAYS: readonly {
       amountUsd: 500,
       timeLabel: formatSeatLogTime("2026-09-01T16:00:00.000Z"),
       stillStanding: false,
+      pending: false,
     },
   },
 ];
@@ -140,7 +148,7 @@ function dayParts(iso: string): { dayKey: string; dayLabel: string } | null {
 function raisedBidIds(bids: readonly IntentBid[]): Set<string> {
   const byPanel = new Map<string, IntentBid[]>();
   for (const bid of bids) {
-    if (bid.status !== "approved" || isFloorSaveBid(bid)) continue;
+    if (!countsAsPublicStanding(bid)) continue;
     const group = byPanel.get(bid.panelId) ?? [];
     group.push(bid);
     byPanel.set(bid.panelId, group);
@@ -210,6 +218,7 @@ export function buildDayByDay(
       amountUsd: bid.standingUsd,
       timeLabel: formatSeatLogTime(bid.createdAt),
       stillStanding,
+      pending: isPendingPublicBid(bid),
     };
     const existing = buckets.get(parts.dayKey);
     if (!existing) {

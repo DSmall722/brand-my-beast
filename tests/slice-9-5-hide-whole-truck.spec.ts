@@ -9,7 +9,6 @@ import {
   formatUsd,
 } from "../src/lib/campaign";
 import { isWholeTruckIntentOpen } from "../src/lib/intent-store";
-import { PUBLIC_COPY } from "../src/lib/public-copy";
 
 /**
  * Slice 9.5 — hide whole-truck control when pledged >= $120,000.
@@ -96,10 +95,8 @@ test.describe("slice 9.5: hide whole-truck at buyout", () => {
     await expect(page.getByTestId("whole-truck-intent")).toHaveCount(0);
     await expect(page.getByTestId("whole-truck-intent-form")).toHaveCount(0);
     await expect(page.getByTestId("whole-truck-signin")).toHaveCount(0);
-    await expect(page.getByTestId("whole-truck-met")).toHaveText(
-      PUBLIC_COPY.board.wholeTruckMet,
-    );
-    await expect(page.getByTestId("raised-amount")).toContainText("120,000");
+    await expect(page.getByTestId("whole-truck-met")).toHaveCount(0);
+    await expect(page.getByTestId("raised-amount")).toHaveText("$0");
     const html = await page.content();
     expect(html.toLowerCase()).not.toMatch(/\blease\b/);
     expect(html).not.toContain("CLOSE_AT");

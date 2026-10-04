@@ -15,7 +15,7 @@ import {
 } from "@/components/home/truck-exists-sections";
 import { HomeTruckViewsSection } from "@/components/home/HomeTruckViewsSection";
 import { HomeWaitlistSection } from "@/components/home/HomeWaitlistSection";
-import { buildAuctionLive } from "@/lib/auction-board";
+import { buildAuctionLive, highestPendingByPanel } from "@/lib/auction-board";
 import { bidDeskMode, buildDayByDay } from "@/lib/bid-desk";
 import type { BidPanelQuote } from "@/lib/bid-desk";
 import {
@@ -32,10 +32,10 @@ import {
   shortfallToFloorUsd,
   shortfallToGoalUsd,
 } from "@/lib/campaign";
-import { nextStandingUsd } from "@/lib/intent";
+import { nextStandingUsd, pledgedUsdForPanel } from "@/lib/intent";
 import {
   listBidsForPanel,
-  loadBoardIntentStats,
+  loadActiveMarkHoldersByPanel,
   loadStandingHoldersByPanel,
 } from "@/lib/intent-store";
 import { PUBLIC_COPY } from "@/lib/public-copy";
@@ -44,15 +44,21 @@ import { PUBLIC_COPY } from "@/lib/public-copy";
 export const dynamic = "force-dynamic";
 
 export default async function HomePage() {
-  const board = await loadBoardIntentStats();
   const standingHolders = await loadStandingHoldersByPanel();
+  const activeMarks = await loadActiveMarkHoldersByPanel();
   const activity = (
     await Promise.all(PANELS.map((panel) => listBidsForPanel(panel.id)))
   ).flat();
   const dayByDay = buildDayByDay(activity);
   const auctionLive = buildAuctionLive(activity);
+  const pendingByPanel = Object.fromEntries(
+    [...highestPendingByPanel(activity).entries()].map(([id, mark]) => [
+      id,
+      { standingUsd: mark.standingUsd },
+    ]),
+  );
   const quotes: BidPanelQuote[] = PANELS.map((panel) => {
-    const standing = standingHolders.get(panel.id);
+    const standing = activeMarks.get(panel.id);
     const current = currentBidUsd(panel.openingUsd, standing?.standingUsd);
     return {
       id: panel.id,
@@ -62,7 +68,19 @@ export default async function HomePage() {
     };
   });
   const occupiedPanelIds = [...standingHolders.keys()];
-  const pledgedUsd = board.pledgedUsd;
+  const pledgedUsd = PANELS.reduce(
+    (sum, panel) =>
+      sum +
+      pledgedUsdForPanel(
+        activity.filter((bid) => bid.panelId === panel.id),
+      ),
+    0,
+  );
+  const publicSeated = PANELS.filter(
+    (panel) =>
+      pledgedUsdForPanel(activity.filter((bid) => bid.panelId === panel.id)) >
+      0,
+  ).length;
   const floorLabel = formatUsd(FLOOR_USD);
   const goalLabel = formatUsd(GOAL_USD);
   const raisedLabel = formatUsd(pledgedUsd);
@@ -101,7 +119,7 @@ export default async function HomePage() {
           closeCopy={closeCopy}
           shortfallFloor={shortfallFloor}
           shortfallGoal={shortfallGoal}
-          openSeats={board.openSeats}
+          openSeats={PANELS.length - publicSeated}
           pledgedUsd={pledgedUsd}
           dayByDay={dayByDay}
           auctionLive={auctionLive}
@@ -109,6 +127,7 @@ export default async function HomePage() {
         <HomePanelsSection
           etchUnlocked={etchUnlocked}
           standingByPanel={Object.fromEntries(standingHolders)}
+          pendingByPanel={pendingByPanel}
         />
         </BidDeskProvider>
         <HomeStorySection />

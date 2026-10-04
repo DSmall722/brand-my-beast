@@ -20,9 +20,11 @@ export type PanelCardStanding = {
 export function HomePanelsSection({
   etchUnlocked,
   standingByPanel,
+  pendingByPanel = {},
 }: {
   etchUnlocked: boolean;
   standingByPanel: Readonly<Record<string, PanelCardStanding>>;
+  pendingByPanel?: Readonly<Record<string, { standingUsd: number }>>;
 }) {
   const openBid = useOpenBid();
 
@@ -65,6 +67,7 @@ export function HomePanelsSection({
               const etchable = isEtchable(panel);
               const gloss = PUBLIC_COPY.panels.gloss[panel.id];
               const standing = standingByPanel[panel.id] ?? null;
+              const pending = pendingByPanel[panel.id] ?? null;
               const bidUsd = currentBidUsd(
                 panel.openingUsd,
                 standing?.standingUsd,
@@ -132,6 +135,14 @@ export function HomePanelsSection({
                     >
                       Current Bid {formatUsd(bidUsd)}
                     </div>
+                    {pending && !standing ? (
+                      <div
+                        className="panel-meta"
+                        data-testid={`panel-pending-${panel.id}`}
+                      >
+                        {PUBLIC_COPY.bidDesk.pending} {formatUsd(pending.standingUsd)}
+                      </div>
+                    ) : null}
                     {etchable ? (
                       <span
                         className="badge badge-locked"

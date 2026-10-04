@@ -237,9 +237,10 @@ test.describe("desktop layout polish", () => {
 
     const history = page.getByTestId("day-by-day");
     await expect(history.getByRole("heading", { name: "Day by day" })).toBeVisible();
-    await expect(history.getByTestId("day-by-day-lead")).toHaveCount(0);
-    await expect(history).not.toContainText("Sample history");
-    await expect(history).not.toContainText("No live bids yet");
+    await expect(history.getByTestId("day-by-day-lead")).toContainText(
+      "Sample history",
+    );
+    await expect(history).toContainText("not pledged");
     await expect(history).toContainText("Sample Mark");
     await expect(history).not.toContainText("unpaid");
     await expect(history).not.toContainText("paid");

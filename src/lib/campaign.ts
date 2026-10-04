@@ -11,6 +11,12 @@ export const BRAND = {
   operator: "the operator",
 } as const;
 
+/**
+ * Crawl host. Apex brandmybeast.com 301s here.
+ * BRAND.domain stays the bare name for mail, CSP, and public copy.
+ */
+export const PUBLIC_SITE_ORIGIN = "https://www.brandmybeast.com" as const;
+
 /** Order + wrap floor. Miss = full refund. Dollars, not cents. */
 export const FLOOR_USD = 58_000;
 

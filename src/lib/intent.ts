@@ -29,6 +29,11 @@ export type IntentBid = {
   standingUsd: number;
   depositUsd: number;
   status: IntentBidStatus;
+  /**
+   * Captured 20% deposit time. Absent until the money path writes it.
+   * Stripe is not wired, so stored rows leave this unset.
+   */
+  depositPaidAt?: string | null;
   createdAt: string;
   /**
    * Slice 12.2 — optimistic lock token. Writers pass the value they read;
@@ -90,6 +95,65 @@ export function activeStandingUsd(
 /** True when the row is a floor-save conditional (slice 9.4). */
 export function isFloorSaveBid(bid: Pick<IntentBid, "floorSaveUsd">): boolean {
   return bid.floorSaveUsd != null;
+}
+
+/**
+ * Public standing requires a captured 20% deposit.
+ * Stripe is not wired and the ledger has no capture column, so a stored
+ * intent is pending until depositPaidAt is set by a future money path.
+ */
+export function hasPaidDeposit(bid: { depositPaidAt?: string | null }): boolean {
+  const paidAt = bid.depositPaidAt;
+  return typeof paidAt === "string" && paidAt.length > 0;
+}
+
+/** Approved, not floor-save, and the 20% deposit is paid. */
+export function countsAsPublicStanding(
+  bid: Pick<IntentBid, "status" | "floorSaveUsd"> & {
+    depositPaidAt?: string | null;
+  },
+): boolean {
+  return (
+    bid.status === "approved" &&
+    !isFloorSaveBid(bid) &&
+    hasPaidDeposit(bid)
+  );
+}
+
+/**
+ * Listed or approved marks that have not paid the deposit.
+ * Outbid, withdrawn, rejected, and floor-save rows are not pending standing.
+ */
+export function isPendingPublicBid(
+  bid: Pick<IntentBid, "status" | "floorSaveUsd"> & {
+    depositPaidAt?: string | null;
+  },
+): boolean {
+  if (isFloorSaveBid(bid) || countsAsPublicStanding(bid)) return false;
+  switch (bid.status) {
+    case "listed":
+    case "approved":
+      return true;
+    case "outbid":
+    case "withdrawn":
+    case "rejected":
+      return false;
+    default: {
+      const unreachable: never = bid.status;
+      return unreachable;
+    }
+  }
+}
+
+/** Dollars one panel adds to Raised. Unpaid marks add 0. */
+export function pledgedUsdForPanel(
+  bids: readonly (Pick<IntentBid, "status" | "standingUsd" | "floorSaveUsd"> & {
+    depositPaidAt?: string | null;
+  })[],
+): number {
+  const standing = bids.filter(countsAsPublicStanding);
+  if (standing.length === 0) return 0;
+  return Math.max(...standing.map((bid) => bid.standingUsd));
 }
 
 /** Slice 9.4 — campaign is short of the $58,000 floor. */

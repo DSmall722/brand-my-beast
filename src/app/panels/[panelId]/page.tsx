@@ -23,7 +23,15 @@ import {
   formatUsd,
   isEtchable,
 } from "@/lib/campaign";
-import { depositUsdForMark, minIncrementUsd, nextStandingUsd } from "@/lib/intent";
+import {
+  countsAsPublicStanding,
+  depositUsdForMark,
+  isFloorSaveBid,
+  isPendingPublicBid,
+  minIncrementUsd,
+  nextStandingUsd,
+  pledgedUsdForPanel,
+} from "@/lib/intent";
 import {
   failedWinnerOfferCopy,
   resolveFailedWinnerOfferForViewer,
@@ -31,9 +39,9 @@ import {
 import { intentStatusClass, intentStatusLabel } from "@/lib/intent-labels";
 import {
   listBidsForPanel,
+  loadActiveMarkHoldersByPanel,
   loadStandingHoldersByPanel,
   minimumIntentUsd,
-  standingForPanel,
 } from "@/lib/intent-store";
 import { listBanRules } from "@/lib/operator-ban-list";
 import { panelBoardMarkFor, panelSeatH1 } from "@/lib/panel-board";
@@ -87,17 +95,17 @@ export default async function PanelIntentPage({
 
   const boardMark = panelBoardMarkFor(panel.id);
   const session = await auth();
-  const standing = await standingForPanel(panel.id);
   const minimum = await minimumIntentUsd(panel.id);
   const bids = await listBidsForPanel(panel.id);
   const ledger = (
     await Promise.all(PANELS.map((row) => listBidsForPanel(row.id)))
   ).flat();
   const seatsOpen = resolveSeatsOpen();
-  const holdersRaw = await loadStandingHoldersByPanel();
+  const paidHolders = await loadStandingHoldersByPanel();
+  const activeMarks = await loadActiveMarkHoldersByPanel();
   const holdersByPanel = new Map<string, AdjacentSeatHolder | null>();
   for (const row of PANELS) {
-    const held = holdersRaw.get(row.id);
+    const held = activeMarks.get(row.id);
     holdersByPanel.set(
       row.id,
       held
@@ -111,7 +119,7 @@ export default async function PanelIntentPage({
     );
   }
   const adjacentNeighbors = holdersOnAdjacentPanels(panel.id, holdersByPanel);
-  const occupiedPanelIds = [...holdersRaw.keys()];
+  const occupiedPanelIds = [...paidHolders.keys()];
   const etchable = isEtchable(panel);
   const viewerId = session?.user?.id;
   // Slice 9.6 / 13.11 — live offer only inside TTL; else next compliant / expired.
@@ -127,13 +135,23 @@ export default async function PanelIntentPage({
   const viewerWasOutbid = Boolean(viewerOutbid);
   const failedWinnerOffer = failedWinner.offer;
   const failedWinnerExpired = failedWinner.expiredForViewer;
-  const holder = bids.find(
-    (bid) => bid.status === "listed" || bid.status === "approved",
+  const paidHolder = bids
+    .filter(countsAsPublicStanding)
+    .sort((a, b) => b.standingUsd - a.standingUsd)[0];
+  const activeHolder = bids.find(
+    (bid) =>
+      (bid.status === "listed" || bid.status === "approved") &&
+      !isFloorSaveBid(bid),
   );
+  const pendingBid = bids
+    .filter(isPendingPublicBid)
+    .sort((a, b) => b.standingUsd - a.standingUsd)[0];
+  const paidUsd = pledgedUsdForPanel(bids);
+  const publicStanding = paidUsd > 0 ? paidUsd : panel.openingUsd;
   const seatLog = buildPublicSeatLog(bids);
   const dayByDay = buildDayByDay(ledger, { panelId: panel.id });
   const quotes: BidPanelQuote[] = PANELS.map((row) => {
-    const held = holdersRaw.get(row.id);
+    const held = activeMarks.get(row.id);
     const current = currentBidUsd(row.openingUsd, held?.standingUsd);
     return {
       id: row.id,
@@ -143,9 +161,8 @@ export default async function PanelIntentPage({
     };
   });
 
-  const seatOpen = !holder;
-  // Slice 9.2 — next minimum is standing + max($250, 10%) once a mark holds.
-  const incrementUsd = seatOpen ? 0 : minIncrementUsd(standing);
+  const seatOpen = !activeHolder;
+  const incrementUsd = activeHolder ? minIncrementUsd(activeHolder.standingUsd) : null;
 
   return (
     <>
@@ -168,7 +185,7 @@ export default async function PanelIntentPage({
         <p
           className="section-lead"
           data-testid="seat-lead"
-          data-has-standing={holder ? "true" : "false"}
+          data-has-standing={paidHolder ? "true" : "false"}
         >
           <span
             className="seat-finish"
@@ -203,9 +220,9 @@ export default async function PanelIntentPage({
           className="panel-stats"
           data-testid="panel-stats"
           data-seat-open={seatOpen ? "true" : "false"}
-          data-standing-usd={standing}
+          data-standing-usd={publicStanding}
           data-minimum-usd={minimum}
-          data-increment-usd={incrementUsd}
+          data-increment-usd={incrementUsd ?? 0}
         >
           <div>
             <dt>Opening</dt>
@@ -213,22 +230,32 @@ export default async function PanelIntentPage({
           </div>
           <div>
             <dt>Standing</dt>
-            <dd data-testid="panel-standing">{formatUsd(standing)}</dd>
+            <dd data-testid="panel-standing">{formatUsd(publicStanding)}</dd>
           </div>
+          {pendingBid ? (
+            <div>
+              <dt>{PUBLIC_COPY.bidDesk.pending}</dt>
+              <dd data-testid="panel-pending">
+                {formatUsd(pendingBid.standingUsd)}
+              </dd>
+            </div>
+          ) : null}
           <div>
             <dt>Min next</dt>
             <dd data-testid="panel-minimum">{formatIntegerUsd(minimum)}</dd>
           </div>
-          <div>
-            <dt>Increment</dt>
-            <dd data-testid="panel-increment">
-              {seatOpen ? "—" : formatIntegerUsd(incrementUsd)}
-            </dd>
-          </div>
+          {incrementUsd == null ? null : (
+            <div>
+              <dt>Increment</dt>
+              <dd data-testid="panel-increment">
+                {formatIntegerUsd(incrementUsd)}
+              </dd>
+            </div>
+          )}
           <div>
             <dt>Deposit shown</dt>
             <dd data-testid="panel-deposit-shown">
-              {DEPOSIT_PERCENT}% · {formatUsd(depositUsdForMark(standing))}
+              {DEPOSIT_PERCENT}% · {formatUsd(depositUsdForMark(publicStanding))}
             </dd>
           </div>
         </dl>
@@ -329,7 +356,7 @@ export default async function PanelIntentPage({
               {seatLog.map((entry) => {
                 const bid = bids.find((row) => row.id === entry.bidId);
                 if (!bid) return null;
-                const standingRow = holder?.id === bid.id;
+                const standingRow = paidHolder?.id === bid.id;
                 return (
                   <li
                     key={entry.bidId}

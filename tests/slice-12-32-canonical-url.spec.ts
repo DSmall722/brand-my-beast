@@ -10,7 +10,7 @@ import {
 } from "../src/lib/campaign";
 
 /**
- * Slice 12.32 — canonical URL https://brandmybeast.com.
+ * Canonical URL is the www host. Apex brandmybeast.com 301s there.
  * CLOSE_AT null. No Stripe.
  */
 test.describe("slice 12.32: canonical URL brandmybeast.com", () => {
@@ -38,14 +38,14 @@ test.describe("slice 12.32: canonical URL brandmybeast.com", () => {
     );
   });
 
-  test("homepage link rel=canonical is https://brandmybeast.com", async ({
+  test("homepage link rel=canonical is https://www.brandmybeast.com", async ({
     page,
   }) => {
     await page.goto("/");
     const canonical = page.locator('link[rel="canonical"]');
     await expect(canonical).toHaveAttribute(
       "href",
-      "https://brandmybeast.com",
+      "https://www.brandmybeast.com",
     );
 
     const html = (await page.content()).toLowerCase();

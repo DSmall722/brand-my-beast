@@ -147,7 +147,10 @@ test.describe("slice 9.10: pledged = approved standing only", () => {
 
     const raised = await browser.newPage();
     await raised.goto("/");
-    await expect(raised.getByTestId("raised-amount")).toHaveText("$3,000");
+    await expect(raised.getByTestId("raised-amount")).toHaveText("$0");
+    await expect(raised.getByTestId("auction-top")).toContainText(
+      "No standing bids yet.",
+    );
     const html = await raised.content();
     expect(html.toLowerCase()).not.toMatch(/\blease\b/);
     expect(html).not.toContain("CLOSE_AT");

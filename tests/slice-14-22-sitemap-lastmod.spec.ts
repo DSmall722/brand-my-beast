@@ -8,6 +8,7 @@ import {
   FLOOR_USD,
   GOAL_USD,
   PANELS,
+  PUBLIC_SITE_ORIGIN,
   formatUsd,
 } from "../src/lib/campaign";
 import { findCloseAtViolations } from "../src/lib/close-at-null";
@@ -88,10 +89,11 @@ test.describe("slice 14.22: sitemap lastmod from git time", () => {
     expect(res.ok()).toBeTruthy();
     const body = await res.text();
     expect(body).toContain("<urlset");
-    expect(body).toContain(`<loc>https://${BRAND.domain}</loc>`);
+    expect(body).toContain(`<loc>${PUBLIC_SITE_ORIGIN}</loc>`);
+    expect(body).not.toContain(`<loc>https://${BRAND.domain}</loc>`);
     for (const panel of PANELS) {
       expect(body).toContain(
-        `<loc>https://${BRAND.domain}/panels/${panel.id}</loc>`,
+        `<loc>${PUBLIC_SITE_ORIGIN}/panels/${panel.id}</loc>`,
       );
     }
 

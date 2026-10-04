@@ -100,12 +100,13 @@ test.describe("slice 10.9: panel cards standing or Open", () => {
 
     const after = await browser.newPage();
     await after.goto("/#panels");
-    await expect(after.getByTestId("panel-standing-hood")).toHaveText(
-      "Card Face Co",
-    );
+    await expect(after.getByTestId("panel-standing-hood")).toHaveText("");
     await expect(after.getByTestId("panel-hood")).toHaveAttribute(
       "data-standing",
-      "held",
+      "open",
+    );
+    await expect(after.getByTestId("panel-pending-hood")).toHaveText(
+      "Pending $2,500",
     );
     await expect(after.getByTestId("panel-standing-front-bumper")).toHaveText("");
     await expect(after.getByTestId("panel-open-seat-once")).toHaveCount(0);

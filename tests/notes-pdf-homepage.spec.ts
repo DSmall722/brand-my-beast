@@ -1,5 +1,5 @@
 import { expect, test } from "@playwright/test";
-import { PANELS, currentBidUsd, formatUsd, isEtchable } from "../src/lib/campaign";
+import { PANELS, currentBidUsd, isEtchable } from "../src/lib/campaign";
 import { PUBLIC_COPY } from "../src/lib/public-copy";
 import { TRUCK_VIEWS } from "../src/lib/truck-views";
 
@@ -290,13 +290,15 @@ test.describe("notes PDF homepage sheet", () => {
       timeout: 10_000,
     });
     await expect(page.getByTestId("seat-lead")).not.toContainText("Current Bid");
-    await expect(page.getByTestId("panel-standing")).toContainText(
-      formatUsd(2750),
-    );
+    await expect(page.getByTestId("panel-standing")).toHaveText("$2,500");
+    await expect(page.getByTestId("panel-pending")).toHaveText("$2,750");
 
     await page.goto("/");
     await expect(page.getByTestId("panel-current-bid-hood")).toHaveText(
-      "Current Bid $2,750",
+      "Current Bid $2,500",
+    );
+    await expect(page.getByTestId("panel-pending-hood")).toHaveText(
+      "Pending $2,750",
     );
     await expect(page.getByTestId("panel-current-bid-front-bumper")).toHaveText(
       "Current Bid $500",

@@ -209,7 +209,8 @@ test.describe("slice 6.2 seat UI: create / outbid / exclusivity / increment", ()
     await expect(ok.getByTestId("intent-list")).toContainText(
       "Slice Sixty Two UI Ok",
     );
-    await expect(ok.getByTestId("panel-standing")).toHaveText("$2,750");
+    await expect(ok.getByTestId("panel-standing")).toHaveText("$2,500");
+    await expect(ok.getByTestId("panel-pending")).toHaveText("$2,750");
     await expect(ok.getByTestId("panel-minimum")).toHaveText("$3,025");
     await expect(ok.getByTestId("seat-exclusivity")).toHaveCount(0);
     const okHtml = await ok.content();

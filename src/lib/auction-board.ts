@@ -1,6 +1,10 @@
 import { PANELS } from "@/lib/campaign";
 import type { IntentBid, IntentBidStatus } from "@/lib/intent";
-import { isFloorSaveBid } from "@/lib/intent";
+import {
+  countsAsPublicStanding,
+  isFloorSaveBid,
+  isPendingPublicBid,
+} from "@/lib/intent";
 import { publicLogoUrl } from "@/lib/public-mark";
 import { SEAT_LOG_TIME_ZONE, formatSeatLogTime } from "@/lib/seat-log";
 
@@ -33,6 +37,14 @@ export type AuctionLive = {
 export type LeaderboardRow = StandingMark & {
   rank: number;
   dayLabel: string;
+  /** Unpaid mark. Does not count toward Raised or Held by. */
+  pending: boolean;
+};
+
+export type PendingMark = {
+  panelId: string;
+  brandLabel: string;
+  standingUsd: number;
 };
 
 export type Leaderboard = {
@@ -83,11 +95,11 @@ function etDayLabel(iso: string): string {
   }).format(date);
 }
 
-/** Current holder per panel: highest listed or approved mark, not floor-save. */
+/** Current holder per panel: paid deposit only. */
 function standingBids(bids: readonly IntentBid[]): IntentBid[] {
   const byPanel = new Map<string, IntentBid>();
   for (const bid of publicBids(bids)) {
-    if (bid.status !== "listed" && bid.status !== "approved") continue;
+    if (!countsAsPublicStanding(bid)) continue;
     const current = byPanel.get(bid.panelId);
     if (!current || bid.standingUsd > current.standingUsd) {
       byPanel.set(bid.panelId, bid);
@@ -162,6 +174,7 @@ export function buildLeaderboard(bids: readonly IntentBid[]): Leaderboard {
       ...toStanding(bid),
       rank: index + 1,
       dayLabel: etDayLabel(bid.createdAt),
+      pending: isPendingPublicBid(bid),
     }));
   const brands = new Set(
     rows.map((row) => row.brandLabel.trim().toLowerCase()),
@@ -171,4 +184,23 @@ export function buildLeaderboard(bids: readonly IntentBid[]): Leaderboard {
     brandCount: brands.size,
     rows,
   };
+}
+
+/** Highest unpaid listed or approved mark per panel. Not Raised. */
+export function highestPendingByPanel(
+  bids: readonly IntentBid[],
+): Map<string, PendingMark> {
+  const map = new Map<string, PendingMark>();
+  for (const bid of bids) {
+    if (!isPendingPublicBid(bid)) continue;
+    const current = map.get(bid.panelId);
+    if (!current || bid.standingUsd > current.standingUsd) {
+      map.set(bid.panelId, {
+        panelId: bid.panelId,
+        brandLabel: bid.brandLabel,
+        standingUsd: bid.standingUsd,
+      });
+    }
+  }
+  return map;
 }

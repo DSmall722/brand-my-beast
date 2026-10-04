@@ -103,10 +103,11 @@ test.describe("slice 19.3: seat lead standing only when a mark exists", () => {
     await page.getByTestId("intent-submit").click();
     await expect(page.getByTestId("intent-success")).toContainText("not charged");
     const lead = page.getByTestId("seat-lead");
-    await expect(lead).toHaveAttribute("data-has-standing", "true");
+    await expect(lead).toHaveAttribute("data-has-standing", "false");
     await expect(lead).not.toContainText("Current Bid");
     await expect(lead).not.toContainText("Current standing");
     await expect(page.getByTestId("panel-standing")).toHaveText("$2,500");
+    await expect(page.getByTestId("panel-pending")).toHaveText("$2,500");
   });
 
   test("homepage H1 is unchanged and Notify me stays", async ({ page }) => {

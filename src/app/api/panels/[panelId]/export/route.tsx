@@ -14,7 +14,7 @@ import {
   forbiddenDownload,
   unsignedDownload,
 } from "@/lib/download-auth";
-import { loadStandingHoldersByPanel } from "@/lib/intent-store";
+import { loadActiveMarkHoldersByPanel } from "@/lib/intent-store";
 import {
   seatExportFinishBadge,
   seatExportPngFilename,
@@ -49,7 +49,7 @@ export async function GET(_request: Request, context: RouteContext) {
     );
   }
 
-  const holders = await loadStandingHoldersByPanel();
+  const holders = await loadActiveMarkHoldersByPanel();
   const holder = holders.get(panel.id);
   const allowed = canDownloadSeatPng({
     email: session.user.email,

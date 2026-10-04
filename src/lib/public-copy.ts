@@ -404,6 +404,8 @@ export const PUBLIC_COPY = {
     magicLink:
       "Manage a bid with a one-time email link. No password. This form does not charge a card.",
     placeBid: "Place bid",
+    joinList: "Join the list",
+    pending: "Pending",
     yourBid: "Your bid",
     brandName: "Brand name",
     website: "Website (optional)",

@@ -54,7 +54,8 @@ test.describe("slice 7.8: robots + sitemap public surface only", () => {
     expect(body).toMatch(/Disallow:\s*\/account/);
     expect(body).toMatch(/Disallow:\s*\/signin/);
     expect(body).toMatch(/Disallow:\s*\/operator/);
-    expect(body).toContain("https://brandmybeast.com/sitemap.xml");
+    expect(body).toContain("https://www.brandmybeast.com/sitemap.xml");
+    expect(body).not.toContain("https://brandmybeast.com/sitemap.xml");
     expect(body.toLowerCase()).not.toMatch(/\blease\b/);
   });
 
@@ -64,10 +65,11 @@ test.describe("slice 7.8: robots + sitemap public surface only", () => {
     const res = await request.get("/sitemap.xml");
     expect(res.ok()).toBeTruthy();
     const body = await res.text();
-    expect(body).toContain("<loc>https://brandmybeast.com</loc>");
+    expect(body).toContain("<loc>https://www.brandmybeast.com</loc>");
+    expect(body).not.toContain("<loc>https://brandmybeast.com</loc>");
     for (const panel of PANELS) {
       expect(body).toContain(
-        `<loc>https://brandmybeast.com/panels/${panel.id}</loc>`,
+        `<loc>https://www.brandmybeast.com/panels/${panel.id}</loc>`,
       );
     }
     expect(body).not.toContain("/operator");

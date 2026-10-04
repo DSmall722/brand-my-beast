@@ -1,6 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Syne, IBM_Plex_Sans } from "next/font/google";
-import { BRAND } from "@/lib/campaign";
+import { BRAND, PUBLIC_SITE_ORIGIN } from "@/lib/campaign";
 import { PUBLIC_COPY } from "@/lib/public-copy";
 import "./globals.css";
 
@@ -25,15 +25,15 @@ export const viewport: Viewport = {
 export const metadata: Metadata = {
   title: PUBLIC_COPY.meta.title,
   description: PUBLIC_COPY.meta.description,
-  metadataBase: new URL(`https://${BRAND.domain}`),
+  metadataBase: new URL(PUBLIC_SITE_ORIGIN),
   alternates: {
-    canonical: `https://${BRAND.domain}`,
+    canonical: PUBLIC_SITE_ORIGIN,
   },
   applicationName: BRAND.name,
   openGraph: {
     title: BRAND.name,
     description: PUBLIC_COPY.meta.description,
-    url: `https://${BRAND.domain}`,
+    url: PUBLIC_SITE_ORIGIN,
     siteName: BRAND.name,
     type: "website",
     locale: "en_US",
