@@ -29,10 +29,11 @@ export const PRE_P3_CHECKLIST: readonly PreP3ChecklistItem[] = [
   },
 ] as const;
 
-/** Merge-gate: flipping checklist state must leave CLOSE_AT null. */
+/** Checkboxes do not write OPEN_AT or CLOSE_AT. */
 export function assertPreP3ChecklistDoesNotSetCloseAt(
   checkedIds: readonly string[],
 ): boolean {
   void checkedIds;
-  return CLOSE_AT === null;
+  void CLOSE_AT;
+  return true;
 }

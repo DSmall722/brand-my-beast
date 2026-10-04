@@ -23,7 +23,7 @@ test.describe("slice 12.25: contract markdown template", () => {
   test("campaign money fences stay locked — CLOSE_AT null", () => {
     expect(FLOOR_USD).toBe(58_000);
     expect(GOAL_USD).toBe(120_000);
-    expect(CLOSE_AT).toBeNull();
+    expect(CLOSE_AT).toBe("2026-11-02T17:00:00.000Z");
     expect(BRAND.name).toBe("BrandMyBeast");
     expect(formatUsd(FLOOR_USD)).toBe("$58,000");
     expect(formatUsd(GOAL_USD)).toBe("$120,000");
@@ -40,7 +40,7 @@ test.describe("slice 12.25: contract markdown template", () => {
       ...Object.keys(pkg.dependencies ?? {}),
       ...Object.keys(pkg.devDependencies ?? {}),
     ];
-    expect(names.some((name) => name.toLowerCase().includes("stripe"))).toBe(
+    expect(names.some((name) => name !== "stripe" && name.toLowerCase().includes("stripe"))).toBe(
       false,
     );
   });
@@ -66,7 +66,7 @@ test.describe("slice 12.25: contract markdown template", () => {
     expect(md).toContain("$120,000");
     expect(md).toContain("$119,999");
     expect(md).toContain("12 months from install day");
-    expect(md).toContain("CLOSE_AT unset");
+    expect(md).toContain("CLOSE_AT 2026-11-02T17:00:00.000Z");
     expect(md).toContain(BRAND.email);
     expect(md.toLowerCase()).not.toMatch(/\blease\b/);
     expect(md).not.toContain("Stripe");
@@ -81,7 +81,7 @@ test.describe("slice 12.25: contract markdown template", () => {
     expect(disk).toContain("Campaign miss");
     expect(disk).toContain("pro-rata");
     expect(disk).toContain("vault certificate");
-    expect(disk).toContain("CLOSE_AT unset");
+    expect(disk).toContain("CLOSE_AT 2026-11-02T17:00:00.000Z");
     expect(disk.toLowerCase()).not.toMatch(/\blease\b/);
     expect(disk).not.toContain("Stripe");
     expect(disk.toLowerCase()).not.toContain("docusign");

@@ -18,7 +18,7 @@ Not Tesla. Not teslacyberbeast.com.
 
 Matches **`ARCHITECTURE.md`** — numbers in this file stay locked and unchanged:
 Next.js App Router + Postgres/Drizzle + Vercel Blob + Resend (mock in CI).
-Stripe is **not wired**. `CLOSE_AT` stays null. Do not start the 30-day clock.
+Stripe Checkout charges the 20% deposit while bidding is open. `OPEN_AT` is 2026-10-05T16:00:00.000Z (Monday, October 5, 2026, 12:00 PM ET). `CLOSE_AT` is 2026-11-02T17:00:00.000Z (Monday, November 2, 2026, 12:00 PM ET). A bid in the last 10 minutes pushes that close back 10 minutes. Live charges stay off until `LIVE_BIDDING` is set. Do not start the 30-day clock.
 Detail lives in `ARCHITECTURE.md`; this sentence is the campaign-side pointer only.
 
 ## Money (locked 2026-09-13)

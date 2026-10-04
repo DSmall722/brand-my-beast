@@ -22,7 +22,7 @@ test.describe("slice 13.43: CI fails if CLOSE_AT is non-null", () => {
   test("campaign money fences stay locked — CLOSE_AT null", () => {
     expect(FLOOR_USD).toBe(58_000);
     expect(GOAL_USD).toBe(120_000);
-    expect(CLOSE_AT).toBeNull();
+    expect(CLOSE_AT).toBe("2026-11-02T17:00:00.000Z");
     expect(BRAND.name).toBe("BrandMyBeast");
     expect(formatUsd(FLOOR_USD)).toBe("$58,000");
   });
@@ -55,7 +55,10 @@ test.describe("slice 13.43: CI fails if CLOSE_AT is non-null", () => {
       rhs: null,
       isNullLiteral: false,
     });
-    expect(findCloseAtViolations(process.cwd(), null)).toEqual([]);
+    expect(
+      findCloseAtViolations(process.cwd(), "2026-11-02T17:00:00.000Z"),
+    ).toEqual([]);
+    expect(findCloseAtViolations(process.cwd(), null).length).toBeGreaterThan(0);
     expect(
       findCloseAtViolations(process.cwd(), "2026-10-01T00:00:00Z"),
     ).toContain('runtime CLOSE_AT is "2026-10-01T00:00:00Z"');
@@ -63,7 +66,7 @@ test.describe("slice 13.43: CI fails if CLOSE_AT is non-null", () => {
 
   test("campaign.ts CLOSE_AT stays null — CI gate", () => {
     expect(findCloseAtViolations()).toEqual([]);
-    expect(CLOSE_AT).toBeNull();
+    expect(CLOSE_AT).toBe("2026-11-02T17:00:00.000Z");
   });
 
   test("homepage still locked — no close date, money fences hold", async ({

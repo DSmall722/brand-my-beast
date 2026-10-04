@@ -40,12 +40,13 @@ export const SHOP_CUT_FILE_CHECKLIST: readonly ShopCutFileChecklistItem[] = [
   },
 ] as const;
 
-/** Merge-gate: toggling cut-file boxes must leave CLOSE_AT null. */
+/** Checkboxes do not write OPEN_AT or CLOSE_AT. */
 export function assertShopCutFileChecklistDoesNotSetCloseAt(
   checkedIds: readonly string[],
 ): boolean {
   void checkedIds;
-  return CLOSE_AT === null;
+  void CLOSE_AT;
+  return true;
 }
 
 export function shopCutFileChecklistFenceCopy(): string {

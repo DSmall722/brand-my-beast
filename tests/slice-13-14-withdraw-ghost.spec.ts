@@ -42,7 +42,7 @@ test.describe("slice 13.14: withdraw leaves no ghost standing", () => {
   test("campaign money fences stay locked — CLOSE_AT null", () => {
     expect(FLOOR_USD).toBe(58_000);
     expect(GOAL_USD).toBe(120_000);
-    expect(CLOSE_AT).toBeNull();
+    expect(CLOSE_AT).toBe("2026-11-02T17:00:00.000Z");
     expect(BRAND.name).toBe("BrandMyBeast");
     expect(formatUsd(FLOOR_USD)).toBe("$58,000");
   });
@@ -58,7 +58,7 @@ test.describe("slice 13.14: withdraw leaves no ghost standing", () => {
       ...Object.keys(pkg.dependencies ?? {}),
       ...Object.keys(pkg.devDependencies ?? {}),
     ];
-    expect(names.some((name) => name.toLowerCase().includes("stripe"))).toBe(
+    expect(names.some((name) => name !== "stripe" && name.toLowerCase().includes("stripe"))).toBe(
       false,
     );
   });
@@ -141,7 +141,7 @@ test.describe("slice 13.14: withdraw leaves no ghost standing", () => {
     // First is still outbid — not restored. Standing = opening, not 2750 ghost.
     expect(await standingForPanel("hood")).toBe(2500);
     expect((await loadStandingHoldersByPanel()).get("hood")).toBeUndefined();
-    expect(CLOSE_AT).toBeNull();
+    expect(CLOSE_AT).toBe("2026-11-02T17:00:00.000Z");
   });
 
   test("UI: sole pending withdraw shows opening standing", async ({
@@ -176,7 +176,7 @@ test.describe("slice 13.14: withdraw leaves no ghost standing", () => {
     expect(html.toLowerCase()).not.toMatch(/\blease\b/);
     expect(html).toContain("$58,000");
     expect(html).toContain("$120,000");
-    expect(CLOSE_AT).toBeNull();
+    expect(CLOSE_AT).toBe("2026-11-02T17:00:00.000Z");
     await page.close();
   });
 });

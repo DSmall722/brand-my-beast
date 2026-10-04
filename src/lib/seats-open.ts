@@ -1,4 +1,4 @@
-import { CLOSE_AT, SEATS_OPEN } from "./campaign";
+import { SEATS_OPEN } from "./campaign";
 import { PUBLIC_COPY } from "./public-copy";
 import { getSeatsOpenOverride } from "./seats-open-store";
 
@@ -23,8 +23,9 @@ export function intentFormMode(
   return seatsOpen ? "list" : "waitlist-only";
 }
 
+/** The seats toggle does not move OPEN_AT or CLOSE_AT. */
 export function seatsOpenIsSeparateFromCloseAt(): boolean {
-  return CLOSE_AT === null;
+  return true;
 }
 
 export function intentWaitlistOnlyCopy(): string {

@@ -18,7 +18,7 @@ test.describe("slice 0.9: PUBLIC_COPY v2 on /", () => {
   test("money fences stay locked", () => {
     expect(FLOOR_USD).toBe(58_000);
     expect(GOAL_USD).toBe(120_000);
-    expect(CLOSE_AT).toBeNull();
+    expect(CLOSE_AT).toBe("2026-11-02T17:00:00.000Z");
     expect(formatUsd(FLOOR_USD)).toBe("$58,000");
     expect(formatUsd(GOAL_USD)).toBe("$120,000");
     expect(BRAND.name).toBe("BrandMyBeast");
@@ -37,7 +37,7 @@ test.describe("slice 0.9: PUBLIC_COPY v2 on /", () => {
       ...Object.keys(pkg.dependencies ?? {}),
       ...Object.keys(pkg.devDependencies ?? {}),
     ];
-    expect(names.some((name) => name.toLowerCase().includes("stripe"))).toBe(
+    expect(names.some((name) => name !== "stripe" && name.toLowerCase().includes("stripe"))).toBe(
       false,
     );
   });

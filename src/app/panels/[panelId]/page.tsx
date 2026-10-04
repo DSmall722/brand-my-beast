@@ -10,6 +10,8 @@ import { TruckViewHotspots } from "@/components/TruckViewHotspots";
 import { SiteChrome } from "@/components/SiteChrome";
 import { auth } from "@/lib/auth";
 import { bidDeskMode, buildDayByDay } from "@/lib/bid-desk";
+import { resolveCampaignWindowSentence } from "@/lib/campaign-clock";
+import { settleIfCampaignClosed } from "@/lib/deposit-flow";
 import type { BidPanelQuote } from "@/lib/bid-desk";
 import {
   BRAND,
@@ -92,6 +94,7 @@ export default async function PanelIntentPage({
   const { panelId } = await params;
   const panel = PANELS.find((row) => row.id === panelId);
   if (!panel) notFound();
+  await settleIfCampaignClosed();
 
   const boardMark = panelBoardMarkFor(panel.id);
   const session = await auth();
@@ -182,6 +185,9 @@ export default async function PanelIntentPage({
         <h1 data-testid="panel-seat-h1" data-panel-n={String(boardMark.n)}>
           {panelSeatH1(panel)}
         </h1>
+        <p className="auth-hint" data-testid="campaign-window">
+          {resolveCampaignWindowSentence(ledger.map((bid) => bid.createdAt))}
+        </p>
         <p
           className="section-lead"
           data-testid="seat-lead"
@@ -320,7 +326,7 @@ export default async function PanelIntentPage({
         ) : seatsOpen ? (
           <SeatBidDesk
             quotes={quotes}
-            mode={bidDeskMode(CLOSE_AT)}
+            mode={bidDeskMode(CLOSE_AT, ledger.map((bid) => bid.createdAt))}
             panelId={panel.id}
           />
         ) : (

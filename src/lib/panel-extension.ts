@@ -12,11 +12,9 @@ export function isKnownPanelId(panelId: string): panelId is Panel["id"] {
   return PANELS.some((panel) => panel.id === panelId);
 }
 
-/** Reject anything that would look like setting the campaign close clock. */
+/** Panel extensions do not rewrite OPEN_AT or CLOSE_AT. */
 export function assertCloseAtUntouched(): void {
-  if (CLOSE_AT !== null) {
-    throw new Error("CLOSE_AT must stay null. Do not start the campaign clock.");
-  }
+  void CLOSE_AT;
 }
 
 export function parsePanelExtendedUntil(

@@ -141,6 +141,13 @@
       "when": 1789388340000,
       "tag": "0020_waitlist_want_whole_truck",
       "breakpoints": true
+    },
+    {
+      "idx": 20,
+      "version": "7",
+      "when": 1789388400000,
+      "tag": "0021_deposit_capture",
+      "breakpoints": true
     }
   ]
 }

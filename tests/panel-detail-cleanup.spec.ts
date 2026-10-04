@@ -73,12 +73,14 @@ test.describe("panel detail cleanup", () => {
       "What if someone outbids me?",
     );
     await expect(faq.locator("dd")).toContainText(
-      "The 20% is an authorization, not a captured charge",
+      "The deposit you paid is refunded after the board closes",
     );
     await expect(page.getByTestId("faq-campaign-miss")).toContainText(
       "Every hold is released",
     );
-    await expect(page.getByTestId("faq-close-date")).toContainText("TBD");
+    await expect(page.getByTestId("faq-close-date")).toContainText(
+      "Monday, November 2, 2026 at 12:00 PM ET",
+    );
 
     const html = await page.content();
     expect(html).toContain("$58,000");

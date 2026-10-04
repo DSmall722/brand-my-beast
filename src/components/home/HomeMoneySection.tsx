@@ -14,6 +14,7 @@ type HomeMoneySectionProps = {
   floorMarkerPct: number;
   floorPct: number;
   closeCopy: string;
+  windowSentence: string;
   shortfallFloor: number;
   shortfallGoal: number;
   openSeats: number;
@@ -35,6 +36,7 @@ export function HomeMoneySection({
   floorMarkerPct,
   floorPct,
   closeCopy,
+  windowSentence,
   shortfallFloor,
   shortfallGoal,
   openSeats,
@@ -49,6 +51,9 @@ export function HomeMoneySection({
           aria-labelledby="money-title"
         >
           <h2 id="money-title">{PUBLIC_COPY.board.heading}</h2>
+          <p className="hint" data-testid="campaign-window">
+            {windowSentence}
+          </p>
           <div className="money-grid">
             <div className="money-cell">
               <div className="label" data-testid="raised-label">

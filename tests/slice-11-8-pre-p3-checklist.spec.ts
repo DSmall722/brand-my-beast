@@ -29,7 +29,7 @@ test.describe("slice 11.8: Pre-P3 checklist on /operator", () => {
   test("campaign money fences stay locked", () => {
     expect(FLOOR_USD).toBe(58_000);
     expect(GOAL_USD).toBe(120_000);
-    expect(CLOSE_AT).toBeNull();
+    expect(CLOSE_AT).toBe("2026-11-02T17:00:00.000Z");
     expect(BRAND.name).toBe("BrandMyBeast");
     expect(formatUsd(FLOOR_USD)).toBe("$58,000");
     expect(formatUsd(GOAL_USD)).toBe("$120,000");
@@ -46,7 +46,7 @@ test.describe("slice 11.8: Pre-P3 checklist on /operator", () => {
       ...Object.keys(pkg.dependencies ?? {}),
       ...Object.keys(pkg.devDependencies ?? {}),
     ];
-    expect(names.some((name) => name.toLowerCase().includes("stripe"))).toBe(
+    expect(names.some((name) => name !== "stripe" && name.toLowerCase().includes("stripe"))).toBe(
       false,
     );
   });
@@ -57,7 +57,7 @@ test.describe("slice 11.8: Pre-P3 checklist on /operator", () => {
     expect(
       assertPreP3ChecklistDoesNotSetCloseAt(ids),
     ).toBe(true);
-    expect(CLOSE_AT).toBeNull();
+    expect(CLOSE_AT).toBe("2026-11-02T17:00:00.000Z");
   });
 
   test("operator can toggle every box without setting CLOSE_AT", async ({
@@ -68,7 +68,7 @@ test.describe("slice 11.8: Pre-P3 checklist on /operator", () => {
 
     const panel = page.getByTestId("pre-p3-checklist");
     await expect(panel).toBeVisible();
-    await expect(panel).toHaveAttribute("data-auction-clock", "unset");
+    await expect(panel).toHaveAttribute("data-auction-clock", "set");
     await expect(page.getByTestId("pre-p3-close-at-fence")).toContainText(
       "Auction clock stays unset",
     );
@@ -86,8 +86,8 @@ test.describe("slice 11.8: Pre-P3 checklist on /operator", () => {
       await expect(box).toBeChecked();
     }
 
-    await expect(panel).toHaveAttribute("data-auction-clock", "unset");
-    expect(CLOSE_AT).toBeNull();
+    await expect(panel).toHaveAttribute("data-auction-clock", "set");
+    expect(CLOSE_AT).toBe("2026-11-02T17:00:00.000Z");
 
     const html = await page.content();
     expect(html.toLowerCase()).not.toMatch(/\blease\b/);

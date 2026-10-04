@@ -191,12 +191,12 @@ export const PUBLIC_COPY = {
       },
       {
         q: "How does payment work?",
-        a: "Twenty percent holds your bid on the card. The rest is charged if you win the panel and the campaign hits $58,000. Get outbid, or miss that floor, and the hold comes back.",
+        a: "Twenty percent of your bid is charged when you place it. That deposit is what makes a bid standing. Bid again on the same seat and deposits you already paid count toward the new one. Outbid deposits are refunded after the board closes. Miss $58,000 and every deposit is refunded. A winner's deposit is credited to the invoice. If the winner does not pay the rest within 7 days, the deposit is forfeited and the seat goes to the next bidder.",
       },
       {
         id: "outbid",
         q: "What if someone outbids me?",
-        a: "You’re off that panel. The 20% is an authorization, not a captured charge — it releases back to the same card. Most banks drop the pending line in a few days. You can bid again on another seat, or come back at the new number.",
+        a: "You’re off that panel. The deposit you paid is refunded after the board closes. You can bid again on another seat, or come back at the new number on this one. A new bid on the same seat counts deposits you already paid.",
       },
       {
         q: "Can I take more than one panel?",
@@ -217,12 +217,12 @@ export const PUBLIC_COPY = {
       {
         id: "campaign-miss",
         q: "What if the $58,000 floor is missed?",
-        a: "Every hold is released. Nobody is charged.",
+        a: "Every hold is released. Nobody is charged. Every deposit is refunded. No order. No wrap. No Immortal Etch.",
       },
       {
         id: "close-date",
         q: "When does this close?",
-        a: "TBD.",
+        a: "Bidding opens Monday, October 5, 2026 at 12:00 PM ET and closes Monday, November 2, 2026 at 12:00 PM ET. A bid in the last 10 minutes pushes the close back 10 minutes.",
       },
       {
         q: "Where does the truck actually run?",
@@ -403,6 +403,13 @@ export const PUBLIC_COPY = {
       "The operator approves artwork before it can run. Signing in does not put a logo on the truck.",
     magicLink:
       "Manage a bid with a one-time email link. No password. This form does not charge a card.",
+    depositChargeTemplate:
+      "{percent}% of this mark is {amount}. Charged when you place the bid.",
+    depositMagicLink:
+      "A one-time email link manages the bid after the deposit is paid. No password.",
+    coveredResult:
+      "Earlier deposits on this seat cover this bid. It counts on the board.",
+    trade: "Trade",
     placeBid: "Place bid",
     joinList: "Join the list",
     pending: "Pending",

@@ -24,7 +24,7 @@ test.describe("slice 14.5: CAMPAIGN current-stack matches ARCHITECTURE", () => {
   test("campaign money fences stay locked — CLOSE_AT null", () => {
     expect(FLOOR_USD).toBe(58_000);
     expect(GOAL_USD).toBe(120_000);
-    expect(CLOSE_AT).toBeNull();
+    expect(CLOSE_AT).toBe("2026-11-02T17:00:00.000Z");
     expect(findCloseAtViolations()).toEqual([]);
     expect(BRAND.name).toBe("BrandMyBeast");
     expect(formatUsd(FLOOR_USD)).toBe("$58,000");
@@ -52,8 +52,8 @@ test.describe("slice 14.5: CAMPAIGN current-stack matches ARCHITECTURE", () => {
     expect(campaign).toMatch(/Postgres/);
     expect(campaign).toMatch(/Blob/);
     expect(campaign).toMatch(/Resend/);
-    expect(campaign).toMatch(/Stripe is \*\*not wired\*\*/);
-    expect(campaign).toMatch(/CLOSE_AT[`\s]*stays null/);
+    expect(campaign).toMatch(/Stripe Checkout charges the 20% deposit/);
+    expect(campaign).toMatch(/2026-11-02T17:00:00\.000Z/);
     expect(campaign).toMatch(/Do not start the 30-day clock/);
 
     // Money table still the only thresholds — unchanged.

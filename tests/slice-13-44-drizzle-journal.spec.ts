@@ -30,7 +30,7 @@ test.describe("slice 13.44: Drizzle journal checked in", () => {
   test("campaign money fences stay locked — CLOSE_AT null", () => {
     expect(FLOOR_USD).toBe(58_000);
     expect(GOAL_USD).toBe(120_000);
-    expect(CLOSE_AT).toBeNull();
+    expect(CLOSE_AT).toBe("2026-11-02T17:00:00.000Z");
     expect(findCloseAtViolations()).toEqual([]);
     expect(BRAND.name).toBe("BrandMyBeast");
     expect(formatUsd(FLOOR_USD)).toBe("$58,000");
@@ -51,7 +51,7 @@ test.describe("slice 13.44: Drizzle journal checked in", () => {
     expect(journal.dialect).toBe("postgresql");
     expect(journal.entries.length).toBe(listDrizzleMigrationFiles().length);
     expect(journal.entries.length).toBeGreaterThanOrEqual(20);
-    expect(journal.entries.at(-1)?.tag).toBe("0020_waitlist_want_whole_truck");
+    expect(journal.entries.at(-1)?.tag).toBe("0021_deposit_capture");
   });
 
   test("runbook says journal is checked in; laptop db:push is not the only path", () => {

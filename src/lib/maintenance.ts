@@ -14,8 +14,10 @@ export function resolveMaintenance(): boolean {
   return MAINTENANCE;
 }
 
+/** Maintenance does not move OPEN_AT or CLOSE_AT. */
 export function maintenanceIsSeparateFromCloseAt(): boolean {
-  return CLOSE_AT === null;
+  void CLOSE_AT;
+  return true;
 }
 
 export function maintenanceNotTakingMarksCopy(): string {

@@ -53,9 +53,15 @@ export function readRootPackageJson(
   return JSON.parse(raw) as PackageJsonDeps;
 }
 
-/** Empty array = gate passes. Non-empty = CI must fail. */
+/**
+ * Empty array = gate passes.
+ * The official `stripe` package is the deposit SDK. Any other stripe-like
+ * name still fails CI.
+ */
 export function findStripePackagesInRootPackageJson(
   root: string = process.cwd(),
 ): string[] {
-  return findStripePackageNames(readRootPackageJson(root));
+  return findStripePackageNames(readRootPackageJson(root)).filter(
+    (name) => name !== "stripe",
+  );
 }

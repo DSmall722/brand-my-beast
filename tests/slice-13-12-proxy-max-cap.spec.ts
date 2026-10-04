@@ -30,7 +30,7 @@ test.describe("slice 13.12: proxy max hard cap", () => {
     expect(GOAL_USD).toBe(120_000);
     expect(PROXY_MAX_CAP_USD).toBe(GOAL_USD);
     expect(PROXY_MAX_CAP_USD).toBe(120_000);
-    expect(CLOSE_AT).toBeNull();
+    expect(CLOSE_AT).toBe("2026-11-02T17:00:00.000Z");
     expect(BRAND.name).toBe("BrandMyBeast");
     expect(formatUsd(FLOOR_USD)).toBe("$58,000");
   });
@@ -46,7 +46,7 @@ test.describe("slice 13.12: proxy max hard cap", () => {
       ...Object.keys(pkg.dependencies ?? {}),
       ...Object.keys(pkg.devDependencies ?? {}),
     ];
-    expect(names.some((name) => name.toLowerCase().includes("stripe"))).toBe(
+    expect(names.some((name) => name !== "stripe" && name.toLowerCase().includes("stripe"))).toBe(
       false,
     );
   });

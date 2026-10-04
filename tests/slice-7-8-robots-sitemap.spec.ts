@@ -18,7 +18,7 @@ test.describe("slice 7.8: robots + sitemap public surface only", () => {
   test("campaign money fences stay locked", () => {
     expect(FLOOR_USD).toBe(58_000);
     expect(GOAL_USD).toBe(120_000);
-    expect(CLOSE_AT).toBeNull();
+    expect(CLOSE_AT).toBe("2026-11-02T17:00:00.000Z");
     expect(BRAND.name).toBe("BrandMyBeast");
     expect(BRAND.domain).toBe("brandmybeast.com");
     expect(formatUsd(FLOOR_USD)).toBe("$58,000");
@@ -37,7 +37,7 @@ test.describe("slice 7.8: robots + sitemap public surface only", () => {
       ...Object.keys(pkg.dependencies ?? {}),
       ...Object.keys(pkg.devDependencies ?? {}),
     ];
-    expect(names.some((name) => name.toLowerCase().includes("stripe"))).toBe(
+    expect(names.some((name) => name !== "stripe" && name.toLowerCase().includes("stripe"))).toBe(
       false,
     );
   });
