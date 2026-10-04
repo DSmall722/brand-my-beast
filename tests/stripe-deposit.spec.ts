@@ -179,7 +179,7 @@ test.describe("stripe deposit and campaign window", () => {
 
     await page.goto("/");
     await expect(page.getByTestId("raised-amount")).toHaveText("$0");
-    await expect(page.getByTestId("panel-card-hood")).toContainText("Pending");
+    await expect(page.getByTestId("panel-pending-hood")).toContainText("Pending");
     await expect(page.getByTestId("auction-top")).not.toContainText("Too Early");
 
     const event = {
@@ -212,7 +212,7 @@ test.describe("stripe deposit and campaign window", () => {
     await page.goto("/");
     await expect(page.getByTestId("raised-amount")).toHaveText("$2,500");
     await expect(page.getByTestId("auction-top")).toContainText("Too Early");
-    await expect(page.getByTestId("panel-card-hood")).not.toContainText("Pending");
+    await expect(page.getByTestId("panel-pending-hood")).toHaveCount(0);
 
     const rebid = await request.post("/api/bid", {
       data: {
