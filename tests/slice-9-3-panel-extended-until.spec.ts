@@ -146,7 +146,7 @@ test.describe("slice 9.3: panelExtendedUntil", () => {
     };
     expect(body.ok).toBe(true);
     expect(body.panelExtendedUntil).toBe(until);
-    expect(body.closeAt).toBeNull();
+    expect(body.closeAt).toBe("2026-11-02T17:00:00.000Z");
     expect(CLOSE_AT).toBe("2026-11-02T17:00:00.000Z");
 
     await page.goto("/panels/hood");

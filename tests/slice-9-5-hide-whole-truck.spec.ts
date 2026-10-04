@@ -88,7 +88,7 @@ test.describe("slice 9.5: hide whole-truck at buyout", () => {
     expect(body.ok).toBe(true);
     expect(body.pledgedUsd).toBe(GOAL_USD);
     expect(body.wholeTruckOpen).toBe(false);
-    expect(body.closeAt).toBeNull();
+    expect(body.closeAt).toBe("2026-11-02T17:00:00.000Z");
     expect(CLOSE_AT).toBe("2026-11-02T17:00:00.000Z");
 
     await page.goto("/#money");

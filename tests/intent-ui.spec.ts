@@ -718,7 +718,7 @@ test.describe("P2 panel intent + approvals", () => {
       "$120,000",
     );
     await expect(operator.getByTestId("operator-lock-close")).toHaveText(
-      "unset",
+      "2026-11-02T17:00:00.000Z",
     );
     await expect(
       operator.locator(
