@@ -57,7 +57,8 @@ test.describe("slice 14.6: RULES intent status table", () => {
     expect(text).toMatch(/listed/); // pending maps to ledger listed
     expect(text).toContain("$58,000");
     expect(text).toContain("$120,000");
-    expect(text).toMatch(/CLOSE_AT/);
+    expect(text).toContain("Mon Nov 2, 2026, 12:00 PM ET");
+    expect(text).toMatch(/last 10 minutes/);
     expect(text).toMatch(/No Stripe|intent-only/i);
     expect(text.toLowerCase()).not.toContain("gmail.com");
   });
