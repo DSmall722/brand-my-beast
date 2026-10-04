@@ -182,8 +182,7 @@ test.describe("slice 12.16: account delete anonymize user id", () => {
 
     await page.goto("/panels/hood");
     await expect(page.getByTestId("panel-standing")).toHaveText("$2,500");
-    await expect(page.getByTestId("public-standing-brand")).toHaveText(
-      "DeleteUiCo",
-    );
+    await expect(page.getByTestId("public-standing-brand")).toHaveCount(0);
+    await expect(page.getByTestId("intent-list")).toContainText("DeleteUiCo");
   });
 });

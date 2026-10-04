@@ -146,7 +146,8 @@ test.describe("slice 9.8: edit pending brand / trade / art", () => {
     );
 
     await page.goto("/panels/hood");
-    await expect(page.getByTestId("panel-standing")).toHaveText("$3,000");
+    await expect(page.getByTestId("panel-standing")).toHaveText("$2,500");
+    await expect(page.getByTestId("panel-pending")).toHaveText("$3,000");
     await expect(page.getByTestId("intent-list")).toContainText("Edit UI New");
     const html = await page.content();
     expect(html.toLowerCase()).not.toMatch(/\blease\b/);

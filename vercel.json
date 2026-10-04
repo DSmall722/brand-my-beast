@@ -3,7 +3,8 @@
   "git": {
     "deploymentEnabled": {
       "*": false,
-      "main": true
+      "main": true,
+      "cursor/qa-sweep-oct4-7fb6": true
     }
   }
 }

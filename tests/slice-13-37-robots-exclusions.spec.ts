@@ -73,7 +73,7 @@ test.describe("slice 13.37: robots.txt excludes account signin operator", () => 
     expect(body).toMatch(/Disallow:\s*\/account/);
     expect(body).toMatch(/Disallow:\s*\/signin/);
     expect(body).toMatch(/Disallow:\s*\/operator/);
-    expect(body).toContain("https://brandmybeast.com/sitemap.xml");
+    expect(body).toContain("https://www.brandmybeast.com/sitemap.xml");
     expect(body.toLowerCase()).not.toMatch(/\blease\b/);
     expect(body).not.toContain("CLOSE_AT");
     expect(body).not.toMatch(/stripe/i);

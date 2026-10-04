@@ -61,7 +61,7 @@ test.describe("slice 16.34: robots.txt hold comment", () => {
     expect(body).toMatch(/Disallow:\s*\/account/);
     expect(body).toMatch(/Disallow:\s*\/signin/);
     expect(body).toMatch(/Disallow:\s*\/operator/);
-    expect(body).toContain("https://brandmybeast.com/sitemap.xml");
+    expect(body).toContain("https://www.brandmybeast.com/sitemap.xml");
     expect(body.toLowerCase()).not.toMatch(/\blease\b/);
     expect(body).not.toContain("CLOSE_AT");
     expect(body).not.toMatch(/stripe/i);

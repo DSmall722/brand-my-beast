@@ -135,14 +135,86 @@ function BidModal({
           </p>
         ) : null}
 
-        <BidModalForm
-          key={quote.id}
-          quote={quote}
-          quotes={quotes}
-          mode={mode}
-          onPanelId={onPanelId}
-          onClose={onClose}
-        />
+        {mode.kind === "closed" ? (
+          <ClosedBidNotice
+            quote={quote}
+            quotes={quotes}
+            onPanelId={onPanelId}
+            onClose={onClose}
+          />
+        ) : (
+          <BidModalForm
+            key={quote.id}
+            quote={quote}
+            quotes={quotes}
+            mode={mode}
+            onPanelId={onPanelId}
+            onClose={onClose}
+          />
+        )}
+      </div>
+    </div>
+  );
+}
+
+function ClosedBidNotice({
+  quote,
+  quotes,
+  onPanelId,
+  onClose,
+}: {
+  quote: BidPanelQuote;
+  quotes: readonly BidPanelQuote[];
+  onPanelId: (panelId: string) => void;
+  onClose: () => void;
+}) {
+  const copy = PUBLIC_COPY.bidDesk;
+  return (
+    <div className="bid-modal-form" data-testid="bid-modal-closed-fields">
+      <label className="auth-label" htmlFor="bid-panel">
+        {copy.panel}
+      </label>
+      <select
+        id="bid-panel"
+        className="auth-input"
+        data-testid="bid-modal-panel"
+        value={quote.id}
+        onChange={(event) => onPanelId(event.target.value)}
+      >
+        {quotes.map((row) => (
+          <option key={row.id} value={row.id}>
+            {row.name}
+          </option>
+        ))}
+      </select>
+      <dl className="bid-modal-money">
+        <div>
+          <dt>{copy.currentBid}</dt>
+          <dd data-testid="bid-modal-current">{formatUsd(quote.currentBidUsd)}</dd>
+        </div>
+        <div>
+          <dt>{copy.minimumBid}</dt>
+          <dd data-testid="bid-modal-minimum">
+            {formatUsd(quote.minimumBidUsd)}
+          </dd>
+        </div>
+      </dl>
+      <div className="bid-modal-actions">
+        <a
+          className="btn btn-signal"
+          href="/#contactus"
+          data-testid="bid-modal-join"
+          onClick={onClose}
+        >
+          {copy.joinList}
+        </a>
+        <Link
+          className="nav-link"
+          href={`/panels/${quote.id}`}
+          data-testid="bid-modal-seat-link"
+        >
+          {copy.viewSeat}
+        </Link>
       </div>
     </div>
   );
@@ -312,7 +384,7 @@ function BidModalForm({
         >
           {copy.placeBid}
         </button>
-        <a className="btn btn-panel" href="#contactus" onClick={onClose}>
+        <a className="btn btn-panel" href="/#contactus" onClick={onClose}>
           {copy.contact}
         </a>
         <Link

@@ -58,7 +58,7 @@ test.describe("slice 9.2: seat next minimum", () => {
     await page.goto("/panels/hood");
     await expect(page.getByTestId("panel-standing")).toHaveText("$2,500");
     await expect(page.getByTestId("panel-minimum")).toHaveText("$2,500");
-    await expect(page.getByTestId("panel-increment")).toHaveText("—");
+    await expect(page.getByTestId("panel-increment")).toHaveCount(0);
     await expect(page.getByTestId("panel-stats")).toHaveAttribute(
       "data-seat-open",
       "true",
@@ -143,7 +143,8 @@ test.describe("slice 9.2: seat next minimum", () => {
 
     expect(minIncrementUsd(3000)).toBe(300);
     expect(nextStandingUsd(3000)).toBe(3300);
-    await expect(page.getByTestId("panel-standing")).toHaveText("$3,000");
+    await expect(page.getByTestId("panel-standing")).toHaveText("$2,500");
+    await expect(page.getByTestId("panel-pending")).toHaveText("$3,000");
     await expect(page.getByTestId("panel-increment")).toHaveText("$300");
     await expect(page.getByTestId("panel-minimum")).toHaveText("$3,300");
     await expect(page.getByTestId("seat-next-minimum-rule")).toHaveCount(0);

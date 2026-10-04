@@ -122,7 +122,8 @@ test.describe("slice 9.7: withdraw pending intent", () => {
       "not charged",
       { timeout: 10_000 },
     );
-    await expect(page.getByTestId("panel-standing")).toHaveText("$3,000");
+    await expect(page.getByTestId("panel-standing")).toHaveText("$2,500");
+    await expect(page.getByTestId("panel-pending")).toHaveText("$3,000");
 
     await page.goto("/account");
     const row = page.locator('[data-testid^="account-intent-"]').first();
@@ -142,6 +143,7 @@ test.describe("slice 9.7: withdraw pending intent", () => {
 
     await page.goto("/panels/hood");
     await expect(page.getByTestId("panel-standing")).toHaveText("$2,500");
+    await expect(page.getByTestId("panel-pending")).toHaveCount(0);
     const html = await page.content();
     expect(html.toLowerCase()).not.toMatch(/\blease\b/);
     expect(html).not.toContain("CLOSE_AT");

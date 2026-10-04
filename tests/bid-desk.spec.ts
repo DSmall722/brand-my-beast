@@ -108,6 +108,7 @@ test.describe("bid desk: modal, hidden sign-in, unpaid, day by day", () => {
         status: "approved",
         createdAt: "2026-09-02T16:00:00.000Z",
         brandLabel: "Hood Brand",
+        depositPaidAt: "2026-09-02T16:00:00.000Z",
       }),
       mark({
         id: "hood-listed",
@@ -124,6 +125,7 @@ test.describe("bid desk: modal, hidden sign-in, unpaid, day by day", () => {
         status: "approved",
         createdAt: "2026-09-01T16:00:00.000Z",
         brandLabel: "Tail Brand",
+        depositPaidAt: "2026-09-01T16:00:00.000Z",
       }),
       mark({
         id: "tail-old",
@@ -151,6 +153,11 @@ test.describe("bid desk: modal, hidden sign-in, unpaid, day by day", () => {
     ];
     const days = buildDayByDay(live);
     expect(days.source).toBe("live");
+    const unpaid = live.map((bid) => ({ ...bid, depositPaidAt: null }));
+    const unpaidDays = buildDayByDay(unpaid);
+    expect(
+      unpaidDays.days.reduce((sum, day) => sum + day.standingUsd, 0),
+    ).toBe(0);
     const standingSum = days.days.reduce((sum, day) => sum + day.standingUsd, 0);
     expect(standingSum).toBe(4000);
     expect(days.days[0]?.dayKey).toBe("2026-09-02");
@@ -260,9 +267,11 @@ test.describe("bid desk: modal, hidden sign-in, unpaid, day by day", () => {
     await expect(history).toHaveAttribute("data-source", "sample");
     await expect(history).toHaveAttribute("data-empty", "false");
     await expect(history.getByRole("heading", { name: "Day by day" })).toBeVisible();
-    await expect(history.getByTestId("day-by-day-lead")).toHaveCount(0);
-    await expect(history).not.toContainText("Sample history");
-    await expect(history).not.toContainText("No live bids yet");
+    await expect(history.getByTestId("day-by-day-lead")).toHaveText(
+      PUBLIC_COPY.bidDesk.daySampleLead,
+    );
+    await expect(history).toContainText("Sample history");
+    await expect(history).toContainText("not pledged");
     await expect(history.getByTestId("day-by-day-sample-standing")).toContainText(
       "2 Sep",
     );
@@ -323,15 +332,17 @@ test.describe("bid desk: modal, hidden sign-in, unpaid, day by day", () => {
     await expect(page.getByTestId("bid-modal-panel")).toHaveValue("hood");
     await expect(page.getByTestId("bid-modal-current")).toHaveText("$2,500");
     await expect(page.getByTestId("bid-modal-minimum")).toHaveText("$2,500");
-    await expect(page.getByTestId("bid-modal-amount")).toBeVisible();
-    await expect(page.getByTestId("bid-modal-brand")).toBeVisible();
-    await expect(page.getByTestId("bid-modal-email")).toBeVisible();
-    await expect(page.getByTestId("bid-modal-logo")).toBeVisible();
-    await expect(page.getByTestId("bid-modal-website")).toBeVisible();
-    await expect(page.getByTestId("bid-modal-artwork")).toContainText(
-      "operator approves artwork",
-    );
+    await expect(page.getByTestId("bid-modal-amount")).toHaveCount(0);
+    await expect(page.getByTestId("bid-modal-brand")).toHaveCount(0);
+    await expect(page.getByTestId("bid-modal-email")).toHaveCount(0);
+    await expect(page.getByTestId("bid-modal-logo")).toHaveCount(0);
+    await expect(page.getByTestId("bid-modal-website")).toHaveCount(0);
+    await expect(page.getByTestId("bid-modal-submit")).toHaveCount(0);
     await expect(page.getByTestId("bid-modal-closed")).toBeVisible();
+    await expect(page.getByTestId("bid-modal-join")).toHaveAttribute(
+      "href",
+      "/#contactus",
+    );
     await expect(modal).not.toContainText("PaymentIntent");
 
     await page.getByTestId("bid-modal-close").click();
@@ -343,17 +354,20 @@ test.describe("bid desk: modal, hidden sign-in, unpaid, day by day", () => {
     await expect(page.locator("#panels-title")).toBeInViewport();
     await expect(page.getByTestId("bid-modal")).toHaveCount(0);
 
+    const rejected = await request.post("/api/bid", {
+      data: { panelId: "hood", standingUsd: 99000, brandLabel: "Desk Brand" },
+    });
+    expect(rejected.status()).toBe(403);
+    const rejectedBody = (await rejected.json()) as { ok: boolean; error: string };
+    expect(rejectedBody.ok).toBe(false);
+    expect(rejectedBody.error).toBe(PUBLIC_COPY.bidDesk.closedResult);
+
     await page.getByTestId("panel-link-hood").click();
     await expect(page.getByTestId("bid-modal")).toBeVisible();
-    await page.getByTestId("bid-modal-brand").fill("Desk Brand");
-    await page.getByTestId("bid-modal-email").fill("desk@brandmybeast.com");
-    await page.getByTestId("bid-modal-submit").click();
-    await expect(page.getByTestId("bid-modal-result")).toHaveText(
-      PUBLIC_COPY.bidDesk.closedResult,
-    );
-    await expect(page.getByTestId("bid-modal-result")).not.toContainText(
-      "bid placed",
-    );
+    await page.getByTestId("bid-modal-join").click();
+    await expect(page).toHaveURL(/\/#contactus$/);
+    await expect(page.locator("#contactus")).toBeVisible();
+    await expect(page.getByTestId("bid-modal")).toHaveCount(0);
     expect(stripeHits).toEqual([]);
 
     await page.keyboard.press("Escape");
@@ -424,19 +438,14 @@ test.describe("bid desk: modal, hidden sign-in, unpaid, day by day", () => {
     await expect(modal.getByRole("heading", { name: "Place a bid" })).toBeVisible();
     await expect(modal).toHaveAttribute("data-panel-id", "tailgate");
     await expect(page.getByTestId("bid-modal-panel")).toHaveValue("tailgate");
-    await expect(page.getByTestId("bid-modal-email")).toBeVisible();
-    await expect(page.getByTestId("bid-modal-brand")).toBeVisible();
-    await expect(page.getByTestId("bid-modal-magic")).toContainText(
-      "one-time email link",
+    await expect(page.getByTestId("bid-modal-email")).toHaveCount(0);
+    await expect(page.getByTestId("bid-modal-brand")).toHaveCount(0);
+    await expect(page.getByTestId("bid-modal-submit")).toHaveCount(0);
+    await expect(page.getByTestId("bid-modal-join")).toHaveAttribute(
+      "href",
+      "/#contactus",
     );
     await expect(page).not.toHaveURL(/signin/);
-
-    await page.getByTestId("bid-modal-brand").fill("Seat Brand");
-    await page.getByTestId("bid-modal-email").fill("seat@brandmybeast.com");
-    await page.getByTestId("bid-modal-submit").click();
-    await expect(page.getByTestId("bid-modal-result")).toHaveText(
-      PUBLIC_COPY.bidDesk.closedResult,
-    );
     await expect(page).toHaveURL(/\/panels\/tailgate$/);
   });
 
@@ -465,7 +474,6 @@ test.describe("bid desk: modal, hidden sign-in, unpaid, day by day", () => {
     await expect(history).not.toContainText("Sample history");
     await expect(history).not.toContainText("Sample Mark");
     await expect(history.getByTestId("day-by-day-lead")).toHaveCount(0);
-    await expect(history).not.toContainText("No live bids yet");
     await expect(history).not.toContainText(PUBLIC_COPY.bidDesk.dayLiveLead);
     await expect(history).not.toContainText("unpaid");
     await expect(history).not.toContainText("paid");
@@ -505,11 +513,19 @@ test.describe("bid desk: modal, hidden sign-in, unpaid, day by day", () => {
     await operator.close();
 
     await page.goto("/");
-    await expect(page.getByTestId("raised-amount")).toHaveText("$2,750");
+    await expect(page.getByTestId("raised-amount")).toHaveText("$0");
+    await expect(page.getByTestId("auction-top")).toContainText(
+      "No standing bids yet.",
+    );
+    await expect(page.getByTestId("panel-hood")).toHaveAttribute(
+      "data-standing",
+      "open",
+    );
     const approved = page.getByTestId("day-by-day").locator("[data-standing]");
     await expect(approved).toHaveCount(1);
-    await expect(approved).toHaveAttribute("data-standing", "2750");
+    await expect(approved).toHaveAttribute("data-standing", "0");
     await expect(approved).toHaveAttribute("data-bid-usd", "5250");
+    await expect(page.getByTestId("day-by-day")).toContainText("Pending");
     const lines = page.getByTestId("day-by-day").locator(".day-by-day-line");
     await expect(lines).toHaveCount(2);
     await expect(page.getByTestId("day-by-day")).toContainText("Standing Brand");
@@ -527,7 +543,7 @@ test.describe("bid desk: modal, hidden sign-in, unpaid, day by day", () => {
     await expect(hoodHistory).not.toContainText("paid");
     await expect(hoodHistory).not.toContainText("Hood");
     const hoodStanding = hoodHistory.locator("[data-standing]");
-    await expect(hoodStanding).toHaveAttribute("data-standing", "2750");
+    await expect(hoodStanding).toHaveAttribute("data-standing", "0");
     await expect(hoodStanding).toHaveAttribute("data-bid-usd", "5250");
     await expect(hoodHistory.locator(".day-by-day-line")).toHaveCount(2);
     await expect(hoodHistory).toContainText("Standing Brand");
@@ -573,12 +589,19 @@ test.describe("bid desk: modal, hidden sign-in, unpaid, day by day", () => {
 
     await page.goto("/");
     const held = page.getByTestId("panel-standing-hood");
-    await expect(held).toHaveText("Logo Brand");
-    await expect(held.locator("img")).toHaveCount(0);
-    await expect(held.locator(".public-mark")).toHaveAttribute("data-artwork", "name");
+    await expect(held).toHaveText("");
+    await expect(page.getByTestId("panel-hood")).toHaveAttribute(
+      "data-standing",
+      "open",
+    );
+    await expect(page.getByTestId("panel-pending-hood")).toContainText("$2,500");
+    await expect(page.getByTestId("panel-current-bid-hood")).toHaveText(
+      "Current Bid $2,500",
+    );
     await expect(page.locator("#panels")).not.toContainText("unpaid");
-    await expect(page.getByTestId("auction-top")).toContainText("Logo Brand");
-    await expect(page.getByTestId("auction-top").locator("img")).toHaveCount(0);
+    await expect(page.getByTestId("auction-top")).toContainText(
+      "No standing bids yet.",
+    );
     await expect(page.getByTestId("auction-today")).not.toContainText("unpaid");
 
     const operator = await browser.newPage();
@@ -589,17 +612,15 @@ test.describe("bid desk: modal, hidden sign-in, unpaid, day by day", () => {
     await operator.close();
 
     await page.goto("/");
-    await expect(page.getByTestId("panel-standing-hood").locator("img")).toHaveAttribute(
-      "src",
-      logo,
-    );
-    await expect(page.getByTestId("auction-top").locator("img")).toHaveAttribute(
-      "src",
-      logo,
+    await expect(page.getByTestId("raised-amount")).toHaveText("$0");
+    await expect(page.getByTestId("panel-standing-hood")).toHaveText("");
+    await expect(page.getByTestId("auction-top")).toContainText(
+      "No standing bids yet.",
     );
     await page.goto("/leaderboard");
     await expect(page.getByTestId("leaderboard-count")).toContainText("1 bid from 1 brand");
     await expect(page.getByTestId("leaderboard-page")).toContainText("Logo Brand");
+    await expect(page.getByTestId("leaderboard-page")).toContainText("Pending");
     await expect(page.getByTestId("leaderboard-page").locator("img")).toHaveAttribute(
       "src",
       logo,

@@ -60,6 +60,11 @@ export default async function LeaderboardPage() {
                   <span>
                     {row.panelName} · {row.dayLabel}
                   </span>
+                  {row.pending ? (
+                    <span data-testid={`leaderboard-pending-${row.rank}`}>
+                      {copy.pending}
+                    </span>
+                  ) : null}
                   <span className="auction-amount">{formatUsd(row.standingUsd)}</span>
                 </li>
               ))}
@@ -78,6 +83,7 @@ export default async function LeaderboardPage() {
                       <span>
                         {row.panelName} · {row.dayLabel}
                       </span>
+                      {row.pending ? <span>{copy.pending}</span> : null}
                       <span>{formatUsd(row.standingUsd)}</span>
                     </li>
                   ))}

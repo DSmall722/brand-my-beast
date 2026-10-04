@@ -1,8 +1,8 @@
 import type { MetadataRoute } from "next";
-import { BRAND, PANELS } from "@/lib/campaign";
+import { PANELS, PUBLIC_SITE_ORIGIN } from "@/lib/campaign";
 import { gitHeadLastModified, gitLastModified } from "@/lib/git-lastmod";
 
-const SITE = `https://${BRAND.domain}`;
+const SITE = PUBLIC_SITE_ORIGIN;
 
 /**
  * Slice 7.8 — sitemap lists home and each panel seat only.

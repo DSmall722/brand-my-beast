@@ -22,6 +22,11 @@ export function DayByDay({
       aria-labelledby="day-by-day-title"
     >
       <h3 id="day-by-day-title">{copy.dayHeading}</h3>
+      {model.source === "sample" ? (
+        <p className="auth-hint" data-testid="day-by-day-lead">
+          {copy.daySampleLead}
+        </p>
+      ) : null}
       {empty ? null : (
         <ol className="day-by-day-list">
           {model.days.map((day, index) => (
@@ -57,6 +62,7 @@ export function DayByDay({
                       <time>{row.timeLabel}</time>
                       <span>{row.brandLabel}</span>
                       {showPanel ? <span>{row.panelName}</span> : null}
+                      {row.pending ? <span>{copy.pending}</span> : null}
                       <span>{formatDayMoney(row.amountUsd)}</span>
                     </li>
                   ))}

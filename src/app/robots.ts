@@ -1,7 +1,7 @@
 import type { MetadataRoute } from "next";
-import { BRAND } from "@/lib/campaign";
+import { PUBLIC_SITE_ORIGIN } from "@/lib/campaign";
 
-const SITE = `https://${BRAND.domain}`;
+const SITE = PUBLIC_SITE_ORIGIN;
 
 /**
  * Slice 7.8 / 13.37 — public crawl surface is `/` and `/panels/*` only.

@@ -74,17 +74,17 @@ test.describe("slice 10.2: compositor standing brand", () => {
       { timeout: 10_000 },
     );
     await expect(bidder.getByTestId("compositor-standing-brand")).toHaveCount(0);
-    await expect(bidder.getByTestId("public-standing-brand")).toHaveText(
-      "Steel Face Co",
-    );
+    await expect(bidder.getByTestId("public-standing-brand")).toHaveCount(0);
+    await expect(bidder.getByTestId("panel-pending")).toHaveText("$2,500");
+    await expect(bidder.getByTestId("intent-list")).toContainText("Steel Face Co");
     await bidder.close();
 
     const visitor = await browser.newPage();
     await visitor.goto("/panels/hood");
     await expect(visitor.getByTestId("compositor-standing-brand")).toHaveCount(0);
-    await expect(visitor.getByTestId("public-standing-brand")).toHaveText(
-      "Steel Face Co",
-    );
+    await expect(visitor.getByTestId("public-standing-brand")).toHaveCount(0);
+    await expect(visitor.getByTestId("panel-pending")).toHaveText("$2,500");
+    await expect(visitor.getByTestId("intent-list")).toContainText("Steel Face Co");
     const html = await visitor.content();
     expect(html).not.toContain("comp102@example.com");
     expect(html.toLowerCase()).not.toMatch(/\blease\b/);

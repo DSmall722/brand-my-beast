@@ -628,30 +628,20 @@ test.describe("P2 panel intent + approvals", () => {
     await expect(bidder.getByTestId("intent-success")).toContainText(
       "not charged",
     );
-    await expect(bidder.getByTestId("public-standing-brand")).toHaveText(
+    await expect(bidder.getByTestId("public-standing-brand")).toHaveCount(0);
+    await expect(bidder.getByTestId("panel-pending")).toHaveText("$2,500");
+    await expect(bidder.getByTestId("intent-list")).toContainText(
       "Public Standing Co",
     );
-    await expect(bidder.getByTestId("public-standing-trade")).toHaveText(
-      "standing seats",
-    );
-    await expect(bidder.getByTestId("public-standing-amount")).toContainText(
-      "2,500",
-    );
+    await expect(bidder.getByTestId("intent-list")).toContainText("standing seats");
     await bidder.close();
 
     const visitor = await browser.newPage();
     await visitor.goto("/panels/hood");
     await expect(visitor.getByTestId("seat-occupancy")).toHaveCount(0);
     await expect(visitor.getByTestId("public-seat-log")).toBeVisible();
-    await expect(visitor.getByTestId("public-standing-brand")).toHaveText(
-      "Public Standing Co",
-    );
-    await expect(visitor.getByTestId("public-standing-trade")).toHaveText(
-      "standing seats",
-    );
-    await expect(visitor.getByTestId("public-standing-amount")).toContainText(
-      "2,500",
-    );
+    await expect(visitor.getByTestId("public-standing-brand")).toHaveCount(0);
+    await expect(visitor.getByTestId("panel-pending")).toHaveText("$2,500");
     await expect(visitor.getByTestId("intent-list")).toContainText(
       "Public Standing Co",
     );
@@ -795,7 +785,8 @@ test.describe("P2 panel intent + approvals", () => {
     await expect(ok.getByTestId("intent-list")).toContainText(
       "Slice Fifteen Ok",
     );
-    await expect(ok.getByTestId("panel-standing")).toContainText("2,750");
+    await expect(ok.getByTestId("panel-standing")).toContainText("2,500");
+    await expect(ok.getByTestId("panel-pending")).toContainText("2,750");
     await expect(ok.getByTestId("panel-minimum")).toContainText("3,025");
     await ok.close();
   });

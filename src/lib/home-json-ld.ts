@@ -8,6 +8,7 @@ import {
   BRAND,
   FLOOR_USD,
   GOAL_USD,
+  PUBLIC_SITE_ORIGIN,
   formatUsd,
 } from "./campaign";
 import { PUBLIC_COPY } from "./public-copy";
@@ -47,7 +48,7 @@ export type HomeJsonLdGraph = {
   ];
 };
 
-const SITE_URL = `https://${BRAND.domain}`;
+const SITE_URL = PUBLIC_SITE_ORIGIN;
 
 export function buildHomeJsonLd(): HomeJsonLdGraph {
   const orgId = `${SITE_URL}/#organization`;
