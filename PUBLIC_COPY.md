@@ -3,7 +3,7 @@
 Voice lock for `/`. CAMPAIGN.md still wins money and identity.
 Use these strings in slice 0.9. Do not invent a closer, warmer, or snarkier variant.
 
-Locked: 2026-09-23 — 15 buyer FAQ, no “Who is this for,” $120k is the etch threshold.
+Locked: 2026-09-23 — 16 buyer FAQ, no “Who is this for,” $120k is the etch threshold.
 
 ## Meta
 
@@ -71,6 +71,7 @@ Panel card names match the board. No gloss line on the card. Eleven seats. Nine 
 ## How it works
 
 - Heading: `How it works`
+- Lead: `The operator does not own the truck yet. This auction buys it.`
 - 01 title: `Pick a Panel`
 - 01 body: `Choose from 11 different available high visibility advertising spaces.`
 - 02 title: `Place a Bid`
@@ -104,9 +105,10 @@ Money facts from CAMPAIGN.md only. Plain English. Not a full contract. Contract 
 
 ## Questions
 
-Fifteen buyer questions. No “Who is this for.” No wreck / totaled / last-second on `/`.
+Buyer questions. No “Who is this for.” No wreck / totaled / last-second on `/`.
 
 - Heading: `FAQ`
+- Q: `Does the operator own the truck yet?` A: `The operator does not own the truck yet. This auction buys it.`
 - Q: `Is this Tesla?` A: `No. BrandMyBeast is independent. Cyberbeast is the trim this campaign funds. Tesla doesn’t run this, endorse it, or get a cut.`
 - Q: `What am I actually buying?` A: `A seat on the truck for your brand. There are eleven panels. Vinyl wrap is available on all of them. Immortal Etch — a frost of your mark in the stainless — is available on nine of them once standing crosses $120,000. The two bumpers stay wrap. You’re buying the panel, the finish, and a year of miles. Not a follower count. Not a guaranteed number of views.`
 - Q: `How long is my brand on the truck?` A: `Wraps run twelve months from install. Etch stays in the steel.`

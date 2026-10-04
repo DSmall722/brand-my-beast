@@ -8,6 +8,10 @@ import { PANEL_BOARD_MARKS, panelLegendLabel } from "./panel-board";
 /** Card gloss is off. Panel names carry the seat; bumper rules stay in RULES.md. */
 const PANEL_GLOSS: Readonly<Record<string, string>> = {};
 
+/** Shared by the FAQ and How it works so the two lines cannot drift. */
+const TRUCK_OWNERSHIP_LINE =
+  "The operator does not own the truck yet. This auction buys it.";
+
 /** Slice 16.25 — whole-truck package is the numbered board, 1 Hood through 11 Rear bumper. */
 export function wholeTruckPackageCopy(): string {
   const labels = PANEL_BOARD_MARKS.map((mark) => panelLegendLabel(mark));
@@ -92,6 +96,7 @@ export const PUBLIC_COPY = {
   },
   howItWorks: {
     heading: "How it works",
+    lead: TRUCK_OWNERSHIP_LINE,
     steps: [
       {
         title: "Pick a Panel",
@@ -173,6 +178,11 @@ export const PUBLIC_COPY = {
   questions: {
     heading: "FAQ",
     items: [
+      {
+        id: "truck-ownership",
+        q: "Does the operator own the truck yet?",
+        a: TRUCK_OWNERSHIP_LINE,
+      },
       {
         q: "Is this Tesla?",
         a: "No. BrandMyBeast is independent. Cyberbeast is the trim this campaign funds. Tesla doesn’t run this, endorse it, or get a cut.",

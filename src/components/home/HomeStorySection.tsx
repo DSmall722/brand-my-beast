@@ -10,6 +10,9 @@ export function HomeStorySection() {
       aria-labelledby="how-it-works"
     >
       <h2 id="how-it-works">{PUBLIC_COPY.howItWorks.heading}</h2>
+      <p className="section-lead" data-testid="how-it-works-lead">
+        {PUBLIC_COPY.howItWorks.lead}
+      </p>
       <ol className="story-list" data-testid="how-it-works">
         {PUBLIC_COPY.howItWorks.steps.map((step, index) => (
           <li key={step.title}>

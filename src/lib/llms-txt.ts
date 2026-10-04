@@ -34,6 +34,7 @@ export function buildLlmsTxt(): string {
     PUBLIC_COPY.panels.lead,
     "",
     PUBLIC_COPY.howItWorks.heading,
+    PUBLIC_COPY.howItWorks.lead,
     ...PUBLIC_COPY.howItWorks.steps.flatMap((step) => [
       step.title,
       step.body,
