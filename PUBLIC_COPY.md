@@ -33,7 +33,7 @@ Locked: 2026-09-23 — 15 buyer FAQ, no “Who is this for,” $120k is the etch
 - Floor hint: `Miss the floor and every bid is refunded.`
 - Buyout label: `Unlock Immortal Etch`
 - Clock line when CLOSE_AT is null: `Bidding is not open. Nothing is charged on this page.`
-- Deposit line: `When bidding opens, a 20% deposit holds your panel. Nothing is charged on this page.`
+- Deposit line: `When bidding opens, 20% of the bid is charged. If you do not win, that deposit is refunded after close. A winner's deposit is credited to the invoice. Nothing is charged on this page.`
 - Shortfall floor label: `Short of floor`
 - Shortfall buyout label: `Short of buyout`
 - Open seats label: `Open seats`
@@ -111,17 +111,17 @@ Fifteen buyer questions. No “Who is this for.” No wreck / totaled / last-sec
 - Q: `What am I actually buying?` A: `A seat on the truck for your brand. There are eleven panels. Vinyl wrap is available on all of them. Immortal Etch — a frost of your mark in the stainless — is available on nine of them once standing crosses $120,000. The two bumpers stay wrap. You’re buying the panel, the finish, and a year of miles. Not a follower count. Not a guaranteed number of views.`
 - Q: `How long is my brand on the truck?` A: `Wraps run twelve months from install. Etch stays in the steel.`
 - Q: `What if two of us are in the same business?` A: `One trade, one brand on the truck. Name your business when you bid. If that trade is already standing on a panel, that’s the seat you bid.`
-- Q: `How does payment work?` A: `Twenty percent holds your bid on the card. The rest is charged if you win the panel and the campaign hits $58,000. Get outbid, or miss that floor, and the hold comes back.`
-- Q: `What if someone outbids me?` A: `You’re off that panel. The 20% is an authorization, not a captured charge — it releases back to the same card. Most banks drop the pending line in a few days. You can bid again on another seat, or come back at the new number.`
+- Q: `How does payment work?` A: `Twenty percent of your bid is charged when you place it. That deposit is what makes a bid standing. Bid again on the same seat and deposits you already paid count toward the new one. Outbid deposits are refunded after the board closes. Miss $58,000 and every deposit is refunded. A winner's deposit is credited to the invoice. If the winner does not pay the rest within 7 days, the deposit is forfeited and the seat goes to the next bidder.`
+- Q: `What if someone outbids me?` A: `You’re off that panel. The deposit you paid is refunded after the board closes. You can bid again on another seat, or come back at the new number on this one. A new bid on the same seat counts deposits you already paid.`
 - Q: `Can I take more than one panel?` A: `Yes. Pick whatever panels your business needs to maximize this advertising opportunity.`
 - Q: `What if I want every panel?` A: `Check the box on the contact form. That starts a whole-truck conversation. It does not buy the board from this page.`
 - Q: `What’s the difference between wrap and etch?` A: `Wrap is full-color vinyl on any of the eleven seats. Etch is a shallow frost of your mark into the stainless, on the nine steel seats, once standing crosses $120,000. Front bumper and rear bumper stay wrap.`
 - Q: `Do I need finished artwork to bid?` A: `A name and a logo is enough to stand. Final files come after you win — vector for wrap, one-color and readable at ten feet for etch. Nothing gets cut or etched until you’ve approved it.`
-- Q: `What if the $58,000 floor is missed?` A: `Every hold is released. Nobody is charged.`
-- Q: `When does this close?` A: `TBD.`
+- Q: `What if the $58,000 floor is missed?` A: `Every deposit is refunded. No order. No wrap. No Immortal Etch.`
+- Q: `When does this close?` A: `Bidding opens Monday, October 5, 2026 at 12:00 PM ET and closes Monday, November 2, 2026 at 12:00 PM ET. A bid in the last 10 minutes pushes the close back 10 minutes.`
 - Q: `Where does the truck actually run?` A: `Work miles in the Southeast — South Carolina most weeks (Charleston, Columbia, Greenville, Florence, Beaufort, Clemson and the roads between them), plus Atlanta, Charlotte, and the Florida panhandle when the job goes there.`
 - Q: `Will something I don’t want sitting next to my brand end up on this truck?` A: `No. We don’t take porn, hate, scams, or anything that can’t sit in a school line or a grocery lot. If you’re unsure about a category, email hello@brandmybeast.com before you bid.`
-- Q: `How do I start?` A: `Pick a panel. Twenty percent holds the seat. Questions before that: hello@brandmybeast.com.`
+- Q: `How do I start?` A: `Pick a panel. Twenty percent of the bid is charged when you place it. If you do not win, that deposit is refunded after close. A winner's deposit is credited to the invoice. Questions before that: hello@brandmybeast.com.`
 
 ## Preview the Panels
 

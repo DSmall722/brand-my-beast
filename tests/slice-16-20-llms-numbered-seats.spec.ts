@@ -41,7 +41,7 @@ test.describe("slice 16.20: /llms.txt numbered seats", () => {
     expect(body).toContain(
       `Floor ${formatUsd(FLOOR_USD)}. Buyout ${formatUsd(GOAL_USD)}.`,
     );
-    expect(body).toContain("No close date.");
+    expect(body).toContain("Closes Mon Nov 2, 2026, 12:00 PM ET.");
     expect(body).not.toContain("CLOSE_AT");
     expect(body).not.toContain("null");
     expect(body).toContain("Eleven numbered seats");

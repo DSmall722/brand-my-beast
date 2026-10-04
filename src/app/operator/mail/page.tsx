@@ -5,6 +5,7 @@ import { SiteChrome } from "@/components/SiteChrome";
 import { auth } from "@/lib/auth";
 import { isOperatorEmail } from "@/lib/auth/operator";
 import { FLOOR_USD, GOAL_USD, formatUsd } from "@/lib/campaign";
+import { publishedCloseLabelEt } from "@/lib/campaign-window";
 import { listMailDeadLetters } from "@/lib/mail-dead-letter";
 
 /**
@@ -46,8 +47,8 @@ export default async function OperatorMailDeadLetterPage() {
         data-testid="operator-mail-page"
       >
         <p className="auth-hint">
-          Floor {formatUsd(FLOOR_USD)} · Buyout {formatUsd(GOAL_USD)} · CLOSE_AT
-          null
+          Floor {formatUsd(FLOOR_USD)} · Buyout {formatUsd(GOAL_USD)} · Closes{" "}
+          {publishedCloseLabelEt()}
         </p>
         <h1>Mail dead-letter</h1>
         <p className="section-lead">

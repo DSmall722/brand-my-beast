@@ -76,7 +76,7 @@ test.describe("panel detail cleanup", () => {
       "The deposit you paid is refunded after the board closes",
     );
     await expect(page.getByTestId("faq-campaign-miss")).toContainText(
-      "Every hold is released",
+      "Every deposit is refunded",
     );
     await expect(page.getByTestId("faq-close-date")).toContainText(
       "Monday, November 2, 2026 at 12:00 PM ET",

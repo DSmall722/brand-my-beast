@@ -111,7 +111,8 @@ test.describe("slice 13.23: winner packet wrap term start", () => {
     expect(md).toContain("$58,000");
     expect(md).toContain("$120,000");
     expect(md.toLowerCase()).not.toMatch(/\blease\b/);
-    expect(md).toContain("CLOSE_AT unset");
+    expect(md).toContain("Closes Mon Nov 2, 2026, 12:00 PM ET");
+    expect(md).not.toContain("CLOSE_AT");
 
     // Mutating start to close must fail the builder guard.
     expect(() =>

@@ -220,7 +220,7 @@ test.describe("notes PDF homepage sheet", () => {
     );
     await expect(page.getByTestId("wreck-refund-faq")).toHaveCount(0);
     await expect(page.getByTestId("faq-campaign-miss")).toContainText(
-      "Every hold is released",
+      "Every deposit is refunded",
     );
     await expect(page.locator("#questions")).not.toContainText(
       "When does bidding start?",

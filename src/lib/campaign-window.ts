@@ -4,7 +4,7 @@
  */
 
 import { CLOSE_AT, FLOOR_USD, OPEN_AT } from "./campaign";
-import { formatSeatLogTime } from "./seat-log";
+import { formatCampaignInstantEt, formatSeatLogTime } from "./seat-log";
 import {
   depositRefundStatus,
   hasPaidDeposit,
@@ -33,6 +33,11 @@ export function lockedCloseAt(): string {
     throw new Error("CLOSE_AT is required for the campaign window.");
   }
   return CLOSE_AT;
+}
+
+/** Published close as an Eastern wall time. Resolved through America/New_York. */
+export function publishedCloseLabelEt(): string {
+  return formatCampaignInstantEt(lockedCloseAt());
 }
 
 /**

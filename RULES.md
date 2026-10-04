@@ -36,10 +36,12 @@ Next bid is current standing plus **$250 or 10%**, whichever is larger.
 
 ## Deposit and capture
 
-- 20% authorized to list.
-- Remainder captured only if that bidder wins the panel **and** the campaign hits $58,000 **and** the brand is approved.
-- Outbid → prior authorization released.
-- Miss $58,000 → every authorization released.
+- 20% is charged when the bid is placed.
+- If you do not win, that deposit is refunded after close.
+- A winner's deposit is credited to the invoice.
+- The winner pays the remainder within 7 days. If they do not, the deposit is forfeited and the seat goes to the next bidder.
+- Remainder is due only if that bidder wins the panel **and** the campaign hits $58,000 **and** the brand is approved.
+- Miss $58,000 → every deposit is refunded.
 - Fail brand check → that bid is void, next compliant standing bid is offered the panel at their last mark plus one increment. No silent reopen of the seat.
 
 ### Failed-winner offer (slice 13.4 / 13.11)
@@ -68,11 +70,11 @@ Do not take live money on `localStorage`. The static prototype is a brochure.
 | **outbid** | A higher compliant mark took the seat, or a new approve demoted prior standing. |
 | **withdrawn** | Bidder pulled a pending mark. Soft-delete only — no ghost standing. |
 
-Statuses are intent-only. No Stripe capture. `CLOSE_AT` stays null. Floor **$58,000**. Buyout **$120,000**.
+A listed mark counts on the public board only after the deposit is paid. Floor **$58,000**. Buyout **$120,000**. Close is Mon Nov 2, 2026, 12:00 PM ET.
 
 ## Soft close
 
-A bid in the last 5 minutes on a panel extends **that panel** by 5 minutes. The campaign close still hard-stops at the published timestamp.
+A bid in the last 10 minutes extends the campaign close by 10 minutes. The extension is the whole board, not one panel.
 
 ## Category
 

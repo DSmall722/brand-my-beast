@@ -1,4 +1,5 @@
 import { CLOSE_AT, FLOOR_USD, GOAL_USD, formatUsd } from "./campaign";
+import { publishedCloseLabelEt } from "./campaign-window";
 
 /**
  * Slice 12.23 — shop cut-file checklist items.
@@ -50,5 +51,5 @@ export function assertShopCutFileChecklistDoesNotSetCloseAt(
 }
 
 export function shopCutFileChecklistFenceCopy(): string {
-  return `Cut-file prep only. Floor ${formatUsd(FLOOR_USD)}. Buyout ${formatUsd(GOAL_USD)}. No card capture. Auction clock stays unset.`;
+  return `Cut-file prep only. Floor ${formatUsd(FLOOR_USD)}. Buyout ${formatUsd(GOAL_USD)}. No card capture. Closes ${publishedCloseLabelEt()}.`;
 }

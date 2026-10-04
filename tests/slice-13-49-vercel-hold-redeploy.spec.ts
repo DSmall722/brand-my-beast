@@ -53,7 +53,7 @@ test.describe("slice 13.49: 11.10 remains human redeploy runbook", () => {
     expect(text).toMatch(/Leave hold-mode alone/i);
     expect(text).toMatch(/No app change/i);
     expect(text).toMatch(/No Stripe/i);
-    expect(text).toMatch(/Auction clock stays unset|close clock/i);
+    expect(text).toContain("Mon Nov 2, 2026, 12:00 PM ET");
     expect(text).toMatch(/\$58,000/);
     expect(text).toMatch(/\$120,000/);
     expect(text.toLowerCase()).not.toContain("gmail.com");

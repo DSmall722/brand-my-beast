@@ -102,9 +102,10 @@ Opening sum is $23,000 — the floor is not this sum.
 
 ## Clock
 
-- 30 days once the money path (Stripe + terms + LLC) is live.
-- Last-5-minute bid on a panel adds 5 minutes to that panel. Campaign still hard-stops at the published close.
-- Close date is a field. It is **unset** until that morning. Not October 1.
+- Open is Mon Oct 5, 2026, 12:00 PM ET (16:00 UTC, EDT).
+- Close is Mon Nov 2, 2026, 12:00 PM ET (17:00 UTC). Daylight saving ends Nov 1, so this noon is 17:00 UTC.
+- A bid in the last 10 minutes extends the campaign close by 10 minutes.
+- Do not start the 30-day clock. The published window is the clock. Not October 1.
 
 ## Identity (public)
 

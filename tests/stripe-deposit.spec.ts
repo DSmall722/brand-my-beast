@@ -1,17 +1,47 @@
 import { expect, test } from "@playwright/test";
-import { CLOSE_AT, OPEN_AT } from "../src/lib/campaign";
+import { CLOSE_AT, OPEN_AT, PANELS } from "../src/lib/campaign";
 import {
   SOFT_CLOSE_MS,
   WINNER_PAY_MS,
   campaignWindowSentence,
   effectiveCloseMs,
   planSettlement,
+  publishedCloseLabelEt,
 } from "../src/lib/campaign-window";
 import type { IntentBid } from "../src/lib/intent";
+import {
+  formatCampaignInstantEt,
+  formatSeatLogTime,
+} from "../src/lib/seat-log";
 
 const OPEN_NOW = "2026-10-06T16:00:00.000Z";
 const BEFORE_OPEN = "2026-10-05T15:00:00.000Z";
 const AFTER_CLOSE = "2026-11-03T18:00:00.000Z";
+
+function easternOffsetMinutes(iso: string): number {
+  const date = new Date(iso);
+  const parts = new Intl.DateTimeFormat("en-US", {
+    timeZone: "America/New_York",
+    hourCycle: "h23",
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+    hour: "2-digit",
+    minute: "2-digit",
+    second: "2-digit",
+  }).formatToParts(date);
+  const pick = (type: string) =>
+    parts.find((part) => part.type === type)?.value ?? "0";
+  const asUtc = Date.UTC(
+    Number(pick("year")),
+    Number(pick("month")) - 1,
+    Number(pick("day")),
+    Number(pick("hour")) % 24,
+    Number(pick("minute")),
+    Number(pick("second")),
+  );
+  return Math.round((asUtc - date.getTime()) / 60000);
+}
 
 function paid(input: {
   id: string;
@@ -60,6 +90,15 @@ test.describe("stripe deposit and campaign window", () => {
   test("locked instants and soft close", () => {
     expect(OPEN_AT).toBe("2026-10-05T16:00:00.000Z");
     expect(CLOSE_AT).toBe("2026-11-02T17:00:00.000Z");
+    expect(easternOffsetMinutes(OPEN_AT)).toBe(-240);
+    expect(easternOffsetMinutes(CLOSE_AT ?? "")).toBe(-300);
+    expect(formatSeatLogTime(OPEN_AT)).toBe("Oct 5, 2026, 12:00 PM ET");
+    expect(formatSeatLogTime(CLOSE_AT ?? "")).toBe("Nov 2, 2026, 12:00 PM ET");
+    expect(formatCampaignInstantEt(OPEN_AT)).toBe("Mon Oct 5, 2026, 12:00 PM ET");
+    expect(formatCampaignInstantEt(CLOSE_AT ?? "")).toBe(
+      "Mon Nov 2, 2026, 12:00 PM ET",
+    );
+    expect(publishedCloseLabelEt()).toBe("Mon Nov 2, 2026, 12:00 PM ET");
     const close = CLOSE_AT ?? "";
     const closeMs = Date.parse(close);
     const sniper = new Date(closeMs - 5 * 60 * 1000).toISOString();
@@ -181,6 +220,11 @@ test.describe("stripe deposit and campaign window", () => {
     await expect(page.getByTestId("raised-amount")).toHaveText("$0");
     await expect(page.getByTestId("panel-pending-hood")).toContainText("Pending");
     await expect(page.getByTestId("auction-top")).not.toContainText("Too Early");
+    await expect(page.getByTestId("day-by-day")).toHaveAttribute(
+      "data-source",
+      "live",
+    );
+    await expect(page.getByTestId("day-by-day")).not.toContainText("Sample Mark");
 
     const event = {
       id: "evt_deposit_1",
@@ -260,6 +304,123 @@ test.describe("stripe deposit and campaign window", () => {
     expect(afterBid.status()).toBe(403);
     const body = (await afterBid.json()) as { code: string };
     expect(body.code).toBe("bidding_closed");
+  });
+
+  test("a bid in the last 10 minutes extends the close on the server", async ({
+    page,
+    request,
+  }) => {
+    const reset = await request.post("/api/test/reset-intents");
+    expect(reset.ok()).toBeTruthy();
+    const closeMs = Date.parse(CLOSE_AT ?? "");
+    const sniperNow = new Date(closeMs - 5 * 60 * 1000).toISOString();
+    const duringExtension = new Date(closeMs + 60 * 1000).toISOString();
+    const afterExtension = new Date(closeMs + 21 * 60 * 1000).toISOString();
+
+    const closed = await request.post("/api/test/campaign-clock", {
+      data: { live: true, now: duringExtension },
+    });
+    expect(closed.ok()).toBeTruthy();
+    const tooLate = await request.post("/api/bid", {
+      data: {
+        panelId: "hood",
+        standingUsd: 2500,
+        brandLabel: "Late Brand",
+        tradeLabel: "tools",
+        email: "late@example.com",
+      },
+    });
+    expect(tooLate.status()).toBe(403);
+
+    const opened = await request.post("/api/test/campaign-clock", {
+      data: { live: true, now: sniperNow },
+    });
+    expect(opened.ok()).toBeTruthy();
+    const sniper = await request.post("/api/bid", {
+      data: {
+        panelId: "driver-door",
+        standingUsd: 4500,
+        brandLabel: "Sniper Brand",
+        tradeLabel: "tools",
+        email: "sniper@example.com",
+      },
+    });
+    expect(sniper.ok()).toBeTruthy();
+
+    await page.goto("/");
+    await expect(page.getByTestId("campaign-window")).toContainText(
+      "Nov 2, 2026, 12:10 PM ET",
+    );
+    await expect(page.getByTestId("campaign-window")).toContainText(
+      "last 10 minutes",
+    );
+
+    const extended = await request.post("/api/test/campaign-clock", {
+      data: { live: true, now: duringExtension },
+    });
+    expect(extended.ok()).toBeTruthy();
+    const inside = await request.post("/api/bid", {
+      data: {
+        panelId: "tailgate",
+        standingUsd: 2500,
+        brandLabel: "Inside Brand",
+        tradeLabel: "tools",
+        email: "inside@example.com",
+      },
+    });
+    expect(inside.ok()).toBeTruthy();
+
+    const past = await request.post("/api/test/campaign-clock", {
+      data: { live: true, now: afterExtension },
+    });
+    expect(past.ok()).toBeTruthy();
+    const rejected = await request.post("/api/bid", {
+      data: {
+        panelId: "hood",
+        standingUsd: 2500,
+        brandLabel: "Past Brand",
+        tradeLabel: "tools",
+        email: "past@example.com",
+      },
+    });
+    expect(rejected.status()).toBe(403);
+    const body = (await rejected.json()) as { code: string };
+    expect(body.code).toBe("bidding_closed");
+  });
+
+  test("rear bumper shows its opening price", async ({ page, request }) => {
+    const reset = await request.post("/api/test/reset-intents");
+    expect(reset.ok()).toBeTruthy();
+    const rear = PANELS.find((panel) => panel.id === "rear-bumper");
+    const front = PANELS.find((panel) => panel.id === "front-bumper");
+    expect(rear?.openingUsd).toBe(500);
+    expect(front?.openingUsd).toBe(500);
+
+    await page.goto("/");
+    const rearBid = page.getByTestId("panel-current-bid-rear-bumper");
+    await expect(rearBid).toBeVisible();
+    await expect(rearBid).toHaveText("Current Bid $500");
+    const box = await rearBid.boundingBox();
+    expect(box?.height ?? 0).toBeGreaterThan(8);
+    await expect(page.getByTestId("panel-current-bid-front-bumper")).toHaveText(
+      "Current Bid $500",
+    );
+
+    await page.getByTestId("panel-link-rear-bumper").click();
+    await expect(page.getByTestId("bid-modal-current")).toHaveText("$500");
+    await expect(page.getByTestId("bid-modal-minimum")).toHaveText("$500");
+
+    await page.goto("/panels/rear-bumper");
+    await expect(page.getByTestId("panel-standing")).toHaveText("$500");
+    await expect(page.getByTestId("panel-stats")).toHaveAttribute(
+      "data-standing-usd",
+      "500",
+    );
+    const opening = page
+      .getByTestId("panel-stats")
+      .locator("div")
+      .filter({ hasText: "Opening" });
+    await expect(opening).toContainText("$500");
   });
 
   test("a webhook without the mock header is rejected", async ({ request }) => {

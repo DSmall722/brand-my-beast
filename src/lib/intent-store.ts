@@ -11,6 +11,7 @@ import {
 } from "./artwork-blob";
 import { anonymizedUserId, isAnonymizedUserId } from "./account-delete";
 import { GOAL_USD, PANELS, type Panel } from "./campaign";
+import { resolveNowMs } from "./campaign-clock";
 import { getDb } from "./db";
 import {
   intentBids,
@@ -2290,7 +2291,7 @@ export type DepositBidDraft = {
 };
 
 export async function insertDepositBid(draft: DepositBidDraft): Promise<IntentBid> {
-  const now = new Date();
+  const now = new Date(resolveNowMs());
   if (useMemoryStore()) {
     if (draft.idempotencyKey) {
       const prior = memoryBids().find(
@@ -2349,6 +2350,7 @@ export async function insertDepositBid(draft: DepositBidDraft): Promise<IntentBi
       standingUsd: draft.standingUsd,
       depositUsd: draft.depositUsd,
       status: "listed",
+      createdAt: now,
       idempotencyKey: draft.idempotencyKey,
       depositPaidAt: draft.depositPaidAt ? new Date(draft.depositPaidAt) : null,
       stripePaymentId: draft.paymentId,

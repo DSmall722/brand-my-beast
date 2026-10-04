@@ -3,6 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { auth } from "@/lib/auth";
 import { isOperatorEmail } from "@/lib/auth/operator";
+import { publishedCloseLabelEt } from "@/lib/campaign-window";
 import { seatsOpenToggleRejectsDate } from "@/lib/seats-open";
 import { setSeatsOpenOverride } from "@/lib/seats-open-store";
 
@@ -50,7 +51,7 @@ export async function submitSeatsOpenToggle(
     ok: true,
     seatsOpen: result.seatsOpen,
     message: open
-      ? "Seats open for intent marks. No date set. CLOSE_AT unset."
-      : "Seats closed — waitlist only. No date set. CLOSE_AT unset.",
+      ? `Seats open for intent marks. Closes ${publishedCloseLabelEt()}.`
+      : `Seats closed. Waitlist only. Closes ${publishedCloseLabelEt()}.`,
   };
 }

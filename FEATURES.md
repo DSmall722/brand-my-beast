@@ -2,7 +2,7 @@
 
 > **Not the build order.** This file is a catalog. **`SLICES.md` is the only build order.** Do not open Wave 15 from here. Do not paste this list onto the public homepage.
 
-Ranked by importance. Importance = does this help hit **$58,000 by close**, then prove the miles after the truck exists. Close date is unset until the money path is live.
+Ranked by importance. Importance = does this help hit **$58,000 by close**, then prove the miles after the truck exists. Close is Mon Nov 2, 2026, 12:00 PM ET.
 
 Do not paste this list onto the public homepage. CAMPAIGN.md wins on money and identity. Floor **$58,000**. Buyout **$120,000**. `CLOSE_AT` stays null until a human starts P3. No Stripe without a separate human message.
 
@@ -48,7 +48,7 @@ Floor **$58,000**. Buyout **$120,000**. `CLOSE_AT` null. No Stripe without a hum
 7 P0 Artwork approval thread. — **shipped (2.4)**
 8 P0 Failed-winner waitlist. — **shipped (1.6 / 9.6)**
 9 P1 Proxy max-bid agent ($250 or 10%). — **shipped (9.1 / 13.12)**
-10 P1 Soft-close per panel (last 5 min +5). — **shipped (9.3)**
+10 P1 Soft-close. A bid in the last 10 minutes extends the campaign close by 10 minutes. Shipped.
 11 P1 Conditional make-the-floor bid (fires if short of $58k in last 24h). — **shipped (9.4)**
 12 P1 Buyout freeze + syndicate counter at $120k. — **shipped (3.2 / 9.5 / 10.3)**
 13 P1 Close-night live on X. — **Catalog**

@@ -47,7 +47,7 @@ export const PUBLIC_COPY = {
     clockWhenCloseNull:
       "Bidding is not open. Nothing is charged on this page.",
     depositLine:
-      "When bidding opens, a 20% deposit holds your panel. Nothing is charged on this page.",
+      "When bidding opens, 20% of the bid is charged. If you do not win, that deposit is refunded after close. A winner's deposit is credited to the invoice. Nothing is charged on this page.",
     shortfallFloorLabel: "Short of floor",
     shortfallBuyoutLabel: "Short of buyout",
     openSeatsLabel: "Open seats",
@@ -217,7 +217,7 @@ export const PUBLIC_COPY = {
       {
         id: "campaign-miss",
         q: "What if the $58,000 floor is missed?",
-        a: "Every hold is released. Nobody is charged. Every deposit is refunded. No order. No wrap. No Immortal Etch.",
+        a: "Every deposit is refunded. No order. No wrap. No Immortal Etch.",
       },
       {
         id: "close-date",
@@ -234,7 +234,7 @@ export const PUBLIC_COPY = {
       },
       {
         q: "How do I start?",
-        a: "Pick a panel. Twenty percent holds the seat. Questions before that: hello@brandmybeast.com.",
+        a: "Pick a panel. Twenty percent of the bid is charged when you place it. If you do not win, that deposit is refunded after close. A winner's deposit is credited to the invoice. Questions before that: hello@brandmybeast.com.",
       },
     ],
   },

@@ -1,10 +1,11 @@
 /**
  * Slice 14.19 — “Seats open” email template.
  * Exists for later waitlist fan-out. Do not send from the agent or the
- * operator SEATS_OPEN toggle (14.18). CLOSE_AT stays unset. No card charge.
+ * operator SEATS_OPEN toggle (14.18). Names the published close. No card charge.
  */
 
 import { BRAND, FLOOR_USD, GOAL_USD, formatUsd } from "@/lib/campaign";
+import { publishedCloseLabelEt } from "@/lib/campaign-window";
 import { withCanSpamFooter } from "./can-spam";
 import type { EmailTemplate } from "./intent-status";
 
@@ -19,7 +20,7 @@ export function seatsOpenEmailTemplate(input?: {
         `Seats are open on ${BRAND.name}.`,
         "",
         "You can list an intent mark on a panel. This is intent only — no card is charged on this path.",
-        `Floor ${formatUsd(FLOOR_USD)}. Buyout ${formatUsd(GOAL_USD)}. No close date on this mail.`,
+        `Floor ${formatUsd(FLOOR_USD)}. Buyout ${formatUsd(GOAL_USD)}. Closes ${publishedCloseLabelEt()}.`,
         "",
         `Board: ${site}`,
         "",

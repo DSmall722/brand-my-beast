@@ -1,10 +1,11 @@
 import { BRAND, formatUsd, FLOOR_USD, GOAL_USD } from "./campaign";
+import { publishedCloseLabelEt } from "./campaign-window";
 import { PANEL_BOARD_MARKS, panelLegendLabel } from "./panel-board";
 import { PUBLIC_COPY } from "./public-copy";
 
 /**
  * Slice 14.21 / 16.20 — `/llms.txt` from PUBLIC_COPY plus the 1–11 seats.
- * Floor and buyout only. No close date. No lease. How it works names
+ * Floor, buyout, and the published Eastern close. No lease. How it works names
  * Stripe as the processor. No Stripe package and no payment URL.
  */
 export function buildLlmsTxt(): string {
@@ -48,7 +49,7 @@ export function buildLlmsTxt(): string {
     "",
     // Campaign locks — same numbers PUBLIC_COPY already prints; CLOSE_AT fence.
     `Floor ${formatUsd(FLOOR_USD)}. Buyout ${formatUsd(GOAL_USD)}.`,
-    "No close date.",
+    `Closes ${publishedCloseLabelEt()}.`,
     "Eleven numbered seats",
     ...PANEL_BOARD_MARKS.map((mark) => panelLegendLabel(mark)),
     "",

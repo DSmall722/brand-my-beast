@@ -107,8 +107,9 @@ export function TermsStubBody() {
         Deposits shown on the board apply toward the balance when you win. If
         you win and do not pay the remaining balance as required, your deposit
         is non-refundable and the seat passes to the next highest bidder under
-        the same payment rules. We may also reject or cancel a win for
-        prohibited content or fraud.
+        the same payment rules. If you win, pay the remainder within 7 days or
+        the deposit is forfeited and the seat goes to the next bidder. We may
+        also reject or cancel a win for prohibited content or fraud.
       </p>
       <h2>Artwork</h2>
       <p data-testid="terms-artwork">

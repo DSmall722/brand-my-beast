@@ -70,7 +70,7 @@ test.describe("slice 11.8: Pre-P3 checklist on /operator", () => {
     await expect(panel).toBeVisible();
     await expect(panel).toHaveAttribute("data-auction-clock", "set");
     await expect(page.getByTestId("pre-p3-close-at-fence")).toContainText(
-      "Auction clock stays unset",
+      "Closes Mon Nov 2, 2026, 12:00 PM ET",
     );
     await expect(page.getByTestId("pre-p3-close-at-fence")).toContainText(
       "$58,000",

@@ -96,7 +96,7 @@ test.describe("slice 12.23: shop cut-file checklist form", () => {
       "$120,000",
     );
     await expect(page.getByTestId("shop-cut-file-fence")).toContainText(
-      "Auction clock stays unset",
+      "Closes Mon Nov 2, 2026, 12:00 PM ET",
     );
     await expect(page.getByTestId("shop-cut-file-fence")).toContainText(
       "No card capture",

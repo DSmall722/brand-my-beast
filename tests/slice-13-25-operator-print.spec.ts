@@ -214,7 +214,8 @@ test.describe("slice 13.25: operator print seat view", () => {
 
     const html = await page.content();
     expect(html.toLowerCase()).not.toMatch(/\blease\b/);
-    expect(html).toContain("CLOSE_AT unset");
+    expect(html).toContain("Closes Mon Nov 2, 2026, 12:00 PM ET");
+    expect(html).not.toContain("CLOSE_AT");
 
     const printUrl = page.url();
     expect(printUrl).toContain("/operator/print/");

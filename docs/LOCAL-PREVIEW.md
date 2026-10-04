@@ -12,6 +12,6 @@ npm i && npm run dev
 
 Open the URL the dev server prints (default `http://localhost:3000`). That is the real page.
 
-Floor **$58,000**. Buyout **$120,000**. `CLOSE_AT` stays null. No Stripe. No card charge. No close date.
+Floor **$58,000**. Buyout **$120,000**. Close is Mon Nov 2, 2026, 12:00 PM ET. No card charge on the local preview unless the deposit desk is opened for a test.
 
 Public strings only: BrandMyBeast, @BrandMyBeast, hello@brandmybeast.com.

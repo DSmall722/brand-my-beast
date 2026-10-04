@@ -38,7 +38,7 @@ test.describe("slice 18.5: llms.txt drops CLOSE_AT", () => {
     const body = await res.text();
     expect(body).toBe(buildLlmsTxt());
     expect(body).toContain("Floor $58,000. Buyout $120,000.");
-    expect(body).toContain("No close date.");
+    expect(body).toContain("Closes Mon Nov 2, 2026, 12:00 PM ET.");
     expect(body).not.toContain("CLOSE_AT");
     expect(body).not.toContain("null");
     expect(body.toLowerCase()).not.toMatch(/\blease\b/);

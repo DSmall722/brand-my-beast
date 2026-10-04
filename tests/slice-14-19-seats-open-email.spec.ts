@@ -57,7 +57,7 @@ test.describe("slice 14.19: seats-open email template (no agent send)", () => {
     expect(mail.text).toContain("Seats are open");
     expect(mail.text).toContain(formatUsd(FLOOR_USD));
     expect(mail.text).toContain(formatUsd(GOAL_USD));
-    expect(mail.text).toContain("No close date");
+    expect(mail.text).toContain("Closes Mon Nov 2, 2026, 12:00 PM ET");
     expect(mail.text).toContain(CAN_SPAM_UNSUBSCRIBE_URL);
     expect(mail.text.toLowerCase()).not.toMatch(/\blease\b/);
     expect(mail.text).not.toMatch(/@gmail\.com/);

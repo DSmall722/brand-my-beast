@@ -6,6 +6,7 @@ import {
   assertPreP3ChecklistDoesNotSetCloseAt,
 } from "@/lib/pre-p3-checklist";
 import { CLOSE_AT } from "@/lib/campaign";
+import { publishedCloseLabelEt } from "@/lib/campaign-window";
 
 /**
  * Slice 11.8 — Pre-P3 checklist on `/operator`.
@@ -59,8 +60,8 @@ export function PreP3Checklist() {
         })}
       </ul>
       <p className="auth-hint" data-testid="pre-p3-close-at-fence">
-        Auction clock stays unset. Floor $58,000. Buyout $120,000. No Stripe
-        capture.
+        Closes {publishedCloseLabelEt()}. Floor $58,000. Buyout $120,000. No
+        Stripe capture.
       </p>
     </aside>
   );
