@@ -4,7 +4,11 @@
  */
 
 import { PANELS } from "./campaign";
-import { depositDeskOpen, resolveNowMs } from "./campaign-clock";
+import {
+  depositDeskOpen,
+  resolveNowMs,
+  resolveSmokeDepositUsd,
+} from "./campaign-clock";
 import {
   depositDueUsd,
   effectiveCloseMs,
@@ -72,6 +76,13 @@ function paidLeaderUsd(bids: readonly IntentBid[], panelId: string): number | nu
 
 function userIdForEmail(email: string): string {
   return `deposit:${email.trim().toLowerCase()}`;
+}
+
+export function depositCheckoutUsd(
+  standingUsd: number,
+  env: NodeJS.ProcessEnv = process.env,
+): number {
+  return resolveSmokeDepositUsd(env) ?? depositUsdForMark(standingUsd);
 }
 
 export function depositEmailFromUserId(userId: string): string | null {
@@ -156,7 +167,7 @@ export async function placeDepositBid(
     };
   }
   const userId = userIdForEmail(email);
-  const obligation = depositUsdForMark(input.standingUsd);
+  const obligation = depositCheckoutUsd(input.standingUsd);
   const credit = priorCapturedCreditUsd(bids, userId, panel.id);
   const due = depositDueUsd(obligation, credit);
   const idempotencyKey = input.idempotencyKey?.trim() || null;

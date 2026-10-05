@@ -3,7 +3,9 @@ import { CLOSE_AT, OPEN_AT, PANELS } from "../src/lib/campaign";
 import {
   resetCampaignClockForTests,
   resolveCampaignPhase,
+  resolveSmokeDepositUsd,
 } from "../src/lib/campaign-clock";
+import { depositCheckoutUsd } from "../src/lib/deposit-flow";
 import {
   SOFT_CLOSE_MS,
   WINNER_PAY_MS,
@@ -525,5 +527,55 @@ test.describe("SMOKE_BIDDING_OPEN production hatch", () => {
         SMOKE_BIDDING_OPEN: "true",
       }),
     ).toBe("closed");
+  });
+});
+
+test.describe("SMOKE_DEPOSIT_USD checkout override", () => {
+  const smoke: NodeJS.ProcessEnv = {
+    NODE_ENV: "test",
+    VERCEL_ENV: "production",
+    LIVE_BIDDING: "true",
+    SMOKE_BIDDING_OPEN: "true",
+  };
+
+  test("production smoke hatch charges SMOKE_DEPOSIT_USD instead of 20%", () => {
+    const env: NodeJS.ProcessEnv = { ...smoke, SMOKE_DEPOSIT_USD: "1" };
+    expect(resolveSmokeDepositUsd(env)).toBe(1);
+    expect(depositCheckoutUsd(500, env)).toBe(1);
+    expect(depositCheckoutUsd(2500, env)).toBe(1);
+  });
+
+  test("unset or invalid SMOKE_DEPOSIT_USD keeps the 20% deposit", () => {
+    expect(resolveSmokeDepositUsd(smoke)).toBeNull();
+    expect(depositCheckoutUsd(500, smoke)).toBe(100);
+    expect(
+      depositCheckoutUsd(500, { ...smoke, SMOKE_DEPOSIT_USD: "1.5" }),
+    ).toBe(100);
+    expect(
+      depositCheckoutUsd(500, { ...smoke, SMOKE_DEPOSIT_USD: "0" }),
+    ).toBe(100);
+    expect(
+      depositCheckoutUsd(500, { ...smoke, SMOKE_DEPOSIT_USD: "abc" }),
+    ).toBe(100);
+  });
+
+  test("SMOKE_DEPOSIT_USD is ignored when the smoke hatch is off", () => {
+    expect(
+      depositCheckoutUsd(500, {
+        NODE_ENV: "test",
+        VERCEL_ENV: "production",
+        LIVE_BIDDING: "true",
+        SMOKE_DEPOSIT_USD: "1",
+      }),
+    ).toBe(100);
+    expect(
+      depositCheckoutUsd(500, {
+        NODE_ENV: "test",
+        VERCEL_ENV: "preview",
+        LIVE_BIDDING: "true",
+        SMOKE_BIDDING_OPEN: "true",
+        SMOKE_DEPOSIT_USD: "1",
+      }),
+    ).toBe(100);
   });
 });

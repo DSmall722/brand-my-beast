@@ -86,6 +86,19 @@ export function resolveSmokeBiddingOpen(
 }
 
 /**
+ * Temporary Checkout override while the production smoke hatch is on.
+ * Returns a positive integer dollar amount, or null to keep the 20% deposit.
+ */
+export function resolveSmokeDepositUsd(
+  env: NodeJS.ProcessEnv = process.env,
+): number | null {
+  if (!resolveSmokeBiddingOpen(env)) return null;
+  const raw = env.SMOKE_DEPOSIT_USD?.trim() ?? "";
+  if (!/^[1-9]\d*$/.test(raw)) return null;
+  return Number(raw);
+}
+
+/**
  * Preview hatch, or the temporary production smoke hatch.
  * PREVIEW_BIDDING_OPEN stays ignored on production.
  */

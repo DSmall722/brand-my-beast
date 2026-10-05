@@ -14,6 +14,8 @@ The 20% deposit is charged when a bid is placed. A bid is standing only after `d
 
 `SMOKE_BIDDING_OPEN` is temporary. On production, with `LIVE_BIDDING` set to `true` or `1`, it opens the desk before `OPEN_AT` the same way `PREVIEW_BIDDING_OPEN` does on preview. Close still applies. Unset `SMOKE_BIDDING_OPEN` after the smoke deposit. Do not change `OPEN_AT`.
 
+`SMOKE_DEPOSIT_USD` is temporary. On production, with `LIVE_BIDDING` and `SMOKE_BIDDING_OPEN`, Stripe Checkout charges that integer dollar amount instead of 20% of the bid. Unset or invalid values keep the 20% deposit. Unset it after the smoke deposit.
+
 ## Env vars
 
 | Name | Preview | Production |
@@ -24,6 +26,7 @@ The 20% deposit is charged when a bid is placed. A bid is standing only after `d
 | `LIVE_BIDDING` | `true` | Unset. Bidding stays closed. |
 | `PREVIEW_BIDDING_OPEN` | `true` until the real window should govern the preview, then remove it | Do not set. Ignored anyway. |
 | `SMOKE_BIDDING_OPEN` | Do not set. Preview uses `PREVIEW_BIDDING_OPEN`. | Temporary. Production only, and only with `LIVE_BIDDING`. Unset after the smoke deposit. |
+| `SMOKE_DEPOSIT_USD` | Do not set. | Temporary. Integer dollars for Checkout while the smoke hatch is on, such as `1`. Unset after the smoke deposit. |
 
 Never commit these values. `.env` stays local.
 
