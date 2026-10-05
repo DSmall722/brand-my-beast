@@ -275,6 +275,14 @@ test.describe("stripe deposit and campaign window", () => {
     await expect(page.getByTestId("panel-current-bid-front-bumper")).toHaveText(
       "Opening floor $500",
     );
+    await page.goto("/panels/hood");
+    await expect(page.getByTestId("panel-opening")).toContainText("Opening floor");
+    await expect(page.getByTestId("panel-opening")).toContainText("$2,500");
+    await expect(page.getByTestId("panel-standing")).toHaveText("$2,500");
+    await expect(page.getByTestId("panel-stats")).toHaveAttribute(
+      "data-standing-usd",
+      "2500",
+    );
 
     const rebid = await request.post("/api/bid", {
       data: {
@@ -429,16 +437,14 @@ test.describe("stripe deposit and campaign window", () => {
     await expect(page.getByTestId("bid-modal-minimum")).toHaveText("$500");
 
     await page.goto("/panels/rear-bumper");
-    await expect(page.getByTestId("panel-standing")).toHaveText("$500");
+    await expect(page.getByTestId("panel-opening")).toContainText("Opening floor");
+    await expect(page.getByTestId("panel-opening")).toContainText("$500");
+    await expect(page.getByTestId("panel-standing")).toHaveCount(0);
     await expect(page.getByTestId("panel-stats")).toHaveAttribute(
       "data-standing-usd",
-      "500",
+      "0",
     );
-    const opening = page
-      .getByTestId("panel-stats")
-      .locator("div")
-      .filter({ hasText: "Opening" });
-    await expect(opening).toContainText("$500");
+    await expect(page.getByTestId("panel-stats")).not.toContainText("Standing");
   });
 
   test("a webhook without the mock header is rejected", async ({ request }) => {

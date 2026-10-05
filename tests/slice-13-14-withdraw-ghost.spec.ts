@@ -158,7 +158,8 @@ test.describe("slice 13.14: withdraw leaves no ghost standing", () => {
       "not charged",
       { timeout: 10_000 },
     );
-    await expect(page.getByTestId("panel-standing")).toHaveText("$500");
+    await expect(page.getByTestId("panel-opening")).toContainText("$500");
+    await expect(page.getByTestId("panel-standing")).toHaveCount(0);
 
     await page.goto("/account");
     const row = page.locator('[data-testid^="account-intent-"]').first();
@@ -171,7 +172,8 @@ test.describe("slice 13.14: withdraw leaves no ghost standing", () => {
     await expect(row).toContainText("Withdrawn", { timeout: 10_000 });
 
     await page.goto("/panels/rear-bumper");
-    await expect(page.getByTestId("panel-standing")).toHaveText("$500");
+    await expect(page.getByTestId("panel-opening")).toContainText("$500");
+    await expect(page.getByTestId("panel-standing")).toHaveCount(0);
     const html = await page.content();
     expect(html.toLowerCase()).not.toMatch(/\blease\b/);
     expect(html).toContain("$58,000");

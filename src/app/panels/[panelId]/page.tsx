@@ -152,7 +152,7 @@ export default async function PanelIntentPage({
     .filter(isPendingPublicBid)
     .sort((a, b) => b.standingUsd - a.standingUsd)[0];
   const paidUsd = pledgedUsdForPanel(bids);
-  const publicStanding = paidUsd > 0 ? paidUsd : panel.openingUsd;
+  const depositShownUsd = paidUsd > 0 ? paidUsd : panel.openingUsd;
   const seatLog = buildPublicSeatLog(bids);
   const dayByDay = buildDayByDay(ledger, { panelId: panel.id });
   const quotes: BidPanelQuote[] = PANELS.map((row) => {
@@ -229,18 +229,20 @@ export default async function PanelIntentPage({
           className="panel-stats"
           data-testid="panel-stats"
           data-seat-open={seatOpen ? "true" : "false"}
-          data-standing-usd={publicStanding}
+          data-standing-usd={paidUsd}
           data-minimum-usd={minimum}
           data-increment-usd={incrementUsd ?? 0}
         >
-          <div>
-            <dt>Opening</dt>
+          <div data-testid="panel-opening">
+            <dt>{PUBLIC_COPY.bidDesk.openingFloor}</dt>
             <dd>{formatUsd(panel.openingUsd)}</dd>
           </div>
-          <div>
-            <dt>Standing</dt>
-            <dd data-testid="panel-standing">{formatUsd(publicStanding)}</dd>
-          </div>
+          {paidUsd > 0 ? (
+            <div>
+              <dt>Standing</dt>
+              <dd data-testid="panel-standing">{formatUsd(paidUsd)}</dd>
+            </div>
+          ) : null}
           {pendingBid ? (
             <div>
               <dt>{PUBLIC_COPY.bidDesk.pending}</dt>
@@ -264,7 +266,7 @@ export default async function PanelIntentPage({
           <div>
             <dt>Deposit shown</dt>
             <dd data-testid="panel-deposit-shown">
-              {DEPOSIT_PERCENT}% · {formatUsd(depositUsdForMark(publicStanding))}
+              {DEPOSIT_PERCENT}% · {formatUsd(depositUsdForMark(depositShownUsd))}
             </dd>
           </div>
         </dl>

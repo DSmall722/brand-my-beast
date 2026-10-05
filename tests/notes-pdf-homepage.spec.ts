@@ -290,7 +290,8 @@ test.describe("notes PDF homepage sheet", () => {
       timeout: 10_000,
     });
     await expect(page.getByTestId("seat-lead")).not.toContainText("Current Bid");
-    await expect(page.getByTestId("panel-standing")).toHaveText("$2,500");
+    await expect(page.getByTestId("panel-opening")).toContainText("Opening floor");
+    await expect(page.getByTestId("panel-standing")).toHaveCount(0);
     await expect(page.getByTestId("panel-pending")).toHaveText("$2,750");
 
     await page.goto("/");

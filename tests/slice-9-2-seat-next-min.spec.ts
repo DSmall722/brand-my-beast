@@ -56,7 +56,8 @@ test.describe("slice 9.2: seat next minimum", () => {
     page,
   }) => {
     await page.goto("/panels/hood");
-    await expect(page.getByTestId("panel-standing")).toHaveText("$2,500");
+    await expect(page.getByTestId("panel-opening")).toContainText("$2,500");
+    await expect(page.getByTestId("panel-standing")).toHaveCount(0);
     await expect(page.getByTestId("panel-minimum")).toHaveText("$2,500");
     await expect(page.getByTestId("panel-increment")).toHaveCount(0);
     await expect(page.getByTestId("panel-stats")).toHaveAttribute(
@@ -92,7 +93,11 @@ test.describe("slice 9.2: seat next minimum", () => {
       { timeout: 10_000 },
     );
 
-    await expect(page.getByTestId("panel-standing")).toHaveText(
+    await expect(page.getByTestId("panel-opening")).toContainText(
+      formatUsd(standingUsd),
+    );
+    await expect(page.getByTestId("panel-standing")).toHaveCount(0);
+    await expect(page.getByTestId("panel-pending")).toHaveText(
       formatUsd(standingUsd),
     );
     await expect(page.getByTestId("panel-minimum")).toHaveText(
@@ -143,7 +148,8 @@ test.describe("slice 9.2: seat next minimum", () => {
 
     expect(minIncrementUsd(3000)).toBe(300);
     expect(nextStandingUsd(3000)).toBe(3300);
-    await expect(page.getByTestId("panel-standing")).toHaveText("$2,500");
+    await expect(page.getByTestId("panel-opening")).toContainText("$2,500");
+    await expect(page.getByTestId("panel-standing")).toHaveCount(0);
     await expect(page.getByTestId("panel-pending")).toHaveText("$3,000");
     await expect(page.getByTestId("panel-increment")).toHaveText("$300");
     await expect(page.getByTestId("panel-minimum")).toHaveText("$3,300");

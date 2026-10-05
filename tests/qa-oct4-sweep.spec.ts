@@ -93,7 +93,9 @@ test.describe("Oct 4 QA sweep", () => {
     );
     await expect(page.getByTestId("day-by-day")).not.toContainText("Sample Mark");
     await expect(page.getByTestId("panel-increment")).toHaveCount(0);
-    await expect(page.getByTestId("panel-standing")).toHaveText("$2,500");
+    await expect(page.getByTestId("panel-opening")).toContainText("Opening floor");
+    await expect(page.getByTestId("panel-opening")).toContainText("$2,500");
+    await expect(page.getByTestId("panel-standing")).toHaveCount(0);
   });
 
   test("sitemap, robots, and canonical use the www host", async ({
@@ -156,7 +158,8 @@ test.describe("Oct 4 QA sweep", () => {
     await expect(page.getByTestId("intent-success")).toContainText("not charged");
 
     await expect(page.getByTestId("panel-pending")).toHaveText("$2,500");
-    await expect(page.getByTestId("panel-standing")).toHaveText("$2,500");
+    await expect(page.getByTestId("panel-opening")).toContainText("Opening floor");
+    await expect(page.getByTestId("panel-standing")).toHaveCount(0);
     await expect(page.getByTestId("day-by-day")).toHaveAttribute(
       "data-source",
       "live",

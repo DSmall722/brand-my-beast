@@ -757,7 +757,8 @@ test.describe("P2 panel intent + approvals", () => {
     const low = await browser.newPage();
     await signIn(low, "slice15-low@example.com");
     await low.goto("/panels/hood");
-    await expect(low.getByTestId("panel-standing")).toContainText("2,500");
+    await expect(low.getByTestId("panel-opening")).toContainText("2,500");
+    await expect(low.getByTestId("panel-standing")).toHaveCount(0);
     await expect(low.getByTestId("panel-minimum")).toContainText("2,750");
     await expect(low.getByTestId("intent-increment-rule")).toContainText(
       "standing + max($250, 10%)",
@@ -785,7 +786,8 @@ test.describe("P2 panel intent + approvals", () => {
     await expect(ok.getByTestId("intent-list")).toContainText(
       "Slice Fifteen Ok",
     );
-    await expect(ok.getByTestId("panel-standing")).toContainText("2,500");
+    await expect(ok.getByTestId("panel-opening")).toContainText("2,500");
+    await expect(ok.getByTestId("panel-standing")).toHaveCount(0);
     await expect(ok.getByTestId("panel-pending")).toContainText("2,750");
     await expect(ok.getByTestId("panel-minimum")).toContainText("3,025");
     await ok.close();

@@ -167,7 +167,8 @@ test.describe("slice 12.16: account delete anonymize user id", () => {
     await expect(page.getByTestId("intent-success")).toBeVisible({
       timeout: 10_000,
     });
-    await expect(page.getByTestId("panel-standing")).toHaveText("$2,500");
+    await expect(page.getByTestId("panel-opening")).toContainText("$2,500");
+    await expect(page.getByTestId("panel-standing")).toHaveCount(0);
 
     await page.goto("/account");
     await expect(page.getByTestId("account-delete-submit")).toBeVisible();
@@ -181,7 +182,8 @@ test.describe("slice 12.16: account delete anonymize user id", () => {
     await expect(page).toHaveURL(/signin/);
 
     await page.goto("/panels/hood");
-    await expect(page.getByTestId("panel-standing")).toHaveText("$2,500");
+    await expect(page.getByTestId("panel-opening")).toContainText("$2,500");
+    await expect(page.getByTestId("panel-standing")).toHaveCount(0);
     await expect(page.getByTestId("public-standing-brand")).toHaveCount(0);
     await expect(page.getByTestId("intent-list")).toContainText("DeleteUiCo");
   });
