@@ -9,6 +9,7 @@ import type { IntentBid, IntentBidStatus } from "@/lib/intent";
 import {
   countsAsPublicStanding,
   isFloorSaveBid,
+  isLiveIntentBid,
   isPendingPublicBid,
 } from "@/lib/intent";
 import { SEAT_LOG_TIME_ZONE, formatSeatLogTime } from "@/lib/seat-log";
@@ -196,7 +197,10 @@ export function buildDayByDay(
   options?: { panelId?: string },
 ): DayByDay {
   const publicLedger = bids.filter(
-    (bid) => HISTORY_STATUSES.has(bid.status) && !isFloorSaveBid(bid),
+    (bid) =>
+      isLiveIntentBid(bid) &&
+      HISTORY_STATUSES.has(bid.status) &&
+      !isFloorSaveBid(bid),
   );
   if (publicLedger.length === 0) return sampleDayByDay(options?.panelId);
 

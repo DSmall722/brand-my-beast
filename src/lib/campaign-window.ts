@@ -8,6 +8,7 @@ import { formatCampaignInstantEt, formatSeatLogTime } from "./seat-log";
 import {
   depositRefundStatus,
   hasPaidDeposit,
+  isLiveIntentBid,
   type DepositRefundStatus,
   type IntentBid,
 } from "./intent";
@@ -140,6 +141,7 @@ function eligiblePaid(bids: readonly IntentBid[], panelId: string): IntentBid[] 
     .filter(
       (bid) =>
         bid.panelId === panelId &&
+        isLiveIntentBid(bid) &&
         hasPaidDeposit(bid) &&
         depositRefundStatus(bid) === "none" &&
         bid.status !== "withdrawn" &&

@@ -88,17 +88,25 @@ export type IntentBid = {
   invoiceCreditedAt?: string | null;
 };
 
+/** Soft-deleted rows stay in the ledger. They do not stand on the public board. */
+export function isLiveIntentBid(bid: { deletedAt?: string | null }): boolean {
+  return bid.deletedAt == null || bid.deletedAt === "";
+}
+
 /**
  * Slice 13.14 — standing from live listed/approved only (not floor-save,
- * not withdrawn, not outbid). Empty → panel opening. Prevents ghost standing
- * after the sole pending mark withdraws.
+ * not withdrawn, not outbid, not deleted). Empty → panel opening. Prevents
+ * ghost standing after the sole pending mark withdraws.
  */
 export function activeStandingUsd(
-  bids: readonly Pick<IntentBid, "status" | "standingUsd" | "floorSaveUsd">[],
+  bids: readonly (Pick<IntentBid, "status" | "standingUsd" | "floorSaveUsd"> & {
+    deletedAt?: string | null;
+  })[],
   openingUsd: number,
 ): number {
   const active = bids.filter(
     (bid) =>
+      isLiveIntentBid(bid) &&
       (bid.status === "listed" || bid.status === "approved") &&
       !isFloorSaveBid(bid),
   );
@@ -129,13 +137,15 @@ export function depositRefundStatus(bid: {
   return "none";
 }
 
-/** Paid listed or approved mark. Floor-save, refunded, and forfeited do not stand. */
+/** Paid listed or approved mark. Floor-save, refunded, forfeited, and deleted do not stand. */
 export function countsAsPublicStanding(
   bid: Pick<IntentBid, "status" | "floorSaveUsd"> & {
     depositPaidAt?: string | null;
     refundStatus?: DepositRefundStatus | null;
+    deletedAt?: string | null;
   },
 ): boolean {
+  if (!isLiveIntentBid(bid)) return false;
   if (isFloorSaveBid(bid) || !hasPaidDeposit(bid)) return false;
   if (depositRefundStatus(bid) !== "none") return false;
   return bid.status === "listed" || bid.status === "approved";
@@ -149,8 +159,10 @@ export function isPendingPublicBid(
   bid: Pick<IntentBid, "status" | "floorSaveUsd"> & {
     depositPaidAt?: string | null;
     refundStatus?: DepositRefundStatus | null;
+    deletedAt?: string | null;
   },
 ): boolean {
+  if (!isLiveIntentBid(bid)) return false;
   if (depositRefundStatus(bid) !== "none") return false;
   if (isFloorSaveBid(bid) || countsAsPublicStanding(bid)) return false;
   switch (bid.status) {

@@ -3,6 +3,7 @@ import type { IntentBid, IntentBidStatus } from "@/lib/intent";
 import {
   countsAsPublicStanding,
   isFloorSaveBid,
+  isLiveIntentBid,
   isPendingPublicBid,
 } from "@/lib/intent";
 import { publicLogoUrl } from "@/lib/public-mark";
@@ -59,7 +60,10 @@ function panelName(panelId: string): string {
 
 function publicBids(bids: readonly IntentBid[]): IntentBid[] {
   return bids.filter(
-    (bid) => PUBLIC_STATUSES.has(bid.status) && !isFloorSaveBid(bid),
+    (bid) =>
+      isLiveIntentBid(bid) &&
+      PUBLIC_STATUSES.has(bid.status) &&
+      !isFloorSaveBid(bid),
   );
 }
 

@@ -29,6 +29,7 @@ import {
   countsAsPublicStanding,
   depositUsdForMark,
   isFloorSaveBid,
+  isLiveIntentBid,
   isPendingPublicBid,
   minIncrementUsd,
   nextStandingUsd,
@@ -143,6 +144,7 @@ export default async function PanelIntentPage({
     .sort((a, b) => b.standingUsd - a.standingUsd)[0];
   const activeHolder = bids.find(
     (bid) =>
+      isLiveIntentBid(bid) &&
       (bid.status === "listed" || bid.status === "approved") &&
       !isFloorSaveBid(bid),
   );

@@ -16,6 +16,7 @@ import {
 } from "./campaign-window";
 import { assertTradeAllowed } from "./banned-trades";
 import {
+  countsAsPublicStanding,
   depositUsdForMark,
   hasPaidDeposit,
   nextStandingUsd,
@@ -63,12 +64,7 @@ function panelById(panelId: string) {
 
 function paidLeaderUsd(bids: readonly IntentBid[], panelId: string): number | null {
   const paid = bids.filter(
-    (bid) =>
-      bid.panelId === panelId &&
-      (bid.status === "listed" || bid.status === "approved") &&
-      hasPaidDeposit(bid) &&
-      (bid.refundStatus ?? "none") === "none" &&
-      bid.floorSaveUsd == null,
+    (bid) => bid.panelId === panelId && countsAsPublicStanding(bid),
   );
   if (paid.length === 0) return null;
   return Math.max(...paid.map((bid) => bid.standingUsd));

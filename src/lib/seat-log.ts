@@ -5,7 +5,7 @@
  */
 
 import { formatUsd } from "./campaign";
-import type { IntentBid } from "./intent";
+import { isLiveIntentBid, type IntentBid } from "./intent";
 import { panelBoardMarkFor, panelLegendLabel } from "./panel-board";
 
 /** Public seat log display timezone (Eastern). */
@@ -72,6 +72,7 @@ export function buildPublicSeatLog(
   bids: readonly IntentBid[],
 ): PublicSeatLogEntry[] {
   return bids
+    .filter(isLiveIntentBid)
     .slice()
     .sort((a, b) => b.createdAt.localeCompare(a.createdAt))
     .map((bid) => {

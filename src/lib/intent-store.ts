@@ -41,6 +41,7 @@ import {
   countsAsPublicStanding,
   depositUsdForMark,
   isFloorSaveBid,
+  isLiveIntentBid,
   INTENT_STALE_WRITE,
   nextStandingUsd,
   normalizeTradeLabel,
@@ -547,6 +548,7 @@ export async function minimumIntentUsd(panelId: string): Promise<number> {
   if (!panel) throw new Error(`Unknown panel: ${panelId}`);
   const active = (await listBidsForPanel(panelId)).filter(
     (bid) =>
+      isLiveIntentBid(bid) &&
       (bid.status === "listed" || bid.status === "approved") &&
       !isFloorSaveBid(bid),
   );
@@ -576,6 +578,7 @@ export function distinctHoldingPanelIdsForUser(
   const panels = new Set<string>();
   for (const bid of bids) {
     if (bid.userId !== userId) continue;
+    if (!isLiveIntentBid(bid)) continue;
     if (!(HOLDING_STATUSES as readonly string[]).includes(bid.status)) continue;
     if (isFloorSaveBid(bid)) continue;
     panels.add(bid.panelId);
@@ -2154,7 +2157,10 @@ export async function loadBoardIntentStats(): Promise<BoardIntentStats> {
     for (const panel of PANELS) {
       const bids = await listBidsForPanel(panel.id);
       const approved = bids.filter(
-        (bid) => bid.status === "approved" && !isFloorSaveBid(bid),
+        (bid) =>
+          isLiveIntentBid(bid) &&
+          bid.status === "approved" &&
+          !isFloorSaveBid(bid),
       );
       if (approved.length === 0) continue;
       seatedPanels += 1;
@@ -2208,6 +2214,7 @@ export async function loadActiveMarkHoldersByPanel(): Promise<
   return holdersMatching((bids) =>
     bids.filter(
       (bid) =>
+        isLiveIntentBid(bid) &&
         (bid.status === "listed" || bid.status === "approved") &&
         !isFloorSaveBid(bid),
     ),
