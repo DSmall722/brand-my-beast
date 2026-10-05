@@ -27,7 +27,11 @@ export function DayByDay({
           {copy.daySampleLead}
         </p>
       ) : null}
-      {empty ? null : (
+      {empty ? (
+        <p className="auth-hint" data-testid="day-by-day-empty">
+          {copy.todayEmpty}
+        </p>
+      ) : (
         <ol className="day-by-day-list">
           {model.days.map((day, index) => (
             <li key={day.dayKey}>

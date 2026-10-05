@@ -44,7 +44,8 @@ test.describe("slice 16.29: card opening prices use formatUsd", () => {
     );
     expect(src).toMatch(/formatUsd,\s*isEtchable\s*\} from ["']@\/lib\/campaign["']/);
     expect(src).toContain("currentBidUsd");
-    expect(src).toContain("Current Bid {formatUsd(bidUsd)}");
+    expect(src).toContain("PUBLIC_COPY.bidDesk.openingFloor");
+    expect(src).toContain("Current Bid ${formatUsd(bidUsd)}");
     expect(src).not.toMatch(/\$\d/);
 
     const door = PANELS.find((panel) => panel.id === "driver-door");
@@ -59,12 +60,12 @@ test.describe("slice 16.29: card opening prices use formatUsd", () => {
     await page.goto("/");
     for (const panel of PANELS) {
       const card = page.getByTestId(`panel-${panel.id}`);
-      await expect(card).toContainText(`Current Bid ${formatUsd(panel.openingUsd)}`);
+      await expect(card).toContainText(`Opening floor ${formatUsd(panel.openingUsd)}`);
     }
     await expect(page.getByTestId("panel-driver-door")).toContainText(
-      "Current Bid $4,500",
+      "Opening floor $4,500",
     );
-    await expect(page.getByTestId("panel-hood")).toContainText("Current Bid $2,500");
+    await expect(page.getByTestId("panel-hood")).toContainText("Opening floor $2,500");
     await expect(page.getByTestId("floor-amount")).toHaveText("$58,000");
     await expect(page.getByTestId("goal-amount")).toHaveText("$120,000");
   });

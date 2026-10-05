@@ -133,7 +133,9 @@ export function HomePanelsSection({
                       className="panel-meta"
                       data-testid={`panel-current-bid-${panel.id}`}
                     >
-                      Current Bid {formatUsd(bidUsd)}
+                      {standing
+                        ? `Current Bid ${formatUsd(bidUsd)}`
+                        : `${PUBLIC_COPY.bidDesk.openingFloor} ${formatUsd(panel.openingUsd)}`}
                     </div>
                     {pending && !standing ? (
                       <div

@@ -99,10 +99,11 @@ export function TermsStubBody() {
       </p>
       <h2>Bids and payment</h2>
       <p data-testid="terms-bids">
-        Opening prices and buyout levels are shown on the board. Displayed
-        &quot;Current Bid&quot; amounts are opening prices until a live bid is
-        placed on that seat. A bid you place is an offer to buy that seat at
-        that price. If you win, you owe the winning amount (or the buyout
+        Opening prices and buyout levels are shown on the board. Empty seats
+        show an opening floor, not a Current Bid. Displayed &quot;Current
+        Bid&quot; amounts are standing marks on that seat. A bid you place is
+        an offer to buy that seat at that price. If you win, you owe the
+        winning amount (or the buyout
         amount, if you buy out) under the payment instructions we send.
         Deposits shown on the board apply toward the balance when you win. If
         you win and do not pay the remaining balance as required, your deposit

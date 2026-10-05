@@ -111,7 +111,7 @@ test.describe("slice 10.9: panel cards standing or Open", () => {
     await expect(after.getByTestId("panel-standing-front-bumper")).toHaveText("");
     await expect(after.getByTestId("panel-open-seat-once")).toHaveCount(0);
     await expect(after.getByTestId("panel-current-bid-hood")).toHaveText(
-      "Current Bid $2,500",
+      "Opening floor $2,500",
     );
 
     const html = await after.content();

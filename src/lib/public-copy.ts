@@ -396,6 +396,7 @@ export const PUBLIC_COPY = {
     topEmpty: "No standing bids yet.",
     todayHeading: "Today's action",
     todayEmpty: "No bid or outbid yet today. Be the first.",
+    openingFloor: "Opening floor",
     leaderboardLink: "Leaderboard",
     leaderboardHeading: "Leaderboard",
     leaderboardEvery: "Every bid ever placed, highest first.",

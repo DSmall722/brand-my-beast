@@ -51,28 +51,23 @@ test.describe("Oct 4 QA sweep", () => {
     );
   });
 
-  test("empty ledger shows labeled sample history and $0 raised", async ({
+  test("empty ledger shows empty day-by-day and $0 raised", async ({
     page,
   }) => {
     await page.goto("/");
     await expect(page.getByTestId("raised-amount")).toHaveText("$0");
     const history = page.getByTestId("day-by-day");
-    await expect(history).toHaveAttribute("data-source", "sample");
-    await expect(history.getByTestId("day-by-day-lead")).toHaveText(
-      PUBLIC_COPY.bidDesk.daySampleLead,
+    await expect(history).toHaveAttribute("data-source", "live");
+    await expect(history).toHaveAttribute("data-empty", "true");
+    await expect(history.getByTestId("day-by-day-empty")).toHaveText(
+      PUBLIC_COPY.bidDesk.todayEmpty,
     );
-    await expect(history.getByTestId("day-by-day-sample-standing")).toContainText(
-      "2 Sep",
-    );
-    await expect(history.getByTestId("day-line-sample-hood")).toContainText(
-      "Sample Mark",
-    );
-    await expect(history.getByTestId("day-line-sample-rear-bumper")).toContainText(
-      "$500",
-    );
+    await expect(history.getByTestId("day-by-day-lead")).toHaveCount(0);
+    await expect(history.locator(".day-by-day-list")).toHaveCount(0);
+    await expect(history).not.toContainText("Sample Mark");
     await expect(page.getByTestId("panel-hood")).not.toContainText("Sample Mark");
     await expect(page.getByTestId("panel-current-bid-hood")).toHaveText(
-      "Current Bid $2,500",
+      "Opening floor $2,500",
     );
     await expect(page.getByTestId("auction-top")).toContainText(
       "No standing bids yet.",
@@ -87,11 +82,16 @@ test.describe("Oct 4 QA sweep", () => {
     await page.goto("/panels/hood");
     await expect(page.getByTestId("day-by-day")).toHaveAttribute(
       "data-source",
-      "sample",
+      "live",
     );
-    await expect(page.getByTestId("day-by-day-lead")).toContainText(
-      "No live bids yet",
+    await expect(page.getByTestId("day-by-day")).toHaveAttribute(
+      "data-empty",
+      "true",
     );
+    await expect(page.getByTestId("day-by-day-empty")).toHaveText(
+      PUBLIC_COPY.bidDesk.todayEmpty,
+    );
+    await expect(page.getByTestId("day-by-day")).not.toContainText("Sample Mark");
     await expect(page.getByTestId("panel-increment")).toHaveCount(0);
     await expect(page.getByTestId("panel-standing")).toHaveText("$2,500");
   });

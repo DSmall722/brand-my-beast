@@ -15,7 +15,10 @@ test.describe("desktop layout polish", () => {
 
   test("1440 desktop centers content, uses 4-4-3, and keeps steps in a row", async ({
     page,
+    request,
   }) => {
+    const reset = await request.post("/api/test/reset-intents");
+    expect(reset.ok()).toBeTruthy();
     await page.setViewportSize({ width: 1440, height: 900 });
     await page.goto("/");
 
@@ -237,11 +240,13 @@ test.describe("desktop layout polish", () => {
 
     const history = page.getByTestId("day-by-day");
     await expect(history.getByRole("heading", { name: "Day by day" })).toBeVisible();
-    await expect(history.getByTestId("day-by-day-lead")).toContainText(
-      "Sample history",
+    await expect(history).toHaveAttribute("data-source", "live");
+    await expect(history).toHaveAttribute("data-empty", "true");
+    await expect(history.getByTestId("day-by-day-empty")).toContainText(
+      "No bid or outbid yet today",
     );
-    await expect(history).toContainText("not pledged");
-    await expect(history).toContainText("Sample Mark");
+    await expect(history).not.toContainText("Sample history");
+    await expect(history).not.toContainText("Sample Mark");
     await expect(history).not.toContainText("unpaid");
     await expect(history).not.toContainText("paid");
 

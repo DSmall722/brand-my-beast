@@ -68,6 +68,7 @@ export default async function HomePage() {
       name: panel.name,
       currentBidUsd: current,
       minimumBidUsd: standing ? nextStandingUsd(current) : panel.openingUsd,
+      hasStanding: Boolean(standing),
     };
   });
   const occupiedPanelIds = [...standingHolders.keys()];
