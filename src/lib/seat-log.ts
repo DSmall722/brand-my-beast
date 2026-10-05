@@ -5,7 +5,7 @@
  */
 
 import { formatUsd } from "./campaign";
-import type { IntentBid } from "./intent";
+import { isLiveIntentBid, type IntentBid } from "./intent";
 import { panelBoardMarkFor, panelLegendLabel } from "./panel-board";
 
 /** Public seat log display timezone (Eastern). */
@@ -45,6 +45,25 @@ export function formatSeatLogTime(iso: string): string {
   return `${formatted} ET`;
 }
 
+/** Weekday label in America/New_York. `Mon Nov 2, 2026, 12:00 PM ET`. */
+export function formatCampaignInstantEt(iso: string): string {
+  const date = new Date(iso);
+  if (Number.isNaN(date.getTime())) return iso;
+  const parts = new Intl.DateTimeFormat("en-US", {
+    timeZone: SEAT_LOG_TIME_ZONE,
+    weekday: "short",
+    month: "short",
+    day: "numeric",
+    year: "numeric",
+    hour: "numeric",
+    minute: "2-digit",
+    hour12: true,
+  }).formatToParts(date);
+  const pick = (type: Intl.DateTimeFormatPartTypes) =>
+    parts.find((part) => part.type === type)?.value ?? "";
+  return `${pick("weekday")} ${pick("month")} ${pick("day")}, ${pick("year")}, ${pick("hour")}:${pick("minute")} ${pick("dayPeriod")} ET`;
+}
+
 /**
  * Build public seat log rows from panel bids.
  * Newest first. Never includes email or userId.
@@ -53,6 +72,7 @@ export function buildPublicSeatLog(
   bids: readonly IntentBid[],
 ): PublicSeatLogEntry[] {
   return bids
+    .filter(isLiveIntentBid)
     .slice()
     .sort((a, b) => b.createdAt.localeCompare(a.createdAt))
     .map((bid) => {

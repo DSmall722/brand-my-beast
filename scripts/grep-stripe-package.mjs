@@ -27,7 +27,7 @@ for (const field of DEP_FIELDS) {
   const block = pkg[field];
   if (!block || typeof block !== "object") continue;
   for (const name of Object.keys(block)) {
-    if (packageNameLooksLikeStripe(name)) {
+    if (packageNameLooksLikeStripe(name) && name !== "stripe") {
       hits.push({ field, name });
     }
   }

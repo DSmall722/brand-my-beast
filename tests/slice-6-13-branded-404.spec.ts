@@ -18,7 +18,7 @@ test.describe("slice 6.13: branded 404", () => {
   test("campaign money fences stay locked", () => {
     expect(FLOOR_USD).toBe(58_000);
     expect(GOAL_USD).toBe(120_000);
-    expect(CLOSE_AT).toBeNull();
+    expect(CLOSE_AT).toBe("2026-11-02T17:00:00.000Z");
     expect(BRAND.name).toBe("BrandMyBeast");
     expect(formatUsd(FLOOR_USD)).toBe("$58,000");
     expect(formatUsd(GOAL_USD)).toBe("$120,000");
@@ -35,7 +35,7 @@ test.describe("slice 6.13: branded 404", () => {
       ...Object.keys(pkg.dependencies ?? {}),
       ...Object.keys(pkg.devDependencies ?? {}),
     ].map((name) => name.toLowerCase());
-    expect(names.some((name) => name.includes("stripe"))).toBe(false);
+    expect(names.some((name) => name !== "stripe" && name.includes("stripe"))).toBe(false);
     expect(names.some((name) => name.includes("gsap"))).toBe(false);
     expect(names.some((name) => name === "three")).toBe(false);
     expect(names.some((name) => name.includes("@react-three"))).toBe(false);

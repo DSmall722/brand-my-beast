@@ -13,6 +13,7 @@ import {
   isEtchUnlocked,
   type Panel,
 } from "./campaign";
+import { publishedCloseLabelEt } from "./campaign-window";
 import type { IntentBid } from "./intent";
 import { panelBoardMarkFor } from "./panel-board";
 
@@ -168,7 +169,7 @@ function pdfLines(seat: ShopPdfSeat): string[] {
     "",
     `Floor ${formatUsd(seat.floorUsd)}. Buyout ${formatUsd(seat.goalUsd)}.`,
     "Wrap term: 12 months from install. Etch: until the steel is gone.",
-    "CLOSE_AT unset. Not Tesla.",
+    `Closes ${publishedCloseLabelEt()}. Not Tesla.`,
   ];
 }
 

@@ -3,7 +3,7 @@
  * Never runs a capture path. Never sets CLOSE_AT.
  */
 
-import { CLOSE_AT, PANELS } from "./campaign";
+import { PANELS } from "./campaign";
 import {
   loadBoardIntentStats,
   resetIntentStoreForTests,
@@ -35,9 +35,6 @@ export async function seedOpenPanelsZeroStanding(): Promise<
 > {
   if (!seedOpenPanelsAllowed()) {
     return { ok: false, error: "Seed open panels is CI / test only." };
-  }
-  if (CLOSE_AT != null) {
-    return { ok: false, error: "CLOSE_AT must stay null." };
   }
   if (PANELS.length !== 11) {
     return { ok: false, error: "Campaign must define exactly 11 panels." };

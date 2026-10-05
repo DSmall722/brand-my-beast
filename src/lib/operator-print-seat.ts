@@ -5,6 +5,7 @@
  */
 
 import { formatUsd } from "./campaign";
+import { publishedCloseLabelEt } from "./campaign-window";
 import type { IntentBid } from "./intent";
 import {
   shopPdfSeatFromApproved,
@@ -129,6 +130,6 @@ export function operatorPrintFacts(seat: OperatorPrintSeat): {
         testId: "operator-print-wrap-term-start",
       },
     ],
-    fences: `Floor ${formatUsd(seat.floorUsd)}. Buyout ${formatUsd(seat.goalUsd)}. CLOSE_AT unset. Intent only — no card charge.`,
+    fences: `Floor ${formatUsd(seat.floorUsd)}. Buyout ${formatUsd(seat.goalUsd)}. Closes ${publishedCloseLabelEt()}. Intent only — no card charge.`,
   };
 }

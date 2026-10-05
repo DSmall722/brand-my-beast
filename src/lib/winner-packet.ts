@@ -13,6 +13,7 @@ import {
   formatUsd,
   type Panel,
 } from "./campaign";
+import { publishedCloseLabelEt } from "./campaign-window";
 import type { IntentBid } from "./intent";
 import {
   shopPdfFinishForPanel,
@@ -122,7 +123,7 @@ export function winnerPacketFilename(seat: WinnerPacketSeat): string {
 /**
  * Markdown packet: panel, brand, wrap vs etch, 12-month term.
  * Slice 13.23 embeds wrap term start = install day (not close).
- * Fences: $58k / $120k, no lease, CLOSE_AT unset.
+ * Fences: $58k / $120k, no lease, published close in ET.
  */
 export function buildWinnerPacketMarkdown(seat: WinnerPacketSeat): string {
   if (!assertWinnerPacketWrapTermStartIsInstallDay(seat.wrapTermStart)) {
@@ -157,7 +158,7 @@ export function buildWinnerPacketMarkdown(seat: WinnerPacketSeat): string {
     "## Campaign fences",
     "",
     `- Floor ${formatUsd(seat.floorUsd)}. Buyout ${formatUsd(seat.goalUsd)}.`,
-    "- CLOSE_AT unset. Not Tesla.",
+    `- Closes ${publishedCloseLabelEt()}. Not Tesla.`,
     `- Contact: ${BRAND.email}`,
     "",
   ];

@@ -21,7 +21,7 @@ test.describe("slice 16.20: /llms.txt numbered seats", () => {
   test("campaign money fences stay locked — CLOSE_AT null", () => {
     expect(FLOOR_USD).toBe(58_000);
     expect(GOAL_USD).toBe(120_000);
-    expect(CLOSE_AT).toBeNull();
+    expect(CLOSE_AT).toBe("2026-11-02T17:00:00.000Z");
     expect(findCloseAtViolations()).toEqual([]);
     expect(BRAND.name).toBe("BrandMyBeast");
     expect(formatUsd(FLOOR_USD)).toBe("$58,000");
@@ -41,7 +41,7 @@ test.describe("slice 16.20: /llms.txt numbered seats", () => {
     expect(body).toContain(
       `Floor ${formatUsd(FLOOR_USD)}. Buyout ${formatUsd(GOAL_USD)}.`,
     );
-    expect(body).toContain("No close date.");
+    expect(body).toContain("Closes Mon Nov 2, 2026, 12:00 PM ET.");
     expect(body).not.toContain("CLOSE_AT");
     expect(body).not.toContain("null");
     expect(body).toContain("Eleven numbered seats");

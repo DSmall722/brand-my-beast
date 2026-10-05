@@ -23,7 +23,7 @@ test.describe("slice 14.2: ARCHITECTURE Stripe box not wired", () => {
   test("campaign money fences stay locked — CLOSE_AT null", () => {
     expect(FLOOR_USD).toBe(58_000);
     expect(GOAL_USD).toBe(120_000);
-    expect(CLOSE_AT).toBeNull();
+    expect(CLOSE_AT).toBe("2026-11-02T17:00:00.000Z");
     expect(findCloseAtViolations()).toEqual([]);
     expect(BRAND.name).toBe("BrandMyBeast");
     expect(formatUsd(FLOOR_USD)).toBe("$58,000");
@@ -49,7 +49,8 @@ test.describe("slice 14.2: ARCHITECTURE Stripe box not wired", () => {
     expect(stackSection).toMatch(/^\| Data \|.*Postgres/m);
     expect(stackSection).toMatch(/^\| Blobs \|/m);
     expect(stackSection).toMatch(/^\| Mail \|.*Resend/m);
-    expect(stackSection).toMatch(/^\| Stripe \| \*\*not wired\.\*\*/m);
+    expect(stackSection).toMatch(/^\| Stripe \| Checkout for the 20% deposit/m);
+    expect(text).toMatch(/not wired/i);
     expect(stackSection).not.toMatch(/SetupIntent.*(wired|live|enabled)/i);
     expect(text).toMatch(/Do not start the 30-day clock/i);
     expect(text).toMatch(/\$58,000/);

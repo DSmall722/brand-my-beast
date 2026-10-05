@@ -4,19 +4,28 @@
  */
 
 import { CLOSE_AT, PANELS, formatUsd } from "@/lib/campaign";
+import { depositDeskOpen } from "@/lib/campaign-clock";
 import type { IntentBid, IntentBidStatus } from "@/lib/intent";
 import {
   countsAsPublicStanding,
   isFloorSaveBid,
+  isLiveIntentBid,
   isPendingPublicBid,
 } from "@/lib/intent";
 import { SEAT_LOG_TIME_ZONE, formatSeatLogTime } from "@/lib/seat-log";
 
 export type BidDeskMode = { kind: "closed" } | { kind: "intent" };
 
-/** Clock unset means the public desk explains that bidding is not open. */
-export function bidDeskMode(closeAt: string | null = CLOSE_AT): BidDeskMode {
+/**
+ * Closed unless live bidding is on and now is inside the effective window.
+ * Passing null keeps the desk closed. That is the pre-window contract.
+ */
+export function bidDeskMode(
+  closeAt: string | null = CLOSE_AT,
+  bidTimes: readonly string[] = [],
+): BidDeskMode {
   if (closeAt === null) return { kind: "closed" };
+  if (!depositDeskOpen(bidTimes)) return { kind: "closed" };
   return { kind: "intent" };
 }
 
@@ -188,7 +197,10 @@ export function buildDayByDay(
   options?: { panelId?: string },
 ): DayByDay {
   const publicLedger = bids.filter(
-    (bid) => HISTORY_STATUSES.has(bid.status) && !isFloorSaveBid(bid),
+    (bid) =>
+      isLiveIntentBid(bid) &&
+      HISTORY_STATUSES.has(bid.status) &&
+      !isFloorSaveBid(bid),
   );
   if (publicLedger.length === 0) return sampleDayByDay(options?.panelId);
 

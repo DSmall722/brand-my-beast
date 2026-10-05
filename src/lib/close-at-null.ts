@@ -1,12 +1,13 @@
 /**
- * Slice 13.43 — CI fails if CLOSE_AT is non-null.
- * Checks the exported runtime value and the campaign.ts source assignment.
- * Does not set CLOSE_AT. Does not wire Stripe.
+ * CI fails if CLOSE_AT is not the locked Nov 2 2026 12:00 PM ET instant.
+ * OPEN_AT is the Oct 6 2026 12:00 PM ET instant in campaign.ts.
  */
 
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import { CLOSE_AT } from "./campaign";
+
+export const LOCKED_CLOSE_AT = "2026-11-02T17:00:00.000Z";
 
 /** Matches `export const CLOSE_AT: … = <rhs>;` in campaign.ts. */
 export const CLOSE_AT_ASSIGNMENT_RE =
@@ -45,15 +46,16 @@ export function findCloseAtViolations(
   runtimeCloseAt: string | null = CLOSE_AT,
 ): string[] {
   const violations: string[] = [];
-  if (runtimeCloseAt !== null) {
+  if (runtimeCloseAt !== LOCKED_CLOSE_AT) {
     violations.push(`runtime CLOSE_AT is ${JSON.stringify(runtimeCloseAt)}`);
   }
   const parsed = parseCloseAtAssignment(readCampaignSource(root));
+  const expectedRhs = `"${LOCKED_CLOSE_AT}"`;
   if (!parsed.found) {
     violations.push("campaign.ts missing export const CLOSE_AT assignment");
-  } else if (!parsed.isNullLiteral) {
+  } else if (parsed.rhs !== expectedRhs) {
     violations.push(
-      `campaign.ts CLOSE_AT RHS is ${JSON.stringify(parsed.rhs)}, expected null`,
+      `campaign.ts CLOSE_AT RHS is ${JSON.stringify(parsed.rhs)}, expected ${expectedRhs}`,
     );
   }
   return violations;

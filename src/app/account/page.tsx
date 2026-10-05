@@ -14,6 +14,7 @@ import {
 } from "@/lib/auth/session";
 import { isShopPartnerEmail } from "@/lib/auth/shop-partner";
 import { ACCOUNT_EXPORT_PATH } from "@/lib/account-export";
+import { publishedCloseLabelEt } from "@/lib/campaign-window";
 import {
   DEPOSIT_PERCENT,
   FLOOR_USD,
@@ -96,8 +97,9 @@ export default async function AccountPage() {
         )}
 
         <p className="auth-hint" data-testid="intent-only-note">
-          Pick a panel to list an intent mark. No Stripe capture, no close clock
-          on this path. Waitlist signup on the board still does not charge cards.
+          Pick a panel to list an intent mark. No Stripe capture on this path.
+          Bidding closes {publishedCloseLabelEt()}. Waitlist signup on the
+          board still does not charge cards.
         </p>
 
         <p

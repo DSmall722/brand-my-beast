@@ -15,6 +15,9 @@ export type IntentBidStatus =
   | "approved"
   | "rejected";
 
+/** Deposit money state. Standing requires paid and none. */
+export type DepositRefundStatus = "none" | "refunded" | "forfeited";
+
 /**
  * A standing mark on one panel. Money fields are dollars, not cents.
  * `depositUsd` is informational on P2 — never charged here.
@@ -29,11 +32,6 @@ export type IntentBid = {
   standingUsd: number;
   depositUsd: number;
   status: IntentBidStatus;
-  /**
-   * Captured 20% deposit time. Absent until the money path writes it.
-   * Stripe is not wired, so stored rows leave this unset.
-   */
-  depositPaidAt?: string | null;
   createdAt: string;
   /**
    * Slice 12.2 — optimistic lock token. Writers pass the value they read;
@@ -72,19 +70,43 @@ export type IntentBid = {
    * Approved rows are never hard-deleted.
    */
   deletedAt: string | null;
+  /**
+   * Set only by the Stripe webhook, or by the server when prior paid
+   * deposits on this seat already cover the new 20%. Never from the client.
+   */
+  depositPaidAt?: string | null;
+  /** Stripe PaymentIntent id for this bid's captured deposit. */
+  paymentId?: string | null;
+  refundStatus?: DepositRefundStatus;
+  /** Dollars captured on this bid's own charge. Prior credits are separate. */
+  capturedUsd?: number;
+  /** Prior paid deposits on this seat by the same bidder, applied here. */
+  creditUsd?: number;
+  checkoutSessionId?: string | null;
+  remainderDueAt?: string | null;
+  remainderPaidAt?: string | null;
+  invoiceCreditedAt?: string | null;
 };
+
+/** Soft-deleted rows stay in the ledger. They do not stand on the public board. */
+export function isLiveIntentBid(bid: { deletedAt?: string | null }): boolean {
+  return bid.deletedAt == null || bid.deletedAt === "";
+}
 
 /**
  * Slice 13.14 — standing from live listed/approved only (not floor-save,
- * not withdrawn, not outbid). Empty → panel opening. Prevents ghost standing
- * after the sole pending mark withdraws.
+ * not withdrawn, not outbid, not deleted). Empty → panel opening. Prevents
+ * ghost standing after the sole pending mark withdraws.
  */
 export function activeStandingUsd(
-  bids: readonly Pick<IntentBid, "status" | "standingUsd" | "floorSaveUsd">[],
+  bids: readonly (Pick<IntentBid, "status" | "standingUsd" | "floorSaveUsd"> & {
+    deletedAt?: string | null;
+  })[],
   openingUsd: number,
 ): number {
   const active = bids.filter(
     (bid) =>
+      isLiveIntentBid(bid) &&
       (bid.status === "listed" || bid.status === "approved") &&
       !isFloorSaveBid(bid),
   );
@@ -99,25 +121,34 @@ export function isFloorSaveBid(bid: Pick<IntentBid, "floorSaveUsd">): boolean {
 
 /**
  * Public standing requires a captured 20% deposit.
- * Stripe is not wired and the ledger has no capture column, so a stored
- * intent is pending until depositPaidAt is set by a future money path.
+ * Listed or approved, paid, and not refunded or forfeited.
  */
 export function hasPaidDeposit(bid: { depositPaidAt?: string | null }): boolean {
   const paidAt = bid.depositPaidAt;
   return typeof paidAt === "string" && paidAt.length > 0;
 }
 
-/** Approved, not floor-save, and the 20% deposit is paid. */
+export function depositRefundStatus(bid: {
+  refundStatus?: DepositRefundStatus | null;
+}): DepositRefundStatus {
+  if (bid.refundStatus === "refunded" || bid.refundStatus === "forfeited") {
+    return bid.refundStatus;
+  }
+  return "none";
+}
+
+/** Paid listed or approved mark. Floor-save, refunded, forfeited, and deleted do not stand. */
 export function countsAsPublicStanding(
   bid: Pick<IntentBid, "status" | "floorSaveUsd"> & {
     depositPaidAt?: string | null;
+    refundStatus?: DepositRefundStatus | null;
+    deletedAt?: string | null;
   },
 ): boolean {
-  return (
-    bid.status === "approved" &&
-    !isFloorSaveBid(bid) &&
-    hasPaidDeposit(bid)
-  );
+  if (!isLiveIntentBid(bid)) return false;
+  if (isFloorSaveBid(bid) || !hasPaidDeposit(bid)) return false;
+  if (depositRefundStatus(bid) !== "none") return false;
+  return bid.status === "listed" || bid.status === "approved";
 }
 
 /**
@@ -127,8 +158,12 @@ export function countsAsPublicStanding(
 export function isPendingPublicBid(
   bid: Pick<IntentBid, "status" | "floorSaveUsd"> & {
     depositPaidAt?: string | null;
+    refundStatus?: DepositRefundStatus | null;
+    deletedAt?: string | null;
   },
 ): boolean {
+  if (!isLiveIntentBid(bid)) return false;
+  if (depositRefundStatus(bid) !== "none") return false;
   if (isFloorSaveBid(bid) || countsAsPublicStanding(bid)) return false;
   switch (bid.status) {
     case "listed":
@@ -149,6 +184,7 @@ export function isPendingPublicBid(
 export function pledgedUsdForPanel(
   bids: readonly (Pick<IntentBid, "status" | "standingUsd" | "floorSaveUsd"> & {
     depositPaidAt?: string | null;
+    refundStatus?: DepositRefundStatus | null;
   })[],
 ): number {
   const standing = bids.filter(countsAsPublicStanding);

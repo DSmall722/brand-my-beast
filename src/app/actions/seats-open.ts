@@ -3,7 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { auth } from "@/lib/auth";
 import { isOperatorEmail } from "@/lib/auth/operator";
-import { CLOSE_AT } from "@/lib/campaign";
+import { publishedCloseLabelEt } from "@/lib/campaign-window";
 import { seatsOpenToggleRejectsDate } from "@/lib/seats-open";
 import { setSeatsOpenOverride } from "@/lib/seats-open-store";
 
@@ -26,14 +26,7 @@ export async function submitSeatsOpenToggle(
     return { ok: false, error: "Operator access required." };
   }
 
-  if (CLOSE_AT !== null) {
-    return {
-      ok: false,
-      error: "CLOSE_AT must stay null. Seats toggle does not set a date.",
-    };
-  }
-
-  // Reject any accidental date payload — toggle is open/closed only.
+  // Reject any accidental date payload. The toggle does not move the window.
   for (const key of ["date", "closeAt", "close_at", "until", "opensAt"]) {
     if (!seatsOpenToggleRejectsDate(formData.get(key))) {
       return {
@@ -58,7 +51,7 @@ export async function submitSeatsOpenToggle(
     ok: true,
     seatsOpen: result.seatsOpen,
     message: open
-      ? "Seats open for intent marks. No date set. CLOSE_AT unset."
-      : "Seats closed — waitlist only. No date set. CLOSE_AT unset.",
+      ? `Seats open for intent marks. Closes ${publishedCloseLabelEt()}.`
+      : `Seats closed. Waitlist only. Closes ${publishedCloseLabelEt()}.`,
   };
 }

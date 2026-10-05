@@ -17,6 +17,8 @@ import { HomeTruckViewsSection } from "@/components/home/HomeTruckViewsSection";
 import { HomeWaitlistSection } from "@/components/home/HomeWaitlistSection";
 import { buildAuctionLive, highestPendingByPanel } from "@/lib/auction-board";
 import { bidDeskMode, buildDayByDay } from "@/lib/bid-desk";
+import { resolveCampaignWindowSentence } from "@/lib/campaign-clock";
+import { settleIfCampaignClosed } from "@/lib/deposit-flow";
 import type { BidPanelQuote } from "@/lib/bid-desk";
 import {
   CLOSE_AT,
@@ -44,6 +46,7 @@ import { PUBLIC_COPY } from "@/lib/public-copy";
 export const dynamic = "force-dynamic";
 
 export default async function HomePage() {
+  await settleIfCampaignClosed();
   const standingHolders = await loadStandingHoldersByPanel();
   const activeMarks = await loadActiveMarkHoldersByPanel();
   const activity = (
@@ -90,10 +93,9 @@ export default async function HomePage() {
   const floorMarkerPct = floorMarkerPercentOnGoalTrack();
   const shortfallFloor = shortfallToFloorUsd(pledgedUsd);
   const shortfallGoal = shortfallToGoalUsd(pledgedUsd);
-  const closeCopy =
-    CLOSE_AT === null
-      ? PUBLIC_COPY.board.clockWhenCloseNull
-      : `Closes ${CLOSE_AT}.`;
+  const bidTimes = activity.map((bid) => bid.createdAt);
+  const closeCopy = PUBLIC_COPY.board.clockWhenCloseNull;
+  const windowSentence = resolveCampaignWindowSentence(bidTimes);
 
   return (
     <>
@@ -106,7 +108,7 @@ export default async function HomePage() {
         data-testid="home-main"
         data-truck-exists={TRUCK_EXISTS ? "true" : "false"}
       >
-        <BidDeskProvider quotes={quotes} mode={bidDeskMode(CLOSE_AT)}>
+        <BidDeskProvider quotes={quotes} mode={bidDeskMode(CLOSE_AT, bidTimes)}>
         <HomeHeroSection occupiedPanelIds={occupiedPanelIds} />
         <HomeTruckViewsSection occupiedPanelIds={occupiedPanelIds} />
         <HomeMoneySection
@@ -117,6 +119,7 @@ export default async function HomePage() {
           floorMarkerPct={floorMarkerPct}
           floorPct={floorPct}
           closeCopy={closeCopy}
+          windowSentence={windowSentence}
           shortfallFloor={shortfallFloor}
           shortfallGoal={shortfallGoal}
           openSeats={PANELS.length - publicSeated}

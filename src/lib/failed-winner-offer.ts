@@ -7,6 +7,7 @@
 
 import { formatUsd } from "./campaign";
 import {
+  isLiveIntentBid,
   nextStandingUsd,
   type IntentBid,
 } from "./intent";
@@ -119,8 +120,11 @@ export function failedWinnerOfferCopy(offer: FailedWinnerOffer): string {
     .replace("{last}", formatUsd(offer.lastMarkUsd));
 }
 
-function isHolding(bid: Pick<IntentBid, "status">): boolean {
-  return bid.status === "listed" || bid.status === "approved";
+function isHolding(bid: Pick<IntentBid, "status" | "deletedAt">): boolean {
+  return (
+    isLiveIntentBid(bid) &&
+    (bid.status === "listed" || bid.status === "approved")
+  );
 }
 
 /** Latest reject timestamp on the panel — seat-open handoff anchor. */

@@ -1,10 +1,21 @@
 import { expect, type Page, test } from "@playwright/test";
-import { buildAuctionLive, buildLeaderboard } from "../src/lib/auction-board";
+import {
+  buildAuctionLive,
+  buildLeaderboard,
+  highestPendingByPanel,
+} from "../src/lib/auction-board";
 import { buildDayByDay, bidDeskMode } from "../src/lib/bid-desk";
 import { publicLogoUrl } from "../src/lib/public-mark";
 import { CLOSE_AT, FLOOR_USD, GOAL_USD } from "../src/lib/campaign";
 import type { IntentBid } from "../src/lib/intent";
+import {
+  activeStandingUsd,
+  countsAsPublicStanding,
+  isPendingPublicBid,
+  pledgedUsdForPanel,
+} from "../src/lib/intent";
 import { PUBLIC_COPY } from "../src/lib/public-copy";
+import { buildPublicSeatLog } from "../src/lib/seat-log";
 
 function mark(overrides: Partial<IntentBid> & Pick<IntentBid, "id" | "panelId" | "standingUsd" | "status" | "createdAt">): IntentBid {
   return {
@@ -35,7 +46,7 @@ test.describe("bid desk: modal, hidden sign-in, unpaid, day by day", () => {
   test("empty ledger is labeled sample; live marks replace it", () => {
     expect(FLOOR_USD).toBe(58_000);
     expect(GOAL_USD).toBe(120_000);
-    expect(CLOSE_AT).toBeNull();
+    expect(CLOSE_AT).toBe("2026-11-02T17:00:00.000Z");
     expect(bidDeskMode(null)).toEqual({ kind: "closed" });
 
     const empty = buildDayByDay([]);
@@ -241,6 +252,53 @@ test.describe("bid desk: modal, hidden sign-in, unpaid, day by day", () => {
       [],
     );
     expect(buildAuctionLive([], new Date("2026-09-02T18:00:00.000Z")).top).toEqual([]);
+  });
+
+  test("soft-deleted paid bids leave the public board", () => {
+    const ghost = mark({
+      id: "034fedcb-b564-4f22-b766-d1e8989128e0",
+      panelId: "rear-bumper",
+      standingUsd: 500,
+      status: "listed",
+      createdAt: "2026-10-05T16:00:00.000Z",
+      brandLabel: "QA TEST CO",
+      depositUsd: 100,
+      depositPaidAt: "2026-10-05T16:00:00.000Z",
+      deletedAt: "2026-10-05T18:00:00.000Z",
+    });
+    const livePaid = mark({
+      id: "live-hood",
+      panelId: "hood",
+      standingUsd: 2500,
+      status: "listed",
+      createdAt: "2026-10-05T16:30:00.000Z",
+      brandLabel: "Live Brand",
+      depositUsd: 500,
+      depositPaidAt: "2026-10-05T16:30:00.000Z",
+    });
+
+    expect(countsAsPublicStanding(ghost)).toBe(false);
+    expect(isPendingPublicBid(ghost)).toBe(false);
+    expect(countsAsPublicStanding(livePaid)).toBe(true);
+    expect(pledgedUsdForPanel([ghost])).toBe(0);
+    expect(activeStandingUsd([ghost], 500)).toBe(500);
+    expect(highestPendingByPanel([ghost]).size).toBe(0);
+
+    const days = buildDayByDay([ghost, livePaid]);
+    expect(days.source).toBe("live");
+    expect(days.days.flatMap((day) => day.rows.map((row) => row.brandLabel))).toEqual([
+      "Live Brand",
+    ]);
+    expect(days.days.reduce((sum, day) => sum + day.standingUsd, 0)).toBe(2500);
+
+    const board = buildLeaderboard([ghost, livePaid]);
+    expect(board.rows.map((row) => row.brandLabel)).toEqual(["Live Brand"]);
+    expect(buildAuctionLive([ghost, livePaid]).top.map((row) => row.brandLabel)).toEqual([
+      "Live Brand",
+    ]);
+    expect(buildPublicSeatLog([ghost, livePaid]).map((row) => row.brandLabel)).toEqual([
+      "Live Brand",
+    ]);
   });
 
   test("homepage bid modal stays on the page and does not charge", async ({

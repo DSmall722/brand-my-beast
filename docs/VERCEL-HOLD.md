@@ -15,7 +15,7 @@ Human authorized the restore checklist below. `vercel.json` is main-only:
 
 The hold-lift merge does not auto-deploy while the old config is still
 `deploymentEnabled: false`. Production is redeployed once after that merge.
-Do not buy credits. No Stripe. Auction clock stays unset. Floor **$58,000** /
+Do not buy credits. No Stripe. Close is Mon Nov 2, 2026, 12:00 PM ET. Floor **$58,000** /
 buyout **$120,000**.
 
 The one-line runbook below is the 11.10 / 13.49 / 14.48 historical note.
@@ -50,4 +50,4 @@ Until then:
 3. Confirm `brandmybeast.com` is healthy.
 4. Then continue Wave 12 / P3 human steps.
 
-No app change in this slice. No Stripe. Auction clock stays unset.
+No app change in this slice. No Stripe. Close is Mon Nov 2, 2026, 12:00 PM ET.

@@ -1,5 +1,3 @@
-import { CLOSE_AT } from "./campaign";
-
 /**
  * Slice 14.18 — operator runtime override for SEATS_OPEN.
  * Never writes CLOSE_AT. Never stores a date.
@@ -14,19 +12,12 @@ export function getSeatsOpenOverride(): boolean | null {
 }
 
 /**
- * Set seats open/closed. Refuses if CLOSE_AT is non-null.
- * Does not accept or store any date.
+ * Set seats open/closed. Does not change the campaign window.
  */
 export function setSeatsOpenOverride(open: boolean): {
   ok: true;
   seatsOpen: boolean;
 } | { ok: false; error: string } {
-  if (CLOSE_AT !== null) {
-    return {
-      ok: false,
-      error: "CLOSE_AT must stay null. Seats toggle does not set a date.",
-    };
-  }
   globalStore.__bmbSeatsOpenOverride = open;
   return { ok: true, seatsOpen: open };
 }

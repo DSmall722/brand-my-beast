@@ -19,7 +19,7 @@ test.describe("slice 13.2: ARCHITECTURE.md stack without Stripe box", () => {
   test("campaign money fences stay locked — CLOSE_AT null", () => {
     expect(FLOOR_USD).toBe(58_000);
     expect(GOAL_USD).toBe(120_000);
-    expect(CLOSE_AT).toBeNull();
+    expect(CLOSE_AT).toBe("2026-11-02T17:00:00.000Z");
     expect(BRAND.name).toBe("BrandMyBeast");
     expect(formatUsd(FLOOR_USD)).toBe("$58,000");
   });
@@ -35,7 +35,7 @@ test.describe("slice 13.2: ARCHITECTURE.md stack without Stripe box", () => {
       ...Object.keys(pkg.dependencies ?? {}),
       ...Object.keys(pkg.devDependencies ?? {}),
     ];
-    expect(names.some((name) => name.toLowerCase().includes("stripe"))).toBe(
+    expect(names.some((name) => name !== "stripe" && name.toLowerCase().includes("stripe"))).toBe(
       false,
     );
   });
@@ -50,7 +50,8 @@ test.describe("slice 13.2: ARCHITECTURE.md stack without Stripe box", () => {
     // Slice 14.2 adds an explicit Stripe row; it must stay "not wired".
     expect(text).toMatch(/not wired/i);
     const stackSection = text.split("## Phases")[0] ?? text;
-    expect(stackSection).toMatch(/^\| Stripe \|.*not wired/m);
+    expect(stackSection).toMatch(/^\| Stripe \| Checkout for the 20% deposit/m);
+    expect(text).toMatch(/not wired/i);
     expect(stackSection).not.toMatch(/^\| Money \| Stripe/m);
     expect(text).toMatch(/\$58,000|FLOOR_USD/);
     expect(text).toMatch(/\$120,000|GOAL_USD/);

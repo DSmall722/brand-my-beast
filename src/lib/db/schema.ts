@@ -38,8 +38,8 @@ export const waitlistSignups = pgTable(
 );
 
 /**
- * Soft-auction intent ledger. No Stripe / capture columns — P2 only.
- * See P2.md and CAMPAIGN.md. Indexes match drizzle/0001 + 0002.
+ * Intent ledger plus deposit capture columns (drizzle/0021).
+ * deposit_paid_at is written by the webhook, never by the browser.
  */
 export const intentBids = pgTable(
   "intent_bids",
@@ -76,6 +76,15 @@ export const intentBids = pgTable(
      * Slice 12.9 — soft-delete when withdrawn. Approved is never hard-deleted.
      */
     deletedAt: timestamp("deleted_at", { withTimezone: true }),
+    depositPaidAt: timestamp("deposit_paid_at", { withTimezone: true }),
+    stripePaymentId: text("stripe_payment_id"),
+    refundStatus: text("refund_status").notNull().default("none"),
+    depositCapturedUsd: integer("deposit_captured_usd").notNull().default(0),
+    depositCreditUsd: integer("deposit_credit_usd").notNull().default(0),
+    stripeCheckoutSessionId: text("stripe_checkout_session_id"),
+    remainderDueAt: timestamp("remainder_due_at", { withTimezone: true }),
+    remainderPaidAt: timestamp("remainder_paid_at", { withTimezone: true }),
+    invoiceCreditedAt: timestamp("invoice_credited_at", { withTimezone: true }),
   },
   (table) => [
     index("intent_bids_panel_id_idx").on(table.panelId),
@@ -92,6 +101,15 @@ export const intentBids = pgTable(
       .where(sql`${table.idempotencyKey} IS NOT NULL`),
   ],
 );
+
+/** Webhook idempotency. The Stripe event id is the primary key. */
+export const stripeEvents = pgTable("stripe_events", {
+  id: text("id").primaryKey(),
+  type: text("type").notNull(),
+  processedAt: timestamp("processed_at", { withTimezone: true })
+    .defaultNow()
+    .notNull(),
+});
 
 /**
  * Slice 8.5 — binary artwork payloads. Intent ledger stores only the path.

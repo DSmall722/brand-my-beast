@@ -11,8 +11,14 @@ import {
 } from "./artwork-blob";
 import { anonymizedUserId, isAnonymizedUserId } from "./account-delete";
 import { GOAL_USD, PANELS, type Panel } from "./campaign";
+import { resolveNowMs } from "./campaign-clock";
 import { getDb } from "./db";
-import { intentBids, intentRevisions, type IntentBidRow } from "./db/schema";
+import {
+  intentBids,
+  stripeEvents,
+  intentRevisions,
+  type IntentBidRow,
+} from "./db/schema";
 import { assertTradeAllowed } from "./banned-trades";
 import { assertFailedWinnerExclusiveLister } from "./failed-winner-offer";
 import {
@@ -35,12 +41,14 @@ import {
   countsAsPublicStanding,
   depositUsdForMark,
   isFloorSaveBid,
+  isLiveIntentBid,
   INTENT_STALE_WRITE,
   nextStandingUsd,
   normalizeTradeLabel,
   parseIdempotencyKey,
   parseProxyMaxUsd,
   parseStandingUsd,
+  type DepositRefundStatus,
   type IntentBid,
   type IntentBidStatus,
   type IntentWriteErrorCode,
@@ -166,6 +174,11 @@ function panelById(panelId: string): Panel | undefined {
   return PANELS.find((panel) => panel.id === panelId);
 }
 
+function parseStoredRefundStatus(raw: string | null | undefined): DepositRefundStatus {
+  if (raw === "refunded" || raw === "forfeited") return raw;
+  return "none";
+}
+
 function parseStatus(raw: string): IntentBidStatus {
   if ((STATUSES as readonly string[]).includes(raw)) {
     return raw as IntentBidStatus;
@@ -195,6 +208,19 @@ function rowToBid(row: IntentBidRow): IntentBid {
     proxyMaxUsd: row.proxyMaxUsd ?? null,
     floorSaveUsd: row.floorSaveUsd ?? null,
     deletedAt: row.deletedAt ? row.deletedAt.toISOString() : null,
+    depositPaidAt: row.depositPaidAt ? row.depositPaidAt.toISOString() : null,
+    paymentId: row.stripePaymentId ?? null,
+    refundStatus: parseStoredRefundStatus(row.refundStatus),
+    capturedUsd: row.depositCapturedUsd ?? 0,
+    creditUsd: row.depositCreditUsd ?? 0,
+    checkoutSessionId: row.stripeCheckoutSessionId ?? null,
+    remainderDueAt: row.remainderDueAt ? row.remainderDueAt.toISOString() : null,
+    remainderPaidAt: row.remainderPaidAt
+      ? row.remainderPaidAt.toISOString()
+      : null,
+    invoiceCreditedAt: row.invoiceCreditedAt
+      ? row.invoiceCreditedAt.toISOString()
+      : null,
   };
   assertIntentOnly(bid);
   return bid;
@@ -522,6 +548,7 @@ export async function minimumIntentUsd(panelId: string): Promise<number> {
   if (!panel) throw new Error(`Unknown panel: ${panelId}`);
   const active = (await listBidsForPanel(panelId)).filter(
     (bid) =>
+      isLiveIntentBid(bid) &&
       (bid.status === "listed" || bid.status === "approved") &&
       !isFloorSaveBid(bid),
   );
@@ -551,6 +578,7 @@ export function distinctHoldingPanelIdsForUser(
   const panels = new Set<string>();
   for (const bid of bids) {
     if (bid.userId !== userId) continue;
+    if (!isLiveIntentBid(bid)) continue;
     if (!(HOLDING_STATUSES as readonly string[]).includes(bid.status)) continue;
     if (isFloorSaveBid(bid)) continue;
     panels.add(bid.panelId);
@@ -2129,7 +2157,10 @@ export async function loadBoardIntentStats(): Promise<BoardIntentStats> {
     for (const panel of PANELS) {
       const bids = await listBidsForPanel(panel.id);
       const approved = bids.filter(
-        (bid) => bid.status === "approved" && !isFloorSaveBid(bid),
+        (bid) =>
+          isLiveIntentBid(bid) &&
+          bid.status === "approved" &&
+          !isFloorSaveBid(bid),
       );
       if (approved.length === 0) continue;
       seatedPanels += 1;
@@ -2183,6 +2214,7 @@ export async function loadActiveMarkHoldersByPanel(): Promise<
   return holdersMatching((bids) =>
     bids.filter(
       (bid) =>
+        isLiveIntentBid(bid) &&
         (bid.status === "listed" || bid.status === "approved") &&
         !isFloorSaveBid(bid),
     ),
@@ -2240,5 +2272,263 @@ export async function anonymizeIntentBidsForUser(
     anonymizedUserId: nextUserId,
     count: updated.length,
   };
+}
+
+export async function listAllIntentBids(): Promise<IntentBid[]> {
+  if (useMemoryStore()) return memoryBids().map((bid) => ({ ...bid }));
+  const db = getDb();
+  if (!db) return [];
+  const rows = await db.select().from(intentBids);
+  return rows.map(rowToBid);
+}
+
+export type DepositBidDraft = {
+  panelId: string;
+  userId: string;
+  brandLabel: string;
+  tradeLabel: string;
+  standingUsd: number;
+  depositUsd: number;
+  creditUsd: number;
+  idempotencyKey: string | null;
+  checkoutSessionId: string | null;
+  depositPaidAt: string | null;
+  capturedUsd: number;
+  paymentId: string | null;
+};
+
+export async function insertDepositBid(draft: DepositBidDraft): Promise<IntentBid> {
+  const now = new Date(resolveNowMs());
+  if (useMemoryStore()) {
+    if (draft.idempotencyKey) {
+      const prior = memoryBids().find(
+        (bid) => bid.idempotencyKey === draft.idempotencyKey,
+      );
+      if (prior) return { ...prior };
+    }
+    const bid: IntentBid = {
+      id: crypto.randomUUID(),
+      panelId: draft.panelId as IntentBid["panelId"],
+      userId: draft.userId,
+      brandLabel: draft.brandLabel,
+      tradeLabel: draft.tradeLabel,
+      standingUsd: draft.standingUsd,
+      depositUsd: draft.depositUsd,
+      status: "listed",
+      createdAt: now.toISOString(),
+      updatedAt: now.toISOString(),
+      idempotencyKey: draft.idempotencyKey,
+      artworkUrl: null,
+      artworkApproval: null,
+      proxyMaxUsd: null,
+      floorSaveUsd: null,
+      deletedAt: null,
+      depositPaidAt: draft.depositPaidAt,
+      paymentId: draft.paymentId,
+      refundStatus: "none",
+      capturedUsd: draft.capturedUsd,
+      creditUsd: draft.creditUsd,
+      checkoutSessionId: draft.checkoutSessionId,
+      remainderDueAt: null,
+      remainderPaidAt: null,
+      invoiceCreditedAt: null,
+    };
+    memoryBids().push(bid);
+    return { ...bid };
+  }
+  const db = getDb();
+  if (!db) throw new Error("Intent ledger is not configured.");
+  if (draft.idempotencyKey) {
+    const prior = await db
+      .select()
+      .from(intentBids)
+      .where(eq(intentBids.idempotencyKey, draft.idempotencyKey))
+      .limit(1);
+    const row = prior[0];
+    if (row) return rowToBid(row);
+  }
+  const inserted = await db
+    .insert(intentBids)
+    .values({
+      panelId: draft.panelId,
+      userId: draft.userId,
+      brandLabel: draft.brandLabel,
+      tradeLabel: draft.tradeLabel,
+      standingUsd: draft.standingUsd,
+      depositUsd: draft.depositUsd,
+      status: "listed",
+      createdAt: now,
+      idempotencyKey: draft.idempotencyKey,
+      depositPaidAt: draft.depositPaidAt ? new Date(draft.depositPaidAt) : null,
+      stripePaymentId: draft.paymentId,
+      refundStatus: "none",
+      depositCapturedUsd: draft.capturedUsd,
+      depositCreditUsd: draft.creditUsd,
+      stripeCheckoutSessionId: draft.checkoutSessionId,
+      updatedAt: now,
+    })
+    .returning();
+  const row = inserted[0];
+  if (!row) throw new Error("Could not record the deposit bid.");
+  return rowToBid(row);
+}
+
+export type DepositFieldPatch = {
+  depositPaidAt?: string | null;
+  paymentId?: string | null;
+  refundStatus?: DepositRefundStatus;
+  capturedUsd?: number;
+  checkoutSessionId?: string | null;
+  remainderDueAt?: string | null;
+  remainderPaidAt?: string | null;
+  invoiceCreditedAt?: string | null;
+  status?: IntentBidStatus;
+};
+
+export async function patchDepositBid(
+  bidId: string,
+  patch: DepositFieldPatch,
+): Promise<IntentBid | null> {
+  const now = new Date();
+  if (useMemoryStore()) {
+    const bid = memoryBids().find((row) => row.id === bidId);
+    if (!bid) return null;
+    if (patch.depositPaidAt !== undefined) bid.depositPaidAt = patch.depositPaidAt;
+    if (patch.paymentId !== undefined) bid.paymentId = patch.paymentId;
+    if (patch.refundStatus !== undefined) bid.refundStatus = patch.refundStatus;
+    if (patch.capturedUsd !== undefined) bid.capturedUsd = patch.capturedUsd;
+    if (patch.checkoutSessionId !== undefined) {
+      bid.checkoutSessionId = patch.checkoutSessionId;
+    }
+    if (patch.remainderDueAt !== undefined) bid.remainderDueAt = patch.remainderDueAt;
+    if (patch.remainderPaidAt !== undefined) {
+      bid.remainderPaidAt = patch.remainderPaidAt;
+    }
+    if (patch.invoiceCreditedAt !== undefined) {
+      bid.invoiceCreditedAt = patch.invoiceCreditedAt;
+    }
+    if (patch.status !== undefined) bid.status = patch.status;
+    bid.updatedAt = now.toISOString();
+    return { ...bid };
+  }
+  const db = getDb();
+  if (!db) return null;
+  const updated = await db
+    .update(intentBids)
+    .set({
+      ...(patch.depositPaidAt !== undefined
+        ? {
+            depositPaidAt: patch.depositPaidAt
+              ? new Date(patch.depositPaidAt)
+              : null,
+          }
+        : {}),
+      ...(patch.paymentId !== undefined
+        ? { stripePaymentId: patch.paymentId }
+        : {}),
+      ...(patch.refundStatus !== undefined
+        ? { refundStatus: patch.refundStatus }
+        : {}),
+      ...(patch.capturedUsd !== undefined
+        ? { depositCapturedUsd: patch.capturedUsd }
+        : {}),
+      ...(patch.checkoutSessionId !== undefined
+        ? { stripeCheckoutSessionId: patch.checkoutSessionId }
+        : {}),
+      ...(patch.remainderDueAt !== undefined
+        ? {
+            remainderDueAt: patch.remainderDueAt
+              ? new Date(patch.remainderDueAt)
+              : null,
+          }
+        : {}),
+      ...(patch.remainderPaidAt !== undefined
+        ? {
+            remainderPaidAt: patch.remainderPaidAt
+              ? new Date(patch.remainderPaidAt)
+              : null,
+          }
+        : {}),
+      ...(patch.invoiceCreditedAt !== undefined
+        ? {
+            invoiceCreditedAt: patch.invoiceCreditedAt
+              ? new Date(patch.invoiceCreditedAt)
+              : null,
+          }
+        : {}),
+      ...(patch.status !== undefined ? { status: patch.status } : {}),
+      updatedAt: now,
+    })
+    .where(eq(intentBids.id, bidId))
+    .returning();
+  const row = updated[0];
+  return row ? rowToBid(row) : null;
+}
+
+export async function findBidByCheckoutSession(
+  sessionId: string,
+): Promise<IntentBid | null> {
+  if (useMemoryStore()) {
+    return (
+      memoryBids().find((bid) => bid.checkoutSessionId === sessionId) ?? null
+    );
+  }
+  const db = getDb();
+  if (!db) return null;
+  const rows = await db
+    .select()
+    .from(intentBids)
+    .where(eq(intentBids.stripeCheckoutSessionId, sessionId))
+    .limit(1);
+  const row = rows[0];
+  return row ? rowToBid(row) : null;
+}
+
+export async function stripeEventSeen(eventId: string): Promise<boolean> {
+  const globalEvents = globalThis as typeof globalThis & {
+    __bmbStripeEvents?: Set<string>;
+  };
+  if (useMemoryStore()) {
+    return globalEvents.__bmbStripeEvents?.has(eventId) ?? false;
+  }
+  const db = getDb();
+  if (!db) return false;
+  const rows = await db
+    .select({ id: stripeEvents.id })
+    .from(stripeEvents)
+    .where(eq(stripeEvents.id, eventId))
+    .limit(1);
+  return rows.length > 0;
+}
+
+/** True when this event id was newly recorded. False when it was already stored. */
+export async function claimStripeEvent(
+  eventId: string,
+  eventType: string,
+): Promise<boolean> {
+  const globalEvents = globalThis as typeof globalThis & {
+    __bmbStripeEvents?: Set<string>;
+  };
+  if (useMemoryStore()) {
+    if (!globalEvents.__bmbStripeEvents) globalEvents.__bmbStripeEvents = new Set();
+    if (globalEvents.__bmbStripeEvents.has(eventId)) return false;
+    globalEvents.__bmbStripeEvents.add(eventId);
+    return true;
+  }
+  const db = getDb();
+  if (!db) return true;
+  const inserted = await db
+    .insert(stripeEvents)
+    .values({ id: eventId, type: eventType })
+    .onConflictDoNothing()
+    .returning({ id: stripeEvents.id });
+  return inserted.length > 0;
+}
+
+export function resetStripeEventsForTests(): void {
+  const globalEvents = globalThis as typeof globalThis & {
+    __bmbStripeEvents?: Set<string>;
+  };
+  globalEvents.__bmbStripeEvents = new Set();
 }
 

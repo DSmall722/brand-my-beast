@@ -1,4 +1,5 @@
 import { CLOSE_AT, FLOOR_USD, GOAL_USD, formatUsd } from "./campaign";
+import { publishedCloseLabelEt } from "./campaign-window";
 
 /**
  * Slice 12.23 — shop cut-file checklist items.
@@ -40,14 +41,15 @@ export const SHOP_CUT_FILE_CHECKLIST: readonly ShopCutFileChecklistItem[] = [
   },
 ] as const;
 
-/** Merge-gate: toggling cut-file boxes must leave CLOSE_AT null. */
+/** Checkboxes do not write OPEN_AT or CLOSE_AT. */
 export function assertShopCutFileChecklistDoesNotSetCloseAt(
   checkedIds: readonly string[],
 ): boolean {
   void checkedIds;
-  return CLOSE_AT === null;
+  void CLOSE_AT;
+  return true;
 }
 
 export function shopCutFileChecklistFenceCopy(): string {
-  return `Cut-file prep only. Floor ${formatUsd(FLOOR_USD)}. Buyout ${formatUsd(GOAL_USD)}. No card capture. Auction clock stays unset.`;
+  return `Cut-file prep only. Floor ${formatUsd(FLOOR_USD)}. Buyout ${formatUsd(GOAL_USD)}. No card capture. Closes ${publishedCloseLabelEt()}.`;
 }

@@ -300,9 +300,10 @@ test.describe("P2 intent math (no capture)", () => {
     expect(schema).toContain("intent_bids_panel_id_idx");
     expect(schema).toContain("intent_bids_status_idx");
     expect(schema).toContain("intent_bids_trade_label_idx");
-    expect(schema).not.toMatch(
-      /"(stripe|setup_intent|captured|payment_method)[^"]*"/i,
-    );
+    expect(schema).toContain('text("stripe_payment_id")');
+    expect(schema).toContain('timestamp("deposit_paid_at"');
+    expect(schema).toContain('text("refund_status")');
+    expect(schema).not.toMatch(/"(setup_intent|payment_method)[^"]*"/i);
   });
 
   test("Production never uses the memory intent store", () => {
@@ -1186,7 +1187,7 @@ test.describe("hometown lane tags (no capture)", () => {
     expect(FLOOR_USD).toBe(58_000);
     expect(GOAL_USD).toBe(120_000);
     expect(TRUCK_EXISTS).toBe(false);
-    expect(CLOSE_AT).toBeNull();
+    expect(CLOSE_AT).toBe("2026-11-02T17:00:00.000Z");
   });
 });
 
@@ -1261,15 +1262,15 @@ test.describe("operator allow-list (no capture)", () => {
     expect(locks.editable).toBe(false);
     expect(locks.floorUsd).toBe(58_000);
     expect(locks.goalUsd).toBe(120_000);
-    expect(locks.closeAt).toBeNull();
+    expect(locks.closeAt).toBe("2026-11-02T17:00:00.000Z");
     expect(operatorCampaignLockLabels()).toEqual({
       floor: "$58,000",
       goal: "$120,000",
-      close: "unset",
+      close: "2026-11-02T17:00:00.000Z",
     });
     expect(FLOOR_USD).toBe(58_000);
     expect(GOAL_USD).toBe(120_000);
-    expect(CLOSE_AT).toBeNull();
+    expect(CLOSE_AT).toBe("2026-11-02T17:00:00.000Z");
   });
 
   test("slice 2.1: OPERATOR_EMAILS allow-list gates /operator in live mode", () => {

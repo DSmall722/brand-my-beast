@@ -18,7 +18,7 @@ Not Tesla. Not teslacyberbeast.com.
 
 Matches **`ARCHITECTURE.md`** — numbers in this file stay locked and unchanged:
 Next.js App Router + Postgres/Drizzle + Vercel Blob + Resend (mock in CI).
-Stripe is **not wired**. `CLOSE_AT` stays null. Do not start the 30-day clock.
+Stripe Checkout charges the 20% deposit while bidding is open. `OPEN_AT` is 2026-10-06T16:00:00.000Z (Tuesday, October 6, 2026, 12:00 PM ET). `CLOSE_AT` is 2026-11-02T17:00:00.000Z (Monday, November 2, 2026, 12:00 PM ET). A bid in the last 10 minutes pushes that close back 10 minutes. Live charges stay off until `LIVE_BIDDING` is set. Do not start the 30-day clock.
 Detail lives in `ARCHITECTURE.md`; this sentence is the campaign-side pointer only.
 
 ## Money (locked 2026-09-13)
@@ -102,9 +102,10 @@ Opening sum is $23,000 — the floor is not this sum.
 
 ## Clock
 
-- 30 days once the money path (Stripe + terms + LLC) is live.
-- Last-5-minute bid on a panel adds 5 minutes to that panel. Campaign still hard-stops at the published close.
-- Close date is a field. It is **unset** until that morning. Not October 1.
+- Open is Tue Oct 6, 2026, 12:00 PM ET (16:00 UTC, EDT).
+- Close is Mon Nov 2, 2026, 12:00 PM ET (17:00 UTC). Daylight saving ends Nov 1, so this noon is 17:00 UTC.
+- A bid in the last 10 minutes extends the campaign close by 10 minutes.
+- Do not start the 30-day clock. The published window is the clock. Not October 1.
 
 ## Identity (public)
 

@@ -8,6 +8,10 @@ import { PANEL_BOARD_MARKS, panelLegendLabel } from "./panel-board";
 /** Card gloss is off. Panel names carry the seat; bumper rules stay in RULES.md. */
 const PANEL_GLOSS: Readonly<Record<string, string>> = {};
 
+/** Shared by the FAQ and How it works so the two lines cannot drift. */
+const TRUCK_OWNERSHIP_LINE =
+  "The operator does not own the truck yet. This auction buys it.";
+
 /** Slice 16.25 — whole-truck package is the numbered board, 1 Hood through 11 Rear bumper. */
 export function wholeTruckPackageCopy(): string {
   const labels = PANEL_BOARD_MARKS.map((mark) => panelLegendLabel(mark));
@@ -47,7 +51,7 @@ export const PUBLIC_COPY = {
     clockWhenCloseNull:
       "Bidding is not open. Nothing is charged on this page.",
     depositLine:
-      "When bidding opens, a 20% deposit holds your panel. Nothing is charged on this page.",
+      "When bidding opens, 20% of the bid is charged. If you do not win, that deposit is refunded after close. A winner's deposit is credited to the invoice. Nothing is charged on this page.",
     shortfallFloorLabel: "Short of floor",
     shortfallBuyoutLabel: "Short of buyout",
     openSeatsLabel: "Open seats",
@@ -92,6 +96,7 @@ export const PUBLIC_COPY = {
   },
   howItWorks: {
     heading: "How it works",
+    lead: TRUCK_OWNERSHIP_LINE,
     steps: [
       {
         title: "Pick a Panel",
@@ -174,6 +179,11 @@ export const PUBLIC_COPY = {
     heading: "FAQ",
     items: [
       {
+        id: "truck-ownership",
+        q: "Does the operator own the truck yet?",
+        a: TRUCK_OWNERSHIP_LINE,
+      },
+      {
         q: "Is this Tesla?",
         a: "No. BrandMyBeast is independent. Cyberbeast is the trim this campaign funds. Tesla doesn’t run this, endorse it, or get a cut.",
       },
@@ -191,12 +201,12 @@ export const PUBLIC_COPY = {
       },
       {
         q: "How does payment work?",
-        a: "Twenty percent holds your bid on the card. The rest is charged if you win the panel and the campaign hits $58,000. Get outbid, or miss that floor, and the hold comes back.",
+        a: "Twenty percent of your bid is charged when you place it. That deposit is what makes a bid standing. Bid again on the same seat and deposits you already paid count toward the new one. Outbid deposits are refunded after the board closes. Miss $58,000 and every deposit is refunded. A winner's deposit is credited to the invoice. If the winner does not pay the rest within 7 days, the deposit is forfeited and the seat goes to the next bidder.",
       },
       {
         id: "outbid",
         q: "What if someone outbids me?",
-        a: "You’re off that panel. The 20% is an authorization, not a captured charge — it releases back to the same card. Most banks drop the pending line in a few days. You can bid again on another seat, or come back at the new number.",
+        a: "You’re off that panel. The deposit you paid is refunded after the board closes. You can bid again on another seat, or come back at the new number on this one. A new bid on the same seat counts deposits you already paid.",
       },
       {
         q: "Can I take more than one panel?",
@@ -217,12 +227,12 @@ export const PUBLIC_COPY = {
       {
         id: "campaign-miss",
         q: "What if the $58,000 floor is missed?",
-        a: "Every hold is released. Nobody is charged.",
+        a: "Every deposit is refunded. No order. No wrap. No Immortal Etch.",
       },
       {
         id: "close-date",
         q: "When does this close?",
-        a: "TBD.",
+        a: "Bidding opens Tuesday, October 6, 2026 at 12:00 PM ET and closes Monday, November 2, 2026 at 12:00 PM ET. A bid in the last 10 minutes pushes the close back 10 minutes.",
       },
       {
         q: "Where does the truck actually run?",
@@ -234,7 +244,7 @@ export const PUBLIC_COPY = {
       },
       {
         q: "How do I start?",
-        a: "Pick a panel. Twenty percent holds the seat. Questions before that: hello@brandmybeast.com.",
+        a: "Pick a panel. Twenty percent of the bid is charged when you place it. If you do not win, that deposit is refunded after close. A winner's deposit is credited to the invoice. Questions before that: hello@brandmybeast.com.",
       },
     ],
   },
@@ -403,6 +413,13 @@ export const PUBLIC_COPY = {
       "The operator approves artwork before it can run. Signing in does not put a logo on the truck.",
     magicLink:
       "Manage a bid with a one-time email link. No password. This form does not charge a card.",
+    depositChargeTemplate:
+      "{percent}% of this mark is {amount}. Charged when you place the bid.",
+    depositMagicLink:
+      "A one-time email link manages the bid after the deposit is paid. No password.",
+    coveredResult:
+      "Earlier deposits on this seat cover this bid. It counts on the board.",
+    trade: "Trade",
     placeBid: "Place bid",
     joinList: "Join the list",
     pending: "Pending",

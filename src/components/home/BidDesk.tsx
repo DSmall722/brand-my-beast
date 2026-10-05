@@ -11,9 +11,9 @@ import {
   type FormEvent,
   type ReactNode,
 } from "react";
-import { formatUsd } from "@/lib/campaign";
+import { DEPOSIT_PERCENT, formatUsd } from "@/lib/campaign";
 import type { BidDeskMode, BidPanelQuote } from "@/lib/bid-desk";
-import { tryDepositPreviewCopy } from "@/lib/deposit-preview";
+import { depositUsdForMark } from "@/lib/intent";
 import { PUBLIC_COPY } from "@/lib/public-copy";
 
 type BidDeskContextValue = {
@@ -233,6 +233,13 @@ function placeBidOutcome(mode: BidDeskMode): "closed" | "intent" {
   }
 }
 
+function liveDepositLine(markUsd: number): string | null {
+  if (!Number.isFinite(markUsd) || markUsd <= 0) return null;
+  return PUBLIC_COPY.bidDesk.depositChargeTemplate
+    .replace("{percent}", String(DEPOSIT_PERCENT))
+    .replace("{amount}", formatUsd(depositUsdForMark(markUsd)));
+}
+
 function BidModalForm({
   quote,
   quotes,
@@ -248,13 +255,60 @@ function BidModalForm({
 }) {
   const [yourBid, setYourBid] = useState(quote.minimumBidUsd);
   const [logoName, setLogoName] = useState("");
-  const [outcome, setOutcome] = useState<"closed" | "intent" | null>(null);
+  const [outcome, setOutcome] = useState<"closed" | "intent" | "covered" | null>(
+    null,
+  );
+  const [error, setError] = useState<string | null>(null);
+  const [pending, setPending] = useState(false);
   const copy = PUBLIC_COPY.bidDesk;
-  const deposit = tryDepositPreviewCopy(yourBid);
+  const deposit = liveDepositLine(yourBid);
 
-  function onSubmit(event: FormEvent<HTMLFormElement>) {
+  async function onSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    setOutcome(placeBidOutcome(mode));
+    if (mode.kind !== "intent") {
+      setOutcome(placeBidOutcome(mode));
+      return;
+    }
+    const form = event.currentTarget;
+    const data = new FormData(form);
+    const brandLabel = String(data.get("brand") ?? "");
+    const tradeLabel = String(data.get("trade") ?? "");
+    const email = String(data.get("email") ?? "");
+    setPending(true);
+    setError(null);
+    setOutcome(null);
+    try {
+      const response = await fetch("/api/bid", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({
+          panelId: quote.id,
+          standingUsd: yourBid,
+          brandLabel,
+          tradeLabel,
+          email,
+        }),
+      });
+      const body = (await response.json()) as {
+        ok?: boolean;
+        error?: string;
+        checkoutUrl?: string | null;
+        covered?: boolean;
+      };
+      if (!response.ok || !body.ok) {
+        setError(body.error ?? "Bid was not placed.");
+        return;
+      }
+      if (body.checkoutUrl) {
+        window.location.assign(body.checkoutUrl);
+        return;
+      }
+      setOutcome("covered");
+    } catch {
+      setError("Bid was not placed.");
+    } finally {
+      setPending(false);
+    }
   }
 
   return (
@@ -317,6 +371,7 @@ function BidModalForm({
       </label>
       <input
         id="bid-brand"
+        name="brand"
         className="auth-input"
         data-testid="bid-modal-brand"
         type="text"
@@ -326,12 +381,27 @@ function BidModalForm({
         autoComplete="organization"
       />
 
+      <label className="auth-label" htmlFor="bid-trade">
+        {copy.trade}
+      </label>
+      <input
+        id="bid-trade"
+        name="trade"
+        className="auth-input"
+        data-testid="bid-modal-trade"
+        type="text"
+        required
+        minLength={2}
+        maxLength={80}
+      />
+
       <label className="auth-label" htmlFor="bid-email">
         Email
       </label>
       <input
         id="bid-email"
         className="auth-input"
+        name="email"
         data-testid="bid-modal-email"
         type="email"
         required
@@ -339,7 +409,7 @@ function BidModalForm({
         placeholder="you@brand.com"
       />
       <p className="auth-hint" data-testid="bid-modal-magic">
-        {copy.magicLink}
+        {copy.depositMagicLink}
       </p>
 
       <label className="auth-label" htmlFor="bid-logo">
@@ -381,6 +451,7 @@ function BidModalForm({
           type="submit"
           className="btn btn-signal"
           data-testid="bid-modal-submit"
+          disabled={pending}
         >
           {copy.placeBid}
         </button>
@@ -404,6 +475,16 @@ function BidModalForm({
       {outcome === "intent" ? (
         <p className="bid-modal-note" role="status" data-testid="bid-modal-result">
           {copy.intentResult}
+        </p>
+      ) : null}
+      {outcome === "covered" ? (
+        <p className="bid-modal-note" role="status" data-testid="bid-modal-result">
+          {copy.coveredResult}
+        </p>
+      ) : null}
+      {error ? (
+        <p className="bid-modal-note" role="status" data-testid="bid-modal-result">
+          {error}
         </p>
       ) : null}
     </form>

@@ -44,4 +44,4 @@ At $120,000 buyout only: Immortal etch may be cut. After install there is no cas
 - @BrandMyBeast
 - Operator: the operator
 
-CLOSE_AT unset. Not Tesla.
+CLOSE_AT 2026-11-02T17:00:00.000Z. Not Tesla.
