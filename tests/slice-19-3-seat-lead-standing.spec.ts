@@ -83,7 +83,9 @@ test.describe("slice 19.3: seat lead standing only when a mark exists", () => {
     await expect(lead).toContainText("Immortal Etch Locked");
     await expect(lead).not.toContainText("Current Bid");
     await expect(lead).not.toContainText("Current standing");
-    await expect(page.getByTestId("panel-standing")).toHaveText("$2,500");
+    await expect(page.getByTestId("panel-opening")).toContainText("Opening floor");
+    await expect(page.getByTestId("panel-opening")).toContainText("$2,500");
+    await expect(page.getByTestId("panel-standing")).toHaveCount(0);
     const visible = await page.locator("body").innerText();
     expect(visible).not.toContain("Current standing $2,500");
     const html = await page.content();
@@ -106,7 +108,8 @@ test.describe("slice 19.3: seat lead standing only when a mark exists", () => {
     await expect(lead).toHaveAttribute("data-has-standing", "false");
     await expect(lead).not.toContainText("Current Bid");
     await expect(lead).not.toContainText("Current standing");
-    await expect(page.getByTestId("panel-standing")).toHaveText("$2,500");
+    await expect(page.getByTestId("panel-opening")).toContainText("Opening floor");
+    await expect(page.getByTestId("panel-standing")).toHaveCount(0);
     await expect(page.getByTestId("panel-pending")).toHaveText("$2,500");
   });
 

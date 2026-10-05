@@ -148,7 +148,8 @@ test.describe("slice 9.6: failed-winner offer", () => {
 
     // Still listed as outbid until they submit — no silent reopen.
     await expect(outbid.getByTestId("intent-list")).toContainText("Outbid");
-    await expect(outbid.getByTestId("panel-standing")).toHaveText("$2,500");
+    await expect(outbid.getByTestId("panel-opening")).toContainText("$2,500");
+    await expect(outbid.getByTestId("panel-standing")).toHaveCount(0);
     await expect(outbid.getByTestId("panel-pending")).toHaveText("$2,750");
 
     await outbid.getByTestId("intent-submit").click();
@@ -156,7 +157,8 @@ test.describe("slice 9.6: failed-winner offer", () => {
       "not charged",
       { timeout: 10_000 },
     );
-    await expect(outbid.getByTestId("panel-standing")).toHaveText("$2,500");
+    await expect(outbid.getByTestId("panel-opening")).toContainText("$2,500");
+    await expect(outbid.getByTestId("panel-standing")).toHaveCount(0);
     await expect(outbid.getByTestId("panel-pending")).toHaveText("$3,025");
     await expect(outbid.getByTestId("failed-winner-offer")).toHaveCount(0);
 

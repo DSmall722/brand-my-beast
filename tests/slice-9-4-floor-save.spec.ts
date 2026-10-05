@@ -172,7 +172,8 @@ test.describe("slice 9.4: floor-save intent", () => {
     await expect(page.getByTestId("intent-list")).toContainText(
       "if short of $58,000",
     );
-    await expect(page.getByTestId("panel-standing")).toHaveText("$2,500");
+    await expect(page.getByTestId("panel-opening")).toContainText("$2,500");
+    await expect(page.getByTestId("panel-standing")).toHaveCount(0);
     const html = await page.content();
     expect(html.toLowerCase()).not.toMatch(/\blease\b/);
     expect(html).not.toContain("CLOSE_AT");
