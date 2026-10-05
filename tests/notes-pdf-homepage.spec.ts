@@ -136,7 +136,7 @@ test.describe("notes PDF homepage sheet", () => {
       "simple-mark",
     );
     await expect(page.getByTestId("panel-current-bid-hood")).toHaveText(
-      "Current Bid $2,500",
+      "Opening floor $2,500",
     );
 
     const doorSize = await page
@@ -295,13 +295,13 @@ test.describe("notes PDF homepage sheet", () => {
 
     await page.goto("/");
     await expect(page.getByTestId("panel-current-bid-hood")).toHaveText(
-      "Current Bid $2,500",
+      "Opening floor $2,500",
     );
     await expect(page.getByTestId("panel-pending-hood")).toHaveText(
       "Pending $2,750",
     );
     await expect(page.getByTestId("panel-current-bid-front-bumper")).toHaveText(
-      "Current Bid $500",
+      "Opening floor $500",
     );
   });
 

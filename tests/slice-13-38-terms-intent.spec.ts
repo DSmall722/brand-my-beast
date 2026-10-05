@@ -46,7 +46,7 @@ test.describe("slice 13.38: terms bids and payment", () => {
     await page.goto("/terms");
     await expect(page.getByTestId("terms-page")).toBeVisible();
     await expect(page.getByTestId("terms-bids")).toContainText(
-      'Displayed "Current Bid" amounts are opening prices until a live bid is placed on that seat.',
+      "Empty seats show an opening floor, not a Current Bid.",
     );
     await expect(page.getByTestId("terms-contact")).toContainText(BRAND.email);
 

@@ -47,7 +47,7 @@ test.describe("P1 waitlist campaign locks", () => {
     request,
   }) => {
     // CI is one memory ledger. The bid-desk spec can leave an approved
-    // hood mark at the $2,500 opening. Sample day-by-day is not pledged.
+    // hood mark at the $2,500 opening. Empty day-by-day is not pledged.
     const reset = await request.post("/api/test/reset-intents");
     expect(reset.ok()).toBeTruthy();
 
@@ -79,9 +79,16 @@ test.describe("P1 waitlist campaign locks", () => {
     await expect(page.getByTestId("raised-amount")).toHaveText(formatUsd(0));
     await expect(page.getByTestId("day-by-day")).toHaveAttribute(
       "data-source",
-      "sample",
+      "live",
     );
-    await expect(page.getByTestId("day-by-day-sample-standing")).toBeVisible();
+    await expect(page.getByTestId("day-by-day")).toHaveAttribute(
+      "data-empty",
+      "true",
+    );
+    await expect(page.getByTestId("day-by-day")).not.toContainText("Sample Mark");
+    await expect(page.getByTestId("day-by-day-empty")).toHaveText(
+      PUBLIC_COPY.bidDesk.todayEmpty,
+    );
     await expect(page.getByTestId("whole-truck-intent")).toHaveCount(0);
     await expect(page.getByTestId("want-all-panels")).toHaveCount(0);
     await expect(page.getByTestId("whole-truck-heading")).toHaveCount(0);

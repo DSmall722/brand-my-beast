@@ -163,6 +163,7 @@ export default async function PanelIntentPage({
       name: row.name,
       currentBidUsd: current,
       minimumBidUsd: held ? nextStandingUsd(current) : row.openingUsd,
+      hasStanding: Boolean(held),
     };
   });
 

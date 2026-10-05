@@ -189,7 +189,7 @@ function ClosedBidNotice({
       </select>
       <dl className="bid-modal-money">
         <div>
-          <dt>{copy.currentBid}</dt>
+          <dt>{quote.hasStanding ? copy.currentBid : copy.openingFloor}</dt>
           <dd data-testid="bid-modal-current">{formatUsd(quote.currentBidUsd)}</dd>
         </div>
         <div>
@@ -332,7 +332,7 @@ function BidModalForm({
 
       <dl className="bid-modal-money">
         <div>
-          <dt>{copy.currentBid}</dt>
+          <dt>{quote.hasStanding ? copy.currentBid : copy.openingFloor}</dt>
           <dd data-testid="bid-modal-current">{formatUsd(quote.currentBidUsd)}</dd>
         </div>
         <div>

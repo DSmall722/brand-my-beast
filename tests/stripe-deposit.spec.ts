@@ -269,6 +269,12 @@ test.describe("stripe deposit and campaign window", () => {
     await expect(page.getByTestId("raised-amount")).toHaveText("$2,500");
     await expect(page.getByTestId("auction-top")).toContainText("Too Early");
     await expect(page.getByTestId("panel-pending-hood")).toHaveCount(0);
+    await expect(page.getByTestId("panel-current-bid-hood")).toHaveText(
+      "Current Bid $2,500",
+    );
+    await expect(page.getByTestId("panel-current-bid-front-bumper")).toHaveText(
+      "Opening floor $500",
+    );
 
     const rebid = await request.post("/api/bid", {
       data: {
@@ -411,11 +417,11 @@ test.describe("stripe deposit and campaign window", () => {
     await page.goto("/");
     const rearBid = page.getByTestId("panel-current-bid-rear-bumper");
     await expect(rearBid).toBeVisible();
-    await expect(rearBid).toHaveText("Current Bid $500");
+    await expect(rearBid).toHaveText("Opening floor $500");
     const box = await rearBid.boundingBox();
     expect(box?.height ?? 0).toBeGreaterThan(8);
     await expect(page.getByTestId("panel-current-bid-front-bumper")).toHaveText(
-      "Current Bid $500",
+      "Opening floor $500",
     );
 
     await page.getByTestId("panel-link-rear-bumper").click();
