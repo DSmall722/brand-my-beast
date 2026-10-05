@@ -13,18 +13,28 @@ jobs:
   playwright:
     name: Playwright
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    timeout-minutes: 20
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Classify changes
+        id: suite
+        env:
+          GITHUB_EVENT_NAME: ${{ github.event_name }}
+          PR_BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          BEFORE_SHA: ${{ github.event.before }}
+        run: node scripts/ci-changed-paths.mjs
+
       - name: Setup Node
+        if: steps.suite.outputs.mode == 'full'
         uses: actions/setup-node@v4
         with:
           node-version: "22"
           cache: npm
 
       - name: Install dependencies
+        if: steps.suite.outputs.mode == 'full'
         run: npm ci
 
       - name: Fail if package.json lists stripe
@@ -33,16 +43,27 @@ jobs:
       - name: Fail if CLOSE_AT is non-null
         run: npm run grep:close-at
 
+      - name: Cache Playwright browsers
+        if: steps.suite.outputs.mode == 'full'
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/ms-playwright
+          key: ${{ runner.os }}-playwright-${{ hashFiles('package-lock.json') }}
+
       - name: Install Playwright Chromium
+        if: steps.suite.outputs.mode == 'full'
         run: npx playwright install --with-deps chromium
 
       - name: Typecheck
+        if: steps.suite.outputs.mode == 'full'
         run: npx tsc --noEmit
 
       - name: Run Playwright
-        run: npm test
+        if: steps.suite.outputs.mode == 'full'
+        run: node scripts/ci-playwright-shards.mjs
         env:
           CI: true
+          BMB_PLAYWRIGHT_SHARDS: "2"
           WAITLIST_MODE: memory
           INTENT_MODE: memory
           AUTH_MODE: test
@@ -50,7 +71,7 @@ jobs:
           AUTH_TEST_PASSWORD: test
 
       - name: Upload Playwright report
-        if: failure()
+        if: failure() && steps.suite.outputs.mode == 'full'
         uses: actions/upload-artifact@v4
         with:
           name: playwright-report

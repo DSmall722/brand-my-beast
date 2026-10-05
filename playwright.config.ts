@@ -1,13 +1,15 @@
 import { defineConfig, devices } from "@playwright/test";
 
 const PORT = Number(process.env.PORT ?? 3000);
-const baseURL = process.env.PLAYWRIGHT_BASE_URL ?? `http://localhost:${PORT}`;
+const baseURL = process.env.PLAYWRIGHT_BASE_URL ?? `http://127.0.0.1:${PORT}`;
 
 export default defineConfig({
   testDir: "./tests",
-  // INTENT_MODE=memory is one process-global ledger. Parallel workers race
-  // resets vs creates (leftover panel-minimum, wiped exclusivity). CI stays
-  // single-worker; local can parallelize.
+  outputDir: process.env.PLAYWRIGHT_OUTPUT_DIR ?? "test-results",
+  // INTENT_MODE=memory is one process-global ledger. Parallel workers on the
+  // same server race resets vs creates. CI keeps one worker per server.
+  // scripts/ci-playwright-shards.mjs starts a second server on its own port
+  // so two files can run at once without sharing a ledger.
   fullyParallel: !process.env.CI,
   workers: process.env.CI ? 1 : undefined,
   forbidOnly: !!process.env.CI,
@@ -18,7 +20,7 @@ export default defineConfig({
     trace: "on-first-retry",
   },
   webServer: {
-    command: "npm run dev",
+    command: `npm run dev -- --port ${PORT}`,
     url: baseURL,
     reuseExistingServer: !process.env.CI,
     env: {
@@ -30,6 +32,7 @@ export default defineConfig({
       AUTH_TEST_PASSWORD: "test",
       CRON_SECRET: "playwright-cron-secret",
       PORT: String(PORT),
+      NEXT_DIST_DIR: process.env.NEXT_DIST_DIR || ".next",
     },
   },
   projects: [

@@ -53,13 +53,20 @@ PLAYWRIGHT_BASE_URL=http://localhost:3000 npm test
 
 ## CI shape (GitHub Actions)
 
-`.github/workflows/playwright.yml` runs `npm test` with
+`.github/workflows/playwright.yml` runs the suite with
 `WAITLIST_MODE=memory`, `INTENT_MODE=memory`, `AUTH_MODE=test`. That is the
-merge gate. Do not require `brandmybeast.com` while the hold is on.
+merge gate. Local `npm test` is the same suite on one dev server. Do not
+require `brandmybeast.com` while the hold is on.
 
-Workers: CI forces **one** worker (`playwright.config.ts`) because the memory
-ledger is process-global. Locally, parallel workers are allowed when `CI` is
-unset — still prefer serial for intent-heavy suites if you see flake.
+Workers: each dev server still has one worker (`playwright.config.ts`) because
+the memory ledger is process-global. CI starts two servers on two ports so two
+files can run at once without sharing a ledger. Locally, parallel workers are
+allowed when `CI` is unset — still prefer serial for intent-heavy suites if
+you see flake.
+
+A push that only touches markdown, `docs/`, `press-kit/`, or `.cursor/` skips
+Chromium and the dev server. The stripe and close-at greps still run.
+`CONTRACT.md` still runs the full suite, because the counsel ZIP reads that file.
 
 ## Stop rules
 
