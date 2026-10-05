@@ -3,8 +3,7 @@
   "git": {
     "deploymentEnabled": {
       "*": false,
-      "main": true,
-      "cursor/stripe-deposit-window-2a1b": true
+      "main": true
     }
   }
 }
