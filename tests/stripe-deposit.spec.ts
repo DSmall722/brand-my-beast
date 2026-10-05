@@ -1,6 +1,10 @@
 import { expect, test } from "@playwright/test";
 import { CLOSE_AT, OPEN_AT, PANELS } from "../src/lib/campaign";
 import {
+  resetCampaignClockForTests,
+  resolveCampaignPhase,
+} from "../src/lib/campaign-clock";
+import {
   SOFT_CLOSE_MS,
   WINNER_PAY_MS,
   campaignWindowSentence,
@@ -434,5 +438,83 @@ test.describe("stripe deposit and campaign window", () => {
       data: { id: "evt_bad", type: "checkout.session.completed" },
     });
     expect(res.status()).toBe(400);
+  });
+});
+
+test.describe("SMOKE_BIDDING_OPEN production hatch", () => {
+  test.beforeEach(() => {
+    resetCampaignClockForTests();
+  });
+  test.afterEach(() => {
+    resetCampaignClockForTests();
+  });
+
+  function phaseKind(nowIso: string, env: NodeJS.ProcessEnv) {
+    return resolveCampaignPhase([], Date.parse(nowIso), env).kind;
+  }
+
+  test("production + LIVE_BIDDING + SMOKE_BIDDING_OPEN opens the desk before OPEN_AT", () => {
+    expect(
+      phaseKind(BEFORE_OPEN, {
+        VERCEL_ENV: "production",
+        LIVE_BIDDING: "true",
+        SMOKE_BIDDING_OPEN: "true",
+      }),
+    ).toBe("open");
+    expect(
+      phaseKind(BEFORE_OPEN, {
+        VERCEL_ENV: "production",
+        LIVE_BIDDING: "1",
+        SMOKE_BIDDING_OPEN: "1",
+      }),
+    ).toBe("open");
+  });
+
+  test("missing SMOKE_BIDDING_OPEN keeps production before_open before OPEN_AT", () => {
+    expect(
+      phaseKind(BEFORE_OPEN, {
+        VERCEL_ENV: "production",
+        LIVE_BIDDING: "true",
+      }),
+    ).toBe("before_open");
+  });
+
+  test("missing LIVE_BIDDING keeps production flag_off before OPEN_AT", () => {
+    expect(
+      phaseKind(BEFORE_OPEN, {
+        VERCEL_ENV: "production",
+        SMOKE_BIDDING_OPEN: "true",
+      }),
+    ).toBe("flag_off");
+  });
+
+  test("missing VERCEL_ENV=production keeps the desk before_open before OPEN_AT", () => {
+    expect(
+      phaseKind(BEFORE_OPEN, {
+        VERCEL_ENV: "preview",
+        LIVE_BIDDING: "true",
+        SMOKE_BIDDING_OPEN: "true",
+      }),
+    ).toBe("before_open");
+  });
+
+  test("PREVIEW_BIDDING_OPEN stays ignored on production", () => {
+    expect(
+      phaseKind(BEFORE_OPEN, {
+        VERCEL_ENV: "production",
+        LIVE_BIDDING: "true",
+        PREVIEW_BIDDING_OPEN: "true",
+      }),
+    ).toBe("before_open");
+  });
+
+  test("production smoke hatch still respects close", () => {
+    expect(
+      phaseKind(AFTER_CLOSE, {
+        VERCEL_ENV: "production",
+        LIVE_BIDDING: "true",
+        SMOKE_BIDDING_OPEN: "true",
+      }),
+    ).toBe("closed");
   });
 });

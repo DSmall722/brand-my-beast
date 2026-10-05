@@ -1,6 +1,7 @@
 /**
  * Runtime clock for the deposit desk.
- * Production ignores the preview override. Tests set the override in-process.
+ * Production ignores PREVIEW_BIDDING_OPEN. Tests set the override in-process.
+ * SMOKE_BIDDING_OPEN is a temporary production hatch and requires LIVE_BIDDING.
  */
 
 import { CLOSE_AT, OPEN_AT } from "./campaign";
@@ -71,12 +72,27 @@ export function resolveLiveBidding(
 }
 
 /**
- * Preview-only hatch so a test card can run before the published open.
- * Ignored on production.
+ * Temporary production hatch so a live smoke deposit can run before OPEN_AT.
+ * Requires VERCEL_ENV=production and LIVE_BIDDING. Unset after the smoke.
+ */
+export function resolveSmokeBiddingOpen(
+  env: NodeJS.ProcessEnv = process.env,
+): boolean {
+  if (env.VERCEL_ENV !== "production") return false;
+  const live = env.LIVE_BIDDING === "true" || env.LIVE_BIDDING === "1";
+  const smoke =
+    env.SMOKE_BIDDING_OPEN === "true" || env.SMOKE_BIDDING_OPEN === "1";
+  return live && smoke;
+}
+
+/**
+ * Preview hatch, or the temporary production smoke hatch.
+ * PREVIEW_BIDDING_OPEN stays ignored on production.
  */
 export function resolvePreviewBiddingOpen(
   env: NodeJS.ProcessEnv = process.env,
 ): boolean {
+  if (resolveSmokeBiddingOpen(env)) return true;
   if (env.VERCEL_ENV === "production") return false;
   const override = clockSlot().previewOpen;
   if (override != null) return override;
@@ -89,11 +105,12 @@ export function resolvePreviewBiddingOpen(
 export function resolveCampaignPhase(
   bidTimes: readonly string[] = [],
   nowMs: number = resolveNowMs(),
+  env: NodeJS.ProcessEnv = process.env,
 ): CampaignPhase {
   return campaignPhase({
     nowMs,
-    liveBidding: resolveLiveBidding(),
-    previewOpen: resolvePreviewBiddingOpen(),
+    liveBidding: resolveLiveBidding(env),
+    previewOpen: resolvePreviewBiddingOpen(env),
     openAt: OPEN_AT,
     closeAt: CLOSE_AT ?? OPEN_AT,
     bidTimes,
