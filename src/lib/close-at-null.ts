@@ -1,6 +1,6 @@
 /**
  * CI fails if CLOSE_AT is not the locked Nov 2 2026 12:00 PM ET instant.
- * OPEN_AT is the Oct 5 2026 12:00 PM ET instant in campaign.ts.
+ * OPEN_AT is the Oct 6 2026 12:00 PM ET instant in campaign.ts.
  */
 
 import { readFileSync } from "node:fs";

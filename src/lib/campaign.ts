@@ -30,11 +30,11 @@ export const GOAL_USD = 120_000;
 export const PROXY_MAX_CAP_USD = GOAL_USD;
 
 /**
- * Campaign window. Open Mon Oct 5 2026 12:00 PM America/New_York (EDT).
+ * Campaign window. Open Tue Oct 6 2026 12:00 PM America/New_York (EDT).
  * Close Mon Nov 2 2026 12:00 PM America/New_York (EST, after the Nov 1 change).
  * Live charges still require LIVE_BIDDING. Production leaves that flag off.
  */
-export const OPEN_AT = "2026-10-05T16:00:00.000Z";
+export const OPEN_AT = "2026-10-06T16:00:00.000Z";
 
 /** Published close. A late bid can push the effective close later. */
 export const CLOSE_AT: string | null = "2026-11-02T17:00:00.000Z";

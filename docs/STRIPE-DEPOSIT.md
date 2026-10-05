@@ -4,13 +4,13 @@ The 20% deposit is charged when a bid is placed. A bid is standing only after `d
 
 ## Window
 
-- Open: Monday, October 5, 2026, 12:00 PM America/New_York (`OPEN_AT` = `2026-10-05T16:00:00.000Z`).
+- Open: Tuesday, October 6, 2026, 12:00 PM America/New_York (`OPEN_AT` = `2026-10-06T16:00:00.000Z`).
 - Close: Monday, November 2, 2026, 12:00 PM America/New_York (`CLOSE_AT` = `2026-11-02T17:00:00.000Z`).
 - A bid in the last 10 minutes pushes the campaign close back 10 minutes. Each bid extends the close at most once.
 
 `LIVE_BIDDING` must be `true` or `1` before `POST /api/bid` accepts a bid inside that window. Leave it unset on production until a human flips it.
 
-`PREVIEW_BIDDING_OPEN=true` opens the desk on a Vercel preview before October 5 so a test card can run. Production ignores that variable.
+`PREVIEW_BIDDING_OPEN=true` opens the desk on a Vercel preview before October 6 so a test card can run. Production ignores that variable.
 
 ## Env vars
 

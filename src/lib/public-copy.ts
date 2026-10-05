@@ -232,7 +232,7 @@ export const PUBLIC_COPY = {
       {
         id: "close-date",
         q: "When does this close?",
-        a: "Bidding opens Monday, October 5, 2026 at 12:00 PM ET and closes Monday, November 2, 2026 at 12:00 PM ET. A bid in the last 10 minutes pushes the close back 10 minutes.",
+        a: "Bidding opens Tuesday, October 6, 2026 at 12:00 PM ET and closes Monday, November 2, 2026 at 12:00 PM ET. A bid in the last 10 minutes pushes the close back 10 minutes.",
       },
       {
         q: "Where does the truck actually run?",

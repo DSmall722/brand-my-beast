@@ -79,6 +79,9 @@ test.describe("panel detail cleanup", () => {
       "Every deposit is refunded",
     );
     await expect(page.getByTestId("faq-close-date")).toContainText(
+      "Tuesday, October 6, 2026 at 12:00 PM ET",
+    );
+    await expect(page.getByTestId("faq-close-date")).toContainText(
       "Monday, November 2, 2026 at 12:00 PM ET",
     );
 
