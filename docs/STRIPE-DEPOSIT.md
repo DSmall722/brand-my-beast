@@ -12,6 +12,8 @@ The 20% deposit is charged when a bid is placed. A bid is standing only after `d
 
 `PREVIEW_BIDDING_OPEN=true` opens the desk on a Vercel preview before October 6 so a test card can run. Production ignores that variable.
 
+`SMOKE_BIDDING_OPEN` is temporary. On production, with `LIVE_BIDDING` set to `true` or `1`, it opens the desk before `OPEN_AT` the same way `PREVIEW_BIDDING_OPEN` does on preview. Close still applies. Unset `SMOKE_BIDDING_OPEN` after the smoke deposit. Do not change `OPEN_AT`.
+
 ## Env vars
 
 | Name | Preview | Production |
@@ -21,6 +23,7 @@ The 20% deposit is charged when a bid is placed. A bid is standing only after `d
 | `NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY` | `pk_test_...` | Leave unset until live mode. |
 | `LIVE_BIDDING` | `true` | Unset. Bidding stays closed. |
 | `PREVIEW_BIDDING_OPEN` | `true` until the real window should govern the preview, then remove it | Do not set. Ignored anyway. |
+| `SMOKE_BIDDING_OPEN` | Do not set. Preview uses `PREVIEW_BIDDING_OPEN`. | Temporary. Production only, and only with `LIVE_BIDDING`. Unset after the smoke deposit. |
 
 Never commit these values. `.env` stays local.
 
@@ -51,7 +54,3 @@ After the effective close, losing deposits are refunded. The winner's deposit is
 The Terms page is unchanged. It already says a deposit applies to the balance and is kept if the remainder is not paid as required, and that the seat passes to the next bidder. It does not name 7 days. The FAQ now describes the charged deposit, the refund, and the 7-day forfeit. That FAQ change is the copy flag.
 
 `RULES.md` still describes a 5-minute per-panel extension. This build uses a 10-minute campaign extension. `CAMPAIGN.md` records the 10-minute rule.
-
-## Preview branch key
-
-`vercel.json` sets `cursor/stripe-deposit-window-2a1b` to true so this branch can deploy. `"*": false` and `"main": true` stay. Strip the branch key before merge.
