@@ -449,7 +449,16 @@ test.describe("SMOKE_BIDDING_OPEN production hatch", () => {
     resetCampaignClockForTests();
   });
 
-  function phaseKind(nowIso: string, env: NodeJS.ProcessEnv) {
+  function phaseKind(
+    nowIso: string,
+    flags: {
+      VERCEL_ENV?: string;
+      LIVE_BIDDING?: string;
+      SMOKE_BIDDING_OPEN?: string;
+      PREVIEW_BIDDING_OPEN?: string;
+    },
+  ) {
+    const env: NodeJS.ProcessEnv = { NODE_ENV: "test", ...flags };
     return resolveCampaignPhase([], Date.parse(nowIso), env).kind;
   }
 
