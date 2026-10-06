@@ -287,7 +287,7 @@ export default async function PanelIntentPage({
             </p>
             <p data-testid="failed-winner-waitlist">
               {PUBLIC_COPY.seat.failedWinnerWaitlist}{" "}
-              <Link href="/#contactus">Waitlist</Link> — submit below to accept
+              <Link href="/#contactus">Contact us</Link> — submit below to accept
               the offer. No silent reopen.
             </p>
           </aside>
@@ -303,7 +303,7 @@ export default async function PanelIntentPage({
             </p>
             <p data-testid="failed-winner-waitlist">
               {PUBLIC_COPY.seat.failedWinnerWaitlist}{" "}
-              <Link href="/#contactus">Waitlist</Link>
+              <Link href="/#contactus">Contact us</Link>
             </p>
           </aside>
         ) : null}

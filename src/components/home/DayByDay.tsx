@@ -5,10 +5,13 @@ import { PUBLIC_COPY } from "@/lib/public-copy";
 export function DayByDay({
   model,
   showPanel = true,
+  showEmptyCopy = true,
 }: {
   model: DayByDayModel;
   /** Homepage rows name the panel. A seat page already is that panel. */
   showPanel?: boolean;
+  /** Homepage already says this in Today's action. Skip the repeat. */
+  showEmptyCopy?: boolean;
 }) {
   const copy = PUBLIC_COPY.bidDesk;
   const empty = model.days.length === 0;
@@ -28,9 +31,11 @@ export function DayByDay({
         </p>
       ) : null}
       {empty ? (
-        <p className="auth-hint" data-testid="day-by-day-empty">
-          {copy.todayEmpty}
-        </p>
+        showEmptyCopy ? (
+          <p className="auth-hint" data-testid="day-by-day-empty">
+            {copy.todayEmpty}
+          </p>
+        ) : null
       ) : (
         <ol className="day-by-day-list">
           {model.days.map((day, index) => (

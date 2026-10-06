@@ -11,7 +11,7 @@ import { PUBLIC_COPY } from "@/lib/public-copy";
  * Slice 19.11 — chrome title is BrandMyBeast + locked idea.
  */
 export const metadata: Metadata = {
-  title: PUBLIC_COPY.meta.title,
+  title: { absolute: `Page not found | ${BRAND.name}` },
 };
 
 export default function NotFound() {
@@ -28,7 +28,7 @@ export default function NotFound() {
 
       <main id="not-found-main" className="shell not-found-main">
         <h1 className="not-found-title" data-testid="not-found-title">
-          This page is not a panel.
+          {"This page doesn't exist."}
         </h1>
         <div className="not-found-actions">
           <Link

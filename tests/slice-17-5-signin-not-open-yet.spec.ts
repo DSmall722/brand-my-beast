@@ -18,7 +18,7 @@ import { vercelJsonIsHoldOrMainOnlyRestore } from "../src/lib/vercel-git-deploy"
  * CLOSE_AT null. No Stripe. No env key names in the buyer line.
  */
 
-const LINE = "Sign-in is not open yet. Join the list. Nothing is charged.";
+const LINE = "Sign-in is not open yet. Contact us. Nothing is charged.";
 const PAGE = join(process.cwd(), "src/app/signin/page.tsx");
 const MD = join(process.cwd(), "PUBLIC_COPY.md");
 
