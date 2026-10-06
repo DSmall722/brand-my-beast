@@ -17,7 +17,7 @@ import {
   type RefObject,
 } from "react";
 import { track } from "@vercel/analytics";
-import { DEPOSIT_PERCENT, formatUsd } from "@/lib/campaign";
+import { BRAND, DEPOSIT_PERCENT, formatUsd } from "@/lib/campaign";
 import type { BidDeskMode, BidPanelQuote } from "@/lib/bid-desk";
 import { depositUsdForMark } from "@/lib/intent";
 import { panelDisplayName } from "@/lib/panel-board";
@@ -320,17 +320,35 @@ function wholeDollarBid(raw: string): number | null {
   return amount;
 }
 
+/** Max bid confirmed by Dennard. Client-side only; server unchanged. */
+export const MAX_CLIENT_BID_USD = 100_000;
+
 function bidFieldMessage(raw: string, minimumBidUsd: number): string | null {
   const amount = wholeDollarBid(raw);
   if (amount == null) return "Enter a bid in whole dollars.";
   if (amount < minimumBidUsd) {
     return `Minimum bid for this seat is ${formatUsd(minimumBidUsd)}.`;
   }
+  if (amount > MAX_CLIENT_BID_USD) {
+    return `Bids above ${formatUsd(MAX_CLIENT_BID_USD)} need a call. Email ${BRAND.email}.`;
+  }
   return null;
 }
 
 function brandFieldMessage(raw: string): string | null {
-  if (raw.trim() === "") return "Enter your brand name.";
+  if (raw.trim().length < 2) return "Enter your brand name.";
+  return null;
+}
+
+function tradeFieldMessage(raw: string): string | null {
+  if (raw.trim().length < 2) return "Enter your trade, e.g. Roofing.";
+  return null;
+}
+
+function emailFieldMessage(raw: string): string | null {
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(raw.trim())) {
+    return "Enter a full email, like you@company.com.";
+  }
   return null;
 }
 
@@ -359,11 +377,26 @@ function BidModalForm({
   );
   const [error, setError] = useState<string | null>(null);
   const [pending, setPending] = useState(false);
+  const [attempted, setAttempted] = useState(false);
+  const [touched, setTouched] = useState({
+    amount: false,
+    brand: false,
+    trade: false,
+    email: false,
+  });
   const brandErrorId = useId();
   const amountErrorId = useId();
+  const tradeErrorId = useId();
+  const emailErrorId = useId();
   const copy = PUBLIC_COPY.bidDesk;
   const amountMessage = bidFieldMessage(bidText, quote.minimumBidUsd);
   const brandMessage = brandFieldMessage(brand);
+  const tradeMessage = tradeFieldMessage(trade);
+  const emailMessage = emailFieldMessage(email);
+  const visibleAmount = attempted || touched.amount ? amountMessage : null;
+  const visibleBrand = attempted || touched.brand ? brandMessage : null;
+  const visibleTrade = attempted || touched.trade ? tradeMessage : null;
+  const visibleEmail = attempted || touched.email ? emailMessage : null;
   const standingUsd = wholeDollarBid(bidText);
   const deposit =
     amountMessage == null && standingUsd != null
@@ -371,10 +404,9 @@ function BidModalForm({
       : null;
   const ready =
     brandMessage == null &&
-    brand.trim().length >= 2 &&
     amountMessage == null &&
-    trade.trim().length >= 2 &&
-    /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim());
+    tradeMessage == null &&
+    emailMessage == null;
   const depositUsd =
     amountMessage == null && standingUsd != null
       ? depositUsdForMark(standingUsd)
@@ -384,8 +416,13 @@ function BidModalForm({
       ? copy.placeBid
       : `Place bid · Pay ${formatUsd(depositUsd)} deposit`;
 
+  function touch(field: "amount" | "brand" | "trade" | "email") {
+    setTouched((prev) => (prev[field] ? prev : { ...prev, [field]: true }));
+  }
+
   async function onSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
+    setAttempted(true);
     if (!ready || standingUsd == null) return;
     if (mode.kind !== "intent") {
       setOutcome(placeBidOutcome(mode));
@@ -434,7 +471,16 @@ function BidModalForm({
   }
 
   return (
-    <form className="bid-modal-form" onSubmit={onSubmit}>
+    <form
+      className="bid-modal-form"
+      noValidate
+      onSubmit={onSubmit}
+      onKeyDown={(event) => {
+        if (event.key !== "Enter") return;
+        if (event.target instanceof HTMLTextAreaElement) return;
+        setAttempted(true);
+      }}
+    >
       <label className="auth-label" htmlFor="bid-panel">
         {copy.panel}
       </label>
@@ -476,17 +522,22 @@ function BidModalForm({
         inputMode="decimal"
         required
         value={bidText}
-        aria-invalid={amountMessage ? true : undefined}
-        aria-describedby={amountMessage ? amountErrorId : undefined}
-        onChange={(event) => setBidText(event.target.value)}
+        aria-invalid={visibleAmount ? true : undefined}
+        aria-describedby={visibleAmount ? amountErrorId : undefined}
+        onChange={(event) => {
+          setBidText(event.target.value);
+          touch("amount");
+        }}
+        onBlur={() => touch("amount")}
       />
-      {amountMessage ? (
+      {visibleAmount ? (
         <p
           id={amountErrorId}
           className="auth-error"
           data-testid="bid-modal-amount-error"
+          aria-live="polite"
         >
-          {amountMessage}
+          {visibleAmount}
         </p>
       ) : null}
       {deposit ? (
@@ -509,17 +560,22 @@ function BidModalForm({
         maxLength={80}
         autoComplete="organization"
         value={brand}
-        aria-invalid={brandMessage ? true : undefined}
-        aria-describedby={brandMessage ? brandErrorId : undefined}
-        onChange={(event) => setBrand(event.target.value)}
+        aria-invalid={visibleBrand ? true : undefined}
+        aria-describedby={visibleBrand ? brandErrorId : undefined}
+        onChange={(event) => {
+          setBrand(event.target.value);
+          touch("brand");
+        }}
+        onBlur={() => touch("brand")}
       />
-      {brandMessage ? (
+      {visibleBrand ? (
         <p
           id={brandErrorId}
           className="auth-error"
           data-testid="bid-modal-brand-error"
+          aria-live="polite"
         >
-          {brandMessage}
+          {visibleBrand}
         </p>
       ) : null}
 
@@ -536,8 +592,24 @@ function BidModalForm({
         minLength={2}
         maxLength={80}
         value={trade}
-        onChange={(event) => setTrade(event.target.value)}
+        aria-invalid={visibleTrade ? true : undefined}
+        aria-describedby={visibleTrade ? tradeErrorId : undefined}
+        onChange={(event) => {
+          setTrade(event.target.value);
+          touch("trade");
+        }}
+        onBlur={() => touch("trade")}
       />
+      {visibleTrade ? (
+        <p
+          id={tradeErrorId}
+          className="auth-error"
+          data-testid="bid-modal-trade-error"
+          aria-live="polite"
+        >
+          {visibleTrade}
+        </p>
+      ) : null}
       <p className="auth-hint" data-testid="bid-modal-trade-hint">
         {copy.tradeHint}
       </p>
@@ -555,8 +627,24 @@ function BidModalForm({
         autoComplete="email"
         placeholder="you@brand.com"
         value={email}
-        onChange={(event) => setEmail(event.target.value)}
+        aria-invalid={visibleEmail ? true : undefined}
+        aria-describedby={visibleEmail ? emailErrorId : undefined}
+        onChange={(event) => {
+          setEmail(event.target.value);
+          touch("email");
+        }}
+        onBlur={() => touch("email")}
       />
+      {visibleEmail ? (
+        <p
+          id={emailErrorId}
+          className="auth-error"
+          data-testid="bid-modal-email-error"
+          aria-live="polite"
+        >
+          {visibleEmail}
+        </p>
+      ) : null}
       <p className="auth-hint" data-testid="bid-modal-magic">
         {copy.depositMagicLink}
       </p>

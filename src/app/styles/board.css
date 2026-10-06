@@ -3109,23 +3109,24 @@
 }
 
 .auction-live h3,
-.leaderboard > .btn-signal {
-  min-height: 44px;
+.leaderboard h1 {
+  margin: 0 0 0.65rem;
+  font-family: var(--font-display), Syne, system-ui, sans-serif;
+  letter-spacing: -0.04em;
+  text-transform: uppercase;
 }
 
 .leaderboard > .section-lead {
   margin-bottom: 1rem;
 }
 
-.leaderboard > .btn-signal {
-  margin-top: 0;
+.leaderboard > .section-lead:has(+ .btn-signal) {
+  margin-bottom: 0;
 }
 
-.leaderboard h1 {
-  margin: 0 0 0.65rem;
-  font-family: var(--font-display), Syne, system-ui, sans-serif;
-  letter-spacing: -0.04em;
-  text-transform: uppercase;
+.leaderboard > .btn-signal {
+  min-height: 44px;
+  margin-top: 1rem;
 }
 
 .auction-top-list,

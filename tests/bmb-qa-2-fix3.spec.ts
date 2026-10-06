@@ -7,7 +7,7 @@ const OPEN_EMPTY = "No bids yet. Be the first to put your brand on the Beast.";
 const BIDS_TEXT =
   "When you bid, we collect your email, brand name, trade (your type of business), website if you add one, the logo you upload, and your bid amounts. Stripe collects your payment details.";
 const REFUND_TEXT = `If you are outbid, your deposit is refunded after bidding closes. If total standing bids are below ${formatUsd(FLOOR_USD)} when bidding closes, every deposit is refunded and no seats are sold. A new bid on the same seat counts deposits you already paid.`;
-const HOLD_TEXT = `If you are the next-highest bidder on a seat, your deposit is held until the winner pays or the ${WINNER_PAY_MS / (24 * 60 * 60 * 1000)}-day payment window ends. If the winner does not pay, the seat passes to you; otherwise your deposit is refunded.`;
+const WIN_TEXT = `If you win, pay the rest of your winning bid within ${WINNER_PAY_MS / (24 * 60 * 60 * 1000)} days. Your deposit counts toward it. If you don't pay in time, the deposit is forfeited and the seat goes to the next-highest bidder, whose deposit is held until then.`;
 const BANNED = [/waitlist/i, /sign in/i, /sign-in/i, /account/i];
 
 test.describe("BMB-QA-2-FIX3 legal copy, leaderboard button, contact error, FAQ dashes", () => {
@@ -57,14 +57,18 @@ test.describe("BMB-QA-2-FIX3 legal copy, leaderboard button, contact error, FAQ 
     }
   });
 
-  test("terms state the refund, the hold, and a linked privacy line", async ({
+  test("terms state the refund, the merged win line, and a linked privacy line", async ({
     page,
   }) => {
-    expect(HOLD_TEXT).toContain("7-day");
+    expect(WIN_TEXT).toContain("7 days");
+    expect(WIN_TEXT).not.toContain("7-day");
     await page.goto("/terms");
     const bids = page.getByTestId("terms-bids");
     await expect(bids).toContainText(REFUND_TEXT);
-    await expect(bids).toContainText(HOLD_TEXT);
+    await expect(bids).toContainText(WIN_TEXT);
+    await expect(bids).not.toContainText(
+      "your deposit is held until the winner pays",
+    );
     await expect(page.getByTestId("terms-eligibility")).toContainText(
       "bids placed with your email address",
     );

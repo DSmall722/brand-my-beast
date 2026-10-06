@@ -50,6 +50,10 @@ test.describe("BMB-QA-2-FIX2 bid form, copy, a11y", () => {
     const amountError = page.getByTestId("bid-modal-amount-error");
     const submit = page.getByTestId("bid-modal-submit");
 
+    await expect(brandError).toHaveCount(0);
+    await expect(brand).not.toHaveAttribute("aria-invalid", "true");
+    await brand.focus();
+    await brand.blur();
     await expect(brandError).toHaveText("Enter your brand name.");
     await expect(brand).toHaveAttribute("aria-invalid", "true");
     await expect(brand).toHaveAttribute("aria-describedby", /.+/);

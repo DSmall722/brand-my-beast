@@ -94,8 +94,8 @@ export function HomeMoneySection({
             role="img"
             aria-label={
               pledgedUsd === 0
-                ? `Floor marker at ${floorLabel}. Buyout marker at ${goalLabel}.`
-                : `Visual vault: ${raisedLabel} of ${goalLabel}. Floor marker at ${floorLabel}. Buyout marker at ${goalLabel}.`
+                ? `Floor marker at ${floorLabel}.`
+                : `Visual vault: ${raisedLabel} of ${goalLabel}. Floor marker at ${floorLabel}.`
             }
           >
             <div className="progress-track" aria-hidden="true">
