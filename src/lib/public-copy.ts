@@ -3,7 +3,9 @@
  * Do not invent warmer / closer / snarkier variants. CAMPAIGN.md wins money.
  */
 
+import { BRAND, OPEN_AT, PANELS } from "./campaign";
 import { PANEL_BOARD_MARKS, panelLegendLabel } from "./panel-board";
+import { formatCampaignInstantEt } from "./seat-log";
 
 /** Card gloss is off. Panel names carry the seat; bumper rules stay in RULES.md. */
 const PANEL_GLOSS: Readonly<Record<string, string>> = {};
@@ -11,6 +13,9 @@ const PANEL_GLOSS: Readonly<Record<string, string>> = {};
 /** Shared by the FAQ and How it works so the two lines cannot drift. */
 const TRUCK_OWNERSHIP_LINE =
   "The operator does not own the truck yet. This auction buys it.";
+
+const BID_OPENS_AT = formatCampaignInstantEt(OPEN_AT);
+const CLOSED_ASK = `Questions? Use the Contact us form or email ${BRAND.email}.`;
 
 /** Slice 16.25 — whole-truck package is the numbered board, 1 Hood through 11 Rear bumper. */
 export function wholeTruckPackageCopy(): string {
@@ -22,8 +27,7 @@ export const PUBLIC_COPY = {
   meta: {
     title:
       "BrandMyBeast — Advertise your brand on the truck that people already photograph",
-    description:
-      "Eleven companies. One Cyberbeast. Join the list. Hit $58,000 and the truck is ordered and wrapped for a year. Miss it and nobody pays.",
+    description: `Bid on one of ${PANELS.length} ad panels on a Cybertruck wrapped for 12 months and driven across South Carolina and the Southeast. Bidding opens Oct 6 at noon ET and closes Nov 2.`,
   },
   header: {
     wordmark: "BrandMyBeast",
@@ -32,7 +36,7 @@ export const PUBLIC_COPY = {
   hero: {
     h1: "Advertise your brand on the truck that people already photograph",
     lead: "",
-    primaryCta: "Get on the list",
+    primaryCta: "Contact us",
     secondaryCta: "Bid on a Panel",
     howItWorksCta: "How it Works",
     imageAlt:
@@ -291,7 +295,7 @@ export const PUBLIC_COPY = {
     missingProvidersLead:
       "Live sign-in is on, but no providers are configured yet. The operator needs AUTH_SECRET, AUTH_URL, RESEND_API_KEY, and DATABASE_URL.",
     /** Slice 17.5 — live empty state. No env key names. */
-    notOpenYet: "Sign-in is not open yet. Join the list. Nothing is charged.",
+    notOpenYet: "Sign-in is not open yet. Contact us. Nothing is charged.",
     /** AUTH_MODE=test only — never render under live. */
     testHint: "Use any @example.com email and the test password.",
     /** Slice 12.39 — /signin/check-email success line. */
@@ -404,10 +408,8 @@ export const PUBLIC_COPY = {
     leaderboardEmpty: "No bids yet.",
     leaderboardRest: "The rest of the field",
     modalTitle: "Place a bid",
-    closedLead:
-      "Bidding is not open. No deposit is taken on this form. Join the list or contact hello@brandmybeast.com.",
-    closedResult:
-      "No deposit was taken. Bidding is not open. Join the list or contact hello@brandmybeast.com.",
+    closedLead: `Bidding opens ${BID_OPENS_AT}. No deposit is taken on this form. ${CLOSED_ASK}`,
+    closedResult: `Bidding opens ${BID_OPENS_AT}. No deposit was taken. ${CLOSED_ASK}`,
     intentResult:
       "This mark stays intent only. No card was charged. The operator still approves artwork.",
     artwork:
@@ -422,7 +424,7 @@ export const PUBLIC_COPY = {
       "Earlier deposits on this seat cover this bid. It counts on the board.",
     trade: "Trade",
     placeBid: "Place bid",
-    joinList: "Join the list",
+    joinList: "Contact us",
     pending: "Pending",
     yourBid: "Your bid",
     brandName: "Brand name",

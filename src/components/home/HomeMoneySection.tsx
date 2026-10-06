@@ -176,7 +176,7 @@ export function HomeMoneySection({
             </p>
           )}
           <AuctionLive model={auctionLive} />
-          <DayByDay model={dayByDay} />
+          <DayByDay model={dayByDay} showEmptyCopy={false} />
         </section>
   );
 }

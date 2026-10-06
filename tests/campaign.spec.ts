@@ -86,9 +86,10 @@ test.describe("P1 waitlist campaign locks", () => {
       "true",
     );
     await expect(page.getByTestId("day-by-day")).not.toContainText("Sample Mark");
-    await expect(page.getByTestId("day-by-day-empty")).toHaveText(
-      PUBLIC_COPY.bidDesk.todayEmpty,
-    );
+    await expect(page.getByTestId("day-by-day-empty")).toHaveCount(0);
+    await expect(
+      page.getByText(PUBLIC_COPY.bidDesk.todayEmpty, { exact: true }),
+    ).toHaveCount(1);
     await expect(page.getByTestId("whole-truck-intent")).toHaveCount(0);
     await expect(page.getByTestId("want-all-panels")).toHaveCount(0);
     await expect(page.getByTestId("whole-truck-heading")).toHaveCount(0);

@@ -1,7 +1,7 @@
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import { expect, test } from "@playwright/test";
-import { ROBOTS_DISALLOW_PATHS, ROBOTS_HOLD_COMMENT } from "../src/app/robots";
+import { ROBOTS_DISALLOW_PATHS } from "../src/app/robots";
 import {
   BRAND,
   CLOSE_AT,
@@ -14,8 +14,7 @@ import { findStripePackagesInRootPackageJson } from "../src/lib/no-stripe-packag
 import { vercelJsonIsHoldOrMainOnlyRestore } from "../src/lib/vercel-git-deploy";
 
 /**
- * Slice 16.34 — robots.txt comment that production may be stale while
- * the Vercel hold is on. Allow / disallow rules do not change.
+ * Slice 16.34 — hold comment is gone. Allow / disallow rules do not change.
  */
 
 test.describe("slice 16.34: robots.txt hold comment", () => {
@@ -37,11 +36,12 @@ test.describe("slice 16.34: robots.txt hold comment", () => {
     expect(vercelJsonIsHoldOrMainOnlyRestore()).toBe(true);
   });
 
-  test("robots.txt keeps crawl rules and adds the hold comment", async ({
+  test("robots.txt keeps crawl rules and omits the hold comment", async ({
     request,
   }) => {
     const src = readFileSync(join(process.cwd(), "src/app/robots.ts"), "utf8");
-    expect(src).toContain(ROBOTS_HOLD_COMMENT);
+    expect(src).not.toContain("production may be stale");
+    expect(src).not.toMatch(/ROBOTS_HOLD_COMMENT/);
     expect(ROBOTS_DISALLOW_PATHS).toEqual([
       "/account",
       "/account/",
@@ -54,8 +54,8 @@ test.describe("slice 16.34: robots.txt hold comment", () => {
     const res = await request.get("/robots.txt");
     expect(res.ok()).toBeTruthy();
     const body = await res.text();
-    expect(body).toContain(ROBOTS_HOLD_COMMENT);
-    expect(body).toMatch(/^# production may be stale while Vercel hold is on\./m);
+    expect(body).not.toContain("production may be stale");
+    expect(body).not.toMatch(/Vercel hold/);
     expect(body).toMatch(/Allow:\s*\/\b/);
     expect(body).toMatch(/Allow:\s*\/panels\//);
     expect(body).toMatch(/Disallow:\s*\/account/);

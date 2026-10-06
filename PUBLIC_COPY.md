@@ -8,7 +8,7 @@ Locked: 2026-09-23 — 16 buyer FAQ, no “Who is this for,” $120k is the etch
 ## Meta
 
 - Title: `BrandMyBeast — Advertise your brand on the truck that people already photograph`
-- Description: `Eleven companies. One Cyberbeast. Join the list. Hit $58,000 and the truck is ordered and wrapped for a year. Miss it and nobody pays.`
+- Description: `Bid on one of 11 ad panels on a Cybertruck wrapped for 12 months and driven across South Carolina and the Southeast. Bidding opens Oct 6 at noon ET and closes Nov 2.`
 
 ## Header
 
@@ -21,7 +21,7 @@ Locked: 2026-09-23 — 16 buyer FAQ, no “Who is this for,” $120k is the etch
 - Lead: (omitted)
 - First CTA (arrow): `Bid on a Panel` → panel inventory
 - Second CTA (plain, no arrow): `Contact BMB` → Contact Us
-- Off-homepage CTA (404, error, sign-in): `Get on the list`
+- Off-homepage CTA (404, error, sign-in): `Contact us`
 - Hero image label (alt): `Concept preview — BrandMyBeast house wrap. Seats are not sold yet.`
 - Hero caption: (omitted)
 
@@ -155,7 +155,7 @@ Not homepage. Same voice. No “test login” string when Auth is live.
 - Magic-link button: `Email me a sign-in link`
 - Credentials button: `Sign in`
 - Missing-providers lead: `Live sign-in is on, but no providers are configured yet. The operator needs AUTH_SECRET, AUTH_URL, RESEND_API_KEY, and DATABASE_URL.`
-- Not open yet (slice **17.5**): `Sign-in is not open yet. Join the list. Nothing is charged.`
+- Not open yet (slice **17.5**): `Sign-in is not open yet. Contact us. Nothing is charged.`
 - Test-mode hint (AUTH_MODE=test only, not rendered on the page): `Use any @example.com email and the test password.`
 - Check-email heading: `Check your email`
 - Check-email success: `If that address is valid, a sign-in link is on the way. The link expires soon. No card is charged on this path.`

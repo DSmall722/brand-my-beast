@@ -46,7 +46,7 @@ test.describe("slice 7.10: layout meta matches PUBLIC_COPY", () => {
     );
     expect(PUBLIC_COPY.meta.title).not.toMatch(/advertise on a Cybertruck/i);
     expect(PUBLIC_COPY.meta.description).toBe(
-      "Eleven companies. One Cyberbeast. Join the list. Hit $58,000 and the truck is ordered and wrapped for a year. Miss it and nobody pays.",
+      "Bid on one of 11 ad panels on a Cybertruck wrapped for 12 months and driven across South Carolina and the Southeast. Bidding opens Oct 6 at noon ET and closes Nov 2.",
     );
     expect(PUBLIC_COPY.meta.description).not.toMatch(/Bid on a panel/);
   });

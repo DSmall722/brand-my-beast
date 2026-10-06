@@ -35,7 +35,7 @@ export function WholeTruckIntentForm({
         </p>
         <p>
           <Link href="/#contactus" data-testid="whole-truck-waitlist-only-link">
-            Join the waitlist
+            Contact us
           </Link>
         </p>
       </div>
