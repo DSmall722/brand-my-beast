@@ -1,4 +1,5 @@
 import { resolveAuthMode } from "@/lib/auth/mode";
+import { resetInternalMailRateLimitForTests } from "@/lib/internal-send-mail";
 import {
   configureRateLimitForTests,
   resetRateLimitForTests,
@@ -97,6 +98,17 @@ export async function POST(request: Request) {
     return Response.json({ ok: true, configured: true });
   }
 
+  if (
+    typeof body === "object" &&
+    body !== null &&
+    "resetInternalMail" in body &&
+    (body as { resetInternalMail?: unknown }).resetInternalMail === true
+  ) {
+    resetInternalMailRateLimitForTests();
+    return Response.json({ ok: true, reset: true });
+  }
+
   resetRateLimitForTests();
+  resetInternalMailRateLimitForTests();
   return Response.json({ ok: true, reset: true });
 }

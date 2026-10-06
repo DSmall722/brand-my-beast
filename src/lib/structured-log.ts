@@ -1,6 +1,7 @@
 /**
  * Slice 12.41 — structured ops logs. No PII beyond a short email hash.
  * Slice 13.34 — magic-link request logs hashed email only.
+ * BMB-MAIL-1 — internal-send-mail stores raw recipients + subject (operator-only, no body).
  */
 
 import { createHash } from "node:crypto";
@@ -29,10 +30,19 @@ export type MagicLinkRequestLog = {
   status: "requested" | "rate_limited";
 };
 
+export type InternalSendMailLog = {
+  at: string;
+  event: "internal-send-mail";
+  to: string[];
+  subject: string;
+  messageId: string;
+};
+
 export type StructuredLogEntry =
   | WaitlistInsertLog
   | IntentStatusLog
-  | MagicLinkRequestLog;
+  | MagicLinkRequestLog
+  | InternalSendMailLog;
 
 const globalLog = globalThis as typeof globalThis & {
   __bmbStructuredLogs?: StructuredLogEntry[];
@@ -97,6 +107,21 @@ export function logMagicLinkRequest(
     emailHash: hashEmailForLog(email),
     status,
   }) as MagicLinkRequestLog;
+}
+
+/** BMB-MAIL-1 — one line per send. Recipients + subject + messageId only. */
+export function logInternalSendMail(input: {
+  to: string[];
+  subject: string;
+  messageId: string;
+}): InternalSendMailLog {
+  return push({
+    at: new Date().toISOString(),
+    event: "internal-send-mail",
+    to: input.to,
+    subject: input.subject,
+    messageId: input.messageId,
+  }) as InternalSendMailLog;
 }
 
 export function listStructuredLogsForTests(): readonly StructuredLogEntry[] {

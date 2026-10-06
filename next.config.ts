@@ -9,6 +9,7 @@ const nextConfig: NextConfig = {
   // or they fight over `.next/dev/lock` and the compile cache.
   distDir: process.env.NEXT_DIST_DIR || ".next",
   allowedDevOrigins: ["127.0.0.1", "localhost"],
+  serverExternalPackages: ["nodemailer"],
   async headers() {
     return [
       {
