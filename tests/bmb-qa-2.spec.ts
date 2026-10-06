@@ -142,8 +142,9 @@ test.describe("BMB-QA-2 legal, leaderboard, hotspots, contact", () => {
     expect(text.toLowerCase()).not.toContain("buyout");
     expect(text).not.toContain("creating an account");
     expect(text).toContain("Cyberbeast");
-    expect(text).not.toContain("Cybertruck");
-    expect(text).toContain("Current Bid");
+    expect(text).toContain("Cybertruck");
+    expect(text).toContain("not affiliated with or endorsed by Tesla, Inc.");
+    expect(text).not.toContain("Current Bid");
     expect(text).toContain(String(PANELS.length));
     expect(text).toContain(`${DEPOSIT_PERCENT}%`);
     expect(text).toContain("Stripe");
@@ -250,10 +251,12 @@ test.describe("BMB-QA-2 legal, leaderboard, hotspots, contact", () => {
     const error = page.getByTestId("waitlist-email-error");
     await expect(error).toBeVisible();
     await expect(error).toHaveAttribute("role", "alert");
-    await expect(error).toHaveText(PUBLIC_COPY.waitlist.failed);
+    await expect(error).toHaveText(
+      "That didn't send. Try again, or email hello@brandmybeast.com.",
+    );
     await expect(
       page.getByText(PUBLIC_COPY.waitlist.failed, { exact: true }),
-    ).toHaveCount(1);
+    ).toHaveCount(0);
     await expect(page.getByTestId("waitlist-status")).not.toContainText(
       PUBLIC_COPY.waitlist.failed,
     );
@@ -270,7 +273,7 @@ test.describe("BMB-QA-2 legal, leaderboard, hotspots, contact", () => {
     page,
   }) => {
     expect(PUBLIC_COPY.seat.bumperWrapOnly).toBe(
-      "Vinyl wrap is the only option for the bumper.",
+      "Wrap only. Vinyl wrap for 12 months after installation.",
     );
     expect(PUBLIC_COPY.seat.wrapTwelveMonths).toBe(
       "Vinyl wrap for 12 months after installation.",

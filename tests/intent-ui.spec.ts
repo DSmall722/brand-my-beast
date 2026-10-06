@@ -184,7 +184,7 @@ test.describe("P2 panel intent + approvals", () => {
       "does not charge",
     );
     await expect(page.getByTestId("panel-deposit-shown")).toHaveText(
-      "20% · $500",
+      "$500 (20%)",
     );
     await expect(page.getByTestId("panel-deposit-shown")).not.toContainText(
       "not charged",

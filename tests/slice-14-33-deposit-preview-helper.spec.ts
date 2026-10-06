@@ -104,7 +104,7 @@ test.describe("slice 14.33: deposit preview uses depositUsdForMark (12.5)", () =
 
     const panelDeposit = page.getByTestId("panel-deposit-shown");
     await expect(panelDeposit).toHaveText(
-      `${DEPOSIT_PERCENT}% · ${formatUsd(expected)}`,
+      `${formatUsd(expected)} (${DEPOSIT_PERCENT}%)`,
     );
     await expect(panelDeposit).not.toContainText("not charged");
 

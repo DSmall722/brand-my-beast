@@ -51,7 +51,7 @@ test.describe("slice 17.13: wrap-only seats hide the etch tab", () => {
       await expect(page.getByTestId("compositor-mode-etch")).toHaveCount(0);
       await expect(page.getByTestId("compositor-finish-label")).toHaveCount(0);
       await expect(page.getByTestId("seat-lead")).toHaveText(
-        "Vinyl wrap is the only option for the bumper.",
+        "Wrap only. Vinyl wrap for 12 months after installation.",
       );
     }
   });

@@ -352,7 +352,7 @@ test.describe("bid desk: modal, hidden sign-in, unpaid, day by day", () => {
       "No standing bids yet.",
     );
     await expect(page.getByTestId("auction-today")).toContainText(
-      "No bid or outbid yet today. Be the first.",
+      "No bids today yet. Be the first.",
     );
     await expect(page.getByTestId("auction-top")).toContainText("Top brands");
     await expect(page.getByTestId("leaderboard-link")).toHaveAttribute(
@@ -381,7 +381,7 @@ test.describe("bid desk: modal, hidden sign-in, unpaid, day by day", () => {
     await expect(modal).toBeVisible();
     await expect(modal).toHaveAttribute("data-bid-window", "closed");
     await expect(page.getByTestId("bid-modal-panel")).toHaveValue("hood");
-    await expect(modal).toContainText("Opening floor");
+    await expect(modal).toContainText("Opening price");
     await expect(modal).not.toContainText("Current bid");
     await expect(page.getByTestId("bid-modal-current")).toHaveText("$2,500");
     await expect(page.getByTestId("bid-modal-minimum")).toHaveText("$2,500");

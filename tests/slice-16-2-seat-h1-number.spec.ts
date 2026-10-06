@@ -12,6 +12,7 @@ import { findStripePackagesInRootPackageJson } from "../src/lib/no-stripe-packag
 import {
   PANEL_BOARD_MARKS,
   panelBoardMarkFor,
+  panelDisplayName,
   panelSeatH1,
 } from "../src/lib/panel-board";
 import { vercelJsonIsHoldOrMainOnlyRestore } from "../src/lib/vercel-git-deploy";
@@ -46,10 +47,13 @@ test.describe("slice 16.2: seat page H1 includes board number", () => {
     expect(panelSeatH1(driverDoor!)).toBe("4 · Driver Side Doors");
     expect(panelBoardMarkFor("driver-door").n).toBe(4);
     expect(panelSeatH1(PANELS[0]!)).toBe("1 · Hood");
-    expect(panelSeatH1(PANELS[10]!)).toBe("11 · Rear bumper");
+    expect(panelSeatH1(PANELS[10]!)).toBe("11 · Rear Bumper");
     for (const mark of PANEL_BOARD_MARKS) {
       const panel = PANELS.find((row) => row.id === mark.panelId)!;
-      expect(panelSeatH1(panel)).toBe(`${mark.n} · ${panel.name}`);
+      expect(mark.name).toBe(panel.name);
+      expect(panelSeatH1(panel)).toBe(
+        `${mark.n} · ${panelDisplayName(panel.name)}`,
+      );
     }
   });
 
@@ -60,10 +64,12 @@ test.describe("slice 16.2: seat page H1 includes board number", () => {
       await page.goto(`/panels/${mark.panelId}`);
       const h1 = page.getByTestId("panel-seat-h1");
       await expect(h1).toBeVisible();
-      await expect(h1).toHaveText(`${mark.n} · ${mark.name}`);
+      await expect(h1).toHaveText(
+        `${mark.n} · ${panelDisplayName(mark.name)}`,
+      );
       await expect(h1).toHaveAttribute("data-panel-n", String(mark.n));
       await expect(page.getByRole("heading", { level: 1 })).toHaveText(
-        `${mark.n} · ${mark.name}`,
+        `${mark.n} · ${panelDisplayName(mark.name)}`,
       );
     }
 

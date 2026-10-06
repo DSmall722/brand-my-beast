@@ -1,5 +1,6 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
+import { HomeFooter } from "@/components/home/HomeFooter";
 import {
   BRAND,
   DEPOSIT_PERCENT,
@@ -26,6 +27,7 @@ export function LegalStubShell({
   children: ReactNode;
 }) {
   return (
+    <>
     <main className="shell auth-page legal-page" data-testid={testId}>
       <p className="eyebrow">{BRAND.name}</p>
       <h1>{title}</h1>
@@ -43,6 +45,8 @@ export function LegalStubShell({
         </Link>
       </p>
     </main>
+    <HomeFooter />
+    </>
   );
 }
 
@@ -52,9 +56,9 @@ export function PrivacyStubBody() {
     <>
       <h2>What we collect</h2>
       <p data-testid="privacy-collect">
-        We collect the email address you submit on the contact form, the bid
-        details described under Bids, and basic technical logs needed to run
-        the site (for example IP address, user agent, and request timing).
+        We collect the email you send through the contact form or the bid
+        form, plus basic technical logs (for example IP address, user agent,
+        and request timing). Bid details are described under Bids.
       </p>
       <h2>Bids</h2>
       <p data-testid="privacy-bids">
@@ -74,18 +78,18 @@ export function PrivacyStubBody() {
         leaderboard with brand names, and to contact winners. We reply to
         contact form messages. We do not sell your personal information.
       </p>
-      <h2>Providers</h2>
+      <h2>Who processes it</h2>
       <p data-testid="privacy-providers">
         Providers that may process data on our behalf include hosting, the
-        database, email delivery (including the one-time bid link), and Stripe.
-        They only receive what they need to perform that work.
+        database, email delivery for bid and contact messages, and Stripe for
+        payments. They only receive what they need to perform that work.
       </p>
-      <h2>Retention</h2>
+      <h2>How long we keep it</h2>
       <p data-testid="privacy-retention">
-        Contact form messages are kept as long as needed to reply. Bid and
-        brand information is kept while we run the auction and contact winners.
-        Server logs are kept only as long as needed for security and
-        operations.
+        Contact emails are kept until we have answered or you ask us to delete
+        them. Bid and brand information is kept while we run the auction and
+        contact winners. Server logs are kept only as long as needed for
+        security and operations.
       </p>
       <h2>Access and deletion</h2>
       <p data-testid="privacy-access">
@@ -94,7 +98,7 @@ export function PrivacyStubBody() {
       </p>
       <h2>Cookies</h2>
       <p data-testid="privacy-cookies">
-        We use essential cookies only for the one-time bid link session.
+        We use only the cookies the site needs to work.
       </p>
       <h2>Contact</h2>
       <p data-testid="privacy-contact">
@@ -120,7 +124,9 @@ export function TermsStubBody() {
       <h2>The product</h2>
       <p data-testid="terms-product">
         {BRAND.name} auctions advertising inventory on panels of a Tesla
-        Cyberbeast (the &quot;Beast&quot;). Inventory may be vinyl wrap,
+        Cybertruck, Cyberbeast trim (the &quot;Beast&quot;). {BRAND.name} is
+        not affiliated with or endorsed by Tesla, Inc. Inventory may be vinyl
+        wrap,
         Immortal Etch, or both, as shown for each seat. Buying a seat buys
         display space on the vehicle under the rules for that seat. It does
         not buy the truck, a share of the truck, or a guarantee of views,
@@ -134,7 +140,7 @@ export function TermsStubBody() {
       </p>
       <h2>Bids and payment</h2>
       <p data-testid="terms-bids">
-        {`${BRAND.name} auctions ${PANELS.length} panels. Opening prices are shown on each seat. Empty seats show an opening price, not a Current Bid. Displayed "Current Bid" amounts are standing marks on that seat. The ${formatUsd(FLOOR_USD)} floor is the campaign total across seats, not a minimum on one bid. A bid is an offer to buy that seat at that price. A ${DEPOSIT_PERCENT}% deposit via Stripe holds the seat. If you win, you owe the winning amount. The deposit applies toward that balance. If you are outbid, your deposit is refunded after bidding closes. If total standing bids are below ${formatUsd(FLOOR_USD)} when bidding closes, every deposit is refunded and no seats are sold. A new bid on the same seat counts deposits you already paid. If you are the next-highest bidder on a seat, your deposit is held until the winner pays or the ${days}-day payment window ends. If the winner does not pay, the seat passes to you; otherwise your deposit is refunded. Bidding closes ${publishedCloseLabelEt()}. A bid in the last ${minutes} minutes extends that close by ${minutes} minutes. If you win, pay the remainder within ${days} days or the deposit is forfeited and the seat goes to the next bidder. We may also reject or cancel a win for prohibited content or fraud.`}
+        {`${BRAND.name} auctions ${PANELS.length} panels. Opening prices are shown on each seat. Each seat shows its opening price until someone bids. After that it shows the current high bid. The ${formatUsd(FLOOR_USD)} floor is the campaign total across seats, not a minimum on one bid. A bid is an offer to buy that seat at that price. A ${DEPOSIT_PERCENT}% deposit via Stripe holds the seat. If you are outbid, your deposit is refunded after bidding closes. If total standing bids are below ${formatUsd(FLOOR_USD)} when bidding closes, every deposit is refunded and no seats are sold. A new bid on the same seat counts deposits you already paid. If you are the next-highest bidder on a seat, your deposit is held until the winner pays or the ${days}-day payment window ends. If the winner does not pay, the seat passes to you; otherwise your deposit is refunded. Bidding closes ${publishedCloseLabelEt()}. A bid in the last ${minutes} minutes extends that close by ${minutes} minutes. If you win, pay the rest of your winning bid within ${days} days. Your deposit counts toward it. If you don't pay in time, the deposit is forfeited and the seat goes to the next bidder. We may also reject or cancel a win for prohibited content or fraud.`}
       </p>
       <h2>Artwork</h2>
       <p data-testid="terms-artwork">

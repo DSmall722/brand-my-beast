@@ -97,7 +97,7 @@ test.describe("Oct 4 QA sweep", () => {
     await expect(page.getByTestId("day-by-day-empty")).toHaveText("No bids yet.");
     await expect(page.getByTestId("day-by-day")).not.toContainText("Sample Mark");
     await expect(page.getByTestId("panel-increment")).toHaveCount(0);
-    await expect(page.getByTestId("panel-opening")).toContainText("Opening floor");
+    await expect(page.getByTestId("panel-opening")).toContainText("Opening price");
     await expect(page.getByTestId("panel-opening")).toContainText("$2,500");
     await expect(page.getByTestId("panel-standing")).toHaveCount(0);
   });

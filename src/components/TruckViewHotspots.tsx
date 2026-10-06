@@ -35,10 +35,7 @@ const HOTSPOT_HIT_PAD: Record<
 > = {
   hood: { x: 12, y: 14, w: 76, h: 22 },
   "front-fascia": { x: 10, y: 36, w: 80, h: 19 },
-  "driver-rear-quarter": { x: 56.3, y: 31.8, w: 32.2, h: 19.2 },
-  "driver-bed": { x: 80, y: 61.4, w: 10.4, h: 2.4 },
   tailgate: { x: 44.5, y: 41.3, w: 41.2, h: 19.2 },
-  "passenger-rear-quarter": { x: 4, y: 26.2, w: 18, h: 19.2 },
 };
 
 /**
@@ -90,10 +87,14 @@ export function TruckViewHotspots({
     };
   }, []);
   const occupied = new Set(occupiedPanelIds);
-  const spots = hotspotsForView(singleSeat ? ownerView : view).filter((spot) =>
-    singleSeat ? spot.panelId === activePanelId : true,
-  );
   const shownView = singleSeat ? ownerView : view;
+  const viewSpots = hotspotsForView(shownView);
+  const linkSpots = singleSeat
+    ? viewSpots.filter((spot) => spot.panelId === activePanelId)
+    : viewSpots;
+  const dimSpots = singleSeat
+    ? viewSpots.filter((spot) => spot.panelId !== activePanelId)
+    : [];
   const chips = singleSeat ? [] : nameChipsForView(shownView);
   const stillSize = truckViewStillSize(shownView);
   const credit = TRUCK_VIEW_CREDITS[shownView];
@@ -101,7 +102,7 @@ export function TruckViewHotspots({
   const polygonsMode = singleSeat ? "hidden" : "outline";
   const seatLinks = singleSeat
     ? []
-    : [...spots].sort(
+    : [...linkSpots].sort(
         (a, b) =>
           panelBoardMarkFor(a.panelId).n - panelBoardMarkFor(b.panelId).n,
       );
@@ -179,7 +180,15 @@ export function TruckViewHotspots({
             data-testid="truck-view-svg"
             data-view={shownView}
           >
-            {spots.map((spot) => {
+            {dimSpots.map((spot) => (
+              <polygon
+                key={`${shownView}-dim-${spot.panelId}`}
+                className="truck-seat is-dim"
+                data-testid={`truck-seat-dim-${spot.panelId}`}
+                points={spot.points}
+              />
+            ))}
+            {linkSpots.map((spot) => {
               const panel = PANELS.find((row) => row.id === spot.panelId);
               if (!panel) return null;
               const mark = panelBoardMarkFor(spot.panelId);
@@ -217,11 +226,13 @@ export function TruckViewHotspots({
                 >
                   <polygon
                     className={
-                      !singleSeat && active
-                        ? "truck-seat is-active"
-                        : held
-                          ? "truck-seat is-held"
-                          : "truck-seat is-raw"
+                      singleSeat
+                        ? "truck-seat is-current"
+                        : active
+                          ? "truck-seat is-active"
+                          : held
+                            ? "truck-seat is-held"
+                            : "truck-seat is-raw"
                     }
                     points={spot.points}
                     fill="none"
@@ -238,7 +249,7 @@ export function TruckViewHotspots({
                 </a>
               );
             })}
-            {spots.map((spot) => {
+            {linkSpots.map((spot) => {
               const chip = chips.find((row) => row.panelId === spot.panelId);
               if (!chip) return null;
               const chipRy = chip.h / 2;

@@ -1,5 +1,6 @@
 import { expect, test } from "@playwright/test";
 import { FLOOR_USD, PANELS, formatUsd } from "../src/lib/campaign";
+import { depositUsdForMark } from "../src/lib/intent";
 import { PUBLIC_COPY } from "../src/lib/public-copy";
 
 const OPEN_NOW = "2026-10-06T16:00:00.000Z";
@@ -86,7 +87,9 @@ test.describe("BMB-QA-2-FIX2 bid form, copy, a11y", () => {
     await page.getByTestId("bid-modal-trade").fill("tools");
     await page.getByTestId("bid-modal-email").fill("fix2@example.com");
     await expect(submit).toBeEnabled();
-    await expect(submit).toHaveText("Place bid");
+    await expect(submit).toHaveText(
+      `Place bid · Pay ${formatUsd(depositUsdForMark(Number(minimum.replace(/[^0-9]/g, ""))))} deposit`,
+    );
     expect(bids).toEqual([]);
     expect(HERO_CAPTION).not.toMatch(NO_EM);
   });
@@ -155,8 +158,8 @@ test.describe("BMB-QA-2-FIX2 bid form, copy, a11y", () => {
       "Bids",
       "Payments",
       "How we use it",
-      "Providers",
-      "Retention",
+      "Who processes it",
+      "How long we keep it",
       "Access and deletion",
       "Cookies",
       "Contact",
@@ -167,7 +170,7 @@ test.describe("BMB-QA-2-FIX2 bid form, copy, a11y", () => {
       ).toBeVisible();
     }
     await expect(page.getByTestId("privacy-retention")).toContainText(
-      "as long as needed to reply",
+      "Contact emails are kept until we have answered or you ask us to delete them.",
     );
     await expect(page.getByTestId("privacy-retention")).not.toContainText(
       "waitlist",

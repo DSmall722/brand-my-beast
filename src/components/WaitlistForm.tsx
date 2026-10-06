@@ -2,7 +2,26 @@
 
 import { FormEvent, useEffect, useRef, useState } from "react";
 import { WANT_WHOLE_TRUCK_EVENT } from "@/components/home/WantAllPanelsLink";
+import { BRAND } from "@/lib/campaign";
 import { PUBLIC_COPY } from "@/lib/public-copy";
+
+const CONTACT_SEND_FAILED = `That didn't send. Try again, or email ${BRAND.email}.`;
+
+function contactEmailError(value: string): string {
+  const trimmed = value.trim();
+  if (!trimmed) return "Enter your email address.";
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(trimmed)) {
+    return "Enter a full email, like you@company.com.";
+  }
+  return "";
+}
+
+function contactSendError(serverError: string | undefined): string {
+  if (!serverError || serverError === PUBLIC_COPY.waitlist.failed) {
+    return CONTACT_SEND_FAILED;
+  }
+  return serverError;
+}
 
 type Status = "idle" | "loading" | "created" | "exists" | "error";
 
@@ -36,6 +55,13 @@ export function WaitlistForm() {
 
   async function onSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
+    const clientError = contactEmailError(email);
+    if (clientError) {
+      setMessage("");
+      setEmailError(clientError);
+      setStatus("error");
+      return;
+    }
     setStatus("loading");
     setMessage("");
     setEmailError("");
@@ -45,7 +71,7 @@ export function WaitlistForm() {
       const response = await fetch("/api/waitlist", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, wantWholeTruck }),
+        body: JSON.stringify({ email: email.trim(), wantWholeTruck }),
       });
       const data = (await response.json()) as {
         ok?: boolean;
@@ -55,7 +81,7 @@ export function WaitlistForm() {
 
       // Slice 6.5 — never paint success / "on the list" / "joined" unless ok.
       if (!response.ok || !data.ok) {
-        setEmailError(data.error ?? PUBLIC_COPY.waitlist.failed);
+        setEmailError(contactSendError(data.error));
         next = "error";
         return;
       }
@@ -70,7 +96,7 @@ export function WaitlistForm() {
       setEmail("");
       setWantWholeTruck(false);
     } catch {
-      setEmailError(PUBLIC_COPY.waitlist.failed);
+      setEmailError(CONTACT_SEND_FAILED);
       next = "error";
     } finally {
       setStatus(next);
@@ -88,10 +114,10 @@ export function WaitlistForm() {
       data-testid="waitlist-form"
       noValidate
     >
-      <label className="sr-only" htmlFor="waitlist-email">
+      <label className="auth-label" htmlFor="waitlist-email">
         Email
       </label>
-      <div className="waitlist-row">
+      <div className="waitlist-row waitlist-contact-row">
         <input
           id="waitlist-email"
           name="email"
@@ -113,7 +139,7 @@ export function WaitlistForm() {
           data-testid="waitlist-email"
         />
         <button type="submit" disabled={disabled} data-testid="waitlist-submit">
-          {status === "loading" ? "Notifying…" : PUBLIC_COPY.waitlist.button}
+          {status === "loading" ? "Sending…" : PUBLIC_COPY.waitlist.button}
         </button>
         {emailError ? (
           <p

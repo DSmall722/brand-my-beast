@@ -66,7 +66,7 @@ test.describe("slice 16.20: /llms.txt numbered seats", () => {
     const body = await res.text();
     expect(body).toBe(buildLlmsTxt());
     expect(body).toContain("1 Hood");
-    expect(body).toContain("11 Rear bumper");
+    expect(body).toContain("11 Rear Bumper");
   });
 
   test("homepage still does not render FEATURES.md", async ({ request }) => {

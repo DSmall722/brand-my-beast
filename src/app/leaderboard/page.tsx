@@ -27,7 +27,7 @@ export default async function LeaderboardPage() {
   const brandWord = board.brandCount === 1 ? "brand" : "brands";
 
   return (
-    <>
+    <div className="leaderboard-frame">
       <SiteChrome />
       <main
         id="main-content"
@@ -104,6 +104,6 @@ export default async function LeaderboardPage() {
         )}
       </main>
       <HomeFooter />
-    </>
+    </div>
   );
 }

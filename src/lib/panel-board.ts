@@ -217,15 +217,25 @@ export function panelFaceStyle(panelId: string): {
   };
 }
 
-/** Slice 16.2 — seat page H1 uses the PANELS name: `4 · Driver Side Doors`. */
-export function panelSeatH1(panel: Pick<Panel, "id" | "name">): string {
-  const mark = panelBoardMarkFor(panel.id);
-  return `${mark.n} · ${panel.name}`;
+/**
+ * Display caps only. PANELS.name stays the Stripe charge description.
+ * "Front bumper" / "Rear bumper" render as "Front Bumper" / "Rear Bumper".
+ */
+export function panelDisplayName(name: string): string {
+  if (name === "Front bumper") return "Front Bumper";
+  if (name === "Rear bumper") return "Rear Bumper";
+  return name;
 }
 
-/** Slice 16.3 — legend item: `1 Hood` (number + PANELS name, no extra copy). */
+/** Slice 16.2 — seat page H1. Display name, not the Stripe panel string. */
+export function panelSeatH1(panel: Pick<Panel, "id" | "name">): string {
+  const mark = panelBoardMarkFor(panel.id);
+  return `${mark.n} · ${panelDisplayName(panel.name)}`;
+}
+
+/** Slice 16.3 — legend item: `1 Hood` (number + display name, no extra copy). */
 export function panelLegendLabel(mark: Pick<PanelBoardMark, "n" | "name">): string {
-  return `${mark.n} ${mark.name}`;
+  return `${mark.n} ${panelDisplayName(mark.name)}`;
 }
 
 /**
@@ -237,7 +247,7 @@ export function panelOverlayName(panelId: string): string {
   if (!panel) {
     throw new Error(`panel-board: missing overlay name for ${panelId}`);
   }
-  return panel.name;
+  return panelDisplayName(panel.name);
 }
 
 /** Locked overlay label: `(1) Hood`. */

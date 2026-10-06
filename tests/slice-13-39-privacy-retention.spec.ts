@@ -57,7 +57,7 @@ test.describe("slice 13.39: privacy waitlist retention", () => {
     await page.goto("/privacy");
     await expect(page.getByTestId("privacy-page")).toBeVisible();
     await expect(page.getByTestId("privacy-retention")).toContainText(
-      "as long as needed to reply",
+      "Contact emails are kept until we have answered or you ask us to delete them.",
     );
     await expect(page.getByTestId("privacy-retention")).toContainText(
       "while we run the auction and contact winners",

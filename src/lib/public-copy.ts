@@ -332,7 +332,7 @@ export const PUBLIC_COPY = {
     /** QA 1047PM — stainless seat chrome above Immortal Etch Locked. */
     wrapTwelveMonths: "Vinyl wrap for 12 months after installation.",
     /** QA 1047PM — bumper seats are wrap-only. */
-    bumperWrapOnly: "Vinyl wrap is the only option for the bumper.",
+    bumperWrapOnly: "Wrap only. Vinyl wrap for 12 months after installation.",
     withdrawSuccess: "Intent withdrawn. Still not charged.",
     withdrawButton: "Withdraw pending intent",
     failedWinnerWaitlist:
@@ -414,8 +414,9 @@ export const PUBLIC_COPY = {
     topHeading: "Top brands",
     topEmpty: "No standing bids yet.",
     todayHeading: "Today's action",
-    todayEmpty: "No bid or outbid yet today. Be the first.",
+    todayEmpty: "No bids today yet. Be the first.",
     openingFloor: "Opening floor",
+    openingPrice: "Opening price",
     leaderboardLink: "Leaderboard",
     leaderboardHeading: "Leaderboard",
     leaderboardEvery: "Every bid ever placed, highest first.",
@@ -429,24 +430,25 @@ export const PUBLIC_COPY = {
     closedResult: `Bidding opens ${BID_OPENS_AT}. No deposit was taken. ${CLOSED_ASK}`,
     intentResult:
       "This mark stays intent only. No card was charged. The operator still approves artwork.",
-    artwork:
-      "The operator approves artwork before it can run. Signing in does not put a logo on the truck.",
+    artwork: "We review every logo before it goes on the truck.",
     magicLink:
       "Manage a bid with a one-time email link. No password. This form does not charge a card.",
     depositChargeTemplate:
-      "{percent}% of this mark is {amount}. Charged when you place the bid.",
+      "Deposit due now: {amount} ({percent}% of your bid), charged by Stripe.",
     depositMagicLink:
-      "A one-time email link manages the bid after the deposit is paid. No password.",
+      "After your deposit goes through, we email you a link to manage your bid. No password needed.",
     coveredResult:
       "Earlier deposits on this seat cover this bid. It counts on the board.",
     trade: "Trade",
+    tradeHint: "Your type of business, e.g. Roofing. One brand per trade.",
     placeBid: "Place bid",
     joinList: "Contact us",
     pending: "Pending",
     yourBid: "Your bid",
     brandName: "Brand name",
     website: "Website (optional)",
-    logo: "Logo",
+    /** Server placeDepositBid does not require a file. Label stays optional. */
+    logo: "Logo (optional, you can send it later)",
     panel: "Panel",
     currentBid: "Current bid",
     minimumBid: "Minimum bid",

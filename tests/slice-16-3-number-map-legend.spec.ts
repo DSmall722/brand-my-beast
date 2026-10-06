@@ -11,6 +11,7 @@ import { findCloseAtViolations } from "../src/lib/close-at-null";
 import { findStripePackagesInRootPackageJson } from "../src/lib/no-stripe-package";
 import {
   PANEL_BOARD_MARKS,
+  panelDisplayName,
   panelLegendLabel,
 } from "../src/lib/panel-board";
 import { PUBLIC_COPY } from "../src/lib/public-copy";
@@ -44,12 +45,14 @@ test.describe("slice 16.3: number map legend under the hero", () => {
   test("legend labels are PANELS names, 1 Hood through 11 Rear bumper", () => {
     expect(PANEL_BOARD_MARKS).toHaveLength(PANELS.length);
     expect(panelLegendLabel(PANEL_BOARD_MARKS[0]!)).toBe("1 Hood");
-    expect(panelLegendLabel(PANEL_BOARD_MARKS[10]!)).toBe("11 Rear bumper");
+    expect(panelLegendLabel(PANEL_BOARD_MARKS[10]!)).toBe("11 Rear Bumper");
     for (let i = 0; i < PANELS.length; i += 1) {
       const mark = PANEL_BOARD_MARKS[i]!;
       expect(mark.panelId).toBe(PANELS[i]!.id);
       expect(mark.name).toBe(PANELS[i]!.name);
-      expect(panelLegendLabel(mark)).toBe(`${i + 1} ${PANELS[i]!.name}`);
+      expect(panelLegendLabel(mark)).toBe(
+        `${i + 1} ${panelDisplayName(PANELS[i]!.name)}`,
+      );
     }
   });
 
@@ -69,7 +72,7 @@ test.describe("slice 16.3: number map legend under the hero", () => {
 
     await expect(page.getByTestId("panel-legend-1")).toHaveText("1 Hood");
     await expect(page.getByTestId("panel-legend-11")).toHaveText(
-      "11 Rear bumper",
+      "11 Rear Bumper",
     );
 
     for (const mark of PANEL_BOARD_MARKS) {

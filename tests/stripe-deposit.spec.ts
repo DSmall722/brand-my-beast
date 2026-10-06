@@ -434,7 +434,7 @@ test.describe("stripe deposit and campaign window", () => {
     await expect(page.getByTestId("bid-modal-minimum")).toHaveText("$500");
 
     await page.goto("/panels/rear-bumper");
-    await expect(page.getByTestId("panel-opening")).toContainText("Opening floor");
+    await expect(page.getByTestId("panel-opening")).toContainText("Opening price");
     await expect(page.getByTestId("panel-opening")).toContainText("$500");
     await expect(page.getByTestId("panel-standing")).toHaveCount(0);
     await expect(page.getByTestId("panel-stats")).toHaveAttribute(

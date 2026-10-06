@@ -244,7 +244,7 @@ test.describe("desktop layout polish", () => {
     await expect(history.getByTestId("day-by-day-empty")).toHaveText("No bids yet.");
     await expect(history).not.toContainText("Be the first");
     await expect(page.getByTestId("auction-today")).toContainText(
-      "No bid or outbid yet today",
+      "No bids today yet",
     );
     await expect(history).not.toContainText("Sample history");
     await expect(history).not.toContainText("Sample Mark");
