@@ -35,3 +35,17 @@ Out of scope for this file (human-only elsewhere): Stripe keys, setting
 4. Whether waitlist emails or approved standing could leak
 
 Thank you for helping keep BrandMyBeast safe.
+
+## Internal send-mail (BMB-MAIL-1)
+
+`POST /api/internal/send-mail` sends one message over ImprovMX SMTP. No public
+UI, not in the sitemap, not in `/llms.txt`. Reachable without a session cookie.
+
+Env names only: `IMPROVMX_SMTP_USER`, `IMPROVMX_SMTP_PASS`, `INTERNAL_MAIL_TOKEN`.
+
+Auth: `Authorization: Bearer <INTERNAL_MAIL_TOKEN>`. The token must be at least
+32 characters. Compare is length-safe. Missing header, wrong scheme, wrong
+token, or a short/unset token → 401.
+
+Rate limit: 30 sends per rolling hour per instance (in-memory fixed window).
+Only requests that pass bearer auth count.

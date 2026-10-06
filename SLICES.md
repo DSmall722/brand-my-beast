@@ -80,3 +80,7 @@ Do not start until 19.12 is checked. No Stripe. No CLOSE_AT. No SEATS_OPEN flip.
 ## After Wave 20
 
 Idle. Wave 15 is Stripe and needs a human message.
+
+## BMB-MAIL-1
+
+- [x] Internal `POST /api/internal/send-mail` via ImprovMX SMTP (nodemailer). Bearer `INTERNAL_MAIL_TOKEN`. No UI. Money fences unchanged.
