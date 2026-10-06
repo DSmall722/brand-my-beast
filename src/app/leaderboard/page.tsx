@@ -2,15 +2,16 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { PublicMark } from "@/components/PublicMark";
 import { SiteChrome } from "@/components/SiteChrome";
+import { HomeFooter } from "@/components/home/HomeFooter";
 import { buildLeaderboard } from "@/lib/auction-board";
 import { BRAND, PANELS, formatUsd } from "@/lib/campaign";
 import { listBidsForPanel } from "@/lib/intent-store";
-import { PUBLIC_COPY } from "@/lib/public-copy";
+import { PUBLIC_COPY, leaderboardEmptyCopy } from "@/lib/public-copy";
 
 export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
-  title: `${PUBLIC_COPY.bidDesk.leaderboardHeading} — ${BRAND.name}`,
+  title: `Leaderboard | ${BRAND.name}`,
 };
 
 export default async function LeaderboardPage() {
@@ -40,7 +41,10 @@ export default async function LeaderboardPage() {
         <h1>{copy.leaderboardHeading}</h1>
         {empty ? (
           <p className="section-lead" data-testid="leaderboard-empty">
-            {copy.leaderboardEmpty}
+            {leaderboardEmptyCopy()}{" "}
+            <Link href="/#panels" data-testid="leaderboard-panels-link">
+              Panels
+            </Link>
           </p>
         ) : (
           <>
@@ -93,6 +97,7 @@ export default async function LeaderboardPage() {
           </>
         )}
       </main>
+      <HomeFooter />
     </>
   );
 }

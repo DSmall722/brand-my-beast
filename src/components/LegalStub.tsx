@@ -1,6 +1,17 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
-import { BRAND } from "@/lib/campaign";
+import {
+  BRAND,
+  DEPOSIT_PERCENT,
+  FLOOR_USD,
+  PANELS,
+  formatUsd,
+} from "@/lib/campaign";
+import {
+  SOFT_CLOSE_MS,
+  WINNER_PAY_MS,
+  publishedCloseLabelEt,
+} from "@/lib/campaign-window";
 
 /**
  * Privacy and Terms shell. Back control is a real button.
@@ -32,7 +43,7 @@ export function LegalStubShell({
   );
 }
 
-/** Short useful privacy policy — what we collect, why, and how to reach us. */
+/** Short useful privacy policy: what we collect, why, and how to reach us. */
 export function PrivacyStubBody() {
   return (
     <>
@@ -41,10 +52,23 @@ export function PrivacyStubBody() {
         sign in, plus basic technical logs needed to run the site (for example
         IP address, user agent, and request timing).
       </p>
+      <h2>Bids</h2>
+      <p data-testid="privacy-bids">
+        When someone bids, we collect their name, email, brand name, the logo
+        or creative they send, and bid amounts.
+      </p>
+      <h2>Payments</h2>
+      <p data-testid="privacy-payments">
+        Payments and deposits are processed by Stripe. We do not store full
+        card numbers. Stripe handles card data under its own privacy policy (
+        <a href="https://stripe.com/privacy">https://stripe.com/privacy</a>
+        ).
+      </p>
       <p data-testid="privacy-why">
-        We use that information to contact you when seats open, to keep your
-        account working, and to operate and secure the board. We do not sell
-        your personal information.
+        We use bid and brand information to run the auction, to show the
+        leaderboard with brand names, and to contact winners. We also use
+        waitlist and sign-in details to operate the board. We do not sell your
+        personal information.
       </p>
       <p data-testid="privacy-providers">
         Providers that may process data on our behalf include our hosting and
@@ -54,8 +78,9 @@ export function PrivacyStubBody() {
       </p>
       <p data-testid="privacy-retention">
         Waitlist emails are kept until seats open or you ask us to delete them.
-        Account data stays while your account is open. Server logs are kept only
-        as long as needed for security and operations.
+        Bid and brand information is kept while we run the auction and contact
+        winners. Account data stays while your account is open. Server logs are
+        kept only as long as needed for security and operations.
       </p>
       <p data-testid="privacy-access">
         To access or delete your information, email{" "}
@@ -63,7 +88,7 @@ export function PrivacyStubBody() {
       </p>
       <p data-testid="privacy-cookies">
         We use essential cookies for sign-in sessions. If analytics cookies are
-        enabled, they help us understand aggregate traffic — not to sell ads.
+        enabled, they help us understand aggregate traffic, not to sell ads.
       </p>
       <p data-testid="privacy-contact">
         Contact:{" "}
@@ -79,13 +104,13 @@ export function TermsStubBody() {
     <>
       <p data-testid="terms-intro">
         {BRAND.name} (&quot;we,&quot; &quot;us&quot;) operates {BRAND.domain}.
-        By using the site, joining the waitlist, creating an account, or
-        placing a bid, you agree to these terms.
+        By using the site, joining the waitlist, or placing a bid, you agree
+        to these terms.
       </p>
       <h2>The product</h2>
       <p data-testid="terms-product">
         {BRAND.name} auctions advertising inventory on panels of a Tesla
-        Cybertruck (the &quot;Beast&quot;). Inventory may be vinyl wrap,
+        Cyberbeast (the &quot;Beast&quot;). Inventory may be vinyl wrap,
         Immortal Etch, or both, as shown for each seat. Buying a seat buys
         display space on the vehicle under the rules for that seat. It does
         not buy the truck, a share of the truck, or a guarantee of views,
@@ -99,18 +124,19 @@ export function TermsStubBody() {
       </p>
       <h2>Bids and payment</h2>
       <p data-testid="terms-bids">
-        Opening prices and buyout levels are shown on the board. Empty seats
-        show an opening floor, not a Current Bid. Displayed &quot;Current
-        Bid&quot; amounts are standing marks on that seat. A bid you place is
-        an offer to buy that seat at that price. If you win, you owe the
-        winning amount (or the buyout
-        amount, if you buy out) under the payment instructions we send.
-        Deposits shown on the board apply toward the balance when you win. If
-        you win and do not pay the remaining balance as required, your deposit
-        is non-refundable and the seat passes to the next highest bidder under
-        the same payment rules. If you win, pay the remainder within 7 days or
-        the deposit is forfeited and the seat goes to the next bidder. We may
-        also reject or cancel a win for prohibited content or fraud.
+        {BRAND.name} auctions {PANELS.length} panels. Opening prices are shown
+        on each seat. Empty seats show an opening price, not a Current Bid.
+        Displayed &quot;Current Bid&quot; amounts are standing marks on that
+        seat. The {formatUsd(FLOOR_USD)} floor is the campaign total across
+        seats, not a minimum on one bid. A bid is an offer to buy that seat at
+        that price. A {DEPOSIT_PERCENT}% deposit via Stripe holds the seat. If
+        you win, you owe the winning amount. The deposit applies toward that
+        balance. Bidding closes {publishedCloseLabelEt()}. A bid in the last{" "}
+        {SOFT_CLOSE_MS / 60000} minutes extends that close by{" "}
+        {SOFT_CLOSE_MS / 60000} minutes. If you win, pay the remainder within{" "}
+        {WINNER_PAY_MS / (24 * 60 * 60 * 1000)} days or the deposit is
+        forfeited and the seat goes to the next bidder. We may also reject or
+        cancel a win for prohibited content or fraud.
       </p>
       <h2>Artwork</h2>
       <p data-testid="terms-artwork">

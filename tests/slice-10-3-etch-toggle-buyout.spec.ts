@@ -100,7 +100,7 @@ test.describe("slice 10.3: etch toggle locked under buyout", () => {
     await expect(page.getByTestId("panel-mockup")).toHaveCount(0);
     await expect(page.getByTestId("compositor-mode-etch")).toHaveCount(0);
     await expect(page.getByTestId("seat-lead")).toHaveText(
-      "Vinyl Wrap is the only option available for the Bumper.",
+      "Vinyl wrap is the only option for the bumper.",
     );
 
     const html = await page.content();

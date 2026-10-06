@@ -67,6 +67,7 @@ test.describe("slice 13.39: privacy waitlist retention", () => {
     expect(html).toContain("BrandMyBeast");
     expect(html.toLowerCase()).not.toMatch(/\blease\b/);
     expect(html).not.toContain("CLOSE_AT");
-    expect(html.toLowerCase()).not.toMatch(/stripe/);
+    expect(html).toContain("https://stripe.com/privacy");
+    expect(html).toContain("full card numbers");
   });
 });

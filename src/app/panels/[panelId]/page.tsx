@@ -244,7 +244,7 @@ export default async function PanelIntentPage({
             </div>
           ) : null}
           <div>
-            <dt>Min next</dt>
+            <dt>{PUBLIC_COPY.bidDesk.minimumBid}</dt>
             <dd data-testid="panel-minimum">{formatIntegerUsd(minimum)}</dd>
           </div>
           {incrementUsd == null ? null : (

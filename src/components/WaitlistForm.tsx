@@ -7,6 +7,7 @@ import { PUBLIC_COPY } from "@/lib/public-copy";
 type Status = "idle" | "loading" | "created" | "exists" | "error";
 
 const WAITLIST_STATUS_ID = "waitlist-status";
+const WAITLIST_EMAIL_ERROR_ID = "waitlist-email-error";
 const WAITLIST_WHOLE_TRUCK_HINT_ID = "waitlist-want-whole-truck-hint";
 
 export function WaitlistForm() {
@@ -14,6 +15,7 @@ export function WaitlistForm() {
   const [wantWholeTruck, setWantWholeTruck] = useState(false);
   const [status, setStatus] = useState<Status>("idle");
   const [message, setMessage] = useState("");
+  const [emailError, setEmailError] = useState("");
   const statusRef = useRef<HTMLParagraphElement>(null);
 
   // Slice 12.38 — restore focus to the status line after submit settles.
@@ -36,6 +38,8 @@ export function WaitlistForm() {
     event.preventDefault();
     setStatus("loading");
     setMessage("");
+    setEmailError("");
+    let next: Status = "error";
 
     try {
       const response = await fetch("/api/waitlist", {
@@ -51,22 +55,28 @@ export function WaitlistForm() {
 
       // Slice 6.5 — never paint success / "on the list" / "joined" unless ok.
       if (!response.ok || !data.ok) {
-        setStatus("error");
-        setMessage(data.error ?? PUBLIC_COPY.waitlist.failed);
+        const error = data.error ?? PUBLIC_COPY.waitlist.failed;
+        setMessage(error);
+        setEmailError(error);
+        next = "error";
         return;
       }
 
-      setStatus(data.status === "exists" ? "exists" : "created");
+      next = data.status === "exists" ? "exists" : "created";
       setMessage(
         data.status === "exists"
           ? PUBLIC_COPY.waitlist.already
           : PUBLIC_COPY.waitlist.success,
       );
+      setEmailError("");
       setEmail("");
       setWantWholeTruck(false);
     } catch {
-      setStatus("error");
       setMessage(PUBLIC_COPY.waitlist.failed);
+      setEmailError(PUBLIC_COPY.waitlist.failed);
+      next = "error";
+    } finally {
+      setStatus(next);
     }
   }
 
@@ -96,12 +106,25 @@ export function WaitlistForm() {
           placeholder={PUBLIC_COPY.waitlist.placeholder}
           disabled={disabled}
           aria-invalid={isError ? true : undefined}
-          aria-describedby={WAITLIST_STATUS_ID}
+          aria-describedby={
+            emailError
+              ? `${WAITLIST_EMAIL_ERROR_ID} ${WAITLIST_STATUS_ID}`
+              : WAITLIST_STATUS_ID
+          }
           data-testid="waitlist-email"
         />
         <button type="submit" disabled={disabled} data-testid="waitlist-submit">
           {status === "loading" ? "Notifying…" : PUBLIC_COPY.waitlist.button}
         </button>
+        {emailError ? (
+          <p
+            id={WAITLIST_EMAIL_ERROR_ID}
+            className="waitlist-field-error"
+            data-testid="waitlist-email-error"
+          >
+            {emailError}
+          </p>
+        ) : null}
       </div>
       {/* Slice 16.0e — whole-truck interest checkbox. Not pledged. */}
       <label className="waitlist-whole-truck" htmlFor="waitlist-want-whole-truck">

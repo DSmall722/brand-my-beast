@@ -14,7 +14,7 @@ import {
   isPendingPublicBid,
   pledgedUsdForPanel,
 } from "../src/lib/intent";
-import { PUBLIC_COPY } from "../src/lib/public-copy";
+import { PUBLIC_COPY, leaderboardEmptyCopy } from "../src/lib/public-copy";
 import { buildPublicSeatLog } from "../src/lib/seat-log";
 
 function mark(overrides: Partial<IntentBid> & Pick<IntentBid, "id" | "panelId" | "standingUsd" | "status" | "createdAt">): IntentBid {
@@ -368,7 +368,9 @@ test.describe("bid desk: modal, hidden sign-in, unpaid, day by day", () => {
       "data-empty",
       "true",
     );
-    await expect(page.getByTestId("leaderboard-empty")).toHaveText("No bids yet.");
+    await expect(page.getByTestId("leaderboard-empty")).toContainText(
+      leaderboardEmptyCopy(),
+    );
     await expect(page.getByTestId("leaderboard-page")).not.toContainText("unpaid");
     await page.goto("/");
 

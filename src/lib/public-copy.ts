@@ -311,9 +311,9 @@ export const PUBLIC_COPY = {
     openingRationale:
       "Opening marks start the seat. The floor is not the sum of openings — bidding has to carry the board to $58,000.",
     /** QA 1047PM — stainless seat chrome above Immortal Etch Locked. */
-    wrapTwelveMonths: "Vinyl Wrap for 12 Months after Installation.",
+    wrapTwelveMonths: "Vinyl wrap for 12 months after installation.",
     /** QA 1047PM — bumper seats are wrap-only. */
-    bumperWrapOnly: "Vinyl Wrap is the only option available for the Bumper.",
+    bumperWrapOnly: "Vinyl wrap is the only option for the bumper.",
     withdrawSuccess: "Intent withdrawn. Still not charged.",
     withdrawButton: "Withdraw pending intent",
     failedWinnerWaitlist:
@@ -400,7 +400,8 @@ export const PUBLIC_COPY = {
     leaderboardHeading: "Leaderboard",
     leaderboardEvery: "Every bid ever placed, highest first.",
     leaderboardStay: "Outbid bids stay on this list.",
-    leaderboardEmpty: "No bids yet.",
+    leaderboardEmptyBefore: "No bids yet. Bidding opens Oct 6 at noon ET.",
+    leaderboardEmptyAfter: "No bids yet. Be the first.",
     leaderboardRest: "The rest of the field",
     modalTitle: "Place a bid",
     closedLead: `Bidding opens ${BID_OPENS_AT}. No deposit is taken on this form. ${CLOSED_ASK}`,
@@ -432,3 +433,11 @@ export const PUBLIC_COPY = {
     contact: "Contact BMB",
   },
 } as const;
+
+/** Empty leaderboard line. Before OPEN_AT vs after. Not the live-charge flag. */
+export function leaderboardEmptyCopy(nowMs: number = Date.now()): string {
+  if (nowMs >= Date.parse(OPEN_AT)) {
+    return PUBLIC_COPY.bidDesk.leaderboardEmptyAfter;
+  }
+  return PUBLIC_COPY.bidDesk.leaderboardEmptyBefore;
+}

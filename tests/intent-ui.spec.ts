@@ -64,7 +64,7 @@ test.describe("P2 panel intent + approvals", () => {
       "bid",
     );
     await expect(page.getByTestId("seat-lead")).toContainText(
-      "Vinyl Wrap for 12 Months after Installation.",
+      "Vinyl wrap for 12 months after installation.",
     );
     await expect(page.getByTestId("panel-mockup")).toHaveCount(0);
     await expect(page.getByTestId("stainless-compositor")).toHaveCount(0);

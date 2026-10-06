@@ -84,8 +84,10 @@ test.describe("slice 14.34: next-minimum display integer dollars only", () => {
     expect(panel.toLowerCase()).not.toMatch(/\blease\b/);
   });
 
-  test("panel Min next shows whole dollars only", async ({ page }) => {
+  test("panel Minimum bid shows whole dollars only", async ({ page }) => {
     await page.goto("/panels/hood");
+    await expect(page.getByTestId("panel-stats")).toContainText("Minimum bid");
+    await expect(page.getByTestId("panel-stats")).not.toContainText("Min next");
     const openMin = (await page.getByTestId("panel-minimum").innerText()).trim();
     expect(openMin).toMatch(WHOLE_DOLLAR);
     expect(openMin).not.toMatch(/\.\d/);

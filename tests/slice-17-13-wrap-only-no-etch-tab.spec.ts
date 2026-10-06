@@ -51,7 +51,7 @@ test.describe("slice 17.13: wrap-only seats hide the etch tab", () => {
       await expect(page.getByTestId("compositor-mode-etch")).toHaveCount(0);
       await expect(page.getByTestId("compositor-finish-label")).toHaveCount(0);
       await expect(page.getByTestId("seat-lead")).toHaveText(
-        "Vinyl Wrap is the only option available for the Bumper.",
+        "Vinyl wrap is the only option for the bumper.",
       );
     }
   });

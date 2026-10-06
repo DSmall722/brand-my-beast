@@ -521,7 +521,7 @@ test.describe("hybrid panel training UX", () => {
     expect(fillAlpha(activeFill), activeFill).toBe(0);
 
     await expect(page.getByTestId("seat-lead")).toContainText(
-      "Vinyl Wrap for 12 Months after Installation.",
+      "Vinyl wrap for 12 months after installation.",
     );
     await expect(page.getByTestId("etch-lock-copy")).toHaveCount(0);
     await expect(page.getByTestId("panel-mockup")).toHaveCount(0);

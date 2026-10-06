@@ -217,7 +217,7 @@ export function panelFaceStyle(panelId: string): {
   };
 }
 
-/** Slice 16.2 — seat page H1: `4 · Driver doors`. */
+/** Slice 16.2 — seat page H1 uses the PANELS name: `4 · Driver Side Doors`. */
 export function panelSeatH1(panel: Pick<Panel, "id" | "name">): string {
   const mark = panelBoardMarkFor(panel.id);
   return `${mark.n} · ${panel.name}`;
@@ -232,25 +232,12 @@ export function panelLegendLabel(mark: Pick<PanelBoardMark, "n" | "name">): stri
  * SVG overlay seat names. Number + name only — no openings, wrap notes,
  * or process copy. Locked shape: `(1) Hood`.
  */
-export const PANEL_OVERLAY_NAME = {
-  hood: "Hood",
-  "front-fascia": "Front Fascia",
-  "front-bumper": "Front bumper",
-  "driver-door": "Driver Side Doors",
-  "driver-rear-quarter": "Driver Rear Sail",
-  "driver-bed": "Driver Side Bed",
-  "passenger-door": "Passenger Side Doors",
-  "passenger-rear-quarter": "Passenger Rear Sail",
-  "passenger-bed": "Passenger Side Bed",
-  tailgate: "Tailgate",
-  "rear-bumper": "Rear bumper",
-} as const;
-
 export function panelOverlayName(panelId: string): string {
-  if (!(panelId in PANEL_OVERLAY_NAME)) {
+  const panel = PANELS.find((row) => row.id === panelId);
+  if (!panel) {
     throw new Error(`panel-board: missing overlay name for ${panelId}`);
   }
-  return PANEL_OVERLAY_NAME[panelId as keyof typeof PANEL_OVERLAY_NAME];
+  return panel.name;
 }
 
 /** Locked overlay label: `(1) Hood`. */

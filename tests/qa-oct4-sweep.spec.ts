@@ -1,6 +1,6 @@
 import { expect, test } from "@playwright/test";
 import { pledgedUsdForPanel } from "../src/lib/intent";
-import { PUBLIC_COPY } from "../src/lib/public-copy";
+import { PUBLIC_COPY, leaderboardEmptyCopy } from "../src/lib/public-copy";
 
 test.describe("Oct 4 QA sweep", () => {
   test.beforeEach(async ({ request }) => {
@@ -45,7 +45,9 @@ test.describe("Oct 4 QA sweep", () => {
     expect(body.code).toBe("bidding_closed");
 
     await page.goto("/leaderboard");
-    await expect(page.getByTestId("leaderboard-empty")).toHaveText("No bids yet.");
+    await expect(page.getByTestId("leaderboard-empty")).toContainText(
+      leaderboardEmptyCopy(),
+    );
     await expect(page.getByTestId("leaderboard-page")).not.toContainText(
       "Should Not List",
     );
@@ -75,7 +77,9 @@ test.describe("Oct 4 QA sweep", () => {
     );
 
     await page.goto("/leaderboard");
-    await expect(page.getByTestId("leaderboard-empty")).toHaveText("No bids yet.");
+    await expect(page.getByTestId("leaderboard-empty")).toContainText(
+      leaderboardEmptyCopy(),
+    );
     await expect(page.getByTestId("leaderboard-page")).not.toContainText(
       "Sample Mark",
     );

@@ -4,10 +4,17 @@ import { expect, test } from "@playwright/test";
 import {
   BRAND,
   CLOSE_AT,
+  DEPOSIT_PERCENT,
   FLOOR_USD,
   GOAL_USD,
+  PANELS,
   formatUsd,
 } from "../src/lib/campaign";
+import {
+  SOFT_CLOSE_MS,
+  WINNER_PAY_MS,
+  publishedCloseLabelEt,
+} from "../src/lib/campaign-window";
 import { PUBLIC_COPY } from "../src/lib/public-copy";
 
 /**
@@ -92,16 +99,18 @@ test.describe("slice 7.9: privacy policy and approved terms", () => {
       page.getByRole("heading", { level: 1, name: "Terms of Use" }),
     ).toBeVisible();
     await expect(page.getByTestId("terms-intro")).toHaveText(
-      `${BRAND.name} ("we," "us") operates ${BRAND.domain}. By using the site, joining the waitlist, creating an account, or placing a bid, you agree to these terms.`,
+      `${BRAND.name} ("we," "us") operates ${BRAND.domain}. By using the site, joining the waitlist, or placing a bid, you agree to these terms.`,
     );
     await expect(page.getByTestId("terms-product")).toHaveText(
-      `${BRAND.name} auctions advertising inventory on panels of a Tesla Cybertruck (the "Beast"). Inventory may be vinyl wrap, Immortal Etch, or both, as shown for each seat. Buying a seat buys display space on the vehicle under the rules for that seat. It does not buy the truck, a share of the truck, or a guarantee of views, clicks, sales, or media coverage.`,
+      `${BRAND.name} auctions advertising inventory on panels of a Tesla Cyberbeast (the "Beast"). Inventory may be vinyl wrap, Immortal Etch, or both, as shown for each seat. Buying a seat buys display space on the vehicle under the rules for that seat. It does not buy the truck, a share of the truck, or a guarantee of views, clicks, sales, or media coverage.`,
     );
     await expect(page.getByTestId("terms-eligibility")).toHaveText(
       "You must be at least 18 and able to form a binding contract. You are responsible for activity under your account. Attempts to manipulate the auction are not allowed.",
     );
+    const minutes = SOFT_CLOSE_MS / 60000;
+    const days = WINNER_PAY_MS / (24 * 60 * 60 * 1000);
     await expect(page.getByTestId("terms-bids")).toHaveText(
-      'Opening prices and buyout levels are shown on the board. Empty seats show an opening floor, not a Current Bid. Displayed "Current Bid" amounts are standing marks on that seat. A bid you place is an offer to buy that seat at that price. If you win, you owe the winning amount (or the buyout amount, if you buy out) under the payment instructions we send. Deposits shown on the board apply toward the balance when you win. If you win and do not pay the remaining balance as required, your deposit is non-refundable and the seat passes to the next highest bidder under the same payment rules. If you win, pay the remainder within 7 days or the deposit is forfeited and the seat goes to the next bidder. We may also reject or cancel a win for prohibited content or fraud.',
+      `${BRAND.name} auctions ${PANELS.length} panels. Opening prices are shown on each seat. Empty seats show an opening price, not a Current Bid. Displayed "Current Bid" amounts are standing marks on that seat. The ${formatUsd(FLOOR_USD)} floor is the campaign total across seats, not a minimum on one bid. A bid is an offer to buy that seat at that price. A ${DEPOSIT_PERCENT}% deposit via Stripe holds the seat. If you win, you owe the winning amount. The deposit applies toward that balance. Bidding closes ${publishedCloseLabelEt()}. A bid in the last ${minutes} minutes extends that close by ${minutes} minutes. If you win, pay the remainder within ${days} days or the deposit is forfeited and the seat goes to the next bidder. We may also reject or cancel a win for prohibited content or fraud.`,
     );
     await expect(page.getByTestId("terms-artwork")).toHaveText(
       "You must submit creative that you have the right to use. We may approve, reject, or require changes for fit, safety, legality, or brand standards. Banned or restricted categories (including illegal products, hate, and content we reasonably refuse) will not run. Approved artwork may be installed as wrap and/or etch per the seat. Vinyl wrap duration after installation is as stated on the seat or campaign materials. Immortal Etch unlocks only under the published etch rules and price thresholds.",
