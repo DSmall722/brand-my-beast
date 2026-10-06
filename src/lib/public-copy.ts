@@ -283,7 +283,7 @@ export const PUBLIC_COPY = {
     /** Slice 6.5 — never imply join when the write did not land. */
     unavailable:
       "Waitlist is temporarily unavailable. You are not on the list yet.",
-    failed: "Could not save that email. You are not on the list. Try again.",
+    failed: `That didn't send. Try again, or email ${BRAND.email}.`,
     /** Slice 6.6 — never claim joined on 429. */
     rateLimited:
       "Too many attempts. You are not on the list. Wait a moment and try again.",

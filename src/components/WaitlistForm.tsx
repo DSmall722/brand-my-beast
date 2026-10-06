@@ -2,10 +2,7 @@
 
 import { FormEvent, useEffect, useRef, useState } from "react";
 import { WANT_WHOLE_TRUCK_EVENT } from "@/components/home/WantAllPanelsLink";
-import { BRAND } from "@/lib/campaign";
 import { PUBLIC_COPY } from "@/lib/public-copy";
-
-const CONTACT_SEND_FAILED = `That didn't send. Try again, or email ${BRAND.email}.`;
 
 function contactEmailError(value: string): string {
   const trimmed = value.trim();
@@ -17,10 +14,7 @@ function contactEmailError(value: string): string {
 }
 
 function contactSendError(serverError: string | undefined): string {
-  if (!serverError || serverError === PUBLIC_COPY.waitlist.failed) {
-    return CONTACT_SEND_FAILED;
-  }
-  return serverError;
+  return serverError || PUBLIC_COPY.waitlist.failed;
 }
 
 type Status = "idle" | "loading" | "created" | "exists" | "error";
@@ -96,7 +90,7 @@ export function WaitlistForm() {
       setEmail("");
       setWantWholeTruck(false);
     } catch {
-      setEmailError(CONTACT_SEND_FAILED);
+      setEmailError(PUBLIC_COPY.waitlist.failed);
       next = "error";
     } finally {
       setStatus(next);

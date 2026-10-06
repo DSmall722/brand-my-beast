@@ -51,9 +51,6 @@ test.describe("slice 6.5: DB-down failure copy", () => {
     expect(PUBLIC_COPY.waitlist.unavailable.toLowerCase()).toContain(
       "not on the list",
     );
-    expect(PUBLIC_COPY.waitlist.failed.toLowerCase()).toContain(
-      "not on the list",
-    );
     expect(PUBLIC_COPY.waitlist.unavailable.toLowerCase()).not.toMatch(
       /\bjoined\b/,
     );

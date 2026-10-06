@@ -65,18 +65,21 @@ test.describe("slice 11.7: a11y reject-note + waitlist field errors", () => {
     const email = page.getByTestId("waitlist-email");
     await expect(email).toHaveAttribute("aria-describedby", "waitlist-status");
 
+    let posts = 0;
+    await page.route("**/api/waitlist", (route) => {
+      if (route.request().method() === "POST") posts += 1;
+      return route.abort();
+    });
+
     await email.fill("not-an-email");
-    await Promise.all([
-      page.waitForResponse(
-        (res) =>
-          res.url().includes("/api/waitlist") && res.request().method() === "POST",
-      ),
-      page.getByTestId("waitlist-submit").click(),
-    ]);
+    await page.getByTestId("waitlist-submit").click();
 
     const fieldError = page.getByTestId("waitlist-email-error");
     await expect(fieldError).toHaveAttribute("role", "alert");
-    await expect(fieldError).not.toHaveText("");
+    await expect(fieldError).toHaveText(
+      "Enter a full email, like you@company.com.",
+    );
+    expect(posts).toBe(0);
     await expect(email).toHaveAttribute("aria-invalid", "true");
     await expect(email).toHaveAttribute("aria-describedby", /waitlist-email-error/);
     await expect(page.getByTestId("waitlist-status")).not.toContainText(

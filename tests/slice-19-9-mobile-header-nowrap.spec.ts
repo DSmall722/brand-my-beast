@@ -72,13 +72,16 @@ test.describe("slice 19.9: mobile header stays one row", () => {
       throw new Error("header item missing");
     }
 
-    const tops = [wordBox.y, joinBox.y];
-    expect(Math.max(...tops) - Math.min(...tops)).toBeLessThan(8);
+    const wordMid = wordBox.y + wordBox.height / 2;
+    const joinMid = joinBox.y + joinBox.height / 2;
+    expect(Math.abs(wordMid - joinMid)).toBeLessThan(8);
 
     expect(wordBox.x + wordBox.width).toBeLessThanOrEqual(joinBox.x + 1);
 
-    expect(wordBox.height).toBeLessThan(36);
-    expect(joinBox.height).toBeLessThan(36);
+    // One text row. Phone links keep a 44px tap target, so the box is taller than the glyphs.
+    expect(wordBox.height).toBeLessThan(56);
+    expect(joinBox.height).toBeGreaterThanOrEqual(44);
+    expect(joinBox.height).toBeLessThan(56);
 
     await expect(page.locator("#hero-title")).toHaveText(LOCKED_H1);
     const html = await page.content();

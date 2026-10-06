@@ -251,12 +251,7 @@ test.describe("BMB-QA-2 legal, leaderboard, hotspots, contact", () => {
     const error = page.getByTestId("waitlist-email-error");
     await expect(error).toBeVisible();
     await expect(error).toHaveAttribute("role", "alert");
-    await expect(error).toHaveText(
-      "That didn't send. Try again, or email hello@brandmybeast.com.",
-    );
-    await expect(
-      page.getByText(PUBLIC_COPY.waitlist.failed, { exact: true }),
-    ).toHaveCount(0);
+    await expect(error).toHaveText(PUBLIC_COPY.waitlist.failed);
     await expect(page.getByTestId("waitlist-status")).not.toContainText(
       PUBLIC_COPY.waitlist.failed,
     );

@@ -1032,12 +1032,21 @@
 }
 
 @media (max-width: 720px) {
+  /* Match the 44px phone link so wordmark and Contact BMB share one centered row. */
+  .site-header .wordmark {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    line-height: 1;
+  }
+
   .site-header .nav-link,
   .leaderboard .eyebrow a {
     display: inline-flex;
     align-items: center;
     min-height: 44px;
     padding-block: 0.7rem;
+    line-height: 1;
   }
 
   .site-footer-legal a {

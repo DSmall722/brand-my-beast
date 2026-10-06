@@ -168,9 +168,7 @@ test.describe("BMB-QA-2-FIX4 Site QA items", () => {
   });
 
   test("contact send shows Sending and a plain failure", async ({ page }) => {
-    expect(PUBLIC_COPY.waitlist.failed).toBe(
-      "Could not save that email. You are not on the list. Try again.",
-    );
+    expect(PUBLIC_COPY.waitlist.failed).toBe(SEND_FAILED);
     await page.goto("/#contactus");
     const email = page.getByTestId("waitlist-email");
     const submit = page.getByTestId("waitlist-submit");
