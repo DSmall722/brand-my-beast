@@ -39,7 +39,7 @@ test.describe("slice 16.20: /llms.txt numbered seats", () => {
   test("builder lists floor, buyout, 1-11 seats, and no close date", () => {
     const body = buildLlmsTxt();
     expect(body).toContain(
-      `Floor ${formatUsd(FLOOR_USD)}. Buyout ${formatUsd(GOAL_USD)}.`,
+      `Floor ${formatUsd(FLOOR_USD)}. Immortal Etch ${formatUsd(GOAL_USD)}.`,
     );
     expect(body).toContain("Closes Mon Nov 2, 2026, 12:00 PM ET.");
     expect(body).not.toContain("CLOSE_AT");

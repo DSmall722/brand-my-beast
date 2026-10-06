@@ -77,10 +77,10 @@ export const PUBLIC_COPY = {
     depositLine:
       "20% of the bid is charged when you place it. If you do not win, that deposit is refunded after close. A winner's deposit is credited to the invoice. Nothing is charged on this page.",
     shortfallFloorLabel: "Short of floor",
-    shortfallBuyoutLabel: "Short of buyout",
+    shortfallBuyoutLabel: "Short of fully funded",
     openSeatsLabel: "Open seats",
     vaultFloorMarkLabel: "Floor",
-    vaultBuyoutMarkLabel: "Buyout",
+    vaultBuyoutMarkLabel: "Fully funded",
     /** Slice 19.10 — vault copy while pledged is $0. Not an empty auction. */
     vaultEmpty: "No marks yet",
     /** Slice 20.6 — board legend. Buyer sentence, not Open seat · Held =. */
@@ -93,12 +93,12 @@ export const PUBLIC_COPY = {
     /** Slice 20.7 — one sentence on `/`. 11-name dump stays on the form. */
     wholeTruckLead:
       "One brand on every panel. Standing panel winners released. Nothing is charged on this page.",
-    wholeTruckAmountLabel: "Buyout mark",
+    wholeTruckAmountLabel: "Fully funded mark",
     wholeTruckCta: "List a whole-truck intent",
     wholeTruckSignIn: "Sign in to list a whole-truck intent",
     /** Slice 9.5 — control hidden when pledged >= $120,000. */
     wholeTruckMet:
-      "Whole-truck buyout is met at $120,000. The field is closed. Still nothing charged on this page.",
+      "The campaign is fully funded at $120,000. The field is closed. Still nothing charged on this page.",
   },
   seatExclusivity: {
     heading: "One brand per trade",

@@ -35,20 +35,20 @@ Locked: 2026-09-23 — 16 buyer FAQ, no “Who is this for,” $120k is the etch
 - Clock line when CLOSE_AT is null: `Bidding is not open. Nothing is charged on this page.`
 - Deposit line: `20% of the bid is charged when you place it. If you do not win, that deposit is refunded after close. A winner's deposit is credited to the invoice. Nothing is charged on this page.`
 - Shortfall floor label: `Short of floor`
-- Shortfall buyout label: `Short of buyout`
+- Shortfall buyout label: `Short of fully funded`
 - Open seats label: `Open seats`
 - Vault floor mark label: `Floor`
-- Vault buyout mark label: `Buyout`
+- Vault buyout mark label: `Fully funded`
 - Vault empty (pledged $0): `No marks yet`
 - Seat legend: `Open seat = empty. Held seat = standing intent.`
 - Board truck image label (alt): `Cybertruck with the 11 ad panels outlined`
 - Want all panels: `Buy the Whole Truck`
 - Whole-truck heading: `Whole truck — $120,000`
 - Whole-truck lead: `One brand on every panel. Standing panel winners released. Nothing is charged on this page.`
-- Whole-truck amount label: `Buyout mark`
+- Whole-truck amount label: `Fully funded mark`
 - Whole-truck CTA: `List a whole-truck intent`
 - Whole-truck sign-in: `Sign in to list a whole-truck intent`
-- Whole-truck met: `Whole-truck buyout is met at $120,000. The field is closed. Still nothing charged on this page.`
+- Whole-truck met: `The campaign is fully funded at $120,000. The field is closed. Still nothing charged on this page.`
 
 The **Buy the Whole Truck** board button is not rendered on `/`. Whole-truck interest is the Contact Us checkbox only.
 
