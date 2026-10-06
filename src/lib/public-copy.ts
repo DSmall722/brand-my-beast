@@ -3,7 +3,8 @@
  * Do not invent warmer / closer / snarkier variants. CAMPAIGN.md wins money.
  */
 
-import { BRAND, OPEN_AT, PANELS } from "./campaign";
+import { BRAND, CLOSE_AT, FLOOR_USD, OPEN_AT, PANELS, formatUsd } from "./campaign";
+import { SOFT_CLOSE_MS } from "./campaign-window";
 import { PANEL_BOARD_MARKS, panelLegendLabel } from "./panel-board";
 import { formatCampaignInstantEt } from "./seat-log";
 
@@ -16,6 +17,26 @@ const TRUCK_OWNERSHIP_LINE =
 
 const BID_OPENS_AT = formatCampaignInstantEt(OPEN_AT);
 const CLOSED_ASK = `Questions? Use the Contact us form or email ${BRAND.email}.`;
+
+/** Long Eastern label. `Monday, November 2, 2026 at 12:00 PM ET`. */
+function longCloseLabelEt(iso: string): string {
+  const parts = new Intl.DateTimeFormat("en-US", {
+    timeZone: "America/New_York",
+    weekday: "long",
+    month: "long",
+    day: "numeric",
+    year: "numeric",
+    hour: "numeric",
+    minute: "2-digit",
+    hour12: true,
+  }).formatToParts(new Date(iso));
+  const pick = (type: Intl.DateTimeFormatPartTypes) =>
+    parts.find((part) => part.type === type)?.value ?? "";
+  return `${pick("weekday")}, ${pick("month")} ${pick("day")}, ${pick("year")} at ${pick("hour")}:${pick("minute")} ${pick("dayPeriod")} ET`;
+}
+
+const SOFT_CLOSE_MINUTES = SOFT_CLOSE_MS / 60_000;
+const FAQ_CLOSE_ANSWER = `Bidding closes ${longCloseLabelEt(CLOSE_AT ?? "")}. A bid in the last ${SOFT_CLOSE_MINUTES} minutes pushes the close back ${SOFT_CLOSE_MINUTES} minutes.`;
 
 /** Slice 16.25 — whole-truck package is the numbered board, 1 Hood through 11 Rear bumper. */
 export function wholeTruckPackageCopy(): string {
@@ -39,9 +60,8 @@ export const PUBLIC_COPY = {
     primaryCta: "Contact us",
     secondaryCta: "Bid on a Panel",
     howItWorksCta: "How it Works",
-    imageAlt:
-      "Concept preview — BrandMyBeast house wrap. Seats are not sold yet.",
-    caption: "",
+    imageAlt: "Example wrap on the BrandMyBeast truck. Seats are open for bids.",
+    caption: "Example wrap. Your brand here.",
   },
   board: {
     heading: "Track the Auction",
@@ -49,7 +69,7 @@ export const PUBLIC_COPY = {
     raisedLabel: "Pledged so far",
     raisedHint: "",
     floorLabel: "Floor",
-    floorHint: "Miss the floor and every bid is refunded.",
+    floorHint: `Miss the ${formatUsd(FLOOR_USD)} goal and every deposit is refunded.`,
     buyoutLabel: "Buyout",
     buyoutHint: "",
     clockWhenCloseNull:
@@ -65,8 +85,7 @@ export const PUBLIC_COPY = {
     vaultEmpty: "No marks yet",
     /** Slice 20.6 — board legend. Buyer sentence, not Open seat · Held =. */
     seatLegend: "Open seat = empty. Held seat = standing intent.",
-    truckImageAlt:
-      "Stainless Cyberbeast preview. Numbers live on the board.",
+    truckImageAlt: `Cybertruck with the ${PANELS.length} ad panels outlined`,
     wantAllPanels: "Buy the Whole Truck",
     /** Right-hand vault percent. Floor percent stays “% of floor”. */
     goalProgressTail: "of campaign fully funded",
@@ -231,7 +250,7 @@ export const PUBLIC_COPY = {
       {
         id: "close-date",
         q: "When does this close?",
-        a: "Bidding opens Tuesday, October 6, 2026 at 12:00 PM ET and closes Monday, November 2, 2026 at 12:00 PM ET. A bid in the last 10 minutes pushes the close back 10 minutes.",
+        a: FAQ_CLOSE_ANSWER,
       },
       {
         q: "Where does the truck actually run?",
@@ -386,6 +405,7 @@ export const PUBLIC_COPY = {
    */
   bidDesk: {
     dayHeading: "Day by day",
+    dayEmpty: "No bids yet.",
     daySampleLead:
       "Sample history. No live bids yet. Standing figures here are not pledged. Nothing is charged.",
     dayLiveLead:

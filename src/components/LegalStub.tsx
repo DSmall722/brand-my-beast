@@ -29,6 +29,9 @@ export function LegalStubShell({
     <main className="shell auth-page legal-page" data-testid={testId}>
       <p className="eyebrow">{BRAND.name}</p>
       <h1>{title}</h1>
+      <p className="auth-hint" data-testid="legal-updated">
+        Last updated: Oct 6, 2026
+      </p>
       <div className="section-lead legal-stub-body">{children}</div>
       <p className="auth-back">
         <Link
@@ -47,6 +50,7 @@ export function LegalStubShell({
 export function PrivacyStubBody() {
   return (
     <>
+      <h2>What we collect</h2>
       <p data-testid="privacy-collect">
         We collect the email address you submit on the waitlist or when you
         sign in, plus basic technical logs needed to run the site (for example
@@ -64,32 +68,38 @@ export function PrivacyStubBody() {
         <a href="https://stripe.com/privacy">https://stripe.com/privacy</a>
         ).
       </p>
+      <h2>How we use it</h2>
       <p data-testid="privacy-why">
         We use bid and brand information to run the auction, to show the
         leaderboard with brand names, and to contact winners. We also use
         waitlist and sign-in details to operate the board. We do not sell your
         personal information.
       </p>
+      <h2>Providers</h2>
       <p data-testid="privacy-providers">
         Providers that may process data on our behalf include our hosting and
         database vendors, email delivery for sign-in and waitlist mail, and
         analytics if enabled. They only receive what they need to perform that
         work.
       </p>
+      <h2>Retention</h2>
       <p data-testid="privacy-retention">
         Waitlist emails are kept until seats open or you ask us to delete them.
         Bid and brand information is kept while we run the auction and contact
         winners. Account data stays while your account is open. Server logs are
         kept only as long as needed for security and operations.
       </p>
+      <h2>Access and deletion</h2>
       <p data-testid="privacy-access">
         To access or delete your information, email{" "}
         <a href={`mailto:${BRAND.email}`}>{BRAND.email}</a>.
       </p>
+      <h2>Cookies</h2>
       <p data-testid="privacy-cookies">
         We use essential cookies for sign-in sessions. If analytics cookies are
         enabled, they help us understand aggregate traffic, not to sell ads.
       </p>
+      <h2>Contact</h2>
       <p data-testid="privacy-contact">
         Contact:{" "}
         <a href={`mailto:${BRAND.email}`}>{BRAND.email}</a>
@@ -102,6 +112,7 @@ export function PrivacyStubBody() {
 export function TermsStubBody() {
   return (
     <>
+      <h2>Agreement</h2>
       <p data-testid="terms-intro">
         {BRAND.name} (&quot;we,&quot; &quot;us&quot;) operates {BRAND.domain}.
         By using the site, joining the waitlist, or placing a bid, you agree

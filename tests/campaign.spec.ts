@@ -86,7 +86,8 @@ test.describe("P1 waitlist campaign locks", () => {
       "true",
     );
     await expect(page.getByTestId("day-by-day")).not.toContainText("Sample Mark");
-    await expect(page.getByTestId("day-by-day-empty")).toHaveCount(0);
+    await expect(page.getByTestId("day-by-day-empty")).toHaveText("No bids yet.");
+    await expect(page.getByTestId("day-by-day")).not.toContainText("Be the first");
     await expect(
       page.getByText(PUBLIC_COPY.bidDesk.todayEmpty, { exact: true }),
     ).toHaveCount(1);
@@ -118,9 +119,12 @@ test.describe("P1 waitlist campaign locks", () => {
     const shortfallTicker = page.getByTestId("shortfall-ticker");
     await expect(shortfallTicker).toHaveAttribute(
       "aria-label",
-      /dollars to floor and open seats/i,
+      `${formatUsd(FLOOR_USD)} still needed to fund the wrap; 11 seats open.`,
     );
-    await expect(shortfallTicker).toHaveAttribute("aria-label", /no impressions/i);
+    await expect(shortfallTicker).not.toHaveAttribute(
+      "aria-label",
+      /no impressions/i,
+    );
     const shortfallText = (await shortfallTicker.innerText()).toLowerCase();
     expect(shortfallText).not.toMatch(/impression|cpm|reach/i);
     await expect(page.getByTestId("floor-progress-copy")).toHaveText("0% of floor");

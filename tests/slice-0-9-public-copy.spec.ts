@@ -48,9 +48,9 @@ test.describe("slice 0.9: PUBLIC_COPY v2 on /", () => {
       "Advertise your brand on the truck that people already photograph",
     );
     expect(PUBLIC_COPY.hero.lead).toBe("");
-    expect(PUBLIC_COPY.hero.caption).toBe("");
+    expect(PUBLIC_COPY.hero.caption).toBe("Example wrap. Your brand here.");
     expect(md).toContain("- Lead: (omitted)");
-    expect(md).toContain("- Hero caption: (omitted)");
+    expect(md).toContain("- Hero caption: `Example wrap. Your brand here.`");
     expect(md).not.toMatch(/- Lead: `Concept preview`/);
     expect(PUBLIC_COPY.waitlist.button).toBe("Contact BMB");
     expect(PUBLIC_COPY.board.raisedLabel.toLowerCase()).not.toContain(

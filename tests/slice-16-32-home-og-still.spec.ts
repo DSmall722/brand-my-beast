@@ -61,8 +61,10 @@ test.describe("slice 16.32: homepage OG is the hero still, photo only", () => {
     expect(src).not.toContain("artwork");
     expect(src.toLowerCase()).not.toMatch(/\blease\b/);
     expect(PUBLIC_COPY.header.wordmark).toBe("BrandMyBeast");
-    expect(PUBLIC_COPY.hero.imageAlt.toLowerCase()).toContain("concept preview");
-    expect(PUBLIC_COPY.hero.imageAlt.toLowerCase()).toContain("house wrap");
+    expect(PUBLIC_COPY.hero.imageAlt).toBe(
+      "Example wrap on the BrandMyBeast truck. Seats are open for bids.",
+    );
+    expect(PUBLIC_COPY.hero.imageAlt.toLowerCase()).not.toContain("not sold yet");
     expect(PUBLIC_COPY.hero.imageAlt.toLowerCase()).not.toContain("no wrap yet");
   });
 

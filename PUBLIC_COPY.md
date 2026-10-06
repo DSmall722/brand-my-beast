@@ -22,15 +22,15 @@ Locked: 2026-09-23 — 16 buyer FAQ, no “Who is this for,” $120k is the etch
 - First CTA (arrow): `Bid on a Panel` → panel inventory
 - Second CTA (plain, no arrow): `Contact BMB` → Contact Us
 - Off-homepage CTA (404, error, sign-in): `Contact us`
-- Hero image label (alt): `Concept preview — BrandMyBeast house wrap. Seats are not sold yet.`
-- Hero caption: (omitted)
+- Hero image label (alt): `Example wrap on the BrandMyBeast truck. Seats are open for bids.`
+- Hero caption: `Example wrap. Your brand here.`
 
 ## Track the Auction
 
 - Heading: `Track the Auction`
 - Raised label: `Pledged so far`
 - Floor label: `Floor`
-- Floor hint: `Miss the floor and every bid is refunded.`
+- Floor hint: `Miss the $58,000 goal and every deposit is refunded.`
 - Buyout label: `Buyout`
 - Clock line when CLOSE_AT is null: `Bidding is not open. Nothing is charged on this page.`
 - Deposit line: `When bidding opens, 20% of the bid is charged. If you do not win, that deposit is refunded after close. A winner's deposit is credited to the invoice. Nothing is charged on this page.`
@@ -41,7 +41,7 @@ Locked: 2026-09-23 — 16 buyer FAQ, no “Who is this for,” $120k is the etch
 - Vault buyout mark label: `Buyout`
 - Vault empty (pledged $0): `No marks yet`
 - Seat legend: `Open seat = empty. Held seat = standing intent.`
-- Board truck image label (alt): `Stainless Cyberbeast preview. Numbers live on the board.`
+- Board truck image label (alt): `Cybertruck with the 11 ad panels outlined`
 - Want all panels: `Buy the Whole Truck`
 - Whole-truck heading: `Whole truck — $120,000`
 - Whole-truck lead: `One brand on every panel. Standing panel winners released. Nothing is charged on this page.`
@@ -121,7 +121,7 @@ Buyer questions. No “Who is this for.” No wreck / totaled / last-second on `
 - Q: `Bonus: Immortal Etch` A: `It only applies if total bids pass $120,000. Then winners on the nine stainless steel panels can choose to have their mark permanently etched for 3x their final bid for that panel. Bumpers stay wrap. Etch artwork must be bold and simple and is reviewed before approval. Once installed there is no cash refund of that finish.`
 - Q: `Do I need finished artwork to bid?` A: `A name and a logo is enough to stand. Final files come after you win — vector for wrap. Nothing gets cut until you’ve approved it.`
 - Q: `What if the $58,000 floor is missed?` A: `Every deposit is refunded. No order. No wrap.`
-- Q: `When does this close?` A: `Bidding opens Tuesday, October 6, 2026 at 12:00 PM ET and closes Monday, November 2, 2026 at 12:00 PM ET. A bid in the last 10 minutes pushes the close back 10 minutes.`
+- Q: `When does this close?` A: `Bidding closes Monday, November 2, 2026 at 12:00 PM ET. A bid in the last 10 minutes pushes the close back 10 minutes.`
 - Q: `Where does the truck actually run?` A: `Work miles in the Southeast — South Carolina most weeks (Charleston, Columbia, Greenville, Florence, Beaufort, Clemson and the roads between them), plus Atlanta, Charlotte, and the Florida panhandle when the job goes there.`
 - Q: `Will something I don’t want sitting next to my brand end up on this truck?` A: `No. We don’t take porn, hate, scams, or anything that can’t sit in a school line or a grocery lot. If you’re unsure about a category, email hello@brandmybeast.com before you bid.`
 - Q: `How do I start?` A: `Pick a panel. Twenty percent of the bid is charged when you place it. If you do not win, that deposit is refunded after close. A winner's deposit is credited to the invoice. Questions before that: hello@brandmybeast.com.`

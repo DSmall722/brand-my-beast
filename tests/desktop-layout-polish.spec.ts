@@ -241,7 +241,8 @@ test.describe("desktop layout polish", () => {
     await expect(history.getByRole("heading", { name: "Day by day" })).toBeVisible();
     await expect(history).toHaveAttribute("data-source", "live");
     await expect(history).toHaveAttribute("data-empty", "true");
-    await expect(history.getByTestId("day-by-day-empty")).toHaveCount(0);
+    await expect(history.getByTestId("day-by-day-empty")).toHaveText("No bids yet.");
+    await expect(history).not.toContainText("Be the first");
     await expect(page.getByTestId("auction-today")).toContainText(
       "No bid or outbid yet today",
     );

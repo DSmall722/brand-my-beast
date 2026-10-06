@@ -250,6 +250,29 @@ function liveDepositLine(markUsd: number): string | null {
     .replace("{amount}", formatUsd(depositUsdForMark(markUsd)));
 }
 
+/** Whole dollars only. Zero, negatives, and fractions are not a bid. */
+function wholeDollarBid(raw: string): number | null {
+  const text = raw.trim();
+  if (!/^\d+$/.test(text)) return null;
+  const amount = Number(text);
+  if (!Number.isInteger(amount) || amount <= 0) return null;
+  return amount;
+}
+
+function bidFieldMessage(raw: string, minimumBidUsd: number): string | null {
+  const amount = wholeDollarBid(raw);
+  if (amount == null) return "Enter a bid in whole dollars.";
+  if (amount < minimumBidUsd) {
+    return `Minimum bid for this seat is ${formatUsd(minimumBidUsd)}.`;
+  }
+  return null;
+}
+
+function brandFieldMessage(raw: string): string | null {
+  if (raw.trim() === "") return "Enter your brand name.";
+  return null;
+}
+
 function BidModalForm({
   quote,
   quotes,
@@ -263,28 +286,44 @@ function BidModalForm({
   onPanelId: (panelId: string) => void;
   onClose: () => void;
 }) {
-  const [yourBid, setYourBid] = useState(quote.minimumBidUsd);
+  const [bidText, setBidText] = useState(String(quote.minimumBidUsd));
+  const [brand, setBrand] = useState("");
+  const [trade, setTrade] = useState("");
+  const [email, setEmail] = useState("");
   const [logoName, setLogoName] = useState("");
   const [outcome, setOutcome] = useState<"closed" | "intent" | "covered" | null>(
     null,
   );
   const [error, setError] = useState<string | null>(null);
   const [pending, setPending] = useState(false);
+  const brandErrorId = useId();
+  const amountErrorId = useId();
   const copy = PUBLIC_COPY.bidDesk;
-  const deposit = liveDepositLine(yourBid);
+  const amountMessage = bidFieldMessage(bidText, quote.minimumBidUsd);
+  const brandMessage = brandFieldMessage(brand);
+  const standingUsd = wholeDollarBid(bidText);
+  const deposit =
+    amountMessage == null && standingUsd != null
+      ? liveDepositLine(standingUsd)
+      : null;
+  const ready =
+    brandMessage == null &&
+    brand.trim().length >= 2 &&
+    amountMessage == null &&
+    trade.trim().length >= 2 &&
+    /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim());
 
   async function onSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
+    if (!ready || standingUsd == null) return;
     if (mode.kind !== "intent") {
       setOutcome(placeBidOutcome(mode));
       return;
     }
     trackPanel("bid_start", quote.id);
-    const form = event.currentTarget;
-    const data = new FormData(form);
-    const brandLabel = String(data.get("brand") ?? "");
-    const tradeLabel = String(data.get("trade") ?? "");
-    const email = String(data.get("email") ?? "");
+    const brandLabel = brand.trim();
+    const tradeLabel = trade.trim();
+    const emailValue = email.trim();
     setPending(true);
     setError(null);
     setOutcome(null);
@@ -294,10 +333,10 @@ function BidModalForm({
         headers: { "content-type": "application/json" },
         body: JSON.stringify({
           panelId: quote.id,
-          standingUsd: yourBid,
+          standingUsd,
           brandLabel,
           tradeLabel,
-          email,
+          email: emailValue,
         }),
       });
       const body = (await response.json()) as {
@@ -362,16 +401,23 @@ function BidModalForm({
         id="bid-amount"
         className="auth-input"
         data-testid="bid-modal-amount"
-        type="number"
-        min={quote.minimumBidUsd}
-        step={1}
+        type="text"
+        inputMode="decimal"
         required
-        value={yourBid}
-        onChange={(event) => {
-          const next = Number(event.target.value);
-          setYourBid(Number.isFinite(next) ? next : 0);
-        }}
+        value={bidText}
+        aria-invalid={amountMessage ? true : undefined}
+        aria-describedby={amountMessage ? amountErrorId : undefined}
+        onChange={(event) => setBidText(event.target.value)}
       />
+      {amountMessage ? (
+        <p
+          id={amountErrorId}
+          className="auth-error"
+          data-testid="bid-modal-amount-error"
+        >
+          {amountMessage}
+        </p>
+      ) : null}
       {deposit ? (
         <p className="auth-hint" data-testid="bid-modal-deposit">
           {deposit}
@@ -391,7 +437,20 @@ function BidModalForm({
         minLength={2}
         maxLength={80}
         autoComplete="organization"
+        value={brand}
+        aria-invalid={brandMessage ? true : undefined}
+        aria-describedby={brandMessage ? brandErrorId : undefined}
+        onChange={(event) => setBrand(event.target.value)}
       />
+      {brandMessage ? (
+        <p
+          id={brandErrorId}
+          className="auth-error"
+          data-testid="bid-modal-brand-error"
+        >
+          {brandMessage}
+        </p>
+      ) : null}
 
       <label className="auth-label" htmlFor="bid-trade">
         {copy.trade}
@@ -405,6 +464,8 @@ function BidModalForm({
         required
         minLength={2}
         maxLength={80}
+        value={trade}
+        onChange={(event) => setTrade(event.target.value)}
       />
 
       <label className="auth-label" htmlFor="bid-email">
@@ -419,6 +480,8 @@ function BidModalForm({
         required
         autoComplete="email"
         placeholder="you@brand.com"
+        value={email}
+        onChange={(event) => setEmail(event.target.value)}
       />
       <p className="auth-hint" data-testid="bid-modal-magic">
         {copy.depositMagicLink}
@@ -463,7 +526,7 @@ function BidModalForm({
           type="submit"
           className="btn btn-signal"
           data-testid="bid-modal-submit"
-          disabled={pending}
+          disabled={pending || !ready}
         >
           {copy.placeBid}
         </button>

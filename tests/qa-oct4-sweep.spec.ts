@@ -61,7 +61,8 @@ test.describe("Oct 4 QA sweep", () => {
     const history = page.getByTestId("day-by-day");
     await expect(history).toHaveAttribute("data-source", "live");
     await expect(history).toHaveAttribute("data-empty", "true");
-    await expect(history.getByTestId("day-by-day-empty")).toHaveCount(0);
+    await expect(history.getByTestId("day-by-day-empty")).toHaveText("No bids yet.");
+    await expect(history).not.toContainText("Be the first");
     await expect(
       page.getByText(PUBLIC_COPY.bidDesk.todayEmpty, { exact: true }),
     ).toHaveCount(1);
@@ -93,9 +94,7 @@ test.describe("Oct 4 QA sweep", () => {
       "data-empty",
       "true",
     );
-    await expect(page.getByTestId("day-by-day-empty")).toHaveText(
-      PUBLIC_COPY.bidDesk.todayEmpty,
-    );
+    await expect(page.getByTestId("day-by-day-empty")).toHaveText("No bids yet.");
     await expect(page.getByTestId("day-by-day")).not.toContainText("Sample Mark");
     await expect(page.getByTestId("panel-increment")).toHaveCount(0);
     await expect(page.getByTestId("panel-opening")).toContainText("Opening floor");
