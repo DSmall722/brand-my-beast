@@ -61,7 +61,7 @@ export function IntentBidForm({
         </p>
         <p>
           <Link href="/#contactus" data-testid="intent-waitlist-only-link">
-            Join the waitlist
+            Contact us
           </Link>
         </p>
       </div>

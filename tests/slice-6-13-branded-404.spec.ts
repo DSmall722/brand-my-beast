@@ -12,7 +12,7 @@ import { PUBLIC_COPY } from "../src/lib/public-copy";
 
 /**
  * Slice 6.13 — branded 404.
- * Dark stainless chrome, wordmark, one line, Back to the board + Get on the list.
+ * Dark stainless chrome, wordmark, one line, Back to the board + Contact us.
  */
 test.describe("slice 6.13: branded 404", () => {
   test("campaign money fences stay locked", () => {
@@ -50,7 +50,7 @@ test.describe("slice 6.13: branded 404", () => {
 
     await expect(page.getByTestId("brand-wordmark")).toHaveText(BRAND.name);
     await expect(page.getByTestId("not-found-title")).toHaveText(
-      "This page is not a panel.",
+      "This page doesn't exist.",
     );
 
     const home = page.getByTestId("not-found-home");
@@ -60,7 +60,7 @@ test.describe("slice 6.13: branded 404", () => {
 
     const waitlist = page.getByTestId("not-found-waitlist");
     await expect(waitlist).toHaveText(PUBLIC_COPY.hero.primaryCta);
-    await expect(waitlist).toHaveText("Get on the list");
+    await expect(waitlist).toHaveText("Contact us");
     await expect(waitlist).toHaveAttribute("href", "/#contactus");
 
     await expect(page.getByTestId("not-found-footer-line")).toHaveText(

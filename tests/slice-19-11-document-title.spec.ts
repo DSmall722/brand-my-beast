@@ -75,9 +75,9 @@ test.describe("slice 19.11: chrome title is BrandMyBeast + locked idea", () => {
     expect(home).not.toMatch(/@gmail\.com/);
 
     await page.goto("/this-is-not-a-panel-route");
-    await expect(page).toHaveTitle(LOCKED_TITLE);
+    await expect(page).toHaveTitle(`Page not found | ${BRAND.name}`);
     await expect(page.getByTestId("not-found-title")).toHaveText(
-      "This page is not a panel.",
+      "This page doesn't exist.",
     );
     expect(await page.title()).not.toMatch(/advertise on a Cybertruck/i);
     const missing = await page.content();

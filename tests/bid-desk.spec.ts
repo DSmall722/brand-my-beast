@@ -319,9 +319,10 @@ test.describe("bid desk: modal, hidden sign-in, unpaid, day by day", () => {
     await expect(history).toHaveAttribute("data-source", "live");
     await expect(history).toHaveAttribute("data-empty", "true");
     await expect(history.getByRole("heading", { name: "Day by day" })).toBeVisible();
-    await expect(history.getByTestId("day-by-day-empty")).toHaveText(
-      PUBLIC_COPY.bidDesk.todayEmpty,
-    );
+    await expect(history.getByTestId("day-by-day-empty")).toHaveCount(0);
+    await expect(
+      page.getByText(PUBLIC_COPY.bidDesk.todayEmpty, { exact: true }),
+    ).toHaveCount(1);
     await expect(history.getByTestId("day-by-day-lead")).toHaveCount(0);
     await expect(history.locator(".day-by-day-list")).toHaveCount(0);
     await expect(history).not.toContainText("Sample history");

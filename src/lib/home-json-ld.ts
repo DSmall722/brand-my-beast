@@ -8,6 +8,7 @@ import {
   BRAND,
   FLOOR_USD,
   GOAL_USD,
+  PANELS,
   PUBLIC_SITE_ORIGIN,
   formatUsd,
 } from "./campaign";
@@ -75,7 +76,7 @@ export function buildHomeJsonLd(): HomeJsonLdGraph {
         price: String(FLOOR_USD),
         eligibleQuantity: {
           "@type": "QuantitativeValue",
-          value: 12,
+          value: PANELS.length,
           unitText: "panels",
         },
         additionalProperty: [

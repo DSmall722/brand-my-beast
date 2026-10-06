@@ -18,7 +18,7 @@ test.describe("Oct 4 QA sweep", () => {
     await expect(modal).toBeVisible();
     await expect(modal).toHaveAttribute("data-bid-window", "closed");
     await expect(page.getByTestId("bid-modal-closed")).toContainText(
-      "Bidding is not open",
+      "12:00 PM ET",
     );
     await expect(page.getByTestId("bid-modal-amount")).toHaveCount(0);
     await expect(page.getByTestId("bid-modal-brand")).toHaveCount(0);
@@ -26,7 +26,7 @@ test.describe("Oct 4 QA sweep", () => {
     await expect(page.getByTestId("bid-modal-logo")).toHaveCount(0);
     await expect(page.getByTestId("bid-modal-website")).toHaveCount(0);
     await expect(page.getByTestId("bid-modal-submit")).toHaveCount(0);
-    await expect(page.getByTestId("bid-modal-join")).toHaveText("Join the list");
+    await expect(page.getByTestId("bid-modal-join")).toHaveText("Contact us");
     await expect(page.getByTestId("bid-modal-join")).toHaveAttribute(
       "href",
       "/#contactus",
@@ -59,9 +59,10 @@ test.describe("Oct 4 QA sweep", () => {
     const history = page.getByTestId("day-by-day");
     await expect(history).toHaveAttribute("data-source", "live");
     await expect(history).toHaveAttribute("data-empty", "true");
-    await expect(history.getByTestId("day-by-day-empty")).toHaveText(
-      PUBLIC_COPY.bidDesk.todayEmpty,
-    );
+    await expect(history.getByTestId("day-by-day-empty")).toHaveCount(0);
+    await expect(
+      page.getByText(PUBLIC_COPY.bidDesk.todayEmpty, { exact: true }),
+    ).toHaveCount(1);
     await expect(history.getByTestId("day-by-day-lead")).toHaveCount(0);
     await expect(history.locator(".day-by-day-list")).toHaveCount(0);
     await expect(history).not.toContainText("Sample Mark");
