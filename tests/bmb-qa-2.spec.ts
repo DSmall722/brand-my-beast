@@ -96,7 +96,7 @@ test.describe("BMB-QA-2 legal, leaderboard, hotspots, contact", () => {
     expect(PUBLIC_COPY.waitlist.success).toBe("Thanks. We will be in touch.");
     expect(PUBLIC_COPY.waitlist.success).not.toMatch(/bidding opens/i);
     expect(PUBLIC_COPY.bidDesk.leaderboardEmptyAfter).toBe(
-      "No bids yet. Be the first.",
+      "No bids yet. Be the first to put your brand on the Beast.",
     );
     expect(PANELS).toHaveLength(11);
     expect(DEPOSIT_PERCENT).toBe(20);
@@ -117,7 +117,7 @@ test.describe("BMB-QA-2 legal, leaderboard, hotspots, contact", () => {
     await expect(bids).toContainText("name");
     await expect(bids).toContainText("email");
     await expect(bids).toContainText("brand name");
-    await expect(bids).toContainText("logo or creative");
+    await expect(bids).toContainText("the logo you upload");
     await expect(bids).toContainText("bid amounts");
 
     const payments = page.getByTestId("privacy-payments");

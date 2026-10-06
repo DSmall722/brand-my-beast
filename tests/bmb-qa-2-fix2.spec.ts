@@ -167,7 +167,10 @@ test.describe("BMB-QA-2-FIX2 bid form, copy, a11y", () => {
       ).toBeVisible();
     }
     await expect(page.getByTestId("privacy-retention")).toContainText(
-      "until seats open or you ask us to delete them",
+      "as long as needed to reply",
+    );
+    await expect(page.getByTestId("privacy-retention")).not.toContainText(
+      "waitlist",
     );
 
     await page.goto("/terms");

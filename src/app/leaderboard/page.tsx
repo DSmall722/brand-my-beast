@@ -40,12 +40,18 @@ export default async function LeaderboardPage() {
         </p>
         <h1>{copy.leaderboardHeading}</h1>
         {empty ? (
-          <p className="section-lead" data-testid="leaderboard-empty">
-            {leaderboardEmptyCopy()}{" "}
-            <Link href="/#panels" data-testid="leaderboard-panels-link">
+          <>
+            <p className="section-lead" data-testid="leaderboard-empty">
+              {leaderboardEmptyCopy()}
+            </p>
+            <Link
+              href="/#panels"
+              className="btn btn-signal"
+              data-testid="leaderboard-panels-link"
+            >
               {copy.leaderboardSeePanels}
             </Link>
-          </p>
+          </>
         ) : (
           <>
             <p className="section-lead" data-testid="leaderboard-count">

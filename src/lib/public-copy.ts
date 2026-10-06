@@ -240,7 +240,7 @@ export const PUBLIC_COPY = {
       },
       {
         q: "Do I need finished artwork to bid?",
-        a: "A name and a logo is enough to stand. Final files come after you win — vector for wrap. Nothing gets cut until you’ve approved it.",
+        a: "A name and a logo is enough to stand. Final files come after you win. Use a vector for wrap. Nothing gets cut until you’ve approved it.",
       },
       {
         id: "campaign-miss",
@@ -254,7 +254,7 @@ export const PUBLIC_COPY = {
       },
       {
         q: "Where does the truck actually run?",
-        a: "Work miles in the Southeast — South Carolina most weeks (Charleston, Columbia, Greenville, Florence, Beaufort, Clemson and the roads between them), plus Atlanta, Charlotte, and the Florida panhandle when the job goes there.",
+        a: "Work miles in the Southeast. South Carolina most weeks (Charleston, Columbia, Greenville, Florence, Beaufort, Clemson and the roads between them), plus Atlanta, Charlotte, and the Florida panhandle when the job goes there.",
       },
       {
         q: "Will something I don’t want sitting next to my brand end up on this truck?",
@@ -421,7 +421,7 @@ export const PUBLIC_COPY = {
     leaderboardEvery: "Every bid ever placed, highest first.",
     leaderboardStay: "Outbid bids stay on this list.",
     leaderboardEmptyBefore: "No bids yet. Bidding opens Oct 6 at noon ET.",
-    leaderboardEmptyAfter: "No bids yet. Be the first.",
+    leaderboardEmptyAfter: "No bids yet. Be the first to put your brand on the Beast.",
     leaderboardSeePanels: "See the panels",
     leaderboardRest: "The rest of the field",
     modalTitle: "Place a bid",

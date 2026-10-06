@@ -52,42 +52,40 @@ export function PrivacyStubBody() {
     <>
       <h2>What we collect</h2>
       <p data-testid="privacy-collect">
-        We collect the email address you submit on the waitlist or when you
-        sign in, plus basic technical logs needed to run the site (for example
-        IP address, user agent, and request timing).
+        We collect the email address you submit on the contact form, the bid
+        details described under Bids, and basic technical logs needed to run
+        the site (for example IP address, user agent, and request timing).
       </p>
       <h2>Bids</h2>
       <p data-testid="privacy-bids">
-        When someone bids, we collect their name, email, brand name, the logo
-        or creative they send, and bid amounts.
+        When you bid, we collect your email, brand name, trade (your type of
+        business), website if you add one, the logo you upload, and your bid
+        amounts. Stripe collects your payment details.
       </p>
       <h2>Payments</h2>
       <p data-testid="privacy-payments">
         Payments and deposits are processed by Stripe. We do not store full
-        card numbers. Stripe handles card data under its own privacy policy (
-        <a href="https://stripe.com/privacy">https://stripe.com/privacy</a>
-        ).
+        card numbers. Stripe handles card data under{" "}
+        <a href="https://stripe.com/privacy">Stripe&apos;s privacy policy</a>.
       </p>
       <h2>How we use it</h2>
       <p data-testid="privacy-why">
         We use bid and brand information to run the auction, to show the
-        leaderboard with brand names, and to contact winners. We also use
-        waitlist and sign-in details to operate the board. We do not sell your
-        personal information.
+        leaderboard with brand names, and to contact winners. We reply to
+        contact form messages. We do not sell your personal information.
       </p>
       <h2>Providers</h2>
       <p data-testid="privacy-providers">
-        Providers that may process data on our behalf include our hosting and
-        database vendors, email delivery for sign-in and waitlist mail, and
-        analytics if enabled. They only receive what they need to perform that
-        work.
+        Providers that may process data on our behalf include hosting, the
+        database, email delivery (including the one-time bid link), and Stripe.
+        They only receive what they need to perform that work.
       </p>
       <h2>Retention</h2>
       <p data-testid="privacy-retention">
-        Waitlist emails are kept until seats open or you ask us to delete them.
-        Bid and brand information is kept while we run the auction and contact
-        winners. Account data stays while your account is open. Server logs are
-        kept only as long as needed for security and operations.
+        Contact form messages are kept as long as needed to reply. Bid and
+        brand information is kept while we run the auction and contact winners.
+        Server logs are kept only as long as needed for security and
+        operations.
       </p>
       <h2>Access and deletion</h2>
       <p data-testid="privacy-access">
@@ -96,8 +94,7 @@ export function PrivacyStubBody() {
       </p>
       <h2>Cookies</h2>
       <p data-testid="privacy-cookies">
-        We use essential cookies for sign-in sessions. If analytics cookies are
-        enabled, they help us understand aggregate traffic, not to sell ads.
+        We use essential cookies only for the one-time bid link session.
       </p>
       <h2>Contact</h2>
       <p data-testid="privacy-contact">
@@ -110,12 +107,14 @@ export function PrivacyStubBody() {
 
 /** Approved Terms of Use (2026-09-22). */
 export function TermsStubBody() {
+  const minutes = SOFT_CLOSE_MS / 60000;
+  const days = WINNER_PAY_MS / (24 * 60 * 60 * 1000);
   return (
     <>
       <h2>Agreement</h2>
       <p data-testid="terms-intro">
         {BRAND.name} (&quot;we,&quot; &quot;us&quot;) operates {BRAND.domain}.
-        By using the site, joining the waitlist, or placing a bid, you agree
+        By using the site, using the contact form, or placing a bid, you agree
         to these terms.
       </p>
       <h2>The product</h2>
@@ -130,24 +129,12 @@ export function TermsStubBody() {
       <h2>Eligibility</h2>
       <p data-testid="terms-eligibility">
         You must be at least 18 and able to form a binding contract. You are
-        responsible for activity under your account. Attempts to manipulate
-        the auction are not allowed.
+        responsible for bids placed with your email address. Attempts to
+        manipulate the auction are not allowed.
       </p>
       <h2>Bids and payment</h2>
       <p data-testid="terms-bids">
-        {BRAND.name} auctions {PANELS.length} panels. Opening prices are shown
-        on each seat. Empty seats show an opening price, not a Current Bid.
-        Displayed &quot;Current Bid&quot; amounts are standing marks on that
-        seat. The {formatUsd(FLOOR_USD)} floor is the campaign total across
-        seats, not a minimum on one bid. A bid is an offer to buy that seat at
-        that price. A {DEPOSIT_PERCENT}% deposit via Stripe holds the seat. If
-        you win, you owe the winning amount. The deposit applies toward that
-        balance. Bidding closes {publishedCloseLabelEt()}. A bid in the last{" "}
-        {SOFT_CLOSE_MS / 60000} minutes extends that close by{" "}
-        {SOFT_CLOSE_MS / 60000} minutes. If you win, pay the remainder within{" "}
-        {WINNER_PAY_MS / (24 * 60 * 60 * 1000)} days or the deposit is
-        forfeited and the seat goes to the next bidder. We may also reject or
-        cancel a win for prohibited content or fraud.
+        {`${BRAND.name} auctions ${PANELS.length} panels. Opening prices are shown on each seat. Empty seats show an opening price, not a Current Bid. Displayed "Current Bid" amounts are standing marks on that seat. The ${formatUsd(FLOOR_USD)} floor is the campaign total across seats, not a minimum on one bid. A bid is an offer to buy that seat at that price. A ${DEPOSIT_PERCENT}% deposit via Stripe holds the seat. If you win, you owe the winning amount. The deposit applies toward that balance. If you are outbid, your deposit is refunded after bidding closes. If total standing bids are below ${formatUsd(FLOOR_USD)} when bidding closes, every deposit is refunded and no seats are sold. A new bid on the same seat counts deposits you already paid. If you are the next-highest bidder on a seat, your deposit is held until the winner pays or the ${days}-day payment window ends. If the winner does not pay, the seat passes to you; otherwise your deposit is refunded. Bidding closes ${publishedCloseLabelEt()}. A bid in the last ${minutes} minutes extends that close by ${minutes} minutes. If you win, pay the remainder within ${days} days or the deposit is forfeited and the seat goes to the next bidder. We may also reject or cancel a win for prohibited content or fraud.`}
       </p>
       <h2>Artwork</h2>
       <p data-testid="terms-artwork">
@@ -176,8 +163,7 @@ export function TermsStubBody() {
       </p>
       <h2>Privacy</h2>
       <p data-testid="terms-privacy">
-        How we handle personal data is in the Privacy policy at{" "}
-        <Link href="/privacy">/privacy</Link>.
+        Read our <Link href="/privacy">Privacy policy</Link>.
       </p>
       <h2>Changes and contact</h2>
       <p data-testid="terms-changes">

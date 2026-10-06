@@ -99,7 +99,11 @@ export function WaitlistForm() {
           autoComplete="email"
           required
           value={email}
-          onChange={(event) => setEmail(event.target.value)}
+          onChange={(event) => {
+            setEmail(event.target.value);
+            setEmailError("");
+            if (status === "error") setStatus("idle");
+          }}
           placeholder={PUBLIC_COPY.waitlist.placeholder}
           disabled={disabled}
           aria-invalid={isError ? true : undefined}
