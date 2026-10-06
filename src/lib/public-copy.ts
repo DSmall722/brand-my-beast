@@ -402,6 +402,7 @@ export const PUBLIC_COPY = {
     leaderboardStay: "Outbid bids stay on this list.",
     leaderboardEmptyBefore: "No bids yet. Bidding opens Oct 6 at noon ET.",
     leaderboardEmptyAfter: "No bids yet. Be the first.",
+    leaderboardSeePanels: "See the panels",
     leaderboardRest: "The rest of the field",
     modalTitle: "Place a bid",
     closedLead: `Bidding opens ${BID_OPENS_AT}. No deposit is taken on this form. ${CLOSED_ASK}`,

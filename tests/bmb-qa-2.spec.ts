@@ -1,4 +1,4 @@
-import { expect, test, type Locator } from "@playwright/test";
+import { expect, test, type Locator, type Page } from "@playwright/test";
 import {
   BRAND,
   DEPOSIT_PERCENT,
@@ -12,12 +12,41 @@ import {
   WINNER_PAY_MS,
   publishedCloseLabelEt,
 } from "../src/lib/campaign-window";
+import {
+  panelBoardMarkFor,
+  panelOverlayLabel,
+} from "../src/lib/panel-board";
 import { PUBLIC_COPY } from "../src/lib/public-copy";
+import { hotspotsForView, type TruckViewId } from "../src/lib/truck-views";
 
 function leaderboardEmptyCopy(nowMs: number = Date.now()): string {
   return nowMs >= Date.parse(OPEN_AT)
     ? PUBLIC_COPY.bidDesk.leaderboardEmptyAfter
     : PUBLIC_COPY.bidDesk.leaderboardEmptyBefore;
+}
+
+async function expectSeatLinkRow(page: Page, view: TruckViewId) {
+  const row = page.getByTestId("truck-seat-links");
+  await expect(row).toBeVisible();
+  const expected = [...hotspotsForView(view)].sort(
+    (a, b) => panelBoardMarkFor(a.panelId).n - panelBoardMarkFor(b.panelId).n,
+  );
+  const links = row.locator("a");
+  await expect(links).toHaveCount(expected.length);
+  const fontSizes = await links.evaluateAll((nodes) =>
+    nodes.map((el) => Number.parseFloat(getComputedStyle(el).fontSize)),
+  );
+  for (const size of fontSizes) expect(size).toBeGreaterThanOrEqual(12);
+  for (let i = 0; i < expected.length; i += 1) {
+    const spot = expected[i]!;
+    const link = links.nth(i);
+    await expect(link).toHaveText(
+      panelOverlayLabel(panelBoardMarkFor(spot.panelId)),
+    );
+    await expect(link).toHaveAttribute("href", `/panels/${spot.panelId}`);
+    const linkBox = await box(link);
+    expect(linkBox.height).toBeGreaterThanOrEqual(44);
+  }
 }
 
 function intersects(
@@ -133,6 +162,7 @@ test.describe("BMB-QA-2 legal, leaderboard, hotspots, contact", () => {
     );
     const link = page.getByTestId("leaderboard-panels-link");
     await expect(link).toHaveAttribute("href", "/#panels");
+    await expect(link).toHaveText("See the panels");
     await expect(page).toHaveTitle(`Leaderboard | ${BRAND.name}`);
     expect(await page.title()).not.toContain("\u2014");
 
@@ -152,12 +182,8 @@ test.describe("BMB-QA-2 legal, leaderboard, hotspots, contact", () => {
 
     for (const view of ["front", "driver", "passenger", "rear"] as const) {
       await page.getByTestId(`truck-view-${view}`).click();
-      const labels = page.locator(".truck-seat-name");
-      expect(await labels.count()).toBeGreaterThan(0);
-      const fontSizes = await labels.evaluateAll((nodes) =>
-        nodes.map((el) => Number.parseFloat(getComputedStyle(el).fontSize)),
-      );
-      for (const size of fontSizes) expect(size).toBeGreaterThanOrEqual(12);
+      await expect(page.locator(".truck-seat-name")).toHaveCount(0);
+      await expectSeatLinkRow(page, view);
 
       const seats = page.locator("a[data-testid^='truck-seat-']");
       const count = await seats.count();
@@ -179,13 +205,13 @@ test.describe("BMB-QA-2 legal, leaderboard, hotspots, contact", () => {
     }
 
     await page.setViewportSize({ width: 1440, height: 900 });
-    await page.getByTestId("truck-view-passenger").click();
-    const eight = await box(page.getByTestId("seat-name-passenger-rear-quarter"));
-    const nine = await box(page.getByTestId("seat-name-passenger-bed"));
-    expect(intersects(eight, nine)).toBe(false);
-    await expect(page.getByTestId("seat-name-passenger-door")).toHaveText(
-      "(7) Passenger Side Doors",
-    );
+    await expect(page.locator(".truck-seat-name")).toHaveCount(0);
+    await expect(page.getByTestId("truck-seat-links")).not.toBeVisible();
+
+    await page.setViewportSize({ width: 390, height: 844 });
+    await page.goto("/panels/hood");
+    await expect(page.locator(".truck-seat-name")).toHaveCount(0);
+    await expect(page.getByTestId("truck-seat-links")).toHaveCount(0);
   });
 
   test("bid modal close control is at least 44px on a phone", async ({
@@ -215,6 +241,14 @@ test.describe("BMB-QA-2 legal, leaderboard, hotspots, contact", () => {
     await expect(page.getByTestId("waitlist-submit")).not.toHaveText("Notifying…");
     const error = page.getByTestId("waitlist-email-error");
     await expect(error).toBeVisible();
+    await expect(error).toHaveAttribute("role", "alert");
+    await expect(error).toHaveText(PUBLIC_COPY.waitlist.failed);
+    await expect(
+      page.getByText(PUBLIC_COPY.waitlist.failed, { exact: true }),
+    ).toHaveCount(1);
+    await expect(page.getByTestId("waitlist-status")).not.toContainText(
+      PUBLIC_COPY.waitlist.failed,
+    );
     const email = page.getByTestId("waitlist-email");
     await expect(email).toHaveAttribute("aria-invalid", "true");
     await expect(email).toHaveAttribute("aria-describedby", /waitlist-email-error/);

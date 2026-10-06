@@ -43,7 +43,7 @@ export default async function LeaderboardPage() {
           <p className="section-lead" data-testid="leaderboard-empty">
             {leaderboardEmptyCopy()}{" "}
             <Link href="/#panels" data-testid="leaderboard-panels-link">
-              Panels
+              {copy.leaderboardSeePanels}
             </Link>
           </p>
         ) : (

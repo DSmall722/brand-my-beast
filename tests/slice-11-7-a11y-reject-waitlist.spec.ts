@@ -74,12 +74,14 @@ test.describe("slice 11.7: a11y reject-note + waitlist field errors", () => {
       page.getByTestId("waitlist-submit").click(),
     ]);
 
-    await expect(page.getByTestId("waitlist-status")).toHaveAttribute(
-      "role",
-      "alert",
-    );
+    const fieldError = page.getByTestId("waitlist-email-error");
+    await expect(fieldError).toHaveAttribute("role", "alert");
+    await expect(fieldError).not.toHaveText("");
     await expect(email).toHaveAttribute("aria-invalid", "true");
-    await expect(page.getByTestId("waitlist-status")).not.toHaveText("");
+    await expect(email).toHaveAttribute("aria-describedby", /waitlist-email-error/);
+    await expect(page.getByTestId("waitlist-status")).not.toContainText(
+      await fieldError.innerText(),
+    );
     const html = await page.content();
     expect(html.toLowerCase()).not.toMatch(/\blease\b/);
     expect(html.toLowerCase()).not.toContain("gmail.com");

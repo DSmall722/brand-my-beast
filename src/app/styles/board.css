@@ -2788,21 +2788,16 @@
   stroke: none;
   pointer-events: all;
 }
-.truck-seat-names {
-  position: absolute;
-  inset: 0;
-  z-index: 4;
-  pointer-events: none;
+.truck-seat-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  padding: 0.65rem;
 }
-.truck-seat-name {
-  position: absolute;
-  margin: 0;
-  padding: 0;
-  font-size: 12px;
-  line-height: 1.15;
-  white-space: nowrap;
-  color: #f4f7f2;
-  background: rgb(12 14 17 / 0.82);
+@media (min-width: 641px) {
+  .truck-seat-links {
+    display: none;
+  }
 }
 .truck-view-seats[data-polygons="hidden"] .truck-seat,
 .truck-view-seats[data-polygons="hidden"] .truck-seat.is-raw,

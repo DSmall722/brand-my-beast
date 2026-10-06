@@ -85,12 +85,15 @@ test.describe("slice 6.5: DB-down failure copy", () => {
     await page.getByTestId("waitlist-email").fill("db-down@example.com");
     await page.getByTestId("waitlist-submit").click();
 
-    const status = page.getByTestId("waitlist-status");
-    await expect(status).toHaveText(PUBLIC_COPY.waitlist.unavailable);
-    await expect(status).toHaveClass(/is-error/);
+    const error = page.getByTestId("waitlist-email-error");
+    await expect(error).toHaveText(PUBLIC_COPY.waitlist.unavailable);
+    await expect(error).toHaveAttribute("role", "alert");
+    await expect(page.getByTestId("waitlist-status")).not.toContainText(
+      PUBLIC_COPY.waitlist.unavailable,
+    );
     await expect(page.getByTestId("waitlist-next")).toHaveCount(0);
 
-    const text = (await status.innerText()).toLowerCase();
+    const text = (await error.innerText()).toLowerCase();
     expect(text).not.toMatch(/\bjoined\b/);
     expect(text).not.toMatch(/you are on the list/);
     expect(text).toContain("not on the list");
@@ -119,10 +122,14 @@ test.describe("slice 6.5: DB-down failure copy", () => {
     await page.getByTestId("waitlist-email").fill("write-fail@example.com");
     await page.getByTestId("waitlist-submit").click();
 
-    const status = page.getByTestId("waitlist-status");
-    await expect(status).toHaveText(PUBLIC_COPY.waitlist.failed);
+    const error = page.getByTestId("waitlist-email-error");
+    await expect(error).toHaveText(PUBLIC_COPY.waitlist.failed);
+    await expect(error).toHaveAttribute("role", "alert");
+    await expect(page.getByTestId("waitlist-status")).not.toContainText(
+      PUBLIC_COPY.waitlist.failed,
+    );
     await expect(page.getByTestId("waitlist-next")).toHaveCount(0);
-    const text = (await status.innerText()).toLowerCase();
+    const text = (await error.innerText()).toLowerCase();
     expect(text).not.toMatch(/\bjoined\b/);
     expect(text).not.toMatch(/you are on the list/);
   });

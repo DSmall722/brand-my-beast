@@ -34,7 +34,7 @@ const HOTSPOT_HIT_PAD: Record<
   { x: number; y: number; w: number; h: number }
 > = {
   hood: { x: 12, y: 14, w: 76, h: 22 },
-  "front-fascia": { x: 10, y: 36.1, w: 80, h: 18.8 },
+  "front-fascia": { x: 10, y: 36, w: 80, h: 19 },
   "driver-rear-quarter": { x: 56.3, y: 31.8, w: 32.2, h: 19.2 },
   "driver-bed": { x: 80, y: 61.4, w: 10.4, h: 2.4 },
   tailgate: { x: 44.5, y: 41.3, w: 41.2, h: 19.2 },
@@ -99,7 +99,12 @@ export function TruckViewHotspots({
   const credit = TRUCK_VIEW_CREDITS[shownView];
   /** Seat pages clear board overlays — sticky hover/active must not follow. */
   const polygonsMode = singleSeat ? "hidden" : "outline";
-  const labels = singleSeat ? [] : chips;
+  const seatLinks = singleSeat
+    ? []
+    : [...spots].sort(
+        (a, b) =>
+          panelBoardMarkFor(a.panelId).n - panelBoardMarkFor(b.panelId).n,
+      );
 
   return (
     <div
@@ -272,21 +277,23 @@ export function TruckViewHotspots({
               );
             })}
           </svg>
-          {labels.length === 0 ? null : (
-            <div className="truck-seat-names" aria-hidden="true">
-              {labels.map((chip) => (
-                <span
-                  key={`${shownView}-label-${chip.panelId}`}
-                  className="truck-seat-name"
-                  data-testid={`seat-name-${chip.panelId}`}
-                  style={{ left: `${chip.x}%`, top: `${chip.y}%` }}
-                >
-                  {panelOverlayLabel(panelBoardMarkFor(chip.panelId))}
-                </span>
-              ))}
-            </div>
-          )}
         </div>
+        {seatLinks.length === 0 ? null : (
+          <div className="truck-seat-links" data-testid="truck-seat-links">
+            {seatLinks.map((spot) => {
+              const mark = panelBoardMarkFor(spot.panelId);
+              return (
+                <a
+                  key={`${shownView}-seat-link-${spot.panelId}`}
+                  className="btn btn-panel"
+                  href={`/panels/${spot.panelId}`}
+                >
+                  {panelOverlayLabel(mark)}
+                </a>
+              );
+            })}
+          </div>
+        )}
         {singleSeat ? null : (
           <div className="truck-view-credit" data-testid="truck-view-credit">
             <p data-testid="truck-view-credit-photo">

@@ -20,7 +20,7 @@ export function WaitlistForm() {
 
   // Slice 12.38 — restore focus to the status line after submit settles.
   useEffect(() => {
-    if (status === "idle" || status === "loading") return;
+    if (status !== "created" && status !== "exists") return;
     statusRef.current?.focus();
   }, [status]);
 
@@ -55,9 +55,7 @@ export function WaitlistForm() {
 
       // Slice 6.5 — never paint success / "on the list" / "joined" unless ok.
       if (!response.ok || !data.ok) {
-        const error = data.error ?? PUBLIC_COPY.waitlist.failed;
-        setMessage(error);
-        setEmailError(error);
+        setEmailError(data.error ?? PUBLIC_COPY.waitlist.failed);
         next = "error";
         return;
       }
@@ -72,7 +70,6 @@ export function WaitlistForm() {
       setEmail("");
       setWantWholeTruck(false);
     } catch {
-      setMessage(PUBLIC_COPY.waitlist.failed);
       setEmailError(PUBLIC_COPY.waitlist.failed);
       next = "error";
     } finally {
@@ -107,9 +104,7 @@ export function WaitlistForm() {
           disabled={disabled}
           aria-invalid={isError ? true : undefined}
           aria-describedby={
-            emailError
-              ? `${WAITLIST_EMAIL_ERROR_ID} ${WAITLIST_STATUS_ID}`
-              : WAITLIST_STATUS_ID
+            emailError ? WAITLIST_EMAIL_ERROR_ID : WAITLIST_STATUS_ID
           }
           data-testid="waitlist-email"
         />
@@ -120,6 +115,7 @@ export function WaitlistForm() {
           <p
             id={WAITLIST_EMAIL_ERROR_ID}
             className="waitlist-field-error"
+            role="alert"
             data-testid="waitlist-email-error"
           >
             {emailError}
@@ -150,8 +146,8 @@ export function WaitlistForm() {
       <p
         ref={statusRef}
         id={WAITLIST_STATUS_ID}
-        className={`waitlist-msg ${isError ? "is-error" : "is-ok"}`}
-        role={isError ? "alert" : "status"}
+        className="waitlist-msg is-ok"
+        role="status"
         tabIndex={-1}
         data-testid="waitlist-status"
       >
