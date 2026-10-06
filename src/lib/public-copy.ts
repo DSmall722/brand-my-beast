@@ -48,7 +48,7 @@ export const PUBLIC_COPY = {
   meta: {
     title:
       "BrandMyBeast — Advertise your brand on the truck that people already photograph",
-    description: `Bid on one of ${PANELS.length} ad panels on a Cybertruck wrapped for 12 months and driven across South Carolina and the Southeast. Bidding opens Oct 6 at noon ET and closes Nov 2.`,
+    description: `${PANELS.length} ad panels on one Cybertruck, wrapped for a year and driven across the Southeast. Bidding is open through Nov 2 at noon ET.`,
   },
   header: {
     wordmark: "BrandMyBeast",
@@ -75,7 +75,7 @@ export const PUBLIC_COPY = {
     clockWhenCloseNull:
       "Bidding is not open. Nothing is charged on this page.",
     depositLine:
-      "When bidding opens, 20% of the bid is charged. If you do not win, that deposit is refunded after close. A winner's deposit is credited to the invoice. Nothing is charged on this page.",
+      "20% of the bid is charged when you place it. If you do not win, that deposit is refunded after close. A winner's deposit is credited to the invoice. Nothing is charged on this page.",
     shortfallFloorLabel: "Short of floor",
     shortfallBuyoutLabel: "Short of buyout",
     openSeatsLabel: "Open seats",
@@ -278,7 +278,7 @@ export const PUBLIC_COPY = {
     idleNote: "We only email when seats open.",
     /** Slice 13.39 — privacy stub waitlist retention. */
     retention: "Waitlist retention: until seats open or user deletes.",
-    success: "You are on the list. We will email when bidding opens.",
+    success: "Thanks. We will be in touch.",
     already: "That email is already on the list.",
     /** Slice 6.5 — never imply join when the write did not land. */
     unavailable:

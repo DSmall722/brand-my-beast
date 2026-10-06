@@ -45,7 +45,11 @@ test.describe("slice 14.21: /llms.txt PUBLIC_COPY facts only", () => {
     expect(body).toContain(PUBLIC_COPY.hero.lead);
     expect(body).toContain(PUBLIC_COPY.board.floorLabel);
     expect(body).toContain(PUBLIC_COPY.board.buyoutLabel);
-    expect(body).toContain(PUBLIC_COPY.board.clockWhenCloseNull);
+    expect(body).not.toContain(PUBLIC_COPY.board.clockWhenCloseNull);
+    expect(body).toContain(PUBLIC_COPY.board.depositLine);
+    expect(body).not.toContain("Bidding is not open");
+    expect(body).not.toContain("Bidding opens");
+    expect(body).not.toContain("opens Oct");
     expect(body).toContain(PUBLIC_COPY.panels.lead);
     expect(body).toContain(PUBLIC_COPY.waitlist.lead);
     expect(body).toContain(PUBLIC_COPY.footer.line);

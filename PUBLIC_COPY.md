@@ -8,7 +8,7 @@ Locked: 2026-09-23 — 16 buyer FAQ, no “Who is this for,” $120k is the etch
 ## Meta
 
 - Title: `BrandMyBeast — Advertise your brand on the truck that people already photograph`
-- Description: `Bid on one of 11 ad panels on a Cybertruck wrapped for 12 months and driven across South Carolina and the Southeast. Bidding opens Oct 6 at noon ET and closes Nov 2.`
+- Description: `11 ad panels on one Cybertruck, wrapped for a year and driven across the Southeast. Bidding is open through Nov 2 at noon ET.`
 
 ## Header
 
@@ -33,7 +33,7 @@ Locked: 2026-09-23 — 16 buyer FAQ, no “Who is this for,” $120k is the etch
 - Floor hint: `Miss the $58,000 goal and every deposit is refunded.`
 - Buyout label: `Buyout`
 - Clock line when CLOSE_AT is null: `Bidding is not open. Nothing is charged on this page.`
-- Deposit line: `When bidding opens, 20% of the bid is charged. If you do not win, that deposit is refunded after close. A winner's deposit is credited to the invoice. Nothing is charged on this page.`
+- Deposit line: `20% of the bid is charged when you place it. If you do not win, that deposit is refunded after close. A winner's deposit is credited to the invoice. Nothing is charged on this page.`
 - Shortfall floor label: `Short of floor`
 - Shortfall buyout label: `Short of buyout`
 - Open seats label: `Open seats`
@@ -139,7 +139,7 @@ Buyer questions. No “Who is this for.” No wreck / totaled / last-second on `
 - Button: `Contact BMB`
 - Idle note: `We only email when seats open.`
 - Retention: `Waitlist retention: until seats open or user deletes.`
-- Success: `You are on the list. We will email when bidding opens.`
+- Success: `Thanks. We will be in touch.`
 - Already: `That email is already on the list.`
 - Whole-truck checkbox label (slice 16.0b): `I want the whole truck`
 - Whole-truck checkbox hint (slice 16.0b): `Check this box when contacting BMB for information about becoming the exclusive brand advertised on the entire vehicle.`

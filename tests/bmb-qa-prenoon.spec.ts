@@ -11,8 +11,7 @@ import { PUBLIC_COPY } from "../src/lib/public-copy";
  * No new money, clock, or payment behavior.
  */
 
-const META_DESCRIPTION =
-  "Bid on one of 11 ad panels on a Cybertruck wrapped for 12 months and driven across South Carolina and the Southeast. Bidding opens Oct 6 at noon ET and closes Nov 2.";
+const META_DESCRIPTION = `${PANELS.length} ad panels on one Cybertruck, wrapped for a year and driven across the Southeast. Bidding is open through Nov 2 at noon ET.`;
 
 const CLOSED_NOTE = `Bidding opens ${formatCampaignInstantEt(OPEN_AT)}. No deposit is taken on this form. Questions? Use the Contact us form or email ${BRAND.email}.`;
 
@@ -130,6 +129,7 @@ test.describe("BMB-QA-PRENOON copy and metadata", () => {
   }) => {
     expect(PUBLIC_COPY.meta.description).toBe(META_DESCRIPTION);
     expect(PUBLIC_COPY.meta.description).not.toMatch(/[—–]/);
+    expect(PUBLIC_COPY.meta.description).not.toContain("opens Oct");
     expect(PUBLIC_COPY.meta.description).not.toContain("Join the list");
     expect(PUBLIC_COPY.meta.title).toBe(
       "BrandMyBeast — Advertise your brand on the truck that people already photograph",
@@ -150,6 +150,12 @@ test.describe("BMB-QA-PRENOON copy and metadata", () => {
       "content",
       META_DESCRIPTION,
     );
+    const html = await page.content();
+    expect(html).not.toContain("opens Oct");
+    const windowText = await page.getByTestId("campaign-window").innerText();
+    if (!windowText.startsWith("Bidding opens")) {
+      expect(html).not.toContain("Bidding opens");
+    }
   });
 
   test("404, privacy, and terms have their own titles; 404 body is plain", async ({

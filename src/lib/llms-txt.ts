@@ -27,7 +27,6 @@ export function buildLlmsTxt(): string {
     PUBLIC_COPY.board.floorHint,
     PUBLIC_COPY.board.buyoutLabel,
     PUBLIC_COPY.board.buyoutHint,
-    PUBLIC_COPY.board.clockWhenCloseNull,
     PUBLIC_COPY.board.depositLine,
     "",
     PUBLIC_COPY.panels.heading,

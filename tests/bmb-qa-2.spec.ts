@@ -87,6 +87,14 @@ test.describe("BMB-QA-2 legal, leaderboard, hotspots, contact", () => {
     expect(PUBLIC_COPY.bidDesk.leaderboardEmptyBefore).toBe(
       "No bids yet. Bidding opens Oct 6 at noon ET.",
     );
+    expect(PUBLIC_COPY.meta.description).toBe(
+      `${PANELS.length} ad panels on one Cybertruck, wrapped for a year and driven across the Southeast. Bidding is open through Nov 2 at noon ET.`,
+    );
+    expect(PUBLIC_COPY.meta.description).not.toContain("opens Oct");
+    expect(PUBLIC_COPY.meta.description).not.toMatch(/[—–]/);
+    expect(PUBLIC_COPY.board.depositLine).not.toMatch(/when bidding opens/i);
+    expect(PUBLIC_COPY.waitlist.success).toBe("Thanks. We will be in touch.");
+    expect(PUBLIC_COPY.waitlist.success).not.toMatch(/bidding opens/i);
     expect(PUBLIC_COPY.bidDesk.leaderboardEmptyAfter).toBe(
       "No bids yet. Be the first.",
     );
