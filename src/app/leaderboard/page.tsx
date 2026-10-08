@@ -4,7 +4,7 @@ import { PublicMark } from "@/components/PublicMark";
 import { SiteChrome } from "@/components/SiteChrome";
 import { HomeFooter } from "@/components/home/HomeFooter";
 import { buildLeaderboard } from "@/lib/auction-board";
-import { BRAND, PANELS, formatUsd } from "@/lib/campaign";
+import { BRAND, PANELS, PUBLIC_SITE_ORIGIN, formatUsd } from "@/lib/campaign";
 import { listBidsForPanel } from "@/lib/intent-store";
 import { PUBLIC_COPY, leaderboardEmptyCopy } from "@/lib/public-copy";
 
@@ -12,6 +12,7 @@ export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
   title: `Leaderboard | ${BRAND.name}`,
+  alternates: { canonical: `${PUBLIC_SITE_ORIGIN}/leaderboard` },
 };
 
 export default async function LeaderboardPage() {

@@ -27,9 +27,6 @@ export const metadata: Metadata = {
   title: PUBLIC_COPY.meta.title,
   description: PUBLIC_COPY.meta.description,
   metadataBase: new URL(PUBLIC_SITE_ORIGIN),
-  alternates: {
-    canonical: PUBLIC_SITE_ORIGIN,
-  },
   applicationName: BRAND.name,
   openGraph: {
     title: BRAND.name,

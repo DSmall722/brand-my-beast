@@ -8,7 +8,6 @@ import {
   useCallback,
   useEffect,
   useId,
-  useMemo,
   useRef,
   useState,
   type FormEvent,
@@ -38,7 +37,10 @@ type BidDeskContextValue = {
 
 const BidDeskContext = createContext<BidDeskContextValue | null>(null);
 
-export function useOpenBid(): (panelId: string) => void {
+export function useOpenBid(): (
+  panelId: string,
+  opener?: HTMLElement | null,
+) => void {
   const value = useContext(BidDeskContext);
   if (!value) {
     throw new Error("useOpenBid requires BidDeskProvider");
@@ -57,15 +59,19 @@ export function BidDeskProvider({
 }) {
   const [panelId, setPanelId] = useState<string | null>(null);
   const openerRef = useRef<HTMLElement | null>(null);
-  const closeBid = useCallback(() => setPanelId(null), []);
-  const openBid = useMemo(
-    () => (nextId: string) => {
-      const active = document.activeElement;
-      openerRef.current = active instanceof HTMLElement ? active : null;
-      setPanelId(nextId);
-    },
-    [],
-  );
+  const closeBid = useCallback(() => {
+    const opener = openerRef.current;
+    setPanelId(null);
+    requestAnimationFrame(() => {
+      if (opener && document.contains(opener)) opener.focus();
+    });
+  }, []);
+  const openBid = useCallback((nextId: string, opener?: HTMLElement | null) => {
+    const active = document.activeElement;
+    openerRef.current =
+      opener ?? (active instanceof HTMLElement ? active : null);
+    setPanelId(nextId);
+  }, []);
 
   return (
     <BidDeskContext.Provider value={{ openBid }}>
@@ -125,12 +131,17 @@ function BidModal({
 }) {
   const titleId = useId();
   const dialogRef = useRef<HTMLDivElement>(null);
+  const trackedOpen = useRef(false);
   const pathname = usePathname();
   const quote = quotes.find((row) => row.id === panelId) ?? quotes[0] ?? null;
   const copy = PUBLIC_COPY.bidDesk;
   const hideSeatLink = pathname === `/panels/${quote?.id ?? ""}`;
 
   useEffect(() => {
+    if (mode.kind !== "closed" && !trackedOpen.current) {
+      trackedOpen.current = true;
+      trackPanel("bid_start", panelId);
+    }
     const onKey = (event: KeyboardEvent) => {
       if (event.key === "Escape") onClose();
     };
@@ -155,7 +166,7 @@ function BidModal({
       document.body.style.overflow = previousBody;
       if (opener && document.contains(opener)) opener.focus();
     };
-  }, [onClose, openerRef]);
+  }, [mode.kind, onClose, openerRef, panelId]);
 
   if (!quote) return null;
 
@@ -428,7 +439,6 @@ function BidModalForm({
       setOutcome(placeBidOutcome(mode));
       return;
     }
-    trackPanel("bid_start", quote.id);
     const brandLabel = brand.trim();
     const tradeLabel = trade.trim();
     const emailValue = email.trim();

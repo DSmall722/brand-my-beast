@@ -4,9 +4,9 @@
  */
 
 import { BRAND, CLOSE_AT, FLOOR_USD, OPEN_AT, PANELS, formatUsd } from "./campaign";
-import { SOFT_CLOSE_MS } from "./campaign-window";
+import { SOFT_CLOSE_MS, publishedCloseLabelEt } from "./campaign-window";
 import { PANEL_BOARD_MARKS, panelLegendLabel } from "./panel-board";
-import { formatCampaignInstantEt } from "./seat-log";
+
 
 /** Card gloss is off. Panel names carry the seat; bumper rules stay in RULES.md. */
 const PANEL_GLOSS: Readonly<Record<string, string>> = {};
@@ -15,7 +15,6 @@ const PANEL_GLOSS: Readonly<Record<string, string>> = {};
 const TRUCK_OWNERSHIP_LINE =
   "The operator does not own the truck yet. This auction buys it.";
 
-const BID_OPENS_AT = formatCampaignInstantEt(OPEN_AT);
 const CLOSED_ASK = `Questions? Use the Contact us form or email ${BRAND.email}.`;
 
 /** Long Eastern label. `Monday, November 2, 2026 at 12:00 PM ET`. */
@@ -36,7 +35,7 @@ function longCloseLabelEt(iso: string): string {
 }
 
 const SOFT_CLOSE_MINUTES = SOFT_CLOSE_MS / 60_000;
-const FAQ_CLOSE_ANSWER = `Bidding closes ${longCloseLabelEt(CLOSE_AT ?? "")}. A bid in the last ${SOFT_CLOSE_MINUTES} minutes pushes the close back ${SOFT_CLOSE_MINUTES} minutes.`;
+const FAQ_CLOSE_ANSWER = `Bidding is open and closes ${longCloseLabelEt(CLOSE_AT ?? "")}. A bid in the last ${SOFT_CLOSE_MINUTES} minutes pushes the close back ${SOFT_CLOSE_MINUTES} minutes.`;
 
 /** Slice 16.25 — whole-truck package is the numbered board, 1 Hood through 11 Rear bumper. */
 export function wholeTruckPackageCopy(): string {
@@ -48,7 +47,7 @@ export const PUBLIC_COPY = {
   meta: {
     title:
       "BrandMyBeast — Advertise your brand on the truck that people already photograph",
-    description: `${PANELS.length} ad panels on one Cybertruck, wrapped for a year and driven across the Southeast. Bidding is open through Nov 2 at noon ET.`,
+    description: `${PANELS.length} ad panels on one Cybertruck, wrapped for a year and driven across the Southeast. Bidding is open. Closes ${publishedCloseLabelEt()}.`,
   },
   header: {
     wordmark: "BrandMyBeast",
@@ -61,6 +60,8 @@ export const PUBLIC_COPY = {
     secondaryCta: "Bid on a Panel",
     howItWorksCta: "How it Works",
     imageAlt: "Example wrap on the BrandMyBeast truck. Seats are open for bids.",
+    ogImageAlt:
+      "A Tesla Cybertruck Cyberbeast with example brand wraps on its panels.",
     caption: "Example wrap. Your brand here.",
   },
   board: {
@@ -70,25 +71,18 @@ export const PUBLIC_COPY = {
     raisedHint: "",
     floorLabel: "Floor",
     floorHint: `Miss the ${formatUsd(FLOOR_USD)} goal and every deposit is refunded.`,
-    buyoutLabel: "Buyout",
-    buyoutHint: "",
-    clockWhenCloseNull:
-      "Bidding is not open. Nothing is charged on this page.",
+    clockWhenCloseNull: `Bidding is open. Closes ${publishedCloseLabelEt()}. Nothing is charged on this page.`,
     depositLine:
       "20% of the bid is charged when you place it. If you do not win, that deposit is refunded after close. A winner's deposit is credited to the invoice. Nothing is charged on this page.",
     shortfallFloorLabel: "Short of floor",
-    shortfallBuyoutLabel: "Short of fully funded",
     openSeatsLabel: "Open seats",
     vaultFloorMarkLabel: "Floor",
-    vaultBuyoutMarkLabel: "Fully funded",
     /** Slice 19.10 — vault copy while pledged is $0. Not an empty auction. */
     vaultEmpty: "No marks yet",
     /** Slice 20.6 — board legend. Buyer sentence, not Open seat · Held =. */
     seatLegend: "Open seat = empty. Held seat = standing intent.",
     truckImageAlt: `Cybertruck with the ${PANELS.length} ad panels outlined`,
     wantAllPanels: "Buy the Whole Truck",
-    /** Right-hand vault percent. Floor percent stays “% of floor”. */
-    goalProgressTail: "of campaign fully funded",
     wholeTruckHeading: "Whole truck — $120,000",
     /** Slice 20.7 — one sentence on `/`. 11-name dump stays on the form. */
     wholeTruckLead:
@@ -275,7 +269,7 @@ export const PUBLIC_COPY = {
     lead: "",
     placeholder: "you@company.com",
     button: "Contact BMB",
-    idleNote: "We only email when seats open.",
+    idleNote: `Bidding is open. Closes ${publishedCloseLabelEt()}.`,
     /** Slice 13.39 — privacy stub waitlist retention. */
     retention: "Waitlist retention: until seats open or user deletes.",
     success: "Thanks. We will be in touch.",
@@ -369,7 +363,7 @@ export const PUBLIC_COPY = {
   panelExtension: {
     heading: "Soft-close extension",
     unset:
-      "This seat is not on a soft-close extension. Bidding is not open. This page does not charge cards.",
+      `This seat is not on a soft-close extension. Bidding is open. Closes ${publishedCloseLabelEt()}. This page does not charge cards.`,
     setLead: "This seat's soft-close window runs until",
     setTail:
       "That is a seat extension only — not a campaign close date. This page does not charge cards.",
@@ -421,13 +415,13 @@ export const PUBLIC_COPY = {
     leaderboardHeading: "Leaderboard",
     leaderboardEvery: "Every bid ever placed, highest first.",
     leaderboardStay: "Outbid bids stay on this list.",
-    leaderboardEmptyBefore: "No bids yet. Bidding opens Oct 6 at noon ET.",
-    leaderboardEmptyAfter: "No bids yet. Be the first to put your brand on the Beast.",
+    leaderboardEmptyBefore: `No bids yet. Bidding is open. Closes ${publishedCloseLabelEt()}.`,
+    leaderboardEmptyAfter: `No bids yet. Bidding is open. Closes ${publishedCloseLabelEt()}.`,
     leaderboardSeePanels: "See the panels",
     leaderboardRest: "The rest of the field",
     modalTitle: "Place a bid",
-    closedLead: `Bidding opens ${BID_OPENS_AT}. No deposit is taken on this form. ${CLOSED_ASK}`,
-    closedResult: `Bidding opens ${BID_OPENS_AT}. No deposit was taken. ${CLOSED_ASK}`,
+    closedLead: `Bidding is open. Closes ${publishedCloseLabelEt()}. No deposit is taken on this form. ${CLOSED_ASK}`,
+    closedResult: `Bidding is open. Closes ${publishedCloseLabelEt()}. No deposit was taken. ${CLOSED_ASK}`,
     intentResult:
       "This mark stays intent only. No card was charged. The operator still approves artwork.",
     artwork: "We review every logo before it goes on the truck.",

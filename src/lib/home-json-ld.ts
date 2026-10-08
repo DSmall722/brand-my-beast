@@ -7,7 +7,6 @@
 import {
   BRAND,
   FLOOR_USD,
-  GOAL_USD,
   PANELS,
   PUBLIC_SITE_ORIGIN,
   formatUsd,
@@ -85,11 +84,6 @@ export function buildHomeJsonLd(): HomeJsonLdGraph {
             name: "Floor",
             value: formatUsd(FLOOR_USD),
           },
-          {
-            "@type": "PropertyValue",
-            name: "Fully funded",
-            value: formatUsd(GOAL_USD),
-          },
         ],
       },
     ],
@@ -104,6 +98,6 @@ export function homeJsonLdIsSafe(graph: HomeJsonLdGraph): boolean {
   if (raw.includes("teslacyberbeast")) return false;
   if (raw.includes("@gmail.com")) return false;
   if (!raw.includes(formatUsd(FLOOR_USD).toLowerCase())) return false;
-  if (!raw.includes(formatUsd(GOAL_USD).toLowerCase())) return false;
+  if (raw.includes("fully funded")) return false;
   return true;
 }

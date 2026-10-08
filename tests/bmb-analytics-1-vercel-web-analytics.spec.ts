@@ -55,12 +55,13 @@ test.describe("BMB-ANALYTICS-1", () => {
       expect(call).not.toMatch(/email|brand|trade|amount|standing|logo|yourBid/i);
     }
     const submit = src.slice(src.indexOf("function onSubmit"));
-    const bidAt = submit.search(/bid_start/);
-    const fetchAt = submit.indexOf('fetch("/api/bid"');
+    expect(submit).not.toContain("bid_start");
+    const bidAt = src.search(/trackPanel\("bid_start"/);
+    expect(bidAt).toBeGreaterThan(-1);
+    expect(bidAt).toBeLessThan(src.indexOf("function onSubmit"));
+    expect(src).toContain("trackedOpen");
     const depositAt = submit.search(/deposit_checkout/);
     const assignAt = submit.indexOf("window.location.assign");
-    expect(bidAt).toBeGreaterThan(submit.indexOf('mode.kind !== "intent"'));
-    expect(bidAt).toBeLessThan(fetchAt);
     expect(depositAt).toBeGreaterThanOrEqual(0);
     expect(depositAt).toBeLessThan(assignAt);
   });

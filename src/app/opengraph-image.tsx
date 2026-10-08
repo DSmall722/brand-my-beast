@@ -1,11 +1,10 @@
 import { readFile } from "node:fs/promises";
 import { join } from "node:path";
 import { ImageResponse } from "next/og";
-import { FLOOR_USD, formatUsd } from "@/lib/campaign";
 import { HERO_STILL_WIDE } from "@/lib/hero-still";
 import { PUBLIC_COPY } from "@/lib/public-copy";
 
-export const alt = `${PUBLIC_COPY.header.wordmark}. ${PUBLIC_COPY.hero.imageAlt} Floor ${formatUsd(FLOOR_USD)}.`;
+export const alt = PUBLIC_COPY.hero.ogImageAlt;
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 export const runtime = "nodejs";

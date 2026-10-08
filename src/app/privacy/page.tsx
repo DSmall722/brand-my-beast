@@ -3,10 +3,11 @@ import {
   LegalStubShell,
   PrivacyStubBody,
 } from "@/components/LegalStub";
-import { BRAND } from "@/lib/campaign";
+import { BRAND, PUBLIC_SITE_ORIGIN } from "@/lib/campaign";
 
 export const metadata: Metadata = {
   title: { absolute: `Privacy | ${BRAND.name}` },
+  alternates: { canonical: `${PUBLIC_SITE_ORIGIN}/privacy` },
 };
 
 /** Short real privacy policy. No auction process notes. */

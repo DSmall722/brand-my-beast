@@ -37,8 +37,12 @@ test.describe("slice 18.5: llms.txt drops CLOSE_AT", () => {
     expect(res.ok()).toBeTruthy();
     const body = await res.text();
     expect(body).toBe(buildLlmsTxt());
-    expect(body).toContain("Floor $58,000. Immortal Etch $120,000.");
-    expect(body).toContain("Closes Mon Nov 2, 2026, 12:00 PM ET.");
+    expect(body).toContain("Floor $58,000.");
+    expect(body).toContain(
+      "If total bids pass $120,000, see the FAQ for the etch bonus.",
+    );
+    expect(body).not.toMatch(/\bBuyout\b/);
+    expect(body).toContain("Bidding is open. Closes Mon Nov 2, 2026, 12:00 PM ET.");
     expect(body).not.toContain("CLOSE_AT");
     expect(body).not.toContain("null");
     expect(body.toLowerCase()).not.toMatch(/\blease\b/);

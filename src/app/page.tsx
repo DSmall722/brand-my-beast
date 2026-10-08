@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { BidDeskProvider } from "@/components/home/BidDesk";
 import { HomeFooter } from "@/components/home/HomeFooter";
 import { HomeHeader } from "@/components/home/HomeHeader";
@@ -24,14 +25,12 @@ import {
   FLOOR_USD,
   GOAL_USD,
   PANELS,
+  PUBLIC_SITE_ORIGIN,
   TRUCK_EXISTS,
   currentBidUsd,
-  floorMarkerPercentOnGoalTrack,
   floorProgressPercent,
   formatUsd,
-  goalProgressPercent,
   shortfallToFloorUsd,
-  shortfallToGoalUsd,
 } from "@/lib/campaign";
 import { nextStandingUsd, pledgedUsdForPanel } from "@/lib/intent";
 import {
@@ -43,6 +42,10 @@ import { PUBLIC_COPY } from "@/lib/public-copy";
 
 /** Board stats read the intent ledger; keep dynamic so build does not SSG against DB. */
 export const dynamic = "force-dynamic";
+
+export const metadata: Metadata = {
+  alternates: { canonical: PUBLIC_SITE_ORIGIN },
+};
 
 export default async function HomePage() {
   await settleIfCampaignClosed();
@@ -85,14 +88,10 @@ export default async function HomePage() {
       0,
   ).length;
   const floorLabel = formatUsd(FLOOR_USD);
-  const goalLabel = formatUsd(GOAL_USD);
   const raisedLabel = formatUsd(pledgedUsd);
   const etchUnlocked = pledgedUsd >= GOAL_USD;
   const floorPct = floorProgressPercent(pledgedUsd);
-  const goalPct = goalProgressPercent(pledgedUsd);
-  const floorMarkerPct = floorMarkerPercentOnGoalTrack();
   const shortfallFloor = shortfallToFloorUsd(pledgedUsd);
-  const shortfallGoal = shortfallToGoalUsd(pledgedUsd);
   const bidTimes = activity.map((bid) => bid.createdAt);
   const closeCopy = PUBLIC_COPY.board.clockWhenCloseNull;
   const windowSentence = resolveCampaignWindowSentence(bidTimes);
@@ -114,14 +113,10 @@ export default async function HomePage() {
         <HomeMoneySection
           raisedLabel={raisedLabel}
           floorLabel={floorLabel}
-          goalLabel={goalLabel}
-          goalPct={goalPct}
-          floorMarkerPct={floorMarkerPct}
           floorPct={floorPct}
           closeCopy={closeCopy}
           windowSentence={windowSentence}
           shortfallFloor={shortfallFloor}
-          shortfallGoal={shortfallGoal}
           openSeats={PANELS.length - publicSeated}
           pledgedUsd={pledgedUsd}
           dayByDay={dayByDay}

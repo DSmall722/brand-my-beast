@@ -20,6 +20,7 @@ import {
   FLOOR_USD,
   GOAL_USD,
   PANELS,
+  PUBLIC_SITE_ORIGIN,
   currentBidUsd,
   formatIntegerUsd,
   formatUsd,
@@ -76,6 +77,7 @@ export async function generateMetadata({
   const title = panelOpenGraphTitle(panel);
   return {
     title,
+    alternates: { canonical: `${PUBLIC_SITE_ORIGIN}/panels/${panel.id}` },
     openGraph: {
       title,
       siteName: BRAND.name,
