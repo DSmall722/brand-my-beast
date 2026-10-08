@@ -92,7 +92,9 @@ test.describe("BMB-QA-1008", () => {
     await page.getByTestId("waitlist-email").fill("not-an-email");
     await page.getByTestId("waitlist-submit").click();
     const error = page.getByTestId("waitlist-email-error");
-    await expect(error).toHaveText("Enter a valid email address.");
+    await expect(error).toHaveText(
+      "Enter a full email, like you@company.com.",
+    );
     await expect(page.getByTestId("waitlist-email")).toHaveAttribute(
       "aria-invalid",
       "true",
