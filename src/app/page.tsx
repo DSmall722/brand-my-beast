@@ -1,5 +1,4 @@
 import { BidDeskProvider } from "@/components/home/BidDesk";
-import { HomeEtchSection } from "@/components/home/HomeEtchSection";
 import { HomeFooter } from "@/components/home/HomeFooter";
 import { HomeHeader } from "@/components/home/HomeHeader";
 import { HomeHeroSection } from "@/components/home/HomeHeroSection";
@@ -135,7 +134,6 @@ export default async function HomePage() {
         />
         </BidDeskProvider>
         <HomeStorySection />
-        <HomeEtchSection />
         <HomeQuestionsSection />
         <TruckExistsBoardSlot />
         <HomeWaitlistSection />

@@ -22,7 +22,7 @@ import { vercelJsonIsHoldOrMainOnlyRestore } from "../src/lib/vercel-git-deploy"
 const ROOT = process.cwd();
 const LOCKED_H1 = "Advertise your brand on the truck that people already photograph";
 const COMPLETE_LEAD =
-  "Here is what happens if the campaign misses, the wrap year ends early, or Immortal Etch is already cut.";
+  "Here is what happens if the campaign misses or the wrap year ends early.";
 const FRAGMENT =
   "If the campaign misses, the wrap year ends early, or etch is already cut.";
 
@@ -72,7 +72,7 @@ test.describe("slice 20.8: wreck lead is a complete sentence", () => {
     await page.goto("/#questions");
     await expect(page.getByTestId("wreck-lead")).toHaveCount(0);
     await expect(page.getByTestId("faq-campaign-miss")).toContainText(
-      "Every deposit is refunded. No order. No wrap. No Immortal Etch.",
+      "Every deposit is refunded. No order. No wrap.",
     );
     await expect(page.locator("#hero-title")).toHaveText(LOCKED_H1);
     const html = await page.content();

@@ -78,7 +78,10 @@ test.describe("slice 10.3: etch toggle locked under buyout", () => {
     await expect(page.getByTestId("etch-lock-copy")).toHaveCount(0);
     await expect(page.getByTestId("stainless-compositor-lead")).toHaveCount(0);
     await expect(page.getByTestId("seat-lead")).toContainText(
-      "Immortal Etch Locked",
+      "Vinyl Wrap for 12 Months after Installation.",
+    );
+    await expect(page.getByTestId("seat-lead")).not.toContainText(
+      "Immortal Etch",
     );
 
     const seed = await request.post("/api/test/seed-buyout");

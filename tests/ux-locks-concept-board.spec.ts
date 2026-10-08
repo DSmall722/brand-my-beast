@@ -79,8 +79,12 @@ test.describe("UX locks: concept lead, baked board, etch, CTA, wrap blend", () =
     );
     const etchable = PANELS.find((panel) => isEtchable(panel));
     expect(etchable).toBeTruthy();
-    await expect(page.getByTestId(`etch-lock-${etchable!.id}`)).toHaveText(
-      "Immortal Etch Locked",
+    await expect(page.getByTestId(`etch-lock-${etchable!.id}`)).toHaveCount(0);
+    await expect(page.getByTestId(`panel-${etchable!.id}`)).not.toContainText(
+      "Immortal Etch",
+    );
+    await expect(page.getByTestId(`panel-${etchable!.id}`)).not.toContainText(
+      "Wrap only",
     );
 
     await page.getByTestId("hero-primary-cta").click();

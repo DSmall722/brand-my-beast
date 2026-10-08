@@ -55,18 +55,8 @@ test.describe("panel detail cleanup", () => {
     await expect(heroContact).toHaveText("How it Works");
     await expect(heroContact).toHaveAttribute("href", "#how-it-works");
 
-    const requirements = page.getByTestId("etch-requirements");
-    await expect(requirements).toHaveText(PUBLIC_COPY.etch.requirements);
-    const reqStyle = await requirements.evaluate((el) => {
-      const style = getComputedStyle(el);
-      return { fontFamily: style.fontFamily, fontSize: style.fontSize };
-    });
-    const bodyStyle = await page.locator(".questions-item dd").first().evaluate((el) => {
-      const style = getComputedStyle(el);
-      return { fontFamily: style.fontFamily, fontSize: style.fontSize };
-    });
-    expect(reqStyle.fontFamily).toBe(bodyStyle.fontFamily);
-    expect(reqStyle.fontSize).toBe(bodyStyle.fontSize);
+    await expect(page.getByTestId("etch-requirements")).toHaveCount(0);
+    await expect(page.getByTestId("etch-section")).toHaveCount(0);
     await expect(page.getByTestId("faq-last-second-bid")).toHaveCount(0);
     const faq = page.getByTestId("faq-outbid");
     await expect(faq.locator("dt")).toHaveText(
@@ -111,8 +101,11 @@ test.describe("panel detail cleanup", () => {
       );
       await expect(page.getByTestId("seat-lead")).not.toContainText("Current Bid");
       if (isEtchable(panel)) {
-        await expect(page.getByTestId("seat-finish")).toContainText(
-          "Immortal Etch Locked",
+        await expect(page.getByTestId("seat-finish")).not.toContainText(
+          "Immortal Etch",
+        );
+        await expect(page.getByTestId("seat-wrap-line")).toHaveText(
+          PUBLIC_COPY.seat.wrapTwelveMonths,
         );
       } else {
         await expect(page.getByTestId("seat-finish")).toHaveText(

@@ -145,18 +145,6 @@ export function HomePanelsSection({
                         {PUBLIC_COPY.bidDesk.pending} {formatUsd(pending.standingUsd)}
                       </div>
                     ) : null}
-                    {etchable ? (
-                      <span
-                        className="badge badge-locked"
-                        data-testid={`etch-lock-${panel.id}`}
-                      >
-                        {PUBLIC_COPY.panels.badgeEtch}
-                      </span>
-                    ) : (
-                      <span className="badge badge-wrap">
-                        {PUBLIC_COPY.panels.badgeWrap}
-                      </span>
-                    )}
                   </Link>
                 </article>
               );

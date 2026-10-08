@@ -42,8 +42,8 @@ test.describe("P2 panel intent + approvals", () => {
     await expect(page.getByTestId("compositor-mode-etch")).toHaveCount(0);
     await expect(page.getByTestId("compositor-mode-wrap")).toHaveCount(0);
     await expect(page.getByTestId("etch-lock-copy")).toHaveCount(0);
-    await expect(page.getByTestId("seat-lead")).toContainText(
-      "Immortal Etch Locked",
+    await expect(page.getByTestId("seat-lead")).not.toContainText(
+      "Immortal Etch",
     );
     const html = await page.content();
     expect(html.toLowerCase()).not.toMatch(/\blease\b/);

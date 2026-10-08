@@ -88,3 +88,7 @@ Idle. Wave 15 is Stripe and needs a human message.
 ## BMB-ANALYTICS-1
 
 - [x] Vercel Web Analytics. Custom events `bid_start` and `deposit_checkout` (no personal data).
+
+## BMB-ETCH-DEMOTE-1
+
+- [x] Immortal Etch is one FAQ bonus entry. Off the homepage section, board label, panel badges, and seat lockup.

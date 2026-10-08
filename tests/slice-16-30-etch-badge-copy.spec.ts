@@ -54,7 +54,8 @@ test.describe("slice 16.30: etch badge stays PUBLIC_COPY", () => {
       join(process.cwd(), "src/components/home/HomePanelsSection.tsx"),
       "utf8",
     );
-    expect(src).toContain("{PUBLIC_COPY.panels.badgeEtch}");
+    expect(src).not.toContain("badgeEtch");
+    expect(src).not.toContain("badgeWrap");
     expect(src).not.toContain(BADGE);
     expect(src).not.toMatch(/\$\d/);
 
@@ -66,13 +67,10 @@ test.describe("slice 16.30: etch badge stays PUBLIC_COPY", () => {
   test("homepage etch badges match PUBLIC_COPY", async ({ page }) => {
     await page.goto("/");
     for (const panel of PANELS) {
-      const badge = page.getByTestId(`etch-lock-${panel.id}`);
-      if (isEtchable(panel)) {
-        await expect(badge).toHaveText(PUBLIC_COPY.panels.badgeEtch);
-        await expect(badge).toHaveText(BADGE);
-      } else {
-        await expect(badge).toHaveCount(0);
-      }
+      await expect(page.getByTestId(`etch-lock-${panel.id}`)).toHaveCount(0);
+      const card = page.getByTestId(`panel-${panel.id}`);
+      await expect(card).not.toContainText(BADGE);
+      await expect(card).not.toContainText(PUBLIC_COPY.panels.badgeWrap);
     }
     await expect(page.getByTestId("floor-amount")).toHaveText("$58,000");
     await expect(page.getByTestId("goal-amount")).toHaveText("$120,000");
