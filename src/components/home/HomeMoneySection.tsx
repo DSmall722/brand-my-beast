@@ -149,7 +149,7 @@ export function HomeMoneySection({
             </p>
           )}
           <AuctionLive model={auctionLive} />
-          <DayByDay model={dayByDay} />
+          <DayByDay model={dayByDay} hideWhenEmpty />
         </section>
   );
 }

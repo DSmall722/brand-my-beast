@@ -3572,3 +3572,26 @@ body:has(.bid-modal-root) {
 .legal-page .legal-stub-body p {
   max-width: none;
 }
+
+/* Phone tap targets. Visual labels stay put; the row is the hit area. */
+@media (max-width: 480px) {
+  .header-nav > .nav-link,
+  .seat-masthead .eyebrow a,
+  .panel-number-legend a,
+  .waitlist-whole-truck,
+  .bid-modal-close,
+  .truck-view-tab {
+    box-sizing: border-box;
+    min-height: 44px;
+  }
+
+  .header-nav > .nav-link,
+  .seat-masthead .eyebrow a {
+    display: inline-flex;
+    align-items: center;
+  }
+
+  .waitlist-whole-truck {
+    align-items: center;
+  }
+}

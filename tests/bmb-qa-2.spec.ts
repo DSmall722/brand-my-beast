@@ -268,7 +268,7 @@ test.describe("BMB-QA-2 legal, leaderboard, hotspots, contact", () => {
     page,
   }) => {
     expect(PUBLIC_COPY.seat.bumperWrapOnly).toBe(
-      "Wrap only. Vinyl wrap for 12 months after installation.",
+      "Vinyl wrap for 12 months after installation.",
     );
     expect(PUBLIC_COPY.seat.wrapTwelveMonths).toBe(
       "Vinyl wrap for 12 months after installation.",

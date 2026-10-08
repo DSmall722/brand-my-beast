@@ -65,8 +65,8 @@ test.describe("notes PDF homepage sheet", () => {
       "$58,000",
     );
     await expect(page.getByTestId("floor-amount")).toHaveText("$58,000");
-    await expect(page.getByTestId("goal-amount")).toHaveText("$120,000");
-    await expect(page.locator("#money")).toContainText("Buyout");
+    await expect(page.getByTestId("goal-amount")).toHaveCount(0);
+    await expect(page.locator("#money")).not.toContainText("Buyout");
     await expect(page.locator("#money")).not.toContainText("Immortal Etch");
     await expect(page.locator("#money")).not.toContainText("No marks yet");
     await expect(page.locator("#money")).not.toContainText(
@@ -79,9 +79,7 @@ test.describe("notes PDF homepage sheet", () => {
 
     await expect(page.getByTestId("want-all-panels")).toHaveCount(0);
     await expect(page.getByTestId("vault-goal-label")).toHaveCount(0);
-    await expect(page.getByTestId("goal-progress-copy")).toHaveText(
-      "0% of campaign fully funded",
-    );
+    await expect(page.getByTestId("goal-progress-copy")).toHaveCount(0);
     await expect(page.getByTestId("floor-progress-copy")).toHaveText("0% of floor");
     const floorMarker = await page.getByTestId("vault-marker-floor").boundingBox();
     const floorLabel = await page.getByTestId("vault-floor-label").boundingBox();

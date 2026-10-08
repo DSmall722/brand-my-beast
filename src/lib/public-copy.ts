@@ -146,29 +146,6 @@ export const PUBLIC_COPY = {
     cost: "After Immortal Etch is installed there is no cash refund of that finish.",
     art: "One color, thick strokes, no gradients, no tiny type. If it cannot be cut, it does not ship.",
     forever: "Immortal Etch is forever.",
-    sampleSlots: [
-      {
-        id: "hood",
-        label: "Immortal Etch sample, front",
-        src: "/etch-sample-hood.jpg",
-        width: 1280,
-        height: 861,
-      },
-      {
-        id: "door",
-        label: "Immortal Etch sample, side",
-        src: "/etch-sample-door.jpg",
-        width: 1280,
-        height: 853,
-      },
-      {
-        id: "tailgate",
-        label: "Immortal Etch sample, rear",
-        src: "/etch-sample-tailgate.jpg",
-        width: 1280,
-        height: 861,
-      },
-    ],
   },
   wreck: {
     heading: "Wreck & refund",
@@ -323,7 +300,7 @@ export const PUBLIC_COPY = {
     /** QA 1047PM — stainless seat chrome above Immortal Etch Locked. */
     wrapTwelveMonths: "Vinyl wrap for 12 months after installation.",
     /** QA 1047PM — bumper seats are wrap-only. */
-    bumperWrapOnly: "Wrap only. Vinyl wrap for 12 months after installation.",
+    bumperWrapOnly: "Vinyl wrap for 12 months after installation.",
     withdrawSuccess: "Intent withdrawn. Still not charged.",
     withdrawButton: "Withdraw pending intent",
     failedWinnerWaitlist:

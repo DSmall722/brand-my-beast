@@ -10,7 +10,7 @@ import { depositUsdForMark } from "../src/lib/intent";
 import { PUBLIC_COPY } from "../src/lib/public-copy";
 
 const OPEN_NOW = "2026-10-06T16:00:00.000Z";
-const BUMPER_LINE = "Wrap only. Vinyl wrap for 12 months after installation.";
+const BUMPER_LINE = "Vinyl wrap for 12 months after installation.";
 const SEND_FAILED = `That didn't send. Try again, or email ${BRAND.email}.`;
 const DAYS = WINNER_PAY_MS / (24 * 60 * 60 * 1000);
 const NO_DASH = /[\u2014\u2013]/;

@@ -18,7 +18,6 @@ import {
   CLOSE_AT,
   DEPOSIT_PERCENT,
   FLOOR_USD,
-  GOAL_USD,
   PANELS,
   PUBLIC_SITE_ORIGIN,
   currentBidUsd,
@@ -185,7 +184,6 @@ export default async function PanelIntentPage({
         data-testid="panel-intent-page"
         data-print-sheet="panels"
         data-floor={formatUsd(FLOOR_USD)}
-        data-buyout={formatUsd(GOAL_USD)}
       >
         <div className="seat-masthead">
         <p className="eyebrow">
@@ -205,7 +203,6 @@ export default async function PanelIntentPage({
           <span
             className="seat-finish"
             data-testid="seat-finish"
-            data-etchable={etchable ? "true" : "false"}
           >
             <span data-testid="seat-wrap-line">
               {etchable
@@ -346,7 +343,7 @@ export default async function PanelIntentPage({
           </p>
         )}
 
-        <DayByDay model={dayByDay} showPanel={false} />
+        <DayByDay model={dayByDay} showPanel={false} headingLevel="h2" />
 
         {seatLog.length === 0 ? null : (
         <section

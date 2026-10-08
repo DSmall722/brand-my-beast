@@ -32,7 +32,7 @@ function SeatBidButton({ panelId }: { panelId: string }) {
         className="btn btn-signal"
         data-testid="seat-primary-cta"
         data-cta="bid"
-        onClick={() => openBid(panelId)}
+        onClick={(event) => openBid(panelId, event.currentTarget)}
       >
         Bid
       </button>

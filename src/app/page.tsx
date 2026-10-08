@@ -23,7 +23,6 @@ import type { BidPanelQuote } from "@/lib/bid-desk";
 import {
   CLOSE_AT,
   FLOOR_USD,
-  GOAL_USD,
   PANELS,
   PUBLIC_SITE_ORIGIN,
   TRUCK_EXISTS,
@@ -89,7 +88,6 @@ export default async function HomePage() {
   ).length;
   const floorLabel = formatUsd(FLOOR_USD);
   const raisedLabel = formatUsd(pledgedUsd);
-  const etchUnlocked = pledgedUsd >= GOAL_USD;
   const floorPct = floorProgressPercent(pledgedUsd);
   const shortfallFloor = shortfallToFloorUsd(pledgedUsd);
   const bidTimes = activity.map((bid) => bid.createdAt);
@@ -123,7 +121,6 @@ export default async function HomePage() {
           auctionLive={auctionLive}
         />
         <HomePanelsSection
-          etchUnlocked={etchUnlocked}
           standingByPanel={Object.fromEntries(standingHolders)}
           pendingByPanel={pendingByPanel}
         />

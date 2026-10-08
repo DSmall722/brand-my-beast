@@ -3,7 +3,6 @@ import {
   FLOOR_USD,
   PANELS,
   formatUsd,
-  isEtchable,
 } from "../src/lib/campaign";
 import { PUBLIC_COPY } from "../src/lib/public-copy";
 
@@ -74,17 +73,8 @@ test.describe("P1 waitlist campaign locks", () => {
     );
     await expect(page.getByTestId("goal-amount")).toHaveCount(0);
     await expect(page.getByTestId("raised-amount")).toHaveText(formatUsd(0));
-    await expect(page.getByTestId("day-by-day")).toHaveAttribute(
-      "data-source",
-      "live",
-    );
-    await expect(page.getByTestId("day-by-day")).toHaveAttribute(
-      "data-empty",
-      "true",
-    );
-    await expect(page.getByTestId("day-by-day")).not.toContainText("Sample Mark");
-    await expect(page.getByTestId("day-by-day-empty")).toHaveText("No bids yet.");
-    await expect(page.getByTestId("day-by-day")).not.toContainText("Be the first");
+    await expect(page.getByTestId("day-by-day")).toHaveCount(0);
+    await expect(page.getByRole("heading", { name: "Day by day" })).toHaveCount(0);
     await expect(
       page.getByText(PUBLIC_COPY.bidDesk.todayEmpty, { exact: true }),
     ).toHaveCount(1);
@@ -227,12 +217,8 @@ test.describe("P1 waitlist campaign locks", () => {
     for (const panel of PANELS) {
       const card = page.getByTestId(`panel-${panel.id}`);
       await expect(card).toBeVisible();
-      if (isEtchable(panel)) {
-        await expect(card).toHaveAttribute("data-etchable", "true");
-        await expect(card).toHaveAttribute("data-etch-unlocked", "false");
-      } else {
-        await expect(card).toHaveAttribute("data-etchable", "false");
-      }
+      await expect(card).not.toHaveAttribute("data-etchable");
+      await expect(card).not.toHaveAttribute("data-etch-unlocked");
       await expect(page.getByTestId(`etch-lock-${panel.id}`)).toHaveCount(0);
       await expect(
         card.getByText(PUBLIC_COPY.panels.badgeWrap, { exact: true }),
