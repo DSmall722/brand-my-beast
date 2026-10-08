@@ -27,6 +27,7 @@ import {
   joinWaitlist,
   resetWaitlistStoreForTests,
 } from "../src/lib/waitlist";
+import { markNewestAccountBidPaid } from "./helpers/mark-paid";
 
 async function signIn(page: Page, email: string) {
   await page.context().clearCookies();
@@ -169,6 +170,7 @@ test.describe("slice 12.16: account delete anonymize user id", () => {
     });
     await expect(page.getByTestId("panel-opening")).toContainText("$2,500");
     await expect(page.getByTestId("panel-standing")).toHaveCount(0);
+    await markNewestAccountBidPaid(page, request, 2500);
 
     await page.goto("/account");
     await expect(page.getByTestId("account-delete-submit")).toBeVisible();
@@ -183,7 +185,7 @@ test.describe("slice 12.16: account delete anonymize user id", () => {
 
     await page.goto("/panels/hood");
     await expect(page.getByTestId("panel-opening")).toContainText("$2,500");
-    await expect(page.getByTestId("panel-standing")).toHaveCount(0);
+    await expect(page.getByTestId("panel-standing")).toHaveText("$2,500");
     await expect(page.getByTestId("public-standing-brand")).toHaveCount(0);
     await expect(page.getByTestId("intent-list")).toContainText("DeleteUiCo");
   });

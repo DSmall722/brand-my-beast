@@ -6,7 +6,7 @@ BrandMyBeast is an all-or-nothing auction of eleven stainless panels on a 2026 T
 
 1. Hood
 2. Front Fascia
-3. Front bumper (wrap-only, simple-mark only)
+3. Front Bumper (wrap-only, simple-mark only)
 4. Driver Side Doors
 5. Driver Rear Sail
 6. Driver Side Bed
@@ -14,4 +14,4 @@ BrandMyBeast is an all-or-nothing auction of eleven stainless panels on a 2026 T
 8. Passenger Rear Sail
 9. Passenger Side Bed
 10. Tailgate
-11. Rear bumper (wrap-only, simple-mark only)
+11. Rear Bumper (wrap-only, simple-mark only)

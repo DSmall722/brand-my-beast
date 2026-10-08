@@ -99,7 +99,7 @@ export const PANELS: readonly Panel[] = [
   },
   {
     id: "front-bumper",
-    name: "Front bumper",
+    name: "Front Bumper",
     openingUsd: 500,
     finishAtFloor: "wrap",
     finishAtGoal: "wrap",
@@ -155,7 +155,7 @@ export const PANELS: readonly Panel[] = [
   },
   {
     id: "rear-bumper",
-    name: "Rear bumper",
+    name: "Rear Bumper",
     openingUsd: 500,
     finishAtFloor: "wrap",
     finishAtGoal: "wrap",

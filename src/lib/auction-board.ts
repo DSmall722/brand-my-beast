@@ -2,9 +2,9 @@ import { PANELS } from "@/lib/campaign";
 import type { IntentBid, IntentBidStatus } from "@/lib/intent";
 import {
   countsAsPublicStanding,
+  hasPaidDeposit,
   isFloorSaveBid,
   isLiveIntentBid,
-  isPendingPublicBid,
 } from "@/lib/intent";
 import { publicLogoUrl } from "@/lib/public-mark";
 import { SEAT_LOG_TIME_ZONE, formatSeatLogTime } from "@/lib/seat-log";
@@ -38,14 +38,6 @@ export type AuctionLive = {
 export type LeaderboardRow = StandingMark & {
   rank: number;
   dayLabel: string;
-  /** Unpaid mark. Does not count toward Raised or Held by. */
-  pending: boolean;
-};
-
-export type PendingMark = {
-  panelId: string;
-  brandLabel: string;
-  standingUsd: number;
 };
 
 export type Leaderboard = {
@@ -63,7 +55,8 @@ function publicBids(bids: readonly IntentBid[]): IntentBid[] {
     (bid) =>
       isLiveIntentBid(bid) &&
       PUBLIC_STATUSES.has(bid.status) &&
-      !isFloorSaveBid(bid),
+      !isFloorSaveBid(bid) &&
+      hasPaidDeposit(bid),
   );
 }
 
@@ -178,7 +171,6 @@ export function buildLeaderboard(bids: readonly IntentBid[]): Leaderboard {
       ...toStanding(bid),
       rank: index + 1,
       dayLabel: etDayLabel(bid.createdAt),
-      pending: isPendingPublicBid(bid),
     }));
   const brands = new Set(
     rows.map((row) => row.brandLabel.trim().toLowerCase()),
@@ -190,21 +182,4 @@ export function buildLeaderboard(bids: readonly IntentBid[]): Leaderboard {
   };
 }
 
-/** Highest unpaid listed or approved mark per panel. Not Raised. */
-export function highestPendingByPanel(
-  bids: readonly IntentBid[],
-): Map<string, PendingMark> {
-  const map = new Map<string, PendingMark>();
-  for (const bid of bids) {
-    if (!isPendingPublicBid(bid)) continue;
-    const current = map.get(bid.panelId);
-    if (!current || bid.standingUsd > current.standingUsd) {
-      map.set(bid.panelId, {
-        panelId: bid.panelId,
-        brandLabel: bid.brandLabel,
-        standingUsd: bid.standingUsd,
-      });
-    }
-  }
-  return map;
-}
+

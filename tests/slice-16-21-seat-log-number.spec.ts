@@ -14,6 +14,7 @@ import {
 import { findStripePackagesInRootPackageJson } from "../src/lib/no-stripe-package";
 import { panelBoardMarkFor, panelLegendLabel } from "../src/lib/panel-board";
 import { buildPublicSeatLog, formatSeatLogTime } from "../src/lib/seat-log";
+import { markNewestAccountBidPaid } from "./helpers/mark-paid";
 import { vercelJsonIsHoldOrMainOnlyRestore } from "../src/lib/vercel-git-deploy";
 
 /**
@@ -72,7 +73,9 @@ test.describe("slice 16.21: seat log shows panel number", () => {
     expect(placed.ok).toBe(true);
     if (!placed.ok) return;
 
-    const row = buildPublicSeatLog([placed.bid])[0];
+    const row = buildPublicSeatLog([
+      { ...placed.bid, depositPaidAt: placed.bid.createdAt },
+    ])[0];
     expect(row?.panelNumber).toBe(mark.n);
     expect(row?.panelNumberLabel).toBe(panelLegendLabel(mark));
     expect(row?.amountLabel).toBe(formatUsd(900));
@@ -84,7 +87,10 @@ test.describe("slice 16.21: seat log shows panel number", () => {
     expect(serialized.toLowerCase()).not.toContain("email");
   });
 
-  test("panel seat log shows number, amount, and ET", async ({ page }) => {
+  test("panel seat log shows number, amount, and ET", async ({
+    page,
+    request,
+  }) => {
     const mark = panelBoardMarkFor(PANEL_ID);
     await signIn(page, "seat1621@example.com");
     await page.goto(`/panels/${PANEL_ID}`);
@@ -96,6 +102,8 @@ test.describe("slice 16.21: seat log shows panel number", () => {
       "not charged",
       { timeout: 10_000 },
     );
+    await markNewestAccountBidPaid(page, request, 900);
+    await page.goto(`/panels/${PANEL_ID}`);
 
     await expect(page.getByTestId("public-seat-log-lead")).toContainText(
       "panel number",

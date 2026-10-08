@@ -15,6 +15,7 @@ import {
 } from "../src/lib/intent-store";
 import { findStripePackagesInRootPackageJson } from "../src/lib/no-stripe-package";
 import { vercelJsonIsHoldOrMainOnlyRestore } from "../src/lib/vercel-git-deploy";
+import { markNewestAccountBidPaid } from "./helpers/mark-paid";
 import {
   SEAT_LOG_TIME_ZONE,
   buildPublicSeatLog,
@@ -85,7 +86,7 @@ test.describe("slice 14.35: public seat log timestamps America/New_York ET", () 
     expect(src.toLowerCase()).not.toMatch(/\blease\b/);
   });
 
-  test("public seat log UI shows ET times", async ({ page }) => {
+  test("public seat log UI shows ET times", async ({ page, request }) => {
     // Use roof (not hood) so parallel 9.9 hood marks do not collide.
     const placed = await placeIntentBid({
       panelId: "front-bumper",
@@ -99,7 +100,11 @@ test.describe("slice 14.35: public seat log timestamps America/New_York ET", () 
 
     const expected = formatSeatLogTime(placed.bid.createdAt);
     expect(expected).toMatch(/\bET\b/);
-    expect(buildPublicSeatLog([placed.bid])[0]?.timeLabel).toBe(expected);
+    expect(
+      buildPublicSeatLog([
+        { ...placed.bid, depositPaidAt: placed.bid.createdAt },
+      ])[0]?.timeLabel,
+    ).toBe(expected);
 
     await signIn(page, "et1435@example.com");
     await page.goto("/panels/front-bumper");
@@ -111,6 +116,8 @@ test.describe("slice 14.35: public seat log timestamps America/New_York ET", () 
       "not charged",
       { timeout: 10_000 },
     );
+    await markNewestAccountBidPaid(page, request, 900);
+    await page.goto("/panels/front-bumper");
 
     await expect(page.getByTestId("public-seat-log")).toBeVisible();
     await expect(page.getByTestId("public-seat-log-lead")).toContainText("ET");
@@ -125,8 +132,8 @@ test.describe("slice 14.35: public seat log timestamps America/New_York ET", () 
     )?.trim();
     expect(timeText).toMatch(/\bET\b/);
     expect(timeText).not.toMatch(/Z$/);
-    await expect(page.getByTestId(`intent-time-${bidId}`)).toHaveText(
-      timeText!,
+    await expect(page.getByTestId("public-seat-log")).not.toContainText(
+      "et ui trade",
     );
 
     const html = (await page.content()).toLowerCase();

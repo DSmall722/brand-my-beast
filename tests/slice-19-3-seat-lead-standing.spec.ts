@@ -13,6 +13,7 @@ import { findCloseAtViolations } from "../src/lib/close-at-null";
 import { findStripePackagesInRootPackageJson } from "../src/lib/no-stripe-package";
 import { PUBLIC_COPY } from "../src/lib/public-copy";
 import { vercelJsonIsHoldOrMainOnlyRestore } from "../src/lib/vercel-git-deploy";
+import { markNewestAccountBidPaid } from "./helpers/mark-paid";
 
 /**
  * Slice 19.3 — seat lead: if no holder, opening price only.
@@ -95,7 +96,10 @@ test.describe("slice 19.3: seat lead standing only when a mark exists", () => {
     expect(html).not.toMatch(/@gmail\.com/);
   });
 
-  test("standing amount lives in the tile after a mark exists", async ({ page }) => {
+  test("standing amount lives in the tile after a mark exists", async ({
+    page,
+    request,
+  }) => {
     await signIn(page, "slice-19-3@example.com");
     await page.goto("/panels/hood");
     await page.getByTestId("intent-brand").fill("Seat Lead Co");
@@ -103,13 +107,15 @@ test.describe("slice 19.3: seat lead standing only when a mark exists", () => {
     await page.getByTestId("intent-standing").fill("2500");
     await page.getByTestId("intent-submit").click();
     await expect(page.getByTestId("intent-success")).toContainText("not charged");
+    await markNewestAccountBidPaid(page, request, 2500);
+    await page.goto("/panels/hood");
     const lead = page.getByTestId("seat-lead");
-    await expect(lead).toHaveAttribute("data-has-standing", "false");
+    await expect(lead).toHaveAttribute("data-has-standing", "true");
     await expect(lead).not.toContainText("Current Bid");
     await expect(lead).not.toContainText("Current standing");
     await expect(page.getByTestId("panel-opening")).toContainText("Opening floor");
-    await expect(page.getByTestId("panel-standing")).toHaveCount(0);
-    await expect(page.getByTestId("panel-pending")).toHaveText("$2,500");
+    await expect(page.getByTestId("panel-standing")).toHaveText("$2,500");
+    await expect(page.getByTestId("panel-pending")).toHaveCount(0);
   });
 
   test("homepage H1 is unchanged and Notify me stays", async ({ page }) => {

@@ -72,7 +72,7 @@ Board index 1–11. Opening marks are the same dollars as `RULES.md`. Floor and 
 |---:|---|---:|
 | 1 | Hood | $2,500 |
 | 2 | Front Fascia | $2,000 |
-| 3 | Front bumper | $500 |
+| 3 | Front Bumper | $500 |
 | 4 | Driver Side Doors | $4,500 |
 | 5 | Driver Rear Sail | $1,000 |
 | 6 | Driver Side Bed | $2,000 |
@@ -80,7 +80,7 @@ Board index 1–11. Opening marks are the same dollars as `RULES.md`. Floor and 
 | 8 | Passenger Rear Sail | $1,000 |
 | 9 | Passenger Side Bed | $2,000 |
 | 10 | Tailgate | $2,500 |
-| 11 | Rear bumper | $500 |
+| 11 | Rear Bumper | $500 |
 
 Board order is front-to-back. Seats 4 and 7 are door packages: front + rear cab leaf on that side, one seat per side. Public names stay **Driver Side Doors** / **Passenger Side Doors**. Front Fascia is Immortal Etch. Sail names stay **Driver Rear Sail** / **Passenger Rear Sail**. Front bumper (3) and Rear bumper (11) are wrap-only, **simple-mark only: website and/or phone number**. Front bumper leaves the camera lens/washer clear.
 

@@ -18,6 +18,7 @@ import {
   formatUsd,
 } from "../src/lib/campaign";
 import { parseIntentArtwork } from "../src/lib/intent-artwork";
+import { markNewestAccountBidPaid } from "./helpers/mark-paid";
 import {
   placeIntentBid,
   resetIntentStoreForTests,
@@ -161,6 +162,8 @@ test.describe("slice 8.5: artwork blob storage", () => {
     await expect(page.getByTestId("intent-success")).toBeVisible({
       timeout: 10_000,
     });
+    // BMB-QA-457: only deposit-paid marks show on the public seat log.
+    await markNewestAccountBidPaid(page, request, 2500);
 
     await page.goto("/panels/hood");
     await expect(page.getByTestId("intent-list")).toContainText("BlobUiCo");

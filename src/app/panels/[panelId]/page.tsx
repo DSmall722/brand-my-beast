@@ -28,9 +28,6 @@ import {
 import {
   countsAsPublicStanding,
   depositUsdForMark,
-  isFloorSaveBid,
-  isLiveIntentBid,
-  isPendingPublicBid,
   minIncrementUsd,
   nextStandingUsd,
   pledgedUsdForPanel,
@@ -44,7 +41,7 @@ import {
   listBidsForPanel,
   loadActiveMarkHoldersByPanel,
   loadStandingHoldersByPanel,
-  minimumIntentUsd,
+  publicMinimumUsd,
 } from "@/lib/intent-store";
 import { listBanRules } from "@/lib/operator-ban-list";
 import { panelBoardMarkFor, panelSeatH1 } from "@/lib/panel-board";
@@ -55,10 +52,11 @@ import {
   type AdjacentSeatHolder,
 } from "@/lib/panel-clash";
 import { publicLogoUrl } from "@/lib/public-mark";
-import { buildPublicSeatLog, formatSeatLogTime } from "@/lib/seat-log";
+import { buildPublicSeatLog } from "@/lib/seat-log";
 import { resolveSeatsOpen } from "@/lib/seats-open";
 
 type Params = Promise<{ panelId: string }>;
+type SearchParams = Promise<{ checkout?: string }>;
 
 /**
  * Slice 14.16. Per-panel Open Graph title `{Panel} | BrandMyBeast`.
@@ -90,17 +88,21 @@ export async function generateMetadata({
 
 export default async function PanelIntentPage({
   params,
+  searchParams,
 }: {
   params: Params;
+  searchParams: SearchParams;
 }) {
   const { panelId } = await params;
+  const { checkout } = await searchParams;
+  const checkoutCancelled = checkout === "cancelled";
   const panel = PANELS.find((row) => row.id === panelId);
   if (!panel) notFound();
   await settleIfCampaignClosed();
 
   const boardMark = panelBoardMarkFor(panel.id);
   const session = await auth();
-  const minimum = await minimumIntentUsd(panel.id);
+  const minimum = await publicMinimumUsd(panel.id);
   const bids = await listBidsForPanel(panel.id);
   const ledger = (
     await Promise.all(PANELS.map((row) => listBidsForPanel(row.id)))
@@ -143,21 +145,12 @@ export default async function PanelIntentPage({
   const paidHolder = bids
     .filter(countsAsPublicStanding)
     .sort((a, b) => b.standingUsd - a.standingUsd)[0];
-  const activeHolder = bids.find(
-    (bid) =>
-      isLiveIntentBid(bid) &&
-      (bid.status === "listed" || bid.status === "approved") &&
-      !isFloorSaveBid(bid),
-  );
-  const pendingBid = bids
-    .filter(isPendingPublicBid)
-    .sort((a, b) => b.standingUsd - a.standingUsd)[0];
   const paidUsd = pledgedUsdForPanel(bids);
   const depositShownUsd = paidUsd > 0 ? paidUsd : panel.openingUsd;
   const seatLog = buildPublicSeatLog(bids);
   const dayByDay = buildDayByDay(ledger, { panelId: panel.id });
   const quotes: BidPanelQuote[] = PANELS.map((row) => {
-    const held = activeMarks.get(row.id);
+    const held = paidHolders.get(row.id);
     const current = currentBidUsd(row.openingUsd, held?.standingUsd);
     return {
       id: row.id,
@@ -168,8 +161,8 @@ export default async function PanelIntentPage({
     };
   });
 
-  const seatOpen = !activeHolder;
-  const incrementUsd = activeHolder ? minIncrementUsd(activeHolder.standingUsd) : null;
+  const seatOpen = !paidHolder;
+  const incrementUsd = paidHolder ? minIncrementUsd(paidHolder.standingUsd) : null;
   const openingLabel =
     panel.openingUsd === minimum
       ? PUBLIC_COPY.bidDesk.openingPrice
@@ -185,6 +178,12 @@ export default async function PanelIntentPage({
         data-print-sheet="panels"
         data-floor={formatUsd(FLOOR_USD)}
       >
+        {checkoutCancelled ? (
+          <p role="status" data-testid="checkout-cancelled">
+            Checkout cancelled. No deposit was taken and your bid was not placed.
+            You can bid again below.
+          </p>
+        ) : null}
         <div className="seat-masthead">
         <p className="eyebrow">
           <Link href="/#panels">Panels</Link>
@@ -237,14 +236,6 @@ export default async function PanelIntentPage({
             <div>
               <dt>Standing</dt>
               <dd data-testid="panel-standing">{formatUsd(paidUsd)}</dd>
-            </div>
-          ) : null}
-          {pendingBid ? (
-            <div>
-              <dt>{PUBLIC_COPY.bidDesk.pending}</dt>
-              <dd data-testid="panel-pending">
-                {formatUsd(pendingBid.standingUsd)}
-              </dd>
             </div>
           ) : null}
           <div>
@@ -355,15 +346,14 @@ export default async function PanelIntentPage({
             Bid Activity
           </h2>
           <p className="auth-hint" data-testid="public-seat-log-lead">
-            Public marks on this seat: panel number, amount, and time (ET). No
-            bidder email.
+            Public marks on this seat: panel number, brand, amount, and time (ET).
+            No bidder email.
           </p>
           <div data-testid="intent-list">
             <ol className="seat-log-list" data-testid="public-seat-log-list">
               {seatLog.map((entry) => {
                 const bid = bids.find((row) => row.id === entry.bidId);
                 if (!bid) return null;
-                const standingRow = paidHolder?.id === bid.id;
                 return (
                   <li
                     key={entry.bidId}
@@ -382,23 +372,11 @@ export default async function PanelIntentPage({
                     >
                       {bid.brandLabel}
                     </strong>
-                    <span className="seat-mirror" data-testid={`seat-log-brand-${entry.bidId}`}>
-                      {entry.brandLabel}
-                    </span>
-                    <span
-                      className="intent-trade"
-                      data-testid={`intent-trade-${bid.id}`}
-                    >
-                      {bid.tradeLabel}
-                    </span>
                     <span
                       className="intent-mark"
                       data-testid={`seat-log-amount-${entry.bidId}`}
                     >
                       {entry.amountLabel}
-                    </span>
-                    <span className="seat-mirror" data-testid={`intent-amount-${bid.id}`}>
-                      {formatUsd(bid.standingUsd)}
                     </span>
                     <time
                       dateTime={entry.createdAt}
@@ -406,29 +384,9 @@ export default async function PanelIntentPage({
                     >
                       {entry.timeLabel}
                     </time>
-                    <time
-                      className="seat-mirror"
-                      dateTime={bid.createdAt}
-                      data-testid={`intent-time-${bid.id}`}
-                    >
-                      {formatSeatLogTime(bid.createdAt)}
-                    </time>
                     <span className={intentStatusClass(bid.status)}>
                       {intentStatusLabel(bid.status)}
                     </span>
-                    {standingRow ? (
-                      <>
-                        <span className="seat-mirror" data-testid="public-standing-brand">
-                          {bid.brandLabel}
-                        </span>
-                        <span className="seat-mirror" data-testid="public-standing-trade">
-                          {bid.tradeLabel}
-                        </span>
-                        <span className="seat-mirror" data-testid="public-standing-amount">
-                          {formatUsd(bid.standingUsd)}
-                        </span>
-                      </>
-                    ) : null}
                     {bid.floorSaveUsd != null ? (
                       <span
                         className="auth-hint"

@@ -556,6 +556,15 @@ export async function minimumIntentUsd(panelId: string): Promise<number> {
   return nextStandingUsd(await standingForPanel(panelId));
 }
 
+/** Paid deposit only. Unpaid listed/approved rows do not raise the public next bid. */
+export async function publicMinimumUsd(panelId: string): Promise<number> {
+  const panel = panelById(panelId);
+  if (!panel) throw new Error(`Unknown panel: ${panelId}`);
+  const paid = (await listBidsForPanel(panelId)).filter(countsAsPublicStanding);
+  if (paid.length === 0) return panel.openingUsd;
+  return nextStandingUsd(activeStandingUsd(paid, panel.openingUsd));
+}
+
 
 const HOLDING_STATUSES: readonly IntentBidStatus[] = ["listed", "approved"] as const;
 

@@ -2,6 +2,7 @@ import { expect, test } from "@playwright/test";
 import { PANELS, currentBidUsd, isEtchable } from "../src/lib/campaign";
 import { PUBLIC_COPY } from "../src/lib/public-copy";
 import { TRUCK_VIEWS } from "../src/lib/truck-views";
+import { markNewestAccountBidPaid } from "./helpers/mark-paid";
 
 test.describe("notes PDF homepage sheet", () => {
   test.describe.configure({ mode: "serial" });
@@ -254,7 +255,10 @@ test.describe("notes PDF homepage sheet", () => {
     expect(html).not.toContain("Higglesfield");
   });
 
-  test("a real bid replaces the opening on the card", async ({ page }) => {
+  test("a real bid replaces the opening on the card", async ({
+    page,
+    request,
+  }) => {
     await page.goto("/signin");
     await page.getByTestId("signin-email").fill("notes-pdf-bid@example.com");
     await page.getByTestId("signin-password").fill("test");
@@ -269,18 +273,19 @@ test.describe("notes PDF homepage sheet", () => {
     await expect(page.getByTestId("intent-success")).toContainText("not charged", {
       timeout: 10_000,
     });
+    await markNewestAccountBidPaid(page, request, 2750);
+    await page.goto("/panels/hood");
     await expect(page.getByTestId("seat-lead")).not.toContainText("Current Bid");
     await expect(page.getByTestId("panel-opening")).toContainText("Opening floor");
-    await expect(page.getByTestId("panel-standing")).toHaveCount(0);
-    await expect(page.getByTestId("panel-pending")).toHaveText("$2,750");
+    await expect(page.getByTestId("panel-standing")).toHaveText("$2,750");
+    await expect(page.getByTestId("panel-pending")).toHaveCount(0);
 
     await page.goto("/");
     await expect(page.getByTestId("panel-current-bid-hood")).toHaveText(
-      "Opening floor $2,500",
+      "Current Bid $2,750",
     );
-    await expect(page.getByTestId("panel-pending-hood")).toHaveText(
-      "Pending $2,750",
-    );
+    await expect(page.getByTestId("panel-hood")).toContainText("Notes Pdf Co");
+    await expect(page.getByTestId("panel-pending-hood")).toHaveCount(0);
     await expect(page.getByTestId("panel-current-bid-front-bumper")).toHaveText(
       "Opening floor $500",
     );

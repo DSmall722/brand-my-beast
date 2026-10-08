@@ -8,9 +8,9 @@ import { depositDeskOpen } from "@/lib/campaign-clock";
 import type { IntentBid, IntentBidStatus } from "@/lib/intent";
 import {
   countsAsPublicStanding,
+  hasPaidDeposit,
   isFloorSaveBid,
   isLiveIntentBid,
-  isPendingPublicBid,
 } from "@/lib/intent";
 import { SEAT_LOG_TIME_ZONE, formatSeatLogTime } from "@/lib/seat-log";
 
@@ -46,8 +46,6 @@ export type DayByDayRow = {
   timeLabel: string;
   /** This row is the panel's approved mark counted in board raised. */
   stillStanding: boolean;
-  /** Unpaid public mark. Standing dollars on this row are 0. */
-  pending: boolean;
 };
 
 export type DayByDayBucket = {
@@ -146,7 +144,8 @@ export function buildDayByDay(
     (bid) =>
       isLiveIntentBid(bid) &&
       HISTORY_STATUSES.has(bid.status) &&
-      !isFloorSaveBid(bid),
+      !isFloorSaveBid(bid) &&
+      hasPaidDeposit(bid),
   );
   if (publicLedger.length === 0) return EMPTY_LIVE_DAY_BY_DAY;
 
@@ -176,7 +175,6 @@ export function buildDayByDay(
       amountUsd: bid.standingUsd,
       timeLabel: formatSeatLogTime(bid.createdAt),
       stillStanding,
-      pending: isPendingPublicBid(bid),
     };
     const existing = buckets.get(parts.dayKey);
     if (!existing) {

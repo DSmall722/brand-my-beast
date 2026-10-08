@@ -124,7 +124,8 @@ test.describe("slice 9.7: withdraw pending intent", () => {
     );
     await expect(page.getByTestId("panel-opening")).toContainText("$2,500");
     await expect(page.getByTestId("panel-standing")).toHaveCount(0);
-    await expect(page.getByTestId("panel-pending")).toHaveText("$3,000");
+    await expect(page.getByTestId("panel-pending")).toHaveCount(0);
+    await expect(page.getByTestId("panel-minimum")).toHaveText("$2,500");
 
     await page.goto("/account");
     const row = page.locator('[data-testid^="account-intent-"]').first();

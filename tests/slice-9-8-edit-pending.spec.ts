@@ -16,6 +16,7 @@ import {
   setIntentStatus,
   standingForPanel,
 } from "../src/lib/intent-store";
+import { markNewestAccountBidPaid } from "./helpers/mark-paid";
 
 async function signIn(page: import("@playwright/test").Page, email: string) {
   await page.goto("/signin");
@@ -145,11 +146,15 @@ test.describe("slice 9.8: edit pending brand / trade / art", () => {
       "Edit UI New",
     );
 
+    await markNewestAccountBidPaid(page, request, 3000);
     await page.goto("/panels/hood");
     await expect(page.getByTestId("panel-opening")).toContainText("$2,500");
-    await expect(page.getByTestId("panel-standing")).toHaveCount(0);
-    await expect(page.getByTestId("panel-pending")).toHaveText("$3,000");
+    await expect(page.getByTestId("panel-standing")).toHaveText("$3,000");
+    await expect(page.getByTestId("panel-pending")).toHaveCount(0);
     await expect(page.getByTestId("intent-list")).toContainText("Edit UI New");
+    await expect(page.getByTestId("intent-list")).not.toContainText(
+      "edit ui new trade",
+    );
     const html = await page.content();
     expect(html.toLowerCase()).not.toMatch(/\blease\b/);
     expect(html).not.toContain("CLOSE_AT");

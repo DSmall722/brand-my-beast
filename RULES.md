@@ -12,7 +12,7 @@ Eleven panels. Opening bids (minimum first mark). Board order is 1–11 next to 
 |---:|---|---|---:|---|---|
 | 1 | `hood` | Hood | $2,500 | wrap | wrap or etch |
 | 2 | `front-fascia` | Front Fascia | $2,000 | wrap | wrap or etch |
-| 3 | `front-bumper` | Front bumper | $500 | wrap | wrap only |
+| 3 | `front-bumper` | Front Bumper | $500 | wrap | wrap only |
 | 4 | `driver-door` | Driver Side Doors | $4,500 | wrap | wrap or etch |
 | 5 | `driver-rear-quarter` | Driver Rear Sail | $1,000 | wrap | wrap or etch |
 | 6 | `driver-bed` | Driver Side Bed | $2,000 | wrap | wrap or etch |
@@ -20,7 +20,7 @@ Eleven panels. Opening bids (minimum first mark). Board order is 1–11 next to 
 | 8 | `passenger-rear-quarter` | Passenger Rear Sail | $1,000 | wrap | wrap or etch |
 | 9 | `passenger-bed` | Passenger Side Bed | $2,000 | wrap | wrap or etch |
 | 10 | `tailgate` | Tailgate | $2,500 | wrap | wrap or etch |
-| 11 | `rear-bumper` | Rear bumper | $500 | wrap | wrap only |
+| 11 | `rear-bumper` | Rear Bumper | $500 | wrap | wrap only |
 
 Opening sum = $23,000. The floor is not the sum of openings. Bidding has to carry the board to $58,000.
 

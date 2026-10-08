@@ -68,6 +68,6 @@ test.describe("slice 16.14: CAMPAIGN inventory number column", () => {
       );
     }
     expect(campaign).toContain("| 1 | Hood | $2,500 |");
-    expect(campaign).toContain("| 11 | Rear bumper | $500 |");
+    expect(campaign).toContain("| 11 | Rear Bumper | $500 |");
   });
 });
