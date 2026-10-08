@@ -26,6 +26,19 @@ import {
 } from "@/lib/truck-views";
 
 /**
+ * Extra geometry so the seat link's box is at least 44px on a 390px phone.
+ * Percents of the still. Pads stay off the neighbor the QA check must not overlap.
+ */
+const HOTSPOT_HIT_PAD: Record<
+  string,
+  { x: number; y: number; w: number; h: number }
+> = {
+  hood: { x: 12, y: 14, w: 76, h: 22 },
+  "front-fascia": { x: 10, y: 36, w: 80, h: 19 },
+  tailgate: { x: 44.5, y: 41.3, w: 41.2, h: 19.2 },
+};
+
+/**
  * Driver / passenger / front / rear toggles on TRACE AID lime flats.
  * Homepage keeps bakedMarks. The polygon is an invisible hit pad.
  * A small lime pill sits on the baked `(N) Name` ink. Seat pages
@@ -74,15 +87,25 @@ export function TruckViewHotspots({
     };
   }, []);
   const occupied = new Set(occupiedPanelIds);
-  const spots = hotspotsForView(singleSeat ? ownerView : view).filter((spot) =>
-    singleSeat ? spot.panelId === activePanelId : true,
-  );
   const shownView = singleSeat ? ownerView : view;
+  const viewSpots = hotspotsForView(shownView);
+  const linkSpots = singleSeat
+    ? viewSpots.filter((spot) => spot.panelId === activePanelId)
+    : viewSpots;
+  const dimSpots = singleSeat
+    ? viewSpots.filter((spot) => spot.panelId !== activePanelId)
+    : [];
   const chips = singleSeat ? [] : nameChipsForView(shownView);
   const stillSize = truckViewStillSize(shownView);
   const credit = TRUCK_VIEW_CREDITS[shownView];
   /** Seat pages clear board overlays — sticky hover/active must not follow. */
   const polygonsMode = singleSeat ? "hidden" : "outline";
+  const seatLinks = singleSeat
+    ? []
+    : [...linkSpots].sort(
+        (a, b) =>
+          panelBoardMarkFor(a.panelId).n - panelBoardMarkFor(b.panelId).n,
+      );
 
   return (
     <div
@@ -157,13 +180,22 @@ export function TruckViewHotspots({
             data-testid="truck-view-svg"
             data-view={shownView}
           >
-            {spots.map((spot) => {
+            {dimSpots.map((spot) => (
+              <polygon
+                key={`${shownView}-dim-${spot.panelId}`}
+                className="truck-seat is-dim"
+                data-testid={`truck-seat-dim-${spot.panelId}`}
+                points={spot.points}
+              />
+            ))}
+            {linkSpots.map((spot) => {
               const panel = PANELS.find((row) => row.id === spot.panelId);
               if (!panel) return null;
               const mark = panelBoardMarkFor(spot.panelId);
               const label = panelOverlayLabel(mark);
               const held = occupied.has(spot.panelId);
               const active = activePanelId === spot.panelId;
+              const hitPad = HOTSPOT_HIT_PAD[spot.panelId];
               const light = () => setLitPanelId(spot.panelId);
               const dim = () => setLitPanelId(null);
               return (
@@ -194,19 +226,30 @@ export function TruckViewHotspots({
                 >
                   <polygon
                     className={
-                      !singleSeat && active
-                        ? "truck-seat is-active"
-                        : held
-                          ? "truck-seat is-held"
-                          : "truck-seat is-raw"
+                      singleSeat
+                        ? "truck-seat is-current"
+                        : active
+                          ? "truck-seat is-active"
+                          : held
+                            ? "truck-seat is-held"
+                            : "truck-seat is-raw"
                     }
                     points={spot.points}
                     fill="none"
                   />
+                  {hitPad ? (
+                    <rect
+                      className="truck-seat-hit"
+                      x={hitPad.x}
+                      y={hitPad.y}
+                      width={hitPad.w}
+                      height={hitPad.h}
+                    />
+                  ) : null}
                 </a>
               );
             })}
-            {spots.map((spot) => {
+            {linkSpots.map((spot) => {
               const chip = chips.find((row) => row.panelId === spot.panelId);
               if (!chip) return null;
               const chipRy = chip.h / 2;
@@ -246,6 +289,22 @@ export function TruckViewHotspots({
             })}
           </svg>
         </div>
+        {seatLinks.length === 0 ? null : (
+          <div className="truck-seat-links" data-testid="truck-seat-links">
+            {seatLinks.map((spot) => {
+              const mark = panelBoardMarkFor(spot.panelId);
+              return (
+                <a
+                  key={`${shownView}-seat-link-${spot.panelId}`}
+                  className="btn btn-panel"
+                  href={`/panels/${spot.panelId}`}
+                >
+                  {panelOverlayLabel(mark)}
+                </a>
+              );
+            })}
+          </div>
+        )}
         {singleSeat ? null : (
           <div className="truck-view-credit" data-testid="truck-view-credit">
             <p data-testid="truck-view-credit-photo">

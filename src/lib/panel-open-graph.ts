@@ -1,9 +1,7 @@
 import { BRAND, type Panel } from "./campaign";
+import { panelDisplayName } from "./panel-board";
 
-/**
- * Slice 14.16 — per-panel Open Graph / document title.
- * Format: `{Panel name} — BrandMyBeast` (em dash).
- */
+/** Per-panel document title. Pipe, display caps. Not the Stripe panel string. */
 export function panelOpenGraphTitle(panel: Pick<Panel, "name">): string {
-  return `${panel.name} — ${BRAND.name}`;
+  return `${panelDisplayName(panel.name)} | ${BRAND.name}`;
 }

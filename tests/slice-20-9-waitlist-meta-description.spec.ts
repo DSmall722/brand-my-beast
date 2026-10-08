@@ -22,7 +22,7 @@ import { vercelJsonIsHoldOrMainOnlyRestore } from "../src/lib/vercel-git-deploy"
 const ROOT = process.cwd();
 const LOCKED_H1 = "Advertise your brand on the truck that people already photograph";
 const WAITLIST_DESCRIPTION =
-  "Bid on one of 11 ad panels on a Cybertruck wrapped for 12 months and driven across South Carolina and the Southeast. Bidding opens Oct 6 at noon ET and closes Nov 2.";
+  "11 ad panels on one Cybertruck, wrapped for a year and driven across the Southeast. Bidding is open through Nov 2 at noon ET.";
 
 test.describe("slice 20.9: waitlist-era meta description", () => {
   test("campaign money fences stay locked — CLOSE_AT null", () => {
@@ -53,6 +53,8 @@ test.describe("slice 20.9: waitlist-era meta description", () => {
 
   test("PUBLIC_COPY meta description is waitlist-era", () => {
     expect(PUBLIC_COPY.meta.description).toBe(WAITLIST_DESCRIPTION);
+    expect(PUBLIC_COPY.meta.description).not.toContain("opens Oct");
+    expect(PUBLIC_COPY.meta.description).not.toMatch(/[—–]/);
     expect(PUBLIC_COPY.meta.description).not.toMatch(/Bid on a panel/i);
     expect(PUBLIC_COPY.hero.h1).toBe(LOCKED_H1);
     const md = readFileSync(join(ROOT, "PUBLIC_COPY.md"), "utf8");
@@ -69,9 +71,22 @@ test.describe("slice 20.9: waitlist-era meta description", () => {
       "content",
       PUBLIC_COPY.meta.description,
     );
+    await expect(page.locator('meta[property="og:description"]')).toHaveAttribute(
+      "content",
+      PUBLIC_COPY.meta.description,
+    );
+    await expect(page.locator('meta[name="twitter:description"]')).toHaveAttribute(
+      "content",
+      PUBLIC_COPY.meta.description,
+    );
     await expect(page.locator("#hero-title")).toHaveText(LOCKED_H1);
     const html = await page.content();
     expect(html).not.toContain("Bid on a panel");
+    expect(html).not.toContain("opens Oct");
+    const windowText = await page.getByTestId("campaign-window").innerText();
+    if (!windowText.startsWith("Bidding opens")) {
+      expect(html).not.toContain("Bidding opens");
+    }
     expect(html).toContain("$58,000");
     expect(html).toContain("$120,000");
     expect(html).not.toContain("FEATURES.md");

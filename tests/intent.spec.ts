@@ -791,7 +791,7 @@ test.describe("honest shortfall math (no clock)", () => {
     expect(GOAL_USD).toBe(120_000);
     expect(floorMarkerPercentOnGoalTrack()).toBe(48.3);
     expect(PUBLIC_COPY.board.vaultFloorMarkLabel).toBe("Floor");
-    expect(PUBLIC_COPY.board.vaultBuyoutMarkLabel).toBe("Buyout");
+    expect(PUBLIC_COPY.board.vaultBuyoutMarkLabel).toBe("Fully funded");
   });
 });
 

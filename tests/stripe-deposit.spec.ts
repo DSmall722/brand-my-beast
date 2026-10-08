@@ -185,10 +185,7 @@ test.describe("stripe deposit and campaign window", () => {
     await expect(window).toContainText("Oct 6, 2026, 12:00 PM ET");
     await expect(window).toContainText("Nov 2, 2026, 12:00 PM ET");
     await expect(page.getByTestId("faq-close-date")).toContainText(
-      "Tuesday, October 6, 2026 at 12:00 PM ET",
-    );
-    await expect(page.getByTestId("faq-close-date")).toContainText(
-      "Monday, November 2, 2026 at 12:00 PM ET",
+      "Bidding closes Monday, November 2, 2026 at 12:00 PM ET. A bid in the last 10 minutes pushes the close back 10 minutes.",
     );
     await expect(page.getByTestId("close-copy")).toHaveCount(0);
     expect(campaignWindowSentence({
@@ -437,7 +434,7 @@ test.describe("stripe deposit and campaign window", () => {
     await expect(page.getByTestId("bid-modal-minimum")).toHaveText("$500");
 
     await page.goto("/panels/rear-bumper");
-    await expect(page.getByTestId("panel-opening")).toContainText("Opening floor");
+    await expect(page.getByTestId("panel-opening")).toContainText("Opening price");
     await expect(page.getByTestId("panel-opening")).toContainText("$500");
     await expect(page.getByTestId("panel-standing")).toHaveCount(0);
     await expect(page.getByTestId("panel-stats")).toHaveAttribute(

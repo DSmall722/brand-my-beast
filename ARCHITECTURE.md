@@ -62,7 +62,7 @@ baked still / stainless still
   numbered overlay (seat pages) or baked numbers (homepage)
     1 Hood
     2 Front Fascia
-    3 Front bumper
+    3 Front Bumper
     4 Driver Side Doors
     5 Driver Rear Sail
     6 Driver Side Bed
@@ -70,7 +70,7 @@ baked still / stainless still
     8 Passenger Rear Sail
     9 Passenger Side Bed
     10 Tailgate
-    11 Rear bumper
+    11 Rear Bumper
 ```
 
 ## Do not build yet

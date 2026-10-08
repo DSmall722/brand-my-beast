@@ -1,20 +1,26 @@
 "use client";
 
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import {
   createContext,
   useContext,
+  useCallback,
   useEffect,
   useId,
   useMemo,
+  useRef,
   useState,
   type FormEvent,
+  type KeyboardEvent as ReactKeyboardEvent,
   type ReactNode,
+  type RefObject,
 } from "react";
 import { track } from "@vercel/analytics";
-import { DEPOSIT_PERCENT, formatUsd } from "@/lib/campaign";
+import { BRAND, DEPOSIT_PERCENT, formatUsd } from "@/lib/campaign";
 import type { BidDeskMode, BidPanelQuote } from "@/lib/bid-desk";
 import { depositUsdForMark } from "@/lib/intent";
+import { panelDisplayName } from "@/lib/panel-board";
 import { PUBLIC_COPY } from "@/lib/public-copy";
 
 /** Public panel id only. Swallow errors so analytics cannot break a bid. */
@@ -50,8 +56,12 @@ export function BidDeskProvider({
   children: ReactNode;
 }) {
   const [panelId, setPanelId] = useState<string | null>(null);
+  const openerRef = useRef<HTMLElement | null>(null);
+  const closeBid = useCallback(() => setPanelId(null), []);
   const openBid = useMemo(
     () => (nextId: string) => {
+      const active = document.activeElement;
+      openerRef.current = active instanceof HTMLElement ? active : null;
       setPanelId(nextId);
     },
     [],
@@ -65,30 +75,60 @@ export function BidDeskProvider({
           quotes={quotes}
           mode={mode}
           panelId={panelId}
+          openerRef={openerRef}
           onPanelId={setPanelId}
-          onClose={() => setPanelId(null)}
+          onClose={closeBid}
         />
       ) : null}
     </BidDeskContext.Provider>
   );
 }
 
+function focusableIn(root: HTMLElement): HTMLElement[] {
+  return [
+    ...root.querySelectorAll<HTMLElement>(
+      "a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled])",
+    ),
+  ].filter((el) => el.tabIndex !== -1);
+}
+
+function trapTab(event: ReactKeyboardEvent<HTMLElement>, root: HTMLElement) {
+  if (event.key !== "Tab") return;
+  const items = focusableIn(root);
+  if (items.length === 0) return;
+  const first = items[0]!;
+  const last = items[items.length - 1]!;
+  const active = document.activeElement;
+  if (event.shiftKey && (active === first || !root.contains(active))) {
+    event.preventDefault();
+    last.focus();
+  } else if (!event.shiftKey && (active === last || !root.contains(active))) {
+    event.preventDefault();
+    first.focus();
+  }
+}
+
 function BidModal({
   quotes,
   mode,
   panelId,
+  openerRef,
   onPanelId,
   onClose,
 }: {
   quotes: readonly BidPanelQuote[];
   mode: BidDeskMode;
   panelId: string;
+  openerRef: RefObject<HTMLElement | null>;
   onPanelId: (panelId: string) => void;
   onClose: () => void;
 }) {
   const titleId = useId();
+  const dialogRef = useRef<HTMLDivElement>(null);
+  const pathname = usePathname();
   const quote = quotes.find((row) => row.id === panelId) ?? quotes[0] ?? null;
   const copy = PUBLIC_COPY.bidDesk;
+  const hideSeatLink = pathname === `/panels/${quote?.id ?? ""}`;
 
   useEffect(() => {
     const onKey = (event: KeyboardEvent) => {
@@ -100,12 +140,22 @@ function BidModal({
     const previousBody = document.body.style.overflow;
     html.style.overflow = "hidden";
     document.body.style.overflow = "hidden";
+    const opener = openerRef.current;
+    const root = dialogRef.current;
+    const amount = root?.querySelector<HTMLElement>(
+      "[data-testid='bid-modal-amount']",
+    );
+    const closeBtn = root?.querySelector<HTMLElement>(
+      "[data-testid='bid-modal-close']",
+    );
+    (amount ?? closeBtn)?.focus();
     return () => {
       document.removeEventListener("keydown", onKey);
       html.style.overflow = previousHtml;
       document.body.style.overflow = previousBody;
+      if (opener && document.contains(opener)) opener.focus();
     };
-  }, [onClose]);
+  }, [onClose, openerRef]);
 
   if (!quote) return null;
 
@@ -113,12 +163,14 @@ function BidModal({
     <div className="bid-modal-root" data-testid="bid-modal-root">
       <button
         type="button"
+        tabIndex={-1}
         className="bid-modal-backdrop"
         aria-label="Close bid"
         data-testid="bid-modal-backdrop"
         onClick={onClose}
       />
       <div
+        ref={dialogRef}
         role="dialog"
         aria-modal="true"
         aria-labelledby={titleId}
@@ -126,6 +178,9 @@ function BidModal({
         data-testid="bid-modal"
         data-bid-window={mode.kind}
         data-panel-id={quote.id}
+        onKeyDown={(event) => {
+          if (dialogRef.current) trapTab(event, dialogRef.current);
+        }}
       >
         <div className="bid-modal-bar">
           <h2 id={titleId}>{copy.modalTitle}</h2>
@@ -149,6 +204,7 @@ function BidModal({
           <ClosedBidNotice
             quote={quote}
             quotes={quotes}
+            hideSeatLink={hideSeatLink}
             onPanelId={onPanelId}
             onClose={onClose}
           />
@@ -158,6 +214,7 @@ function BidModal({
             quote={quote}
             quotes={quotes}
             mode={mode}
+            hideSeatLink={hideSeatLink}
             onPanelId={onPanelId}
             onClose={onClose}
           />
@@ -170,11 +227,13 @@ function BidModal({
 function ClosedBidNotice({
   quote,
   quotes,
+  hideSeatLink,
   onPanelId,
   onClose,
 }: {
   quote: BidPanelQuote;
   quotes: readonly BidPanelQuote[];
+  hideSeatLink: boolean;
   onPanelId: (panelId: string) => void;
   onClose: () => void;
 }) {
@@ -193,13 +252,13 @@ function ClosedBidNotice({
       >
         {quotes.map((row) => (
           <option key={row.id} value={row.id}>
-            {row.name}
+            {panelDisplayName(row.name)}
           </option>
         ))}
       </select>
       <dl className="bid-modal-money">
         <div>
-          <dt>{quote.hasStanding ? copy.currentBid : copy.openingFloor}</dt>
+          <dt>{quote.hasStanding ? copy.currentBid : copy.openingPrice}</dt>
           <dd data-testid="bid-modal-current">{formatUsd(quote.currentBidUsd)}</dd>
         </div>
         <div>
@@ -218,13 +277,15 @@ function ClosedBidNotice({
         >
           {copy.joinList}
         </a>
-        <Link
-          className="nav-link"
-          href={`/panels/${quote.id}`}
-          data-testid="bid-modal-seat-link"
-        >
-          {copy.viewSeat}
-        </Link>
+        {hideSeatLink ? null : (
+          <Link
+            className="nav-link"
+            href={`/panels/${quote.id}`}
+            data-testid="bid-modal-seat-link"
+          >
+            {copy.viewSeat}
+          </Link>
+        )}
       </div>
     </div>
   );
@@ -250,41 +311,127 @@ function liveDepositLine(markUsd: number): string | null {
     .replace("{amount}", formatUsd(depositUsdForMark(markUsd)));
 }
 
+/** Whole dollars only. Zero, negatives, and fractions are not a bid. */
+function wholeDollarBid(raw: string): number | null {
+  const text = raw.trim();
+  if (!/^\d+$/.test(text)) return null;
+  const amount = Number(text);
+  if (!Number.isInteger(amount) || amount <= 0) return null;
+  return amount;
+}
+
+/** Max bid confirmed by Dennard. Client-side only; server unchanged. */
+export const MAX_CLIENT_BID_USD = 100_000;
+
+function bidFieldMessage(raw: string, minimumBidUsd: number): string | null {
+  const amount = wholeDollarBid(raw);
+  if (amount == null) return "Enter a bid in whole dollars.";
+  if (amount < minimumBidUsd) {
+    return `Minimum bid for this seat is ${formatUsd(minimumBidUsd)}.`;
+  }
+  if (amount > MAX_CLIENT_BID_USD) {
+    return `Bids above ${formatUsd(MAX_CLIENT_BID_USD)} need a call. Email ${BRAND.email}.`;
+  }
+  return null;
+}
+
+function brandFieldMessage(raw: string): string | null {
+  if (raw.trim().length < 2) return "Enter your brand name.";
+  return null;
+}
+
+function tradeFieldMessage(raw: string): string | null {
+  if (raw.trim().length < 2) return "Enter your trade, e.g. Roofing.";
+  return null;
+}
+
+function emailFieldMessage(raw: string): string | null {
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(raw.trim())) {
+    return "Enter a full email, like you@company.com.";
+  }
+  return null;
+}
+
 function BidModalForm({
   quote,
   quotes,
   mode,
+  hideSeatLink,
   onPanelId,
   onClose,
 }: {
   quote: BidPanelQuote;
   quotes: readonly BidPanelQuote[];
   mode: BidDeskMode;
+  hideSeatLink: boolean;
   onPanelId: (panelId: string) => void;
   onClose: () => void;
 }) {
-  const [yourBid, setYourBid] = useState(quote.minimumBidUsd);
+  const [bidText, setBidText] = useState(String(quote.minimumBidUsd));
+  const [brand, setBrand] = useState("");
+  const [trade, setTrade] = useState("");
+  const [email, setEmail] = useState("");
   const [logoName, setLogoName] = useState("");
   const [outcome, setOutcome] = useState<"closed" | "intent" | "covered" | null>(
     null,
   );
   const [error, setError] = useState<string | null>(null);
   const [pending, setPending] = useState(false);
+  const [attempted, setAttempted] = useState(false);
+  const [touched, setTouched] = useState({
+    amount: false,
+    brand: false,
+    trade: false,
+    email: false,
+  });
+  const brandErrorId = useId();
+  const amountErrorId = useId();
+  const tradeErrorId = useId();
+  const emailErrorId = useId();
   const copy = PUBLIC_COPY.bidDesk;
-  const deposit = liveDepositLine(yourBid);
+  const amountMessage = bidFieldMessage(bidText, quote.minimumBidUsd);
+  const brandMessage = brandFieldMessage(brand);
+  const tradeMessage = tradeFieldMessage(trade);
+  const emailMessage = emailFieldMessage(email);
+  const visibleAmount = attempted || touched.amount ? amountMessage : null;
+  const visibleBrand = attempted || touched.brand ? brandMessage : null;
+  const visibleTrade = attempted || touched.trade ? tradeMessage : null;
+  const visibleEmail = attempted || touched.email ? emailMessage : null;
+  const standingUsd = wholeDollarBid(bidText);
+  const deposit =
+    amountMessage == null && standingUsd != null
+      ? liveDepositLine(standingUsd)
+      : null;
+  const ready =
+    brandMessage == null &&
+    amountMessage == null &&
+    tradeMessage == null &&
+    emailMessage == null;
+  const depositUsd =
+    amountMessage == null && standingUsd != null
+      ? depositUsdForMark(standingUsd)
+      : null;
+  const submitLabel =
+    depositUsd == null
+      ? copy.placeBid
+      : `Place bid · Pay ${formatUsd(depositUsd)} deposit`;
+
+  function touch(field: "amount" | "brand" | "trade" | "email") {
+    setTouched((prev) => (prev[field] ? prev : { ...prev, [field]: true }));
+  }
 
   async function onSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
+    setAttempted(true);
+    if (!ready || standingUsd == null) return;
     if (mode.kind !== "intent") {
       setOutcome(placeBidOutcome(mode));
       return;
     }
     trackPanel("bid_start", quote.id);
-    const form = event.currentTarget;
-    const data = new FormData(form);
-    const brandLabel = String(data.get("brand") ?? "");
-    const tradeLabel = String(data.get("trade") ?? "");
-    const email = String(data.get("email") ?? "");
+    const brandLabel = brand.trim();
+    const tradeLabel = trade.trim();
+    const emailValue = email.trim();
     setPending(true);
     setError(null);
     setOutcome(null);
@@ -294,10 +441,10 @@ function BidModalForm({
         headers: { "content-type": "application/json" },
         body: JSON.stringify({
           panelId: quote.id,
-          standingUsd: yourBid,
+          standingUsd,
           brandLabel,
           tradeLabel,
-          email,
+          email: emailValue,
         }),
       });
       const body = (await response.json()) as {
@@ -324,7 +471,16 @@ function BidModalForm({
   }
 
   return (
-    <form className="bid-modal-form" onSubmit={onSubmit}>
+    <form
+      className="bid-modal-form"
+      noValidate
+      onSubmit={onSubmit}
+      onKeyDown={(event) => {
+        if (event.key !== "Enter") return;
+        if (event.target instanceof HTMLTextAreaElement) return;
+        setAttempted(true);
+      }}
+    >
       <label className="auth-label" htmlFor="bid-panel">
         {copy.panel}
       </label>
@@ -337,14 +493,14 @@ function BidModalForm({
       >
         {quotes.map((row) => (
           <option key={row.id} value={row.id}>
-            {row.name}
+            {panelDisplayName(row.name)}
           </option>
         ))}
       </select>
 
       <dl className="bid-modal-money">
         <div>
-          <dt>{quote.hasStanding ? copy.currentBid : copy.openingFloor}</dt>
+          <dt>{quote.hasStanding ? copy.currentBid : copy.openingPrice}</dt>
           <dd data-testid="bid-modal-current">{formatUsd(quote.currentBidUsd)}</dd>
         </div>
         <div>
@@ -362,16 +518,28 @@ function BidModalForm({
         id="bid-amount"
         className="auth-input"
         data-testid="bid-modal-amount"
-        type="number"
-        min={quote.minimumBidUsd}
-        step={1}
+        type="text"
+        inputMode="decimal"
         required
-        value={yourBid}
+        value={bidText}
+        aria-invalid={visibleAmount ? true : undefined}
+        aria-describedby={visibleAmount ? amountErrorId : undefined}
         onChange={(event) => {
-          const next = Number(event.target.value);
-          setYourBid(Number.isFinite(next) ? next : 0);
+          setBidText(event.target.value);
+          touch("amount");
         }}
+        onBlur={() => touch("amount")}
       />
+      {visibleAmount ? (
+        <p
+          id={amountErrorId}
+          className="auth-error"
+          data-testid="bid-modal-amount-error"
+          aria-live="polite"
+        >
+          {visibleAmount}
+        </p>
+      ) : null}
       {deposit ? (
         <p className="auth-hint" data-testid="bid-modal-deposit">
           {deposit}
@@ -391,7 +559,25 @@ function BidModalForm({
         minLength={2}
         maxLength={80}
         autoComplete="organization"
+        value={brand}
+        aria-invalid={visibleBrand ? true : undefined}
+        aria-describedby={visibleBrand ? brandErrorId : undefined}
+        onChange={(event) => {
+          setBrand(event.target.value);
+          touch("brand");
+        }}
+        onBlur={() => touch("brand")}
       />
+      {visibleBrand ? (
+        <p
+          id={brandErrorId}
+          className="auth-error"
+          data-testid="bid-modal-brand-error"
+          aria-live="polite"
+        >
+          {visibleBrand}
+        </p>
+      ) : null}
 
       <label className="auth-label" htmlFor="bid-trade">
         {copy.trade}
@@ -405,7 +591,28 @@ function BidModalForm({
         required
         minLength={2}
         maxLength={80}
+        value={trade}
+        aria-invalid={visibleTrade ? true : undefined}
+        aria-describedby={visibleTrade ? tradeErrorId : undefined}
+        onChange={(event) => {
+          setTrade(event.target.value);
+          touch("trade");
+        }}
+        onBlur={() => touch("trade")}
       />
+      {visibleTrade ? (
+        <p
+          id={tradeErrorId}
+          className="auth-error"
+          data-testid="bid-modal-trade-error"
+          aria-live="polite"
+        >
+          {visibleTrade}
+        </p>
+      ) : null}
+      <p className="auth-hint" data-testid="bid-modal-trade-hint">
+        {copy.tradeHint}
+      </p>
 
       <label className="auth-label" htmlFor="bid-email">
         Email
@@ -419,7 +626,25 @@ function BidModalForm({
         required
         autoComplete="email"
         placeholder="you@brand.com"
+        value={email}
+        aria-invalid={visibleEmail ? true : undefined}
+        aria-describedby={visibleEmail ? emailErrorId : undefined}
+        onChange={(event) => {
+          setEmail(event.target.value);
+          touch("email");
+        }}
+        onBlur={() => touch("email")}
       />
+      {visibleEmail ? (
+        <p
+          id={emailErrorId}
+          className="auth-error"
+          data-testid="bid-modal-email-error"
+          aria-live="polite"
+        >
+          {visibleEmail}
+        </p>
+      ) : null}
       <p className="auth-hint" data-testid="bid-modal-magic">
         {copy.depositMagicLink}
       </p>
@@ -463,20 +688,22 @@ function BidModalForm({
           type="submit"
           className="btn btn-signal"
           data-testid="bid-modal-submit"
-          disabled={pending}
+          disabled={pending || !ready}
         >
-          {copy.placeBid}
+          {submitLabel}
         </button>
         <a className="btn btn-panel" href="/#contactus" onClick={onClose}>
           {copy.contact}
         </a>
-        <Link
-          className="nav-link"
-          href={`/panels/${quote.id}`}
-          data-testid="bid-modal-seat-link"
-        >
-          {copy.viewSeat}
-        </Link>
+        {hideSeatLink ? null : (
+          <Link
+            className="nav-link"
+            href={`/panels/${quote.id}`}
+            data-testid="bid-modal-seat-link"
+          >
+            {copy.viewSeat}
+          </Link>
+        )}
       </div>
 
       {outcome === "closed" ? (

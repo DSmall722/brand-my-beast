@@ -46,8 +46,9 @@ test.describe("slice 13.38: terms bids and payment", () => {
     await page.goto("/terms");
     await expect(page.getByTestId("terms-page")).toBeVisible();
     await expect(page.getByTestId("terms-bids")).toContainText(
-      "Empty seats show an opening floor, not a Current Bid.",
+      "Each seat shows its opening price until someone bids. After that it shows the current high bid.",
     );
+    await expect(page.getByTestId("terms-bids")).toContainText("Stripe");
     await expect(page.getByTestId("terms-contact")).toContainText(BRAND.email);
 
     const html = await page.content();
@@ -55,6 +56,6 @@ test.describe("slice 13.38: terms bids and payment", () => {
     expect(html.toLowerCase()).not.toMatch(/\blease\b/);
     expect(html).not.toContain("CLOSE_AT");
     expect(html).not.toContain("Close date is unset");
-    expect(html.toLowerCase()).not.toMatch(/stripe/);
+    expect(html).toContain("Stripe");
   });
 });

@@ -3,7 +3,8 @@
  * Do not invent warmer / closer / snarkier variants. CAMPAIGN.md wins money.
  */
 
-import { BRAND, OPEN_AT, PANELS } from "./campaign";
+import { BRAND, CLOSE_AT, FLOOR_USD, OPEN_AT, PANELS, formatUsd } from "./campaign";
+import { SOFT_CLOSE_MS } from "./campaign-window";
 import { PANEL_BOARD_MARKS, panelLegendLabel } from "./panel-board";
 import { formatCampaignInstantEt } from "./seat-log";
 
@@ -17,6 +18,26 @@ const TRUCK_OWNERSHIP_LINE =
 const BID_OPENS_AT = formatCampaignInstantEt(OPEN_AT);
 const CLOSED_ASK = `Questions? Use the Contact us form or email ${BRAND.email}.`;
 
+/** Long Eastern label. `Monday, November 2, 2026 at 12:00 PM ET`. */
+function longCloseLabelEt(iso: string): string {
+  const parts = new Intl.DateTimeFormat("en-US", {
+    timeZone: "America/New_York",
+    weekday: "long",
+    month: "long",
+    day: "numeric",
+    year: "numeric",
+    hour: "numeric",
+    minute: "2-digit",
+    hour12: true,
+  }).formatToParts(new Date(iso));
+  const pick = (type: Intl.DateTimeFormatPartTypes) =>
+    parts.find((part) => part.type === type)?.value ?? "";
+  return `${pick("weekday")}, ${pick("month")} ${pick("day")}, ${pick("year")} at ${pick("hour")}:${pick("minute")} ${pick("dayPeriod")} ET`;
+}
+
+const SOFT_CLOSE_MINUTES = SOFT_CLOSE_MS / 60_000;
+const FAQ_CLOSE_ANSWER = `Bidding closes ${longCloseLabelEt(CLOSE_AT ?? "")}. A bid in the last ${SOFT_CLOSE_MINUTES} minutes pushes the close back ${SOFT_CLOSE_MINUTES} minutes.`;
+
 /** Slice 16.25 — whole-truck package is the numbered board, 1 Hood through 11 Rear bumper. */
 export function wholeTruckPackageCopy(): string {
   const labels = PANEL_BOARD_MARKS.map((mark) => panelLegendLabel(mark));
@@ -27,7 +48,7 @@ export const PUBLIC_COPY = {
   meta: {
     title:
       "BrandMyBeast — Advertise your brand on the truck that people already photograph",
-    description: `Bid on one of ${PANELS.length} ad panels on a Cybertruck wrapped for 12 months and driven across South Carolina and the Southeast. Bidding opens Oct 6 at noon ET and closes Nov 2.`,
+    description: `${PANELS.length} ad panels on one Cybertruck, wrapped for a year and driven across the Southeast. Bidding is open through Nov 2 at noon ET.`,
   },
   header: {
     wordmark: "BrandMyBeast",
@@ -39,9 +60,8 @@ export const PUBLIC_COPY = {
     primaryCta: "Contact us",
     secondaryCta: "Bid on a Panel",
     howItWorksCta: "How it Works",
-    imageAlt:
-      "Concept preview — BrandMyBeast house wrap. Seats are not sold yet.",
-    caption: "",
+    imageAlt: "Example wrap on the BrandMyBeast truck. Seats are open for bids.",
+    caption: "Example wrap. Your brand here.",
   },
   board: {
     heading: "Track the Auction",
@@ -49,24 +69,23 @@ export const PUBLIC_COPY = {
     raisedLabel: "Pledged so far",
     raisedHint: "",
     floorLabel: "Floor",
-    floorHint: "Miss the floor and every bid is refunded.",
+    floorHint: `Miss the ${formatUsd(FLOOR_USD)} goal and every deposit is refunded.`,
     buyoutLabel: "Buyout",
     buyoutHint: "",
     clockWhenCloseNull:
       "Bidding is not open. Nothing is charged on this page.",
     depositLine:
-      "When bidding opens, 20% of the bid is charged. If you do not win, that deposit is refunded after close. A winner's deposit is credited to the invoice. Nothing is charged on this page.",
+      "20% of the bid is charged when you place it. If you do not win, that deposit is refunded after close. A winner's deposit is credited to the invoice. Nothing is charged on this page.",
     shortfallFloorLabel: "Short of floor",
-    shortfallBuyoutLabel: "Short of buyout",
+    shortfallBuyoutLabel: "Short of fully funded",
     openSeatsLabel: "Open seats",
     vaultFloorMarkLabel: "Floor",
-    vaultBuyoutMarkLabel: "Buyout",
+    vaultBuyoutMarkLabel: "Fully funded",
     /** Slice 19.10 — vault copy while pledged is $0. Not an empty auction. */
     vaultEmpty: "No marks yet",
     /** Slice 20.6 — board legend. Buyer sentence, not Open seat · Held =. */
     seatLegend: "Open seat = empty. Held seat = standing intent.",
-    truckImageAlt:
-      "Stainless Cyberbeast preview. Numbers live on the board.",
+    truckImageAlt: `Cybertruck with the ${PANELS.length} ad panels outlined`,
     wantAllPanels: "Buy the Whole Truck",
     /** Right-hand vault percent. Floor percent stays “% of floor”. */
     goalProgressTail: "of campaign fully funded",
@@ -74,12 +93,12 @@ export const PUBLIC_COPY = {
     /** Slice 20.7 — one sentence on `/`. 11-name dump stays on the form. */
     wholeTruckLead:
       "One brand on every panel. Standing panel winners released. Nothing is charged on this page.",
-    wholeTruckAmountLabel: "Buyout mark",
+    wholeTruckAmountLabel: "Fully funded mark",
     wholeTruckCta: "List a whole-truck intent",
     wholeTruckSignIn: "Sign in to list a whole-truck intent",
     /** Slice 9.5 — control hidden when pledged >= $120,000. */
     wholeTruckMet:
-      "Whole-truck buyout is met at $120,000. The field is closed. Still nothing charged on this page.",
+      "The campaign is fully funded at $120,000. The field is closed. Still nothing charged on this page.",
   },
   seatExclusivity: {
     heading: "One brand per trade",
@@ -221,7 +240,7 @@ export const PUBLIC_COPY = {
       },
       {
         q: "Do I need finished artwork to bid?",
-        a: "A name and a logo is enough to stand. Final files come after you win — vector for wrap. Nothing gets cut until you’ve approved it.",
+        a: "A name and a logo is enough to stand. Final files come after you win. Use a vector for wrap. Nothing gets cut until you’ve approved it.",
       },
       {
         id: "campaign-miss",
@@ -231,11 +250,11 @@ export const PUBLIC_COPY = {
       {
         id: "close-date",
         q: "When does this close?",
-        a: "Bidding opens Tuesday, October 6, 2026 at 12:00 PM ET and closes Monday, November 2, 2026 at 12:00 PM ET. A bid in the last 10 minutes pushes the close back 10 minutes.",
+        a: FAQ_CLOSE_ANSWER,
       },
       {
         q: "Where does the truck actually run?",
-        a: "Work miles in the Southeast — South Carolina most weeks (Charleston, Columbia, Greenville, Florence, Beaufort, Clemson and the roads between them), plus Atlanta, Charlotte, and the Florida panhandle when the job goes there.",
+        a: "Work miles in the Southeast. South Carolina most weeks (Charleston, Columbia, Greenville, Florence, Beaufort, Clemson and the roads between them), plus Atlanta, Charlotte, and the Florida panhandle when the job goes there.",
       },
       {
         q: "Will something I don’t want sitting next to my brand end up on this truck?",
@@ -259,12 +278,12 @@ export const PUBLIC_COPY = {
     idleNote: "We only email when seats open.",
     /** Slice 13.39 — privacy stub waitlist retention. */
     retention: "Waitlist retention: until seats open or user deletes.",
-    success: "You are on the list. We will email when bidding opens.",
+    success: "Thanks. We will be in touch.",
     already: "That email is already on the list.",
     /** Slice 6.5 — never imply join when the write did not land. */
     unavailable:
       "Waitlist is temporarily unavailable. You are not on the list yet.",
-    failed: "Could not save that email. You are not on the list. Try again.",
+    failed: `That didn't send. Try again, or email ${BRAND.email}.`,
     /** Slice 6.6 — never claim joined on 429. */
     rateLimited:
       "Too many attempts. You are not on the list. Wait a moment and try again.",
@@ -311,9 +330,9 @@ export const PUBLIC_COPY = {
     openingRationale:
       "Opening marks start the seat. The floor is not the sum of openings — bidding has to carry the board to $58,000.",
     /** QA 1047PM — stainless seat chrome above Immortal Etch Locked. */
-    wrapTwelveMonths: "Vinyl Wrap for 12 Months after Installation.",
+    wrapTwelveMonths: "Vinyl wrap for 12 months after installation.",
     /** QA 1047PM — bumper seats are wrap-only. */
-    bumperWrapOnly: "Vinyl Wrap is the only option available for the Bumper.",
+    bumperWrapOnly: "Wrap only. Vinyl wrap for 12 months after installation.",
     withdrawSuccess: "Intent withdrawn. Still not charged.",
     withdrawButton: "Withdraw pending intent",
     failedWinnerWaitlist:
@@ -386,6 +405,7 @@ export const PUBLIC_COPY = {
    */
   bidDesk: {
     dayHeading: "Day by day",
+    dayEmpty: "No bids yet.",
     daySampleLead:
       "Sample history. No live bids yet. Standing figures here are not pledged. Nothing is charged.",
     dayLiveLead:
@@ -394,37 +414,41 @@ export const PUBLIC_COPY = {
     topHeading: "Top brands",
     topEmpty: "No standing bids yet.",
     todayHeading: "Today's action",
-    todayEmpty: "No bid or outbid yet today. Be the first.",
+    todayEmpty: "No bids today yet. Be the first.",
     openingFloor: "Opening floor",
+    openingPrice: "Opening price",
     leaderboardLink: "Leaderboard",
     leaderboardHeading: "Leaderboard",
     leaderboardEvery: "Every bid ever placed, highest first.",
     leaderboardStay: "Outbid bids stay on this list.",
-    leaderboardEmpty: "No bids yet.",
+    leaderboardEmptyBefore: "No bids yet. Bidding opens Oct 6 at noon ET.",
+    leaderboardEmptyAfter: "No bids yet. Be the first to put your brand on the Beast.",
+    leaderboardSeePanels: "See the panels",
     leaderboardRest: "The rest of the field",
     modalTitle: "Place a bid",
     closedLead: `Bidding opens ${BID_OPENS_AT}. No deposit is taken on this form. ${CLOSED_ASK}`,
     closedResult: `Bidding opens ${BID_OPENS_AT}. No deposit was taken. ${CLOSED_ASK}`,
     intentResult:
       "This mark stays intent only. No card was charged. The operator still approves artwork.",
-    artwork:
-      "The operator approves artwork before it can run. Signing in does not put a logo on the truck.",
+    artwork: "We review every logo before it goes on the truck.",
     magicLink:
       "Manage a bid with a one-time email link. No password. This form does not charge a card.",
     depositChargeTemplate:
-      "{percent}% of this mark is {amount}. Charged when you place the bid.",
+      "Deposit due now: {amount} ({percent}% of your bid), charged by Stripe.",
     depositMagicLink:
-      "A one-time email link manages the bid after the deposit is paid. No password.",
+      "After your deposit goes through, we email you a link to manage your bid. No password needed.",
     coveredResult:
       "Earlier deposits on this seat cover this bid. It counts on the board.",
     trade: "Trade",
+    tradeHint: "Your type of business, e.g. Roofing. One brand per trade.",
     placeBid: "Place bid",
     joinList: "Contact us",
     pending: "Pending",
     yourBid: "Your bid",
     brandName: "Brand name",
     website: "Website (optional)",
-    logo: "Logo",
+    /** Server placeDepositBid does not require a file. Label stays optional. */
+    logo: "Logo (optional, you can send it later)",
     panel: "Panel",
     currentBid: "Current bid",
     minimumBid: "Minimum bid",
@@ -432,3 +456,11 @@ export const PUBLIC_COPY = {
     contact: "Contact BMB",
   },
 } as const;
+
+/** Empty leaderboard line. Before OPEN_AT vs after. Not the live-charge flag. */
+export function leaderboardEmptyCopy(nowMs: number = Date.now()): string {
+  if (nowMs >= Date.parse(OPEN_AT)) {
+    return PUBLIC_COPY.bidDesk.leaderboardEmptyAfter;
+  }
+  return PUBLIC_COPY.bidDesk.leaderboardEmptyBefore;
+}

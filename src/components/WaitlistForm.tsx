@@ -4,9 +4,23 @@ import { FormEvent, useEffect, useRef, useState } from "react";
 import { WANT_WHOLE_TRUCK_EVENT } from "@/components/home/WantAllPanelsLink";
 import { PUBLIC_COPY } from "@/lib/public-copy";
 
+function contactEmailError(value: string): string {
+  const trimmed = value.trim();
+  if (!trimmed) return "Enter your email address.";
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(trimmed)) {
+    return "Enter a full email, like you@company.com.";
+  }
+  return "";
+}
+
+function contactSendError(serverError: string | undefined): string {
+  return serverError || PUBLIC_COPY.waitlist.failed;
+}
+
 type Status = "idle" | "loading" | "created" | "exists" | "error";
 
 const WAITLIST_STATUS_ID = "waitlist-status";
+const WAITLIST_EMAIL_ERROR_ID = "waitlist-email-error";
 const WAITLIST_WHOLE_TRUCK_HINT_ID = "waitlist-want-whole-truck-hint";
 
 export function WaitlistForm() {
@@ -14,11 +28,12 @@ export function WaitlistForm() {
   const [wantWholeTruck, setWantWholeTruck] = useState(false);
   const [status, setStatus] = useState<Status>("idle");
   const [message, setMessage] = useState("");
+  const [emailError, setEmailError] = useState("");
   const statusRef = useRef<HTMLParagraphElement>(null);
 
   // Slice 12.38 — restore focus to the status line after submit settles.
   useEffect(() => {
-    if (status === "idle" || status === "loading") return;
+    if (status !== "created" && status !== "exists") return;
     statusRef.current?.focus();
   }, [status]);
 
@@ -34,14 +49,23 @@ export function WaitlistForm() {
 
   async function onSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
+    const clientError = contactEmailError(email);
+    if (clientError) {
+      setMessage("");
+      setEmailError(clientError);
+      setStatus("error");
+      return;
+    }
     setStatus("loading");
     setMessage("");
+    setEmailError("");
+    let next: Status = "error";
 
     try {
       const response = await fetch("/api/waitlist", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, wantWholeTruck }),
+        body: JSON.stringify({ email: email.trim(), wantWholeTruck }),
       });
       const data = (await response.json()) as {
         ok?: boolean;
@@ -51,22 +75,25 @@ export function WaitlistForm() {
 
       // Slice 6.5 — never paint success / "on the list" / "joined" unless ok.
       if (!response.ok || !data.ok) {
-        setStatus("error");
-        setMessage(data.error ?? PUBLIC_COPY.waitlist.failed);
+        setEmailError(contactSendError(data.error));
+        next = "error";
         return;
       }
 
-      setStatus(data.status === "exists" ? "exists" : "created");
+      next = data.status === "exists" ? "exists" : "created";
       setMessage(
         data.status === "exists"
           ? PUBLIC_COPY.waitlist.already
           : PUBLIC_COPY.waitlist.success,
       );
+      setEmailError("");
       setEmail("");
       setWantWholeTruck(false);
     } catch {
-      setStatus("error");
-      setMessage(PUBLIC_COPY.waitlist.failed);
+      setEmailError(PUBLIC_COPY.waitlist.failed);
+      next = "error";
+    } finally {
+      setStatus(next);
     }
   }
 
@@ -81,10 +108,10 @@ export function WaitlistForm() {
       data-testid="waitlist-form"
       noValidate
     >
-      <label className="sr-only" htmlFor="waitlist-email">
+      <label className="auth-label" htmlFor="waitlist-email">
         Email
       </label>
-      <div className="waitlist-row">
+      <div className="waitlist-row waitlist-contact-row">
         <input
           id="waitlist-email"
           name="email"
@@ -92,16 +119,32 @@ export function WaitlistForm() {
           autoComplete="email"
           required
           value={email}
-          onChange={(event) => setEmail(event.target.value)}
+          onChange={(event) => {
+            setEmail(event.target.value);
+            setEmailError("");
+            if (status === "error") setStatus("idle");
+          }}
           placeholder={PUBLIC_COPY.waitlist.placeholder}
           disabled={disabled}
           aria-invalid={isError ? true : undefined}
-          aria-describedby={WAITLIST_STATUS_ID}
+          aria-describedby={
+            emailError ? WAITLIST_EMAIL_ERROR_ID : WAITLIST_STATUS_ID
+          }
           data-testid="waitlist-email"
         />
         <button type="submit" disabled={disabled} data-testid="waitlist-submit">
-          {status === "loading" ? "Notifying…" : PUBLIC_COPY.waitlist.button}
+          {status === "loading" ? "Sending…" : PUBLIC_COPY.waitlist.button}
         </button>
+        {emailError ? (
+          <p
+            id={WAITLIST_EMAIL_ERROR_ID}
+            className="waitlist-field-error"
+            role="alert"
+            data-testid="waitlist-email-error"
+          >
+            {emailError}
+          </p>
+        ) : null}
       </div>
       {/* Slice 16.0e — whole-truck interest checkbox. Not pledged. */}
       <label className="waitlist-whole-truck" htmlFor="waitlist-want-whole-truck">
@@ -127,8 +170,8 @@ export function WaitlistForm() {
       <p
         ref={statusRef}
         id={WAITLIST_STATUS_ID}
-        className={`waitlist-msg ${isError ? "is-error" : "is-ok"}`}
-        role={isError ? "alert" : "status"}
+        className="waitlist-msg is-ok"
+        role="status"
         tabIndex={-1}
         data-testid="waitlist-status"
       >

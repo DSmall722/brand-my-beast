@@ -1,6 +1,6 @@
 import { ImageResponse } from "next/og";
 import { notFound } from "next/navigation";
-import { FLOOR_USD, GOAL_USD, PANELS, formatUsd } from "@/lib/campaign";
+import { FLOOR_USD, PANELS, formatUsd } from "@/lib/campaign";
 import { panelBoardMarkFor, panelSeatH1 } from "@/lib/panel-board";
 import { PUBLIC_COPY } from "@/lib/public-copy";
 
@@ -88,7 +88,6 @@ export default async function PanelOpenGraphImage({
           }}
         >
           <span>Floor {formatUsd(FLOOR_USD)}</span>
-          <span>Buyout {formatUsd(GOAL_USD)}</span>
         </div>
       </div>
     ),

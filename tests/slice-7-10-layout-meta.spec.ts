@@ -46,8 +46,10 @@ test.describe("slice 7.10: layout meta matches PUBLIC_COPY", () => {
     );
     expect(PUBLIC_COPY.meta.title).not.toMatch(/advertise on a Cybertruck/i);
     expect(PUBLIC_COPY.meta.description).toBe(
-      "Bid on one of 11 ad panels on a Cybertruck wrapped for 12 months and driven across South Carolina and the Southeast. Bidding opens Oct 6 at noon ET and closes Nov 2.",
+      "11 ad panels on one Cybertruck, wrapped for a year and driven across the Southeast. Bidding is open through Nov 2 at noon ET.",
     );
+    expect(PUBLIC_COPY.meta.description).not.toContain("opens Oct");
+    expect(PUBLIC_COPY.meta.description).not.toMatch(/[—–]/);
     expect(PUBLIC_COPY.meta.description).not.toMatch(/Bid on a panel/);
   });
 
@@ -70,8 +72,22 @@ test.describe("slice 7.10: layout meta matches PUBLIC_COPY", () => {
       "content",
       PUBLIC_COPY.meta.description,
     );
-    const html = (await page.content()).toLowerCase();
-    expect(html).not.toMatch(/\blease\b/);
-    expect(html).not.toContain("close_at");
+    await expect(page.locator('meta[property="og:description"]')).toHaveAttribute(
+      "content",
+      PUBLIC_COPY.meta.description,
+    );
+    await expect(page.locator('meta[name="twitter:description"]')).toHaveAttribute(
+      "content",
+      PUBLIC_COPY.meta.description,
+    );
+    const html = await page.content();
+    const lower = html.toLowerCase();
+    expect(lower).not.toMatch(/\blease\b/);
+    expect(lower).not.toContain("close_at");
+    expect(html).not.toContain("opens Oct");
+    const windowText = await page.getByTestId("campaign-window").innerText();
+    if (!windowText.startsWith("Bidding opens")) {
+      expect(html).not.toContain("Bidding opens");
+    }
   });
 });

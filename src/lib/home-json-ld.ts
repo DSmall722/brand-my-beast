@@ -87,7 +87,7 @@ export function buildHomeJsonLd(): HomeJsonLdGraph {
           },
           {
             "@type": "PropertyValue",
-            name: "Buyout",
+            name: "Fully funded",
             value: formatUsd(GOAL_USD),
           },
         ],

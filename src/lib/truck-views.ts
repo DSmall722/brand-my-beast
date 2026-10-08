@@ -142,31 +142,22 @@ const DRIVER_HOTSPOTS: readonly TruckHotspot[] = [
   },
   {
     panelId: "driver-rear-quarter",
+    // Invisible pad. Stays above the bed with a gap, tall enough for 44px at 390.
     points: pctPoints([
-      [56.3, 44.4],
-      [56.3, 37.2],
-      [66.0, 39.4],
-      [78.0, 42.2],
-      [88.5, 45.2],
-      [82.0, 51.0],
-      [66.0, 51.0],
+      [56.5, 26],
+      [86, 26],
+      [86, 47],
+      [56.5, 47],
     ]),
   },
   {
     panelId: "driver-bed",
+    // Below the sail. No shared edge. Tall enough for 44px at 390.
     points: pctPoints([
-      [56.3, 44.6],
-      [66.0, 51.2],
-      [82.0, 51.2],
-      [88.5, 45.6],
-      [90.5, 46.2],
-      [90.4, 59.5],
-      [79.2, 59.3],
-      [76.5, 55.8],
-      [65.2, 51.8],
-      [61.6, 57.0],
-      [60.2, 61.2],
-      [56.3, 61.4],
+      [70, 51.2],
+      [92, 51.2],
+      [92, 73.2],
+      [70, 73.2],
     ]),
   },
 ];
@@ -188,27 +179,22 @@ const PASSENGER_HOTSPOTS: readonly TruckHotspot[] = [
   },
   {
     panelId: "passenger-rear-quarter",
+    // Seat 8. Separated from seat 9. Tall enough for 44px at 390.
     points: pctPoints([
-      [7.8, 45.4],
-      [21.8, 45.4],
-      [22.0, 38.8],
+      [1, 20],
+      [21.5, 20],
+      [21.5, 42.5],
+      [1, 42.5],
     ]),
   },
   {
     panelId: "passenger-bed",
+    // Seat 9. Gap above seat 8. Tall enough for 44px at 390.
     points: pctPoints([
-      [3.2, 47.0],
-      [7.8, 45.4],
-      [21.8, 45.4],
-      [21.8, 70.0],
-      [19.8, 68.6],
-      [18.2, 64.0],
-      [16.6, 56.5],
-      [14.2, 53.2],
-      [8.4, 53.0],
-      [7.0, 58.0],
-      [5.8, 61.6],
-      [3.2, 61.5],
+      [1, 47],
+      [21.5, 47],
+      [21.5, 69],
+      [1, 69],
     ]),
   },
 ];

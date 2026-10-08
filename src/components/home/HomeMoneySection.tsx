@@ -6,6 +6,14 @@ import { FLOOR_USD, GOAL_USD, PANELS, formatUsd } from "@/lib/campaign";
 import { isWholeTruckIntentOpen } from "@/lib/intent-store";
 import { PUBLIC_COPY } from "@/lib/public-copy";
 
+function shortfallTickerLabel(shortfallFloor: number, openSeats: number): string {
+  const seats = openSeats === 1 ? "1 seat open" : `${openSeats} seats open`;
+  if (shortfallFloor === 0) {
+    return `The ${formatUsd(FLOOR_USD)} goal is funded; ${seats}.`;
+  }
+  return `${formatUsd(shortfallFloor)} still needed to fund the wrap; ${seats}.`;
+}
+
 type HomeMoneySectionProps = {
   raisedLabel: string;
   floorLabel: string;
@@ -86,8 +94,8 @@ export function HomeMoneySection({
             role="img"
             aria-label={
               pledgedUsd === 0
-                ? `Floor marker at ${floorLabel}. Buyout marker at ${goalLabel}.`
-                : `Visual vault: ${raisedLabel} of ${goalLabel}. Floor marker at ${floorLabel}. Buyout marker at ${goalLabel}.`
+                ? `Floor marker at ${floorLabel}.`
+                : `Visual vault: ${raisedLabel} of ${goalLabel}. Floor marker at ${floorLabel}.`
             }
           >
             <div className="progress-track" aria-hidden="true">
@@ -135,7 +143,7 @@ export function HomeMoneySection({
           <dl
             className="shortfall-ticker"
             data-testid="shortfall-ticker"
-            aria-label="Shortfall: dollars to floor and open seats. No impressions."
+            aria-label={shortfallTickerLabel(shortfallFloor, openSeats)}
           >
             {pledgedUsd > 0 ? (
             <div>
@@ -176,7 +184,7 @@ export function HomeMoneySection({
             </p>
           )}
           <AuctionLive model={auctionLive} />
-          <DayByDay model={dayByDay} showEmptyCopy={false} />
+          <DayByDay model={dayByDay} />
         </section>
   );
 }

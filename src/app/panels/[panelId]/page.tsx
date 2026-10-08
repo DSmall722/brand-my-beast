@@ -2,6 +2,7 @@ import Link from "next/link";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { DayByDay } from "@/components/home/DayByDay";
+import { HomeFooter } from "@/components/home/HomeFooter";
 import { SeatBidDesk } from "@/components/home/SeatBidDesk";
 import { IntentArtworkPreview } from "@/components/IntentArtworkPreview";
 import { IntentBidForm } from "@/components/IntentBidForm";
@@ -60,7 +61,7 @@ import { resolveSeatsOpen } from "@/lib/seats-open";
 type Params = Promise<{ panelId: string }>;
 
 /**
- * Slice 14.16 — per-panel Open Graph title `{Panel} — BrandMyBeast`.
+ * Slice 14.16. Per-panel Open Graph title `{Panel} | BrandMyBeast`.
  */
 export async function generateMetadata({
   params,
@@ -168,6 +169,10 @@ export default async function PanelIntentPage({
 
   const seatOpen = !activeHolder;
   const incrementUsd = activeHolder ? minIncrementUsd(activeHolder.standingUsd) : null;
+  const openingLabel =
+    panel.openingUsd === minimum
+      ? PUBLIC_COPY.bidDesk.openingPrice
+      : PUBLIC_COPY.bidDesk.openingFloor;
 
   return (
     <>
@@ -226,7 +231,7 @@ export default async function PanelIntentPage({
           data-increment-usd={incrementUsd ?? 0}
         >
           <div data-testid="panel-opening">
-            <dt>{PUBLIC_COPY.bidDesk.openingFloor}</dt>
+            <dt>{openingLabel}</dt>
             <dd>{formatUsd(panel.openingUsd)}</dd>
           </div>
           {paidUsd > 0 ? (
@@ -244,7 +249,7 @@ export default async function PanelIntentPage({
             </div>
           ) : null}
           <div>
-            <dt>Min next</dt>
+            <dt>{PUBLIC_COPY.bidDesk.minimumBid}</dt>
             <dd data-testid="panel-minimum">{formatIntegerUsd(minimum)}</dd>
           </div>
           {incrementUsd == null ? null : (
@@ -256,9 +261,9 @@ export default async function PanelIntentPage({
             </div>
           )}
           <div>
-            <dt>Deposit shown</dt>
+            <dt>Deposit due at bid</dt>
             <dd data-testid="panel-deposit-shown">
-              {DEPOSIT_PERCENT}% · {formatUsd(depositUsdForMark(depositShownUsd))}
+              {formatUsd(depositUsdForMark(depositShownUsd))} ({DEPOSIT_PERCENT}%)
             </dd>
           </div>
         </dl>
@@ -448,6 +453,7 @@ export default async function PanelIntentPage({
         </section>
         )}
       </main>
+      <HomeFooter />
     </>
   );
 }

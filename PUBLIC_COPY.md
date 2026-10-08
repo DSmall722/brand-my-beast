@@ -8,7 +8,7 @@ Locked: 2026-09-23 — 16 buyer FAQ, no “Who is this for,” $120k is the etch
 ## Meta
 
 - Title: `BrandMyBeast — Advertise your brand on the truck that people already photograph`
-- Description: `Bid on one of 11 ad panels on a Cybertruck wrapped for 12 months and driven across South Carolina and the Southeast. Bidding opens Oct 6 at noon ET and closes Nov 2.`
+- Description: `11 ad panels on one Cybertruck, wrapped for a year and driven across the Southeast. Bidding is open through Nov 2 at noon ET.`
 
 ## Header
 
@@ -22,33 +22,33 @@ Locked: 2026-09-23 — 16 buyer FAQ, no “Who is this for,” $120k is the etch
 - First CTA (arrow): `Bid on a Panel` → panel inventory
 - Second CTA (plain, no arrow): `Contact BMB` → Contact Us
 - Off-homepage CTA (404, error, sign-in): `Contact us`
-- Hero image label (alt): `Concept preview — BrandMyBeast house wrap. Seats are not sold yet.`
-- Hero caption: (omitted)
+- Hero image label (alt): `Example wrap on the BrandMyBeast truck. Seats are open for bids.`
+- Hero caption: `Example wrap. Your brand here.`
 
 ## Track the Auction
 
 - Heading: `Track the Auction`
 - Raised label: `Pledged so far`
 - Floor label: `Floor`
-- Floor hint: `Miss the floor and every bid is refunded.`
+- Floor hint: `Miss the $58,000 goal and every deposit is refunded.`
 - Buyout label: `Buyout`
 - Clock line when CLOSE_AT is null: `Bidding is not open. Nothing is charged on this page.`
-- Deposit line: `When bidding opens, 20% of the bid is charged. If you do not win, that deposit is refunded after close. A winner's deposit is credited to the invoice. Nothing is charged on this page.`
+- Deposit line: `20% of the bid is charged when you place it. If you do not win, that deposit is refunded after close. A winner's deposit is credited to the invoice. Nothing is charged on this page.`
 - Shortfall floor label: `Short of floor`
-- Shortfall buyout label: `Short of buyout`
+- Shortfall buyout label: `Short of fully funded`
 - Open seats label: `Open seats`
 - Vault floor mark label: `Floor`
-- Vault buyout mark label: `Buyout`
+- Vault buyout mark label: `Fully funded`
 - Vault empty (pledged $0): `No marks yet`
 - Seat legend: `Open seat = empty. Held seat = standing intent.`
-- Board truck image label (alt): `Stainless Cyberbeast preview. Numbers live on the board.`
+- Board truck image label (alt): `Cybertruck with the 11 ad panels outlined`
 - Want all panels: `Buy the Whole Truck`
 - Whole-truck heading: `Whole truck — $120,000`
 - Whole-truck lead: `One brand on every panel. Standing panel winners released. Nothing is charged on this page.`
-- Whole-truck amount label: `Buyout mark`
+- Whole-truck amount label: `Fully funded mark`
 - Whole-truck CTA: `List a whole-truck intent`
 - Whole-truck sign-in: `Sign in to list a whole-truck intent`
-- Whole-truck met: `Whole-truck buyout is met at $120,000. The field is closed. Still nothing charged on this page.`
+- Whole-truck met: `The campaign is fully funded at $120,000. The field is closed. Still nothing charged on this page.`
 
 The **Buy the Whole Truck** board button is not rendered on `/`. Whole-truck interest is the Contact Us checkbox only.
 
@@ -119,10 +119,10 @@ Buyer questions. No “Who is this for.” No wreck / totaled / last-second on `
 - Q: `Can I take more than one panel?` A: `Yes. Pick whatever panels your business needs to maximize this advertising opportunity.`
 - Q: `What if I want every panel?` A: `Check the box on the contact form. That starts a whole-truck conversation. It does not buy the board from this page.`
 - Q: `Bonus: Immortal Etch` A: `It only applies if total bids pass $120,000. Then winners on the nine stainless steel panels can choose to have their mark permanently etched for 3x their final bid for that panel. Bumpers stay wrap. Etch artwork must be bold and simple and is reviewed before approval. Once installed there is no cash refund of that finish.`
-- Q: `Do I need finished artwork to bid?` A: `A name and a logo is enough to stand. Final files come after you win — vector for wrap. Nothing gets cut until you’ve approved it.`
+- Q: `Do I need finished artwork to bid?` A: `A name and a logo is enough to stand. Final files come after you win. Use a vector for wrap. Nothing gets cut until you’ve approved it.`
 - Q: `What if the $58,000 floor is missed?` A: `Every deposit is refunded. No order. No wrap.`
-- Q: `When does this close?` A: `Bidding opens Tuesday, October 6, 2026 at 12:00 PM ET and closes Monday, November 2, 2026 at 12:00 PM ET. A bid in the last 10 minutes pushes the close back 10 minutes.`
-- Q: `Where does the truck actually run?` A: `Work miles in the Southeast — South Carolina most weeks (Charleston, Columbia, Greenville, Florence, Beaufort, Clemson and the roads between them), plus Atlanta, Charlotte, and the Florida panhandle when the job goes there.`
+- Q: `When does this close?` A: `Bidding closes Monday, November 2, 2026 at 12:00 PM ET. A bid in the last 10 minutes pushes the close back 10 minutes.`
+- Q: `Where does the truck actually run?` A: `Work miles in the Southeast. South Carolina most weeks (Charleston, Columbia, Greenville, Florence, Beaufort, Clemson and the roads between them), plus Atlanta, Charlotte, and the Florida panhandle when the job goes there.`
 - Q: `Will something I don’t want sitting next to my brand end up on this truck?` A: `No. We don’t take porn, hate, scams, or anything that can’t sit in a school line or a grocery lot. If you’re unsure about a category, email hello@brandmybeast.com before you bid.`
 - Q: `How do I start?` A: `Pick a panel. Twenty percent of the bid is charged when you place it. If you do not win, that deposit is refunded after close. A winner's deposit is credited to the invoice. Questions before that: hello@brandmybeast.com.`
 
@@ -139,7 +139,7 @@ Buyer questions. No “Who is this for.” No wreck / totaled / last-second on `
 - Button: `Contact BMB`
 - Idle note: `We only email when seats open.`
 - Retention: `Waitlist retention: until seats open or user deletes.`
-- Success: `You are on the list. We will email when bidding opens.`
+- Success: `Thanks. We will be in touch.`
 - Already: `That email is already on the list.`
 - Whole-truck checkbox label (slice 16.0b): `I want the whole truck`
 - Whole-truck checkbox hint (slice 16.0b): `Check this box when contacting BMB for information about becoming the exclusive brand advertised on the entire vehicle.`

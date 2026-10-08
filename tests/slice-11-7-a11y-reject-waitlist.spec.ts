@@ -65,21 +65,26 @@ test.describe("slice 11.7: a11y reject-note + waitlist field errors", () => {
     const email = page.getByTestId("waitlist-email");
     await expect(email).toHaveAttribute("aria-describedby", "waitlist-status");
 
-    await email.fill("not-an-email");
-    await Promise.all([
-      page.waitForResponse(
-        (res) =>
-          res.url().includes("/api/waitlist") && res.request().method() === "POST",
-      ),
-      page.getByTestId("waitlist-submit").click(),
-    ]);
+    let posts = 0;
+    await page.route("**/api/waitlist", (route) => {
+      if (route.request().method() === "POST") posts += 1;
+      return route.abort();
+    });
 
-    await expect(page.getByTestId("waitlist-status")).toHaveAttribute(
-      "role",
-      "alert",
+    await email.fill("not-an-email");
+    await page.getByTestId("waitlist-submit").click();
+
+    const fieldError = page.getByTestId("waitlist-email-error");
+    await expect(fieldError).toHaveAttribute("role", "alert");
+    await expect(fieldError).toHaveText(
+      "Enter a full email, like you@company.com.",
     );
+    expect(posts).toBe(0);
     await expect(email).toHaveAttribute("aria-invalid", "true");
-    await expect(page.getByTestId("waitlist-status")).not.toHaveText("");
+    await expect(email).toHaveAttribute("aria-describedby", /waitlist-email-error/);
+    await expect(page.getByTestId("waitlist-status")).not.toContainText(
+      await fieldError.innerText(),
+    );
     const html = await page.content();
     expect(html.toLowerCase()).not.toMatch(/\blease\b/);
     expect(html.toLowerCase()).not.toContain("gmail.com");

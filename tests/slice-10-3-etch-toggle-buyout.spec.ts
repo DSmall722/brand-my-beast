@@ -78,7 +78,7 @@ test.describe("slice 10.3: etch toggle locked under buyout", () => {
     await expect(page.getByTestId("etch-lock-copy")).toHaveCount(0);
     await expect(page.getByTestId("stainless-compositor-lead")).toHaveCount(0);
     await expect(page.getByTestId("seat-lead")).toContainText(
-      "Vinyl Wrap for 12 Months after Installation.",
+      "Vinyl wrap for 12 months after installation.",
     );
     await expect(page.getByTestId("seat-lead")).not.toContainText(
       "Immortal Etch",
@@ -100,7 +100,7 @@ test.describe("slice 10.3: etch toggle locked under buyout", () => {
     await expect(page.getByTestId("panel-mockup")).toHaveCount(0);
     await expect(page.getByTestId("compositor-mode-etch")).toHaveCount(0);
     await expect(page.getByTestId("seat-lead")).toHaveText(
-      "Vinyl Wrap is the only option available for the Bumper.",
+      "Wrap only. Vinyl wrap for 12 months after installation.",
     );
 
     const html = await page.content();

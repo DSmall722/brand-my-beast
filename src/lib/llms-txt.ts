@@ -27,7 +27,6 @@ export function buildLlmsTxt(): string {
     PUBLIC_COPY.board.floorHint,
     PUBLIC_COPY.board.buyoutLabel,
     PUBLIC_COPY.board.buyoutHint,
-    PUBLIC_COPY.board.clockWhenCloseNull,
     PUBLIC_COPY.board.depositLine,
     "",
     PUBLIC_COPY.panels.heading,
@@ -49,7 +48,7 @@ export function buildLlmsTxt(): string {
     PUBLIC_COPY.waitlist.idleNote,
     "",
     // Campaign locks — same numbers PUBLIC_COPY already prints; CLOSE_AT fence.
-    `Floor ${formatUsd(FLOOR_USD)}. Buyout ${formatUsd(GOAL_USD)}.`,
+    `Floor ${formatUsd(FLOOR_USD)}. Immortal Etch ${formatUsd(GOAL_USD)}.`,
     `Closes ${publishedCloseLabelEt()}.`,
     "Eleven numbered seats",
     ...PANEL_BOARD_MARKS.map((mark) => panelLegendLabel(mark)),

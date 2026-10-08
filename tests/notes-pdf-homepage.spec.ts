@@ -56,7 +56,7 @@ test.describe("notes PDF homepage sheet", () => {
 
     await expect(page.locator("#money-title")).toHaveText("Track the Auction");
     await expect(page.getByTestId("floor-hint")).toHaveText(
-      "Miss the floor and every bid is refunded.",
+      "Miss the $58,000 goal and every deposit is refunded.",
     );
     await expect(page.locator("#money .money-cell").nth(1).locator(".label")).toHaveText(
       "Floor",

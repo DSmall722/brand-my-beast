@@ -83,7 +83,7 @@ test.describe("slice 19.3: seat lead standing only when a mark exists", () => {
     await expect(lead).not.toContainText("Immortal Etch");
     await expect(lead).not.toContainText("Current Bid");
     await expect(lead).not.toContainText("Current standing");
-    await expect(page.getByTestId("panel-opening")).toContainText("Opening floor");
+    await expect(page.getByTestId("panel-opening")).toContainText("Opening price");
     await expect(page.getByTestId("panel-opening")).toContainText("$2,500");
     await expect(page.getByTestId("panel-standing")).toHaveCount(0);
     const visible = await page.locator("body").innerText();

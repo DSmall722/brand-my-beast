@@ -11,11 +11,12 @@ import {
 } from "../src/lib/campaign";
 import { findCloseAtViolations } from "../src/lib/close-at-null";
 import { findStripePackagesInRootPackageJson } from "../src/lib/no-stripe-package";
+import { panelDisplayName } from "../src/lib/panel-board";
 import { panelOpenGraphTitle } from "../src/lib/panel-open-graph";
 import { vercelJsonIsHoldOrMainOnlyRestore } from "../src/lib/vercel-git-deploy";
 
 /**
- * Slice 14.16 — Per-panel Open Graph title `{Panel} — BrandMyBeast`.
+ * Slice 14.16 — Per-panel Open Graph title `{Panel} | BrandMyBeast`.
  * CLOSE_AT null. No Stripe. No clock. Hold-mode untouched.
  */
 
@@ -40,12 +41,17 @@ test.describe("slice 14.16: per-panel Open Graph title", () => {
     expect(vercelJsonIsHoldOrMainOnlyRestore()).toBe(true);
   });
 
-  test("panelOpenGraphTitle uses em dash and BrandMyBeast", () => {
+  test("panelOpenGraphTitle uses a pipe and BrandMyBeast", () => {
     expect(PANELS.length).toBe(11);
     for (const panel of PANELS) {
-      expect(panelOpenGraphTitle(panel)).toBe(`${panel.name} — BrandMyBeast`);
+      expect(panelOpenGraphTitle(panel)).toBe(
+        `${panelDisplayName(panel.name)} | ${BRAND.name}`,
+      );
     }
-    expect(panelOpenGraphTitle({ name: "Hood" })).toBe("Hood — BrandMyBeast");
+    expect(panelOpenGraphTitle({ name: "Hood" })).toBe("Hood | BrandMyBeast");
+    expect(panelOpenGraphTitle({ name: "Rear bumper" })).toBe(
+      "Rear Bumper | BrandMyBeast",
+    );
   });
 
   test("panel page wires generateMetadata via panelOpenGraphTitle", () => {

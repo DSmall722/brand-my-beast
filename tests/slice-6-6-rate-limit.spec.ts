@@ -152,12 +152,15 @@ test.describe("slice 6.6: rate-limit waitlist + intent POSTs", () => {
     await page.getByTestId("waitlist-email").fill("slice66-ui@example.com");
     await page.getByTestId("waitlist-submit").click();
 
-    const status = page.getByTestId("waitlist-status");
-    await expect(status).toHaveText(PUBLIC_COPY.waitlist.rateLimited);
-    await expect(status).toHaveClass(/is-error/);
+    const error = page.getByTestId("waitlist-email-error");
+    await expect(error).toHaveText(PUBLIC_COPY.waitlist.rateLimited);
+    await expect(error).toHaveAttribute("role", "alert");
+    await expect(page.getByTestId("waitlist-status")).not.toContainText(
+      PUBLIC_COPY.waitlist.rateLimited,
+    );
     await expect(page.getByTestId("waitlist-next")).toHaveCount(0);
 
-    const text = (await status.innerText()).toLowerCase();
+    const text = (await error.innerText()).toLowerCase();
     expect(text).not.toMatch(/\bjoined\b/);
     expect(text).not.toMatch(/you are on the list/);
   });

@@ -754,6 +754,13 @@
   flex-wrap: wrap;
 }
 
+.waitlist-field-error {
+  flex: 1 0 100%;
+  margin: 0.25rem 0 0;
+  color: #ffb4a0;
+  font-size: 0.92rem;
+}
+
 .waitlist-whole-truck {
   display: flex;
   align-items: flex-start;
@@ -990,13 +997,77 @@
   line-height: 1.55;
 }
 
+.legal-stub-body a {
+  color: var(--signal);
+  text-decoration: underline;
+  text-underline-offset: 0.15em;
+}
+
 .fine-print {
   margin-top: 0.75rem;
   max-width: 62ch;
   line-height: 1.45;
 }
 
+.leaderboard-frame {
+  min-height: 100vh;
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+}
+
+.leaderboard-frame > main {
+  flex: 1 0 auto;
+}
+
+@media (min-width: 960px) {
+  main.leaderboard.shell > * {
+    width: min(100%, var(--desk-measure));
+    margin-inline: auto;
+  }
+
+  main.leaderboard.shell > a.btn {
+    width: auto;
+  }
+}
+
 @media (max-width: 720px) {
+  /* Match the 44px phone link so wordmark and Contact BMB share one centered row. */
+  .site-header .wordmark {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    line-height: 1;
+  }
+
+  .site-header .nav-link,
+  .leaderboard .eyebrow a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    padding-block: 0.7rem;
+    line-height: 1;
+  }
+
+  .site-footer-legal a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    padding-block: 0.6rem;
+  }
+
+  .waitlist-contact-row input {
+    order: 1;
+  }
+
+  .waitlist-contact-row .waitlist-field-error {
+    order: 2;
+  }
+
+  .waitlist-contact-row button {
+    order: 3;
+  }
+
   .site-footer {
     gap: 1.15rem;
     padding: 1.75rem 0 2.75rem;
@@ -2662,6 +2733,12 @@
   font: inherit;
 }
 
+@media (max-width: 720px) {
+  .truck-view-tab {
+    min-height: 44px;
+  }
+}
+
 .truck-view-tab:hover {
   border-color: color-mix(in oklab, var(--signal) 55%, white);
   background: color-mix(in oklab, white 8%, transparent);
@@ -2776,6 +2853,22 @@
 .truck-name-chip-link {
   pointer-events: auto;
 }
+.truck-seat-hit {
+  fill: transparent;
+  stroke: none;
+  pointer-events: all;
+}
+.truck-seat-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  padding: 0.65rem;
+}
+@media (min-width: 641px) {
+  .truck-seat-links {
+    display: none;
+  }
+}
 .truck-view-seats[data-polygons="hidden"] .truck-seat,
 .truck-view-seats[data-polygons="hidden"] .truck-seat.is-raw,
 .truck-view-seats[data-polygons="hidden"] .truck-seat.is-held,
@@ -2787,6 +2880,17 @@
   stroke: none;
   stroke-opacity: 0;
   stroke-width: 0;
+}
+.truck-view-seats[data-single-seat="true"] polygon.truck-seat.is-current {
+  fill: rgb(214 255 63 / 0.34);
+  stroke: var(--signal);
+  stroke-width: 2px;
+  pointer-events: all;
+}
+.truck-view-seats[data-single-seat="true"] polygon.truck-seat.is-dim {
+  fill: rgb(8 10 12 / 0.55);
+  stroke: none;
+  pointer-events: none;
 }
 @media (prefers-reduced-motion: reduce) {
   .truck-seat {
@@ -3019,6 +3123,19 @@
   font-family: var(--font-display), Syne, system-ui, sans-serif;
   letter-spacing: -0.04em;
   text-transform: uppercase;
+}
+
+.leaderboard > .section-lead {
+  margin-bottom: 1rem;
+}
+
+.leaderboard > .section-lead:has(+ .btn-signal) {
+  margin-bottom: 0;
+}
+
+.leaderboard > .btn-signal {
+  min-height: 44px;
+  margin-top: 1rem;
 }
 
 .auction-top-list,
@@ -3296,6 +3413,17 @@ body:has(.bid-modal-root) {
   color: var(--steel-100);
   font: inherit;
   cursor: pointer;
+}
+
+@media (max-width: 640px) {
+  .bid-modal-close {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 44px;
+    min-height: 44px;
+    padding: 0 0.5rem;
+  }
 }
 
 .bid-modal-note {

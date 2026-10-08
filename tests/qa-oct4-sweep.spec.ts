@@ -1,6 +1,6 @@
 import { expect, test } from "@playwright/test";
 import { pledgedUsdForPanel } from "../src/lib/intent";
-import { PUBLIC_COPY } from "../src/lib/public-copy";
+import { PUBLIC_COPY, leaderboardEmptyCopy } from "../src/lib/public-copy";
 
 test.describe("Oct 4 QA sweep", () => {
   test.beforeEach(async ({ request }) => {
@@ -45,7 +45,9 @@ test.describe("Oct 4 QA sweep", () => {
     expect(body.code).toBe("bidding_closed");
 
     await page.goto("/leaderboard");
-    await expect(page.getByTestId("leaderboard-empty")).toHaveText("No bids yet.");
+    await expect(page.getByTestId("leaderboard-empty")).toContainText(
+      leaderboardEmptyCopy(),
+    );
     await expect(page.getByTestId("leaderboard-page")).not.toContainText(
       "Should Not List",
     );
@@ -59,7 +61,8 @@ test.describe("Oct 4 QA sweep", () => {
     const history = page.getByTestId("day-by-day");
     await expect(history).toHaveAttribute("data-source", "live");
     await expect(history).toHaveAttribute("data-empty", "true");
-    await expect(history.getByTestId("day-by-day-empty")).toHaveCount(0);
+    await expect(history.getByTestId("day-by-day-empty")).toHaveText("No bids yet.");
+    await expect(history).not.toContainText("Be the first");
     await expect(
       page.getByText(PUBLIC_COPY.bidDesk.todayEmpty, { exact: true }),
     ).toHaveCount(1);
@@ -75,7 +78,9 @@ test.describe("Oct 4 QA sweep", () => {
     );
 
     await page.goto("/leaderboard");
-    await expect(page.getByTestId("leaderboard-empty")).toHaveText("No bids yet.");
+    await expect(page.getByTestId("leaderboard-empty")).toContainText(
+      leaderboardEmptyCopy(),
+    );
     await expect(page.getByTestId("leaderboard-page")).not.toContainText(
       "Sample Mark",
     );
@@ -89,12 +94,10 @@ test.describe("Oct 4 QA sweep", () => {
       "data-empty",
       "true",
     );
-    await expect(page.getByTestId("day-by-day-empty")).toHaveText(
-      PUBLIC_COPY.bidDesk.todayEmpty,
-    );
+    await expect(page.getByTestId("day-by-day-empty")).toHaveText("No bids yet.");
     await expect(page.getByTestId("day-by-day")).not.toContainText("Sample Mark");
     await expect(page.getByTestId("panel-increment")).toHaveCount(0);
-    await expect(page.getByTestId("panel-opening")).toContainText("Opening floor");
+    await expect(page.getByTestId("panel-opening")).toContainText("Opening price");
     await expect(page.getByTestId("panel-opening")).toContainText("$2,500");
     await expect(page.getByTestId("panel-standing")).toHaveCount(0);
   });

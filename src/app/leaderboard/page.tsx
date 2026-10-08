@@ -2,15 +2,16 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { PublicMark } from "@/components/PublicMark";
 import { SiteChrome } from "@/components/SiteChrome";
+import { HomeFooter } from "@/components/home/HomeFooter";
 import { buildLeaderboard } from "@/lib/auction-board";
 import { BRAND, PANELS, formatUsd } from "@/lib/campaign";
 import { listBidsForPanel } from "@/lib/intent-store";
-import { PUBLIC_COPY } from "@/lib/public-copy";
+import { PUBLIC_COPY, leaderboardEmptyCopy } from "@/lib/public-copy";
 
 export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
-  title: `${PUBLIC_COPY.bidDesk.leaderboardHeading} — ${BRAND.name}`,
+  title: `Leaderboard | ${BRAND.name}`,
 };
 
 export default async function LeaderboardPage() {
@@ -26,7 +27,7 @@ export default async function LeaderboardPage() {
   const brandWord = board.brandCount === 1 ? "brand" : "brands";
 
   return (
-    <>
+    <div className="leaderboard-frame">
       <SiteChrome />
       <main
         id="main-content"
@@ -39,9 +40,18 @@ export default async function LeaderboardPage() {
         </p>
         <h1>{copy.leaderboardHeading}</h1>
         {empty ? (
-          <p className="section-lead" data-testid="leaderboard-empty">
-            {copy.leaderboardEmpty}
-          </p>
+          <>
+            <p className="section-lead" data-testid="leaderboard-empty">
+              {leaderboardEmptyCopy()}
+            </p>
+            <Link
+              href="/#panels"
+              className="btn btn-signal"
+              data-testid="leaderboard-panels-link"
+            >
+              {copy.leaderboardSeePanels}
+            </Link>
+          </>
         ) : (
           <>
             <p className="section-lead" data-testid="leaderboard-count">
@@ -93,6 +103,7 @@ export default async function LeaderboardPage() {
           </>
         )}
       </main>
-    </>
+      <HomeFooter />
+    </div>
   );
 }

@@ -36,7 +36,7 @@ const ROOT = process.cwd();
 const LOCKED_LABELS = [
   "(1) Hood",
   "(2) Front Fascia",
-  "(3) Front bumper",
+  "(3) Front Bumper",
   "(4) Driver Side Doors",
   "(5) Driver Rear Sail",
   "(6) Driver Side Bed",
@@ -44,7 +44,7 @@ const LOCKED_LABELS = [
   "(8) Passenger Rear Sail",
   "(9) Passenger Side Bed",
   "(10) Tailgate",
-  "(11) Rear bumper",
+  "(11) Rear Bumper",
 ] as const;
 
 function jpegSize(buf: Buffer): { width: number; height: number } {
@@ -263,7 +263,7 @@ test.describe("hybrid panel training UX", () => {
     );
     await expect(page.getByTestId("truck-seat-front-bumper")).toHaveAttribute(
       "data-seat-label",
-      "(3) Front bumper",
+      "(3) Front Bumper",
     );
     await expect(page.getByTestId("truck-seat-label-hood")).toHaveCount(0);
     await expect(page.getByTestId("truck-seat-driver-door")).toHaveCount(0);
@@ -346,7 +346,7 @@ test.describe("hybrid panel training UX", () => {
     );
     await expect(page.getByTestId("truck-seat-front-bumper")).toHaveAttribute(
       "data-seat-label",
-      "(3) Front bumper",
+      "(3) Front Bumper",
     );
     await expect(page.getByTestId("truck-seat-label-hood")).toHaveCount(0);
 
@@ -460,7 +460,7 @@ test.describe("hybrid panel training UX", () => {
       { tab: "truck-view-passenger", x: 38, y: 58, seat: "truck-seat-passenger-door" },
       { tab: "truck-view-passenger", x: 18, y: 42, seat: "truck-seat-passenger-rear-quarter" },
       { tab: "truck-view-passenger", x: 20, y: 55, seat: "truck-seat-passenger-bed" },
-      { tab: "truck-view-passenger", x: 12, y: 62, seat: null },
+      { tab: "truck-view-passenger", x: 12, y: 90, seat: null },
       { tab: "truck-view-passenger", x: 70, y: 55, seat: null },
     ] as const;
 
@@ -518,10 +518,10 @@ test.describe("hybrid panel training UX", () => {
 
     const hoodPoly = page.getByTestId("truck-seat-hood").locator("polygon");
     const activeFill = await hoodPoly.evaluate((el) => getComputedStyle(el).fill);
-    expect(fillAlpha(activeFill), activeFill).toBe(0);
+    expect(fillAlpha(activeFill), activeFill).toBeGreaterThan(0.2);
 
     await expect(page.getByTestId("seat-lead")).toContainText(
-      "Vinyl Wrap for 12 Months after Installation.",
+      "Vinyl wrap for 12 months after installation.",
     );
     await expect(page.getByTestId("etch-lock-copy")).toHaveCount(0);
     await expect(page.getByTestId("panel-mockup")).toHaveCount(0);

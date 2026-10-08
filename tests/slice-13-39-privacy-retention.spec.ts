@@ -57,7 +57,13 @@ test.describe("slice 13.39: privacy waitlist retention", () => {
     await page.goto("/privacy");
     await expect(page.getByTestId("privacy-page")).toBeVisible();
     await expect(page.getByTestId("privacy-retention")).toContainText(
-      "until seats open",
+      "Contact emails are kept until we have answered or you ask us to delete them.",
+    );
+    await expect(page.getByTestId("privacy-retention")).toContainText(
+      "while we run the auction and contact winners",
+    );
+    await expect(page.getByTestId("privacy-retention")).toContainText(
+      "Server logs are kept only as long as needed for security and operations.",
     );
     await expect(page.getByTestId("privacy-contact")).toContainText(BRAND.email);
     await expect(page.getByTestId("privacy-waitlist")).toHaveCount(0);
@@ -67,6 +73,7 @@ test.describe("slice 13.39: privacy waitlist retention", () => {
     expect(html).toContain("BrandMyBeast");
     expect(html.toLowerCase()).not.toMatch(/\blease\b/);
     expect(html).not.toContain("CLOSE_AT");
-    expect(html.toLowerCase()).not.toMatch(/stripe/);
+    expect(html).toContain("https://stripe.com/privacy");
+    expect(html).toContain("full card numbers");
   });
 });

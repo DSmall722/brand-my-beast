@@ -14,7 +14,7 @@ import {
   isPendingPublicBid,
   pledgedUsdForPanel,
 } from "../src/lib/intent";
-import { PUBLIC_COPY } from "../src/lib/public-copy";
+import { PUBLIC_COPY, leaderboardEmptyCopy } from "../src/lib/public-copy";
 import { buildPublicSeatLog } from "../src/lib/seat-log";
 
 function mark(overrides: Partial<IntentBid> & Pick<IntentBid, "id" | "panelId" | "standingUsd" | "status" | "createdAt">): IntentBid {
@@ -319,7 +319,8 @@ test.describe("bid desk: modal, hidden sign-in, unpaid, day by day", () => {
     await expect(history).toHaveAttribute("data-source", "live");
     await expect(history).toHaveAttribute("data-empty", "true");
     await expect(history.getByRole("heading", { name: "Day by day" })).toBeVisible();
-    await expect(history.getByTestId("day-by-day-empty")).toHaveCount(0);
+    await expect(history.getByTestId("day-by-day-empty")).toHaveText("No bids yet.");
+    await expect(history).not.toContainText("Be the first");
     await expect(
       page.getByText(PUBLIC_COPY.bidDesk.todayEmpty, { exact: true }),
     ).toHaveCount(1);
@@ -335,7 +336,7 @@ test.describe("bid desk: modal, hidden sign-in, unpaid, day by day", () => {
     await expect(hoodEmpty).toHaveAttribute("data-source", "live");
     await expect(hoodEmpty).toHaveAttribute("data-empty", "true");
     await expect(hoodEmpty.getByTestId("day-by-day-empty")).toHaveText(
-      PUBLIC_COPY.bidDesk.todayEmpty,
+      "No bids yet.",
     );
     await expect(hoodEmpty.locator(".day-by-day-list")).toHaveCount(0);
     await expect(hoodEmpty).not.toContainText("Sample Mark");
@@ -351,7 +352,7 @@ test.describe("bid desk: modal, hidden sign-in, unpaid, day by day", () => {
       "No standing bids yet.",
     );
     await expect(page.getByTestId("auction-today")).toContainText(
-      "No bid or outbid yet today. Be the first.",
+      "No bids today yet. Be the first.",
     );
     await expect(page.getByTestId("auction-top")).toContainText("Top brands");
     await expect(page.getByTestId("leaderboard-link")).toHaveAttribute(
@@ -368,7 +369,9 @@ test.describe("bid desk: modal, hidden sign-in, unpaid, day by day", () => {
       "data-empty",
       "true",
     );
-    await expect(page.getByTestId("leaderboard-empty")).toHaveText("No bids yet.");
+    await expect(page.getByTestId("leaderboard-empty")).toContainText(
+      leaderboardEmptyCopy(),
+    );
     await expect(page.getByTestId("leaderboard-page")).not.toContainText("unpaid");
     await page.goto("/");
 
@@ -378,7 +381,7 @@ test.describe("bid desk: modal, hidden sign-in, unpaid, day by day", () => {
     await expect(modal).toBeVisible();
     await expect(modal).toHaveAttribute("data-bid-window", "closed");
     await expect(page.getByTestId("bid-modal-panel")).toHaveValue("hood");
-    await expect(modal).toContainText("Opening floor");
+    await expect(modal).toContainText("Opening price");
     await expect(modal).not.toContainText("Current bid");
     await expect(page.getByTestId("bid-modal-current")).toHaveText("$2,500");
     await expect(page.getByTestId("bid-modal-minimum")).toHaveText("$2,500");

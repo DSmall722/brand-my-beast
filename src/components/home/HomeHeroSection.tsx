@@ -52,6 +52,9 @@ export function HomeHeroSection({
           </div>
           <div className="hero-overlay">
             <div className="hero-copy">
+              <p className="hero-preview-label" data-testid="hero-caption">
+                {PUBLIC_COPY.hero.caption}
+              </p>
               <h1 id="hero-title">{PUBLIC_COPY.hero.h1}</h1>
             </div>
             <div className="hero-actions">
