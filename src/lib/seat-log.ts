@@ -5,7 +5,12 @@
  */
 
 import { formatUsd } from "./campaign";
-import { isLiveIntentBid, type IntentBid } from "./intent";
+import {
+  hasPaidDeposit,
+  isFloorSaveBid,
+  isLiveIntentBid,
+  type IntentBid,
+} from "./intent";
 import { panelBoardMarkFor, panelLegendLabel } from "./panel-board";
 
 /** Public seat log display timezone (Eastern). */
@@ -68,11 +73,23 @@ export function formatCampaignInstantEt(iso: string): string {
  * Build public seat log rows from panel bids.
  * Newest first. Never includes email or userId.
  */
+const PUBLIC_LOG_STATUSES = new Set<IntentBid["status"]>([
+  "listed",
+  "approved",
+  "outbid",
+]);
+
 export function buildPublicSeatLog(
   bids: readonly IntentBid[],
 ): PublicSeatLogEntry[] {
   return bids
-    .filter(isLiveIntentBid)
+    .filter(
+      (bid) =>
+        isLiveIntentBid(bid) &&
+        hasPaidDeposit(bid) &&
+        PUBLIC_LOG_STATUSES.has(bid.status) &&
+        !isFloorSaveBid(bid),
+    )
     .slice()
     .sort((a, b) => b.createdAt.localeCompare(a.createdAt))
     .map((bid) => {

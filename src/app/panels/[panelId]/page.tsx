@@ -28,9 +28,6 @@ import {
 import {
   countsAsPublicStanding,
   depositUsdForMark,
-  isFloorSaveBid,
-  isLiveIntentBid,
-  isPendingPublicBid,
   minIncrementUsd,
   nextStandingUsd,
   pledgedUsdForPanel,
@@ -143,21 +140,12 @@ export default async function PanelIntentPage({
   const paidHolder = bids
     .filter(countsAsPublicStanding)
     .sort((a, b) => b.standingUsd - a.standingUsd)[0];
-  const activeHolder = bids.find(
-    (bid) =>
-      isLiveIntentBid(bid) &&
-      (bid.status === "listed" || bid.status === "approved") &&
-      !isFloorSaveBid(bid),
-  );
-  const pendingBid = bids
-    .filter(isPendingPublicBid)
-    .sort((a, b) => b.standingUsd - a.standingUsd)[0];
   const paidUsd = pledgedUsdForPanel(bids);
   const depositShownUsd = paidUsd > 0 ? paidUsd : panel.openingUsd;
   const seatLog = buildPublicSeatLog(bids);
   const dayByDay = buildDayByDay(ledger, { panelId: panel.id });
   const quotes: BidPanelQuote[] = PANELS.map((row) => {
-    const held = activeMarks.get(row.id);
+    const held = paidHolders.get(row.id);
     const current = currentBidUsd(row.openingUsd, held?.standingUsd);
     return {
       id: row.id,
@@ -168,8 +156,8 @@ export default async function PanelIntentPage({
     };
   });
 
-  const seatOpen = !activeHolder;
-  const incrementUsd = activeHolder ? minIncrementUsd(activeHolder.standingUsd) : null;
+  const seatOpen = !paidHolder;
+  const incrementUsd = paidHolder ? minIncrementUsd(paidHolder.standingUsd) : null;
   const openingLabel =
     panel.openingUsd === minimum
       ? PUBLIC_COPY.bidDesk.openingPrice
@@ -237,14 +225,6 @@ export default async function PanelIntentPage({
             <div>
               <dt>Standing</dt>
               <dd data-testid="panel-standing">{formatUsd(paidUsd)}</dd>
-            </div>
-          ) : null}
-          {pendingBid ? (
-            <div>
-              <dt>{PUBLIC_COPY.bidDesk.pending}</dt>
-              <dd data-testid="panel-pending">
-                {formatUsd(pendingBid.standingUsd)}
-              </dd>
             </div>
           ) : null}
           <div>

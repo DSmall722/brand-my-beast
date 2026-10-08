@@ -24,7 +24,7 @@ export default async function BidReturnPage({
       <p className="section-lead" data-testid="bid-return-status">
         {paid && bid
           ? `Deposit received for ${bid.brandLabel} at ${formatUsd(bid.standingUsd)}. It counts on the board. If you win, this deposit is credited to the invoice.`
-          : "The deposit is not marked paid yet. The board updates when the payment notice arrives. Refresh this page in a moment."}
+          : "Your bid counts on the board once the deposit is confirmed. Refresh in a moment."}
       </p>
       <p>
         <Link className="btn btn-panel" href="/">

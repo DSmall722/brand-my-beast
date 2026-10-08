@@ -73,7 +73,6 @@ export function DayByDay({
                       <time>{row.timeLabel}</time>
                       <span>{row.brandLabel}</span>
                       {showPanel ? <span>{row.panelName}</span> : null}
-                      {row.pending ? <span>{copy.pending}</span> : null}
                       <span>{formatDayMoney(row.amountUsd)}</span>
                     </li>
                   ))}
