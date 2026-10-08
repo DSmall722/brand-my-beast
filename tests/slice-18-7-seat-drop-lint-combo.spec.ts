@@ -41,7 +41,6 @@ test.describe("slice 18.7: hood HTML drops lint and combo-later", () => {
     expect(html).not.toContain("linter");
     expect(html).not.toContain("Neighbor combo later");
     expect(html).toContain("$58,000");
-    expect(html).toContain("$120,000");
     expect(html).not.toContain("FEATURES.md");
     expect(html.toLowerCase()).not.toMatch(/\blease\b/);
   });

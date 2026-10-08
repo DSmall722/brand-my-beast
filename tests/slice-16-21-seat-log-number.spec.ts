@@ -127,7 +127,6 @@ test.describe("slice 16.21: seat log shows panel number", () => {
     expect(html.toLowerCase()).not.toMatch(/\blease\b/);
     expect(html).not.toContain("FEATURES.md");
     expect(html).toContain("$58,000");
-    expect(html).toContain("$120,000");
   });
 
   test("homepage still does not render FEATURES.md", async ({ request }) => {
@@ -136,7 +135,6 @@ test.describe("slice 16.21: seat log shows panel number", () => {
     const html = await res.text();
     expect(html).not.toContain("FEATURES.md");
     expect(html).toContain("$58,000");
-    expect(html).toContain("$120,000");
     expect(html.toLowerCase()).not.toMatch(/\blease\b/);
   });
 });

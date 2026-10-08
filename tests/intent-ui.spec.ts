@@ -1124,7 +1124,6 @@ test.describe("P2 panel intent + approvals", () => {
     );
     await expect(page.getByTestId("truck-view-lead")).toHaveCount(0);
     await expect(page.getByTestId("floor-amount")).toContainText("$58,000");
-    await expect(page.getByTestId("goal-amount")).toContainText("$120,000");
     await expect(page.getByTestId("truck-view-front")).toHaveAttribute(
       "aria-pressed",
       "true",

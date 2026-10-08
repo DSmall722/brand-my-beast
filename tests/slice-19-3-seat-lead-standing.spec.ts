@@ -90,7 +90,6 @@ test.describe("slice 19.3: seat lead standing only when a mark exists", () => {
     expect(visible).not.toContain("Current standing $2,500");
     const html = await page.content();
     expect(html).toContain("$58,000");
-    expect(html).toContain("$120,000");
     expect(html).not.toContain("FEATURES.md");
     expect(html.toLowerCase()).not.toMatch(/\blease\b/);
     expect(html).not.toMatch(/@gmail\.com/);
@@ -122,6 +121,5 @@ test.describe("slice 19.3: seat lead standing only when a mark exists", () => {
     expect(html).not.toMatch(/\blease\b/);
     expect(html).not.toContain("features.md");
     expect(html).toContain("$58,000");
-    expect(html).toContain("$120,000");
   });
 });

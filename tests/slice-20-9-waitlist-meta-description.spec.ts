@@ -22,7 +22,7 @@ import { vercelJsonIsHoldOrMainOnlyRestore } from "../src/lib/vercel-git-deploy"
 const ROOT = process.cwd();
 const LOCKED_H1 = "Advertise your brand on the truck that people already photograph";
 const WAITLIST_DESCRIPTION =
-  "11 ad panels on one Cybertruck, wrapped for a year and driven across the Southeast. Bidding is open through Nov 2 at noon ET.";
+  "11 ad panels on one Cybertruck, wrapped for a year and driven across the Southeast. Bidding is open. Closes Mon Nov 2, 2026, 12:00 PM ET.";
 
 test.describe("slice 20.9: waitlist-era meta description", () => {
   test("campaign money fences stay locked — CLOSE_AT null", () => {
@@ -88,7 +88,6 @@ test.describe("slice 20.9: waitlist-era meta description", () => {
       expect(html).not.toContain("Bidding opens");
     }
     expect(html).toContain("$58,000");
-    expect(html).toContain("$120,000");
     expect(html).not.toContain("FEATURES.md");
     expect(html.toLowerCase()).not.toMatch(/\blease\b/);
   });

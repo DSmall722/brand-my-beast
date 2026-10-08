@@ -8,7 +8,7 @@ Locked: 2026-09-23 — 16 buyer FAQ, no “Who is this for,” $120k is the etch
 ## Meta
 
 - Title: `BrandMyBeast — Advertise your brand on the truck that people already photograph`
-- Description: `11 ad panels on one Cybertruck, wrapped for a year and driven across the Southeast. Bidding is open through Nov 2 at noon ET.`
+- Description: `11 ad panels on one Cybertruck, wrapped for a year and driven across the Southeast. Bidding is open. Closes Mon Nov 2, 2026, 12:00 PM ET.`
 
 ## Header
 

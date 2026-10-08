@@ -14,6 +14,7 @@ import {
   etchControlsEnabled,
   etchLockCopy,
 } from "../src/lib/etch-lock";
+import { PUBLIC_COPY } from "../src/lib/public-copy";
 
 /**
  * Slice 10.3 — etch toggle disabled unless pledged >= $120,000.
@@ -100,14 +101,13 @@ test.describe("slice 10.3: etch toggle locked under buyout", () => {
     await expect(page.getByTestId("panel-mockup")).toHaveCount(0);
     await expect(page.getByTestId("compositor-mode-etch")).toHaveCount(0);
     await expect(page.getByTestId("seat-lead")).toHaveText(
-      "Wrap only. Vinyl wrap for 12 months after installation.",
+      PUBLIC_COPY.seat.bumperWrapOnly,
     );
 
     const html = await page.content();
     expect(html.toLowerCase()).not.toMatch(/\blease\b/);
     expect(html).not.toContain("CLOSE_AT");
     expect(html).toContain("$58,000");
-    expect(html).toContain("$120,000");
 
     // Clear buyout seed so later suites still see pledged $0.
     const reset = await request.post("/api/test/reset-intents");

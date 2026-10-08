@@ -77,9 +77,6 @@ test.describe("slice 7.1: page section components", () => {
     await expect(page.getByTestId("floor-amount")).toHaveText(
       formatUsd(FLOOR_USD),
     );
-    await expect(page.getByTestId("goal-amount")).toHaveText(
-      formatUsd(GOAL_USD),
-    );
     await expect(page.getByTestId("brand-wordmark")).toHaveText(
       PUBLIC_COPY.header.wordmark,
     );

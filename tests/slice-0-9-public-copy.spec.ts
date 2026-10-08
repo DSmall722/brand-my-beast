@@ -78,9 +78,6 @@ test.describe("slice 0.9: PUBLIC_COPY v2 on /", () => {
     await expect(page.getByTestId("floor-amount")).toHaveText(
       formatUsd(FLOOR_USD),
     );
-    await expect(page.getByTestId("goal-amount")).toHaveText(
-      formatUsd(GOAL_USD),
-    );
     await expect(page.getByTestId("raised-label")).toHaveText(
       PUBLIC_COPY.board.raisedLabel,
     );

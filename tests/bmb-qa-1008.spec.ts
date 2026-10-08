@@ -247,4 +247,68 @@ test.describe("BMB-QA-1008", () => {
     expect(panels.height).toBeGreaterThanOrEqual(44);
     expect(panels.width).toBeGreaterThanOrEqual(44);
   });
+
+  test("phone home does not overflow and the floor label is fully on the bar", async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width: 390, height: 844 });
+    await page.goto("/");
+    const overflow = await page.evaluate(() => ({
+      scrollWidth: document.documentElement.scrollWidth,
+      clientWidth: document.documentElement.clientWidth,
+    }));
+    expect(overflow.scrollWidth).toBeLessThanOrEqual(391);
+    const label = page.getByTestId("vault-floor-label");
+    await expect(label).toContainText("$58,000");
+    const labelBox = await box(label);
+    const well = await box(page.getByTestId("vault-legend"));
+    expect(labelBox.x).toBeGreaterThanOrEqual(well.x - 1);
+    expect(labelBox.x + labelBox.width).toBeLessThanOrEqual(well.x + well.width + 1);
+  });
+
+  test("bid modal drops logo and website fields and names the logo email", async ({
+    page,
+    request,
+  }) => {
+    const reset = await request.post("/api/test/reset-intents");
+    expect(reset.ok()).toBeTruthy();
+    const opened = await request.post("/api/test/campaign-clock", {
+      data: { live: true, now: "2026-10-06T16:00:00.000Z" },
+    });
+    expect(opened.ok()).toBeTruthy();
+    await page.goto("/");
+    await page.getByTestId("panel-link-hood").click();
+    const modal = page.getByTestId("bid-modal");
+    await expect(modal).toBeVisible();
+    await expect(page.getByTestId("bid-modal-logo")).toHaveCount(0);
+    await expect(page.getByTestId("bid-modal-website")).toHaveCount(0);
+    await expect(page.getByTestId("bid-modal-logo-send")).toHaveText(
+      PUBLIC_COPY.bidDesk.logoSend,
+    );
+    await request.post("/api/test/campaign-clock", { data: { reset: true } });
+  });
+
+  test("passenger chip hit boxes (8) and (9) do not intersect", async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width: 390, height: 844 });
+    await page.goto("/");
+    await page.getByTestId("truck-view-passenger").click();
+    const eight = await box(
+      page.locator(
+        "a.truck-name-chip-link[data-seat-id='passenger-rear-quarter'] .truck-name-chip-hit",
+      ),
+    );
+    const nine = await box(
+      page.locator(
+        "a.truck-name-chip-link[data-seat-id='passenger-bed'] .truck-name-chip-hit",
+      ),
+    );
+    const overlap =
+      eight.x < nine.x + nine.width &&
+      eight.x + eight.width > nine.x &&
+      eight.y < nine.y + nine.height &&
+      eight.y + eight.height > nine.y;
+    expect(overlap).toBe(false);
+  });
 });

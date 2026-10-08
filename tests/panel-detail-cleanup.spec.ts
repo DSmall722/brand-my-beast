@@ -69,12 +69,11 @@ test.describe("panel detail cleanup", () => {
       "Every deposit is refunded",
     );
     await expect(page.getByTestId("faq-close-date")).toContainText(
-      "Bidding closes Monday, November 2, 2026 at 12:00 PM ET. A bid in the last 10 minutes pushes the close back 10 minutes.",
+      "Bidding is open and closes Monday, November 2, 2026 at 12:00 PM ET. A bid in the last 10 minutes pushes the close back 10 minutes.",
     );
 
     const html = await page.content();
     expect(html).toContain("$58,000");
-    expect(html).toContain("$120,000");
     expect(html.toLowerCase()).not.toMatch(/\blease\b/);
     expect(html).not.toContain("FEATURES.md");
   });

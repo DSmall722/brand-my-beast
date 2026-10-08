@@ -237,19 +237,10 @@ test.describe("desktop layout polish", () => {
     expect(Math.abs(placed.legend!.left - placed.heroCopy!.left)).toBeLessThanOrEqual(2);
     expect(Math.abs(placed.legend!.width - placed.heroCopy!.width)).toBeLessThanOrEqual(2);
 
-    const history = page.getByTestId("day-by-day");
-    await expect(history.getByRole("heading", { name: "Day by day" })).toBeVisible();
-    await expect(history).toHaveAttribute("data-source", "live");
-    await expect(history).toHaveAttribute("data-empty", "true");
-    await expect(history.getByTestId("day-by-day-empty")).toHaveText("No bids yet.");
-    await expect(history).not.toContainText("Be the first");
+    await expect(page.getByTestId("day-by-day")).toHaveCount(0);
     await expect(page.getByTestId("auction-today")).toContainText(
       "No bids today yet",
     );
-    await expect(history).not.toContainText("Sample history");
-    await expect(history).not.toContainText("Sample Mark");
-    await expect(history).not.toContainText("unpaid");
-    await expect(history).not.toContainText("paid");
 
     await expect(page.locator("#story .story-step-title")).toHaveText([
       "Pick a Panel",

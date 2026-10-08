@@ -6,8 +6,9 @@ import { PUBLIC_COPY } from "@/lib/public-copy";
 
 function contactEmailError(value: string): string {
   const trimmed = value.trim();
+  if (!trimmed) return "Enter your email address.";
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(trimmed)) {
-    return "Enter a valid email address.";
+    return "Enter a full email, like you@company.com.";
   }
   return "";
 }

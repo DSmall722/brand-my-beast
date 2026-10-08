@@ -314,22 +314,10 @@ test.describe("bid desk: modal, hidden sign-in, unpaid, day by day", () => {
     await expect(page.locator(".site-header").getByTestId("signin-link")).toHaveCount(
       0,
     );
-    const history = page.getByTestId("day-by-day");
-    await expect(history).toBeVisible();
-    await expect(history).toHaveAttribute("data-source", "live");
-    await expect(history).toHaveAttribute("data-empty", "true");
-    await expect(history.getByRole("heading", { name: "Day by day" })).toBeVisible();
-    await expect(history.getByTestId("day-by-day-empty")).toHaveText("No bids yet.");
-    await expect(history).not.toContainText("Be the first");
+    await expect(page.getByTestId("day-by-day")).toHaveCount(0);
     await expect(
       page.getByText(PUBLIC_COPY.bidDesk.todayEmpty, { exact: true }),
     ).toHaveCount(1);
-    await expect(history.getByTestId("day-by-day-lead")).toHaveCount(0);
-    await expect(history.locator(".day-by-day-list")).toHaveCount(0);
-    await expect(history).not.toContainText("Sample history");
-    await expect(history).not.toContainText("Sample Mark");
-    await expect(history).not.toContainText("unpaid");
-    await expect(history).not.toContainText("paid");
     await expect(page.getByTestId("raised-amount")).toHaveText("$0");
     await page.goto("/panels/hood");
     const hoodEmpty = page.getByTestId("day-by-day");

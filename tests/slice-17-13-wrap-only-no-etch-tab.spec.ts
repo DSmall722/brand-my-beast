@@ -8,6 +8,7 @@ import {
 } from "../src/lib/campaign";
 import { findCloseAtViolations } from "../src/lib/close-at-null";
 import { findStripePackagesInRootPackageJson } from "../src/lib/no-stripe-package";
+import { PUBLIC_COPY } from "../src/lib/public-copy";
 import { vercelJsonIsHoldOrMainOnlyRestore } from "../src/lib/vercel-git-deploy";
 
 /**
@@ -51,7 +52,7 @@ test.describe("slice 17.13: wrap-only seats hide the etch tab", () => {
       await expect(page.getByTestId("compositor-mode-etch")).toHaveCount(0);
       await expect(page.getByTestId("compositor-finish-label")).toHaveCount(0);
       await expect(page.getByTestId("seat-lead")).toHaveText(
-        "Wrap only. Vinyl wrap for 12 months after installation.",
+        PUBLIC_COPY.seat.bumperWrapOnly,
       );
     }
   });

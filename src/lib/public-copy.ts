@@ -257,7 +257,7 @@ export const PUBLIC_COPY = {
     already: "That email is already on the list.",
     /** Slice 6.5 — never imply join when the write did not land. */
     unavailable: `Could not send that. Try again or email ${BRAND.email}.`,
-    failed: `Could not send that. Try again or email ${BRAND.email}.`,
+    failed: `That didn't send. Try again, or email ${BRAND.email}.`,
     /** Slice 6.6 — never claim joined on 429. */
     rateLimited: `Could not send that. Try again or email ${BRAND.email}.`,
     /** Slice 13.31 — disposable / blocked domain. */
