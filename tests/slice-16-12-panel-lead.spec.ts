@@ -19,7 +19,7 @@ import { vercelJsonIsHoldOrMainOnlyRestore } from "../src/lib/vercel-git-deploy"
  */
 
 const LOCKED_H1 = "Advertise your brand on the truck that people already photograph";
-const PANEL_SELECT = "Select a panel below for more details.";
+const PANEL_SELECT = "Pick a panel to place a bid.";
 const ETCH_UNLOCK =
   "Once total active bids cross $120,000, buyers will unlock the option to have their advertisement permanently etched on the stainless surface for 3x the final bid for that panel.";
 

@@ -98,7 +98,9 @@ export function PrivacyStubBody() {
       </p>
       <h2>Cookies</h2>
       <p data-testid="privacy-cookies">
-        We use only the cookies the site needs to work.
+        We use only the cookies the site needs to work. The site uses Vercel
+        Web Analytics for privacy-friendly page-view and event counts (no
+        cookies, no ad tracking).
       </p>
       <h2>Contact</h2>
       <p data-testid="privacy-contact">

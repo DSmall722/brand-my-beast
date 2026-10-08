@@ -102,8 +102,8 @@ export const PUBLIC_COPY = {
   },
   panels: {
     heading: "Bid on a Panel",
-    leadLines: ["Select a panel below for more details."],
-    lead: "Select a panel below for more details.",
+    leadLines: ["Pick a panel to place a bid."],
+    lead: "Pick a panel to place a bid.",
     badgeEtch: "Immortal Etch Locked",
     badgeWrap: "Wrap only",
     /** Slice 10.9 — panel card standing line when no mark holds. */
@@ -275,15 +275,12 @@ export const PUBLIC_COPY = {
     success: "Thanks. We will be in touch.",
     already: "That email is already on the list.",
     /** Slice 6.5 — never imply join when the write did not land. */
-    unavailable:
-      "Waitlist is temporarily unavailable. You are not on the list yet.",
-    failed: `That didn't send. Try again, or email ${BRAND.email}.`,
+    unavailable: `Could not send that. Try again or email ${BRAND.email}.`,
+    failed: `Could not send that. Try again or email ${BRAND.email}.`,
     /** Slice 6.6 — never claim joined on 429. */
-    rateLimited:
-      "Too many attempts. You are not on the list. Wait a moment and try again.",
+    rateLimited: `Could not send that. Try again or email ${BRAND.email}.`,
     /** Slice 13.31 — disposable / blocked domain. */
-    domainBlocked:
-      "That email domain is blocked. You are not on the list. Use a lasting inbox.",
+    domainBlocked: `Could not send that. Try again or email ${BRAND.email}.`,
     /** Slice 16.0b — interest checkbox copy. Not pledged. Not on the vault bar. */
     wholeTruckCheckboxLabel: "I want the whole truck",
     wholeTruckCheckboxHint:
@@ -425,12 +422,10 @@ export const PUBLIC_COPY = {
     intentResult:
       "This mark stays intent only. No card was charged. The operator still approves artwork.",
     artwork: "We review every logo before it goes on the truck.",
-    magicLink:
-      "Manage a bid with a one-time email link. No password. This form does not charge a card.",
+    magicLink: `Questions about your bid? Email ${BRAND.email}.`,
     depositChargeTemplate:
       "Deposit due now: {amount} ({percent}% of your bid), charged by Stripe.",
-    depositMagicLink:
-      "After your deposit goes through, we email you a link to manage your bid. No password needed.",
+    depositMagicLink: `Questions about your bid? Email ${BRAND.email}.`,
     coveredResult:
       "Earlier deposits on this seat cover this bid. It counts on the board.",
     trade: "Trade",

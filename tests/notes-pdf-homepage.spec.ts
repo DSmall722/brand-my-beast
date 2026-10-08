@@ -92,7 +92,7 @@ test.describe("notes PDF homepage sheet", () => {
     const labelCenter = floorLabel.x + floorLabel.width / 2;
     expect(Math.abs(markerCenter - labelCenter)).toBeLessThan(12);
     await expect(page.getByTestId("panels-lead")).toHaveText(
-      "Select a panel below for more details.",
+      "Pick a panel to place a bid.",
     );
     await expect(page.getByTestId("etch-unlock")).toHaveCount(0);
     await expect(page.getByTestId("etch-section")).toHaveCount(0);
