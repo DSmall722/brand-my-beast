@@ -103,7 +103,6 @@ export function HomeMoneySection({
               <span
                 className="vault-floor-label"
                 data-testid="vault-floor-label"
-                style={{ left: "100%" }}
               >
                 {PUBLIC_COPY.board.vaultFloorMarkLabel} {floorLabel}
               </span>

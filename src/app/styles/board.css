@@ -179,7 +179,7 @@
 .vault-floor-label {
   position: absolute;
   top: 0;
-  transform: translateX(-50%);
+  right: 0;
   white-space: nowrap;
 }
 

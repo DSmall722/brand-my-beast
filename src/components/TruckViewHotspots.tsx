@@ -40,15 +40,43 @@ const HOTSPOT_HIT_PAD: Record<
 };
 
 /** Invisible pad so the name chip's box is >=44px on a 390px phone. */
-function chipHitBox(chip: { x: number; y: number; w: number; h: number }) {
-  const w = Math.max(chip.w, 14);
-  const h = Math.max(chip.h, 20);
+function chipHitBox(
+  chip: { x: number; y: number; w: number; h: number },
+  others: readonly { x: number; y: number; w: number; h: number }[],
+) {
+  const minW = 14;
+  const minH = 20;
+  const w = Math.max(chip.w, minW);
   let x = chip.x + (chip.w - w) / 2;
-  let y = chip.y + (chip.h - h) / 2;
   if (x < 0) x = 0;
-  if (y < 0) y = 0;
   if (x + w > 100) x = Math.max(0, 100 - w);
-  if (y + h > 100) y = Math.max(0, 100 - h);
+
+  const overlapsX = (n: { x: number; w: number }) =>
+    chip.x < n.x + n.w && chip.x + chip.w > n.x;
+  const mid = (n: { y: number; h: number }) => n.y + n.h / 2;
+  const chipMid = mid(chip);
+  const above = others.filter((n) => overlapsX(n) && mid(n) < chipMid);
+  const below = others.filter((n) => overlapsX(n) && mid(n) > chipMid);
+  const limitTop = above.length ? Math.max(...above.map((n) => n.y + n.h)) : 0;
+  const limitBottom = below.length ? Math.min(...below.map((n) => n.y)) : 100;
+
+  let y = chip.y;
+  let h = chip.h;
+  const need = Math.max(0, minH - h);
+  const takeUp = Math.min(Math.max(0, y - limitTop), need);
+  y -= takeUp;
+  h += takeUp;
+  const takeDown = Math.min(
+    Math.max(0, limitBottom - (y + h)),
+    Math.max(0, minH - h),
+  );
+  h += takeDown;
+  if (y < 0) {
+    h += y;
+    y = 0;
+  }
+  if (y + h > 100) h = 100 - y;
+  h = Math.max(h, chip.h);
   return { x, y, w, h };
 }
 
@@ -268,7 +296,10 @@ export function TruckViewHotspots({
               const chip = chips.find((row) => row.panelId === spot.panelId);
               if (!chip) return null;
               const chipRy = chip.h / 2;
-              const hit = chipHitBox(chip);
+              const hit = chipHitBox(
+                chip,
+                chips.filter((row) => row.panelId !== chip.panelId),
+              );
               const lit = litPanelId === spot.panelId;
               return (
                 <a

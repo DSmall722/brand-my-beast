@@ -1,4 +1,4 @@
-import { PUBLIC_COPY } from "@/lib/public-copy";
+import { PUBLIC_COPY, faqCloseAnswer } from "@/lib/public-copy";
 
 /** Slice 7.1 — extracted from `src/app/page.tsx`. Copy unchanged. */
 export function HomeQuestionsSection() {
@@ -20,7 +20,7 @@ export function HomeQuestionsSection() {
                   data-testid={id ? `faq-${id}` : undefined}
                 >
                   <dt>{item.q}</dt>
-                  <dd>{item.a}</dd>
+                  <dd>{id === "close-date" ? faqCloseAnswer() : item.a}</dd>
                 </div>
               );
             })}

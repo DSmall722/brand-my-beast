@@ -20,7 +20,11 @@ import { BRAND, DEPOSIT_PERCENT, formatUsd } from "@/lib/campaign";
 import type { BidDeskMode, BidPanelQuote } from "@/lib/bid-desk";
 import { depositUsdForMark } from "@/lib/intent";
 import { panelDisplayName } from "@/lib/panel-board";
-import { PUBLIC_COPY } from "@/lib/public-copy";
+import {
+  PUBLIC_COPY,
+  closedDeskLead,
+  closedDeskResult,
+} from "@/lib/public-copy";
 
 /** Public panel id only. Swallow errors so analytics cannot break a bid. */
 function trackPanel(name: "bid_start" | "deposit_checkout", panelId: string) {
@@ -207,7 +211,7 @@ function BidModal({
 
         {mode.kind === "closed" ? (
           <p className="bid-modal-note" data-testid="bid-modal-closed">
-            {copy.closedLead}
+            {closedDeskLead()}
           </p>
         ) : null}
 
@@ -382,7 +386,6 @@ function BidModalForm({
   const [brand, setBrand] = useState("");
   const [trade, setTrade] = useState("");
   const [email, setEmail] = useState("");
-  const [logoName, setLogoName] = useState("");
   const [outcome, setOutcome] = useState<"closed" | "intent" | "covered" | null>(
     null,
   );
@@ -659,39 +662,12 @@ function BidModalForm({
         {copy.depositMagicLink}
       </p>
 
-      <label className="auth-label" htmlFor="bid-logo">
-        {copy.logo}
-      </label>
-      <input
-        id="bid-logo"
-        className="auth-input"
-        data-testid="bid-modal-logo"
-        type="file"
-        accept="image/*"
-        onChange={(event) => {
-          const file = event.target.files?.[0];
-          setLogoName(file?.name ?? "");
-        }}
-      />
-      {logoName ? (
-        <p className="auth-hint" data-testid="bid-modal-logo-name">
-          {logoName}
-        </p>
-      ) : null}
+      <p className="auth-hint" data-testid="bid-modal-logo-send">
+        {copy.logoSend}
+      </p>
       <p className="auth-hint" data-testid="bid-modal-artwork">
         {copy.artwork}
       </p>
-
-      <label className="auth-label" htmlFor="bid-website">
-        {copy.website}
-      </label>
-      <input
-        id="bid-website"
-        className="auth-input"
-        data-testid="bid-modal-website"
-        type="url"
-        placeholder="https://"
-      />
 
       <div className="bid-modal-actions">
         <button
@@ -718,7 +694,7 @@ function BidModalForm({
 
       {outcome === "closed" ? (
         <p className="bid-modal-note" role="status" data-testid="bid-modal-result">
-          {copy.closedResult}
+          {closedDeskResult()}
         </p>
       ) : null}
       {outcome === "intent" ? (

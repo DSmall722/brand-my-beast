@@ -6,6 +6,7 @@
 import { BRAND, CLOSE_AT, FLOOR_USD, OPEN_AT, PANELS, formatUsd } from "./campaign";
 import { SOFT_CLOSE_MS, publishedCloseLabelEt } from "./campaign-window";
 import { PANEL_BOARD_MARKS, panelLegendLabel } from "./panel-board";
+import { formatCampaignInstantEt } from "./seat-log";
 
 
 /** Card gloss is off. Panel names carry the seat; bumper rules stay in RULES.md. */
@@ -15,6 +16,7 @@ const PANEL_GLOSS: Readonly<Record<string, string>> = {};
 const TRUCK_OWNERSHIP_LINE =
   "The operator does not own the truck yet. This auction buys it.";
 
+const BID_OPENS_AT = formatCampaignInstantEt(OPEN_AT);
 const CLOSED_ASK = `Questions? Use the Contact us form or email ${BRAND.email}.`;
 
 /** Long Eastern label. `Monday, November 2, 2026 at 12:00 PM ET`. */
@@ -71,7 +73,8 @@ export const PUBLIC_COPY = {
     raisedHint: "",
     floorLabel: "Floor",
     floorHint: `Miss the ${formatUsd(FLOOR_USD)} goal and every deposit is refunded.`,
-    clockWhenCloseNull: `Bidding is open. Closes ${publishedCloseLabelEt()}. Nothing is charged on this page.`,
+    clockWhenCloseNull:
+      "Bidding is not open. Nothing is charged on this page.",
     depositLine:
       "20% of the bid is charged when you place it. If you do not win, that deposit is refunded after close. A winner's deposit is credited to the invoice. Nothing is charged on this page.",
     shortfallFloorLabel: "Short of floor",
@@ -247,6 +250,7 @@ export const PUBLIC_COPY = {
     placeholder: "you@company.com",
     button: "Contact BMB",
     idleNote: `Bidding is open. Closes ${publishedCloseLabelEt()}.`,
+    idleNoteBefore: "We only email when seats open.",
     /** Slice 13.39 — privacy stub waitlist retention. */
     retention: "Waitlist retention: until seats open or user deletes.",
     success: "Thanks. We will be in touch.",
@@ -338,6 +342,8 @@ export const PUBLIC_COPY = {
     heading: "Soft-close extension",
     unset:
       `This seat is not on a soft-close extension. Bidding is open. Closes ${publishedCloseLabelEt()}. This page does not charge cards.`,
+    unsetBefore:
+      "This seat is not on a soft-close extension. Bidding is not open. This page does not charge cards.",
     setLead: "This seat's soft-close window runs until",
     setTail:
       "That is a seat extension only — not a campaign close date. This page does not charge cards.",
@@ -389,13 +395,14 @@ export const PUBLIC_COPY = {
     leaderboardHeading: "Leaderboard",
     leaderboardEvery: "Every bid ever placed, highest first.",
     leaderboardStay: "Outbid bids stay on this list.",
-    leaderboardEmptyBefore: `No bids yet. Bidding is open. Closes ${publishedCloseLabelEt()}.`,
-    leaderboardEmptyAfter: `No bids yet. Bidding is open. Closes ${publishedCloseLabelEt()}.`,
+    leaderboardEmptyBefore: "No bids yet. Bidding opens Oct 6 at noon ET.",
+    leaderboardEmptyAfter:
+      "No bids yet. Be the first to put your brand on the Beast.",
     leaderboardSeePanels: "See the panels",
     leaderboardRest: "The rest of the field",
     modalTitle: "Place a bid",
-    closedLead: `Bidding is open. Closes ${publishedCloseLabelEt()}. No deposit is taken on this form. ${CLOSED_ASK}`,
-    closedResult: `Bidding is open. Closes ${publishedCloseLabelEt()}. No deposit was taken. ${CLOSED_ASK}`,
+    closedLead: `Bidding opens ${BID_OPENS_AT}. No deposit is taken on this form. ${CLOSED_ASK}`,
+    closedResult: `Bidding opens ${BID_OPENS_AT}. No deposit was taken. ${CLOSED_ASK}`,
     intentResult:
       "This mark stays intent only. No card was charged. The operator still approves artwork.",
     artwork: "We review every logo before it goes on the truck.",
@@ -415,6 +422,7 @@ export const PUBLIC_COPY = {
     website: "Website (optional)",
     /** Server placeDepositBid does not require a file. Label stays optional. */
     logo: "Logo (optional, you can send it later)",
+    logoSend: `Winning brands send their logo to ${BRAND.email}.`,
     panel: "Panel",
     currentBid: "Current bid",
     minimumBid: "Minimum bid",
@@ -423,10 +431,59 @@ export const PUBLIC_COPY = {
   },
 } as const;
 
+type CalendarCopyKind = "before_open" | "open" | "closed";
+
+function calendarCopyKind(nowMs: number = Date.now()): CalendarCopyKind {
+  const openMs = Date.parse(OPEN_AT);
+  const closeMs = Date.parse(CLOSE_AT ?? "");
+  if (Number.isFinite(openMs) && nowMs < openMs) return "before_open";
+  if (Number.isFinite(closeMs) && nowMs >= closeMs) return "closed";
+  return "open";
+}
+
 /** Empty leaderboard line. Before OPEN_AT vs after. Not the live-charge flag. */
 export function leaderboardEmptyCopy(nowMs: number = Date.now()): string {
   if (nowMs >= Date.parse(OPEN_AT)) {
     return PUBLIC_COPY.bidDesk.leaderboardEmptyAfter;
   }
   return PUBLIC_COPY.bidDesk.leaderboardEmptyBefore;
+}
+
+export function faqCloseAnswer(nowMs: number = Date.now()): string {
+  const close = longCloseLabelEt(CLOSE_AT ?? "");
+  const tail = `A bid in the last ${SOFT_CLOSE_MINUTES} minutes pushes the close back ${SOFT_CLOSE_MINUTES} minutes.`;
+  const kind = calendarCopyKind(nowMs);
+  if (kind === "closed") return `Bidding closed ${close}.`;
+  if (kind === "before_open") return `Bidding closes ${close}. ${tail}`;
+  return FAQ_CLOSE_ANSWER;
+}
+
+export function closedDeskLead(nowMs: number = Date.now()): string {
+  if (calendarCopyKind(nowMs) === "closed") {
+    return `Bidding closed ${publishedCloseLabelEt()}. No deposit is taken on this form. ${CLOSED_ASK}`;
+  }
+  return PUBLIC_COPY.bidDesk.closedLead;
+}
+
+export function closedDeskResult(nowMs: number = Date.now()): string {
+  if (calendarCopyKind(nowMs) === "closed") {
+    return `Bidding closed ${publishedCloseLabelEt()}. No deposit was taken. ${CLOSED_ASK}`;
+  }
+  return PUBLIC_COPY.bidDesk.closedResult;
+}
+
+export function panelExtensionUnsetCopy(nowMs: number = Date.now()): string {
+  const kind = calendarCopyKind(nowMs);
+  if (kind === "closed") {
+    return `This seat is not on a soft-close extension. Bidding closed ${publishedCloseLabelEt()}. This page does not charge cards.`;
+  }
+  if (kind === "before_open") return PUBLIC_COPY.panelExtension.unsetBefore;
+  return PUBLIC_COPY.panelExtension.unset;
+}
+
+export function waitlistIdleNote(nowMs: number = Date.now()): string {
+  const kind = calendarCopyKind(nowMs);
+  if (kind === "closed") return `Bidding closed ${publishedCloseLabelEt()}.`;
+  if (kind === "before_open") return PUBLIC_COPY.waitlist.idleNoteBefore;
+  return PUBLIC_COPY.waitlist.idleNote;
 }
