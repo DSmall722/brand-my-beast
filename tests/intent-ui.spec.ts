@@ -1,4 +1,5 @@
 import { expect, test } from "@playwright/test";
+import { markNewestAccountBidPaid } from "./helpers/mark-paid";
 
 async function signIn(page: import("@playwright/test").Page, email: string) {
   await page.goto("/signin");
@@ -154,6 +155,7 @@ test.describe("P2 panel intent + approvals", () => {
 
   test("slice 1.2: signed-in user submits brand, trade, and amount at opening", async ({
     page,
+    request,
   }) => {
     await signIn(page, "slice12@example.com");
     await page.goto("/panels/hood");
@@ -163,8 +165,11 @@ test.describe("P2 panel intent + approvals", () => {
     await page.getByTestId("intent-standing").fill("2500");
     await page.getByTestId("intent-submit").click();
     await expect(page.getByTestId("intent-success")).toBeVisible();
+    // BMB-QA-457: only deposit-paid marks show publicly; trade stays private.
+    await markNewestAccountBidPaid(page, request, 2500);
+    await page.goto("/panels/hood");
     await expect(page.getByTestId("intent-list")).toContainText("Slice Twelve Co");
-    await expect(page.getByTestId("intent-list")).toContainText("panel seats");
+    await expect(page.getByTestId("intent-list")).not.toContainText("panel seats");
     await expect(page.getByTestId("intent-list")).toContainText("2,500");
   });
 
@@ -206,6 +211,7 @@ test.describe("P2 panel intent + approvals", () => {
 
   test("slice 2.2: operator approve lists the intent", async ({
     browser,
+    request,
   }) => {
     const bidder = await browser.newPage();
     await signIn(bidder, "bidder@example.com");
@@ -216,6 +222,9 @@ test.describe("P2 panel intent + approvals", () => {
     await expect(bidder.getByTestId("intent-success")).toContainText(
       "not charged",
     );
+    // BMB-QA-457: the seat log lists the mark once its deposit is paid.
+    await markNewestAccountBidPaid(bidder, request, 2500);
+    await bidder.goto("/panels/hood");
     await expect(bidder.getByTestId("intent-list")).toContainText("Signal Co");
     await bidder.close();
 
@@ -401,11 +410,14 @@ test.describe("P2 panel intent + approvals", () => {
     await page.getByTestId("intent-trade").fill("cold brew 23");
     await page.getByTestId("intent-submit").click();
     await expect(page.getByTestId("intent-success")).toContainText("not charged");
+    await markNewestAccountBidPaid(page, request, 2500);
+    await page.goto("/panels/hood");
     await expect(page.getByTestId("intent-list")).toContainText("Ban Co Cold");
   });
 
   test("slice 1.6: outbid viewer sees failed-winner waitlist handoff", async ({
     browser,
+    request,
   }) => {
     const first = await browser.newPage();
     await signIn(first, "outbid-a@example.com");
@@ -417,6 +429,8 @@ test.describe("P2 panel intent + approvals", () => {
       "not charged",
     );
     await expect(first.getByTestId("failed-winner-offer")).toHaveCount(0);
+    // BMB-QA-457: paid so the outbid row is public in the seat log.
+    await markNewestAccountBidPaid(first, request, 2500);
     await first.close();
 
     const second = await browser.newPage();
@@ -529,6 +543,7 @@ test.describe("P2 panel intent + approvals", () => {
 
   test("slice 1.4: one brand per trade; challenger fights same panel only", async ({
     browser,
+    request,
   }) => {
     const holder = await browser.newPage();
     await signIn(holder, "slice14-holder@example.com");
@@ -544,6 +559,7 @@ test.describe("P2 panel intent + approvals", () => {
     await expect(holder.getByTestId("intent-success")).toContainText(
       "not charged",
     );
+    await markNewestAccountBidPaid(holder, request, 2500);
     await holder.close();
 
     const elsewhere = await browser.newPage();
@@ -567,6 +583,8 @@ test.describe("P2 panel intent + approvals", () => {
     await expect(challenger.getByTestId("intent-success")).toContainText(
       "not charged",
     );
+    await markNewestAccountBidPaid(challenger, request, 2750);
+    await challenger.goto("/panels/hood");
     await expect(challenger.getByTestId("intent-list")).toContainText(
       "Slice Fourteen Fight",
     );
@@ -614,8 +632,9 @@ test.describe("P2 panel intent + approvals", () => {
     await home.close();
   });
 
-  test("slice 1.8: public standing shows brand, trade, amount — no bidder email", async ({
+  test("slice 1.8: public standing shows brand and amount; no trade, no bidder email", async ({
     browser,
+    request,
   }) => {
     const bidderEmail = "slice18-bidder@example.com";
     const bidder = await browser.newPage();
@@ -628,24 +647,28 @@ test.describe("P2 panel intent + approvals", () => {
     await expect(bidder.getByTestId("intent-success")).toContainText(
       "not charged",
     );
-    await expect(bidder.getByTestId("public-standing-brand")).toHaveCount(0);
-    await expect(bidder.getByTestId("panel-pending")).toHaveText("$2,500");
+    // BMB-QA-457: unpaid marks are not public; no Pending stat.
+    await expect(bidder.getByTestId("panel-pending")).toHaveCount(0);
+    await expect(bidder.getByTestId("public-seat-log")).toHaveCount(0);
+    await markNewestAccountBidPaid(bidder, request, 2500);
+    await bidder.goto("/panels/hood");
+    await expect(bidder.getByTestId("panel-standing")).toHaveText("$2,500");
     await expect(bidder.getByTestId("intent-list")).toContainText(
       "Public Standing Co",
     );
-    await expect(bidder.getByTestId("intent-list")).toContainText("standing seats");
+    await expect(bidder.getByTestId("intent-list")).not.toContainText("standing seats");
     await bidder.close();
 
     const visitor = await browser.newPage();
     await visitor.goto("/panels/hood");
     await expect(visitor.getByTestId("seat-occupancy")).toHaveCount(0);
     await expect(visitor.getByTestId("public-seat-log")).toBeVisible();
-    await expect(visitor.getByTestId("public-standing-brand")).toHaveCount(0);
-    await expect(visitor.getByTestId("panel-pending")).toHaveText("$2,500");
+    await expect(visitor.getByTestId("panel-pending")).toHaveCount(0);
+    await expect(visitor.getByTestId("panel-standing")).toHaveText("$2,500");
     await expect(visitor.getByTestId("intent-list")).toContainText(
       "Public Standing Co",
     );
-    await expect(visitor.getByTestId("intent-list")).toContainText(
+    await expect(visitor.getByTestId("intent-list")).not.toContainText(
       "standing seats",
     );
     await expect(visitor.getByTestId("intent-list")).toContainText("2,500");
@@ -738,6 +761,7 @@ test.describe("P2 panel intent + approvals", () => {
 
   test("slice 1.5: next intent >= standing + max($250, 10%)", async ({
     browser,
+    request,
   }) => {
     const holder = await browser.newPage();
     await signIn(holder, "slice15-holder@example.com");
@@ -752,13 +776,15 @@ test.describe("P2 panel intent + approvals", () => {
     await expect(holder.getByTestId("intent-success")).toContainText(
       "not charged",
     );
+    // BMB-QA-457: the public minimum follows deposit-paid marks only.
+    await markNewestAccountBidPaid(holder, request, 2500);
     await holder.close();
 
     const low = await browser.newPage();
     await signIn(low, "slice15-low@example.com");
     await low.goto("/panels/hood");
     await expect(low.getByTestId("panel-opening")).toContainText("2,500");
-    await expect(low.getByTestId("panel-standing")).toHaveCount(0);
+    await expect(low.getByTestId("panel-standing")).toHaveText("$2,500");
     await expect(low.getByTestId("panel-minimum")).toContainText("2,750");
     await expect(low.getByTestId("intent-increment-rule")).toContainText(
       "standing + max($250, 10%)",
@@ -783,12 +809,14 @@ test.describe("P2 panel intent + approvals", () => {
     await ok.getByTestId("intent-standing").fill("2750");
     await ok.getByTestId("intent-submit").click();
     await expect(ok.getByTestId("intent-success")).toContainText("not charged");
+    await expect(ok.getByTestId("panel-pending")).toHaveCount(0);
+    await markNewestAccountBidPaid(ok, request, 2750);
+    await ok.goto("/panels/hood");
     await expect(ok.getByTestId("intent-list")).toContainText(
       "Slice Fifteen Ok",
     );
     await expect(ok.getByTestId("panel-opening")).toContainText("2,500");
-    await expect(ok.getByTestId("panel-standing")).toHaveCount(0);
-    await expect(ok.getByTestId("panel-pending")).toContainText("2,750");
+    await expect(ok.getByTestId("panel-standing")).toHaveText("$2,750");
     await expect(ok.getByTestId("panel-minimum")).toContainText("3,025");
     await ok.close();
   });
@@ -989,6 +1017,7 @@ test.describe("P2 panel intent + approvals", () => {
   test("slice 3.5: artwork URL attaches on the intent mark", async ({
     page,
     browser,
+    request,
   }) => {
     await signIn(page, "slice35-art@example.com");
     await page.goto("/panels/hood");
@@ -1003,6 +1032,8 @@ test.describe("P2 panel intent + approvals", () => {
       .fill("https://cdn.example.com/slice35.png");
     await page.getByTestId("intent-submit").click();
     await expect(page.getByTestId("intent-success")).toBeVisible();
+    await markNewestAccountBidPaid(page, request, 2500);
+    await page.goto("/panels/hood");
     await expect(page.getByTestId("intent-list")).toContainText(
       "Slice ThirtyFive Art",
     );

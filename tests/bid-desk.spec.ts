@@ -15,6 +15,7 @@ import {
 } from "../src/lib/intent";
 import { PUBLIC_COPY, leaderboardEmptyCopy } from "../src/lib/public-copy";
 import { buildPublicSeatLog } from "../src/lib/seat-log";
+import { markNewestAccountBidPaid } from "./helpers/mark-paid";
 
 function mark(overrides: Partial<IntentBid> & Pick<IntentBid, "id" | "panelId" | "standingUsd" | "status" | "createdAt">): IntentBid {
   return {
@@ -72,7 +73,7 @@ test.describe("bid desk: modal, hidden sign-in, unpaid, day by day", () => {
       ]),
     ).toEqual({ source: "live", days: [] });
 
-    const listedOnly = buildDayByDay([
+    const unpaidHistory = buildDayByDay([
       mark({
         id: "late",
         panelId: "hood",
@@ -88,6 +89,28 @@ test.describe("bid desk: modal, hidden sign-in, unpaid, day by day", () => {
         status: "outbid",
         createdAt: "2026-09-01T16:00:00.000Z",
         brandLabel: "Early Brand",
+      }),
+    ]);
+    expect(unpaidHistory).toEqual({ source: "live", days: [] });
+
+    const listedOnly = buildDayByDay([
+      mark({
+        id: "late",
+        panelId: "hood",
+        standingUsd: 2500,
+        status: "outbid",
+        createdAt: "2026-09-02T16:00:00.000Z",
+        brandLabel: "Late Brand",
+        depositPaidAt: "2026-09-02T16:00:00.000Z",
+      }),
+      mark({
+        id: "early",
+        panelId: "rear-bumper",
+        standingUsd: 500,
+        status: "outbid",
+        createdAt: "2026-09-01T16:00:00.000Z",
+        brandLabel: "Early Brand",
+        depositPaidAt: "2026-09-01T16:00:00.000Z",
       }),
     ]);
     expect(listedOnly.source).toBe("live");
@@ -138,6 +161,7 @@ test.describe("bid desk: modal, hidden sign-in, unpaid, day by day", () => {
         status: "outbid",
         createdAt: "2026-09-01T15:00:00.000Z",
         brandLabel: "Beaten Brand",
+        depositPaidAt: "2026-09-01T15:00:00.000Z",
       }),
       mark({
         id: "floor-save",
@@ -165,13 +189,10 @@ test.describe("bid desk: modal, hidden sign-in, unpaid, day by day", () => {
     const standingSum = days.days.reduce((sum, day) => sum + day.standingUsd, 0);
     expect(standingSum).toBe(4000);
     expect(days.days[0]?.dayKey).toBe("2026-09-02");
-    expect(days.days[0]?.bidCount).toBe(2);
-    expect(days.days[0]?.bidUsd).toBe(5500);
+    expect(days.days[0]?.bidCount).toBe(1);
+    expect(days.days[0]?.bidUsd).toBe(2500);
     expect(days.days[0]?.standingUsd).toBe(2500);
-    expect(days.days[0]?.rows.map((row) => row.bidId)).toEqual([
-      "hood-listed",
-      "hood-win",
-    ]);
+    expect(days.days[0]?.rows.map((row) => row.bidId)).toEqual(["hood-win"]);
     expect(days.days[1]?.bidCount).toBe(2);
     expect(days.days[1]?.bidUsd).toBe(2300);
     expect(days.days[1]?.standingUsd).toBe(1500);
@@ -184,12 +205,9 @@ test.describe("bid desk: modal, hidden sign-in, unpaid, day by day", () => {
 
     const hoodOnly = buildDayByDay(live, { panelId: "hood" });
     expect(hoodOnly.days).toHaveLength(1);
-    expect(hoodOnly.days[0]?.bidUsd).toBe(5500);
+    expect(hoodOnly.days[0]?.bidUsd).toBe(2500);
     expect(hoodOnly.days[0]?.standingUsd).toBe(2500);
-    expect(hoodOnly.days[0]?.rows.map((row) => row.bidId)).toEqual([
-      "hood-listed",
-      "hood-win",
-    ]);
+    expect(hoodOnly.days[0]?.rows.map((row) => row.bidId)).toEqual(["hood-win"]);
     expect(buildDayByDay(live, { panelId: "front-bumper" })).toEqual({
       source: "live",
       days: [],
@@ -219,9 +237,8 @@ test.describe("bid desk: modal, hidden sign-in, unpaid, day by day", () => {
     ).toBe("https://cdn.example.com/live.png");
 
     const board = buildLeaderboard(live);
-    expect(board.bidCount).toBe(4);
+    expect(board.bidCount).toBe(3);
     expect(board.rows.map((row) => row.bidId)).toEqual([
-      "hood-listed",
       "hood-win",
       "tail-win",
       "tail-old",
@@ -233,13 +250,13 @@ test.describe("bid desk: modal, hidden sign-in, unpaid, day by day", () => {
         ? { ...bid, artworkUrl: "https://cdn.example.com/hood.png", artworkApproval: "approved" as const }
         : bid,
     );
-    expect(buildLeaderboard(liveMarks).rows[1]?.publicLogoUrl).toBe(
+    expect(buildLeaderboard(liveMarks).rows[0]?.publicLogoUrl).toBe(
       "https://cdn.example.com/hood.png",
     );
     const sep1 = buildAuctionLive(live, new Date("2026-09-01T18:00:00.000Z")).today;
     expect(sep1.map((row) => row.actionLabel)).toEqual(["Bid", "Outbid"]);
     expect(buildAuctionLive(live, new Date("2026-09-02T18:00:00.000Z")).today).toHaveLength(
-      2,
+      1,
     );
     expect(buildAuctionLive(live, new Date("2026-09-03T18:00:00.000Z")).today).toEqual(
       [],
@@ -504,6 +521,13 @@ test.describe("bid desk: modal, hidden sign-in, unpaid, day by day", () => {
     await first.getByTestId("intent-standing").fill("2500");
     await first.getByTestId("intent-submit").click();
     await expect(first.getByTestId("intent-success")).toBeVisible();
+
+    // BMB-QA-457: an unpaid mark stays off the public day-by-day.
+    await page.goto("/");
+    await expect(page.getByTestId("day-by-day")).toHaveCount(0);
+    await expect(page.getByTestId("raised-amount")).toHaveText("$0");
+
+    await markNewestAccountBidPaid(first, request, 2500);
     await first.close();
 
     await page.goto("/");
@@ -515,12 +539,11 @@ test.describe("bid desk: modal, hidden sign-in, unpaid, day by day", () => {
     await expect(history.getByTestId("day-by-day-lead")).toHaveCount(0);
     await expect(history).not.toContainText(PUBLIC_COPY.bidDesk.dayLiveLead);
     await expect(history).not.toContainText("unpaid");
-    await expect(history).not.toContainText("paid");
-    await expect(page.getByTestId("raised-amount")).toHaveText("$0");
-    const listedStanding = history.locator("[data-standing]");
-    await expect(listedStanding).toHaveCount(1);
-    await expect(listedStanding).toHaveAttribute("data-standing", "0");
-    await expect(listedStanding).toHaveAttribute("data-bid-usd", "2500");
+    await expect(page.getByTestId("raised-amount")).toHaveText("$2,500");
+    const paidStanding = history.locator("[data-standing]");
+    await expect(paidStanding).toHaveCount(1);
+    await expect(paidStanding).toHaveAttribute("data-standing", "2500");
+    await expect(paidStanding).toHaveAttribute("data-bid-usd", "2500");
     await expect(history.locator(".day-by-day-line")).toContainText("Early Brand");
     await expect(history.locator(".day-by-day-line")).toContainText("Hood");
     await expect(history.locator(".day-by-day-line")).toContainText("ET");
@@ -539,6 +562,7 @@ test.describe("bid desk: modal, hidden sign-in, unpaid, day by day", () => {
     await second.getByTestId("intent-standing").fill("2750");
     await second.getByTestId("intent-submit").click();
     await expect(second.getByTestId("intent-success")).toBeVisible();
+    await markNewestAccountBidPaid(second, request, 2750);
     await second.close();
 
     const operator = await browser.newPage();
@@ -548,29 +572,21 @@ test.describe("bid desk: modal, hidden sign-in, unpaid, day by day", () => {
       "Standing Brand",
     );
     await operator.locator('[data-testid^="approve-"]').first().click();
-    await expect(operator.getByTestId("approvals-empty")).toBeVisible();
     await operator.close();
 
     await page.goto("/");
-    await expect(page.getByTestId("raised-amount")).toHaveText("$0");
-    await expect(page.getByTestId("auction-top")).toContainText(
-      "No standing bids yet.",
-    );
-    await expect(page.getByTestId("panel-hood")).toHaveAttribute(
-      "data-standing",
-      "open",
-    );
+    await expect(page.getByTestId("raised-amount")).toHaveText("$2,750");
+    await expect(page.getByTestId("auction-top")).toContainText("Standing Brand");
     const approved = page.getByTestId("day-by-day").locator("[data-standing]");
     await expect(approved).toHaveCount(1);
-    await expect(approved).toHaveAttribute("data-standing", "0");
+    await expect(approved).toHaveAttribute("data-standing", "2750");
     await expect(approved).toHaveAttribute("data-bid-usd", "5250");
-    await expect(page.getByTestId("day-by-day")).toContainText("Pending");
+    await expect(page.getByTestId("day-by-day")).not.toContainText("Pending");
     const lines = page.getByTestId("day-by-day").locator(".day-by-day-line");
     await expect(lines).toHaveCount(2);
     await expect(page.getByTestId("day-by-day")).toContainText("Standing Brand");
     await expect(page.getByTestId("day-by-day")).toContainText("Early Brand");
     await expect(page.getByTestId("day-by-day")).not.toContainText("unpaid");
-    await expect(page.getByTestId("day-by-day")).not.toContainText("paid");
 
     await page.goto("/panels/hood");
     const hoodHistory = page.getByTestId("day-by-day");
@@ -579,10 +595,9 @@ test.describe("bid desk: modal, hidden sign-in, unpaid, day by day", () => {
     await expect(hoodHistory).not.toContainText("Sample history");
     await expect(hoodHistory).not.toContainText("Sample Mark");
     await expect(hoodHistory).not.toContainText("unpaid");
-    await expect(hoodHistory).not.toContainText("paid");
     await expect(hoodHistory).not.toContainText("Hood");
     const hoodStanding = hoodHistory.locator("[data-standing]");
-    await expect(hoodStanding).toHaveAttribute("data-standing", "0");
+    await expect(hoodStanding).toHaveAttribute("data-standing", "2750");
     await expect(hoodStanding).toHaveAttribute("data-bid-usd", "5250");
     await expect(hoodHistory.locator(".day-by-day-line")).toHaveCount(2);
     await expect(hoodHistory).toContainText("Standing Brand");
@@ -624,7 +639,6 @@ test.describe("bid desk: modal, hidden sign-in, unpaid, day by day", () => {
     await bidder.getByTestId("intent-artwork-url").fill(logo);
     await bidder.getByTestId("intent-submit").click();
     await expect(bidder.getByTestId("intent-success")).toBeVisible();
-    await bidder.close();
 
     await page.goto("/");
     const held = page.getByTestId("panel-standing-hood");
@@ -656,10 +670,17 @@ test.describe("bid desk: modal, hidden sign-in, unpaid, day by day", () => {
     await expect(page.getByTestId("auction-top")).toContainText(
       "No standing bids yet.",
     );
+    // BMB-QA-457: approved but unpaid stays off the public leaderboard.
+    await page.goto("/leaderboard");
+    await expect(page.getByTestId("leaderboard-page")).not.toContainText("Logo Brand");
+
+    await markNewestAccountBidPaid(bidder, request, 2500);
+    await bidder.close();
+
     await page.goto("/leaderboard");
     await expect(page.getByTestId("leaderboard-count")).toContainText("1 bid from 1 brand");
     await expect(page.getByTestId("leaderboard-page")).toContainText("Logo Brand");
-    await expect(page.getByTestId("leaderboard-page")).toContainText("Pending");
+    await expect(page.getByTestId("leaderboard-page")).not.toContainText("Pending");
     await expect(page.getByTestId("leaderboard-page").locator("img")).toHaveAttribute(
       "src",
       logo,

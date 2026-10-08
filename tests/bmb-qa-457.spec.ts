@@ -2,18 +2,46 @@ import { expect, test } from "@playwright/test";
 import { markBidPaid } from "./helpers/mark-paid";
 
 const OPEN_NOW = "2026-10-06T16:00:00.000Z";
+// "Today's action" compares bid time to the real clock, so pin the test clock
+// to real now while the window is open (an hour clear of either edge).
+const WINDOW_START_MS = Date.parse("2026-10-06T17:00:00.000Z");
+const WINDOW_END_MS = Date.parse("2026-11-02T15:00:00.000Z");
+
+function etDay(ms: number): string {
+  return new Intl.DateTimeFormat("en-CA", {
+    timeZone: "America/New_York",
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+  }).format(new Date(ms));
+}
+
+function testClockNow(): { iso: string; isToday: boolean } {
+  const realMs = Date.now();
+  const ms =
+    realMs >= WINDOW_START_MS && realMs <= WINDOW_END_MS
+      ? realMs
+      : Date.parse(OPEN_NOW);
+  return { iso: new Date(ms).toISOString(), isToday: etDay(ms) === etDay(realMs) };
+}
 const BRAND = "Qa Hidden Mark";
 const TRADE = "zzhidetrade";
 
 test.describe("BMB-QA-457 paid-only public board", () => {
+  test.afterEach(async ({ request }) => {
+    await request.post("/api/test/campaign-clock", { data: { reset: true } });
+    await request.post("/api/test/reset-intents");
+  });
+
   test("unpaid /api/bid stays hidden and does not raise the minimum; paid shows and raises it", async ({
     page,
     request,
   }) => {
     const reset = await request.post("/api/test/reset-intents");
     expect(reset.ok()).toBeTruthy();
+    const clock = testClockNow();
     const opened = await request.post("/api/test/campaign-clock", {
-      data: { live: true, now: OPEN_NOW },
+      data: { live: true, now: clock.iso },
     });
     expect(opened.ok()).toBeTruthy();
 
@@ -73,7 +101,9 @@ test.describe("BMB-QA-457 paid-only public board", () => {
     await expect(page.getByTestId("panel-current-bid-hood")).toHaveText(
       "Current Bid $2,500",
     );
-    await expect(page.getByTestId("auction-today")).toContainText(BRAND);
+    if (clock.isToday) {
+      await expect(page.getByTestId("auction-today")).toContainText(BRAND);
+    }
     await expect(page.getByTestId("day-by-day")).toContainText(BRAND);
     await expect(page.getByTestId("day-by-day")).toContainText("standing");
 
