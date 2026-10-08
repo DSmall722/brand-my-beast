@@ -2,7 +2,6 @@ import { expect, type Page, test } from "@playwright/test";
 import {
   buildAuctionLive,
   buildLeaderboard,
-  highestPendingByPanel,
 } from "../src/lib/auction-board";
 import { buildDayByDay, bidDeskMode } from "../src/lib/bid-desk";
 import { publicLogoUrl } from "../src/lib/public-mark";
@@ -276,7 +275,6 @@ test.describe("bid desk: modal, hidden sign-in, unpaid, day by day", () => {
     expect(countsAsPublicStanding(livePaid)).toBe(true);
     expect(pledgedUsdForPanel([ghost])).toBe(0);
     expect(activeStandingUsd([ghost], 500)).toBe(500);
-    expect(highestPendingByPanel([ghost]).size).toBe(0);
 
     const days = buildDayByDay([ghost, livePaid]);
     expect(days.source).toBe("live");
@@ -635,7 +633,7 @@ test.describe("bid desk: modal, hidden sign-in, unpaid, day by day", () => {
       "data-standing",
       "open",
     );
-    await expect(page.getByTestId("panel-pending-hood")).toContainText("$2,500");
+    await expect(page.getByTestId("panel-pending-hood")).toHaveCount(0);
     await expect(page.getByTestId("panel-current-bid-hood")).toHaveText(
       "Opening floor $2,500",
     );
