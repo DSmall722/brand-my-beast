@@ -11,10 +11,20 @@ import {
   type FormEvent,
   type ReactNode,
 } from "react";
+import { track } from "@vercel/analytics";
 import { DEPOSIT_PERCENT, formatUsd } from "@/lib/campaign";
 import type { BidDeskMode, BidPanelQuote } from "@/lib/bid-desk";
 import { depositUsdForMark } from "@/lib/intent";
 import { PUBLIC_COPY } from "@/lib/public-copy";
+
+/** Public panel id only. Swallow errors so analytics cannot break a bid. */
+function trackPanel(name: "bid_start" | "deposit_checkout", panelId: string) {
+  try {
+    track(name, { panelId });
+  } catch {
+    // ponytail: library throw must not reach submit or checkout
+  }
+}
 
 type BidDeskContextValue = {
   openBid: (panelId: string) => void;
@@ -269,6 +279,7 @@ function BidModalForm({
       setOutcome(placeBidOutcome(mode));
       return;
     }
+    trackPanel("bid_start", quote.id);
     const form = event.currentTarget;
     const data = new FormData(form);
     const brandLabel = String(data.get("brand") ?? "");
@@ -300,6 +311,7 @@ function BidModalForm({
         return;
       }
       if (body.checkoutUrl) {
+        trackPanel("deposit_checkout", quote.id);
         window.location.assign(body.checkoutUrl);
         return;
       }

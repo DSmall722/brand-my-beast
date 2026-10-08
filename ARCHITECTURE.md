@@ -23,6 +23,7 @@ GitHub `DSmall722/brand-my-beast` is the harness source of truth. Seed it with t
 | Tests | Playwright, driven by pstack verification skills |
 | Agents | Cursor Projects coordinator + `/poteto-mode` after skills exist |
 | Auth (P2) | **Auth.js** (`next-auth` v5). Test login for CI; Resend magic link in live. See `P2.md`. |
+| Analytics | Vercel Web Analytics (cookieless, same-origin `/_vercel/insights`), mounted only on Vercel builds. Pageview URLs keep only `utm_*` params (`src/lib/analytics-url.ts`). Custom events `bid_start` and `deposit_checkout` carry no personal data. |
 
 Do not build a second framework. Do not put the auction ledger in `localStorage` or a client JSON file.
 

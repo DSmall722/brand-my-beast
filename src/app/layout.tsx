@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Syne, IBM_Plex_Sans } from "next/font/google";
 import { BRAND, PUBLIC_SITE_ORIGIN } from "@/lib/campaign";
 import { PUBLIC_COPY } from "@/lib/public-copy";
+import { SiteAnalytics } from "@/components/SiteAnalytics";
 import "./globals.css";
 
 const display = Syne({
@@ -52,7 +53,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={`${display.variable} ${body.variable}`}>
-      <body>{children}</body>
+      <body>
+        {children}
+        {process.env.VERCEL ? <SiteAnalytics /> : null}
+      </body>
     </html>
   );
 }

@@ -84,3 +84,7 @@ Idle. Wave 15 is Stripe and needs a human message.
 ## BMB-MAIL-1
 
 - [x] Internal `POST /api/internal/send-mail` via ImprovMX SMTP (nodemailer). Bearer `INTERNAL_MAIL_TOKEN`. No UI. Money fences unchanged.
+
+## BMB-ANALYTICS-1
+
+- [x] Vercel Web Analytics. Custom events `bid_start` and `deposit_checkout` (no personal data).
