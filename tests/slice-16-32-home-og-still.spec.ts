@@ -15,7 +15,7 @@ import { PUBLIC_COPY } from "../src/lib/public-copy";
 import { vercelJsonIsHoldOrMainOnlyRestore } from "../src/lib/vercel-git-deploy";
 
 /**
- * Slice 16.32 — OG image for `/` is the wordmark plus the homepage hero still.
+ * Slice 16.32 — OG image for `/` is the homepage hero still, photo only.
  * CLOSE_AT null. No Stripe.
  */
 
@@ -30,7 +30,7 @@ function pngSize(body: Buffer): { width: number; height: number } {
   };
 }
 
-test.describe("slice 16.32: homepage OG is wordmark plus stainless still", () => {
+test.describe("slice 16.32: homepage OG is the hero still, photo only", () => {
   test("campaign money fences stay locked — CLOSE_AT null", () => {
     expect(FLOOR_USD).toBe(58_000);
     expect(GOAL_USD).toBe(120_000);
@@ -49,11 +49,13 @@ test.describe("slice 16.32: homepage OG is wordmark plus stainless still", () =>
     expect(vercelJsonIsHoldOrMainOnlyRestore()).toBe(true);
   });
 
-  test("OG source uses the wordmark and the homepage hero still", () => {
+  test("OG source is the homepage hero still, photo only", () => {
     const src = readFileSync(OG_SRC, "utf8");
-    expect(src).toContain("{PUBLIC_COPY.header.wordmark}");
+    const image = src.slice(src.indexOf("export default"));
     expect(src).toContain("HERO_STILL_WIDE");
-    expect(src).toContain("{PUBLIC_COPY.hero.imageAlt}");
+    expect(image).not.toContain("{PUBLIC_COPY.header.wordmark}");
+    expect(image).not.toContain("{PUBLIC_COPY.hero.imageAlt}");
+    expect(image).not.toMatch(/>\s*Floor|Buyout\s*\{/);
     expect(HERO_STILL_WIDE.src).toBe("/hero-truck-preview.jpg");
     expect(src).not.toMatch(/wrap[-_][^"'\s]*\.(png|jpe?g|svg|webp)/i);
     expect(src).not.toContain("artwork");

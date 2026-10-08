@@ -92,3 +92,7 @@ Idle. Wave 15 is Stripe and needs a human message.
 ## BMB-ETCH-DEMOTE-1
 
 - [x] Immortal Etch is one FAQ bonus entry. Off the homepage section, board label, panel badges, and seat lockup.
+
+## BMB-OG-PHOTO-1
+
+- [x] Homepage link preview is the truck photo only.
