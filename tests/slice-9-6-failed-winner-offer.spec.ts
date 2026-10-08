@@ -14,6 +14,7 @@ import {
   failedWinnerOfferUsd,
 } from "../src/lib/failed-winner-offer";
 import { nextStandingUsd } from "../src/lib/intent";
+import { markNewestAccountBidPaid } from "./helpers/mark-paid";
 
 async function signIn(page: import("@playwright/test").Page, email: string) {
   await page.goto("/signin");
@@ -92,6 +93,7 @@ test.describe("slice 9.6: failed-winner offer", () => {
 
   test("outbid viewer sees explicit offer prefilled — must submit", async ({
     browser,
+    request,
   }) => {
     const first = await browser.newPage();
     await signIn(first, "fw96-a@example.com");
@@ -105,6 +107,7 @@ test.describe("slice 9.6: failed-winner offer", () => {
       { timeout: 10_000 },
     );
     await expect(first.getByTestId("failed-winner-offer")).toHaveCount(0);
+    await markNewestAccountBidPaid(first, request, 2500);
     await first.close();
 
     const second = await browser.newPage();
@@ -118,6 +121,7 @@ test.describe("slice 9.6: failed-winner offer", () => {
       "not charged",
       { timeout: 10_000 },
     );
+    await markNewestAccountBidPaid(second, request, 2750);
     await second.close();
 
     const outbid = await browser.newPage();
@@ -149,18 +153,20 @@ test.describe("slice 9.6: failed-winner offer", () => {
     // Still listed as outbid until they submit — no silent reopen.
     await expect(outbid.getByTestId("intent-list")).toContainText("Outbid");
     await expect(outbid.getByTestId("panel-opening")).toContainText("$2,500");
-    await expect(outbid.getByTestId("panel-standing")).toHaveCount(0);
-    await expect(outbid.getByTestId("panel-pending")).toHaveText("$2,750");
+    await expect(outbid.getByTestId("panel-standing")).toHaveText("$2,750");
+    await expect(outbid.getByTestId("panel-pending")).toHaveCount(0);
 
     await outbid.getByTestId("intent-submit").click();
     await expect(outbid.getByTestId("intent-success")).toContainText(
       "not charged",
       { timeout: 10_000 },
     );
-    await expect(outbid.getByTestId("panel-opening")).toContainText("$2,500");
-    await expect(outbid.getByTestId("panel-standing")).toHaveCount(0);
-    await expect(outbid.getByTestId("panel-pending")).toHaveText("$3,025");
     await expect(outbid.getByTestId("failed-winner-offer")).toHaveCount(0);
+    await markNewestAccountBidPaid(outbid, request, 3025);
+    await outbid.goto("/panels/hood");
+    await expect(outbid.getByTestId("panel-opening")).toContainText("$2,500");
+    await expect(outbid.getByTestId("panel-standing")).toHaveText("$3,025");
+    await expect(outbid.getByTestId("panel-pending")).toHaveCount(0);
 
     const html = await outbid.content();
     expect(html.toLowerCase()).not.toMatch(/\blease\b/);

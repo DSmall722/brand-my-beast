@@ -168,12 +168,17 @@ test.describe("slice 9.4: floor-save intent", () => {
     await expect(page.getByTestId("intent-success")).toContainText(
       "not charged",
     );
-    await expect(page.getByTestId("intent-list")).toContainText("Floor Save UI");
-    await expect(page.getByTestId("intent-list")).toContainText(
+    await expect(page.getByTestId("intent-success")).toContainText(
       "if short of $58,000",
     );
+    await expect(page.getByTestId("public-seat-log")).toHaveCount(0);
+    await expect(page.getByTestId("panel-minimum")).toHaveText("$2,500");
     await expect(page.getByTestId("panel-opening")).toContainText("$2,500");
     await expect(page.getByTestId("panel-standing")).toHaveCount(0);
+    await page.goto("/account");
+    await expect(page.getByTestId("account-intents-list")).toContainText(
+      "Floor Save UI",
+    );
     const html = await page.content();
     expect(html.toLowerCase()).not.toMatch(/\blease\b/);
     expect(html).not.toContain("CLOSE_AT");

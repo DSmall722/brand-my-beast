@@ -9,6 +9,7 @@ import {
   formatUsd,
 } from "../src/lib/campaign";
 import { minIncrementUsd, nextStandingUsd } from "../src/lib/intent";
+import { markNewestAccountBidPaid } from "./helpers/mark-paid";
 
 async function signIn(page: import("@playwright/test").Page, email: string) {
   await page.goto("/signin");
@@ -74,7 +75,10 @@ test.describe("slice 9.2: seat next minimum", () => {
     expect(html).toContain("$58,000");
   });
 
-  test("held seat: min next = standing + max($250, 10%)", async ({ page }) => {
+  test("held seat: min next = standing + max($250, 10%)", async ({
+    page,
+    request,
+  }) => {
     const standingUsd = 2500;
     const increment = minIncrementUsd(standingUsd);
     const nextMin = nextStandingUsd(standingUsd);
@@ -91,14 +95,16 @@ test.describe("slice 9.2: seat next minimum", () => {
       "not charged",
       { timeout: 10_000 },
     );
+    await markNewestAccountBidPaid(page, request, standingUsd);
+    await page.goto("/panels/hood");
 
     await expect(page.getByTestId("panel-opening")).toContainText(
       formatUsd(standingUsd),
     );
-    await expect(page.getByTestId("panel-standing")).toHaveCount(0);
-    await expect(page.getByTestId("panel-pending")).toHaveText(
+    await expect(page.getByTestId("panel-standing")).toHaveText(
       formatUsd(standingUsd),
     );
+    await expect(page.getByTestId("panel-pending")).toHaveCount(0);
     await expect(page.getByTestId("panel-minimum")).toHaveText(
       formatUsd(nextMin),
     );
@@ -133,7 +139,10 @@ test.describe("slice 9.2: seat next minimum", () => {
     expect(html).not.toContain("CLOSE_AT");
   });
 
-  test("10% increment surfaces when larger than $250", async ({ page }) => {
+  test("10% increment surfaces when larger than $250", async ({
+    page,
+    request,
+  }) => {
     await signIn(page, "slice92-pct@example.com");
     await page.goto("/panels/hood");
     await page.getByTestId("intent-brand").fill("Percent Min Co");
@@ -144,12 +153,14 @@ test.describe("slice 9.2: seat next minimum", () => {
       "not charged",
       { timeout: 10_000 },
     );
+    await markNewestAccountBidPaid(page, request, 3000);
+    await page.goto("/panels/hood");
 
     expect(minIncrementUsd(3000)).toBe(300);
     expect(nextStandingUsd(3000)).toBe(3300);
     await expect(page.getByTestId("panel-opening")).toContainText("$2,500");
-    await expect(page.getByTestId("panel-standing")).toHaveCount(0);
-    await expect(page.getByTestId("panel-pending")).toHaveText("$3,000");
+    await expect(page.getByTestId("panel-standing")).toHaveText("$3,000");
+    await expect(page.getByTestId("panel-pending")).toHaveCount(0);
     await expect(page.getByTestId("panel-increment")).toHaveText("$300");
     await expect(page.getByTestId("panel-minimum")).toHaveText("$3,300");
     await expect(page.getByTestId("seat-next-minimum-rule")).toHaveCount(0);

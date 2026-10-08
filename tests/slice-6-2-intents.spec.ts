@@ -15,6 +15,7 @@ import {
   placeIntentBid,
   resetIntentStoreForTests,
 } from "../src/lib/intent-store";
+import { markNewestAccountBidPaid } from "./helpers/mark-paid";
 
 async function signIn(page: Page, email: string) {
   await page.goto("/signin");
@@ -156,11 +157,13 @@ test.describe("slice 6.2 seat UI: create / outbid / exclusivity / increment", ()
       "not charged",
       { timeout: 10_000 },
     );
+    await markNewestAccountBidPaid(holder, request, 2500);
+    await holder.goto("/panels/hood");
     await expect(holder.getByTestId("intent-list")).toContainText(
       "Slice Sixty Two UI Hold",
     );
     await expect(holder.getByTestId("panel-opening")).toContainText("$2,500");
-    await expect(holder.getByTestId("panel-standing")).toHaveCount(0);
+    await expect(holder.getByTestId("panel-standing")).toHaveText("$2,500");
     await expect(holder.getByTestId("panel-minimum")).toHaveText("$2,750");
     const holderHtml = await holder.content();
     expect(holderHtml.toLowerCase()).not.toMatch(/\blease\b/);
@@ -171,7 +174,7 @@ test.describe("slice 6.2 seat UI: create / outbid / exclusivity / increment", ()
     await signIn(low, "slice62-ui-low@example.com");
     await low.goto("/panels/hood");
     await expect(low.getByTestId("panel-opening")).toContainText("$2,500");
-    await expect(low.getByTestId("panel-standing")).toHaveCount(0);
+    await expect(low.getByTestId("panel-standing")).toHaveText("$2,500");
     await expect(low.getByTestId("panel-minimum")).toHaveText("$2,750");
     await low.getByTestId("intent-brand").fill("Slice Sixty Two UI Low");
     await low.getByTestId("intent-trade").fill("Circuit Tools");
@@ -213,12 +216,14 @@ test.describe("slice 6.2 seat UI: create / outbid / exclusivity / increment", ()
     await expect(ok.getByTestId("intent-success")).toContainText("not charged", {
       timeout: 10_000,
     });
+    await markNewestAccountBidPaid(ok, request, 2750);
+    await ok.goto("/panels/hood");
     await expect(ok.getByTestId("intent-list")).toContainText(
       "Slice Sixty Two UI Ok",
     );
     await expect(ok.getByTestId("panel-opening")).toContainText("$2,500");
-    await expect(ok.getByTestId("panel-standing")).toHaveCount(0);
-    await expect(ok.getByTestId("panel-pending")).toHaveText("$2,750");
+    await expect(ok.getByTestId("panel-standing")).toHaveText("$2,750");
+    await expect(ok.getByTestId("panel-pending")).toHaveCount(0);
     await expect(ok.getByTestId("panel-minimum")).toHaveText("$3,025");
     await expect(ok.getByTestId("seat-exclusivity")).toHaveCount(0);
     const okHtml = await ok.content();
