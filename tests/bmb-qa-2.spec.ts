@@ -14,7 +14,7 @@ import {
 } from "../src/lib/campaign-window";
 import {
   panelBoardMarkFor,
-  panelOverlayLabel,
+  panelDisplayName,
 } from "../src/lib/panel-board";
 import { PUBLIC_COPY } from "../src/lib/public-copy";
 import { hotspotsForView, type TruckViewId } from "../src/lib/truck-views";
@@ -41,7 +41,7 @@ async function expectSeatLinkRow(page: Page, view: TruckViewId) {
     const spot = expected[i]!;
     const link = links.nth(i);
     await expect(link).toHaveText(
-      panelOverlayLabel(panelBoardMarkFor(spot.panelId)),
+      panelDisplayName(panelBoardMarkFor(spot.panelId).name),
     );
     await expect(link).toHaveAttribute("href", `/panels/${spot.panelId}`);
     const linkBox = await box(link);

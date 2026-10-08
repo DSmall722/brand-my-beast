@@ -96,3 +96,7 @@ Idle. Wave 15 is Stripe and needs a human message.
 ## BMB-OG-PHOTO-1
 
 - [x] Homepage link preview is the truck photo only.
+
+## BMB-QA-1008
+
+- [x] BMB-QA-1008 public QA: floor tracker, alts, canonical, open copy, contact, tap targets, focus return. Bid logo and website left unchanged.

@@ -6,6 +6,7 @@ import { PANELS, type Panel } from "@/lib/campaign";
 import {
   BOARD_VIEW_OBJECT_POSITION,
   panelBoardMarkFor,
+  panelDisplayName,
   panelOverlayLabel,
 } from "@/lib/panel-board";
 import { PUBLIC_COPY } from "@/lib/public-copy";
@@ -37,6 +38,19 @@ const HOTSPOT_HIT_PAD: Record<
   "front-fascia": { x: 10, y: 36, w: 80, h: 19 },
   tailgate: { x: 44.5, y: 41.3, w: 41.2, h: 19.2 },
 };
+
+/** Invisible pad so the name chip's box is >=44px on a 390px phone. */
+function chipHitBox(chip: { x: number; y: number; w: number; h: number }) {
+  const w = Math.max(chip.w, 14);
+  const h = Math.max(chip.h, 20);
+  let x = chip.x + (chip.w - w) / 2;
+  let y = chip.y + (chip.h - h) / 2;
+  if (x < 0) x = 0;
+  if (y < 0) y = 0;
+  if (x + w > 100) x = Math.max(0, 100 - w);
+  if (y + h > 100) y = Math.max(0, 100 - h);
+  return { x, y, w, h };
+}
 
 /**
  * Driver / passenger / front / rear toggles on TRACE AID lime flats.
@@ -193,6 +207,7 @@ export function TruckViewHotspots({
               if (!panel) return null;
               const mark = panelBoardMarkFor(spot.panelId);
               const label = panelOverlayLabel(mark);
+              const cardName = panelDisplayName(mark.name);
               const held = occupied.has(spot.panelId);
               const active = activePanelId === spot.panelId;
               const hitPad = HOTSPOT_HIT_PAD[spot.panelId];
@@ -210,7 +225,7 @@ export function TruckViewHotspots({
                   data-seat-label={label}
                   data-panel-n={String(mark.n)}
                   aria-label={
-                    held ? `${label} — held seat` : `${label} — open seat`
+                    held ? `${cardName}, held seat` : `${cardName}, open seat`
                   }
                   onMouseDown={(event) => {
                     event.preventDefault();
@@ -253,6 +268,7 @@ export function TruckViewHotspots({
               const chip = chips.find((row) => row.panelId === spot.panelId);
               if (!chip) return null;
               const chipRy = chip.h / 2;
+              const hit = chipHitBox(chip);
               const lit = litPanelId === spot.panelId;
               return (
                 <a
@@ -274,6 +290,13 @@ export function TruckViewHotspots({
                     event.currentTarget.blur();
                   }}
                 >
+                  <rect
+                    className="truck-name-chip-hit"
+                    x={hit.x}
+                    y={hit.y}
+                    width={hit.w}
+                    height={hit.h}
+                  />
                   <rect
                     className={lit ? "truck-name-chip is-lit" : "truck-name-chip"}
                     data-testid={`truck-name-chip-${spot.panelId}`}
@@ -299,7 +322,7 @@ export function TruckViewHotspots({
                   className="btn btn-panel"
                   href={`/panels/${spot.panelId}`}
                 >
-                  {panelOverlayLabel(mark)}
+                  {panelDisplayName(mark.name)}
                 </a>
               );
             })}

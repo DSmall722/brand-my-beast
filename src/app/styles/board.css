@@ -2853,6 +2853,11 @@
 .truck-name-chip-link {
   pointer-events: auto;
 }
+.truck-name-chip-hit {
+  fill: transparent;
+  stroke: none;
+  pointer-events: none;
+}
 .truck-seat-hit {
   fill: transparent;
   stroke: none;
@@ -3211,6 +3216,7 @@
   margin-top: 2.5rem;
 }
 
+.day-by-day h2,
 .day-by-day h3 {
   margin: 0 0 0.75rem;
   font-family: var(--font-display), Syne, system-ui, sans-serif;
@@ -3580,18 +3586,27 @@ body:has(.bid-modal-root) {
   .panel-number-legend a,
   .waitlist-whole-truck,
   .bid-modal-close,
-  .truck-view-tab {
+  .truck-view-tab,
+  .truck-seat-links a {
     box-sizing: border-box;
     min-height: 44px;
+    min-width: 44px;
   }
 
   .header-nav > .nav-link,
-  .seat-masthead .eyebrow a {
+  .seat-masthead .eyebrow a,
+  .panel-number-legend a,
+  .truck-view-tab {
     display: inline-flex;
     align-items: center;
+    justify-content: center;
   }
 
   .waitlist-whole-truck {
     align-items: center;
+  }
+
+  .truck-name-chip-hit {
+    pointer-events: all;
   }
 }
