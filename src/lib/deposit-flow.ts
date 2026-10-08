@@ -216,7 +216,7 @@ export async function placeDepositBid(
     email,
     kind: "deposit",
     successUrl: `${input.origin}/bid/return?bid=${pending.id}`,
-    cancelUrl: `${input.origin}/panels/${panel.id}`,
+    cancelUrl: `${input.origin}/panels/${panel.id}?checkout=cancelled`,
   });
   await patchDepositBid(pending.id, { checkoutSessionId: session.id });
   return {
@@ -415,7 +415,7 @@ export async function placeRemainderCheckout(input: {
     email: input.email.trim().toLowerCase(),
     kind: "remainder",
     successUrl: `${input.origin}/bid/return?bid=${bid.id}`,
-    cancelUrl: `${input.origin}/panels/${bid.panelId}`,
+    cancelUrl: `${input.origin}/panels/${bid.panelId}?checkout=cancelled`,
   });
   if (!bid.checkoutSessionId) {
     await patchDepositBid(bid.id, { checkoutSessionId: session.id });

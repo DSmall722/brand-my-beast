@@ -48,7 +48,7 @@ export function DayByDay({
                     <span className="day-by-day-date">{day.dayLabel}</span>
                     <span className="day-by-day-count">
                       {day.bidCount} {day.bidCount === 1 ? "bid" : "bids"} ·{" "}
-                      {formatDayMoney(day.bidUsd)} bid
+                      {formatDayMoney(day.bidUsd)}
                     </span>
                   </span>
                   <span
@@ -56,7 +56,7 @@ export function DayByDay({
                     data-standing={day.standingUsd}
                     data-bid-usd={day.bidUsd}
                   >
-                    {formatDayMoney(day.standingUsd)}
+                    {formatDayMoney(day.standingUsd)} standing
                   </span>
                 </summary>
                 <ul className="day-by-day-lines">

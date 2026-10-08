@@ -37,6 +37,7 @@ Locked: 2026-09-23 — 16 buyer FAQ, no “Who is this for,” $120k is the etch
 - Open seats label: `Open seats`
 - Vault floor mark label: `Floor`
 - Vault empty (pledged $0): `No marks yet`
+- Day by day summary: `{n} bid · {amount}` or `{n} bids · {amount}`, then `{standing} standing`
 - Seat legend: `Open seat = empty. Held seat = standing intent.`
 - Board truck image label (alt): `Cybertruck with the 11 ad panels outlined`
 - Want all panels: `Buy the Whole Truck`
@@ -175,6 +176,8 @@ Not a homepage hero rewrite:
 - Failed-winner expired (13.11): `Failed-winner offer expired. Next compliant mark is up. No silent reopen.`
 - Failed-winner waitlist note: `Stay on the waitlist. This page does not charge cards.`
 - Deposit preview template: `{percent}% of this mark is {amount}. Not charged.`
+- Checkout cancelled: `Checkout cancelled. No deposit was taken and your bid was not placed. You can bid again below.`
+- Deposit pending return: `Your bid counts on the board once the deposit is confirmed. Refresh in a moment.`
 - Wins empty (13.28): `No approved seats yet. Operator approval on a listed intent opens this sheet. Still no card charge.`
 
 ## Chrome (not homepage H1)
