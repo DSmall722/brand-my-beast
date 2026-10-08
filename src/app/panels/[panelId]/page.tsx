@@ -41,7 +41,7 @@ import {
   listBidsForPanel,
   loadActiveMarkHoldersByPanel,
   loadStandingHoldersByPanel,
-  minimumIntentUsd,
+  publicMinimumUsd,
 } from "@/lib/intent-store";
 import { listBanRules } from "@/lib/operator-ban-list";
 import { panelBoardMarkFor, panelSeatH1 } from "@/lib/panel-board";
@@ -102,7 +102,7 @@ export default async function PanelIntentPage({
 
   const boardMark = panelBoardMarkFor(panel.id);
   const session = await auth();
-  const minimum = await minimumIntentUsd(panel.id);
+  const minimum = await publicMinimumUsd(panel.id);
   const bids = await listBidsForPanel(panel.id);
   const ledger = (
     await Promise.all(PANELS.map((row) => listBidsForPanel(row.id)))

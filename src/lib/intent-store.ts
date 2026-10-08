@@ -539,12 +539,25 @@ export async function listApprovedBidsForUser(
 export async function standingForPanel(panelId: string): Promise<number> {
   const panel = panelById(panelId);
   if (!panel) throw new Error(`Unknown panel: ${panelId}`);
-  // Public minimum ignores unpaid, withdrawn, outbid, and floor-save rows.
-  const paid = (await listBidsForPanel(panelId)).filter(countsAsPublicStanding);
-  return activeStandingUsd(paid, panel.openingUsd);
+  // Slice 13.14 — withdrawn / outbid / floor-save never ghost a standing mark.
+  return activeStandingUsd(await listBidsForPanel(panelId), panel.openingUsd);
 }
 
 export async function minimumIntentUsd(panelId: string): Promise<number> {
+  const panel = panelById(panelId);
+  if (!panel) throw new Error(`Unknown panel: ${panelId}`);
+  const active = (await listBidsForPanel(panelId)).filter(
+    (bid) =>
+      isLiveIntentBid(bid) &&
+      (bid.status === "listed" || bid.status === "approved") &&
+      !isFloorSaveBid(bid),
+  );
+  if (active.length === 0) return panel.openingUsd;
+  return nextStandingUsd(await standingForPanel(panelId));
+}
+
+/** Paid deposit only. Unpaid listed/approved rows do not raise the public next bid. */
+export async function publicMinimumUsd(panelId: string): Promise<number> {
   const panel = panelById(panelId);
   if (!panel) throw new Error(`Unknown panel: ${panelId}`);
   const paid = (await listBidsForPanel(panelId)).filter(countsAsPublicStanding);
