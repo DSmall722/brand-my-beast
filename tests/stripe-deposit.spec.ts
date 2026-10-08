@@ -185,7 +185,7 @@ test.describe("stripe deposit and campaign window", () => {
     await expect(window).toContainText("Oct 6, 2026, 12:00 PM ET");
     await expect(window).toContainText("Nov 2, 2026, 12:00 PM ET");
     await expect(page.getByTestId("faq-close-date")).toContainText(
-      "Bidding closes Monday, November 2, 2026 at 12:00 PM ET. A bid in the last 10 minutes pushes the close back 10 minutes.",
+      "Bidding is open and closes Monday, November 2, 2026 at 12:00 PM ET. A bid in the last 10 minutes pushes the close back 10 minutes.",
     );
     await expect(page.getByTestId("close-copy")).toHaveCount(0);
     expect(campaignWindowSentence({

@@ -8,7 +8,7 @@ Locked: 2026-09-23 — 16 buyer FAQ, no “Who is this for,” $120k is the etch
 ## Meta
 
 - Title: `BrandMyBeast — Advertise your brand on the truck that people already photograph`
-- Description: `11 ad panels on one Cybertruck, wrapped for a year and driven across the Southeast. Bidding is open through Nov 2 at noon ET.`
+- Description: `11 ad panels on one Cybertruck, wrapped for a year and driven across the Southeast. Bidding is open. Closes Mon Nov 2, 2026, 12:00 PM ET.`
 
 ## Header
 
@@ -31,14 +31,11 @@ Locked: 2026-09-23 — 16 buyer FAQ, no “Who is this for,” $120k is the etch
 - Raised label: `Pledged so far`
 - Floor label: `Floor`
 - Floor hint: `Miss the $58,000 goal and every deposit is refunded.`
-- Buyout label: `Buyout`
-- Clock line when CLOSE_AT is null: `Bidding is not open. Nothing is charged on this page.`
+- Clock line when CLOSE_AT is null: `Bidding is open. Closes Mon Nov 2, 2026, 12:00 PM ET. Nothing is charged on this page.`
 - Deposit line: `20% of the bid is charged when you place it. If you do not win, that deposit is refunded after close. A winner's deposit is credited to the invoice. Nothing is charged on this page.`
 - Shortfall floor label: `Short of floor`
-- Shortfall buyout label: `Short of fully funded`
 - Open seats label: `Open seats`
 - Vault floor mark label: `Floor`
-- Vault buyout mark label: `Fully funded`
 - Vault empty (pledged $0): `No marks yet`
 - Seat legend: `Open seat = empty. Held seat = standing intent.`
 - Board truck image label (alt): `Cybertruck with the 11 ad panels outlined`
@@ -61,7 +58,7 @@ The **Buy the Whole Truck** board button is not rendered on `/`. Whole-truck int
 ## Eleven panels
 
 - Heading: `Bid on a Panel`
-- Lead: `Select a panel below for more details.`
+- Lead: `Pick a panel to place a bid.`
 - Badge etch: `Immortal Etch Locked` — not shown on public panel cards
 - Badge wrap: `Wrap only` — not shown on public panel cards
 - Standing open: `Open seat`
@@ -137,7 +134,7 @@ Buyer questions. No “Who is this for.” No wreck / totaled / last-second on `
 - Heading: `Contact Us`
 - Placeholder: `you@company.com`
 - Button: `Contact BMB`
-- Idle note: `We only email when seats open.`
+- Idle note: `Bidding is open. Closes Mon Nov 2, 2026, 12:00 PM ET.`
 - Retention: `Waitlist retention: until seats open or user deletes.`
 - Success: `Thanks. We will be in touch.`
 - Already: `That email is already on the list.`

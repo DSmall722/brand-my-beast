@@ -134,7 +134,8 @@ test.describe("slice 7.6: waitlist Resend notifies hello@", () => {
       expect(result.ok).toBe(false);
       if (result.ok) return;
       expect(result.code).toBe("unavailable");
-      expect(result.error.toLowerCase()).toContain("not on the list");
+      expect(result.error.toLowerCase()).toContain("could not send");
+      expect(result.error.toLowerCase()).not.toContain("not on the list");
       expect(result.error.toLowerCase()).not.toMatch(/\bjoined\b/);
       expect(sent).toHaveLength(0);
     } finally {

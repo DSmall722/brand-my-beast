@@ -42,7 +42,7 @@ test.describe("slice 16.29: card opening prices use formatUsd", () => {
       join(process.cwd(), "src/components/home/HomePanelsSection.tsx"),
       "utf8",
     );
-    expect(src).toMatch(/formatUsd,\s*isEtchable\s*\} from ["']@\/lib\/campaign["']/);
+    expect(src).toMatch(/formatUsd\s*\} from ["']@\/lib\/campaign["']/);
     expect(src).toContain("currentBidUsd");
     expect(src).toContain("PUBLIC_COPY.bidDesk.openingFloor");
     expect(src).toContain("Current Bid ${formatUsd(bidUsd)}");
@@ -67,7 +67,6 @@ test.describe("slice 16.29: card opening prices use formatUsd", () => {
     );
     await expect(page.getByTestId("panel-hood")).toContainText("Opening floor $2,500");
     await expect(page.getByTestId("floor-amount")).toHaveText("$58,000");
-    await expect(page.getByTestId("goal-amount")).toHaveText("$120,000");
   });
 
   test("homepage still does not render FEATURES.md", async ({ request }) => {
@@ -76,7 +75,6 @@ test.describe("slice 16.29: card opening prices use formatUsd", () => {
     const html = await res.text();
     expect(html).not.toContain("FEATURES.md");
     expect(html).toContain("$58,000");
-    expect(html).toContain("$120,000");
     expect(html.toLowerCase()).not.toMatch(/\blease\b/);
   });
 });

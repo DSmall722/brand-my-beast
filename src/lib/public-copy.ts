@@ -4,9 +4,10 @@
  */
 
 import { BRAND, CLOSE_AT, FLOOR_USD, OPEN_AT, PANELS, formatUsd } from "./campaign";
-import { SOFT_CLOSE_MS } from "./campaign-window";
+import { SOFT_CLOSE_MS, publishedCloseLabelEt } from "./campaign-window";
 import { PANEL_BOARD_MARKS, panelLegendLabel } from "./panel-board";
 import { formatCampaignInstantEt } from "./seat-log";
+
 
 /** Card gloss is off. Panel names carry the seat; bumper rules stay in RULES.md. */
 const PANEL_GLOSS: Readonly<Record<string, string>> = {};
@@ -36,7 +37,7 @@ function longCloseLabelEt(iso: string): string {
 }
 
 const SOFT_CLOSE_MINUTES = SOFT_CLOSE_MS / 60_000;
-const FAQ_CLOSE_ANSWER = `Bidding closes ${longCloseLabelEt(CLOSE_AT ?? "")}. A bid in the last ${SOFT_CLOSE_MINUTES} minutes pushes the close back ${SOFT_CLOSE_MINUTES} minutes.`;
+const FAQ_CLOSE_ANSWER = `Bidding is open and closes ${longCloseLabelEt(CLOSE_AT ?? "")}. A bid in the last ${SOFT_CLOSE_MINUTES} minutes pushes the close back ${SOFT_CLOSE_MINUTES} minutes.`;
 
 /** Slice 16.25 — whole-truck package is the numbered board, 1 Hood through 11 Rear bumper. */
 export function wholeTruckPackageCopy(): string {
@@ -48,7 +49,7 @@ export const PUBLIC_COPY = {
   meta: {
     title:
       "BrandMyBeast — Advertise your brand on the truck that people already photograph",
-    description: `${PANELS.length} ad panels on one Cybertruck, wrapped for a year and driven across the Southeast. Bidding is open through Nov 2 at noon ET.`,
+    description: `${PANELS.length} ad panels on one Cybertruck, wrapped for a year and driven across the Southeast. Bidding is open. Closes ${publishedCloseLabelEt()}.`,
   },
   header: {
     wordmark: "BrandMyBeast",
@@ -61,6 +62,8 @@ export const PUBLIC_COPY = {
     secondaryCta: "Bid on a Panel",
     howItWorksCta: "How it Works",
     imageAlt: "Example wrap on the BrandMyBeast truck. Seats are open for bids.",
+    ogImageAlt:
+      "A Tesla Cybertruck Cyberbeast with example brand wraps on its panels.",
     caption: "Example wrap. Your brand here.",
   },
   board: {
@@ -70,25 +73,19 @@ export const PUBLIC_COPY = {
     raisedHint: "",
     floorLabel: "Floor",
     floorHint: `Miss the ${formatUsd(FLOOR_USD)} goal and every deposit is refunded.`,
-    buyoutLabel: "Buyout",
-    buyoutHint: "",
     clockWhenCloseNull:
       "Bidding is not open. Nothing is charged on this page.",
     depositLine:
       "20% of the bid is charged when you place it. If you do not win, that deposit is refunded after close. A winner's deposit is credited to the invoice. Nothing is charged on this page.",
     shortfallFloorLabel: "Short of floor",
-    shortfallBuyoutLabel: "Short of fully funded",
     openSeatsLabel: "Open seats",
     vaultFloorMarkLabel: "Floor",
-    vaultBuyoutMarkLabel: "Fully funded",
     /** Slice 19.10 — vault copy while pledged is $0. Not an empty auction. */
     vaultEmpty: "No marks yet",
     /** Slice 20.6 — board legend. Buyer sentence, not Open seat · Held =. */
     seatLegend: "Open seat = empty. Held seat = standing intent.",
     truckImageAlt: `Cybertruck with the ${PANELS.length} ad panels outlined`,
     wantAllPanels: "Buy the Whole Truck",
-    /** Right-hand vault percent. Floor percent stays “% of floor”. */
-    goalProgressTail: "of campaign fully funded",
     wholeTruckHeading: "Whole truck — $120,000",
     /** Slice 20.7 — one sentence on `/`. 11-name dump stays on the form. */
     wholeTruckLead:
@@ -108,8 +105,8 @@ export const PUBLIC_COPY = {
   },
   panels: {
     heading: "Bid on a Panel",
-    leadLines: ["Select a panel below for more details."],
-    lead: "Select a panel below for more details.",
+    leadLines: ["Pick a panel to place a bid."],
+    lead: "Pick a panel to place a bid.",
     badgeEtch: "Immortal Etch Locked",
     badgeWrap: "Wrap only",
     /** Slice 10.9 — panel card standing line when no mark holds. */
@@ -152,29 +149,6 @@ export const PUBLIC_COPY = {
     cost: "After Immortal Etch is installed there is no cash refund of that finish.",
     art: "One color, thick strokes, no gradients, no tiny type. If it cannot be cut, it does not ship.",
     forever: "Immortal Etch is forever.",
-    sampleSlots: [
-      {
-        id: "hood",
-        label: "Immortal Etch sample, front",
-        src: "/etch-sample-hood.jpg",
-        width: 1280,
-        height: 861,
-      },
-      {
-        id: "door",
-        label: "Immortal Etch sample, side",
-        src: "/etch-sample-door.jpg",
-        width: 1280,
-        height: 853,
-      },
-      {
-        id: "tailgate",
-        label: "Immortal Etch sample, rear",
-        src: "/etch-sample-tailgate.jpg",
-        width: 1280,
-        height: 861,
-      },
-    ],
   },
   wreck: {
     heading: "Wreck & refund",
@@ -275,21 +249,19 @@ export const PUBLIC_COPY = {
     lead: "",
     placeholder: "you@company.com",
     button: "Contact BMB",
-    idleNote: "We only email when seats open.",
+    idleNote: `Bidding is open. Closes ${publishedCloseLabelEt()}.`,
+    idleNoteBefore: "We only email when seats open.",
     /** Slice 13.39 — privacy stub waitlist retention. */
     retention: "Waitlist retention: until seats open or user deletes.",
     success: "Thanks. We will be in touch.",
     already: "That email is already on the list.",
     /** Slice 6.5 — never imply join when the write did not land. */
-    unavailable:
-      "Waitlist is temporarily unavailable. You are not on the list yet.",
+    unavailable: `Could not send that. Try again or email ${BRAND.email}.`,
     failed: `That didn't send. Try again, or email ${BRAND.email}.`,
     /** Slice 6.6 — never claim joined on 429. */
-    rateLimited:
-      "Too many attempts. You are not on the list. Wait a moment and try again.",
+    rateLimited: `Could not send that. Try again or email ${BRAND.email}.`,
     /** Slice 13.31 — disposable / blocked domain. */
-    domainBlocked:
-      "That email domain is blocked. You are not on the list. Use a lasting inbox.",
+    domainBlocked: `Could not send that. Try again or email ${BRAND.email}.`,
     /** Slice 16.0b — interest checkbox copy. Not pledged. Not on the vault bar. */
     wholeTruckCheckboxLabel: "I want the whole truck",
     wholeTruckCheckboxHint:
@@ -332,7 +304,7 @@ export const PUBLIC_COPY = {
     /** QA 1047PM — stainless seat chrome above Immortal Etch Locked. */
     wrapTwelveMonths: "Vinyl wrap for 12 months after installation.",
     /** QA 1047PM — bumper seats are wrap-only. */
-    bumperWrapOnly: "Wrap only. Vinyl wrap for 12 months after installation.",
+    bumperWrapOnly: "Vinyl wrap for 12 months after installation.",
     withdrawSuccess: "Intent withdrawn. Still not charged.",
     withdrawButton: "Withdraw pending intent",
     failedWinnerWaitlist:
@@ -369,6 +341,8 @@ export const PUBLIC_COPY = {
   panelExtension: {
     heading: "Soft-close extension",
     unset:
+      `This seat is not on a soft-close extension. Bidding is open. Closes ${publishedCloseLabelEt()}. This page does not charge cards.`,
+    unsetBefore:
       "This seat is not on a soft-close extension. Bidding is not open. This page does not charge cards.",
     setLead: "This seat's soft-close window runs until",
     setTail:
@@ -422,7 +396,8 @@ export const PUBLIC_COPY = {
     leaderboardEvery: "Every bid ever placed, highest first.",
     leaderboardStay: "Outbid bids stay on this list.",
     leaderboardEmptyBefore: "No bids yet. Bidding opens Oct 6 at noon ET.",
-    leaderboardEmptyAfter: "No bids yet. Be the first to put your brand on the Beast.",
+    leaderboardEmptyAfter:
+      "No bids yet. Be the first to put your brand on the Beast.",
     leaderboardSeePanels: "See the panels",
     leaderboardRest: "The rest of the field",
     modalTitle: "Place a bid",
@@ -431,12 +406,10 @@ export const PUBLIC_COPY = {
     intentResult:
       "This mark stays intent only. No card was charged. The operator still approves artwork.",
     artwork: "We review every logo before it goes on the truck.",
-    magicLink:
-      "Manage a bid with a one-time email link. No password. This form does not charge a card.",
+    magicLink: `Questions about your bid? Email ${BRAND.email}.`,
     depositChargeTemplate:
       "Deposit due now: {amount} ({percent}% of your bid), charged by Stripe.",
-    depositMagicLink:
-      "After your deposit goes through, we email you a link to manage your bid. No password needed.",
+    depositMagicLink: `Questions about your bid? Email ${BRAND.email}.`,
     coveredResult:
       "Earlier deposits on this seat cover this bid. It counts on the board.",
     trade: "Trade",
@@ -449,6 +422,7 @@ export const PUBLIC_COPY = {
     website: "Website (optional)",
     /** Server placeDepositBid does not require a file. Label stays optional. */
     logo: "Logo (optional, you can send it later)",
+    logoSend: `Winning brands send their logo to ${BRAND.email}.`,
     panel: "Panel",
     currentBid: "Current bid",
     minimumBid: "Minimum bid",
@@ -457,10 +431,59 @@ export const PUBLIC_COPY = {
   },
 } as const;
 
+type CalendarCopyKind = "before_open" | "open" | "closed";
+
+function calendarCopyKind(nowMs: number = Date.now()): CalendarCopyKind {
+  const openMs = Date.parse(OPEN_AT);
+  const closeMs = Date.parse(CLOSE_AT ?? "");
+  if (Number.isFinite(openMs) && nowMs < openMs) return "before_open";
+  if (Number.isFinite(closeMs) && nowMs >= closeMs) return "closed";
+  return "open";
+}
+
 /** Empty leaderboard line. Before OPEN_AT vs after. Not the live-charge flag. */
 export function leaderboardEmptyCopy(nowMs: number = Date.now()): string {
   if (nowMs >= Date.parse(OPEN_AT)) {
     return PUBLIC_COPY.bidDesk.leaderboardEmptyAfter;
   }
   return PUBLIC_COPY.bidDesk.leaderboardEmptyBefore;
+}
+
+export function faqCloseAnswer(nowMs: number = Date.now()): string {
+  const close = longCloseLabelEt(CLOSE_AT ?? "");
+  const tail = `A bid in the last ${SOFT_CLOSE_MINUTES} minutes pushes the close back ${SOFT_CLOSE_MINUTES} minutes.`;
+  const kind = calendarCopyKind(nowMs);
+  if (kind === "closed") return `Bidding closed ${close}.`;
+  if (kind === "before_open") return `Bidding closes ${close}. ${tail}`;
+  return FAQ_CLOSE_ANSWER;
+}
+
+export function closedDeskLead(nowMs: number = Date.now()): string {
+  if (calendarCopyKind(nowMs) === "closed") {
+    return `Bidding closed ${publishedCloseLabelEt()}. No deposit is taken on this form. ${CLOSED_ASK}`;
+  }
+  return PUBLIC_COPY.bidDesk.closedLead;
+}
+
+export function closedDeskResult(nowMs: number = Date.now()): string {
+  if (calendarCopyKind(nowMs) === "closed") {
+    return `Bidding closed ${publishedCloseLabelEt()}. No deposit was taken. ${CLOSED_ASK}`;
+  }
+  return PUBLIC_COPY.bidDesk.closedResult;
+}
+
+export function panelExtensionUnsetCopy(nowMs: number = Date.now()): string {
+  const kind = calendarCopyKind(nowMs);
+  if (kind === "closed") {
+    return `This seat is not on a soft-close extension. Bidding closed ${publishedCloseLabelEt()}. This page does not charge cards.`;
+  }
+  if (kind === "before_open") return PUBLIC_COPY.panelExtension.unsetBefore;
+  return PUBLIC_COPY.panelExtension.unset;
+}
+
+export function waitlistIdleNote(nowMs: number = Date.now()): string {
+  const kind = calendarCopyKind(nowMs);
+  if (kind === "closed") return `Bidding closed ${publishedCloseLabelEt()}.`;
+  if (kind === "before_open") return PUBLIC_COPY.waitlist.idleNoteBefore;
+  return PUBLIC_COPY.waitlist.idleNote;
 }

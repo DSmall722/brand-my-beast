@@ -1,7 +1,7 @@
 import { BRAND, formatUsd, FLOOR_USD, GOAL_USD } from "./campaign";
 import { publishedCloseLabelEt } from "./campaign-window";
 import { PANEL_BOARD_MARKS, panelLegendLabel } from "./panel-board";
-import { PUBLIC_COPY } from "./public-copy";
+import { PUBLIC_COPY, waitlistIdleNote } from "./public-copy";
 
 /**
  * Slice 14.21 / 16.20 — `/llms.txt` from PUBLIC_COPY plus the 1–11 seats.
@@ -25,8 +25,6 @@ export function buildLlmsTxt(): string {
     PUBLIC_COPY.board.lead,
     PUBLIC_COPY.board.floorLabel,
     PUBLIC_COPY.board.floorHint,
-    PUBLIC_COPY.board.buyoutLabel,
-    PUBLIC_COPY.board.buyoutHint,
     PUBLIC_COPY.board.depositLine,
     "",
     PUBLIC_COPY.panels.heading,
@@ -39,17 +37,14 @@ export function buildLlmsTxt(): string {
       step.body,
     ]),
     "",
-    PUBLIC_COPY.etch.heading,
-    PUBLIC_COPY.etch.body,
-    PUBLIC_COPY.etch.whyBuyout,
-    "",
     PUBLIC_COPY.waitlist.heading,
     PUBLIC_COPY.waitlist.lead,
-    PUBLIC_COPY.waitlist.idleNote,
+    waitlistIdleNote(),
     "",
     // Campaign locks — same numbers PUBLIC_COPY already prints; CLOSE_AT fence.
-    `Floor ${formatUsd(FLOOR_USD)}. Immortal Etch ${formatUsd(GOAL_USD)}.`,
-    `Closes ${publishedCloseLabelEt()}.`,
+    `If total bids pass ${formatUsd(GOAL_USD)}, see the FAQ for the etch bonus.`,
+    `Floor ${formatUsd(FLOOR_USD)}.`,
+    `Bidding is open. Closes ${publishedCloseLabelEt()}.`,
     "Eleven numbered seats",
     ...PANEL_BOARD_MARKS.map((mark) => panelLegendLabel(mark)),
     "",

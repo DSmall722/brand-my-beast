@@ -110,13 +110,12 @@ test.describe("Syne lockup, board marks, seat lead", () => {
     await expect(hood).not.toContainText("Immortal Etch");
     await expect(hood).not.toContainText("Current Bid");
     await expect(hood).not.toContainText("Etchable only");
-    await expect(page.getByTestId("seat-finish")).toHaveAttribute(
+    await expect(page.getByTestId("seat-finish")).not.toHaveAttribute(
       "data-etchable",
-      "true",
     );
     const html = await page.content();
     expect(html).toContain("$58,000");
-    expect(html).toContain("$120,000");
+    expect(html).not.toContain("data-buyout");
     expect(html.toLowerCase()).not.toMatch(/\blease\b/);
     expect(html).not.toContain("FEATURES.md");
 
@@ -125,18 +124,16 @@ test.describe("Syne lockup, board marks, seat lead", () => {
     await expect(fascia).toContainText(PUBLIC_COPY.seat.wrapTwelveMonths);
     await expect(fascia).not.toContainText("Immortal Etch");
     await expect(fascia).not.toContainText("forever");
-    await expect(page.getByTestId("seat-finish")).toHaveAttribute(
+    await expect(page.getByTestId("seat-finish")).not.toHaveAttribute(
       "data-etchable",
-      "true",
     );
 
     await page.goto("/panels/front-bumper");
     const bumper = page.getByTestId("seat-lead");
     await expect(bumper).toHaveText(PUBLIC_COPY.seat.bumperWrapOnly);
     await expect(bumper).not.toContainText("Current Bid");
-    await expect(page.getByTestId("seat-finish")).toHaveAttribute(
+    await expect(page.getByTestId("seat-finish")).not.toHaveAttribute(
       "data-etchable",
-      "false",
     );
   });
 });

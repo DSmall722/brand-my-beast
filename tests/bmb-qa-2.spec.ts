@@ -14,7 +14,7 @@ import {
 } from "../src/lib/campaign-window";
 import {
   panelBoardMarkFor,
-  panelOverlayLabel,
+  panelDisplayName,
 } from "../src/lib/panel-board";
 import { PUBLIC_COPY } from "../src/lib/public-copy";
 import { hotspotsForView, type TruckViewId } from "../src/lib/truck-views";
@@ -41,7 +41,7 @@ async function expectSeatLinkRow(page: Page, view: TruckViewId) {
     const spot = expected[i]!;
     const link = links.nth(i);
     await expect(link).toHaveText(
-      panelOverlayLabel(panelBoardMarkFor(spot.panelId)),
+      panelDisplayName(panelBoardMarkFor(spot.panelId).name),
     );
     await expect(link).toHaveAttribute("href", `/panels/${spot.panelId}`);
     const linkBox = await box(link);
@@ -88,7 +88,7 @@ test.describe("BMB-QA-2 legal, leaderboard, hotspots, contact", () => {
       "No bids yet. Bidding opens Oct 6 at noon ET.",
     );
     expect(PUBLIC_COPY.meta.description).toBe(
-      `${PANELS.length} ad panels on one Cybertruck, wrapped for a year and driven across the Southeast. Bidding is open through Nov 2 at noon ET.`,
+      `${PANELS.length} ad panels on one Cybertruck, wrapped for a year and driven across the Southeast. Bidding is open. Closes Mon Nov 2, 2026, 12:00 PM ET.`,
     );
     expect(PUBLIC_COPY.meta.description).not.toContain("opens Oct");
     expect(PUBLIC_COPY.meta.description).not.toMatch(/[—–]/);
@@ -268,7 +268,7 @@ test.describe("BMB-QA-2 legal, leaderboard, hotspots, contact", () => {
     page,
   }) => {
     expect(PUBLIC_COPY.seat.bumperWrapOnly).toBe(
-      "Wrap only. Vinyl wrap for 12 months after installation.",
+      "Vinyl wrap for 12 months after installation.",
     );
     expect(PUBLIC_COPY.seat.wrapTwelveMonths).toBe(
       "Vinyl wrap for 12 months after installation.",

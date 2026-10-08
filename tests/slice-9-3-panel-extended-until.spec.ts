@@ -127,7 +127,6 @@ test.describe("slice 9.3: panelExtendedUntil", () => {
     expect(html).not.toContain("CLOSE_AT");
     expect(html.toLowerCase()).not.toMatch(/\blease\b/);
     expect(html).toContain("$58,000");
-    expect(html).toContain("$120,000");
   });
 
   test("seat shows set extension timestamp; CLOSE_AT still null", async ({

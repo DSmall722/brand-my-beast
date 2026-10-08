@@ -4,7 +4,7 @@ import { FLOOR_USD, PANELS, formatUsd } from "@/lib/campaign";
 import { panelBoardMarkFor, panelSeatH1 } from "@/lib/panel-board";
 import { PUBLIC_COPY } from "@/lib/public-copy";
 
-export const alt = "Seat number and panel name";
+export const alt = PUBLIC_COPY.hero.ogImageAlt;
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 

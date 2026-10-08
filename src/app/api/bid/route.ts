@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import { depositDeskOpen } from "@/lib/campaign-clock";
 import { placeDepositBid } from "@/lib/deposit-flow";
 import { listAllIntentBids } from "@/lib/intent-store";
-import { PUBLIC_COPY } from "@/lib/public-copy";
+import { closedDeskResult } from "@/lib/public-copy";
 
 export const runtime = "nodejs";
 
@@ -24,7 +24,7 @@ export async function POST(request: Request) {
     return NextResponse.json(
       {
         ok: false,
-        error: PUBLIC_COPY.bidDesk.closedResult,
+        error: closedDeskResult(),
         code: "bidding_closed",
       },
       { status: 403 },

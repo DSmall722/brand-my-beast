@@ -66,6 +66,5 @@ test.describe("slice 12.27: opening-bid rationale from RULES.md", () => {
 
     const html = await page.content();
     expect(html.toLowerCase()).not.toMatch(/\blease\b/);
-    expect(html).toContain("$120,000");
   });
 });

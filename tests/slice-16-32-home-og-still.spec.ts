@@ -86,7 +86,7 @@ test.describe("slice 16.32: homepage OG is the hero still, photo only", () => {
     );
     await expect(page.locator('meta[property="og:image:alt"]')).toHaveAttribute(
       "content",
-      new RegExp(PUBLIC_COPY.header.wordmark),
+      PUBLIC_COPY.hero.ogImageAlt,
     );
   });
 
@@ -96,7 +96,6 @@ test.describe("slice 16.32: homepage OG is the hero still, photo only", () => {
     const html = await res.text();
     expect(html).not.toContain("FEATURES.md");
     expect(html).toContain("$58,000");
-    expect(html).toContain("$120,000");
     expect(html.toLowerCase()).not.toMatch(/\blease\b/);
   });
 });

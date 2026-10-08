@@ -78,6 +78,9 @@ test.describe("slice 6.6: rate-limit waitlist + intent POSTs", () => {
 
   test("rate-limit copy never claims joined or listed", () => {
     expect(PUBLIC_COPY.waitlist.rateLimited.toLowerCase()).toContain(
+      "could not send",
+    );
+    expect(PUBLIC_COPY.waitlist.rateLimited.toLowerCase()).not.toContain(
       "not on the list",
     );
     expect(PUBLIC_COPY.waitlist.rateLimited.toLowerCase()).not.toMatch(
@@ -126,7 +129,8 @@ test.describe("slice 6.6: rate-limit waitlist + intent POSTs", () => {
     expect(body.error).toBe(PUBLIC_COPY.waitlist.rateLimited);
     expect(body.error?.toLowerCase()).not.toMatch(/\bjoined\b/);
     expect(body.error?.toLowerCase()).not.toMatch(/you are on the list/);
-    expect(body.error?.toLowerCase()).toContain("not on the list");
+    expect(body.error?.toLowerCase()).toContain("could not send");
+    expect(body.error?.toLowerCase()).not.toContain("not on the list");
   });
 
   test("waitlist UI on 429 never shows waitlist-next / joined", async ({

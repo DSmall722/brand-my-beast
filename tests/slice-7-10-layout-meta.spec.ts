@@ -46,7 +46,7 @@ test.describe("slice 7.10: layout meta matches PUBLIC_COPY", () => {
     );
     expect(PUBLIC_COPY.meta.title).not.toMatch(/advertise on a Cybertruck/i);
     expect(PUBLIC_COPY.meta.description).toBe(
-      "11 ad panels on one Cybertruck, wrapped for a year and driven across the Southeast. Bidding is open through Nov 2 at noon ET.",
+      "11 ad panels on one Cybertruck, wrapped for a year and driven across the Southeast. Bidding is open. Closes Mon Nov 2, 2026, 12:00 PM ET.",
     );
     expect(PUBLIC_COPY.meta.description).not.toContain("opens Oct");
     expect(PUBLIC_COPY.meta.description).not.toMatch(/[—–]/);

@@ -5,13 +5,20 @@ import { PUBLIC_COPY } from "@/lib/public-copy";
 export function DayByDay({
   model,
   showPanel = true,
+  hideWhenEmpty = false,
+  headingLevel = "h3",
 }: {
   model: DayByDayModel;
   /** Homepage rows name the panel. A seat page already is that panel. */
   showPanel?: boolean;
+  /** Home hides the block when there are no bids. */
+  hideWhenEmpty?: boolean;
+  headingLevel?: "h2" | "h3";
 }) {
   const copy = PUBLIC_COPY.bidDesk;
   const empty = model.days.length === 0;
+  if (hideWhenEmpty && empty) return null;
+  const HeadingTag = headingLevel;
 
   return (
     <section
@@ -21,7 +28,7 @@ export function DayByDay({
       data-empty={empty ? "true" : "false"}
       aria-labelledby="day-by-day-title"
     >
-      <h3 id="day-by-day-title">{copy.dayHeading}</h3>
+      <HeadingTag id="day-by-day-title">{copy.dayHeading}</HeadingTag>
       {model.source === "sample" ? (
         <p className="auth-hint" data-testid="day-by-day-lead">
           {copy.daySampleLead}

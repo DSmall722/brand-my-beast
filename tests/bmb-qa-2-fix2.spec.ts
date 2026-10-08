@@ -5,7 +5,7 @@ import { PUBLIC_COPY } from "../src/lib/public-copy";
 
 const OPEN_NOW = "2026-10-06T16:00:00.000Z";
 const FAQ_CLOSE =
-  "Bidding closes Monday, November 2, 2026 at 12:00 PM ET. A bid in the last 10 minutes pushes the close back 10 minutes.";
+  "Bidding is open and closes Monday, November 2, 2026 at 12:00 PM ET. A bid in the last 10 minutes pushes the close back 10 minutes.";
 const TRUCK_ALT = `Cybertruck with the ${PANELS.length} ad panels outlined`;
 const HERO_ALT =
   "Example wrap on the BrandMyBeast truck. Seats are open for bids.";
@@ -140,10 +140,7 @@ test.describe("BMB-QA-2-FIX2 bid form, copy, a11y", () => {
       `${formatUsd(FLOOR_USD)} still needed to fund the wrap; ${PANELS.length} seats open.`,
     );
 
-    const history = page.getByTestId("day-by-day");
-    await expect(history).toHaveAttribute("data-empty", "true");
-    await expect(history.getByTestId("day-by-day-empty")).toHaveText("No bids yet.");
-    await expect(history).not.toContainText("Be the first");
+    await expect(page.getByTestId("day-by-day")).toHaveCount(0);
 
     for (const text of [FAQ_CLOSE, FLOOR_HINT, HERO_ALT, HERO_CAPTION, TRUCK_ALT, label, "No bids yet."]) {
       expect(text).not.toMatch(NO_EM);

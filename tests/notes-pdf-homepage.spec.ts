@@ -65,8 +65,8 @@ test.describe("notes PDF homepage sheet", () => {
       "$58,000",
     );
     await expect(page.getByTestId("floor-amount")).toHaveText("$58,000");
-    await expect(page.getByTestId("goal-amount")).toHaveText("$120,000");
-    await expect(page.locator("#money")).toContainText("Buyout");
+    await expect(page.getByTestId("goal-amount")).toHaveCount(0);
+    await expect(page.locator("#money")).not.toContainText("Buyout");
     await expect(page.locator("#money")).not.toContainText("Immortal Etch");
     await expect(page.locator("#money")).not.toContainText("No marks yet");
     await expect(page.locator("#money")).not.toContainText(
@@ -79,20 +79,22 @@ test.describe("notes PDF homepage sheet", () => {
 
     await expect(page.getByTestId("want-all-panels")).toHaveCount(0);
     await expect(page.getByTestId("vault-goal-label")).toHaveCount(0);
-    await expect(page.getByTestId("goal-progress-copy")).toHaveText(
-      "0% of campaign fully funded",
-    );
+    await expect(page.getByTestId("goal-progress-copy")).toHaveCount(0);
     await expect(page.getByTestId("floor-progress-copy")).toHaveText("0% of floor");
     const floorMarker = await page.getByTestId("vault-marker-floor").boundingBox();
     const floorLabel = await page.getByTestId("vault-floor-label").boundingBox();
-    if (!floorMarker || !floorLabel) {
+    const track = await page.locator(".progress-track").boundingBox();
+    if (!floorMarker || !floorLabel || !track) {
       throw new Error("floor marker or label missing");
     }
     const markerCenter = floorMarker.x + floorMarker.width / 2;
-    const labelCenter = floorLabel.x + floorLabel.width / 2;
-    expect(Math.abs(markerCenter - labelCenter)).toBeLessThan(12);
+    const labelRight = floorLabel.x + floorLabel.width;
+    expect(Math.abs(labelRight - (track.x + track.width))).toBeLessThan(2);
+    expect(Math.abs(labelRight - markerCenter)).toBeLessThan(2);
+    expect(floorLabel.x).toBeGreaterThanOrEqual(track.x);
+    await expect(page.getByTestId("vault-floor-label")).toContainText("$58,000");
     await expect(page.getByTestId("panels-lead")).toHaveText(
-      "Select a panel below for more details.",
+      "Pick a panel to place a bid.",
     );
     await expect(page.getByTestId("etch-unlock")).toHaveCount(0);
     await expect(page.getByTestId("etch-section")).toHaveCount(0);

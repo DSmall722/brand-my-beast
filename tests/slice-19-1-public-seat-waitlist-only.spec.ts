@@ -112,7 +112,6 @@ test.describe("slice 19.1: public seats waitlist-only while closed", () => {
     expect(visible).not.toContain("Sign in to list an intent");
     const html = await page.content();
     expect(html).toContain("$58,000");
-    expect(html).toContain("$120,000");
     expect(html).not.toContain("FEATURES.md");
     expect(html.toLowerCase()).not.toMatch(/\blease\b/);
     expect(html).not.toMatch(/@gmail\.com/);
@@ -138,7 +137,6 @@ test.describe("slice 19.1: public seats waitlist-only while closed", () => {
     await expect(page.getByTestId("waitlist-submit")).toHaveText("Contact BMB");
     const html = (await page.content()).toLowerCase();
     expect(html).toContain("$58,000");
-    expect(html).toContain("$120,000");
     expect(html).not.toMatch(/\blease\b/);
     expect(html).not.toContain("features.md");
   });

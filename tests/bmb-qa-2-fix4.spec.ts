@@ -10,7 +10,7 @@ import { depositUsdForMark } from "../src/lib/intent";
 import { PUBLIC_COPY } from "../src/lib/public-copy";
 
 const OPEN_NOW = "2026-10-06T16:00:00.000Z";
-const BUMPER_LINE = "Wrap only. Vinyl wrap for 12 months after installation.";
+const BUMPER_LINE = "Vinyl wrap for 12 months after installation.";
 const SEND_FAILED = `That didn't send. Try again, or email ${BRAND.email}.`;
 const DAYS = WINNER_PAY_MS / (24 * 60 * 60 * 1000);
 const NO_DASH = /[\u2014\u2013]/;
@@ -63,7 +63,7 @@ test.describe("BMB-QA-2-FIX4 Site QA items", () => {
       "Contact emails are kept until we have answered or you ask us to delete them. Bid and brand information is kept while we run the auction and contact winners. Server logs are kept only as long as needed for security and operations.",
     );
     await expect(page.getByTestId("privacy-cookies")).toHaveText(
-      "We use only the cookies the site needs to work.",
+      "We use only the cookies the site needs to work. The site uses Vercel Web Analytics for privacy-friendly page-view and event counts (no cookies, no ad tracking).",
     );
     await expect(
       page.getByRole("heading", { level: 2, name: "Who processes it" }),
@@ -250,16 +250,15 @@ test.describe("BMB-QA-2-FIX4 Site QA items", () => {
       "We review every logo before it goes on the truck.",
     );
     await expect(page.getByTestId("bid-modal-magic")).toHaveText(
-      "After your deposit goes through, we email you a link to manage your bid. No password needed.",
+      PUBLIC_COPY.bidDesk.depositMagicLink,
     );
     await expect(page.getByTestId("bid-modal-trade-hint")).toHaveText(
       "Your type of business, e.g. Roofing. One brand per trade.",
     );
-    await expect(page.locator("label[for='bid-logo']")).toHaveText(
-      "Logo (optional, you can send it later)",
-    );
-    await expect(page.getByTestId("bid-modal-logo")).not.toHaveAttribute(
-      "required",
+    await expect(page.getByTestId("bid-modal-logo")).toHaveCount(0);
+    await expect(page.getByTestId("bid-modal-website")).toHaveCount(0);
+    await expect(page.getByTestId("bid-modal-logo-send")).toHaveText(
+      PUBLIC_COPY.bidDesk.logoSend,
     );
     await expect(modal.locator("dt").first()).toHaveText("Opening price");
     await expect(

@@ -2,7 +2,7 @@ import { AuctionLive } from "@/components/home/AuctionLive";
 import { DayByDay } from "@/components/home/DayByDay";
 import type { AuctionLive as AuctionLiveModel } from "@/lib/auction-board";
 import type { DayByDay as DayByDayModel } from "@/lib/bid-desk";
-import { FLOOR_USD, GOAL_USD, PANELS, formatUsd } from "@/lib/campaign";
+import { FLOOR_USD, PANELS, formatUsd } from "@/lib/campaign";
 import { isWholeTruckIntentOpen } from "@/lib/intent-store";
 import { PUBLIC_COPY } from "@/lib/public-copy";
 
@@ -17,14 +17,10 @@ function shortfallTickerLabel(shortfallFloor: number, openSeats: number): string
 type HomeMoneySectionProps = {
   raisedLabel: string;
   floorLabel: string;
-  goalLabel: string;
-  goalPct: number;
-  floorMarkerPct: number;
   floorPct: number;
   closeCopy: string;
   windowSentence: string;
   shortfallFloor: number;
-  shortfallGoal: number;
   openSeats: number;
   pledgedUsd: number;
   dayByDay: DayByDayModel;
@@ -39,14 +35,10 @@ type HomeMoneySectionProps = {
 export function HomeMoneySection({
   raisedLabel,
   floorLabel,
-  goalLabel,
-  goalPct,
-  floorMarkerPct,
   floorPct,
   closeCopy,
   windowSentence,
   shortfallFloor,
-  shortfallGoal,
   openSeats,
   pledgedUsd,
   dayByDay,
@@ -80,12 +72,6 @@ export function HomeMoneySection({
                 {PUBLIC_COPY.board.floorHint}
               </p>
             </div>
-            <div className="money-cell">
-              <div className="label">{PUBLIC_COPY.board.buyoutLabel}</div>
-              <div className="value" data-testid="goal-amount">
-                {goalLabel}
-              </div>
-            </div>
           </div>
           <div
             className="progress visual-vault"
@@ -94,47 +80,35 @@ export function HomeMoneySection({
             role="img"
             aria-label={
               pledgedUsd === 0
-                ? `Floor marker at ${floorLabel}.`
-                : `Visual vault: ${raisedLabel} of ${goalLabel}. Floor marker at ${floorLabel}.`
+                ? `Floor ${floorLabel}.`
+                : `${raisedLabel} toward the ${floorLabel} floor.`
             }
           >
             <div className="progress-track" aria-hidden="true">
               <div
                 className="progress-fill"
                 data-testid="money-progress-fill"
-                style={{ width: `${goalPct}%` }}
+                style={{ width: `${floorPct}%` }}
               />
               <span
                 className="vault-marker vault-marker-floor"
                 data-testid="vault-marker-floor"
                 data-mark-usd={FLOOR_USD}
-                data-mark-pct={floorMarkerPct}
-                style={{ left: `${floorMarkerPct}%` }}
-                title={`${PUBLIC_COPY.board.vaultFloorMarkLabel} ${floorLabel}`}
-              />
-              <span
-                className="vault-marker vault-marker-goal"
-                data-testid="vault-marker-goal"
-                data-mark-usd={GOAL_USD}
                 data-mark-pct={100}
                 style={{ left: "100%" }}
-                title={`${PUBLIC_COPY.board.vaultBuyoutMarkLabel} ${goalLabel}`}
+                title={`${PUBLIC_COPY.board.vaultFloorMarkLabel} ${floorLabel}`}
               />
             </div>
             <div className="vault-legend" data-testid="vault-legend">
               <span
                 className="vault-floor-label"
                 data-testid="vault-floor-label"
-                style={{ left: `${floorMarkerPct}%` }}
               >
                 {PUBLIC_COPY.board.vaultFloorMarkLabel} {floorLabel}
               </span>
             </div>
             <div className="progress-meta">
               <span data-testid="floor-progress-copy">{floorPct}% of floor</span>
-              <span data-testid="goal-progress-copy">
-                {goalPct}% {PUBLIC_COPY.board.goalProgressTail}
-              </span>
               {closeCopy === PUBLIC_COPY.board.clockWhenCloseNull ? null : (
                 <span data-testid="close-copy">{closeCopy}</span>
               )}
@@ -152,16 +126,6 @@ export function HomeMoneySection({
               </dt>
               <dd data-testid="shortfall-floor">
                 {formatUsd(shortfallFloor)}
-              </dd>
-            </div>
-            ) : null}
-            {pledgedUsd > 0 ? (
-            <div>
-              <dt data-testid="shortfall-goal-label">
-                {PUBLIC_COPY.board.shortfallBuyoutLabel}
-              </dt>
-              <dd data-testid="shortfall-goal">
-                {formatUsd(shortfallGoal)}
               </dd>
             </div>
             ) : null}
@@ -184,7 +148,7 @@ export function HomeMoneySection({
             </p>
           )}
           <AuctionLive model={auctionLive} />
-          <DayByDay model={dayByDay} />
+          <DayByDay model={dayByDay} hideWhenEmpty />
         </section>
   );
 }

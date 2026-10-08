@@ -49,6 +49,9 @@ test.describe("slice 6.5: DB-down failure copy", () => {
 
   test("waitlist + intent failure strings never claim success", () => {
     expect(PUBLIC_COPY.waitlist.unavailable.toLowerCase()).toContain(
+      "could not send",
+    );
+    expect(PUBLIC_COPY.waitlist.unavailable.toLowerCase()).not.toContain(
       "not on the list",
     );
     expect(PUBLIC_COPY.waitlist.unavailable.toLowerCase()).not.toMatch(
@@ -93,7 +96,8 @@ test.describe("slice 6.5: DB-down failure copy", () => {
     const text = (await error.innerText()).toLowerCase();
     expect(text).not.toMatch(/\bjoined\b/);
     expect(text).not.toMatch(/you are on the list/);
-    expect(text).toContain("not on the list");
+    expect(text).toContain("could not send");
+    expect(text).not.toContain("not on the list");
   });
 
   test("waitlist UI on 500 never shows joined / on the list", async ({
@@ -174,7 +178,8 @@ test.describe("slice 6.5: DB-down failure copy", () => {
       expect(result.ok).toBe(false);
       if (result.ok) return;
       expect(result.code).toBe("unavailable");
-      expect(result.error.toLowerCase()).toContain("not on the list");
+      expect(result.error.toLowerCase()).toContain("could not send");
+      expect(result.error.toLowerCase()).not.toContain("not on the list");
       expect(result.error.toLowerCase()).not.toMatch(/\bjoined\b/);
       expect(SUCCESS_CLAIM.test(result.error)).toBe(false);
     } finally {

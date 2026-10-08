@@ -5,8 +5,8 @@ import type { CSSProperties, MouseEvent } from "react";
 import { ImmortalEtchLockup } from "@/components/ImmortalEtchLockup";
 import { PublicMark } from "@/components/PublicMark";
 import { useOpenBid } from "@/components/home/BidDesk";
-import { PANELS, currentBidUsd, formatUsd, isEtchable } from "@/lib/campaign";
-import { PANEL_BOARD_MARKS, panelFaceStyle } from "@/lib/panel-board";
+import { PANELS, currentBidUsd, formatUsd } from "@/lib/campaign";
+import { PANEL_BOARD_MARKS, panelDisplayName, panelFaceStyle } from "@/lib/panel-board";
 import { PUBLIC_COPY } from "@/lib/public-copy";
 
 export type PanelCardStanding = {
@@ -18,11 +18,9 @@ export type PanelCardStanding = {
 
 /** Slice 7.1 / 10.9 / 16.1 — panel grid; cards show 1–12 index + standing. */
 export function HomePanelsSection({
-  etchUnlocked,
   standingByPanel,
   pendingByPanel = {},
 }: {
-  etchUnlocked: boolean;
   standingByPanel: Readonly<Record<string, PanelCardStanding>>;
   pendingByPanel?: Readonly<Record<string, { standingUsd: number }>>;
 }) {
@@ -39,7 +37,7 @@ export function HomePanelsSection({
       return;
     }
     event.preventDefault();
-    openBid(panelId);
+    openBid(panelId, event.currentTarget);
   }
 
   return (
@@ -64,7 +62,6 @@ export function HomePanelsSection({
                   `panel card index drift: ${panel.id} vs board mark`,
                 );
               }
-              const etchable = isEtchable(panel);
               const gloss = PUBLIC_COPY.panels.gloss[panel.id];
               const standing = standingByPanel[panel.id] ?? null;
               const pending = pendingByPanel[panel.id] ?? null;
@@ -78,8 +75,6 @@ export function HomePanelsSection({
                   className="panel"
                   data-testid={`panel-${panel.id}`}
                   data-panel-n={String(mark.n)}
-                  data-etchable={etchable ? "true" : "false"}
-                  data-etch-unlocked={etchUnlocked ? "true" : "false"}
                   data-standing={standing ? "held" : "open"}
                 >
                   <Link
@@ -108,7 +103,7 @@ export function HomePanelsSection({
                       >
                         {mark.n}
                       </span>
-                      {panel.name}
+                      {panelDisplayName(panel.name)}
                       {gloss ? (
                         <span className="panel-gloss"> ({gloss})</span>
                       ) : null}

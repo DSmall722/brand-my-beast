@@ -1,10 +1,8 @@
 import { expect, test, type Page } from "@playwright/test";
 import {
   FLOOR_USD,
-  GOAL_USD,
   PANELS,
   formatUsd,
-  isEtchable,
 } from "../src/lib/campaign";
 import { PUBLIC_COPY } from "../src/lib/public-copy";
 
@@ -73,21 +71,10 @@ test.describe("P1 waitlist campaign locks", () => {
     await expect(page.getByTestId("floor-amount")).toHaveText(
       formatUsd(FLOOR_USD),
     );
-    await expect(page.getByTestId("goal-amount")).toHaveText(
-      formatUsd(GOAL_USD),
-    );
+    await expect(page.getByTestId("goal-amount")).toHaveCount(0);
     await expect(page.getByTestId("raised-amount")).toHaveText(formatUsd(0));
-    await expect(page.getByTestId("day-by-day")).toHaveAttribute(
-      "data-source",
-      "live",
-    );
-    await expect(page.getByTestId("day-by-day")).toHaveAttribute(
-      "data-empty",
-      "true",
-    );
-    await expect(page.getByTestId("day-by-day")).not.toContainText("Sample Mark");
-    await expect(page.getByTestId("day-by-day-empty")).toHaveText("No bids yet.");
-    await expect(page.getByTestId("day-by-day")).not.toContainText("Be the first");
+    await expect(page.getByTestId("day-by-day")).toHaveCount(0);
+    await expect(page.getByRole("heading", { name: "Day by day" })).toHaveCount(0);
     await expect(
       page.getByText(PUBLIC_COPY.bidDesk.todayEmpty, { exact: true }),
     ).toHaveCount(1);
@@ -128,52 +115,23 @@ test.describe("P1 waitlist campaign locks", () => {
     const shortfallText = (await shortfallTicker.innerText()).toLowerCase();
     expect(shortfallText).not.toMatch(/impression|cpm|reach/i);
     await expect(page.getByTestId("floor-progress-copy")).toHaveText("0% of floor");
-    await expect(page.getByTestId("goal-progress-copy")).toHaveText(
-      `0% ${PUBLIC_COPY.board.goalProgressTail}`,
-    );
+    await expect(page.getByTestId("goal-progress-copy")).toHaveCount(0);
     await expect(page.getByTestId("visual-vault")).toBeVisible();
     await expect(page.getByTestId("vault-marker-floor")).toBeVisible();
-    await expect(page.getByTestId("vault-marker-goal")).toBeVisible();
+    await expect(page.getByTestId("vault-marker-goal")).toHaveCount(0);
     await expect(page.getByTestId("vault-marker-floor")).toHaveAttribute(
       "data-mark-usd",
       String(FLOOR_USD),
     );
-    await expect(page.getByTestId("vault-marker-goal")).toHaveAttribute(
-      "data-mark-usd",
-      String(GOAL_USD),
-    );
     await expect(page.getByTestId("vault-marker-floor")).toHaveAttribute(
-      "data-mark-pct",
-      String(Math.round((FLOOR_USD / GOAL_USD) * 1000) / 10),
-    );
-    await expect(page.getByTestId("vault-marker-goal")).toHaveAttribute(
       "data-mark-pct",
       "100",
     );
     await expect(page.getByTestId("vault-marker-floor")).toHaveAttribute(
       "style",
-      new RegExp(
-        `left:\\s*${Math.round((FLOOR_USD / GOAL_USD) * 1000) / 10}%`,
-      ),
-    );
-    await expect(page.getByTestId("vault-marker-goal")).toHaveAttribute(
-      "style",
       /left:\s*100%/,
     );
     expect(await page.getByTestId("vault-marker-floor").count()).toBe(1);
-    expect(await page.getByTestId("vault-marker-goal").count()).toBe(1);
-    expect(
-      await page
-        .getByTestId("visual-vault")
-        .getByTestId("vault-marker-floor")
-        .count(),
-    ).toBe(1);
-    expect(
-      await page
-        .getByTestId("visual-vault")
-        .getByTestId("vault-marker-goal")
-        .count(),
-    ).toBe(1);
     await expect(page.getByTestId("vault-floor-label")).toHaveText(
       `${PUBLIC_COPY.board.vaultFloorMarkLabel} ${formatUsd(FLOOR_USD)}`,
     );
@@ -259,12 +217,8 @@ test.describe("P1 waitlist campaign locks", () => {
     for (const panel of PANELS) {
       const card = page.getByTestId(`panel-${panel.id}`);
       await expect(card).toBeVisible();
-      if (isEtchable(panel)) {
-        await expect(card).toHaveAttribute("data-etchable", "true");
-        await expect(card).toHaveAttribute("data-etch-unlocked", "false");
-      } else {
-        await expect(card).toHaveAttribute("data-etchable", "false");
-      }
+      await expect(card).not.toHaveAttribute("data-etchable");
+      await expect(card).not.toHaveAttribute("data-etch-unlocked");
       await expect(page.getByTestId(`etch-lock-${panel.id}`)).toHaveCount(0);
       await expect(
         card.getByText(PUBLIC_COPY.panels.badgeWrap, { exact: true }),
@@ -342,9 +296,7 @@ test.describe("P1 waitlist campaign locks", () => {
     await expect(page.getByTestId("floor-amount")).toHaveText(
       formatUsd(FLOOR_USD),
     );
-    await expect(page.getByTestId("goal-amount")).toHaveText(
-      formatUsd(GOAL_USD),
-    );
+    await expect(page.getByTestId("goal-amount")).toHaveCount(0);
     const html = await page.content();
     expect(html.toLowerCase()).not.toMatch(/\blease\b/);
     expect(html).not.toContain("CLOSE_AT");

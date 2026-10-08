@@ -75,7 +75,6 @@ test.describe("slice 19.2: hometown off public seats", () => {
 
       const html = await page.content();
       expect(html).toContain("$58,000");
-      expect(html).toContain("$120,000");
       expect(html).not.toContain("FEATURES.md");
       expect(html.toLowerCase()).not.toMatch(/\blease\b/);
       expect(html).not.toMatch(/@gmail\.com/);
@@ -89,7 +88,6 @@ test.describe("slice 19.2: hometown off public seats", () => {
     await expect(page.getByTestId("waitlist-submit")).toHaveText("Contact BMB");
     const html = (await page.content()).toLowerCase();
     expect(html).toContain("$58,000");
-    expect(html).toContain("$120,000");
     expect(html).not.toMatch(/\blease\b/);
     expect(html).not.toContain("features.md");
   });

@@ -79,7 +79,6 @@ test.describe("slice 16.0a: hide public whole-truck sign-in", () => {
     await expect(page.getByTestId("whole-truck-intent-form")).toHaveCount(0);
     await expect(page.getByTestId("want-all-panels")).toHaveCount(0);
     await expect(page.getByTestId("whole-truck-heading")).toHaveCount(0);
-    await expect(page.getByTestId("goal-amount")).toHaveText("$120,000");
     await expect(page.getByTestId("floor-amount")).toHaveText("$58,000");
     await expect(page.getByTestId("visual-vault")).toBeVisible();
     const html = await page.content();

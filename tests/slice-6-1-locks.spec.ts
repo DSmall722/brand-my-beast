@@ -65,9 +65,6 @@ test.describe("slice 6.1: floor, buyout, etch lock, no lease, no personal handle
     await expect(page.getByTestId("floor-amount")).toHaveText(
       formatUsd(FLOOR_USD),
     );
-    await expect(page.getByTestId("goal-amount")).toHaveText(
-      formatUsd(GOAL_USD),
-    );
     await expect(page.getByTestId("raised-amount")).toHaveText(formatUsd(0));
 
     const html = await page.content();

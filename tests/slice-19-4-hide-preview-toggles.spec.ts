@@ -79,7 +79,6 @@ test.describe("slice 19.4: hide preview toggles while truck does not exist", () 
 
     const html = await page.content();
     expect(html).toContain("$58,000");
-    expect(html).toContain("$120,000");
     expect(html).not.toContain("FEATURES.md");
     expect(html.toLowerCase()).not.toMatch(/\blease\b/);
     expect(html).not.toMatch(/@gmail\.com/);
@@ -94,6 +93,5 @@ test.describe("slice 19.4: hide preview toggles while truck does not exist", () 
     expect(html).not.toMatch(/\blease\b/);
     expect(html).not.toContain("features.md");
     expect(html).toContain("$58,000");
-    expect(html).toContain("$120,000");
   });
 });

@@ -58,17 +58,10 @@ test.describe("Oct 4 QA sweep", () => {
   }) => {
     await page.goto("/");
     await expect(page.getByTestId("raised-amount")).toHaveText("$0");
-    const history = page.getByTestId("day-by-day");
-    await expect(history).toHaveAttribute("data-source", "live");
-    await expect(history).toHaveAttribute("data-empty", "true");
-    await expect(history.getByTestId("day-by-day-empty")).toHaveText("No bids yet.");
-    await expect(history).not.toContainText("Be the first");
+    await expect(page.getByTestId("day-by-day")).toHaveCount(0);
     await expect(
       page.getByText(PUBLIC_COPY.bidDesk.todayEmpty, { exact: true }),
     ).toHaveCount(1);
-    await expect(history.getByTestId("day-by-day-lead")).toHaveCount(0);
-    await expect(history.locator(".day-by-day-list")).toHaveCount(0);
-    await expect(history).not.toContainText("Sample Mark");
     await expect(page.getByTestId("panel-hood")).not.toContainText("Sample Mark");
     await expect(page.getByTestId("panel-current-bid-hood")).toHaveText(
       "Opening floor $2,500",

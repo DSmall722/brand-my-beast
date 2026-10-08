@@ -75,7 +75,6 @@ test.describe("slice 20.6: buyer seat legend sentence", () => {
     const html = await page.content();
     expect(html).not.toContain("Open seat · Held = standing intent");
     expect(html).toContain("$58,000");
-    expect(html).toContain("$120,000");
     expect(html).not.toContain("FEATURES.md");
     expect(html.toLowerCase()).not.toMatch(/\blease\b/);
   });

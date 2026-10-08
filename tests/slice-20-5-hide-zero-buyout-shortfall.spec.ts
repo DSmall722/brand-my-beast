@@ -54,7 +54,6 @@ test.describe("slice 20.5: hide short of buyout at pledged $0", () => {
   }) => {
     await page.goto("/");
     await expect(page.getByTestId("raised-amount")).toHaveText(formatUsd(0));
-    await expect(page.getByTestId("goal-amount")).toHaveText("$120,000");
     const money = await page.getByTestId("shortfall-ticker").innerText();
     expect(money).not.toMatch(/Short of buyout/);
     await expect(page.getByTestId("shortfall-goal")).toHaveCount(0);
@@ -62,7 +61,6 @@ test.describe("slice 20.5: hide short of buyout at pledged $0", () => {
     await expect(page.locator("#hero-title")).toHaveText(PUBLIC_COPY.hero.h1);
     const html = await page.content();
     expect(html).toContain("$58,000");
-    expect(html).toContain("$120,000");
     expect(html).not.toContain("FEATURES.md");
     expect(html.toLowerCase()).not.toMatch(/\blease\b/);
   });

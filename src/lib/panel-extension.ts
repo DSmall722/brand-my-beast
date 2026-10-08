@@ -4,7 +4,7 @@
  */
 
 import { CLOSE_AT, PANELS, type Panel } from "./campaign";
-import { PUBLIC_COPY } from "./public-copy";
+import { PUBLIC_COPY, panelExtensionUnsetCopy } from "./public-copy";
 
 export type PanelExtendedUntil = string | null;
 
@@ -47,7 +47,7 @@ export function panelExtendedUntilCopy(until: PanelExtendedUntil): {
   if (!until) {
     return {
       heading,
-      body: PUBLIC_COPY.panelExtension.unset,
+      body: panelExtensionUnsetCopy(),
       isSet: false,
     };
   }
