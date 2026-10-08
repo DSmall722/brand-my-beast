@@ -175,10 +175,10 @@ test.describe("P1 waitlist campaign locks", () => {
     );
     await expect(page.getByTestId("vault-goal-label")).toHaveCount(0);
 
-    await expect(page.getByTestId("etch-section")).toBeVisible();
+    await expect(page.getByTestId("etch-section")).toHaveCount(0);
     await expect(
-      page.getByRole("heading", { name: PUBLIC_COPY.etch.heading }),
-    ).toBeVisible();
+      page.getByRole("heading", { name: PUBLIC_COPY.etch.heading, exact: true }),
+    ).toHaveCount(0);
     await expect(page.getByTestId("questions-section")).toBeVisible();
     await expect(
       page.getByRole("heading", { name: PUBLIC_COPY.questions.heading }),
@@ -258,15 +258,16 @@ test.describe("P1 waitlist campaign locks", () => {
       if (isEtchable(panel)) {
         await expect(card).toHaveAttribute("data-etchable", "true");
         await expect(card).toHaveAttribute("data-etch-unlocked", "false");
-        await expect(page.getByTestId(`etch-lock-${panel.id}`)).toHaveText(
-          PUBLIC_COPY.panels.badgeEtch,
-        );
       } else {
         await expect(card).toHaveAttribute("data-etchable", "false");
-        await expect(
-          card.getByText(PUBLIC_COPY.panels.badgeWrap, { exact: true }),
-        ).toBeVisible();
       }
+      await expect(page.getByTestId(`etch-lock-${panel.id}`)).toHaveCount(0);
+      await expect(
+        card.getByText(PUBLIC_COPY.panels.badgeWrap, { exact: true }),
+      ).toHaveCount(0);
+      await expect(
+        card.getByText(PUBLIC_COPY.panels.badgeEtch, { exact: true }),
+      ).toHaveCount(0);
     }
   });
 
@@ -308,7 +309,7 @@ test.describe("P1 waitlist campaign locks", () => {
     expect(html).toContain("@BrandMyBeast");
     expect(html).toContain("hello@brandmybeast.com");
     expect(html).toContain(HERO_TITLE);
-    expect(html).toContain(PUBLIC_COPY.etch.heading);
+    expect(html).not.toContain('data-testid="etch-section"');
     expect(html).not.toContain("CLOSE_AT");
     expect(html).not.toContain("Close date unset");
     expect(lower).not.toContain("soft auction");

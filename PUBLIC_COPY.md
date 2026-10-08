@@ -31,7 +31,7 @@ Locked: 2026-09-23 — 16 buyer FAQ, no “Who is this for,” $120k is the etch
 - Raised label: `Pledged so far`
 - Floor label: `Floor`
 - Floor hint: `Miss the floor and every bid is refunded.`
-- Buyout label: `Unlock Immortal Etch`
+- Buyout label: `Buyout`
 - Clock line when CLOSE_AT is null: `Bidding is not open. Nothing is charged on this page.`
 - Deposit line: `When bidding opens, 20% of the bid is charged. If you do not win, that deposit is refunded after close. A winner's deposit is credited to the invoice. Nothing is charged on this page.`
 - Shortfall floor label: `Short of floor`
@@ -44,7 +44,7 @@ Locked: 2026-09-23 — 16 buyer FAQ, no “Who is this for,” $120k is the etch
 - Board truck image label (alt): `Stainless Cyberbeast preview. Numbers live on the board.`
 - Want all panels: `Buy the Whole Truck`
 - Whole-truck heading: `Whole truck — $120,000`
-- Whole-truck lead: `One brand on every panel and Immortal Etch on nine steel faces. Standing panel winners released. Nothing is charged on this page.`
+- Whole-truck lead: `One brand on every panel. Standing panel winners released. Nothing is charged on this page.`
 - Whole-truck amount label: `Buyout mark`
 - Whole-truck CTA: `List a whole-truck intent`
 - Whole-truck sign-in: `Sign in to list a whole-truck intent`
@@ -62,8 +62,8 @@ The **Buy the Whole Truck** board button is not rendered on `/`. Whole-truck int
 
 - Heading: `Bid on a Panel`
 - Lead: `Select a panel below for more details.`
-- Badge etch: `Immortal Etch Locked`
-- Badge wrap: `Wrap only`
+- Badge etch: `Immortal Etch Locked` — not shown on public panel cards
+- Badge wrap: `Wrap only` — not shown on public panel cards
 - Standing open: `Open seat`
 
 Panel card names match the board. No gloss line on the card. Eleven seats. Nine etch. Roof, tonneau, and rear fascia are retired.
@@ -79,9 +79,11 @@ Panel card names match the board. No gloss line on the card. Eleven seats. Nine 
 - 03 title: `Get on the Truck`
 - 03 body: `When the campaign ends, winning brands will have their approved ad printed on high quality vinyl wrap and proudly displayed on the truck for 12 full months.`
 
-Three guest steps, side by side from 900px. Floor and buyout stay in Track the Auction, Immortal Etch, and the FAQ. They are not How it works steps.
+Three guest steps, side by side from 900px. Floor and buyout stay in Track the Auction and the FAQ. They are not How it works steps.
 
 ## Immortal Etch
+
+Not rendered on `/` (BMB-ETCH-DEMOTE-1). Heading, body, and why-buyout still feed `/llms.txt`. The public pitch is the single FAQ entry below.
 
 - Heading: `Immortal Etch` — same section header as the other homepage H2s. Body lockup stays `.immortal-etch`.
 - Unlock (moved from Bid on a Panel):
@@ -98,10 +100,9 @@ Three guest steps, side by side from 900px. Floor and buyout stay in Track the A
 Money facts from CAMPAIGN.md only. Plain English. Not a full contract. Contract language stays here. It is not the homepage FAQ.
 
 - Heading: `Wreck & refund`
-- Lead: `Here is what happens if the campaign misses, the wrap year ends early, or Immortal Etch is already cut.`
-- Q: `What if the board misses $58,000?` A: `Full refund. No order. No wrap. No Immortal Etch.`
+- Lead: `Here is what happens if the campaign misses or the wrap year ends early.`
+- Q: `What if the board misses $58,000?` A: `Full refund. No order. No wrap.`
 - Q: `What if the wrap year is cut short?` A: `Wrap lasts twelve months from install. If the truck is totaled or sold before month 12, wrap seats get a pro-rata refund for the months left.`
-- Q: `What if Immortal Etch is already installed?` A: `No cash refund of that finish. The record is a piece of the cut panel and a vault certificate.`
 
 ## Questions
 
@@ -110,16 +111,16 @@ Buyer questions. No “Who is this for.” No wreck / totaled / last-second on `
 - Heading: `FAQ`
 - Q: `Does the operator own the truck yet?` A: `The operator does not own the truck yet. This auction buys it.`
 - Q: `Is this Tesla?` A: `No. BrandMyBeast is independent. Cyberbeast is the trim this campaign funds. Tesla doesn’t run this, endorse it, or get a cut.`
-- Q: `What am I actually buying?` A: `A seat on the truck for your brand. There are eleven panels. Vinyl wrap is available on all of them. Immortal Etch — a frost of your mark in the stainless — is available on nine of them once standing crosses $120,000. The two bumpers stay wrap. You’re buying the panel, the finish, and a year of miles. Not a follower count. Not a guaranteed number of views.`
-- Q: `How long is my brand on the truck?` A: `Wraps run twelve months from install. Etch stays in the steel.`
+- Q: `What am I actually buying?` A: `A seat on the truck for your brand. There are eleven panels. Vinyl wrap is available on all of them. You’re buying the panel, the finish, and a year of miles. Not a follower count. Not a guaranteed number of views.`
+- Q: `How long is my brand on the truck?` A: `Wraps run twelve months from install.`
 - Q: `What if two of us are in the same business?` A: `One trade, one brand on the truck. Name your business when you bid. If that trade is already standing on a panel, that’s the seat you bid.`
 - Q: `How does payment work?` A: `Twenty percent of your bid is charged when you place it. That deposit is what makes a bid standing. Bid again on the same seat and deposits you already paid count toward the new one. Outbid deposits are refunded after the board closes. Miss $58,000 and every deposit is refunded. A winner's deposit is credited to the invoice. If the winner does not pay the rest within 7 days, the deposit is forfeited and the seat goes to the next bidder.`
 - Q: `What if someone outbids me?` A: `You’re off that panel. The deposit you paid is refunded after the board closes. You can bid again on another seat, or come back at the new number on this one. A new bid on the same seat counts deposits you already paid.`
 - Q: `Can I take more than one panel?` A: `Yes. Pick whatever panels your business needs to maximize this advertising opportunity.`
 - Q: `What if I want every panel?` A: `Check the box on the contact form. That starts a whole-truck conversation. It does not buy the board from this page.`
-- Q: `What’s the difference between wrap and etch?` A: `Wrap is full-color vinyl on any of the eleven seats. Etch is a shallow frost of your mark into the stainless, on the nine steel seats, once standing crosses $120,000. Front bumper and rear bumper stay wrap.`
-- Q: `Do I need finished artwork to bid?` A: `A name and a logo is enough to stand. Final files come after you win — vector for wrap, one-color and readable at ten feet for etch. Nothing gets cut or etched until you’ve approved it.`
-- Q: `What if the $58,000 floor is missed?` A: `Every deposit is refunded. No order. No wrap. No Immortal Etch.`
+- Q: `Bonus: Immortal Etch` A: `It only applies if total bids pass $120,000. Then winners on the nine stainless steel panels can choose to have their mark permanently etched for 3x their final bid for that panel. Bumpers stay wrap. Etch artwork must be bold and simple and is reviewed before approval. Once installed there is no cash refund of that finish.`
+- Q: `Do I need finished artwork to bid?` A: `A name and a logo is enough to stand. Final files come after you win — vector for wrap. Nothing gets cut until you’ve approved it.`
+- Q: `What if the $58,000 floor is missed?` A: `Every deposit is refunded. No order. No wrap.`
 - Q: `When does this close?` A: `Bidding opens Tuesday, October 6, 2026 at 12:00 PM ET and closes Monday, November 2, 2026 at 12:00 PM ET. A bid in the last 10 minutes pushes the close back 10 minutes.`
 - Q: `Where does the truck actually run?` A: `Work miles in the Southeast — South Carolina most weeks (Charleston, Columbia, Greenville, Florence, Beaufort, Clemson and the roads between them), plus Atlanta, Charlotte, and the Florida panhandle when the job goes there.`
 - Q: `Will something I don’t want sitting next to my brand end up on this truck?` A: `No. We don’t take porn, hate, scams, or anything that can’t sit in a school line or a grocery lot. If you’re unsure about a category, email hello@brandmybeast.com before you bid.`

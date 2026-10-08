@@ -80,7 +80,7 @@ test.describe("slice 19.3: seat lead standing only when a mark exists", () => {
     await expect(lead).toBeVisible();
     await expect(lead).toHaveAttribute("data-has-standing", "false");
     await expect(lead).toContainText(PUBLIC_COPY.seat.wrapTwelveMonths);
-    await expect(lead).toContainText("Immortal Etch Locked");
+    await expect(lead).not.toContainText("Immortal Etch");
     await expect(lead).not.toContainText("Current Bid");
     await expect(lead).not.toContainText("Current standing");
     await expect(page.getByTestId("panel-opening")).toContainText("Opening floor");

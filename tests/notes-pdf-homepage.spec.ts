@@ -3,11 +3,6 @@ import { PANELS, currentBidUsd, isEtchable } from "../src/lib/campaign";
 import { PUBLIC_COPY } from "../src/lib/public-copy";
 import { TRUCK_VIEWS } from "../src/lib/truck-views";
 
-const ETCH_UNLOCK =
-  "Once total active bids cross $120,000, buyers will unlock the option to have their advertisement permanently etched on the stainless surface for 3x the final bid for that panel.";
-const ETCH_STEEL =
-  "Immortal Etch is only available on stainless steel panels.";
-
 test.describe("notes PDF homepage sheet", () => {
   test.describe.configure({ mode: "serial" });
 
@@ -71,7 +66,8 @@ test.describe("notes PDF homepage sheet", () => {
     );
     await expect(page.getByTestId("floor-amount")).toHaveText("$58,000");
     await expect(page.getByTestId("goal-amount")).toHaveText("$120,000");
-    await expect(page.locator("#money")).toContainText("Unlock Immortal Etch");
+    await expect(page.locator("#money")).toContainText("Buyout");
+    await expect(page.locator("#money")).not.toContainText("Immortal Etch");
     await expect(page.locator("#money")).not.toContainText("No marks yet");
     await expect(page.locator("#money")).not.toContainText(
       "Bidding is not open",
@@ -98,12 +94,8 @@ test.describe("notes PDF homepage sheet", () => {
     await expect(page.getByTestId("panels-lead")).toHaveText(
       "Select a panel below for more details.",
     );
-    await expect(page.getByTestId("panels-lead")).not.toContainText(ETCH_UNLOCK);
-    await expect(page.getByTestId("etch-unlock")).toContainText(ETCH_UNLOCK);
-    await expect(page.getByTestId("etch-unlock")).toContainText(ETCH_STEEL);
-    await expect(page.getByTestId("etch-unlock").locator(".immortal-etch")).toHaveText(
-      "Immortal Etch",
-    );
+    await expect(page.getByTestId("etch-unlock")).toHaveCount(0);
+    await expect(page.getByTestId("etch-section")).toHaveCount(0);
     await expect(page.getByTestId("panels-lead")).not.toContainText(
       "Eleven seats. Opening prices below.",
     );
@@ -129,8 +121,12 @@ test.describe("notes PDF homepage sheet", () => {
     await expect(page.getByTestId("panel-driver-rear-quarter")).toContainText(
       "Driver Rear Sail",
     );
-    await expect(page.getByTestId("etch-lock-hood")).toHaveText(
-      "Immortal Etch Locked",
+    await expect(page.getByTestId("etch-lock-hood")).toHaveCount(0);
+    await expect(page.getByTestId("panel-hood")).not.toContainText(
+      "Immortal Etch",
+    );
+    await expect(page.getByTestId("panel-front-bumper")).not.toContainText(
+      "Wrap only",
     );
     await expect(page.getByTestId("panel-front-bumper")).not.toContainText(
       "simple-mark",
@@ -198,26 +194,8 @@ test.describe("notes PDF homepage sheet", () => {
     );
     await expect(page.locator("#story")).not.toContainText("FOREVER");
     await expect(page.getByTestId("story-etch-forever")).toHaveCount(0);
-    await expect(page.locator("#etch-title")).toHaveText("Immortal Etch");
-    await expect(page.locator("#etch-title")).not.toHaveClass(/immortal-etch/);
-
-    await expect(page.getByTestId("etch-sample-slots")).toBeVisible();
-    const etchSamples = [
-      ["hood", "/etch-sample-hood.jpg", "Immortal Etch sample, front", 1280, 861],
-      ["door", "/etch-sample-door.jpg", "Immortal Etch sample, side", 1280, 853],
-      ["tailgate", "/etch-sample-tailgate.jpg", "Immortal Etch sample, rear", 1280, 861],
-    ] as const;
-    for (const [id, src, alt, width, height] of etchSamples) {
-      const img = page.getByTestId(`etch-sample-${id}`).locator("img");
-      await expect(img).toBeVisible();
-      await expect(img).toHaveAttribute("src", src);
-      await expect(img).toHaveAttribute("alt", alt);
-      await expect(img).toHaveJSProperty("naturalWidth", width);
-      await expect(img).toHaveJSProperty("naturalHeight", height);
-    }
-    await expect(page.getByTestId("etch-section")).not.toContainText(
-      "Wrap is a year of film",
-    );
+    await expect(page.locator("#etch-title")).toHaveCount(0);
+    await expect(page.getByTestId("etch-sample-slots")).toHaveCount(0);
     await expect(page.getByTestId("wreck-refund-faq")).toHaveCount(0);
     await expect(page.getByTestId("faq-campaign-miss")).toContainText(
       "Every deposit is refunded",
@@ -320,8 +298,8 @@ test.describe("notes PDF homepage sheet", () => {
     await expect(page.getByTestId("seat-lead")).toContainText(
       PUBLIC_COPY.seat.wrapTwelveMonths,
     );
-    await expect(page.getByTestId("seat-lead")).toContainText(
-      "Immortal Etch Locked",
+    await expect(page.getByTestId("seat-lead")).not.toContainText(
+      "Immortal Etch",
     );
     await expect(page.getByTestId("seat-lead")).not.toContainText("Current Bid");
     await expect(page.getByTestId("panel-mockup")).toHaveCount(0);

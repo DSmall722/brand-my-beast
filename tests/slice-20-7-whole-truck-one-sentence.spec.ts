@@ -22,7 +22,7 @@ import { vercelJsonIsHoldOrMainOnlyRestore } from "../src/lib/vercel-git-deploy"
 const ROOT = process.cwd();
 const LOCKED_H1 = "Advertise your brand on the truck that people already photograph";
 const ONE_SENTENCE =
-  "One brand on every panel and Immortal Etch on nine steel faces. Standing panel winners released. Nothing is charged on this page.";
+  "One brand on every panel. Standing panel winners released. Nothing is charged on this page.";
 
 test.describe("slice 20.7: whole-truck lead is one sentence", () => {
   test("campaign money fences stay locked — CLOSE_AT null", () => {
@@ -54,7 +54,7 @@ test.describe("slice 20.7: whole-truck lead is one sentence", () => {
   test("PUBLIC_COPY whole-truck lead is one sentence", () => {
     expect(PUBLIC_COPY.board.wholeTruckLead).toBe(ONE_SENTENCE);
     expect(PUBLIC_COPY.board.wholeTruckLead.endsWith(".")).toBe(true);
-    expect(PUBLIC_COPY.board.wholeTruckLead).toContain("Immortal Etch");
+    expect(PUBLIC_COPY.board.wholeTruckLead).not.toContain("Immortal Etch");
     expect(PUBLIC_COPY.board.wholeTruckLead).not.toContain("1 Hood");
     expect(wholeTruckPackageCopy()).toMatch(/^The package is 1 Hood/);
     const md = readFileSync(join(ROOT, "PUBLIC_COPY.md"), "utf8");

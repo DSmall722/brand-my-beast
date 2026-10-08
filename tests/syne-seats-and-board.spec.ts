@@ -61,19 +61,17 @@ test.describe("Syne lockup, board marks, seat lead", () => {
     );
     expect(stepTops).toHaveLength(3);
     expect(new Set(stepTops).size).toBe(1);
+    await expect(page.locator("#etch")).toHaveCount(0);
     const fonts = await page.evaluate(() => {
-      const lockup = document.querySelector("#etch .immortal-etch");
       const title = document.querySelector("#story .story-step-title");
       const copy = document.querySelector("#story .story-step-copy");
-      if (!lockup || !title || !copy) return null;
+      if (!title || !copy) return null;
       return {
-        lockup: getComputedStyle(lockup).fontFamily,
         title: getComputedStyle(title).fontFamily,
         copy: getComputedStyle(copy).fontFamily,
       };
     });
     expect(fonts).not.toBeNull();
-    expect(fonts!.lockup.toLowerCase()).toMatch(/syne/);
     expect(fonts!.title.toLowerCase()).not.toMatch(/syne/);
     expect(fonts!.copy.toLowerCase()).not.toMatch(/syne/);
     await expect(page.locator("#hero-title")).toHaveText(LOCKED_H1);
@@ -109,7 +107,7 @@ test.describe("Syne lockup, board marks, seat lead", () => {
     await page.goto("/panels/hood");
     const hood = page.getByTestId("seat-lead");
     await expect(hood).toContainText(PUBLIC_COPY.seat.wrapTwelveMonths);
-    await expect(hood).toContainText("Immortal Etch Locked");
+    await expect(hood).not.toContainText("Immortal Etch");
     await expect(hood).not.toContainText("Current Bid");
     await expect(hood).not.toContainText("Etchable only");
     await expect(page.getByTestId("seat-finish")).toHaveAttribute(
@@ -125,7 +123,7 @@ test.describe("Syne lockup, board marks, seat lead", () => {
     await page.goto("/panels/front-fascia");
     const fascia = page.getByTestId("seat-lead");
     await expect(fascia).toContainText(PUBLIC_COPY.seat.wrapTwelveMonths);
-    await expect(fascia).toContainText("Immortal Etch Locked");
+    await expect(fascia).not.toContainText("Immortal Etch");
     await expect(fascia).not.toContainText("forever");
     await expect(page.getByTestId("seat-finish")).toHaveAttribute(
       "data-etchable",

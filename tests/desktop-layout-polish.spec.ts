@@ -101,12 +101,11 @@ test.describe("desktop layout polish", () => {
     expect(layout.shell).not.toBeNull();
     expect(layout.preview).not.toBeNull();
     expect(layout.grid).not.toBeNull();
-    expect(layout.etch).not.toBeNull();
+    expect(layout.etch).toBeNull();
     const shellWidth = layout.shell!.width;
     expect(layout.preview!.width).toBeLessThan(shellWidth - 200);
     expect(layout.preview!.width).toBeGreaterThan(700);
     expect(layout.grid!.width).toBeLessThan(shellWidth - 80);
-    expect(Math.abs(layout.etch!.width - layout.grid!.width)).toBeLessThanOrEqual(2);
     expect(
       Math.abs(layout.grid!.left - (layout.clientWidth - layout.grid!.width) / 2),
     ).toBeLessThanOrEqual(2);

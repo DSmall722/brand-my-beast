@@ -3,7 +3,6 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { DayByDay } from "@/components/home/DayByDay";
 import { SeatBidDesk } from "@/components/home/SeatBidDesk";
-import { ImmortalEtchLockup } from "@/components/ImmortalEtchLockup";
 import { IntentArtworkPreview } from "@/components/IntentArtworkPreview";
 import { IntentBidForm } from "@/components/IntentBidForm";
 import { TruckViewHotspots } from "@/components/TruckViewHotspots";
@@ -201,18 +200,11 @@ export default async function PanelIntentPage({
             data-testid="seat-finish"
             data-etchable={etchable ? "true" : "false"}
           >
-            {etchable ? (
-              <>
-                <span data-testid="seat-wrap-line">
-                  {PUBLIC_COPY.seat.wrapTwelveMonths}
-                </span>{" "}
-                <ImmortalEtchLockup text={PUBLIC_COPY.panels.badgeEtch} />
-              </>
-            ) : (
-              <span data-testid="seat-wrap-line">
-                {PUBLIC_COPY.seat.bumperWrapOnly}
-              </span>
-            )}
+            <span data-testid="seat-wrap-line">
+              {etchable
+                ? PUBLIC_COPY.seat.wrapTwelveMonths
+                : PUBLIC_COPY.seat.bumperWrapOnly}
+            </span>
           </span>
         </p>
         </div>

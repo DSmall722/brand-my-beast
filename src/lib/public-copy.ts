@@ -50,7 +50,7 @@ export const PUBLIC_COPY = {
     raisedHint: "",
     floorLabel: "Floor",
     floorHint: "Miss the floor and every bid is refunded.",
-    buyoutLabel: "Unlock Immortal Etch",
+    buyoutLabel: "Buyout",
     buyoutHint: "",
     clockWhenCloseNull:
       "Bidding is not open. Nothing is charged on this page.",
@@ -73,7 +73,7 @@ export const PUBLIC_COPY = {
     wholeTruckHeading: "Whole truck — $120,000",
     /** Slice 20.7 — one sentence on `/`. 11-name dump stays on the form. */
     wholeTruckLead:
-      "One brand on every panel and Immortal Etch on nine steel faces. Standing panel winners released. Nothing is charged on this page.",
+      "One brand on every panel. Standing panel winners released. Nothing is charged on this page.",
     wholeTruckAmountLabel: "Buyout mark",
     wholeTruckCta: "List a whole-truck intent",
     wholeTruckSignIn: "Sign in to list a whole-truck intent",
@@ -160,22 +160,17 @@ export const PUBLIC_COPY = {
   wreck: {
     heading: "Wreck & refund",
     /** Slice 20.8 — complete sentence, not a fragment. */
-    lead: "Here is what happens if the campaign misses, the wrap year ends early, or Immortal Etch is already cut.",
+    lead: "Here is what happens if the campaign misses or the wrap year ends early.",
     items: [
       {
         id: "campaign-miss",
         q: "What if the board misses $58,000?",
-        a: "Full refund. No order. No wrap. No Immortal Etch.",
+        a: "Full refund. No order. No wrap.",
       },
       {
         id: "wrap-pro-rata",
         q: "What if the wrap year is cut short?",
         a: "Wrap lasts twelve months from install. If the truck is totaled or sold before month 12, wrap seats get a pro-rata refund for the months left.",
-      },
-      {
-        id: "immortal-fragment",
-        q: "What if Immortal Etch is already installed?",
-        a: "No cash refund of that finish. The record is a piece of the cut panel and a vault certificate.",
       },
     ],
   },
@@ -193,11 +188,11 @@ export const PUBLIC_COPY = {
       },
       {
         q: "What am I actually buying?",
-        a: "A seat on the truck for your brand. There are eleven panels. Vinyl wrap is available on all of them. Immortal Etch — a frost of your mark in the stainless — is available on nine of them once standing crosses $120,000. The two bumpers stay wrap. You’re buying the panel, the finish, and a year of miles. Not a follower count. Not a guaranteed number of views.",
+        a: "A seat on the truck for your brand. There are eleven panels. Vinyl wrap is available on all of them. You’re buying the panel, the finish, and a year of miles. Not a follower count. Not a guaranteed number of views.",
       },
       {
         q: "How long is my brand on the truck?",
-        a: "Wraps run twelve months from install. Etch stays in the steel.",
+        a: "Wraps run twelve months from install.",
       },
       {
         q: "What if two of us are in the same business?",
@@ -221,17 +216,17 @@ export const PUBLIC_COPY = {
         a: "Check the box on the contact form. That starts a whole-truck conversation. It does not buy the board from this page.",
       },
       {
-        q: "What’s the difference between wrap and etch?",
-        a: "Wrap is full-color vinyl on any of the eleven seats. Etch is a shallow frost of your mark into the stainless, on the nine steel seats, once standing crosses $120,000. Front bumper and rear bumper stay wrap.",
+        q: "Bonus: Immortal Etch",
+        a: "It only applies if total bids pass $120,000. Then winners on the nine stainless steel panels can choose to have their mark permanently etched for 3x their final bid for that panel. Bumpers stay wrap. Etch artwork must be bold and simple and is reviewed before approval. Once installed there is no cash refund of that finish.",
       },
       {
         q: "Do I need finished artwork to bid?",
-        a: "A name and a logo is enough to stand. Final files come after you win — vector for wrap, one-color and readable at ten feet for etch. Nothing gets cut or etched until you’ve approved it.",
+        a: "A name and a logo is enough to stand. Final files come after you win — vector for wrap. Nothing gets cut until you’ve approved it.",
       },
       {
         id: "campaign-miss",
         q: "What if the $58,000 floor is missed?",
-        a: "Every deposit is refunded. No order. No wrap. No Immortal Etch.",
+        a: "Every deposit is refunded. No order. No wrap.",
       },
       {
         id: "close-date",

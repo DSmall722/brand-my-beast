@@ -11,7 +11,6 @@ const SHELLS = [
   "header.shell",
   "#money",
   "#panels",
-  "#etch",
   "#questions",
   "[data-testid='site-footer']",
 ] as const;
@@ -26,7 +25,6 @@ type Measure = {
   panelGridLeft: number | null;
   faqAnswer: number | null;
   storyCopy: number | null;
-  etchRequirements: number | null;
   proseCap: number;
   deskMeasure: number;
 };
@@ -66,7 +64,6 @@ async function measure(page: Page): Promise<Measure> {
       panelGridLeft: panelGrid ? panelGrid.getBoundingClientRect().left : null,
       faqAnswer: widthOf("#questions .questions-item dd"),
       storyCopy: widthOf(".story-step-copy"),
-      etchRequirements: widthOf("[data-testid='etch-requirements']"),
       proseCap,
       deskMeasure,
     };
@@ -120,12 +117,9 @@ test.describe("desktop shell fills the viewport", () => {
 
       expect(box.faqAnswer).not.toBeNull();
       expect(box.storyCopy).not.toBeNull();
-      expect(box.etchRequirements).not.toBeNull();
       expect(box.faqAnswer as number).toBeGreaterThan(240);
       expect(box.faqAnswer as number).toBeLessThan(contentWidth * 0.65);
       expect(box.storyCopy as number).toBeLessThanOrEqual(box.proseCap + 1);
-      expect(box.etchRequirements as number).toBeGreaterThan(box.proseCap + 40);
-      expectWidth(box.etchRequirements, contentWidth, "etch requirements");
       expect(box.faqAnswer as number).toBeLessThan(shellWidth - 400);
     });
   }

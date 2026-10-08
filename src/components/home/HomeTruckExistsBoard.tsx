@@ -26,7 +26,7 @@ export function HomeTruckExistsBoard({ truckExists }: { truckExists: boolean }) 
             >
               <h2 id="vault-certificate-title">Immortal vault certificate</h2>
               <p className="section-lead">
-                The steel record after etch unlocks. Not a cash path.
+                The steel record. Not a cash path.
               </p>
               <VaultCertificateCard />
             </section>

@@ -60,7 +60,8 @@ test.describe("slice 16.12: panel lead matches the numbered cards", () => {
     await page.goto("/");
     await expect(page.locator("#hero-title")).toHaveText(LOCKED_H1);
     await expect(page.getByTestId("panels-lead")).toHaveText(PANEL_SELECT);
-    await expect(page.getByTestId("etch-unlock")).toContainText(ETCH_UNLOCK);
+    await expect(page.getByTestId("etch-unlock")).toHaveCount(0);
+    await expect(page.getByTestId("etch-section")).toHaveCount(0);
     const html = await page.content();
     expect(html.toLowerCase()).not.toMatch(/\blease\b/);
     expect(html).not.toMatch(/@gmail\.com/i);

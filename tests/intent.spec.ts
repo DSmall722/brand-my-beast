@@ -803,17 +803,18 @@ test.describe("wreck + refund FAQ (PUBLIC_COPY + CAMPAIGN only)", () => {
       "immortal-fragment",
     ]);
     expect(PUBLIC_COPY.wreck.items.map((item) => item.id)).toEqual([
-      ...WRECK_REFUND_RULE_IDS,
+      "campaign-miss",
+      "wrap-pro-rata",
     ]);
-    expect(PUBLIC_COPY.wreck.items).toHaveLength(3);
+    expect(PUBLIC_COPY.wreck.items).toHaveLength(2);
 
     const answers = PUBLIC_COPY.wreck.items.map((item) => item.a).join(" ");
     const questions = PUBLIC_COPY.wreck.items.map((item) => item.q).join(" ");
     expect(answers).toMatch(/full refund/i);
     expect(questions).toMatch(/\$58,000/);
     expect(answers).toMatch(/pro-rata/i);
-    expect(answers).toMatch(/vault certificate/i);
-    expect(answers).toMatch(/twelve months|etch/i);
+    expect(answers).toMatch(/twelve months/i);
+    expect(questions).not.toMatch(/immortal etch/i);
     expect(answers).not.toMatch(/stripe/i);
     expect(answers).not.toMatch(/\blease\b/i);
     expect(answers.toLowerCase()).not.toMatch(
