@@ -1,4 +1,5 @@
-import type { APIRequestContext } from "@playwright/test";
+import { expect, type APIRequestContext, type Page } from "@playwright/test";
+import { depositUsdForMark } from "../../src/lib/intent";
 
 /** Mark a bid paid through the Playwright mock Stripe webhook. */
 export async function markBidPaid(
@@ -25,4 +26,24 @@ export async function markBidPaid(
   if (!res.ok()) {
     throw new Error(`markBidPaid ${res.status()}: ${await res.text()}`);
   }
+}
+
+/** Pay the signed-in user's newest account intent through the mock webhook. */
+export async function markNewestAccountBidPaid(
+  page: Page,
+  request: APIRequestContext,
+  standingUsd: number,
+): Promise<string> {
+  await page.goto("/account");
+  const row = page.locator("[data-testid^='account-intent-']").first();
+  await expect(row).toBeVisible();
+  const bidId = (await row.getAttribute("data-testid"))!.replace(
+    "account-intent-",
+    "",
+  );
+  await markBidPaid(request, {
+    bidId,
+    amountTotalCents: depositUsdForMark(standingUsd) * 100,
+  });
+  return bidId;
 }

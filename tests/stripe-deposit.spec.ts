@@ -227,13 +227,10 @@ test.describe("stripe deposit and campaign window", () => {
 
     await page.goto("/");
     await expect(page.getByTestId("raised-amount")).toHaveText("$0");
-    await expect(page.getByTestId("panel-pending-hood")).toContainText("Pending");
+    await expect(page.getByTestId("panel-pending-hood")).toHaveCount(0);
     await expect(page.getByTestId("auction-top")).not.toContainText("Too Early");
-    await expect(page.getByTestId("day-by-day")).toHaveAttribute(
-      "data-source",
-      "live",
-    );
-    await expect(page.getByTestId("day-by-day")).not.toContainText("Sample Mark");
+    await expect(page.getByTestId("day-by-day")).toHaveCount(0);
+    await expect(page.getByTestId("panel-hood")).not.toContainText("Too Early");
 
     const event = {
       id: "evt_deposit_1",

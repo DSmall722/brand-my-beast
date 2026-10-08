@@ -348,7 +348,7 @@ test.describe("BMB-QA-2-FIX4 Site QA items", () => {
     page,
   }) => {
     expect(PANELS.find((row) => row.id === "rear-bumper")?.name).toBe(
-      "Rear bumper",
+      "Rear Bumper",
     );
     expect(PUBLIC_COPY.seat.bumperWrapOnly).toBe(BUMPER_LINE);
 
