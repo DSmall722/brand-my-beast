@@ -13,6 +13,7 @@ import { findCloseAtViolations } from "../src/lib/close-at-null";
 import { minIncrementUsd, nextStandingUsd } from "../src/lib/intent";
 import { findStripePackagesInRootPackageJson } from "../src/lib/no-stripe-package";
 import { vercelJsonIsHoldOrMainOnlyRestore } from "../src/lib/vercel-git-deploy";
+import { markNewestAccountBidPaid } from "./helpers/mark-paid";
 
 /**
  * Slice 14.34 — Next-minimum display uses integer dollars only.
@@ -84,7 +85,10 @@ test.describe("slice 14.34: next-minimum display integer dollars only", () => {
     expect(panel.toLowerCase()).not.toMatch(/\blease\b/);
   });
 
-  test("panel Minimum bid shows whole dollars only", async ({ page }) => {
+  test("panel Minimum bid shows whole dollars only", async ({
+    page,
+    request,
+  }) => {
     await page.goto("/panels/hood");
     await expect(page.getByTestId("panel-stats")).toContainText("Minimum bid");
     await expect(page.getByTestId("panel-stats")).not.toContainText("Min next");
@@ -103,6 +107,8 @@ test.describe("slice 14.34: next-minimum display integer dollars only", () => {
       "not charged",
       { timeout: 10_000 },
     );
+    await markNewestAccountBidPaid(page, request, 2500);
+    await page.goto("/panels/hood");
 
     const nextMin = nextStandingUsd(2500);
     expect(Number.isInteger(nextMin)).toBe(true);

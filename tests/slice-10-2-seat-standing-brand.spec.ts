@@ -8,6 +8,7 @@ import {
   GOAL_USD,
   formatUsd,
 } from "../src/lib/campaign";
+import { markNewestAccountBidPaid } from "./helpers/mark-paid";
 
 async function signIn(page: import("@playwright/test").Page, email: string) {
   await page.goto("/signin");
@@ -55,6 +56,7 @@ test.describe("slice 10.2: compositor standing brand", () => {
 
   test("clean seat preview; listed brand appears in the activity tile", async ({
     browser,
+    request,
   }) => {
     const open = await browser.newPage();
     await open.goto("/panels/hood");
@@ -73,18 +75,28 @@ test.describe("slice 10.2: compositor standing brand", () => {
       "not charged",
       { timeout: 10_000 },
     );
+    await markNewestAccountBidPaid(bidder, request, 2500);
+    await bidder.goto("/panels/hood");
     await expect(bidder.getByTestId("compositor-standing-brand")).toHaveCount(0);
     await expect(bidder.getByTestId("public-standing-brand")).toHaveCount(0);
-    await expect(bidder.getByTestId("panel-pending")).toHaveText("$2,500");
+    await expect(bidder.getByTestId("panel-pending")).toHaveCount(0);
+    await expect(bidder.getByTestId("panel-standing")).toHaveText("$2,500");
     await expect(bidder.getByTestId("intent-list")).toContainText("Steel Face Co");
+    await expect(bidder.getByTestId("intent-list")).not.toContainText(
+      "compositor snacks",
+    );
     await bidder.close();
 
     const visitor = await browser.newPage();
     await visitor.goto("/panels/hood");
     await expect(visitor.getByTestId("compositor-standing-brand")).toHaveCount(0);
     await expect(visitor.getByTestId("public-standing-brand")).toHaveCount(0);
-    await expect(visitor.getByTestId("panel-pending")).toHaveText("$2,500");
+    await expect(visitor.getByTestId("panel-pending")).toHaveCount(0);
+    await expect(visitor.getByTestId("panel-standing")).toHaveText("$2,500");
     await expect(visitor.getByTestId("intent-list")).toContainText("Steel Face Co");
+    await expect(visitor.getByTestId("intent-list")).not.toContainText(
+      "compositor snacks",
+    );
     const html = await visitor.content();
     expect(html).not.toContain("comp102@example.com");
     expect(html.toLowerCase()).not.toMatch(/\blease\b/);

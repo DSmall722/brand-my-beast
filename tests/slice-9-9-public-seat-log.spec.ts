@@ -16,6 +16,7 @@ import {
   buildPublicSeatLog,
   formatSeatLogTime,
 } from "../src/lib/seat-log";
+import { markNewestAccountBidPaid } from "./helpers/mark-paid";
 
 async function signIn(page: import("@playwright/test").Page, email: string) {
   await page.goto("/signin");
@@ -80,7 +81,9 @@ test.describe("slice 9.9: public seat log", () => {
     expect(placed.ok).toBeTruthy();
     if (!placed.ok) return;
 
-    const log = buildPublicSeatLog([placed.bid]);
+    const log = buildPublicSeatLog([
+      { ...placed.bid, depositPaidAt: placed.bid.createdAt },
+    ]);
     expect(log).toHaveLength(1);
     expect(log[0]?.amountLabel).toBe("$3,000");
     expect(log[0]?.amountUsd).toBe(3000);
@@ -96,6 +99,7 @@ test.describe("slice 9.9: public seat log", () => {
 
   test("panel seat log shows amount + time without bidder email", async ({
     browser,
+    request,
   }) => {
     const bidderEmail = "seatlog-bidder@example.com";
     const bidder = await browser.newPage();
@@ -109,6 +113,8 @@ test.describe("slice 9.9: public seat log", () => {
       "not charged",
       { timeout: 10_000 },
     );
+    await markNewestAccountBidPaid(bidder, request, 3000);
+    await bidder.goto("/panels/hood");
     await expect(bidder.getByTestId("public-seat-log")).toBeVisible();
     await expect(bidder.getByTestId("public-seat-log-list")).toContainText(
       "$3,000",
@@ -127,8 +133,8 @@ test.describe("slice 9.9: public seat log", () => {
       .textContent();
     expect(timeText).toMatch(/\bET\b/);
     expect(timeText).not.toMatch(/Z$/);
-    await expect(bidder.getByTestId(`intent-time-${bidId}`)).toHaveText(
-      timeText!,
+    await expect(bidder.getByTestId("public-seat-log")).not.toContainText(
+      "public log trade",
     );
     await bidder.close();
 

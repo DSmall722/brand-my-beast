@@ -10,6 +10,7 @@ import {
   formatUsd,
 } from "../src/lib/campaign";
 import { PUBLIC_COPY } from "../src/lib/public-copy";
+import { markNewestAccountBidPaid } from "./helpers/mark-paid";
 
 async function signIn(page: Page, email: string) {
   await page.context().clearCookies();
@@ -68,6 +69,7 @@ test.describe("slice 10.9: panel cards standing or Open", () => {
 
   test("homepage: Open seat once; listed brand paints the card", async ({
     browser,
+    request,
   }) => {
     const visitor = await browser.newPage();
     await visitor.goto("/#panels");
@@ -96,22 +98,23 @@ test.describe("slice 10.9: panel cards standing or Open", () => {
       "not charged",
       { timeout: 10_000 },
     );
+    await markNewestAccountBidPaid(bidder, request, 2500);
     await bidder.close();
 
     const after = await browser.newPage();
     await after.goto("/#panels");
-    await expect(after.getByTestId("panel-standing-hood")).toHaveText("");
+    await expect(after.getByTestId("panel-standing-hood")).toContainText(
+      "Card Face Co",
+    );
     await expect(after.getByTestId("panel-hood")).toHaveAttribute(
       "data-standing",
-      "open",
+      "held",
     );
-    await expect(after.getByTestId("panel-pending-hood")).toHaveText(
-      "Pending $2,500",
-    );
+    await expect(after.getByTestId("panel-pending-hood")).toHaveCount(0);
     await expect(after.getByTestId("panel-standing-front-bumper")).toHaveText("");
     await expect(after.getByTestId("panel-open-seat-once")).toHaveCount(0);
     await expect(after.getByTestId("panel-current-bid-hood")).toHaveText(
-      "Opening floor $2,500",
+      "Current Bid $2,500",
     );
 
     const html = await after.content();

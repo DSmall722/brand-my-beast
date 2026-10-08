@@ -154,19 +154,26 @@ test.describe("Oct 4 QA sweep", () => {
     await page.getByTestId("intent-submit").click();
     await expect(page.getByTestId("intent-success")).toContainText("not charged");
 
-    await expect(page.getByTestId("panel-pending")).toHaveText("$2,500");
-    await expect(page.getByTestId("panel-opening")).toContainText("Opening floor");
+    await expect(page.getByTestId("panel-pending")).toHaveCount(0);
+    await expect(page.getByTestId("panel-opening")).toContainText("Opening price");
+    await expect(page.getByTestId("panel-opening")).toContainText("$2,500");
     await expect(page.getByTestId("panel-standing")).toHaveCount(0);
+    await expect(page.getByTestId("panel-minimum")).toHaveText("$2,500");
+    await expect(page.getByTestId("public-seat-log")).toHaveCount(0);
     await expect(page.getByTestId("day-by-day")).toHaveAttribute(
       "data-source",
       "live",
     );
     await expect(page.getByTestId("day-by-day")).not.toContainText("Sample Mark");
-    await expect(page.getByTestId("day-by-day")).toContainText("Pending");
+    await expect(page.getByTestId("day-by-day")).not.toContainText("Pending Hood");
 
     await page.goto("/");
     await expect(page.getByTestId("raised-amount")).toHaveText("$0");
-    await expect(page.getByTestId("panel-pending-hood")).toContainText("$2,500");
+    await expect(page.getByTestId("panel-pending-hood")).toHaveCount(0);
+    await expect(page.getByTestId("panel-hood")).not.toContainText("Pending Hood");
+    await expect(page.getByTestId("panel-current-bid-hood")).toHaveText(
+      "Opening floor $2,500",
+    );
     await expect(page.getByTestId("panel-hood")).toHaveAttribute(
       "data-standing",
       "open",
@@ -174,12 +181,12 @@ test.describe("Oct 4 QA sweep", () => {
     await expect(page.getByTestId("auction-top")).toContainText(
       "No standing bids yet.",
     );
+    await expect(page.getByTestId("day-by-day")).toHaveCount(0);
 
     await page.goto("/leaderboard");
-    await expect(page.getByTestId("leaderboard-page")).toContainText(
+    await expect(page.getByTestId("leaderboard-page")).not.toContainText(
       "Pending Hood",
     );
-    await expect(page.getByTestId("leaderboard-page")).toContainText("Pending");
-    await expect(page.getByTestId("leaderboard-empty")).toHaveCount(0);
+    await expect(page.getByTestId("leaderboard-empty")).toBeVisible();
   });
 });
