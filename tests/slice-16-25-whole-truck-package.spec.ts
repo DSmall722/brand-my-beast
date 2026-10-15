@@ -14,11 +14,6 @@ import { PANEL_BOARD_MARKS, panelLegendLabel } from "../src/lib/panel-board";
 import { PUBLIC_COPY, wholeTruckPackageCopy } from "../src/lib/public-copy";
 import { vercelJsonIsHoldOrMainOnlyRestore } from "../src/lib/vercel-git-deploy";
 
-/**
- * Slice 16.25 — whole-truck intent copy lists 1–11 as the package.
- * FEATURES.md stays off /. CLOSE_AT null. No Stripe.
- */
-
 test.describe("slice 16.25: whole-truck package is seats 1-11", () => {
   test("campaign money fences stay locked — CLOSE_AT null", () => {
     expect(FLOOR_USD).toBe(35_000);

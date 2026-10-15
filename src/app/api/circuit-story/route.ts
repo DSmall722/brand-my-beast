@@ -1,10 +1,6 @@
 import { NextResponse } from "next/server";
 import { truckMissingResponse } from "@/lib/truck-gate";
 
-/**
- * Slice 14.11 — circuit-story-store stays out of the module graph while
- * TRUCK_EXISTS is false. Dynamic import after the gate is intentional.
- */
 export async function POST(request: Request) {
   const missing = truckMissingResponse();
   if (missing) return missing;

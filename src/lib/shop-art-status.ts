@@ -1,8 +1,3 @@
-/**
- * Slice 12.24 — partner art readiness marks.
- * `shop-ready` / `needs-fix`. Intent only — no card capture.
- */
-
 export const SHOP_ART_STATUSES = [
   "unset",
   "shop-ready",

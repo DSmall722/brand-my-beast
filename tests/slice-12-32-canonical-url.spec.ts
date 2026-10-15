@@ -9,10 +9,6 @@ import {
   formatUsd,
 } from "../src/lib/campaign";
 
-/**
- * Canonical URL is the www host. Apex brandmybeast.com 301s there.
- * CLOSE_AT null. No Stripe.
- */
 test.describe("slice 12.32: canonical URL brandmybeast.com", () => {
   test("campaign money fences stay locked — CLOSE_AT null", () => {
     expect(FLOOR_USD).toBe(35_000);

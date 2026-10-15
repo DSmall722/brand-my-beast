@@ -12,11 +12,6 @@ import { findCloseAtViolations } from "../src/lib/close-at-null";
 import { findStripePackagesInRootPackageJson } from "../src/lib/no-stripe-package";
 import { vercelJsonIsHoldOrMainOnlyRestore } from "../src/lib/vercel-git-deploy";
 
-/**
- * Slice 14.3 — PROCESS.md: Now = first unchecked SLICES box;
- * live URL is not a gate. CLOSE_AT null. No Stripe. No clock.
- */
-
 const PROCESS = join(process.cwd(), "PROCESS.md");
 const SLICES = join(process.cwd(), "SLICES.md");
 

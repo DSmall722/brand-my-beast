@@ -10,10 +10,6 @@ import { getWaitlistByEmail } from "@/lib/waitlist";
 
 export const runtime = "nodejs";
 
-/**
- * Slice 12.15 — signed-in account holder exports own JSON.
- * Auth-gated. Intent only — no Stripe fields.
- */
 export async function GET() {
   const session = await auth();
   if (!session?.user?.id || !session.user.email) {

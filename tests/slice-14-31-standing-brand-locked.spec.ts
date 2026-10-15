@@ -20,11 +20,6 @@ import {
 import { findStripePackagesInRootPackageJson } from "../src/lib/no-stripe-package";
 import { vercelJsonIsHoldOrMainOnlyRestore } from "../src/lib/vercel-git-deploy";
 
-/**
- * Slice 14.31 — Standing brand change after approve is forbidden.
- * CLOSE_AT null. No Stripe. Hold-mode untouched. No 30-day clock.
- */
-
 test.describe("slice 14.31: standing brand locked after approve", () => {
   test.beforeEach(async ({ request }) => {
     process.env.INTENT_MODE = "memory";
@@ -85,7 +80,6 @@ test.describe("slice 14.31: standing brand locked after approve", () => {
     expect(live?.brandLabel).toBe("Standing Lock Co");
     expect(live?.tradeLabel).toBe("lock snacks");
 
-    // Pending edit still allowed before approve.
     const pending = await placeIntentBid({
       panelId: "rear-bumper",
       userId: "sb1431-pending",
@@ -110,7 +104,6 @@ test.describe("slice 14.31: standing brand locked after approve", () => {
       "utf8",
     );
     expect(src).toContain("STANDING_BRAND_LOCKED_ERROR");
-    expect(src).toContain("Slice 14.31");
     expect(src.toLowerCase()).not.toMatch(/\blease\b/);
   });
 

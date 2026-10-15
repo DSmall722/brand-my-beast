@@ -1,8 +1,3 @@
-/**
- * Route-day detour buyout (FEATURES P4 #39).
- * Empty display scaffold — no invented buyout prices, no reserved VIN, no clock.
- */
-
 import { FLOOR_USD, GOAL_USD, formatUsd } from "./campaign";
 
 export const ROUTE_DETOUR_BUYOUT_LEAD = `Route-day detour buyout. Empty until the truck exists. Miss ${formatUsd(FLOOR_USD)} and there is no route to buy. Buyout ${formatUsd(GOAL_USD)} buys the truck; detours still wait on delivery. No invented detour prices. No reserved VIN until an order exists. Still no card charge.`;

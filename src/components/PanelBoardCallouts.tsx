@@ -5,10 +5,6 @@ import {
 } from "@/lib/panel-board";
 import type { TruckViewId } from "@/lib/truck-views";
 
-/**
- * Slice 14.0 — numbered 1–12 callouts linking to `/panels/[id]`.
- * Hero layout covers all eleven; truck views show the angle’s subset.
- */
 export function PanelBoardCallouts({
   surface,
   view,

@@ -1,10 +1,4 @@
 #!/usr/bin/env node
-/**
- * Run Playwright as N one-worker processes, each with its own `next dev`.
- *
- * The memory ledger is process-global, so two workers on one server race.
- * Two servers do not. Specs are packed by file size.
- */
 
 import { spawn } from "node:child_process";
 import { readdirSync, statSync } from "node:fs";

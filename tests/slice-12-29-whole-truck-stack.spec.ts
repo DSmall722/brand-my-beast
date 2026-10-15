@@ -17,10 +17,6 @@ import {
   setIntentStatus,
 } from "../src/lib/intent-store";
 
-/**
- * Slice 12.29 — whole-truck intent cannot stack on approved standing.
- * CLOSE_AT null. No Stripe. Intent only.
- */
 test.describe("slice 12.29: whole-truck vs approved standing", () => {
   test("campaign money fences stay locked — CLOSE_AT null", () => {
     expect(FLOOR_USD).toBe(35_000);

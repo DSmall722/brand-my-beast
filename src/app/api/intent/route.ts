@@ -13,18 +13,11 @@ import {
   seatsClosedIntentPayload,
 } from "@/lib/seats-open";
 
-/**
- * Slice 14.32 — intent POST. When SEATS_OPEN is false → 403.
- * Slice 14.41 — when MAINTENANCE → 503 “not taking marks.” `/` stays up.
- * Waitlist stays open. CLOSE_AT stays null. No card charge.
- */
 export async function POST(request: Request) {
-  // Slice 14.41 — maintenance blocks intent listing; homepage stays up.
   if (resolveMaintenance()) {
     return NextResponse.json(maintenanceIntentPayload(), { status: 503 });
   }
 
-  // Slice 14.32 — seats closed blocks intent listing at the API.
   if (!resolveSeatsOpen()) {
     return NextResponse.json(seatsClosedIntentPayload(), { status: 403 });
   }

@@ -12,11 +12,6 @@ import { findCloseAtViolations } from "../src/lib/close-at-null";
 import { findStripePackagesInRootPackageJson } from "../src/lib/no-stripe-package";
 import { vercelJsonIsHoldOrMainOnlyRestore } from "../src/lib/vercel-git-deploy";
 
-/**
- * Slice 16.16 — docs/STATUS.md last-slice line follows SLICES **Now**.
- * Floor and buyout rows are not hand-edited. FEATURES.md stays off /.
- */
-
 const STATUS = join(process.cwd(), "docs/STATUS.md");
 const SLICES = join(process.cwd(), "SLICES.md");
 

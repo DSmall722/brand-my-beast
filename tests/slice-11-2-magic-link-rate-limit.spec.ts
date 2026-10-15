@@ -39,10 +39,6 @@ async function resetLimits(request: APIRequestContext) {
   expect(res.ok()).toBeTruthy();
 }
 
-/**
- * Slice 11.2 — rate-limit magic-link POST.
- * Never claims signed in. CLOSE_AT null. No Stripe.
- */
 test.describe("slice 11.2: rate-limit magic-link POST", () => {
   test.describe.configure({ mode: "serial" });
 

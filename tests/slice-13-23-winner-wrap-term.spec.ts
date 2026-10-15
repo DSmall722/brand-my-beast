@@ -23,9 +23,6 @@ import {
   winnerPacketWrapTermStart,
 } from "../src/lib/winner-packet";
 
-/**
- * Slice 13.23 — winner packet wrap term start = install day, not close.
- */
 test.describe("slice 13.23: winner packet wrap term start", () => {
   test.describe.configure({ mode: "serial" });
 
@@ -114,7 +111,6 @@ test.describe("slice 13.23: winner packet wrap term start", () => {
     expect(md).toContain("Closes Mon Nov 2, 2026, 12:00 PM ET");
     expect(md).not.toContain("CLOSE_AT");
 
-    // Mutating start to close must fail the builder guard.
     expect(() =>
       buildWinnerPacketMarkdown({
         ...seatResult.seat,

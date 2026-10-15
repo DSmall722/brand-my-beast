@@ -10,10 +10,6 @@ import {
 } from "../src/lib/campaign";
 import { PUBLIC_COPY } from "../src/lib/public-copy";
 
-/**
- * Slice 0.9 — homepage strings match PUBLIC_COPY.md v2 verbatim.
- * Do not rewrite the rewrite.
- */
 test.describe("slice 0.9: PUBLIC_COPY v2 on /", () => {
   test("money fences stay locked", () => {
     expect(FLOOR_USD).toBe(35_000);

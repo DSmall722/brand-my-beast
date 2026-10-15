@@ -3,10 +3,6 @@ import { PUBLIC_SITE_ORIGIN } from "@/lib/campaign";
 
 const SITE = PUBLIC_SITE_ORIGIN;
 
-/**
- * Slice 7.8 / 13.37 — public crawl surface is `/` and `/panels/*` only.
- * Disallow auth and private boards: `/account`, `/signin`, `/operator`.
- */
 export const ROBOTS_DISALLOW_PATHS = [
   "/account",
   "/account/",

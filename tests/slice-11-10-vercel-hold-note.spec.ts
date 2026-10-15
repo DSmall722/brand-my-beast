@@ -3,10 +3,6 @@ import { join } from "node:path";
 import { expect, test } from "@playwright/test";
 import { CLOSE_AT, FLOOR_USD, GOAL_USD } from "../src/lib/campaign";
 
-/**
- * Slice 11.10 — repo note only while the Vercel usage hold is on.
- * “Redeploy when the hold lifts.” No app change. No Stripe. No close clock.
- */
 const NOTE = join(process.cwd(), "docs/VERCEL-HOLD.md");
 
 test.describe("slice 11.10: Vercel hold redeploy note", () => {

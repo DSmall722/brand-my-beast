@@ -15,11 +15,6 @@ import {
   personalGmailMatchesInText,
 } from "../src/lib/no-personal-gmail";
 
-/**
- * Slice 13.40 — no personal Gmail in git grep of src/ + *.md.
- * CLOSE_AT null. No Stripe. Hold-mode untouched.
- */
-
 test.describe("slice 13.40: no personal Gmail in src + md", () => {
   test("campaign money fences stay locked — CLOSE_AT null", () => {
     expect(FLOOR_USD).toBe(35_000);

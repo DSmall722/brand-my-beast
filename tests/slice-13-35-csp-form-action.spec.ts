@@ -15,11 +15,6 @@ import {
   securityHeaderValue,
 } from "../src/lib/security-headers";
 
-/**
- * Slice 13.35 — CSP form-action 'self' + Resend callback host (builds on 11.1).
- * CLOSE_AT null. No Stripe. Hold-mode untouched.
- */
-
 test.describe("slice 13.35: CSP form-action + Resend callback host", () => {
   test("campaign money fences stay locked — CLOSE_AT null", () => {
     expect(FLOOR_USD).toBe(35_000);
@@ -57,7 +52,6 @@ test.describe("slice 13.35: CSP form-action + Resend callback host", () => {
     const csp = securityHeaderValue("Content-Security-Policy");
     expect(csp).toContain(CSP_FORM_ACTION);
     expect(csp).toContain("form-action 'self' https://brandmybeast.com");
-    // Narrow allowlist: no bare form-action 'self' without the callback host.
     expect(csp).not.toMatch(/form-action 'self';/);
     const src = readFileSync(
       join(process.cwd(), "src/lib/security-headers.ts"),

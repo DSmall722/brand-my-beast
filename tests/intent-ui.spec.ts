@@ -165,7 +165,6 @@ test.describe("P2 panel intent + approvals", () => {
     await page.getByTestId("intent-standing").fill("2500");
     await page.getByTestId("intent-submit").click();
     await expect(page.getByTestId("intent-success")).toBeVisible();
-    // BMB-QA-457: only deposit-paid marks show publicly; trade stays private.
     await markNewestAccountBidPaid(page, request, 2500);
     await page.goto("/panels/hood");
     await expect(page.getByTestId("intent-list")).toContainText("Slice Twelve Co");
@@ -222,7 +221,6 @@ test.describe("P2 panel intent + approvals", () => {
     await expect(bidder.getByTestId("intent-success")).toContainText(
       "not charged",
     );
-    // BMB-QA-457: the seat log lists the mark once its deposit is paid.
     await markNewestAccountBidPaid(bidder, request, 2500);
     await bidder.goto("/panels/hood");
     await expect(bidder.getByTestId("intent-list")).toContainText("Signal Co");
@@ -383,7 +381,6 @@ test.describe("P2 panel intent + approvals", () => {
     page,
     request,
   }) => {
-    // Parallel workers can flip seats closed; force list mode for this seat test.
     await request.post("/api/test/seats-open", { data: { open: true } });
     await signIn(page, "banned@example.com");
     await page.goto("/panels/hood");
@@ -405,7 +402,6 @@ test.describe("P2 panel intent + approvals", () => {
     await expect(page.getByTestId("intent-error")).toContainText("school-lot");
     await expect(page.getByTestId("intent-success")).toHaveCount(0);
 
-    // Unique brand/trade so a parallel hood listing cannot steal the seat.
     await page.getByTestId("intent-brand").fill("Ban Co Cold");
     await page.getByTestId("intent-trade").fill("cold brew 23");
     await page.getByTestId("intent-submit").click();
@@ -429,7 +425,6 @@ test.describe("P2 panel intent + approvals", () => {
       "not charged",
     );
     await expect(first.getByTestId("failed-winner-offer")).toHaveCount(0);
-    // BMB-QA-457: paid so the outbid row is public in the seat log.
     await markNewestAccountBidPaid(first, request, 2500);
     await first.close();
 
@@ -601,8 +596,6 @@ test.describe("P2 panel intent + approvals", () => {
     await expect(seat.getByRole("heading", { name: "One brand per trade" })).toHaveCount(
       0,
     );
-    // Slice 0.9 locked body drops the old "no public category list" phrase;
-    // prove taxonomy UI is still absent.
     await expect(seat.getByTestId("taxonomy")).toHaveCount(0);
     await expect(seat.getByTestId("category-list")).toHaveCount(0);
     await expect(seat.getByTestId("trade-categories")).toHaveCount(0);
@@ -647,7 +640,6 @@ test.describe("P2 panel intent + approvals", () => {
     await expect(bidder.getByTestId("intent-success")).toContainText(
       "not charged",
     );
-    // BMB-QA-457: unpaid marks are not public; no Pending stat.
     await expect(bidder.getByTestId("panel-pending")).toHaveCount(0);
     await expect(bidder.getByTestId("public-seat-log")).toHaveCount(0);
     await markNewestAccountBidPaid(bidder, request, 2500);
@@ -776,7 +768,6 @@ test.describe("P2 panel intent + approvals", () => {
     await expect(holder.getByTestId("intent-success")).toContainText(
       "not charged",
     );
-    // BMB-QA-457: the public minimum follows deposit-paid marks only.
     await markNewestAccountBidPaid(holder, request, 2500);
     await holder.close();
 
@@ -1037,7 +1028,6 @@ test.describe("P2 panel intent + approvals", () => {
     await expect(page.getByTestId("intent-list")).toContainText(
       "Slice ThirtyFive Art",
     );
-    // Public seat stays name-only until the operator approves the logo.
     await expect(
       page.locator('[data-testid^="intent-artwork-"][data-artwork-kind="url"]'),
     ).toHaveCount(0);
@@ -1182,7 +1172,6 @@ test.describe("P2 panel intent + approvals", () => {
     await page.goto("/panels/tailgate");
     await expect(page).toHaveURL(/\/panels\/tailgate/);
     await expect(page.getByTestId("truck-view-seats")).toBeVisible();
-    // QA 1047PM — seat pages clear sticky board overlays (no active wash).
     await expect(page.getByTestId("truck-view-seats")).toHaveAttribute(
       "data-polygons",
       "hidden",

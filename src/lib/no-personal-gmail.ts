@@ -1,14 +1,6 @@
-/**
- * Slice 13.40 — no personal Gmail address in src/ or *.md.
- * Domain-only guards like includes("@gmail.com") are allowed.
- * Prose “personal Gmail” in harness docs is allowed.
- * No Stripe. Does not set CLOSE_AT.
- */
-
 import { existsSync, readdirSync, readFileSync, statSync } from "node:fs";
 import { join, relative } from "node:path";
 
-/** Address shape: mailbox + at-sign + gmail.com — not a bare domain guard. */
 export const PERSONAL_GMAIL_RE = /[A-Za-z0-9._%+-]+@gmail\.com/gi;
 
 const SKIP_DIR_NAMES = new Set([
@@ -52,7 +44,6 @@ function walkFiles(dir: string, pred: (name: string) => boolean): string[] {
   return out;
 }
 
-/** Files under src/ (all extensions) plus repo *.md (recursive). */
 export function listPersonalGmailScanTargets(
   root: string = process.cwd(),
 ): string[] {

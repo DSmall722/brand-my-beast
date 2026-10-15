@@ -15,11 +15,6 @@ import { resetShopArtStatusStoreForTests } from "@/lib/shop-art-status-store";
 import { testApiBlockedResponse } from "@/lib/test-api-gate";
 import { resetWaitlistDomainBlocklistForTests } from "@/lib/waitlist-domain-blocklist";
 
-/**
- * Slice 7.3 — 404 when VERCEL_ENV or NODE_ENV is production.
- * Slice 14.11 — plaque / sighting / circuit stores load only via dynamic
- * import so TRUCK_EXISTS=false app routes do not statically pull them in.
- */
 export async function POST() {
   const blocked = testApiBlockedResponse();
   if (blocked) return blocked;

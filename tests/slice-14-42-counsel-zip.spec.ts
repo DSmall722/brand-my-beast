@@ -26,11 +26,6 @@ import {
   setIntentStatus,
 } from "../src/lib/intent-store";
 
-/**
- * Slice 14.42 — Counsel export ZIP of CONTRACT + standing table.
- * No emails in the ZIP. CLOSE_AT null. No Stripe. Hold-mode untouched.
- */
-
 async function signIn(page: Page, email: string) {
   await page.context().clearCookies();
   await page.goto("/signin");

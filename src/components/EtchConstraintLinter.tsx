@@ -6,9 +6,6 @@ import {
   lintEtchArtNotes,
 } from "@/lib/etch-linter";
 
-/**
- * Etch constraint checklist + optional art-notes lint (FEATURES P2 #18).
- */
 export function EtchConstraintLinter() {
   const [notes, setNotes] = useState("");
   const report = useMemo(() => lintEtchArtNotes(notes), [notes]);

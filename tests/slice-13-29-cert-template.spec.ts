@@ -10,10 +10,6 @@ import {
   formatUsd,
 } from "../src/lib/campaign";
 
-/**
- * Slice 13.29 — docs/VAULT-CERTIFICATE.md template only.
- * No issued date until etch exists. CLOSE_AT null. No Stripe.
- */
 const DOC = join(process.cwd(), "docs/VAULT-CERTIFICATE.md");
 
 test.describe("slice 13.29: vault certificate markdown template", () => {
@@ -56,7 +52,6 @@ test.describe("slice 13.29: vault certificate markdown template", () => {
     expect(text).toContain(
       "Issued date: (blank until Immortal etch exists on the panel)",
     );
-    // No filled calendar issued date
     expect(text).not.toMatch(
       /Issued date:\s*\d{4}-\d{2}-\d{2}/i,
     );

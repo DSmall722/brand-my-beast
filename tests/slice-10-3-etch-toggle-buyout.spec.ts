@@ -16,10 +16,6 @@ import {
 } from "../src/lib/etch-lock";
 import { PUBLIC_COPY } from "../src/lib/public-copy";
 
-/**
- * Slice 10.3 — etch toggle disabled unless pledged >= $120,000.
- * Playwright on the seat. CLOSE_AT null. No Stripe.
- */
 test.describe("slice 10.3: etch toggle locked under buyout", () => {
   test.describe.configure({ mode: "serial" });
 
@@ -96,7 +92,6 @@ test.describe("slice 10.3: etch toggle locked under buyout", () => {
     await expect(page.getByTestId("etch-lock-copy")).toHaveCount(0);
     await expect(page.getByTestId("compositor-etch-mark")).toHaveCount(0);
 
-    // Wrap-only panel: no compositor pane, bumper wrap copy stays.
     await page.goto("/panels/front-bumper");
     await expect(page.getByTestId("panel-mockup")).toHaveCount(0);
     await expect(page.getByTestId("compositor-mode-etch")).toHaveCount(0);
@@ -109,7 +104,6 @@ test.describe("slice 10.3: etch toggle locked under buyout", () => {
     expect(html).not.toContain("CLOSE_AT");
     expect(html).toContain("$35,000");
 
-    // Clear buyout seed so later suites still see pledged $0.
     const reset = await request.post("/api/test/reset-intents");
     expect(reset.ok()).toBeTruthy();
   });

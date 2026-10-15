@@ -1,8 +1,3 @@
-/**
- * Slice 12.15 — account export JSON payload.
- * Pure builder. Auth lives at the route boundary.
- */
-
 import { BRAND } from "./campaign";
 import type { IntentBid } from "./intent";
 import type { WaitlistRow } from "./waitlist";
@@ -10,7 +5,6 @@ import type { WaitlistRow } from "./waitlist";
 export const ACCOUNT_EXPORT_PATH = "/api/account/export";
 export const ACCOUNT_EXPORT_FILENAME = "brandmybeast-account.json";
 
-/** Waitlist fields safe to hand back to the account holder (no confirm token). */
 export type AccountExportWaitlist = {
   email: string;
   createdAt: string;

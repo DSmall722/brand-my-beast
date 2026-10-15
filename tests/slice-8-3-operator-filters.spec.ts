@@ -33,9 +33,6 @@ async function resetServerIntents(request: APIRequestContext) {
   expect(res.ok()).toBeTruthy();
 }
 
-/**
- * Slice 8.3 — operator filters: pending / approved / rejected / outbid.
- */
 test.describe("slice 8.3: operator status filters", () => {
   test("campaign money fences stay locked", () => {
     expect(FLOOR_USD).toBe(35_000);

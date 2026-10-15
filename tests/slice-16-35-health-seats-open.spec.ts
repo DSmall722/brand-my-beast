@@ -14,11 +14,6 @@ import { formatHealthSeatsOpen } from "../src/lib/operator-health";
 import { resolveSeatsOpen } from "../src/lib/seats-open";
 import { vercelJsonIsHoldOrMainOnlyRestore } from "../src/lib/vercel-git-deploy";
 
-/**
- * Slice 16.35 — health panel shows SEATS_OPEN because 14.17 exists.
- * Does not flip the flag. CLOSE_AT null. No Stripe.
- */
-
 async function signIn(page: Page) {
   await page.context().clearCookies();
   await page.goto("/signin");

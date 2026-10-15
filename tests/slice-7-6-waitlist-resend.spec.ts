@@ -15,10 +15,6 @@ import {
   type WaitlistNotifyPayload,
 } from "../src/lib/waitlist";
 
-/**
- * Slice 7.6 — waitlist Resend path notifies hello@ on insert.
- * Tests mock Resend. Do not send live mail. Write failure never claims join.
- */
 test.describe("slice 7.6: waitlist Resend notifies hello@", () => {
   test.beforeEach(() => {
     resetWaitlistStoreForTests();

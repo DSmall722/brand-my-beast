@@ -23,10 +23,6 @@ async function signIn(page: import("@playwright/test").Page, email: string) {
   await expect(page.getByTestId("account-page")).toBeVisible();
 }
 
-/**
- * Slice 12.4 — idempotency key on intent POST. Replay does not double-list.
- * CLOSE_AT null. No Stripe.
- */
 test.describe("slice 12.4: intent idempotency key", () => {
   test.describe.configure({ mode: "serial" });
 

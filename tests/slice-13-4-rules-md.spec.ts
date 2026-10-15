@@ -9,10 +9,6 @@ import {
   formatUsd,
 } from "../src/lib/campaign";
 
-/**
- * Slice 13.4 — RULES.md adds failed-winner + one-approved-per-panel.
- * CLOSE_AT null. No Stripe.
- */
 const RULES = join(process.cwd(), "RULES.md");
 
 test.describe("slice 13.4: RULES.md failed-winner + one approved", () => {

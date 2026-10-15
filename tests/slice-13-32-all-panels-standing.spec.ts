@@ -22,11 +22,6 @@ import {
   setIntentStatus,
 } from "../src/lib/intent-store";
 
-/**
- * Slice 13.32 — same user cannot hold standing on all 11 panels unless
- * whole-truck path. CLOSE_AT null. No Stripe. Hold-mode untouched.
- */
-
 test.describe("slice 13.32: all-panels standing needs whole-truck", () => {
   test.describe.configure({ mode: "serial" });
 
@@ -113,8 +108,6 @@ test.describe("slice 13.32: all-panels standing needs whole-truck", () => {
   });
 
   test("approve of 11th single-panel seat is rejected; whole-truck ok", async () => {
-    // Bypass place-gate with wholeTruckPath so we can prove the approve gate:
-    // eleven opening-mark seats are not whole-truck coverage.
     const rejectUser = "all12-approve-reject";
     const listedIds: string[] = [];
     for (const panel of PANELS) {
@@ -145,7 +138,6 @@ test.describe("slice 13.32: all-panels standing needs whole-truck", () => {
     expect(blockedApprove.error).toBe(ALL_PANELS_STANDING_ERROR);
     expect((await getIntentBidById(eleventhId))?.status).toBe("listed");
 
-    // Whole-truck: all eleven at buyout split may approve through 11.
     await resetIntentStoreForTests();
     const whole = await placeWholeTruckIntent({
       userId: "all12-wt-approve",

@@ -21,11 +21,6 @@ import {
 import { findStripePackagesInRootPackageJson } from "../src/lib/no-stripe-package";
 import { vercelJsonIsHoldOrMainOnlyRestore } from "../src/lib/vercel-git-deploy";
 
-/**
- * Slice 14.30 — Operator note required when forcing a withdraw of an
- * approved seat. CLOSE_AT null. No Stripe. Hold-mode untouched. No clock.
- */
-
 test.describe("slice 14.30: operator note required on force-withdraw approved", () => {
   test.beforeEach(async ({ request }) => {
     process.env.INTENT_MODE = "memory";
@@ -99,7 +94,6 @@ test.describe("slice 14.30: operator note required on force-withdraw approved", 
     expect(live?.status).toBe("withdrawn");
     expect(live?.deletedAt).toBeTruthy();
 
-    // Listed pending withdraw still needs no operator note.
     const pending = await placeIntentBid({
       panelId: "rear-bumper",
       userId: "fw1430-pending",
@@ -123,7 +117,6 @@ test.describe("slice 14.30: operator note required on force-withdraw approved", 
     );
     expect(src).toContain("FORCE_WITHDRAW_APPROVED_NOTE_ERROR");
     expect(src).toContain("forceWithdrawApprovedSeat");
-    expect(src).toContain("Slice 14.30");
     expect(src.toLowerCase()).not.toMatch(/\blease\b/);
   });
 

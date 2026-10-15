@@ -1,8 +1,4 @@
 #!/usr/bin/env node
-/**
- * Slice 14.44 — CI grep: fail on personal Gmail address or personal handle.
- * Run via `npm run grep:identity`. Exit 1 on any hit.
- */
 
 import { existsSync, readdirSync, readFileSync, statSync } from "node:fs";
 import { join, relative } from "node:path";

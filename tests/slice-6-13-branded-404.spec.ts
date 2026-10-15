@@ -10,10 +10,6 @@ import {
 } from "../src/lib/campaign";
 import { PUBLIC_COPY } from "../src/lib/public-copy";
 
-/**
- * Slice 6.13 — branded 404.
- * Dark stainless chrome, wordmark, one line, Back to the board + Contact us.
- */
 test.describe("slice 6.13: branded 404", () => {
   test("campaign money fences stay locked", () => {
     expect(FLOOR_USD).toBe(35_000);

@@ -13,14 +13,9 @@ export type BanListActionState = {
   ok: boolean;
   error?: string;
   message?: string;
-  /** Slice 16.27 — board labels blocked by this sweep, number order. */
   blockedLabels?: string[];
 };
 
-/**
- * Slice 8.8 / 13.16 — add ban pattern and re-run pending intents.
- * Matching listed → hard-reject. Approved seats stay.
- */
 export async function submitBanRule(
   _prev: BanListActionState,
   formData: FormData,

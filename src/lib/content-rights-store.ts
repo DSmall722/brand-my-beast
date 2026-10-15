@@ -28,7 +28,6 @@ function prefsMap(): Map<string, ContentRightsPrefs> {
   return globalForRights.__bmbContentRights;
 }
 
-/** Exported for Playwright / unit gates (slice 7.4). */
 export function contentRightsStoreUsesMemory(
   env?: Parameters<typeof leftoverStoreUsesMemory>[0],
 ): boolean {

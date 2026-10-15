@@ -33,12 +33,6 @@ async function resetServerIntents(request: APIRequestContext) {
   expect(res.ok()).toBeTruthy();
 }
 
-/**
- * Slice 6.3 — merge-gate Playwright contract for operator approve /
- * reject-with-note. Broader coverage lives under slice 2.2; this file is the
- * Wave 6 named proof. UI describe uses API reset; store describe uses
- * in-process reset only (CI workers=1 — see playwright.config.ts).
- */
 test.describe("slice 6.3 store: operator approve / reject-with-note", () => {
   test.beforeEach(async () => {
     await resetIntentStoreForTests();

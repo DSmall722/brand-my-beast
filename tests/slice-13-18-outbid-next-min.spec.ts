@@ -44,9 +44,6 @@ function sampleBid(overrides: Partial<IntentBid> = {}): IntentBid {
   };
 }
 
-/**
- * Slice 13.18 — outbid email includes next minimum (9.2).
- */
 test.describe("slice 13.18: outbid email includes next minimum", () => {
   test.describe.configure({ mode: "serial" });
 

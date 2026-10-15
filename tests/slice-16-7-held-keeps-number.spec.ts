@@ -10,12 +10,6 @@ import { findCloseAtViolations } from "../src/lib/close-at-null";
 import { findStripePackagesInRootPackageJson } from "../src/lib/no-stripe-package";
 import { vercelJsonIsHoldOrMainOnlyRestore } from "../src/lib/vercel-git-deploy";
 
-/**
- * Slice 16.7 — occupied seats keep the number and add Held.
- * Held keeps the number on the board. Hero is the house-wrap concept.
- * CLOSE_AT null. No Stripe. No SEATS_OPEN flip.
- */
-
 async function signIn(page: Page, email: string) {
   await page.goto("/signin");
   await page.getByTestId("signin-email").fill(email);

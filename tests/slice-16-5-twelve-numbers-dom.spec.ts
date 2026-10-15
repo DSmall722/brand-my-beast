@@ -11,11 +11,6 @@ import { findStripePackagesInRootPackageJson } from "../src/lib/no-stripe-packag
 import { PANEL_BOARD_MARKS } from "../src/lib/panel-board";
 import { vercelJsonIsHoldOrMainOnlyRestore } from "../src/lib/vercel-git-deploy";
 
-/**
- * Slice 16.5 — Playwright 1280px: all eleven hero numbers present in the DOM.
- * CLOSE_AT null. No Stripe. No SEATS_OPEN flip.
- */
-
 test.describe("slice 16.5: 1280px all eleven numbers in the DOM", () => {
   test.use({ viewport: { width: 1280, height: 900 } });
 

@@ -29,10 +29,6 @@ async function signIn(page: import("@playwright/test").Page, email: string) {
   await expect(page.getByTestId("account-page")).toBeVisible();
 }
 
-/**
- * Slice 9.4 — floor-save intent row: if short of $35,000, raise this seat to Y.
- * Stored, not charged. CLOSE_AT stays null.
- */
 test.describe("slice 9.4: floor-save intent", () => {
   test.describe.configure({ mode: "serial" });
 

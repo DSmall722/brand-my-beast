@@ -9,10 +9,6 @@ import {
   formatUsd,
 } from "../src/lib/campaign";
 
-/**
- * Slice 13.10 — docs/CHANGELOG.md lists last 20 merged slice ids.
- * CLOSE_AT null. No Stripe.
- */
 const DOC = join(process.cwd(), "docs/CHANGELOG.md");
 
 const EXPECTED_SLICES = [

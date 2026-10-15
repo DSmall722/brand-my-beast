@@ -1,8 +1,3 @@
-/**
- * Rain/night lighting after buyout (FEATURES P5 #50).
- * Display promise only — not a livestream, not a close clock.
- */
-
 import { FLOOR_USD, GOAL_USD, formatUsd } from "./campaign";
 
 export const RAIN_NIGHT_LIGHTING_LEAD = `Rain and night lighting is a post-buyout story. It unlocks only after ${formatUsd(GOAL_USD)}. Miss ${formatUsd(FLOOR_USD)} and there is no truck, no lighting pass. Preview shaders on the panel seat stay preview only. Not a livestream. No reserved VIN. Still no card charge.`;

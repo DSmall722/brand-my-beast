@@ -10,12 +10,6 @@ import { findCloseAtViolations } from "../src/lib/close-at-null";
 import { findStripePackagesInRootPackageJson } from "../src/lib/no-stripe-package";
 import { vercelJsonIsHoldOrMainOnlyRestore } from "../src/lib/vercel-git-deploy";
 
-/**
- * Slice 17.3 — legend + aria use buyer seat words (20.6 sentence).
- * Occupied hood (16.48 seed) may say held seat. An empty hotspot still says open seat.
- * Drop Raw 30X / Not a 360 from visible UI. CLOSE_AT null. No Stripe.
- */
-
 test.describe("slice 17.3: open-seat legend drops 30X", () => {
   test.beforeEach(async ({ request }) => {
     const res = await request.post("/api/test/reset-intents");

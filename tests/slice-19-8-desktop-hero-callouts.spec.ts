@@ -14,11 +14,6 @@ import { findStripePackagesInRootPackageJson } from "../src/lib/no-stripe-packag
 import { PUBLIC_COPY } from "../src/lib/public-copy";
 import { vercelJsonIsHoldOrMainOnlyRestore } from "../src/lib/vercel-git-deploy";
 
-/**
- * Slice 19.8 — desktop hero: callouts 2 / 3 / 5 must not sit on the H1 glyphs.
- * H1 text stays locked. CLOSE_AT null. No Stripe.
- */
-
 const ROOT = process.cwd();
 const LOCKED_H1 = "Advertise your brand on the truck that people already photograph";
 const CALLOUTS = [2, 3, 5] as const;

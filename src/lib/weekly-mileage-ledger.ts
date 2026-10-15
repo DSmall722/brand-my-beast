@@ -1,8 +1,3 @@
-/**
- * Weekly mileage ledger (FEATURES P3 #29).
- * Empty display scaffold — no invented miles, no reserved VIN, no clock.
- */
-
 import { FLOOR_USD, GOAL_USD, formatUsd } from "./campaign";
 
 export const WEEKLY_MILEAGE_LEDGER_LEAD = `Weekly mileage ledger. Empty until the truck exists. Miss ${formatUsd(FLOOR_USD)} and there are no miles to log. Buyout ${formatUsd(GOAL_USD)} buys the truck; miles still start after delivery. No invented odometer. No reserved VIN until an order exists. Still no card charge.`;

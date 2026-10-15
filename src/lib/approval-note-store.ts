@@ -1,8 +1,3 @@
-/**
- * Operator veto / approval notes (memory, same pattern as Imagine mockups).
- * Durable column waits — P2 stays capture-free.
- */
-
 export type ApprovalNote = {
   id: string;
   bidId: string;

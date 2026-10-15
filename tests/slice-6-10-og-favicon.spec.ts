@@ -10,10 +10,6 @@ import {
 } from "../src/lib/campaign";
 import { PUBLIC_COPY } from "../src/lib/public-copy";
 
-/**
- * Slice 6.10 — OG image + favicon, public brand only.
- * Does not rewrite PUBLIC_COPY. Does not steal 6.11 homepage copy checks.
- */
 test.describe("slice 6.10: OG image and favicon, public brand only", () => {
   test("campaign money fences stay locked", () => {
     expect(FLOOR_USD).toBe(35_000);

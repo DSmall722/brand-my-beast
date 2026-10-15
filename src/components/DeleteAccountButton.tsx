@@ -8,9 +8,6 @@ import {
 
 const initial: DeleteAccountState = { ok: false };
 
-/**
- * Slice 12.16 — delete account: anonymize bid user ids, keep standing amounts.
- */
 export function DeleteAccountButton() {
   const [state, action, pending] = useActionState(deleteAccountAction, initial);
 

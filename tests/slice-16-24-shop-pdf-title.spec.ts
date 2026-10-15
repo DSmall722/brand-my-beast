@@ -20,11 +20,6 @@ import {
 } from "../src/lib/shop-pdf";
 import { vercelJsonIsHoldOrMainOnlyRestore } from "../src/lib/vercel-git-deploy";
 
-/**
- * Slice 16.24 — shop PDF title is `Seat 04 — Driver Side Doors`, not only the slug.
- * FEATURES.md stays off /. CLOSE_AT null. No Stripe.
- */
-
 const PANEL_ID = "driver-door" as const;
 const TITLE = "Seat 04 — Driver Side Doors";
 

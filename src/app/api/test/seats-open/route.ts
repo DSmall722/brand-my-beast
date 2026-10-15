@@ -6,10 +6,6 @@ import {
 } from "@/lib/seats-open-store";
 import { testApiBlockedResponse } from "@/lib/test-api-gate";
 
-/**
- * Slice 14.32 — Playwright helper to flip SEATS_OPEN on the Next server.
- * Never sets CLOSE_AT or a date.
- */
 export async function POST(request: Request) {
   const blocked = testApiBlockedResponse();
   if (blocked) return blocked;

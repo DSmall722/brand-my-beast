@@ -19,10 +19,6 @@ export const runtime = "nodejs";
 
 type RouteContext = { params: Promise<{ bidId: string }> };
 
-/**
- * Slice 8.6 / 13.36 — shop PDF for one approved seat.
- * Shop partner or operator. No Imagine API.
- */
 export async function GET(_request: Request, context: RouteContext) {
   const session = await auth();
   if (!session?.user) {

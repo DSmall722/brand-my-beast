@@ -1,9 +1,3 @@
-/**
- * Slice 12.31 — JSON-LD Organization + Offer for `/`.
- * Strings from PUBLIC_COPY / BRAND. Money from campaign.ts.
- * No impression counts, CPMs, or invented reach claims.
- */
-
 import {
   BRAND,
   FLOOR_USD,

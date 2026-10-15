@@ -9,13 +9,11 @@ import { PUBLIC_COPY } from "@/lib/public-copy";
 
 const initial: IntentActionState = { ok: false };
 
-/** Slice 9.7 — withdraw pending (listed) intent. Approved has no control. */
 export function WithdrawPendingButton({
   bidId,
   updatedAt,
 }: {
   bidId: string;
-  /** Slice 12.2 — optimistic lock token from the row the user loaded. */
   updatedAt: string;
 }) {
   const [state, action, pending] = useActionState(withdrawIntentBid, initial);

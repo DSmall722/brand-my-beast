@@ -3,13 +3,6 @@ import { join } from "node:path";
 import { expect, test } from "@playwright/test";
 import { redactAnalyticsUrl } from "../src/lib/analytics-url";
 
-/**
- * BMB-ANALYTICS-1 — Vercel Web Analytics.
- * Cookieless, same-origin on Vercel. No personal data on custom events.
- * CSP stays 'self'. The component mounts only when VERCEL is set so
- * `next dev` does not load va.vercel-scripts.com.
- */
-
 test.describe("BMB-ANALYTICS-1", () => {
   test("layout renders Analytics only when VERCEL is set", () => {
     const src = readFileSync(join(process.cwd(), "src/app/layout.tsx"), "utf8");

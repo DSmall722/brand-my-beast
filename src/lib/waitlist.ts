@@ -37,22 +37,17 @@ export type WaitlistRow = {
   createdAt: string;
   userId: string | null;
   source: string;
-  /** Slice 12.14 — null after confirm (or legacy rows). */
   confirmToken: string | null;
-  /** Slice 12.14 — set when double opt-in completes. */
   confirmedAt: string | null;
-  /** Slice 16.0c — whole-truck interest. Not pledged. Default false. */
   wantWholeTruck: boolean;
 };
 
-/** Payload Resend (or a test double) receives on waitlist insert. */
 export type WaitlistNotifyPayload = {
   from: string;
   replyTo: string;
   to: string;
   subject: string;
   text: string;
-  /** Slice 14.40 — List-Unsubscribe headers on subscriber waitlist mail. */
   headers?: Record<string, string>;
 };
 
@@ -78,7 +73,6 @@ function newConfirmToken(): string {
   return crypto.randomUUID().replace(/-/g, "") + crypto.randomUUID().replace(/-/g, "");
 }
 
-/** Public confirm URL for the double-opt-in mail. */
 export function waitlistConfirmUrl(token: string): string {
   const base =
     process.env.WAITLIST_CONFIRM_BASE_URL?.replace(/\/$/, "") ??
@@ -98,10 +92,6 @@ function rowFromDb(row: typeof waitlistSignups.$inferSelect): WaitlistRow {
   };
 }
 
-/**
- * Slice 7.6 — inject a Resend double in Playwright. Pass null to clear.
- * Live mail is never sent from the agent / CI.
- */
 export function setWaitlistMailerForTests(
   mailer: WaitlistMailer | null,
 ): void {
@@ -126,11 +116,6 @@ type WaitlistStoreEnv = {
   NODE_ENV?: string;
 };
 
-/**
- * Memory is CI/local only. Vercel Production never uses memory (SLICES 6.7),
- * even if WAITLIST_MODE=memory is mis-set. Local `next build` without
- * DATABASE_URL still uses memory when VERCEL_ENV is unset.
- */
 export function waitlistStoreUsesMemory(
   env: WaitlistStoreEnv = process.env as WaitlistStoreEnv,
 ): boolean {
@@ -144,11 +129,6 @@ function useMemoryStore(): boolean {
   return waitlistStoreUsesMemory();
 }
 
-/**
- * Slice 12.14 — confirm-link mail to the subscriber (double opt-in).
- * Slice 14.40 — List-Unsubscribe headers on this waitlist mail.
- * Missing key / mailer = no-op.
- */
 async function notifyConfirmLink(
   email: string,
   token: string,
@@ -184,15 +164,10 @@ async function notifyConfirmLink(
         error,
       });
     } catch {
-      // Dead-letter write is best-effort.
     }
   }
 }
 
-/**
- * Slice 7.6 — notify hello@ after double opt-in confirms.
- * Missing key / mailer = no-op.
- */
 async function notifyOperator(email: string): Promise<void> {
   const key = process.env.RESEND_API_KEY;
   const mailer = resolveMailer(key);
@@ -222,18 +197,10 @@ async function notifyOperator(email: string): Promise<void> {
         error,
       });
     } catch {
-      // Dead-letter write is best-effort.
     }
   }
 }
 
-/**
- * Slice 6.5 — write outcome is authoritative. Notify failures must not
- * flip a successful insert into a false "could not save" (and must never
- * claim join when the write failed).
- * Slice 12.14 — create stores a confirm token; operator mail waits for confirm.
- * Slice 16.0d — optional wantWholeTruck (interest only; not pledged).
- */
 export async function joinWaitlist(
   rawEmail: string,
   opts?: { wantWholeTruck?: boolean },
@@ -317,16 +284,12 @@ export async function joinWaitlist(
     try {
       await notifyConfirmLink(email, confirmToken);
     } catch {
-      // Row is already saved — do not tell the user the write failed.
     }
   }
 
   return saved;
 }
 
-/**
- * Slice 12.14 — consume confirm token; then notify operator (hello@).
- */
 export async function confirmWaitlistByToken(
   rawToken: string,
 ): Promise<WaitlistConfirmResult> {
@@ -360,7 +323,6 @@ export async function confirmWaitlistByToken(
       try {
         await notifyOperator(match.email);
       } catch {
-        // Confirmed anyway.
       }
       return { ok: true, email: match.email, status: "confirmed" };
     }
@@ -396,7 +358,6 @@ export async function confirmWaitlistByToken(
     try {
       await notifyOperator(row.email);
     } catch {
-      // Confirmed anyway.
     }
     return { ok: true, email: row.email, status: "confirmed" };
   } catch {
@@ -408,7 +369,6 @@ export async function confirmWaitlistByToken(
   }
 }
 
-/** Look up a waitlist row by email. Never deletes. */
 export async function getWaitlistByEmail(
   rawEmail: string,
 ): Promise<WaitlistRow | null> {
@@ -432,10 +392,6 @@ export async function getWaitlistByEmail(
   return rowFromDb(row);
 }
 
-/**
- * Link a signed-in account to an existing waitlist row by email.
- * Updates userId in place — never deletes or recreates the row.
- */
 export async function attachWaitlistAccount(input: {
   email: string;
   userId: string;
@@ -479,10 +435,6 @@ export async function attachWaitlistAccount(input: {
   return refreshed;
 }
 
-/**
- * Slice 7.5 — operator waitlist board. Newest first.
- * Memory in CI/local; Postgres when configured. Never tweets / exports to X.
- */
 export async function listWaitlistSignups(): Promise<WaitlistRow[]> {
   if (useMemoryStore()) {
     return [...memoryStore().values()].sort((a, b) =>
@@ -501,16 +453,11 @@ export async function listWaitlistSignups(): Promise<WaitlistRow[]> {
   return rows.map((row) => rowFromDb(row));
 }
 
-/** CI helper — clear memory waitlist and any injected mailer. */
 export function resetWaitlistStoreForTests(): void {
   memoryStore().clear();
   globalStore.__bmbWaitlistMailer = null;
 }
 
-/**
- * Slice 12.16 — detach account from waitlist rows (clear userId only).
- * Email row stays for operator; no tweet / no Stripe.
- */
 export async function detachWaitlistUserId(userId: string): Promise<number> {
   const trimmed = userId.trim();
   if (!trimmed) return 0;

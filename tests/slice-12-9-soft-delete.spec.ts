@@ -17,10 +17,6 @@ import {
   withdrawPendingIntent,
 } from "../src/lib/intent-store";
 
-/**
- * Slice 12.9 — soft-delete withdrawn rows. Never hard-delete approved.
- * CLOSE_AT null. No Stripe.
- */
 test.describe("slice 12.9: soft-delete withdrawn; never hard-delete approved", () => {
   test.describe.configure({ mode: "serial" });
 

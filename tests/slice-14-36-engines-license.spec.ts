@@ -13,12 +13,6 @@ import { findStripePackagesInRootPackageJson } from "../src/lib/no-stripe-packag
 import { vercelJsonIsHoldOrMainOnlyRestore } from "../src/lib/vercel-git-deploy";
 import { slicesCoversId } from "./helpers/slices-ids";
 
-/**
- * Slice 14.36 — engines + license in package.json if 12.48 did not land.
- * 12.48 already landed (#205). This slice re-locks the same fields.
- * CLOSE_AT null. No Stripe. Hold-mode untouched. No 30-day clock.
- */
-
 const ROOT = process.cwd();
 
 type Pkg = {

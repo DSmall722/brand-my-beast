@@ -11,10 +11,6 @@ import {
 } from "../src/lib/campaign";
 import { PUBLIC_COPY } from "../src/lib/public-copy";
 
-/**
- * Slice 12.37 — prefetch `/panels/*` from homepage cards.
- * CLOSE_AT null. No Stripe.
- */
 test.describe("slice 12.37: prefetch panels from homepage cards", () => {
   test("campaign money fences stay locked — CLOSE_AT null", () => {
     expect(FLOOR_USD).toBe(35_000);

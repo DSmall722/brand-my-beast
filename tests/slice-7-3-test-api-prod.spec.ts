@@ -13,10 +13,6 @@ import {
   testApiBlockedResponse,
 } from "../src/lib/test-api-gate";
 
-/**
- * Slice 7.3 — `/api/test/*` returns 404 when VERCEL_ENV=production or
- * NODE_ENV=production. Test-mode still works in CI (AUTH_MODE=test, non-prod).
- */
 test.describe("slice 7.3: test API blocked in production", () => {
   test("campaign money fences stay locked", () => {
     expect(FLOOR_USD).toBe(35_000);

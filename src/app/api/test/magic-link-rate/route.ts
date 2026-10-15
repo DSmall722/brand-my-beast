@@ -7,11 +7,6 @@ import {
 import { logMagicLinkRequest } from "@/lib/structured-log";
 import { testApiBlockedResponse } from "@/lib/test-api-gate";
 
-/**
- * Slice 11.2 test harness — trip magic-link rate limit without Resend.
- * Slice 13.34 — also records hashed-email structured log (no raw email).
- * 404 in production.
- */
 export async function POST(request: Request) {
   const blocked = testApiBlockedResponse();
   if (blocked) return blocked;

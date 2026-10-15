@@ -12,11 +12,6 @@ import { findCloseAtViolations } from "../src/lib/close-at-null";
 import { findStripePackagesInRootPackageJson } from "../src/lib/no-stripe-package";
 import { vercelJsonIsHoldOrMainOnlyRestore } from "../src/lib/vercel-git-deploy";
 
-/**
- * Slice 16.50 — after Wave 16, idle. Wave 15 still needs a human message.
- * Does not start Wave 15. CLOSE_AT null. No Stripe. No SEATS_OPEN flip.
- */
-
 const DOC = join(process.cwd(), "docs/WAVE-15-STOP.md");
 const CAMPAIGN_TS = join(process.cwd(), "src/lib/campaign.ts");
 

@@ -1,7 +1,3 @@
-/**
- * Slice 12.28 — operator cannot approve etch finish while pledged < $120,000.
- */
-
 import { GOAL_USD, formatUsd, isEtchUnlocked } from "./campaign";
 
 export type OperatorFinish = "wrap" | "etch";
@@ -10,9 +6,6 @@ export function parseOperatorFinish(raw: unknown): OperatorFinish {
   return String(raw ?? "").trim() === "etch" ? "etch" : "wrap";
 }
 
-/**
- * Gate etch finish approvals / mockup queues under buyout.
- */
 export function assertEtchFinishAllowed(input: {
   finish: OperatorFinish;
   pledgedUsd: number;

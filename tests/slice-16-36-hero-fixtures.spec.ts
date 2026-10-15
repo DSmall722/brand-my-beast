@@ -12,11 +12,6 @@ import { findCloseAtViolations } from "../src/lib/close-at-null";
 import { findStripePackagesInRootPackageJson } from "../src/lib/no-stripe-package";
 import { vercelJsonIsHoldOrMainOnlyRestore } from "../src/lib/vercel-git-deploy";
 
-/**
- * Slice 16.36 — hero screenshots at 390 and 1280 live under tests/fixtures/board/.
- * CLOSE_AT null. No Stripe.
- */
-
 function pngSize(path: string): { width: number; height: number } {
   const body = readFileSync(path);
   expect(body.subarray(0, 8).toString("hex")).toBe("89504e470d0a1a0a");

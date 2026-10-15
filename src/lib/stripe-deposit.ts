@@ -1,8 +1,3 @@
-/**
- * Stripe boundary. Mocked in Playwright when no secret key is set.
- * Production with LIVE_BIDDING off never reaches a charge.
- */
-
 import Stripe from "stripe";
 
 export type CheckoutKind = "deposit" | "remainder";

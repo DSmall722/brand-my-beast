@@ -32,9 +32,6 @@ import {
   isShopReadyVectorUrl,
 } from "../src/lib/shop-ready-artwork";
 
-/**
- * Slice 13.22 — shop-ready requires vector URL or Blob key, not screenshot only.
- */
 test.describe("slice 13.22: shop-ready vector or blob key", () => {
   test.describe.configure({ mode: "serial" });
 
@@ -130,7 +127,6 @@ test.describe("slice 13.22: shop-ready vector or blob key", () => {
     expect(noArt.error).toBe(SHOP_READY_ARTWORK_ERROR);
     expect(await getShopArtStatus(bare.bid.id)).toBe("unset");
 
-    // needs-fix still allowed without vector art.
     const fixBare = await setShopArtStatus({
       bidId: bare.bid.id,
       status: "needs-fix",
@@ -182,7 +178,6 @@ test.describe("slice 13.22: shop-ready vector or blob key", () => {
     expect(readySvg.ok).toBe(true);
     expect(await getShopArtStatus(svg.bid.id)).toBe("shop-ready");
 
-    // Minimal 1x1 PNG as data URL → blob key (slice 8.5 path).
     const tinyPng =
       "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z8BQDwAEhQGAhKmMIQAAAABJRU5ErkJggg==";
     const blobPut = await putArtworkBlob(tinyPng);

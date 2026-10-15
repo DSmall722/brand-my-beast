@@ -16,7 +16,6 @@ export type PanelCardStanding = {
   publicLogoUrl: string | null;
 };
 
-/** Slice 7.1 / 10.9 / 16.1 — panel grid; cards show 1–12 index + standing. */
 export function HomePanelsSection({
   standingByPanel,
 }: {

@@ -14,11 +14,6 @@ import { vercelJsonIsHoldOrMainOnlyRestore } from "../src/lib/vercel-git-deploy"
 import { seatsOpenEmailTemplate } from "../src/emails";
 import { CAN_SPAM_UNSUBSCRIBE_URL } from "../src/emails/can-spam";
 
-/**
- * Slice 14.19 — “Seats open” email template exists. Do not send it from the
- * agent. CLOSE_AT null. No Stripe. No clock. Hold-mode untouched.
- */
-
 const ROOT = process.cwd();
 const EMAILS = join(ROOT, "src/emails");
 const TOGGLE_ACTION = join(ROOT, "src/app/actions/seats-open.ts");

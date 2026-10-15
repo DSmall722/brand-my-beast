@@ -28,7 +28,6 @@ function storyMap(): Map<string, CircuitStoryRequest> {
   return globalForStories.__bmbCircuitStories;
 }
 
-/** Exported for Playwright / unit gates (slice 7.4). */
 export function circuitStoryStoreUsesMemory(
   env?: Parameters<typeof leftoverStoreUsesMemory>[0],
 ): boolean {

@@ -15,11 +15,6 @@ import { findStripePackagesInRootPackageJson } from "../src/lib/no-stripe-packag
 import { vercelJsonIsHoldOrMainOnlyRestore } from "../src/lib/vercel-git-deploy";
 import { markNewestAccountBidPaid } from "./helpers/mark-paid";
 
-/**
- * Slice 14.34 — Next-minimum display uses integer dollars only.
- * CLOSE_AT null. No Stripe. Hold-mode untouched. No 30-day clock.
- */
-
 const ROOT = process.cwd();
 const WHOLE_DOLLAR = /^\$[\d,]+$/;
 
@@ -70,10 +65,8 @@ test.describe("slice 14.34: next-minimum display integer dollars only", () => {
 
     const campaign = readFileSync(join(ROOT, "src/lib/campaign.ts"), "utf8");
     expect(campaign).toContain("formatIntegerUsd");
-    expect(campaign).toContain("Slice 14.34");
 
     const intent = readFileSync(join(ROOT, "src/lib/intent.ts"), "utf8");
-    expect(intent).toContain("Slice 9.2 / 14.34");
     expect(intent).toMatch(/Number\.isInteger\(standingUsd\)/);
 
     const panel = readFileSync(

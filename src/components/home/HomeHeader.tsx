@@ -1,7 +1,6 @@
 import { AuthNav } from "@/components/AuthNav";
 import { PUBLIC_COPY } from "@/lib/public-copy";
 
-/** Slice 7.1 — extracted from `src/app/page.tsx`. Copy unchanged. */
 export async function HomeHeader() {
   return (
       <header

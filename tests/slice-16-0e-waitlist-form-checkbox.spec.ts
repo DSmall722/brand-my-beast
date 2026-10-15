@@ -11,12 +11,6 @@ import { findStripePackagesInRootPackageJson } from "../src/lib/no-stripe-packag
 import { PUBLIC_COPY } from "../src/lib/public-copy";
 import { vercelJsonIsHoldOrMainOnlyRestore } from "../src/lib/vercel-git-deploy";
 
-/**
- * Slice 16.0e — WaitlistForm checkbox + POST wantWholeTruck.
- * Submit still 201. Pledged on `/` stays $0. No H1 rewrite.
- * CLOSE_AT null. No Stripe. SEATS_OPEN untouched.
- */
-
 const LOCKED_H1 =
   "Advertise your brand on the truck that people already photograph";
 

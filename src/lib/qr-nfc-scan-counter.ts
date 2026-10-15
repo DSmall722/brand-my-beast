@@ -1,8 +1,3 @@
-/**
- * QR / NFC raw scan counter (FEATURES P3 #34).
- * Empty display scaffold — no invented scan counts, no reserved VIN, no clock.
- */
-
 import { FLOOR_USD, GOAL_USD, formatUsd } from "./campaign";
 
 export const QR_NFC_SCAN_COUNTER_LEAD = `QR / NFC raw scan counter. Empty until the truck exists. Miss ${formatUsd(FLOOR_USD)} and there is nothing to scan. Buyout ${formatUsd(GOAL_USD)} buys the truck; scans still wait on delivery. No invented scan counts. No reserved VIN until an order exists. Still no card charge.`;

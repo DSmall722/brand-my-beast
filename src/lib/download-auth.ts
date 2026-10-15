@@ -1,12 +1,3 @@
-/**
- * Slice 13.36 — download routes (CSV, PDF, PNG) require operator or owner.
- * 401 when unsigned. 403 when signed in but not allowed.
- *
- * Download operator is narrower than isOperatorEmail in test mode:
- * only operator@example.com (mirrors shop-partner’s shop@example.com).
- * Live still uses OPERATOR_EMAILS. No Stripe. Does not set CLOSE_AT.
- */
-
 import { resolveAuthMode, type AuthEnv } from "@/lib/auth/mode";
 import { isShopPartnerEmail } from "@/lib/auth/shop-partner";
 
@@ -26,10 +17,6 @@ export function forbiddenDownload(
   return { ok: false, status: 403, error };
 }
 
-/**
- * Live: OPERATOR_EMAILS allow-list.
- * Test: only operator@example.com (not every @example.com).
- */
 export function isDownloadOperatorEmail(
   email: string | null | undefined,
   env: AuthEnv = process.env,
@@ -50,7 +37,6 @@ export function isDownloadOperatorEmail(
   return false;
 }
 
-/** Operator CSV — operator only (no per-row owner). */
 export function canDownloadOperatorCsv(
   email: string | null | undefined,
   env: AuthEnv = process.env,
@@ -58,7 +44,6 @@ export function canDownloadOperatorCsv(
   return isDownloadOperatorEmail(email, env);
 }
 
-/** Shop PDF — shop partner (owner of shop downloads) or operator. */
 export function canDownloadShopPdf(
   email: string | null | undefined,
   env: AuthEnv = process.env,
@@ -68,7 +53,6 @@ export function canDownloadShopPdf(
   );
 }
 
-/** Seat PNG — standing seat owner or operator. */
 export function canDownloadSeatPng(input: {
   email: string | null | undefined;
   userId: string | null | undefined;

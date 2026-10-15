@@ -14,9 +14,6 @@ export type SeatsOpenActionState = {
   seatsOpen?: boolean;
 };
 
-/**
- * Slice 14.18 — operator toggles SEATS_OPEN. Does not set a date or CLOSE_AT.
- */
 export async function submitSeatsOpenToggle(
   _prev: SeatsOpenActionState,
   formData: FormData,
@@ -26,7 +23,6 @@ export async function submitSeatsOpenToggle(
     return { ok: false, error: "Operator access required." };
   }
 
-  // Reject any accidental date payload. The toggle does not move the window.
   for (const key of ["date", "closeAt", "close_at", "until", "opensAt"]) {
     if (!seatsOpenToggleRejectsDate(formData.get(key))) {
       return {

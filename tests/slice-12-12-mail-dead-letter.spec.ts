@@ -22,10 +22,6 @@ import {
 } from "../src/lib/intent-status-mail";
 import type { IntentBid } from "../src/lib/intent";
 
-/**
- * Slice 12.12 — dead-letter for failed Resend; operator can retry.
- * CLOSE_AT null. No Stripe.
- */
 test.describe("slice 12.12: mail dead-letter + operator retry", () => {
   test.describe.configure({ mode: "serial" });
 

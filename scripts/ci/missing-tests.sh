@@ -1,8 +1,4 @@
 #!/bin/sh
-# Warning only. Exit 0 always.
-# If the PR head branch or title matches fix|bug (case-insensitive) and the
-# three-dot diff changes product files under src/ but no test files, print one
-# GitHub warning annotation.
 
 base=${BASE:-main}
 head=${HEAD:-HEAD}
@@ -22,7 +18,6 @@ product=0
 tested=0
 while IFS= read -r f || [ -n "$f" ]; do
   [ -n "$f" ] || continue
-  # Prefix strip, not a glob: src/app/page.tsx is product, tests/unit/a.test.ts is a test.
   case ${f#src/} in
     "$f") ;;
     *) product=1 ;;

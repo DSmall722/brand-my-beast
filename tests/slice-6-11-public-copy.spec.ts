@@ -10,10 +10,6 @@ import {
 } from "../src/lib/campaign";
 import { PUBLIC_COPY } from "../src/lib/public-copy";
 
-/**
- * Slice 6.11 — Wave 6 gate that `/` still matches PUBLIC_COPY.md H1 + Notify me.
- * Do not rewrite the rewrite. Copy ownership stays with 0.9 / PUBLIC_COPY.md.
- */
 test.describe("slice 6.11: homepage matches PUBLIC_COPY H1 and Notify me", () => {
   test("campaign money fences stay locked", () => {
     expect(FLOOR_USD).toBe(35_000);

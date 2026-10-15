@@ -6,11 +6,6 @@ import { findStripePackagesInRootPackageJson } from "../src/lib/no-stripe-packag
 import { PANEL_BOARD_MARKS, panelLegendLabel } from "../src/lib/panel-board";
 import { vercelJsonIsHoldOrMainOnlyRestore } from "../src/lib/vercel-git-deploy";
 
-/**
- * Slice 18.5 — /llms.txt drops the CLOSE_AT is null line.
- * Keep floor, buyout, no close date, and the 1–11 list.
- */
-
 test.describe("slice 18.5: llms.txt drops CLOSE_AT", () => {
   test("campaign money fences stay locked — CLOSE_AT null", () => {
     expect(FLOOR_USD).toBe(35_000);

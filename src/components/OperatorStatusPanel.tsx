@@ -3,10 +3,6 @@ import {
   type OperatorStatus,
 } from "@/lib/operator-status";
 
-/**
- * Slice 11.5 — DB ping + waitlist count on `/operator` only.
- * No public URL, no homepage link.
- */
 export function OperatorStatusPanel({ status }: { status: OperatorStatus }) {
   return (
     <aside

@@ -10,7 +10,6 @@ export const metadata: Metadata = {
   alternates: { canonical: `${PUBLIC_SITE_ORIGIN}/privacy` },
 };
 
-/** Short real privacy policy. No auction process notes. */
 export default function PrivacyPage() {
   return (
     <LegalStubShell title="Privacy" testId="privacy-page">

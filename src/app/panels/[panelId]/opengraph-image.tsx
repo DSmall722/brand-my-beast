@@ -8,9 +8,6 @@ export const alt = PUBLIC_COPY.hero.ogImageAlt;
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
-/**
- * Slice 16.33 — OG image for `/panels/[id]` shows the board number and name.
- */
 export default async function PanelOpenGraphImage({
   params,
 }: {

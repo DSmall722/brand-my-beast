@@ -1,9 +1,5 @@
 import { resolveAuthMode } from "@/lib/auth/mode";
 
-/**
- * Operator gate for the pending-intent list at /operator.
- * Live: OPERATOR_EMAILS allow-list. Test: any @example.com address.
- */
 export function isOperatorEmail(
   email: string | null | undefined,
   env: Record<string, string | undefined> = process.env,

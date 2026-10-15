@@ -36,10 +36,6 @@ async function expectUnclippedInViewport(page: Page, locator: Locator) {
   expect(box.bottom).toBeLessThanOrEqual(viewport.height + 2);
 }
 
-/**
- * Slice 10.7 — mobile compositor: one view at a time.
- * Playwright 390px; wordmark not clipped. CLOSE_AT null. No Stripe.
- */
 test.describe("slice 10.7: mobile compositor one view", () => {
   test.use({ viewport: { width: 390, height: 844 } });
 

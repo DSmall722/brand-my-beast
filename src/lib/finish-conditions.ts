@@ -1,9 +1,3 @@
-/**
- * Day/night/wet/dirty finish shaders (SLICES 3.6 / FEATURES P2 #19).
- * CSS preview toggles only — not proof photos of a truck that does not exist.
- * No capture, no clock.
- */
-
 import { FLOOR_USD, GOAL_USD, formatUsd } from "./campaign";
 
 export const FINISH_CONDITIONS = [
@@ -15,7 +9,6 @@ export const FINISH_CONDITIONS = [
 
 export type FinishCondition = (typeof FINISH_CONDITIONS)[number]["id"];
 
-/** Seat lead: toggles are shaders, not documentary photos. */
 export const FINISH_CONDITIONS_LEAD = `Day, night, wet, and dirty toggles. Preview only — not proof photos of a truck that does not exist. Floor ${formatUsd(FLOOR_USD)}. Buyout ${formatUsd(GOAL_USD)}. Still no card charge.`;
 
 export function isFinishCondition(value: string): value is FinishCondition {

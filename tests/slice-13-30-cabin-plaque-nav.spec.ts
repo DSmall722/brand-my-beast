@@ -12,12 +12,6 @@ import {
 import { cabinPlaqueUiAllowed } from "../src/lib/cabin-plaque";
 import { vercelJsonIsHoldOrMainOnlyRestore } from "../src/lib/vercel-git-deploy";
 
-/**
- * Slice 13.30 — Cabin plaque form / nav stay dark while TRUCK_EXISTS is false.
- * Authenticated chrome (/account, SiteChrome, AuthNav, HomeHeader) must not
- * surface the plaque form. CLOSE_AT null. No Stripe. Hold-mode untouched.
- */
-
 const AUTH_CHROME = [
   "src/components/AuthNav.tsx",
   "src/components/SiteChrome.tsx",

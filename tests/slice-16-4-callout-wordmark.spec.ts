@@ -11,12 +11,6 @@ import { findStripePackagesInRootPackageJson } from "../src/lib/no-stripe-packag
 import { PANEL_BOARD_MARKS } from "../src/lib/panel-board";
 import { vercelJsonIsHoldOrMainOnlyRestore } from "../src/lib/vercel-git-deploy";
 
-/**
- * Slice 16.4 — Playwright 390px: numbers 1, 3, 5, 9 visible
- * and not clipped by the wordmark.
- * CLOSE_AT null. No Stripe. No SEATS_OPEN flip.
- */
-
 const VISIBLE_NS = [1, 3, 5, 9] as const;
 
 function boxesOverlap(

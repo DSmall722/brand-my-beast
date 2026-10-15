@@ -14,10 +14,6 @@ function originOf(request: Request): string {
   return `${proto}://${host}`;
 }
 
-/**
- * Public Place bid. Closed before open and after the effective close.
- * A standing row exists only after the webhook sets depositPaidAt.
- */
 export async function POST(request: Request) {
   const bids = await listAllIntentBids();
   if (!depositDeskOpen(bids.map((bid) => bid.createdAt))) {

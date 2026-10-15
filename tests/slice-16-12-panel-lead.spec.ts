@@ -13,11 +13,6 @@ import { findStripePackagesInRootPackageJson } from "../src/lib/no-stripe-packag
 import { PUBLIC_COPY } from "../src/lib/public-copy";
 import { vercelJsonIsHoldOrMainOnlyRestore } from "../src/lib/vercel-git-deploy";
 
-/**
- * QA 1047PM — Bid on a Panel lead is the select-a-panel line.
- * Unlock copy lives under Immortal Etch. CLOSE_AT null. No Stripe.
- */
-
 const LOCKED_H1 = "Advertise your brand on the truck that people already photograph";
 const PANEL_SELECT = "Pick a panel to place a bid.";
 const ETCH_UNLOCK =

@@ -151,7 +151,6 @@ test.describe("notes PDF homepage sheet", () => {
       .evaluate((el) => getComputedStyle(el).getPropertyValue("--panel-face-size"));
     expect(rearSize.trim()).toBe("175% auto");
 
-    // Sail + bed cards center aft panels (not doors).
     await expect(page.getByTestId("panel-face-driver-rear-quarter")).toHaveAttribute(
       "data-face-pos",
       "74% 34%",

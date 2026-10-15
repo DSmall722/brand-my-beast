@@ -15,10 +15,6 @@ import {
   comboLotInventedPrice,
 } from "../src/lib/combo-lots";
 
-/**
- * Slice 10.10 — neighbor combo is display only.
- * No invented combo price. CLOSE_AT null. No Stripe.
- */
 test.describe("slice 10.10: neighbor combo display only", () => {
   test("campaign money fences stay locked — CLOSE_AT null", () => {
     expect(FLOOR_USD).toBe(35_000);
@@ -59,7 +55,6 @@ test.describe("slice 10.10: neighbor combo display only", () => {
       expect(neighbor.openingUsd).toBeGreaterThan(0);
       expect(Number.isFinite(neighbor.openingUsd)).toBe(true);
     }
-    // No derived package total lives on the lot type.
     expect(
       Object.prototype.hasOwnProperty.call(lot, "comboPriceUsd"),
     ).toBe(false);

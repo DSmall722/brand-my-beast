@@ -13,11 +13,6 @@ import { findStripePackagesInRootPackageJson } from "../src/lib/no-stripe-packag
 import { vercelJsonIsHoldOrMainOnlyRestore } from "../src/lib/vercel-git-deploy";
 import { slicesIdsForMajors } from "./helpers/slices-ids";
 
-/**
- * Slice 13.47 — verify-brandmybeast feature map matches Waves 9–13.
- * Docs/skill index + merge-gate; not new product UI. CLOSE_AT null. No Stripe.
- */
-
 const FEATURES_DIR = join(
   process.cwd(),
   ".cursor/skills/verify-brandmybeast/features",
@@ -33,7 +28,6 @@ const REQUIRED_MAP_FILES = [
   "wave13-docs-freeze.md",
 ] as const;
 
-/** Expand condensed `0.1–18.7` (and same-major leftovers) for Waves 9–13. */
 function wave913IdsFromSlices(): string[] {
   return slicesIdsForMajors([9, 10, 11, 12, 13]);
 }
@@ -84,8 +78,6 @@ test.describe("slice 13.47: verify-brandmybeast feature map Waves 9–13", () =>
 
   test("every Wave 9–13 SLICES id appears in the feature map", () => {
     const ids = wave913IdsFromSlices();
-    // 9.1–9.10 + 10.1–10.10 + 11.1–11.10 + 12.1–11.50 + 13.1–13.50 = 130
-    // SLICES may still show condensed 13.1–13.44 plus later singles.
     expect(ids.length).toBeGreaterThanOrEqual(100);
     expect(ids[0]).toBe("9.1");
     expect(ids).toContain("10.10");

@@ -1,4 +1,3 @@
-/* Slice 12.36 — design tokens + base chrome */
 :root {
   --steel-950: #0c0e11;
   --steel-900: #14181e;
@@ -13,9 +12,7 @@
   --hairline: color-mix(in oklab, white 14%, transparent);
   --glow: color-mix(in oklab, var(--signal) 22%, transparent);
   --page-shell: min(100% - 2rem, 100%);
-  /* Desktop content column inside the full-width shell. */
   --desk-measure: 68rem;
-  /* Preview the Panels sits inside that column, smaller than the shell. */
   --preview-measure: 56rem;
 }
 
@@ -30,7 +27,6 @@ html {
 body {
   margin: 0;
   min-height: 100vh;
-  /* Slice 17.7 — page bottom clears the home indicator. */
   padding-bottom: env(safe-area-inset-bottom, 0px);
   color: var(--steel-100);
   font-family: var(--font-body), "IBM Plex Sans", system-ui, sans-serif;
@@ -61,7 +57,6 @@ a {
   border: 0;
 }
 
-/* Slice 6.8 — skip link; visible on keyboard focus only. */
 .skip-link {
   position: absolute;
   left: 1rem;
@@ -162,7 +157,6 @@ a {
   color: white;
 }
 
-/* Approved v4 — Immortal Etch lockup in Syne, not body IBM Plex. */
 .immortal-etch {
   font-family: var(--font-display), Syne, system-ui, sans-serif;
   font-weight: 800;

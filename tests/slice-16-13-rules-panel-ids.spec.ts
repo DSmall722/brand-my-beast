@@ -14,11 +14,6 @@ import { findStripePackagesInRootPackageJson } from "../src/lib/no-stripe-packag
 import { panelBoardMarkFor } from "../src/lib/panel-board";
 import { vercelJsonIsHoldOrMainOnlyRestore } from "../src/lib/vercel-git-deploy";
 
-/**
- * Slice 16.13 — RULES.md lists 1–11 next to panel ids.
- * Opening dollars unchanged. CLOSE_AT null. No Stripe. No SEATS_OPEN flip.
- */
-
 const RULES = join(process.cwd(), "RULES.md");
 
 test.describe("slice 16.13: RULES.md 1–11 next to panel ids", () => {

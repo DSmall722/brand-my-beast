@@ -13,12 +13,6 @@ import { findStripePackagesInRootPackageJson } from "../src/lib/no-stripe-packag
 import { vercelJsonIsHoldOrMainOnlyRestore } from "../src/lib/vercel-git-deploy";
 import { slicesIdsForMajors } from "./helpers/slices-ids";
 
-/**
- * Slice 16.41 — verify-brandmybeast feature map matches Wave 16.
- * Docs/skill index + merge-gate; not new product UI. CLOSE_AT null. No Stripe.
- * Does not flip SEATS_OPEN. Does not start Wave 15.
- */
-
 const FEATURES_DIR = join(
   process.cwd(),
   ".cursor/skills/verify-brandmybeast/features",
@@ -30,7 +24,6 @@ const REQUIRED_MAP_FILES = [
   "wave16-numbered-board.md",
 ] as const;
 
-/** Expand condensed `0.1–18.7` for Wave 16, including 16.0a–g. */
 function wave16IdsFromSlices(): string[] {
   return slicesIdsForMajors([16]);
 }
@@ -81,7 +74,6 @@ test.describe("slice 16.41: verify-brandmybeast feature map Wave 16", () => {
 
   test("every Wave 16 SLICES id appears in the feature map", () => {
     const ids = wave16IdsFromSlices();
-    // 16.0a–g plus 16.1 … 16.50
     expect(ids.length).toBe(57);
     expect(ids).toContain("16.0a");
     expect(ids).toContain("16.0g");

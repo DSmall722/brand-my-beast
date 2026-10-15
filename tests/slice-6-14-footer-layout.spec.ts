@@ -10,10 +10,6 @@ import {
 } from "../src/lib/campaign";
 import { PUBLIC_COPY } from "../src/lib/public-copy";
 
-/**
- * Slice 6.14 — footer layout only.
- * Exact PUBLIC_COPY footer strings; mobile stack; no copy rewrite.
- */
 test.describe("slice 6.14: footer layout", () => {
   test("campaign money fences stay locked", () => {
     expect(FLOOR_USD).toBe(35_000);

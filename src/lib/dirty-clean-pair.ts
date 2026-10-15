@@ -1,8 +1,3 @@
-/**
- * Dirty-vs-clean pair (FEATURES P3 #32).
- * Side-by-side finish preview — no capture, no clock, no invented price.
- */
-
 import { FLOOR_USD, GOAL_USD, formatUsd } from "./campaign";
 
 export const DIRTY_CLEAN_PAIR_LEAD = `Road film next to bare steel. Preview only — not a photo of the truck. Floor ${formatUsd(FLOOR_USD)}. Buyout ${formatUsd(GOAL_USD)}. Still no card charge.`;

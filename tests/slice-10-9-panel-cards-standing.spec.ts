@@ -21,10 +21,6 @@ async function signIn(page: Page, email: string) {
   await expect(page.getByTestId("account-page")).toBeVisible();
 }
 
-/**
- * Slice 10.9 — panel cards show standing brand or “Open.”
- * CLOSE_AT null. No Stripe.
- */
 test.describe("slice 10.9: panel cards standing or Open", () => {
   test.describe.configure({ mode: "serial" });
 

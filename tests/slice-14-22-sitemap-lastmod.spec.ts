@@ -19,11 +19,6 @@ import {
 import { findStripePackagesInRootPackageJson } from "../src/lib/no-stripe-package";
 import { vercelJsonIsHoldOrMainOnlyRestore } from "../src/lib/vercel-git-deploy";
 
-/**
- * Slice 14.22 — Sitemap lastmod from git time, not a fake clock.
- * CLOSE_AT null. No Stripe. Hold-mode untouched. No 30-day clock.
- */
-
 function gitIso(pathOrHead: string): string {
   const args =
     pathOrHead === "HEAD"
@@ -64,7 +59,6 @@ test.describe("slice 14.22: sitemap lastmod from git time", () => {
     expect(head).not.toBeNull();
     expect(head!.toISOString()).toBe(new Date(headIso).toISOString());
 
-    // Not a wall-clock "now" fake — must be in the past relative to this test.
     expect(fromHelper!.getTime()).toBeLessThan(Date.now());
   });
 
@@ -76,7 +70,6 @@ test.describe("slice 14.22: sitemap lastmod from git time", () => {
     expect(src).toContain("gitLastModified");
     expect(src).toContain("lastModified");
     expect(src).not.toMatch(/lastModified:\s*new Date\(\)/);
-    // Ban wall-clock lastmod in code (comments may say the words).
     expect(src).not.toMatch(/lastModified:\s*new Date\(Date\.now\(\)\)/);
     expect(src).not.toMatch(/lastModified:\s*new Date\(\s*\)/);
     expect(src.toLowerCase()).not.toMatch(/\blease\b/);
@@ -106,7 +99,6 @@ test.describe("slice 14.22: sitemap lastmod from git time", () => {
     const homeDay = new Date(homeIso).toISOString().slice(0, 10);
     expect(lastmods.some((v) => v.startsWith(homeDay))).toBe(true);
 
-    // No CLOSE_AT / clock / lease leakage in the XML.
     expect(body).not.toMatch(/CLOSE_AT/);
     expect(body.toLowerCase()).not.toMatch(/\blease\b/);
     expect(body.toLowerCase()).not.toMatch(/stripe/);

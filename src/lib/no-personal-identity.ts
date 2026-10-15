@@ -1,10 +1,3 @@
-/**
- * Slice 14.44 — CI grep: fail on personal Gmail and personal handle.
- * Reuses 13.40 Gmail address scan. Handle needle is assembled so this
- * file does not contain the banned token as a contiguous literal.
- * CLOSE_AT null. Cards never charged.
- */
-
 import { existsSync, readdirSync, readFileSync, statSync } from "node:fs";
 import { join, relative } from "node:path";
 import {
@@ -13,7 +6,6 @@ import {
   type PersonalGmailHit,
 } from "./no-personal-gmail";
 
-/** Assembled so the source tree does not store the banned handle literally. */
 export const PERSONAL_HANDLE_NEEDLE = ["@", "Nard", "Lion"].join("");
 
 export type PersonalHandleHit = {
@@ -49,18 +41,12 @@ function walkFiles(dir: string, pred: (name: string) => boolean): string[] {
   return out;
 }
 
-/** Same surface as 13.40: src/ + *.md. */
 export function listPersonalHandleScanTargets(
   root: string = process.cwd(),
 ): string[] {
   return listPersonalGmailScanTargets(root);
 }
 
-/**
- * SLICES.md may name the banned handle only on the Wave 16 regression-doc
- * line that points back at this slice. That single documentation hit is
- * allowlisted; everywhere else fails CI.
- */
 export function isAllowlistedPersonalHandleLine(
   file: string,
   line: string,
@@ -105,7 +91,6 @@ export type PersonalIdentityHits = {
   handle: PersonalHandleHit[];
 };
 
-/** Combined CI grep for 14.44 — both surfaces must be empty. */
 export function findPersonalIdentityHits(
   root: string = process.cwd(),
 ): PersonalIdentityHits {
@@ -115,7 +100,6 @@ export function findPersonalIdentityHits(
   };
 }
 
-/** Extra walk kept for package script callers that want tests/ too. */
 export function listIdentityGrepExtraTargets(
   root: string = process.cwd(),
 ): string[] {

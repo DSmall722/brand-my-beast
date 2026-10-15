@@ -3,10 +3,6 @@ import { join } from "node:path";
 import { expect, test } from "@playwright/test";
 import { CLOSE_AT, FLOOR_USD, GOAL_USD, formatUsd } from "../src/lib/campaign";
 
-/**
- * Slice 12.44 — Neon PITR restore-drill checklist next to 11.6.
- * CLOSE_AT null. No Stripe. No agent dashboard clicks.
- */
 const DRILL = join(process.cwd(), "docs/NEON-PITR-DRILL.md");
 const RUNBOOK = join(process.cwd(), "docs/NEON-PITR.md");
 

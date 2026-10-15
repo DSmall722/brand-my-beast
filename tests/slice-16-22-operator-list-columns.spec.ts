@@ -20,11 +20,6 @@ import {
 } from "../src/lib/operator-list-columns";
 import { vercelJsonIsHoldOrMainOnlyRestore } from "../src/lib/vercel-git-deploy";
 
-/**
- * Slice 16.22 — operator list columns: #, panel, brand, trade, amount, status.
- * FEATURES.md stays off /. CLOSE_AT null. No Stripe.
- */
-
 const PANEL_ID = "driver-door" as const;
 
 async function signIn(page: Page, email: string) {

@@ -26,10 +26,6 @@ async function signIn(page: import("@playwright/test").Page, email: string) {
   await expect(page.getByTestId("account-page")).toBeVisible();
 }
 
-/**
- * Slice 9.8 — edit brand / trade / art while pending (listed) only.
- * Standing unchanged. Approved needs operator. No Stripe.
- */
 test.describe("slice 9.8: edit pending brand / trade / art", () => {
   test.describe.configure({ mode: "serial" });
 

@@ -16,11 +16,6 @@ import {
 } from "../src/lib/truck-views";
 import { vercelJsonIsHoldOrMainOnlyRestore } from "../src/lib/vercel-git-deploy";
 
-/**
- * Slice 17.2 — truckViewsCopyIsSafe() requires floor + buyout + no lease / no CLOSE_AT.
- * Does not set CLOSE_AT. No Stripe.
- */
-
 const SOURCE = join(process.cwd(), "src/lib/truck-views.ts");
 
 test.describe("slice 17.2: truck views copy requires floor and buyout", () => {

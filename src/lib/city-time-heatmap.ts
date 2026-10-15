@@ -1,8 +1,3 @@
-/**
- * City time-in-market heatmap (FEATURES P3 #30).
- * Empty display scaffold — no invented dwell times, no reserved VIN, no clock.
- */
-
 import { FLOOR_USD, GOAL_USD, formatUsd } from "./campaign";
 
 export const CITY_TIME_HEATMAP_LEAD = `City time-in-market heatmap. Empty until the truck exists. Miss ${formatUsd(FLOOR_USD)} and there is no route to heat. Buyout ${formatUsd(GOAL_USD)} buys the truck; dwell still waits on delivery. No invented city hours. No reserved VIN until an order exists. Still no card charge.`;

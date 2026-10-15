@@ -16,11 +16,6 @@ import {
 } from "../src/lib/panel-board";
 import { PUBLIC_COPY } from "../src/lib/public-copy";
 
-/**
- * Slice 14.0 — numbered stainless board on hero + truck views.
- * Playwright 390px: ≥6 numbers visible. PUBLIC_COPY H1 + Notify me.
- * No lease. No personal handle. CLOSE_AT null. No Stripe.
- */
 test.describe("slice 14.0: numbered stainless board", () => {
   test.use({ viewport: { width: 390, height: 844 } });
 

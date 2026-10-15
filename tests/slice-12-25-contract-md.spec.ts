@@ -15,10 +15,6 @@ import {
   buildContractMarkdown,
 } from "../src/lib/contract-markdown";
 
-/**
- * Slice 12.25 — contract markdown template from CAMPAIGN wreck rules.
- * Not a signature product. CLOSE_AT null. No lease.
- */
 test.describe("slice 12.25: contract markdown template", () => {
   test("campaign money fences stay locked — CLOSE_AT null", () => {
     expect(FLOOR_USD).toBe(35_000);

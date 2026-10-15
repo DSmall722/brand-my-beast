@@ -3,7 +3,6 @@ import { CLOSE_AT } from "@/lib/campaign";
 import { setPanelExtendedUntil } from "@/lib/panel-extension-store";
 import { testApiBlockedResponse } from "@/lib/test-api-gate";
 
-/** Slice 9.3 test seed — 404 in production. Never sets CLOSE_AT. */
 export async function POST(request: Request) {
   const blocked = testApiBlockedResponse();
   if (blocked) return blocked;

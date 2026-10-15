@@ -1,7 +1,3 @@
-/**
- * Content-rights catalog. Preference only — no tweet send, no capture.
- */
-
 export const CONTENT_RIGHT_OPTIONS = [
   {
     id: "film-seat",

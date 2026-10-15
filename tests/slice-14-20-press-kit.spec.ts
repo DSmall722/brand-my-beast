@@ -12,12 +12,6 @@ import { findCloseAtViolations } from "../src/lib/close-at-null";
 import { findStripePackagesInRootPackageJson } from "../src/lib/no-stripe-package";
 import { vercelJsonIsHoldOrMainOnlyRestore } from "../src/lib/vercel-git-deploy";
 
-/**
- * Slice 14.20 — Press kit folder: avi, header, one stainless still,
- * one-paragraph fact sheet. No wrap-as-delivered. CLOSE_AT null. No Stripe.
- * No clock. Hold-mode untouched.
- */
-
 const ROOT = process.cwd();
 const PRESS = join(ROOT, "press-kit");
 
@@ -54,7 +48,6 @@ test.describe("slice 14.20: press kit folder", () => {
       expect(names, `missing ${file}`).toContain(file);
       expect(statSync(join(PRESS, file)).size).toBeGreaterThan(32);
     }
-    // PNG / JPEG magic
     expect(readFileSync(join(PRESS, "avi.png")).subarray(0, 8)).toEqual(
       Buffer.from([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a]),
     );
@@ -77,7 +70,6 @@ test.describe("slice 14.20: press kit folder", () => {
     expect(text.toLowerCase()).not.toMatch(/wrap-as-delivered/);
     expect(text.toLowerCase()).not.toMatch(/\blease\b/);
     expect(text).not.toMatch(/@gmail\.com/);
-    // One campaign paragraph. Slice 16.19 adds the 1–11 board list after it.
     const body = text
       .split("\n")
       .map((line) => line.trim())

@@ -26,10 +26,6 @@ async function signIn(page: Page, email: string) {
   await expect(page.getByTestId("account-page")).toBeVisible();
 }
 
-/**
- * Slice 10.6 — export one PNG per seat (auth-gated server route).
- * CLOSE_AT null. No Stripe. No permanent vinyl.
- */
 test.describe("slice 10.6: export seat PNG", () => {
   test.describe.configure({ mode: "serial" });
 
@@ -95,7 +91,6 @@ test.describe("slice 10.6: export seat PNG", () => {
     expect(anon.status()).toBe(401);
 
     const missing = await request.get("/api/panels/not-a-panel/export");
-    // Still 401 when anonymous — auth before panel lookup is fine either way.
     expect([401, 404]).toContain(missing.status());
 
     const stranger = await browser.newPage();

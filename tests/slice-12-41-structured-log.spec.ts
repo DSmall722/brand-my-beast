@@ -20,11 +20,6 @@ import {
 } from "../src/lib/structured-log";
 import { joinWaitlist, resetWaitlistStoreForTests } from "../src/lib/waitlist";
 
-/**
- * Slice 12.41 — structured log on waitlist insert + intent status change.
- * No PII beyond email hash. CLOSE_AT null. No Stripe.
- */
-
 test.describe("slice 12.41: structured waitlist + intent status logs", () => {
   test("campaign money fences stay locked — CLOSE_AT null", () => {
     expect(FLOOR_USD).toBe(35_000);

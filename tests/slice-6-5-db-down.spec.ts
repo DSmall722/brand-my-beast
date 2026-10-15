@@ -17,10 +17,6 @@ import { joinWaitlist, resetWaitlistStoreForTests } from "../src/lib/waitlist";
 
 const SUCCESS_CLAIM = /\b(you are on the list|joined|intent listed)\b/i;
 
-/**
- * Slice 6.5 — failure copy when DB / write path is down.
- * Never claim join or listed intent if the write failed.
- */
 test.describe("slice 6.5: DB-down failure copy", () => {
   test("campaign money fences stay locked", () => {
     expect(FLOOR_USD).toBe(35_000);

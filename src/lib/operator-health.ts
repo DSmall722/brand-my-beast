@@ -1,8 +1,3 @@
-/**
- * Slice 13.45 — operator health snapshot: waitlist + pending + last digest.
- * Builds on 11.5 / 12.42. No Stripe. Does not set CLOSE_AT.
- */
-
 import { listBidsPendingApproval } from "@/lib/intent-store";
 import {
   getLastOperatorDigestAt,
@@ -27,10 +22,6 @@ export function formatLastDigestLabel(iso: string | null): string {
   return iso;
 }
 
-/**
- * Slice 16.35 — show SEATS_OPEN when 14.17 exists. Do not flip it.
- * Missing module prints `unset`.
- */
 export function formatHealthSeatsOpen(
   modulePresent: boolean,
   seatsOpen: boolean,

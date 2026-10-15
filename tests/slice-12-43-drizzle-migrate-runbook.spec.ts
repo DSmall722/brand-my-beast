@@ -3,10 +3,6 @@ import { join } from "node:path";
 import { expect, test } from "@playwright/test";
 import { CLOSE_AT, FLOOR_USD, GOAL_USD, formatUsd } from "../src/lib/campaign";
 
-/**
- * Slice 12.43 — Drizzle migrate runbook markdown in repo.
- * CLOSE_AT null. No Stripe. No agent dashboard clicks.
- */
 const RUNBOOK = join(process.cwd(), "docs/DRIZZLE-MIGRATE.md");
 
 test.describe("slice 12.43: Drizzle migrate runbook", () => {

@@ -1,8 +1,3 @@
-/**
- * Slice 12.14 — waitlist double-opt-in confirm email.
- * CAN-SPAM footer included. Intent / waitlist only — no capture.
- */
-
 import { BRAND } from "@/lib/campaign";
 import { withCanSpamFooter } from "./can-spam";
 import type { EmailTemplate } from "./intent-status";

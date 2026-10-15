@@ -18,10 +18,6 @@ import {
   resetOperatorBanListForTests,
 } from "../src/lib/operator-ban-list";
 
-/**
- * Slice 12.30 — ban-list match is logged with the rule id (ties to 8.8).
- * CLOSE_AT null. No Stripe.
- */
 test.describe("slice 12.30: ban-list match logged with rule id", () => {
   test("campaign money fences stay locked — CLOSE_AT null", () => {
     expect(FLOOR_USD).toBe(35_000);

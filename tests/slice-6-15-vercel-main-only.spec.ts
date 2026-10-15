@@ -14,14 +14,6 @@ import {
   vercelJsonIsHoldOrMainOnlyRestore,
 } from "../src/lib/vercel-git-deploy";
 
-/**
- * Slice 6.15 — vercel.json git deploy policy (repo-side).
- * Dual-accept (Hobby hold vs restore):
- *   - hold-mode: `deploymentEnabled === false` (all auto Git deploys off)
- *   - restore:   `{ "*": false, "main": true }` (main-only)
- * Accepting both shapes keeps this lock green after restore without a
- * follow-up test rewrite. No PUBLIC_COPY / hero / waitlist rewrite.
- */
 test.describe("slice 6.15: vercel main-only deploys", () => {
   test("campaign money fences stay locked", () => {
     expect(FLOOR_USD).toBe(35_000);
@@ -54,7 +46,6 @@ test.describe("slice 6.15: vercel main-only deploys", () => {
       git?: { deploymentEnabled?: Record<string, boolean> | boolean };
     };
     const enabled = config.git?.deploymentEnabled;
-    // Dual-accept: full pause (hold) OR main-only (post-restore).
     if (enabled === false) {
       expect(enabled).toBe(false);
       return;

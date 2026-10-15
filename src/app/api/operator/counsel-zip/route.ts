@@ -14,10 +14,6 @@ import { listStandingIntents } from "@/lib/intent-store";
 
 export const runtime = "nodejs";
 
-/**
- * Slice 14.42 — counsel ZIP: CONTRACT.md + standing table.
- * No emails in the ZIP. Operator only. CLOSE_AT null. No card charge.
- */
 export async function GET() {
   const session = await auth();
   if (!session?.user) {

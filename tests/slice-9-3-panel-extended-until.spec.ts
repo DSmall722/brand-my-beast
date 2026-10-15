@@ -20,10 +20,6 @@ import {
 } from "../src/lib/panel-extension-store";
 import { PUBLIC_COPY } from "../src/lib/public-copy";
 
-/**
- * Slice 9.3 — panelExtendedUntil field + PUBLIC_COPY-safe copy.
- * Do not set CLOSE_AT.
- */
 test.describe("slice 9.3: panelExtendedUntil", () => {
   test.describe.configure({ mode: "serial" });
 

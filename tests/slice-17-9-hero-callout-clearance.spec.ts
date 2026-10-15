@@ -10,11 +10,6 @@ import { findCloseAtViolations } from "../src/lib/close-at-null";
 import { findStripePackagesInRootPackageJson } from "../src/lib/no-stripe-package";
 import { vercelJsonIsHoldOrMainOnlyRestore } from "../src/lib/vercel-git-deploy";
 
-/**
- * Slice 17.9 — Playwright 390: hero H1 and callouts 2 / 3 / 5 / 7 do not overlap.
- * CLOSE_AT null. No Stripe.
- */
-
 const CALLOUTS = [2, 3, 5, 7] as const;
 
 test.describe("slice 17.9: hero H1 clears callouts 2 3 5 7", () => {

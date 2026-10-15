@@ -21,11 +21,6 @@ import {
 import { panelBoardMarkFor } from "../src/lib/panel-board";
 import { vercelJsonIsHoldOrMainOnlyRestore } from "../src/lib/vercel-git-deploy";
 
-/**
- * Slice 16.23 — operator CSV includes the board panel number beside panel_id.
- * Waitlist rows leave the number blank. FEATURES.md stays off /.
- */
-
 const PANEL_ID = "driver-door" as const;
 
 function columnValue(csv: string, lineIncludes: string, header: string): string {

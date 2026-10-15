@@ -27,7 +27,6 @@ function sightingMap(): Map<string, Sighting> {
   return globalForSightings.__bmbSightings;
 }
 
-/** Exported for Playwright / unit gates (slice 7.4). */
 export function sightingStoreUsesMemory(
   env?: Parameters<typeof leftoverStoreUsesMemory>[0],
 ): boolean {

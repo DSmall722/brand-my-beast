@@ -35,10 +35,6 @@ async function assertNoSeriousAxe(page: Page, label: string) {
   ).toEqual([]);
 }
 
-/**
- * Slice 6.8 — keyboard / labels / contrast on /, seat, operator.
- * Does not claim 6.9 hero clip work. Does not rewrite PUBLIC_COPY.
- */
 test.describe("slice 6.8: keyboard / labels / contrast", () => {
   test("campaign money fences stay locked", () => {
     expect(FLOOR_USD).toBe(35_000);

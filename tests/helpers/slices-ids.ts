@@ -1,12 +1,6 @@
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
 
-/**
- * Locked last-minor (and Wave 16 letter prefixes) for each completed major.
- * Wave 19/20 condensed SLICES to `- [x] 0.1–18.7 Complete.` — parsers expand
- * that cross-major range from this table. Do not remint checkboxes.
- * Wave 15 is Stripe / human-only and is never expanded.
- */
 export const WAVE_COMPLETE: Readonly<
   Record<number, { first: number; last: number; letters?: readonly string[] }>
 > = {
@@ -49,7 +43,6 @@ function includeWave16Letters(majorA: number, minorA: number): boolean {
   return majorA < 16 || (majorA === 16 && minorA === 0);
 }
 
-/** Expand `0.1–18.7` using WAVE_COMPLETE; skip Wave 15. */
 function expandCrossMajorRange(
   majorA: number,
   minorA: number,
@@ -75,10 +68,6 @@ export function readSlicesMarkdown(): string {
   return readFileSync(join(process.cwd(), "SLICES.md"), "utf8");
 }
 
-/**
- * Parse SLICES.md checkboxes. Same-major ranges expand numerically.
- * Cross-major ranges (the Wave 19/20 lock line) expand via WAVE_COMPLETE.
- */
 export function parseSlicesIds(slicesText?: string): string[] {
   const text = slicesText ?? readSlicesMarkdown();
   const ids: string[] = [];
@@ -123,7 +112,6 @@ export function slicesCoversId(id: string, slicesText?: string): boolean {
   return parseSlicesIds(slicesText).includes(id);
 }
 
-/** Major of the `**Now:**` line. Null if missing. */
 export function slicesNowMajor(slicesText?: string): number | null {
   const text = slicesText ?? readSlicesMarkdown();
   const match = text.match(/^\*\*Now:\*\*\s+(\d+)\./m);

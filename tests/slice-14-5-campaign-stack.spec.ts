@@ -12,11 +12,6 @@ import { findCloseAtViolations } from "../src/lib/close-at-null";
 import { findStripePackagesInRootPackageJson } from "../src/lib/no-stripe-package";
 import { vercelJsonIsHoldOrMainOnlyRestore } from "../src/lib/vercel-git-deploy";
 
-/**
- * Slice 14.5 — CAMPAIGN.md current-stack sentence matches ARCHITECTURE.
- * Numbers unchanged. CLOSE_AT null. No Stripe. No clock.
- */
-
 const CAMPAIGN = join(process.cwd(), "CAMPAIGN.md");
 const ARCH = join(process.cwd(), "ARCHITECTURE.md");
 
@@ -56,13 +51,11 @@ test.describe("slice 14.5: CAMPAIGN current-stack matches ARCHITECTURE", () => {
     expect(campaign).toMatch(/2026-11-02T17:00:00\.000Z/);
     expect(campaign).toMatch(/Do not start the 30-day clock/);
 
-    // Money table still the only thresholds — unchanged.
     expect(campaign).toContain("$35,000");
     expect(campaign).toContain("$120,000");
     expect(campaign).toMatch(/## Money \(locked 2026-09-13\)/);
     expect(campaign.toLowerCase()).not.toContain("gmail.com");
 
-    // ARCHITECTURE still names the same layers.
     expect(arch).toMatch(/Postgres/i);
     expect(arch).toMatch(/Blob/i);
     expect(arch).toMatch(/Resend/i);

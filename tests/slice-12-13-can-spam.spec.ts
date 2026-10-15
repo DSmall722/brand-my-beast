@@ -18,10 +18,6 @@ import {
 } from "../src/emails";
 import type { IntentBid } from "../src/lib/intent";
 
-/**
- * Slice 12.13 — unsubscribe + physical address on every mail (CAN-SPAM stub).
- * CLOSE_AT null. No Stripe. No personal home address.
- */
 test.describe("slice 12.13: CAN-SPAM stub on every mail", () => {
   test("campaign money fences stay locked — CLOSE_AT null", () => {
     expect(FLOOR_USD).toBe(35_000);

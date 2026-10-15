@@ -20,10 +20,6 @@ import {
   resetIntentStoreForTests,
 } from "../src/lib/intent-store";
 
-/**
- * Slice 13.20 — failed-winner accepts → old winner is `outbid`, not deleted.
- * Soft-status only. CLOSE_AT null. No Stripe.
- */
 test.describe("slice 13.20: failed-winner accept leaves old winner outbid", () => {
   test.describe.configure({ mode: "serial" });
 
@@ -108,7 +104,6 @@ test.describe("slice 13.20: failed-winner accept leaves old winner outbid", () =
     expect(accept.ok).toBe(true);
     if (!accept.ok) return;
 
-    // Old winner is soft-status outbid — still on the ledger.
     const oldWinner = await getIntentBidById(winnerId);
     expect(oldWinner).toBeTruthy();
     expect(oldWinner!.status).toBe("outbid");
@@ -120,12 +115,10 @@ test.describe("slice 13.20: failed-winner accept leaves old winner outbid", () =
     expect(hood.some((bid) => bid.id === winnerId)).toBe(true);
     expect(hood.filter((bid) => bid.id === winnerId)).toHaveLength(1);
 
-    // Failed-winner's first mark also remains outbid (not deleted).
     const firstMark = await getIntentBidById(failedFirstId);
     expect(firstMark?.status).toBe("outbid");
     expect(firstMark?.deletedAt).toBeNull();
 
-    // New standing is the accepted offer — listed, not a hard replace.
     expect(accept.bid.status).toBe("listed");
     expect(accept.bid.standingUsd).toBe(3025);
     expect(accept.bid.id).not.toBe(failedFirstId);

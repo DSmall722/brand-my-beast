@@ -14,11 +14,6 @@ import { OPENING_BID_RATIONALE } from "../src/lib/opening-bid-rationale";
 import { PUBLIC_COPY } from "../src/lib/public-copy";
 import { vercelJsonIsHoldOrMainOnlyRestore } from "../src/lib/vercel-git-deploy";
 
-/**
- * Slice 14.7 — PUBLIC_COPY seat rationale only. No H1 rewrite.
- * CLOSE_AT null. No Stripe. No clock. Hold-mode untouched.
- */
-
 const LOCKED_H1 =
   "Advertise your brand on the truck that people already photograph";
 

@@ -1,8 +1,3 @@
-/**
- * Hometown lane soft tags (FEATURES P2 #22).
- * Short circuit labels only — never dump CAMPAIGN.md corridor sentences.
- */
-
 export const HOMETOWN_LANES = [
   { id: "sc", label: "SC" },
   { id: "charlotte", label: "Charlotte" },
@@ -16,7 +11,6 @@ export function hometownLaneLabels(): string[] {
   return HOMETOWN_LANES.map((lane) => lane.label);
 }
 
-/** Guardrail for tests — labels must never carry banned circuit dumps. */
 export function hometownLaneCopyIsSafe(): boolean {
   const blob = [...hometownLaneLabels(), "Work circuit lanes."]
     .join(" ")

@@ -1,14 +1,7 @@
-/**
- * Slice 8.4 / 16.23 — operator CSV of waitlist + standing intents.
- * `panel_number` sits beside `panel_id` (1–12). Waitlist rows leave it blank.
- * Pure builders only. Auth lives at the route boundary.
- */
-
 import type { IntentBid } from "./intent";
 import { panelBoardMarkFor } from "./panel-board";
 import type { WaitlistRow } from "./waitlist";
 
-/** Standing marks = listed (pending) or approved. Not outbid / rejected / withdrawn. */
 export const STANDING_INTENT_STATUSES = ["listed", "approved"] as const;
 
 export type StandingIntentStatus = (typeof STANDING_INTENT_STATUSES)[number];
@@ -21,7 +14,6 @@ export function isStandingIntentStatus(
   );
 }
 
-/** RFC 4180 field escape. */
 export function escapeCsvField(value: string): string {
   if (/[",\r\n]/.test(value)) {
     return `"${value.replace(/"/g, '""')}"`;
@@ -114,9 +106,6 @@ function serializeRow(row: OperatorCsvRow): string {
     .join(",");
 }
 
-/**
- * One CSV: waitlist rows first (newest already sorted by caller), then standing intents.
- */
 export function buildOperatorCsv(input: {
   waitlist: WaitlistRow[];
   intents: IntentBid[];

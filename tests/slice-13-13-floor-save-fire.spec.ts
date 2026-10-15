@@ -20,9 +20,6 @@ import {
   setIntentStatus,
 } from "../src/lib/intent-store";
 
-/**
- * Slice 13.13 — floor-save cannot fire if pledged already >= $35,000.
- */
 test.describe("slice 13.13: floor-save fire gate", () => {
   test.describe.configure({ mode: "serial" });
 

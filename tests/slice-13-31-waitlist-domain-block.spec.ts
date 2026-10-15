@@ -22,11 +22,6 @@ import {
   resetWaitlistDomainBlocklistForTests,
 } from "../src/lib/waitlist-domain-blocklist";
 
-/**
- * Slice 13.31 — waitlist disposable-domain blocklist, operator editable.
- * CLOSE_AT null. No Stripe. Hold-mode untouched.
- */
-
 async function signIn(page: Page, email: string) {
   await page.context().clearCookies();
   await page.goto("/signin");

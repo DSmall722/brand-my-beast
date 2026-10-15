@@ -7,9 +7,6 @@ import { isOperatorEmail } from "@/lib/auth/operator";
 import { FLOOR_USD, GOAL_USD, formatUsd } from "@/lib/campaign";
 import { listDomainBlocks } from "@/lib/waitlist-domain-blocklist";
 
-/**
- * Slice 13.31 — operator waitlist domain blocklist. Auth + OPERATOR_EMAILS.
- */
 export default async function OperatorWaitlistDomainsPage() {
   const session = await auth();
   if (!session?.user) {

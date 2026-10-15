@@ -10,11 +10,6 @@ import {
   formatUsd,
 } from "../src/lib/campaign";
 
-/**
- * Slice 13.41 — prove-all.sh includes 9.6–9.10 and 12.45–12.46.
- * CLOSE_AT null. No Stripe. Hold-mode untouched.
- */
-
 const PROVE_ALL = join(
   process.cwd(),
   ".cursor/skills/verify-brandmybeast/scripts/prove-all.sh",

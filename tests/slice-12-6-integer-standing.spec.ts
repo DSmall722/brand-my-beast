@@ -14,10 +14,6 @@ import {
   resetIntentStoreForTests,
 } from "../src/lib/intent-store";
 
-/**
- * Slice 12.6 — reject standing that is not an integer dollar.
- * CLOSE_AT null. No Stripe.
- */
 test.describe("slice 12.6: integer standing dollars only", () => {
   test.describe.configure({ mode: "serial" });
 

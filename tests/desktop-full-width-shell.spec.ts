@@ -1,12 +1,6 @@
 import { expect, test, type Page } from "@playwright/test";
 import { CLOSE_AT, FLOOR_USD, GOAL_USD } from "../src/lib/campaign";
 
-/**
- * The shell still fills the viewport. Side inset stays 1rem.
- * Phone shell stays `100% - 2rem`. Hero photo stays full-bleed under 720px.
- * Inner blocks (panel grid, etch copy) use the centered desk measure.
- */
-
 const SHELLS = [
   "header.shell",
   "#money",

@@ -20,11 +20,6 @@ import {
 import { panelBoardMarkFor, panelLegendLabel } from "../src/lib/panel-board";
 import { vercelJsonIsHoldOrMainOnlyRestore } from "../src/lib/vercel-git-deploy";
 
-/**
- * Slice 16.27 — ban-list UI shows panel numbers blocked in the last run.
- * FEATURES.md stays off /. CLOSE_AT null. No Stripe.
- */
-
 async function signIn(page: Page, email: string) {
   await page.context().clearCookies();
   await page.goto("/signin");

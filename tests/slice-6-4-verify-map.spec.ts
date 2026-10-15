@@ -4,10 +4,6 @@ import { expect, test } from "@playwright/test";
 import { CLOSE_AT, FLOOR_USD, GOAL_USD } from "../src/lib/campaign";
 import { slicesIdsForMajors } from "./helpers/slices-ids";
 
-/**
- * Slice 6.4 — verify-brandmybeast feature map matches Waves 0–5.
- * Docs/skill index + merge-gate; not new product UI.
- */
 const FEATURES_DIR = join(
   process.cwd(),
   ".cursor/skills/verify-brandmybeast/features",

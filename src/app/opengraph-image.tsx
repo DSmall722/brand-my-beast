@@ -9,7 +9,6 @@ export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 export const runtime = "nodejs";
 
-/** BMB-OG-PHOTO-1 — `/` link preview is the hero still, photo only. */
 export default async function OpenGraphImage() {
   const still = await readFile(
     join(process.cwd(), "public", HERO_STILL_WIDE.src.slice(1)),

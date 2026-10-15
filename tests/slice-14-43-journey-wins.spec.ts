@@ -12,12 +12,6 @@ import { PUBLIC_COPY } from "../src/lib/public-copy";
 import { resetWaitlistStoreForTests } from "../src/lib/waitlist";
 import { vercelJsonIsHoldOrMainOnlyRestore } from "../src/lib/vercel-git-deploy";
 
-/**
- * Slice 14.43 — Playwright journey:
- * waitlist → sign-in (test) → hood intent → approve → /account/wins.
- * CLOSE_AT null. No Stripe. Hold-mode untouched. No 30-day clock.
- */
-
 const ROOT = process.cwd();
 const JOURNEY_EMAIL = "journey-1443@example.com";
 const JOURNEY_BRAND = "Journey Wins Co";
@@ -67,7 +61,6 @@ test.describe("slice 14.43: journey waitlist → wins", () => {
   test("journey: waitlist → sign-in → hood intent → approve → /account/wins", async ({
     page,
   }) => {
-    // 1) Waitlist on homepage
     await page.goto("/");
     await expect(page.getByTestId("waitlist-form")).toBeVisible();
     await page.getByTestId("waitlist-email").fill(JOURNEY_EMAIL);
@@ -77,10 +70,8 @@ test.describe("slice 14.43: journey waitlist → wins", () => {
       { timeout: 10_000 },
     );
 
-    // 2) Sign-in (test mode)
     await signIn(page, JOURNEY_EMAIL);
 
-    // 3) Hood intent
     await page.goto("/panels/hood");
     await page.getByTestId("intent-brand").fill(JOURNEY_BRAND);
     await page.getByTestId("intent-trade").fill("journey trade");
@@ -91,7 +82,6 @@ test.describe("slice 14.43: journey waitlist → wins", () => {
       { timeout: 10_000 },
     );
 
-    // 4) Operator approve
     await signIn(page, "operator@example.com");
     await page.goto("/operator");
     await expect(page.getByTestId("approvals-list")).toContainText(JOURNEY_BRAND);
@@ -109,7 +99,6 @@ test.describe("slice 14.43: journey waitlist → wins", () => {
       timeout: 15_000,
     });
 
-    // 5) Bidder sees win on /account/wins
     await signIn(page, JOURNEY_EMAIL);
     await page.goto("/account/wins");
     await expect(page.getByTestId("winner-portal")).toBeVisible();

@@ -1,8 +1,3 @@
-/**
- * Slice 12.11 — intent status email templates (files under src/emails/).
- * Intent only. Never claims a card was charged.
- */
-
 import { BRAND, formatUsd } from "@/lib/campaign";
 import type { IntentBid } from "@/lib/intent";
 import { panelBoardMarkFor } from "@/lib/panel-board";
@@ -19,7 +14,6 @@ export type EmailTemplate = {
   text: string;
 };
 
-/** Slice 16.26 — failed-winner (outbid) subject includes the board number. */
 export function failedWinnerEmailSubject(panelId: string): string {
   const mark = panelBoardMarkFor(panelId);
   return `Outbid on ${mark.n} · ${mark.name}`;
@@ -36,7 +30,6 @@ export function intentStatusEmailTemplate(input: {
   kind: IntentStatusKind;
   bid: IntentBid;
   note?: string;
-  /** Slice 13.18 / 9.2 — next seat minimum after this outbid. */
   nextMinimumUsd?: number;
 }): EmailTemplate {
   const panel = input.bid.panelId;

@@ -22,11 +22,6 @@ import {
   type WaitlistNotifyPayload,
 } from "../src/lib/waitlist";
 
-/**
- * Slice 14.40 — List-Unsubscribe header on waitlist mail.
- * CLOSE_AT null. No Stripe. Hold-mode untouched. No 30-day clock.
- */
-
 const ROOT = process.cwd();
 
 test.describe("slice 14.40: List-Unsubscribe on waitlist mail", () => {
@@ -105,6 +100,5 @@ test.describe("slice 14.40: List-Unsubscribe on waitlist mail", () => {
       "utf8",
     );
     expect(waitlistSrc).toContain("waitlistListUnsubscribeHeaders");
-    expect(waitlistSrc).toContain("14.40");
   });
 });

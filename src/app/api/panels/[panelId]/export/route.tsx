@@ -25,10 +25,6 @@ export const runtime = "nodejs";
 
 type RouteContext = { params: Promise<{ panelId: string }> };
 
-/**
- * Slice 10.6 / 13.36 — one PNG per seat.
- * Operator or standing seat owner. Preview composite — not billed.
- */
 export async function GET(_request: Request, context: RouteContext) {
   const session = await auth();
   if (!session?.user) {

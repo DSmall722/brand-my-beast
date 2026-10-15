@@ -5,7 +5,6 @@ import { signOutAction } from "@/app/actions/auth";
 export async function AuthNav({
   showGuestSignIn = false,
 }: {
-  /** Guest header stays clear. The public path is the email link on /signin. */
   showGuestSignIn?: boolean;
 } = {}) {
   const session = await auth();

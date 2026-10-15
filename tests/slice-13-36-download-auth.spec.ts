@@ -19,11 +19,6 @@ import { seatExportPngPath } from "../src/lib/seat-export-png";
 import { shopPdfPath } from "../src/lib/shop-pdf";
 import { vercelJsonIsHoldOrMainOnlyRestore } from "../src/lib/vercel-git-deploy";
 
-/**
- * Slice 13.36 — download routes (CSV, PDF, PNG) require operator or owner.
- * Playwright 401/403. CLOSE_AT null. No Stripe. Hold-mode untouched.
- */
-
 async function signIn(page: Page, email: string) {
   await page.context().clearCookies();
   await page.goto("/signin");
@@ -41,7 +36,6 @@ test.describe("slice 13.36: download routes operator or owner", () => {
     expect(res.ok()).toBeTruthy();
   });
 
-  // Slice 6.1 (and peers) expect raised $0 — wipe standing after approve fixtures.
   test.afterEach(async ({ request }) => {
     const res = await request.post("/api/test/reset-intents");
     expect(res.ok()).toBeTruthy();
@@ -146,8 +140,6 @@ test.describe("slice 13.36: download routes operator or owner", () => {
     page,
     request,
   }) => {
-    // Tailgate keeps this suite off hood (10.6). Approve the specific row —
-    // parallel suites may leave other pending intents on /operator.
     await signIn(page, "bidder-a@example.com");
     await page.goto("/panels/tailgate");
     await page.getByTestId("intent-brand").fill("DlOwnerCo");

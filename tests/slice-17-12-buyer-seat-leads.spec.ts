@@ -21,12 +21,6 @@ import {
 } from "../src/lib/stainless-compositor";
 import { vercelJsonIsHoldOrMainOnlyRestore } from "../src/lib/vercel-git-deploy";
 
-/**
- * Slice 17.12 — seat leads are buyer sentences.
- * No compositor / shader / VIN / “Dirty vs clean pair” in those leads.
- * Floor and buyout come from formatUsd. CLOSE_AT null. No Stripe.
- */
-
 const BANNED = [/compositor/i, /shader/i, /\bvin\b/i, /dirty vs clean pair/i];
 
 function buyerLead(lead: string) {

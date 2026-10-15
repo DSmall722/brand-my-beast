@@ -1,9 +1,3 @@
-/**
- * Runtime clock for the deposit desk.
- * Production ignores PREVIEW_BIDDING_OPEN. Tests set the override in-process.
- * SMOKE_BIDDING_OPEN is a temporary production hatch and requires LIVE_BIDDING.
- */
-
 import { CLOSE_AT, OPEN_AT } from "./campaign";
 import {
   campaignPhase,
@@ -71,10 +65,6 @@ export function resolveLiveBidding(
   return env.LIVE_BIDDING === "true" || env.LIVE_BIDDING === "1";
 }
 
-/**
- * Temporary production hatch so a live smoke deposit can run before OPEN_AT.
- * Requires VERCEL_ENV=production and LIVE_BIDDING. Unset after the smoke.
- */
 export function resolveSmokeBiddingOpen(
   env: NodeJS.ProcessEnv = process.env,
 ): boolean {
@@ -85,10 +75,6 @@ export function resolveSmokeBiddingOpen(
   return live && smoke;
 }
 
-/**
- * Temporary Checkout override while the production smoke hatch is on.
- * Returns a positive integer dollar amount, or null to keep the 20% deposit.
- */
 export function resolveSmokeDepositUsd(
   env: NodeJS.ProcessEnv = process.env,
 ): number | null {
@@ -98,10 +84,6 @@ export function resolveSmokeDepositUsd(
   return Number(raw);
 }
 
-/**
- * Preview hatch, or the temporary production smoke hatch.
- * PREVIEW_BIDDING_OPEN stays ignored on production.
- */
 export function resolvePreviewBiddingOpen(
   env: NodeJS.ProcessEnv = process.env,
 ): boolean {

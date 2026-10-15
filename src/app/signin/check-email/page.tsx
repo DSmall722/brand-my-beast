@@ -2,7 +2,6 @@ import Link from "next/link";
 import { BRAND } from "@/lib/campaign";
 import { PUBLIC_COPY } from "@/lib/public-copy";
 
-/** Slice 12.39 — check-email success line from PUBLIC_COPY. */
 export default function CheckEmailPage() {
   const copy = PUBLIC_COPY.signIn;
   return (

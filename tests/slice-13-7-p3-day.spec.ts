@@ -9,9 +9,6 @@ import {
   formatUsd,
 } from "../src/lib/campaign";
 
-/**
- * Slice 13.7 — docs/P3-DAY.md runbook. Checkboxes only. Does not set CLOSE_AT.
- */
 const RUNBOOK = join(process.cwd(), "docs/P3-DAY.md");
 const CAMPAIGN_TS = join(process.cwd(), "src/lib/campaign.ts");
 

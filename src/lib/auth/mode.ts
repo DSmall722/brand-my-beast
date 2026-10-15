@@ -1,19 +1,9 @@
-/**
- * Auth.js mode gate. Parse env at the boundary; callers trust the result.
- * See P2.md — live magic-link secrets are optional; test mode keeps CI green.
- */
-
 import { BRAND } from "@/lib/campaign";
 
 export type AuthMode = "test" | "live";
 
-/** Partial env bags from tests; same shape as operator helpers. */
 export type AuthEnv = Record<string, string | undefined>;
 
-/**
- * Slice 7.7 — default Resend magic-link From. Must stay BrandMyBeast + hello@.
- * RESEND_FROM may override in ops; the default in auth config is this string.
- */
 export const MAGIC_LINK_FROM = `${BRAND.name} <${BRAND.email}>` as const;
 
 export function resolveMagicLinkFrom(env: AuthEnv = process.env): string {
@@ -47,10 +37,6 @@ function hasResendMagicLink(env: AuthEnv): boolean {
   return Boolean(env.RESEND_API_KEY?.trim() && env.DATABASE_URL?.trim());
 }
 
-/**
- * Slice 8.10 — boot assert: test login hatch cannot be on in Vercel Production.
- * Throws so the process fails closed instead of exposing credentials auth.
- */
 export function assertTestLoginNotInProduction(
   env: AuthEnv = process.env,
 ): void {
@@ -64,12 +50,6 @@ export function assertTestLoginNotInProduction(
   }
 }
 
-/**
- * Test login is CI/local only (AUTH_MODE=test).
- * Production (live) uses Resend magic link when RESEND_API_KEY + DATABASE_URL
- * are set. GitHub stays optional. AUTH_ENABLE_TEST_LOGIN=1 is a staging hatch —
- * never on VERCEL_ENV=production (slice 8.10).
- */
 export function enabledAuthProviders(
   env: AuthEnv = process.env,
 ): AuthProviderId[] {
@@ -91,10 +71,6 @@ export function enabledAuthProviders(
   return ids;
 }
 
-/**
- * Slice 20.1 — public header hides Sign in when live sign-in has no
- * buyer provider. Test/CI login stays available for Playwright.
- */
 export function isPublicSignInClosed(env: AuthEnv = process.env): boolean {
   const providers = enabledAuthProviders(env);
   return (

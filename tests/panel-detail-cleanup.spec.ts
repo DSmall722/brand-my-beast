@@ -6,11 +6,6 @@ import {
 import { panelSeatH1 } from "../src/lib/panel-board";
 import { PUBLIC_COPY } from "../src/lib/public-copy";
 
-/**
- * QA pass 1816pm — lean seat pages + Immortal Etch requirements + locked buyer FAQ.
- * Preview only. Does not flip CLOSE_AT or money locks.
- */
-
 const REMOVED = [
   "Public seat",
   "Seat open",

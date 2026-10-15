@@ -19,10 +19,6 @@ import {
 import { formatWaitlistCountLabel } from "@/lib/operator-status";
 import { resolveSeatsOpen } from "@/lib/seats-open";
 
-/**
- * Slice 12.42 — last Drizzle migration name.
- * Slice 13.45 — waitlist count + pending count + last digest time.
- */
 export default async function OperatorHealthPage() {
   const session = await auth();
   if (!session?.user) {

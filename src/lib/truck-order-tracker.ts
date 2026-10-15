@@ -1,8 +1,3 @@
-/**
- * Truck-order tracker after floor (FEATURES P3 #26).
- * Display status board only — no reserved VIN, no close clock.
- */
-
 import { FLOOR_USD, GOAL_USD, formatUsd } from "./campaign";
 
 export const TRUCK_ORDER_TRACKER_LEAD = `Truck-order tracker. After ${formatUsd(FLOOR_USD)} the order path opens on this board. Miss the floor and there is no order. Buyout ${formatUsd(GOAL_USD)} buys the truck and unlocks etch. No reserved VIN until an order exists. Still no card charge.`;

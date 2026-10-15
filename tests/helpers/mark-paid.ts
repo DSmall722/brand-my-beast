@@ -1,7 +1,6 @@
 import { expect, type APIRequestContext, type Page } from "@playwright/test";
 import { depositUsdForMark } from "../../src/lib/intent";
 
-/** Mark a bid paid through the Playwright mock Stripe webhook. */
 export async function markBidPaid(
   request: APIRequestContext,
   input: { bidId: string; amountTotalCents: number; eventId?: string },
@@ -28,7 +27,6 @@ export async function markBidPaid(
   }
 }
 
-/** Pay the signed-in user's newest account intent through the mock webhook. */
 export async function markNewestAccountBidPaid(
   page: Page,
   request: APIRequestContext,

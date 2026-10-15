@@ -2,8 +2,6 @@ import { expect, test } from "@playwright/test";
 import { markBidPaid } from "./helpers/mark-paid";
 
 const OPEN_NOW = "2026-10-06T16:00:00.000Z";
-// "Today's action" compares bid time to the real clock, so pin the test clock
-// to real now while the window is open (an hour clear of either edge).
 const WINDOW_START_MS = Date.parse("2026-10-06T17:00:00.000Z");
 const WINDOW_END_MS = Date.parse("2026-11-02T15:00:00.000Z");
 

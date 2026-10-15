@@ -10,11 +10,6 @@ import { findCloseAtViolations } from "../src/lib/close-at-null";
 import { findStripePackagesInRootPackageJson } from "../src/lib/no-stripe-package";
 import { vercelJsonIsHoldOrMainOnlyRestore } from "../src/lib/vercel-git-deploy";
 
-/**
- * Slice 16.10 — callout hit area ≥44px. Keyboard focus ring visible.
- * CLOSE_AT null. No Stripe. No SEATS_OPEN flip.
- */
-
 const HIT_MIN = 44;
 
 async function expectHitAtLeast(

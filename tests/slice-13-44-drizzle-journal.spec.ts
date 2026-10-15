@@ -18,11 +18,6 @@ import {
 import { findStripePackagesInRootPackageJson } from "../src/lib/no-stripe-package";
 import { vercelJsonIsHoldOrMainOnlyRestore } from "../src/lib/vercel-git-deploy";
 
-/**
- * Slice 13.44 — Drizzle journal checked in.
- * No “push from laptop” as the only path. CLOSE_AT null. No Stripe.
- */
-
 const RUNBOOK = join(process.cwd(), "docs/DRIZZLE-MIGRATE.md");
 const JOURNAL = join(process.cwd(), DRIZZLE_JOURNAL_RELATIVE);
 

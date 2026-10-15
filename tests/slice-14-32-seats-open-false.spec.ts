@@ -14,15 +14,9 @@ import { PUBLIC_COPY } from "../src/lib/public-copy";
 import { seatsClosedIntentPayload } from "../src/lib/seats-open";
 import { vercelJsonIsHoldOrMainOnlyRestore } from "../src/lib/vercel-git-deploy";
 
-/**
- * Slice 14.32 — SEATS_OPEN=false → intent POST 403, waitlist still 201.
- * CLOSE_AT null. No Stripe. Hold-mode untouched. No 30-day clock.
- */
-
 const ROOT = process.cwd();
 
 test.describe("slice 14.32: SEATS_OPEN=false intent 403 waitlist 201", () => {
-  // Shared Next-server seats override — keep serial so workers cannot reopen mid-assert.
   test.describe.configure({ mode: "serial" });
 
   test.beforeEach(async ({ request }) => {
@@ -103,7 +97,6 @@ test.describe("slice 14.32: SEATS_OPEN=false intent 403 waitlist 201", () => {
       join(ROOT, "src/app/api/intent/route.ts"),
       "utf8",
     );
-    expect(src).toContain("Slice 14.32");
     expect(src).toContain("seatsClosedIntentPayload");
     expect(src).toContain("status: 403");
     expect(src.toLowerCase()).not.toMatch(/\blease\b/);

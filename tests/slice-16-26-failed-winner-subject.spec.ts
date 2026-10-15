@@ -25,11 +25,6 @@ import { findStripePackagesInRootPackageJson } from "../src/lib/no-stripe-packag
 import { panelBoardMarkFor } from "../src/lib/panel-board";
 import { vercelJsonIsHoldOrMainOnlyRestore } from "../src/lib/vercel-git-deploy";
 
-/**
- * Slice 16.26 — failed-winner (outbid) email subject includes the panel number.
- * FEATURES.md stays off /. CLOSE_AT null. No Stripe.
- */
-
 const PANEL_ID = "driver-door" as const;
 
 function sampleBid(): IntentBid {

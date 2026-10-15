@@ -14,9 +14,6 @@ import {
   publishedCloseLabelEt,
 } from "@/lib/campaign-window";
 
-/**
- * Privacy and Terms shell. Back control is a real button.
- */
 export function LegalStubShell({
   title,
   testId,
@@ -50,7 +47,6 @@ export function LegalStubShell({
   );
 }
 
-/** Short useful privacy policy: what we collect, why, and how to reach us. */
 export function PrivacyStubBody() {
   return (
     <>
@@ -111,7 +107,6 @@ export function PrivacyStubBody() {
   );
 }
 
-/** Approved Terms of Use (2026-09-22). */
 export function TermsStubBody() {
   const minutes = SOFT_CLOSE_MS / 60000;
   const days = WINNER_PAY_MS / (24 * 60 * 60 * 1000);

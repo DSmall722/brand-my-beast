@@ -19,12 +19,6 @@ import {
   seatsOpenIsSeparateFromCloseAt,
 } from "../src/lib/seats-open";
 
-/**
- * Slice 14.17 — SEATS_OPEN flag, separate from CLOSE_AT. When false, intent
- * form says waitlist only. Default open when unset. No clock. No Stripe.
- * Hold-mode untouched. API 403 is 14.32.
- */
-
 const ROOT = process.cwd();
 
 async function signIn(page: Page, email: string) {

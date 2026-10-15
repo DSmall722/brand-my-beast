@@ -1,8 +1,3 @@
-/**
- * Landmark proof log (FEATURES P3 #31).
- * Empty display scaffold — no invented visits, no reserved VIN, no clock.
- */
-
 import { FLOOR_USD, GOAL_USD, formatUsd } from "./campaign";
 
 export const LANDMARK_PROOF_LOG_LEAD = `Landmark proof log. Empty until the truck exists. Miss ${formatUsd(FLOOR_USD)} and there is no route to prove. Buyout ${formatUsd(GOAL_USD)} buys the truck; proofs still wait on delivery. No invented visits. No reserved VIN until an order exists. Still no card charge.`;

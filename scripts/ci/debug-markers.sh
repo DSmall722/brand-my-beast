@@ -1,7 +1,4 @@
 #!/bin/sh
-# Fail when a line added in git diff origin/$BASE...$HEAD contains the debug
-# marker. Header lines (+++ ) are ignored. The marker is built with printf so
-# this file does not contain it.
 set -eu
 
 base_ref="origin/${BASE:-main}"

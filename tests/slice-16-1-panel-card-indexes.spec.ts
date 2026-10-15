@@ -12,11 +12,6 @@ import { findStripePackagesInRootPackageJson } from "../src/lib/no-stripe-packag
 import { PANEL_BOARD_MARKS } from "../src/lib/panel-board";
 import { vercelJsonIsHoldOrMainOnlyRestore } from "../src/lib/vercel-git-deploy";
 
-/**
- * Slice 16.1 — homepage panel cards show the same 1–11 index as hero callouts.
- * CLOSE_AT null. No Stripe. No SEATS_OPEN flip.
- */
-
 test.describe("slice 16.1: panel card indexes match hero callouts", () => {
   test("campaign money fences stay locked — CLOSE_AT null", () => {
     expect(FLOOR_USD).toBe(35_000);

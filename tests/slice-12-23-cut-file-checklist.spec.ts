@@ -22,10 +22,6 @@ async function signIn(page: Page, email: string) {
   await expect(page.getByTestId("account-page")).toBeVisible();
 }
 
-/**
- * Slice 12.23 — shop cut-file checklist as a form on /partner/shop.
- * Not a card. Not on `/`. CLOSE_AT null. No Stripe.
- */
 test.describe("slice 12.23: shop cut-file checklist form", () => {
   test("campaign money fences stay locked — CLOSE_AT null", () => {
     expect(FLOOR_USD).toBe(35_000);

@@ -21,7 +21,6 @@ PUBLIC = ROOT / "public"
 CACHE = Path("/tmp/ct-wiki-cache")
 UA = "BrandMyBeastStillBuilder/1.0 (local preview; https://brandmybeast.com)"
 
-# Commons FilePath titles. Crop boxes are source pixels (left, top, right, bottom).
 SOURCES = {
     "hero": {
         "title": "2024 Tesla Cybertruck Foundation Series, rear left (Greenwich).jpg",
@@ -52,8 +51,6 @@ SOURCES = {
     },
 }
 
-# Homepage hero is the locked house-wrap C plate (scripts/blend-hero-wrap.py).
-# Do not rembg-rebuild it here — black wrap would be eaten.
 OUTPUTS = {
     "side": PUBLIC / "truck-view-side.jpg",
     "front": PUBLIC / "truck-view-front.jpg",
@@ -189,7 +186,6 @@ def grade_lawn(rgb: Image.Image, size: tuple[int, int]) -> Image.Image:
             nx = abs(x / size[0] - 0.5) * 2
             edge_x = 1.0 - nx * 0.18
             r, g, b = pixels[x, y]
-            # Grass / trees / water go dark; stainless stays.
             greenish = g > r + 12 and g > b - 8
             sky = b > 90 and b > r + 8 and g > r
             if greenish or sky:

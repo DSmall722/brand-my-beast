@@ -1,9 +1,4 @@
 #!/bin/sh
-# Fail unless every commit in origin/$BASE..$HEAD has an allowlisted email.
-# ALLOWED_COMMIT_EMAILS is comma-separated. Comparison is case-insensitive.
-# A committer may be noreply@github.com (GitHub web flow). An author may not,
-# unless that address is itself allowlisted.
-# Any author or committer address containing grok@ fails, even if allowlisted.
 set -eu
 
 lower() {

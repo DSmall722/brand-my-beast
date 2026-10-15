@@ -26,10 +26,6 @@ async function signIn(page: import("@playwright/test").Page, email: string) {
   await expect(page.getByTestId("account-page")).toBeVisible();
 }
 
-/**
- * Slice 9.9 — public seat log: amount + time. No bidder email.
- * CLOSE_AT null. No Stripe.
- */
 test.describe("slice 9.9: public seat log", () => {
   test.describe.configure({ mode: "serial" });
 
@@ -64,7 +60,6 @@ test.describe("slice 9.9: public seat log", () => {
   });
 
   test("unit: seat log is amount + time; never email fields", async () => {
-    // 12:34 UTC on 2026-09-16 → 8:34 AM Eastern (EDT).
     expect(formatSeatLogTime("2026-09-16T12:34:56.789Z")).toBe(
       "Sep 16, 2026, 8:34 AM ET",
     );

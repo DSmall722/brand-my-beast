@@ -24,10 +24,6 @@ async function signIn(page: Page, email: string) {
   await expect(page.getByTestId("account-page")).toBeVisible();
 }
 
-/**
- * Slice 12.26 — deposit preview on the seat:
- * “20% of this mark is $X. Not charged.”
- */
 test.describe("slice 12.26: seat deposit preview", () => {
   test("campaign money fences stay locked — CLOSE_AT null", () => {
     expect(FLOOR_USD).toBe(35_000);

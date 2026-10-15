@@ -19,10 +19,6 @@ import {
   standingForPanel,
 } from "../src/lib/intent-store";
 
-/**
- * Slice 13.15 — edit-while-pending increments the revision table (12.8).
- * Standing unchanged. CLOSE_AT null. No Stripe.
- */
 test.describe("slice 13.15: edit-pending increments revisions", () => {
   test.describe.configure({ mode: "serial" });
 

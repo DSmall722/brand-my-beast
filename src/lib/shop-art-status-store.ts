@@ -1,9 +1,3 @@
-/**
- * Slice 12.24 — partner marks on approved seat art.
- * Slice 13.22 — shop-ready requires vector URL or artwork blob key.
- * Memory store for P2 / CI. No card capture.
- */
-
 import { getIntentBidById } from "./intent-store";
 import {
   type ShopArtStatus,
@@ -49,9 +43,6 @@ export type SetShopArtStatusResult =
   | { ok: true; row: ShopArtStatusRow }
   | { ok: false; error: string };
 
-/**
- * Partner marks approved-seat art as shop-ready or needs-fix.
- */
 export async function setShopArtStatus(input: {
   bidId: string;
   status: string;
@@ -76,7 +67,6 @@ export async function setShopArtStatus(input: {
     };
   }
 
-  // Slice 13.22 — shop-ready is vector URL or blob key only (not screenshot raster).
   if (status === "shop-ready") {
     const artGate = assertArtworkAllowsShopReady(bid.artworkUrl);
     if (!artGate.ok) {

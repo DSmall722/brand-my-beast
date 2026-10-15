@@ -11,10 +11,6 @@ import { findStripePackagesInRootPackageJson } from "../src/lib/no-stripe-packag
 import { PUBLIC_COPY } from "../src/lib/public-copy";
 import { vercelJsonIsHoldOrMainOnlyRestore } from "../src/lib/vercel-git-deploy";
 
-/**
- * Slice 13.38 — approved Terms page. Intent-is-not-a-charge stays in PUBLIC_COPY.
- * CLOSE_AT null. No Stripe. Hold-mode untouched.
- */
 test.describe("slice 13.38: terms bids and payment", () => {
   test("campaign money fences stay locked — CLOSE_AT null", () => {
     expect(FLOOR_USD).toBe(35_000);

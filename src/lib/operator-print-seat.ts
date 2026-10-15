@@ -1,9 +1,3 @@
-/**
- * Slice 13.25 — operator print view for one approved seat.
- * Combines shop PDF seat facts (8.6) with wrap term start = install day (13.23).
- * Intent only — no card charge.
- */
-
 import { formatUsd } from "./campaign";
 import { publishedCloseLabelEt } from "./campaign-window";
 import type { IntentBid } from "./intent";
@@ -61,10 +55,6 @@ export function operatorPrintSeatFromApproved(input: {
   };
 }
 
-/**
- * Printable HTML body lines for one seat (server render uses these facts).
- * Guards: install-day start, money fences, no lease.
- */
 export function operatorPrintFacts(seat: OperatorPrintSeat): {
   title: string;
   rows: { label: string; value: string; testId: string }[];

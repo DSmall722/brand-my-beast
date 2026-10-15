@@ -41,7 +41,6 @@ export function HighwayLegibilityHint({
   );
 }
 
-/** Controlled brand field + live highway check for intent list. */
 export function BrandLabelWithLegibility({
   finish = "wrap",
 }: {

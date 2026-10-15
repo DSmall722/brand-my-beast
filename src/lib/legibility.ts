@@ -1,8 +1,3 @@
-/**
- * Slice 3.3 — highway-legibility checker (FEATURES P2 #17).
- * Soft rules from RULES.md art constraints — no capture, no clock.
- */
-
 export type LegibilityFinish = "wrap" | "etch";
 
 export type LegibilitySeverity = "pass" | "warn" | "fail";
@@ -18,7 +13,6 @@ export type LegibilityReport = {
   issues: LegibilityIssue[];
 };
 
-/** Rough highway wordmark budget — short marks read at speed. */
 export const HIGHWAY_BRAND_SOFT_MAX = 18;
 export const HIGHWAY_BRAND_HARD_MAX = 28;
 
@@ -33,10 +27,6 @@ function worstSeverity(
   return "pass";
 }
 
-/**
- * Check a brand mark draft for highway / etch constraints.
- * Soft guidance for P2 — does not block listing unless `fail`.
- */
 export function checkHighwayLegibility(input: {
   brandLabel: string;
   finish: LegibilityFinish;

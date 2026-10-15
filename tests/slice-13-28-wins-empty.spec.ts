@@ -20,9 +20,6 @@ async function signIn(page: Page, email: string) {
   await expect(page.getByTestId("account-page")).toBeVisible();
 }
 
-/**
- * Slice 13.28 — /account/wins empty state from PUBLIC_COPY.
- */
 test.describe("slice 13.28: wins empty state from PUBLIC_COPY", () => {
   test.describe.configure({ mode: "serial" });
 

@@ -17,10 +17,6 @@ import {
   setIntentStatus,
 } from "../src/lib/intent-store";
 
-/**
- * Slice 13.19 — operator cannot approve two brands on one panel even if they race.
- * Memory path serializes per-panel approves; Postgres unique index + demote batch.
- */
 test.describe("slice 13.19: concurrent brand approve race", () => {
   test.describe.configure({ mode: "serial" });
 
@@ -65,8 +61,6 @@ test.describe("slice 13.19: concurrent brand approve race", () => {
       "utf8",
     );
     expect(src).toMatch(/withPanelApproveLock/);
-    expect(src).toMatch(/Slice 13\.19/);
-    expect(src).toMatch(/intent_bids_one_approved_per_panel|12\.1/);
     expect(src).not.toMatch(/from ["']stripe["']/);
   });
 

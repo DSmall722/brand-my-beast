@@ -14,11 +14,6 @@ import { findStripePackagesInRootPackageJson } from "../src/lib/no-stripe-packag
 import { PUBLIC_COPY } from "../src/lib/public-copy";
 import { vercelJsonIsHoldOrMainOnlyRestore } from "../src/lib/vercel-git-deploy";
 
-/**
- * Slice 14.21 — `/llms.txt` with PUBLIC_COPY facts only.
- * CLOSE_AT null. No Stripe. No clock. Hold-mode untouched.
- */
-
 test.describe("slice 14.21: /llms.txt PUBLIC_COPY facts only", () => {
   test("campaign money fences stay locked — CLOSE_AT null", () => {
     expect(FLOOR_USD).toBe(35_000);
@@ -68,7 +63,6 @@ test.describe("slice 14.21: /llms.txt PUBLIC_COPY facts only", () => {
     expect(body).not.toMatch(/@gmail\.com/);
     expect(body).toContain(PUBLIC_COPY.howItWorks.steps[1].body);
     expect(body.toLowerCase()).not.toMatch(/stripe\.com|payment_intent|setup_intent/);
-    // No invented warmer homepage H1
     expect(body).not.toMatch(/advertise on steel/i);
   });
 

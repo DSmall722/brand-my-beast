@@ -11,12 +11,6 @@ import { findStripePackagesInRootPackageJson } from "../src/lib/no-stripe-packag
 import { TRUCK_VIEWS_LEAD, truckViewsCopyIsSafe } from "../src/lib/truck-views";
 import { vercelJsonIsHoldOrMainOnlyRestore } from "../src/lib/vercel-git-deploy";
 
-/**
- * Slice 17.1 — TRUCK_VIEWS_LEAD is a buyer sentence.
- * No prototype / hotspot / 30X. Floor and buyout from formatUsd.
- * CLOSE_AT null. No Stripe.
- */
-
 test.describe("slice 17.1: truck views lead is a buyer sentence", () => {
   test("campaign money fences stay locked — CLOSE_AT null", () => {
     expect(FLOOR_USD).toBe(35_000);

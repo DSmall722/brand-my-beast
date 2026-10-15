@@ -15,10 +15,6 @@ import {
   etchLockCopy,
 } from "../src/lib/etch-lock";
 
-/**
- * Slice 6.1 — single Playwright contract for standing money / identity locks.
- * Broader coverage lives in campaign/intent suites; this is the merge-gate proof.
- */
 test.describe("slice 6.1: floor, buyout, etch lock, no lease, no personal handle", () => {
   test("campaign constants stay locked", () => {
     expect(FLOOR_USD).toBe(35_000);

@@ -13,12 +13,6 @@ import { findStripePackagesInRootPackageJson } from "../src/lib/no-stripe-packag
 import { PUBLIC_COPY } from "../src/lib/public-copy";
 import { vercelJsonIsHoldOrMainOnlyRestore } from "../src/lib/vercel-git-deploy";
 
-/**
- * Slice 16.0b — PUBLIC_COPY waitlist checkbox strings.
- * Label + hint only. No H1 rewrite. No form wire (16.0e).
- * CLOSE_AT null. No Stripe. SEATS_OPEN untouched.
- */
-
 const LOCKED_H1 =
   "Advertise your brand on the truck that people already photograph";
 const LABEL = "I want the whole truck";
@@ -65,7 +59,6 @@ test.describe("slice 16.0b: PUBLIC_COPY waitlist whole-truck checkbox copy", () 
     await page.goto("/");
     await expect(page.getByRole("heading", { level: 1 })).toHaveText(LOCKED_H1);
     await expect(page.getByRole("button", { name: "Contact BMB" })).toBeVisible();
-    // 16.0e wires the checkbox; 16.0b only locked the copy strings.
     const html = await page.content();
     expect(html.toLowerCase()).not.toMatch(/\blease\b/);
     expect(html).toContain("$35,000");

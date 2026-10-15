@@ -12,14 +12,8 @@ import { findCloseAtViolations } from "../src/lib/close-at-null";
 import { findStripePackagesInRootPackageJson } from "../src/lib/no-stripe-package";
 import { vercelJsonIsHoldOrMainOnlyRestore } from "../src/lib/vercel-git-deploy";
 
-/**
- * Slice 14.1 — FEATURES.md shipped rows marked with slice id; P3/P5 stay Catalog.
- * CLOSE_AT null. No Stripe. Hold-mode untouched. Not on the public homepage.
- */
-
 const FEATURES = join(process.cwd(), "FEATURES.md");
 
-/** Ranked-backlog lines that must stay Catalog (P3 = 26–35, P5 = 46–50). */
 const P3_P5_CATALOG_IDS = [
   26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 46, 47, 48, 49, 50,
 ] as const;
@@ -89,7 +83,6 @@ test.describe("slice 14.1: FEATURES shipped markers; P3/P5 Catalog", () => {
       expect(line).not.toMatch(/\*\*shipped \(/i);
     }
 
-    // Escrow stays Catalog — Stripe is Wave 15.
     expect(backlogLine(text, 1)).toMatch(/\*\*Catalog\*\*/);
     expect(backlogLine(text, 1)).not.toMatch(/\*\*shipped \(/i);
   });

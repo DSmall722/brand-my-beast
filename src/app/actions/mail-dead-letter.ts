@@ -11,9 +11,6 @@ export type MailDeadLetterActionState = {
   message?: string;
 };
 
-/**
- * Slice 12.12 — operator retries a failed Resend payload from the dead-letter.
- */
 export async function submitRetryMailDeadLetter(
   _prev: MailDeadLetterActionState,
   formData: FormData,

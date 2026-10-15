@@ -1,8 +1,3 @@
-/**
- * Sighting bounty cards (FEATURES P4 #44).
- * Empty display scaffold — no invented bounty dollars, no impressions, no reserved VIN, no clock.
- */
-
 import { FLOOR_USD, GOAL_USD, formatUsd } from "./campaign";
 
 export const SIGHTING_BOUNTY_CARDS_LEAD = `Sighting bounty cards. Empty until the truck exists. Miss ${formatUsd(FLOOR_USD)} and there is no sighting to reward. Buyout ${formatUsd(GOAL_USD)} buys the truck; cards still wait on delivery. No invented bounty dollars. No invented impressions. No reserved VIN until an order exists. Still no card charge.`;

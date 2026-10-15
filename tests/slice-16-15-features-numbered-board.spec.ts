@@ -12,11 +12,6 @@ import { findCloseAtViolations } from "../src/lib/close-at-null";
 import { findStripePackagesInRootPackageJson } from "../src/lib/no-stripe-package";
 import { vercelJsonIsHoldOrMainOnlyRestore } from "../src/lib/vercel-git-deploy";
 
-/**
- * Slice 16.15 — FEATURES.md numbered-board row is shipped (14.0 / 16.x).
- * Not on the homepage. CLOSE_AT null. No Stripe. No SEATS_OPEN flip.
- */
-
 const FEATURES = join(process.cwd(), "FEATURES.md");
 const ROW =
   "Numbered stainless board (hero 1–11 callouts): **shipped (14.0 / 16.x)**.";

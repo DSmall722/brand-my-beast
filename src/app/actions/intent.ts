@@ -50,7 +50,6 @@ export async function submitIntentBid(
     return { ok: false, error: "Sign in to place an intent mark." };
   }
 
-  // Slice 14.32 — seats closed: waitlist only (matches API 403).
   if (!resolveSeatsOpen()) {
     return { ok: false, error: PUBLIC_COPY.intent.seatsClosedWaitlistOnly };
   }
@@ -136,7 +135,6 @@ export async function decideIntentBid(
     return { ok: false, error: "Operator access required." };
   }
 
-  // Slice 13.33 — rate-limit operator approve/reject.
   const limited = checkOperatorDecideRateLimit(session.user.email);
   if (!limited.ok) {
     return { ok: false, error: OPERATOR_DECIDE_RATE_LIMITED };
@@ -171,14 +169,12 @@ export async function decideIntentBid(
       });
       if (!etchGate.ok) return { ok: false, error: etchGate.error };
 
-      // Slice 13.27 — etch art notes must pass linter; wrap may still list.
       const artNotes = String(formData.get("artNotes") ?? "");
       const lintGate = assertEtchArtPassesLinter({ finish, artNotes });
       if (!lintGate.ok) return { ok: false, error: lintGate.error };
     }
   }
 
-  // Slice 13.17 — capture siblings before reject mutates status.
   const wholeTruckSiblings =
     decision === "rejected"
       ? await listWholeTruckSiblingBids(bidId)
@@ -224,12 +220,10 @@ export async function decideIntentBid(
   };
 }
 
-/** Read helper for account / decided log (server components). */
 export async function loadApprovalNote(bidId: string) {
   return getApprovalNote(bidId);
 }
 
-/** Slice 9.7 — owner withdraws a pending (listed) intent only. */
 export async function withdrawIntentBid(
   _prev: IntentActionState,
   formData: FormData,
@@ -260,7 +254,6 @@ export async function withdrawIntentBid(
   };
 }
 
-/** Slice 9.8 — owner edits brand / trade / art while pending only. */
 export async function editPendingIntentBid(
   _prev: IntentActionState,
   formData: FormData,
@@ -320,7 +313,6 @@ export async function submitWholeTruckIntent(
     return { ok: false, error: "Sign in to list a whole-truck intent." };
   }
 
-  // Slice 14.32 — seats closed: waitlist only (matches API 403).
   if (!resolveSeatsOpen()) {
     return { ok: false, error: PUBLIC_COPY.intent.seatsClosedWaitlistOnly };
   }

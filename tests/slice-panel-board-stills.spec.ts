@@ -20,11 +20,6 @@ import {
 import { TRUCK_VIEW_STILLS } from "../src/lib/truck-stills";
 import { vercelJsonIsHoldOrMainOnlyRestore } from "../src/lib/vercel-git-deploy";
 
-/**
- * Board stills: Cybertruck faces, not one shared Model Y crop.
- * CLOSE_AT null. No Stripe.
- */
-
 const ROOT = process.cwd();
 
 test.describe("panel board stills map 1–11 onto the truck", () => {
@@ -98,8 +93,6 @@ test.describe("panel board stills map 1–11 onto the truck", () => {
       return pct;
     };
 
-    // Driver profile: nose left. Seats 4–6 only — no front/rear bleed.
-    // Sail sits above the belt; bed is the wall below, aft of the doors.
     expect(driver("driver-door").x).toBeLessThan(driver("driver-bed").x);
     expect(driver("driver-door").x).toBeLessThan(driver("driver-rear-quarter").x);
     expect(driver("driver-rear-quarter").y).toBeLessThan(driver("driver-bed").y);
@@ -109,7 +102,6 @@ test.describe("panel board stills map 1–11 onto the truck", () => {
     expect(byId.tailgate?.views.driver).toBeUndefined();
     expect(byId["rear-bumper"]?.views.driver).toBeUndefined();
 
-    // Passenger flank: nose right. Seats 7–9 only. Sail above / bed below, both aft of doors.
     expect(passenger("passenger-rear-quarter").x).toBeLessThan(
       passenger("passenger-door").x,
     );
@@ -121,11 +113,9 @@ test.describe("panel board stills map 1–11 onto the truck", () => {
     expect(byId["front-fascia"]?.views.passenger).toBeUndefined();
     expect(byId["front-bumper"]?.views.passenger).toBeUndefined();
 
-    // Front head-on.
     expect(front("front-fascia").y).toBeGreaterThan(front("hood").y);
     expect(front("front-bumper").y).toBeGreaterThan(front("front-fascia").y);
 
-    // Rear = straight-on forest road: tailgate above bumper.
     expect(rear("rear-bumper").y).toBeGreaterThan(rear("tailgate").y);
     expect(byId["passenger-bed"]?.views.rear).toBeUndefined();
     expect(byId["passenger-rear-quarter"]?.views.rear).toBeUndefined();

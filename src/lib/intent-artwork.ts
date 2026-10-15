@@ -1,16 +1,5 @@
-/**
- * Artwork attachment on an intent mark — URL or small image upload.
- * Parsed at the action boundary. Ledger stores http(s) or blob path only (slice 8.5).
- * Slice 13.26 — size cap also documented in RULES.md (max bytes).
- */
-
-/** Decoded upload ceiling (bytes). RULES.md must match this number. */
 export const ARTWORK_MAX_UPLOAD_BYTES = 90_000;
 
-/**
- * Data-URL character ceiling for ~90KB binary once base64-expanded
- * (≈ 4/3 × ARTWORK_MAX_UPLOAD_BYTES).
- */
 export const ARTWORK_MAX_DATA_URL_CHARS = 120_000;
 export const ARTWORK_MAX_URL_CHARS = 2_000;
 
@@ -21,10 +10,6 @@ export type ParseArtworkResult =
   | { ok: true; artworkUrl: string | null }
   | { ok: false; error: string };
 
-/**
- * Accept https/http URL, or a data:image upload. Empty → null.
- * URL and upload together → error (one channel).
- */
 export function parseIntentArtwork(input: {
   artworkUrl?: string;
   artworkUpload?: string;

@@ -36,9 +36,6 @@ async function resetServerIntents(request: APIRequestContext) {
   expect(res.ok()).toBeTruthy();
 }
 
-/**
- * Slice 8.4 — operator CSV of waitlist + standing intents. Auth-gated.
- */
 test.describe("slice 8.4: operator CSV export", () => {
   test("campaign money fences stay locked", () => {
     expect(FLOOR_USD).toBe(35_000);

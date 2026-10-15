@@ -13,12 +13,6 @@ import { findStripePackagesInRootPackageJson } from "../src/lib/no-stripe-packag
 import { findUnreferencedCardComponents } from "../src/lib/unreferenced-card-components";
 import { vercelJsonIsHoldOrMainOnlyRestore } from "../src/lib/vercel-git-deploy";
 
-/**
- * Slice 14.15 — Drop unused card components if unreferenced.
- * Inventory under src/components/*Card*.tsx is clean: every card has a
- * production import. CLOSE_AT null. No Stripe. No clock. Hold-mode untouched.
- */
-
 const ROOT = process.cwd();
 const COMPONENTS = join(ROOT, "src/components");
 

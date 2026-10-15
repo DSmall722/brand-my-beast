@@ -28,10 +28,6 @@ async function resetServerIntents(request: APIRequestContext) {
   expect(res.ok()).toBeTruthy();
 }
 
-/**
- * Slice 12.46 — reject without note fails; with note succeeds.
- * CLOSE_AT null. No Stripe.
- */
 test.describe("slice 12.46: reject without note fails; with note succeeds", () => {
   test.describe.configure({ mode: "serial" });
 

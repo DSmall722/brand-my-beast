@@ -1,5 +1,4 @@
 #!/bin/sh
-# Self-check for the PR guards. Builds throwaway repos under mktemp.
 set -eu
 
 HERE=$(CDPATH= cd -- "$(dirname "$0")" && pwd)
@@ -42,7 +41,6 @@ commit_file() {
     git -C "$dir" commit -q -m "$msg"
 }
 
-# Octal 133 is the bracket. Keeps the marker bytes out of this file.
 marker() {
   printf '\133DEBUG-'
 }
@@ -68,14 +66,14 @@ expect() {
   fi
   case $mode in
     warn)
-      if ! grep -q '::warning::' "$out"; then
+      if ! grep -q '::warning' "$out"; then
         printf 'FAIL %s: missing ::warning::\n' "$name" >&2
         fail=$((fail + 1))
         return
       fi
       ;;
     nowarn)
-      if grep -q '::warning::' "$out"; then
+      if grep -q '::warning' "$out"; then
         printf 'FAIL %s: unexpected ::warning::\n' "$name" >&2
         cat "$out" >&2
         fail=$((fail + 1))
@@ -141,6 +139,29 @@ run_missing() {
     export BASE HEAD PR_HEAD_BRANCH PR_TITLE
     sh "$HERE/missing-tests.sh"
   )
+}
+
+run_comments() {
+  dir=$1
+  head=$2
+  (
+    cd "$dir"
+    BASE=main
+    HEAD=$head
+    export BASE HEAD
+    sh "$HERE/new-comments.sh"
+  )
+}
+
+comment_case() {
+  name=$1
+  mode=$2
+  path=$3
+  content=$4
+  new_repo
+  git -C "$_repo" checkout -q -b feature
+  commit_file "$_repo" 'dev@example.com' 'dev@example.com' "$name" "$path" "$content"
+  expect "$name" 0 "$mode" run_comments "$_repo" "$(git -C "$_repo" rev-parse HEAD)"
 }
 
 expect 'empty allowlist' 1 empty \
@@ -314,6 +335,39 @@ git -C "$docs_only" checkout -q -b fix-docs
 commit_file "$docs_only" 'dev@example.com' 'dev@example.com' 'docs' README.md 'hello'
 expect 'non-product change is quiet' 0 nowarn \
   run_missing "$docs_only" 'fix-docs' 'Fix the readme' "$(git -C "$docs_only" rev-parse HEAD)"
+
+comment_case 'ts line comment warns' warn src/a.ts "$(printf '%s\n' 'const a = 1;' '// explain a')"
+comment_case 'block comment warns' warn src/a.ts '/* note */'
+comment_case 'jsx comment warns' warn src/a.tsx '  {/* note */}'
+comment_case 'css comment warns' warn src/a.css '/* note */'
+comment_case 'shell comment warns' warn scripts/a.sh "$(printf '%s\n' '#!/bin/sh' '# note' 'echo hi')"
+comment_case 'yaml comment warns' warn .github/workflows/a.yml '# note'
+comment_case 'eslint directive is allowed' nowarn src/a.tsx '  // eslint-disable-next-line @next/next/no-img-element'
+comment_case 'ts-expect-error is allowed' nowarn src/a.ts '// @ts-expect-error wrong lib type'
+comment_case 'noqa is allowed' nowarn scripts/a.py '# noqa: E501'
+comment_case 'shellcheck is allowed' nowarn scripts/a.sh '# shellcheck disable=SC2086'
+comment_case 'shebang is allowed' nowarn scripts/a.sh "$(printf '%s\n' '#!/bin/sh' 'echo hi')"
+comment_case 'url in string is quiet' nowarn src/a.ts 'const u = "https://example.com";'
+comment_case 'markdown is quiet' nowarn README.md '# Heading'
+comment_case 'sql is quiet' nowarn drizzle/0001.sql '-- statement'
+
+new_repo
+dropped=$_repo
+commit_file "$dropped" 'dev@example.com' 'dev@example.com' 'base comment' src/a.ts "$(printf '%s\n' '// old' 'const a = 1;')"
+git -C "$dropped" update-ref refs/remotes/origin/main HEAD
+git -C "$dropped" checkout -q -b feature
+commit_file "$dropped" 'dev@example.com' 'dev@example.com' 'drop comment' src/a.ts 'const a = 1;'
+expect 'removed comment is quiet' 0 nowarn \
+  run_comments "$dropped" "$(git -C "$dropped" rev-parse HEAD)"
+
+new_repo
+lineno=$_repo
+git -C "$lineno" checkout -q -b feature
+commit_file "$lineno" 'dev@example.com' 'dev@example.com' 'third line' src/a.ts "$(printf '%s\n' 'const a = 1;' 'const b = 2;' '// note')"
+lineno_sha=$(git -C "$lineno" rev-parse HEAD)
+expect 'warning names file and line' 0 any \
+  sh -c 'run_out=$(cd "$1" && BASE=main HEAD=$2 sh "$3") && printf "%s\n" "$run_out" | grep -q "file=src/a.ts,line=3::"' \
+  sh "$lineno" "$lineno_sha" "$HERE/new-comments.sh"
 
 printf 'passed %s failed %s\n' "$pass" "$fail"
 [ "$fail" -eq 0 ]

@@ -1,7 +1,6 @@
 import { ImmortalEtchLockup } from "@/components/ImmortalEtchLockup";
 import { PUBLIC_COPY } from "@/lib/public-copy";
 
-/** Three guest steps. Floor and etch stay in Track the Auction, Immortal Etch, and the FAQ. */
 export function HomeStorySection() {
   return (
     <section

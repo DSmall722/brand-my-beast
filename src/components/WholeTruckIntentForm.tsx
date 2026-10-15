@@ -15,7 +15,6 @@ const initial: IntentActionState = { ok: false };
 export function WholeTruckIntentForm({
   seatsOpen = true,
 }: {
-  /** Slice 14.17 — when false, waitlist-only (not CLOSE_AT). */
   seatsOpen?: boolean;
 }) {
   const [state, action, pending] = useActionState(

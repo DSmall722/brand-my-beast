@@ -1,7 +1,6 @@
 import type { IntentBid } from "@/lib/intent";
 import { operatorListColumns } from "@/lib/operator-list-columns";
 
-/** Slice 16.22 — #, panel, brand, trade, amount, status. */
 export function OperatorBidColumns({
   bid,
 }: {

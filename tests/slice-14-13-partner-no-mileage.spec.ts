@@ -12,11 +12,6 @@ import { findCloseAtViolations } from "../src/lib/close-at-null";
 import { findStripePackagesInRootPackageJson } from "../src/lib/no-stripe-package";
 import { vercelJsonIsHoldOrMainOnlyRestore } from "../src/lib/vercel-git-deploy";
 
-/**
- * Slice 14.13 — `/partner` has no weekly mileage ledger or city time-in-market
- * heatmap cards. CLOSE_AT null. No Stripe. No clock. Hold-mode untouched.
- */
-
 const ROOT = process.cwd();
 const PARTNER_APP = join(ROOT, "src/app/partner");
 const PARTNER_API = join(ROOT, "src/app/api/partner");

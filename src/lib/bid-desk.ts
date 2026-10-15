@@ -1,8 +1,3 @@
-/**
- * Homepage bid desk. Money stays informational.
- * No card capture in this slice. The live board does not label winners unpaid.
- */
-
 import { CLOSE_AT, PANELS, formatUsd } from "@/lib/campaign";
 import { depositDeskOpen } from "@/lib/campaign-clock";
 import type { IntentBid, IntentBidStatus } from "@/lib/intent";
@@ -16,10 +11,6 @@ import { SEAT_LOG_TIME_ZONE, formatSeatLogTime } from "@/lib/seat-log";
 
 export type BidDeskMode = { kind: "closed" } | { kind: "intent" };
 
-/**
- * Closed unless live bidding is on and now is inside the effective window.
- * Passing null keeps the desk closed. That is the pre-window contract.
- */
 export function bidDeskMode(
   closeAt: string | null = CLOSE_AT,
   bidTimes: readonly string[] = [],
@@ -42,9 +33,7 @@ export type DayByDayRow = {
   panelName: string;
   brandLabel: string;
   amountUsd: number;
-  /** America/New_York clock, same formatter as the public seat log. */
   timeLabel: string;
-  /** This row is the panel's approved mark counted in board raised. */
   stillStanding: boolean;
 };
 
@@ -91,12 +80,6 @@ function dayParts(iso: string): { dayKey: string; dayLabel: string } | null {
   return { dayKey, dayLabel };
 }
 
-/**
- * One approved, non-floor-save mark per panel — the same dollars
- * `loadBoardIntentStats` adds into pledged / raised. If two approved
- * rows share a panel, only the max counts, once (latest `createdAt`,
- * then id). Listed and outbid rows are not in this set.
- */
 function raisedBidIds(bids: readonly IntentBid[]): Set<string> {
   const byPanel = new Map<string, IntentBid[]>();
   for (const bid of bids) {
@@ -121,21 +104,6 @@ function raisedBidIds(bids: readonly IntentBid[]): Set<string> {
   return ids;
 }
 
-/**
- * Group bids that were actually entered, by Eastern calendar day.
- *
- * `bidUsd` is every public entered amount that day (listed, approved,
- * and outbid). `standingUsd` is only the approved marks that make up
- * board raised, attributed to the day each of those marks was entered.
- * Summing `standingUsd` across days equals raised. Outbid and still-listed
- * rows stay in the day total and in the line items, with standing 0.
- * Pass `panelId` for one seat: same math, that panel only.
- * An empty public ledger (no listed, approved, or outbid mark outside
- * a floor-save, including a ledger of only deleted rows) stays empty.
- * Sample Mark history is not shown. A seat filter applies after that
- * check, so one empty panel does not invent rows while another panel
- * has a real mark.
- */
 export function buildDayByDay(
   bids: readonly IntentBid[],
   options?: { panelId?: string },

@@ -1,9 +1,3 @@
-/**
- * Slice 12.19 — magic-link verification tokens are consume-once.
- * Mirrors Auth.js adapter contract (`useVerificationToken` deletes).
- * Memory store for CI; live path uses DrizzleAdapter + `authVerificationTokens`.
- */
-
 export type MagicLinkVerificationToken = {
   identifier: string;
   token: string;
@@ -31,7 +25,6 @@ function memoryStore(): Map<string, MemoryRow> {
   return globalStore.__bmbMagicLinkTokens;
 }
 
-/** Create a magic-link verification token (intent only — no card). */
 export async function createMagicLinkVerificationToken(
   input: MagicLinkVerificationToken,
 ): Promise<MagicLinkVerificationToken> {
@@ -49,10 +42,6 @@ export async function createMagicLinkVerificationToken(
   return { ...row };
 }
 
-/**
- * Consume a magic-link token once. Returns the row and deletes it.
- * A second call with the same pair returns null (Auth.js contract).
- */
 export async function useMagicLinkVerificationToken(params: {
   identifier: string;
   token: string;
@@ -71,7 +60,6 @@ export async function useMagicLinkVerificationToken(params: {
   return { ...row };
 }
 
-/** Peek without consuming — CI only. */
 export function peekMagicLinkVerificationToken(params: {
   identifier: string;
   token: string;
@@ -82,7 +70,6 @@ export function peekMagicLinkVerificationToken(params: {
   return row ? { ...row } : null;
 }
 
-/** CI helper. */
 export function resetMagicLinkVerificationTokensForTests(): void {
   memoryStore().clear();
 }

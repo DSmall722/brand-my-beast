@@ -1,8 +1,3 @@
-/**
- * Slice 12.8 — revision rows for brand / trade / amount / art changes.
- * Timestamps only. Intent ledger — never a charge receipt.
- */
-
 import { asc, desc, eq } from "drizzle-orm";
 import { getDb } from "./db";
 import { intentRevisions } from "./db/schema";
@@ -45,8 +40,6 @@ export function intentRevisionUsesMemory(
 
 function nextRevisionCreatedAt(rows: IntentRevision[]): string {
   const nowMs = Date.now();
-  // Memory rows are newest-first (unshift). Same-ms stamps would make
-  // ascending sort unstable relative to edit order (slice 13.15 flake).
   let latestMs = 0;
   for (const row of rows) {
     const ms = Date.parse(row.createdAt);

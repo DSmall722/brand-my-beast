@@ -35,10 +35,6 @@ async function resetServerIntents(request: APIRequestContext) {
   expect(res.ok()).toBeTruthy();
 }
 
-/**
- * Slice 12.22 — winner packet markdown: panel, brand, wrap vs etch, 12-month term.
- * CLOSE_AT null. No Stripe. No lease.
- */
 test.describe("slice 12.22: winner packet markdown", () => {
   test("campaign money fences stay locked — CLOSE_AT null", () => {
     expect(FLOOR_USD).toBe(35_000);

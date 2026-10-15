@@ -30,7 +30,6 @@ async function resetServerIntents(request: APIRequestContext) {
   expect(res.ok()).toBeTruthy();
 }
 
-/** Reset + reload until hood is at opening standing/minimum (no leftover ledger). */
 async function ensureHoodAtOpening(page: Page, request: APIRequestContext) {
   for (let attempt = 0; attempt < 5; attempt += 1) {
     await resetServerIntents(request);
@@ -47,14 +46,6 @@ async function ensureHoodAtOpening(page: Page, request: APIRequestContext) {
   await expect(page.getByTestId("panel-minimum")).toHaveText("$2,500");
 }
 
-/**
- * Slice 6.2 — merge-gate Playwright contract for intent create / outbid /
- * exclusivity / increment.
- *
- * Store tests reset in-process memory only. Seat UI tests reset the Next
- * server ledger via API and require CI workers=1 (see playwright.config.ts)
- * so parallel suites cannot leave or wipe shared memory mid-flow.
- */
 test.describe("slice 6.2 store: create / outbid / exclusivity / increment", () => {
   test.beforeEach(async () => {
     await resetIntentStoreForTests();

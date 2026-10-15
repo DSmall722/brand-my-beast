@@ -28,9 +28,6 @@ async function resetServerIntents(request: APIRequestContext) {
   expect(res.ok()).toBeTruthy();
 }
 
-/**
- * Slice 12.28 — operator cannot approve etch finish while pledged < $120,000.
- */
 test.describe("slice 12.28: etch finish approve lock under buyout", () => {
   test("campaign money fences stay locked — CLOSE_AT null", () => {
     expect(FLOOR_USD).toBe(35_000);

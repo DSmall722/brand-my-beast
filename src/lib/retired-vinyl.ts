@@ -1,8 +1,3 @@
-/**
- * Retired-vinyl framed artifact copy (FEATURES P5 #48).
- * After wrap term — not cash, not a VIN, not immortal etch.
- */
-
 import { FLOOR_USD, GOAL_USD, formatUsd } from "./campaign";
 
 export const RETIRED_VINYL_LEAD = `After 12 months from install, wrap vinyl can be framed. Not a panel bid. Not cash. No reserved VIN. Miss ${formatUsd(FLOOR_USD)} and there is no truck, no vinyl. Buyout ${formatUsd(GOAL_USD)} does not extend the wrap term. Still no card charge.`;

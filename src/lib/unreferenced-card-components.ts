@@ -1,11 +1,6 @@
 import { readdirSync, readFileSync, statSync } from "node:fs";
 import { join, relative } from "node:path";
 
-/**
- * Slice 14.15 — inventory helper for src/components/*Card*.tsx.
- * A card is unreferenced when no other file under src/ imports its basename.
- */
-
 const ROOT = process.cwd();
 const COMPONENTS = join(ROOT, "src");
 
@@ -42,7 +37,6 @@ export function listCardComponentFiles(): string[] {
     .sort();
 }
 
-/** Returns basenames (e.g. SeasonTwoBoardCard) with no production import. */
 export function findUnreferencedCardComponents(): string[] {
   const cards = listCardComponentFiles();
   const sources = listSourceFiles(COMPONENTS);

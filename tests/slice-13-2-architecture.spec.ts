@@ -9,10 +9,6 @@ import {
   formatUsd,
 } from "../src/lib/campaign";
 
-/**
- * Slice 13.2 — ARCHITECTURE.md: Postgres + Blob + Resend mock; no Stripe box.
- * CLOSE_AT null. No Stripe dependency.
- */
 const ARCH = join(process.cwd(), "ARCHITECTURE.md");
 
 test.describe("slice 13.2: ARCHITECTURE.md stack without Stripe box", () => {
@@ -47,7 +43,6 @@ test.describe("slice 13.2: ARCHITECTURE.md stack without Stripe box", () => {
     expect(text).toMatch(/Postgres/i);
     expect(text).toMatch(/Blob/i);
     expect(text).toMatch(/Resend mock|mailer double/i);
-    // Slice 14.2 adds an explicit Stripe row; it must stay "not wired".
     expect(text).toMatch(/not wired/i);
     const stackSection = text.split("## Phases")[0] ?? text;
     expect(stackSection).toMatch(/^\| Stripe \| Checkout for the 20% deposit/m);

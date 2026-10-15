@@ -16,11 +16,6 @@ import type { IntentBid } from "../src/lib/intent";
 import { findStripePackagesInRootPackageJson } from "../src/lib/no-stripe-package";
 import { vercelJsonIsHoldOrMainOnlyRestore } from "../src/lib/vercel-git-deploy";
 
-/**
- * Slice 16.49 — counsel ZIP standing table lists seats by number.
- * No emails. CLOSE_AT null. No Stripe.
- */
-
 function bid(panelId: "hood" | "driver-door", brand: string): IntentBid {
   return {
     id: `bid-${panelId}`,

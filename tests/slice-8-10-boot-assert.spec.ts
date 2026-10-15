@@ -13,9 +13,6 @@ import {
   formatUsd,
 } from "../src/lib/campaign";
 
-/**
- * Slice 8.10 — boot assert: AUTH_ENABLE_TEST_LOGIN cannot be on in Production.
- */
 test.describe("slice 8.10: test-login boot assert", () => {
   test("campaign money fences stay locked", () => {
     expect(FLOOR_USD).toBe(35_000);

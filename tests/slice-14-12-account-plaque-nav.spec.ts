@@ -14,11 +14,6 @@ import { findCloseAtViolations } from "../src/lib/close-at-null";
 import { findStripePackagesInRootPackageJson } from "../src/lib/no-stripe-package";
 import { vercelJsonIsHoldOrMainOnlyRestore } from "../src/lib/vercel-git-deploy";
 
-/**
- * Slice 14.12 — `/account` nav has no Cabin plaque while the truck does not
- * exist. Extends 13.30. CLOSE_AT null. No Stripe. No clock. Hold-mode untouched.
- */
-
 const ROOT = process.cwd();
 const ACCOUNT_PAGE = join(ROOT, "src/app/account/page.tsx");
 const SITE_CHROME = join(ROOT, "src/components/SiteChrome.tsx");

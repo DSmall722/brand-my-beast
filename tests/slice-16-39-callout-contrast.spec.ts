@@ -13,11 +13,6 @@ import { findCloseAtViolations } from "../src/lib/close-at-null";
 import { findStripePackagesInRootPackageJson } from "../src/lib/no-stripe-package";
 import { vercelJsonIsHoldOrMainOnlyRestore } from "../src/lib/vercel-git-deploy";
 
-/**
- * Slice 16.39 — baked TRACE AID `(1) Hood` ink vs plate meets 4.5:1.
- * No DOM chip — labels live in the JPEG. CLOSE_AT null. No Stripe.
- */
-
 test.describe("slice 16.39: callout contrast on stainless", () => {
   test("campaign money fences stay locked — CLOSE_AT null", () => {
     expect(FLOOR_USD).toBe(35_000);
@@ -66,7 +61,6 @@ test.describe("slice 16.39: callout contrast on stainless", () => {
       const ctx = canvas.getContext("2d");
       if (!ctx) return null;
       ctx.drawImage(img, 0, 0);
-      // Hood label is centered on the TRACE AID hood flat (~50%, 31%).
       const cx = Math.round(img.naturalWidth * 0.5);
       const cy = Math.round(img.naturalHeight * 0.31);
       const half = 80;

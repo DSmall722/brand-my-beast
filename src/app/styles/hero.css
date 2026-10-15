@@ -1,4 +1,3 @@
-/* Slice 12.36 — hero still + overlay */
 .hero {
   position: relative;
   isolation: isolate;
@@ -10,7 +9,6 @@
   background: linear-gradient(180deg, #07090c 0%, #0c0e11 55%, #10151c 100%);
 }
 
-/* Layout A: house-wrap concept still fills the hero well. The photo does not navigate. */
 .hero-truck-still {
   position: absolute;
   inset: 0;
@@ -71,7 +69,6 @@
   transform: none;
 }
 
-/* Slice 14.0 — numbered 1–12 stainless board callouts on the hero still. */
 .panel-board {
   position: absolute;
   inset: 0;
@@ -84,7 +81,6 @@
   position: absolute;
   left: var(--board-x, 0);
   top: var(--board-y, 0);
-  /* Slice 16.10 — 44px hit target on every viewport. Do not shrink. */
   width: 44px;
   height: 44px;
   margin: 0;
@@ -92,7 +88,6 @@
   display: inline-grid;
   place-items: center;
   border-radius: 999px;
-  /* Lime plate on night-chrome ring — 4.5:1 vs dark door steel (16.39). */
   border: 1.5px solid #07090c;
   background: var(--signal);
   color: var(--signal-ink);
@@ -146,7 +141,6 @@
   pointer-events: none;
 }
 
-/* Slice 16.38 — reduced motion keeps callouts visible and still. */
 @media (prefers-reduced-motion: reduce) {
   .panel-board-callout,
   .panel-board-callout:hover,
@@ -220,7 +214,6 @@
   font-weight: 800;
   letter-spacing: -0.045em;
   line-height: 1.02;
-  /* Sentence H1 from PUBLIC_COPY — scale to the shell, not a 12-letter wordmark. */
   font-size: clamp(1.85rem, 5.2vw, 3.6rem);
   text-shadow: 0 2px 28px color-mix(in oklab, #07090c 70%, transparent);
 }
@@ -252,8 +245,6 @@
   animation: rise 850ms 120ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
 }
 
-/* Slice 19.8 — desktop stacks caption/H1/lead/CTAs under the photo so
-   callouts 2/3/5 cannot sit on the H1 glyphs. H1 text unchanged. */
 @media (min-width: 721px) {
   .hero {
     min-height: 0;
@@ -279,8 +270,6 @@
   }
 }
 
-/* Desktop: center the copy column. The two caption CTAs sit in one centered row.
-   H1 alignment stays as written. Bid on a Panel stays the arrow-fill primary. */
 @media (min-width: 960px) {
   .hero-copy,
   .hero-actions {
@@ -310,7 +299,6 @@
     width: 100%;
   }
 
-  /* Slice 20.11 — numbers sit on the body, not the cab glass. */
   .panel-board-hero .panel-board-callout {
     left: var(--hero-mobile-x);
     top: var(--hero-mobile-y);
@@ -350,7 +338,6 @@
     padding: 0.7rem 1.05rem;
   }
 
-  /* Entrance rise can shove CTAs past the hero bottom on short phones. */
   .hero-preview-label,
   .hero-copy,
   .hero-lead,
@@ -359,7 +346,6 @@
   }
 
   .site-header {
-    /* Slice 19.9 — one row: wordmark + Join / Sign in. Safe-area already 17.7. */
     padding-top: calc(1rem + env(safe-area-inset-top, 0px));
     gap: 0.5rem;
   }
@@ -377,7 +363,6 @@
   }
 }
 
-/* Slice 16.3 — number map under the hero. Labels come from PANELS only. */
 .panel-number-legend {
   padding-top: 0.85rem;
   padding-bottom: 0.85rem;
@@ -393,8 +378,6 @@
   list-style: none;
 }
 
-/* The base rule sets margin: 0. This block has to follow it or the chips
-   stay stuck on the shell's left edge. */
 @media (min-width: 960px) {
   .panel-number-legend ol {
     width: min(100%, var(--desk-measure));

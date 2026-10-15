@@ -12,11 +12,6 @@ import { findCloseAtViolations } from "../src/lib/close-at-null";
 import { findStripePackagesInRootPackageJson } from "../src/lib/no-stripe-package";
 import { vercelJsonIsHoldOrMainOnlyRestore } from "../src/lib/vercel-git-deploy";
 
-/**
- * Slice 17.4 — /signin live empty state + waitlist link.
- * No env key names in that public block. CLOSE_AT null. No Stripe.
- */
-
 const PAGE = join(process.cwd(), "src/app/signin/page.tsx");
 
 test.describe("slice 17.4: sign-in live empty state", () => {

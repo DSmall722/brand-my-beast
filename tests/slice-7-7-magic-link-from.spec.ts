@@ -13,10 +13,6 @@ import {
   resolveMagicLinkFrom,
 } from "../src/lib/auth/mode";
 
-/**
- * Slice 7.7 — magic-link From is BrandMyBeast <hello@brandmybeast.com>.
- * Assert the auth config default; do not send live mail.
- */
 test.describe("slice 7.7: magic-link From is BrandMyBeast hello@", () => {
   test("campaign money fences stay locked", () => {
     expect(FLOOR_USD).toBe(35_000);
@@ -73,7 +69,6 @@ test.describe("slice 7.7: magic-link From is BrandMyBeast hello@", () => {
       "utf8",
     );
     expect(modeSrc).toContain("MAGIC_LINK_FROM");
-    expect(modeSrc).toContain("BrandMyBeast");
     expect(modeSrc).toContain("BRAND.email");
   });
 

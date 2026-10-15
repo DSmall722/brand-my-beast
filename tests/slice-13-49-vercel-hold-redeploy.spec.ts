@@ -12,12 +12,6 @@ import { findCloseAtViolations } from "../src/lib/close-at-null";
 import { findStripePackagesInRootPackageJson } from "../src/lib/no-stripe-package";
 import { vercelJsonIsHoldOrMainOnlyRestore } from "../src/lib/vercel-git-deploy";
 
-/**
- * Slice 13.49 — Slice 11.10 remains human: one-line runbook
- * “redeploy when Vercel hold lifts.” Leave vercel.json hold-mode alone.
- * CLOSE_AT null. No Stripe.
- */
-
 const NOTE = join(process.cwd(), "docs/VERCEL-HOLD.md");
 
 test.describe("slice 13.49: 11.10 remains human redeploy runbook", () => {

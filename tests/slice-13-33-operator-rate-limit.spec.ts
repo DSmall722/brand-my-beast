@@ -21,11 +21,6 @@ import {
 } from "../src/lib/rate-limit";
 import { vercelJsonIsHoldOrMainOnlyRestore } from "../src/lib/vercel-git-deploy";
 
-/**
- * Slice 13.33 — rate-limit operator approve/reject.
- * Never claims a decision landed. CLOSE_AT null. No Stripe. Hold-mode untouched.
- */
-
 async function signIn(page: Page, email: string) {
   await page.context().clearCookies();
   await page.goto("/signin");

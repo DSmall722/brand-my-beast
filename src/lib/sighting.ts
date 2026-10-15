@@ -1,7 +1,3 @@
-/**
- * Public sighting board. After the truck exists — no bounty, no impressions.
- */
-
 import { FLOOR_USD, GOAL_USD, formatUsd } from "./campaign";
 import {
   CIRCUIT_STORY_CORRIDORS,

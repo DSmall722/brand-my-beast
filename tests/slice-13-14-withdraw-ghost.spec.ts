@@ -26,9 +26,6 @@ async function signIn(page: import("@playwright/test").Page, email: string) {
   await expect(page.getByTestId("account-page")).toBeVisible();
 }
 
-/**
- * Slice 13.14 — withdraw of the only pending mark leaves no ghost standing.
- */
 test.describe("slice 13.14: withdraw leaves no ghost standing", () => {
   test.describe.configure({ mode: "serial" });
 
@@ -109,7 +106,6 @@ test.describe("slice 13.14: withdraw leaves no ghost standing", () => {
     expect(await standingForPanel("hood")).toBe(2500);
     expect((await loadStandingHoldersByPanel()).get("hood")).toBeUndefined();
 
-    // Challenger then withdraws — leftover outbid must not ghost standing.
     const first = await placeIntentBid({
       panelId: "hood",
       userId: "wg1314-a",
@@ -138,7 +134,6 @@ test.describe("slice 13.14: withdraw leaves no ghost standing", () => {
     expect(dropChallenger.ok).toBe(true);
     if (!dropChallenger.ok) return;
 
-    // First is still outbid — not restored. Standing = opening, not 2750 ghost.
     expect(await standingForPanel("hood")).toBe(2500);
     expect((await loadStandingHoldersByPanel()).get("hood")).toBeUndefined();
     expect(CLOSE_AT).toBe("2026-11-02T17:00:00.000Z");

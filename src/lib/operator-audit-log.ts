@@ -1,7 +1,3 @@
-/**
- * Slice 8.9 — audit log rows on approve / reject (who, when, note id).
- */
-
 import { desc } from "drizzle-orm";
 import { getDb } from "./db";
 import { operatorAuditLog } from "./db/schema";

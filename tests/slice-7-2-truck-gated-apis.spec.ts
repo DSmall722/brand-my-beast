@@ -17,9 +17,6 @@ const TRUCK_GATED_POST_PATHS = [
   "/api/circuit-story",
 ] as const;
 
-/**
- * Slice 7.2 — truck-gated public APIs return 404 while TRUCK_EXISTS is false.
- */
 test.describe("slice 7.2: truck-gated public APIs", () => {
   test("campaign money fences stay locked", () => {
     expect(FLOOR_USD).toBe(35_000);

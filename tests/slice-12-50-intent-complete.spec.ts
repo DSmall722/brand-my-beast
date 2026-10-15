@@ -9,10 +9,6 @@ import {
   formatUsd,
 } from "../src/lib/campaign";
 
-/**
- * Slice 12.50 — Pre-P3 freeze tag `intent-complete`.
- * Does not set CLOSE_AT. Does not add Stripe.
- */
 const FREEZE = join(process.cwd(), "docs/INTENT-COMPLETE.md");
 const CAMPAIGN_TS = join(process.cwd(), "src/lib/campaign.ts");
 

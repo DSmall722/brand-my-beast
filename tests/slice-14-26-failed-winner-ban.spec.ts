@@ -18,11 +18,6 @@ import {
 import { findStripePackagesInRootPackageJson } from "../src/lib/no-stripe-package";
 import { vercelJsonIsHoldOrMainOnlyRestore } from "../src/lib/vercel-git-deploy";
 
-/**
- * Slice 14.26 — Failed-winner offer cannot target a banned trade.
- * CLOSE_AT null. No Stripe. Hold-mode untouched. No 30-day clock.
- */
-
 function bid(
   partial: Partial<IntentBid> &
     Pick<IntentBid, "id" | "userId" | "standingUsd" | "status">,
@@ -173,7 +168,6 @@ test.describe("slice 14.26: failed-winner offer skips banned trades", () => {
       "utf8",
     );
     expect(src).toContain("isFailedWinnerTradeBanned");
-    expect(src).toContain("Slice 14.26");
     expect(src.toLowerCase()).not.toMatch(/\blease\b/);
   });
 

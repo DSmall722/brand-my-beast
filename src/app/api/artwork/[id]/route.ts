@@ -5,9 +5,6 @@ export const runtime = "nodejs";
 
 type RouteContext = { params: Promise<{ id: string }> };
 
-/**
- * Slice 8.5 — serve artwork blob bytes. Ledger stores /api/artwork/{id} only.
- */
 export async function GET(_request: Request, context: RouteContext) {
   const { id } = await context.params;
   const record = await getArtworkBlob(id);

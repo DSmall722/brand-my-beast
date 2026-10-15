@@ -11,11 +11,6 @@ import {
 } from "../src/lib/campaign";
 import { PUBLIC_COPY } from "../src/lib/public-copy";
 
-/**
- * Slice 12.17 — sign-in page copy from PUBLIC_COPY.
- * QA 1047PM — no “Accounts unlock…” / “CI path…” chrome.
- * No “test login” string in live mode. CLOSE_AT null. No Stripe.
- */
 test.describe("slice 12.17: sign-in PUBLIC_COPY; no test login in live", () => {
   test("campaign money fences stay locked — CLOSE_AT null", () => {
     expect(FLOOR_USD).toBe(35_000);

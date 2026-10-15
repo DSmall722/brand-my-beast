@@ -18,12 +18,6 @@ import {
   resetWaitlistStoreForTests,
 } from "../src/lib/waitlist";
 
-/**
- * Slice 16.0d — POST /api/waitlist accepts optional wantWholeTruck.
- * Invalid email still 400. Created 201 / exists 200. Not pledged.
- * CLOSE_AT null. No Stripe. SEATS_OPEN untouched.
- */
-
 test.describe("slice 16.0d: waitlist API wantWholeTruck", () => {
   test.describe.configure({ mode: "serial" });
 

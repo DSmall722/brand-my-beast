@@ -3,10 +3,6 @@ import type { IntentBid } from "./intent";
 import { intentStatusLabel } from "./intent-labels";
 import { panelBoardMarkFor } from "./panel-board";
 
-/**
- * Slice 16.22 — operator list columns. Same order on every intent row.
- * Amount is formatUsd of the standing mark. No third money number.
- */
 export const OPERATOR_LIST_COLUMN_KEYS = [
   "#",
   "panel",

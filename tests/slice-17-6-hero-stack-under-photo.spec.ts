@@ -12,11 +12,6 @@ import { findCloseAtViolations } from "../src/lib/close-at-null";
 import { findStripePackagesInRootPackageJson } from "../src/lib/no-stripe-package";
 import { vercelJsonIsHoldOrMainOnlyRestore } from "../src/lib/vercel-git-deploy";
 
-/**
- * Slice 17.6 — hero.css ≤720px stacks caption / H1 / lead / CTAs under the photo.
- * Drops the phone max-height lock. CLOSE_AT null. No Stripe.
- */
-
 const HERO_CSS = join(process.cwd(), "src/app/styles/hero.css");
 
 async function topOf(locator: Locator): Promise<number> {

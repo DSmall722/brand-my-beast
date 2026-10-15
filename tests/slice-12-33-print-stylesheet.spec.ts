@@ -11,10 +11,6 @@ import {
 } from "../src/lib/campaign";
 import { panelSeatH1 } from "../src/lib/panel-board";
 
-/**
- * Slice 12.33 — print stylesheet for `/panels/[id]`.
- * CLOSE_AT null. No Stripe.
- */
 test.describe("slice 12.33: panel print stylesheet", () => {
   test("campaign money fences stay locked — CLOSE_AT null", () => {
     expect(FLOOR_USD).toBe(35_000);
@@ -45,7 +41,6 @@ test.describe("slice 12.33: panel print stylesheet", () => {
       join(process.cwd(), "src/app/styles/board.css"),
       "utf8",
     );
-    expect(board).toContain("Slice 12.33");
     expect(board).toMatch(/@media\s+print/);
     expect(board).toContain(".panel-intent.public-seat");
     expect(board).toContain(".site-header");

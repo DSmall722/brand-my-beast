@@ -1,11 +1,6 @@
 import { CLOSE_AT, FLOOR_USD, GOAL_USD, formatUsd } from "./campaign";
 import { publishedCloseLabelEt } from "./campaign-window";
 
-/**
- * Slice 12.23 — shop cut-file checklist items.
- * Partner-shop form only. Never a homepage card. Local prep; no capture.
- */
-
 export type ShopCutFileChecklistItem = {
   id:
     | "vector"
@@ -41,7 +36,6 @@ export const SHOP_CUT_FILE_CHECKLIST: readonly ShopCutFileChecklistItem[] = [
   },
 ] as const;
 
-/** Checkboxes do not write OPEN_AT or CLOSE_AT. */
 export function assertShopCutFileChecklistDoesNotSetCloseAt(
   checkedIds: readonly string[],
 ): boolean {

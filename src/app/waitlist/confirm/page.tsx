@@ -5,9 +5,6 @@ import { confirmWaitlistByToken } from "@/lib/waitlist";
 
 type SearchParams = Promise<{ token?: string | string[] }>;
 
-/**
- * Slice 12.14 — waitlist double-opt-in confirm landing.
- */
 export default async function WaitlistConfirmPage({
   searchParams,
 }: {

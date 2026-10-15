@@ -26,10 +26,6 @@ type ArrowFillButtonProps = {
 } & Omit<ButtonHTMLAttributes<HTMLButtonElement>, "color"> &
   Omit<AnchorHTMLAttributes<HTMLAnchorElement>, "color">;
 
-/**
- * ObsidianUI arrow-fill-button (slice 6.12).
- * Defaults restyled to BrandMyBeast stainless / signal — no orange kit palette.
- */
 export function ArrowFillButton({
   children = "Explore components",
   className = "",

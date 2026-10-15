@@ -1,16 +1,7 @@
-/**
- * Slice 12.26 — live deposit preview copy on the seat form.
- * Slice 13.5 — template from PUBLIC_COPY.seat.
- * Slice 14.33 — always via depositUsdForMark (12.5). Intent only — not charged.
- */
-
 import { DEPOSIT_PERCENT, formatUsd } from "./campaign";
 import { depositUsdForMark } from "./intent";
 import { PUBLIC_COPY } from "./public-copy";
 
-/**
- * Exact seat preview line: “20% of this mark is $X. Not charged.”
- */
 export function depositPreviewCopy(markUsd: number): string {
   const deposit = depositUsdForMark(markUsd);
   return PUBLIC_COPY.seat.depositPreviewTemplate

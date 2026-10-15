@@ -9,10 +9,6 @@ import {
   formatUsd,
 } from "../src/lib/campaign";
 
-/**
- * Slice 13.6 — FEATURES.md banner: “not the build order.”
- * CLOSE_AT null. No Stripe. Not on the public homepage.
- */
 const FEATURES = join(process.cwd(), "FEATURES.md");
 const SLICES = join(process.cwd(), "SLICES.md");
 

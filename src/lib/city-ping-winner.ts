@@ -1,8 +1,3 @@
-/**
- * City ping to the panel winner (FEATURES P3 #35).
- * Empty display scaffold — no invented pings, no reserved VIN, no clock.
- */
-
 import { FLOOR_USD, GOAL_USD, formatUsd } from "./campaign";
 
 export const CITY_PING_WINNER_LEAD = `City ping to the panel winner. Empty until the truck exists. Miss ${formatUsd(FLOOR_USD)} and there is no city to ping. Buyout ${formatUsd(GOAL_USD)} buys the truck; pings still wait on delivery. No invented city pings. No reserved VIN until an order exists. Still no card charge.`;

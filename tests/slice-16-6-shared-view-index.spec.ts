@@ -15,11 +15,6 @@ import {
 import { TRUCK_VIEWS, type TruckViewId } from "../src/lib/truck-views";
 import { vercelJsonIsHoldOrMainOnlyRestore } from "../src/lib/vercel-git-deploy";
 
-/**
- * Slice 16.6 — front / side / rear use the hero number, not a second index.
- * CLOSE_AT null. No Stripe. No SEATS_OPEN flip.
- */
-
 test.describe("slice 16.6: views share the hero index", () => {
   test("campaign money fences stay locked — CLOSE_AT null", () => {
     expect(FLOOR_USD).toBe(35_000);

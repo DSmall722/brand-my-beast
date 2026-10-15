@@ -21,10 +21,6 @@ async function signIn(page: Page, email: string) {
   await expect(page.getByTestId("account-page")).toBeVisible();
 }
 
-/**
- * Slice 11.8 — Pre-P3 checklist on /operator.
- * LLC, terms, Resend, Stripe not wired. Checkboxes do not set CLOSE_AT.
- */
 test.describe("slice 11.8: Pre-P3 checklist on /operator", () => {
   test("campaign money fences stay locked", () => {
     expect(FLOOR_USD).toBe(35_000);

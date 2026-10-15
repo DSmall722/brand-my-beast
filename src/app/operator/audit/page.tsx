@@ -6,9 +6,6 @@ import { isOperatorEmail } from "@/lib/auth/operator";
 import { FLOOR_USD, GOAL_USD, formatUsd } from "@/lib/campaign";
 import { listOperatorAuditLog } from "@/lib/operator-audit-log";
 
-/**
- * Slice 8.9 — operator audit log (who / when / note id on approve|reject).
- */
 export default async function OperatorAuditPage() {
   const session = await auth();
   if (!session?.user) {

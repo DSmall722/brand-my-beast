@@ -1,9 +1,3 @@
-/**
- * Slice 14.0 — numbered stainless board marks.
- * Numbers match PANELS order (1 hood … 11 rear bumper). Positions are
- * percent of the photo well (hero still / truck-view stage).
- */
-
 import { PANELS, type Panel } from "./campaign";
 import {
   parseObjectPosition,
@@ -19,13 +13,9 @@ export type PanelBoardMark = {
   readonly n: number;
   readonly panelId: Panel["id"];
   readonly name: string;
-  /** Callout on `/hero-truck-preview.jpg` in the homepage hero. */
   readonly hero: BoardPct;
-  /** Slice 20.11 — mobile hero positions sit on the body, not cab glass. */
   readonly heroMobile: BoardPct;
-  /** Callouts on driver / passenger / front / rear stages (subset per view). */
   readonly views: Readonly<Partial<Record<TruckViewId, BoardPct>>>;
-  /** Distinct crop for the homepage panel card / seat mockup. */
   readonly face: PanelFaceCrop;
 };
 
@@ -36,16 +26,8 @@ type BoardLayout = {
   face: PanelFaceCrop;
 };
 
-/** Mobile Y at or below this stays off the cab glass on the cropped still. */
 export const HERO_MOBILE_CAB_GLASS_MAX_Y = 48;
 
-/**
- * Percents of the still. Hero well is 16:9 fill. Board views use
- * object-fit: contain. Each camera JPEG’s width and height set the well so these map 1:1.
- * Driver = seats 4–6 only. Passenger = seats 7–9 only.
- * Front = seats 1–3. Rear = seats 10–11. No bleed across cameras.
- * Door seats 4 and 7 are packages (front + rear cab leaf on that side).
- */
 const BOARD_LAYOUT: Record<Panel["id"], BoardLayout> = {
   hood: {
     hero: { x: 24, y: 34 },
@@ -89,7 +71,6 @@ const BOARD_LAYOUT: Record<Panel["id"], BoardLayout> = {
     views: { driver: { x: 82, y: 52 } },
     face: {
       still: "driver",
-      // Aft bedside under the sail — not doors/sail.
       objectPosition: "88% 58%",
       backgroundSize: "240% auto",
     },
@@ -100,7 +81,6 @@ const BOARD_LAYOUT: Record<Panel["id"], BoardLayout> = {
     views: { passenger: { x: 20, y: 55 } },
     face: {
       still: "passenger",
-      // Nose-right still. Flat bedside wash, a little wheel and top edge in frame.
       objectPosition: "2% 50%",
       backgroundSize: "380% auto",
     },
@@ -111,7 +91,6 @@ const BOARD_LAYOUT: Record<Panel["id"], BoardLayout> = {
     views: { driver: { x: 66, y: 43 } },
     face: {
       still: "driver",
-      // Roof-slope sail aft of the doors — whole triangle in frame.
       objectPosition: "74% 34%",
       backgroundSize: "230% auto",
     },
@@ -122,8 +101,6 @@ const BOARD_LAYOUT: Record<Panel["id"], BoardLayout> = {
     views: { passenger: { x: 18, y: 42 } },
     face: {
       still: "passenger",
-      // Rear-quarter triangle is low and aft (left on this nose-right still).
-      // 360% keeps that metal in the phone card; 440% had landed on the glass.
       objectPosition: "0% 44%",
       backgroundSize: "360% auto",
     },
@@ -159,10 +136,6 @@ const BOARD_LAYOUT: Record<Panel["id"], BoardLayout> = {
   },
 };
 
-/**
- * One mark per panel. Hero layout stays complete; public hero does not
- * paint numbers. Each truck view lists only the seats that camera owns.
- */
 export const PANEL_BOARD_MARKS: readonly PanelBoardMark[] = PANELS.map(
   (panel, index) => {
     const layout = BOARD_LAYOUT[panel.id];
@@ -187,7 +160,6 @@ export function panelBoardMarksForView(
   return PANEL_BOARD_MARKS.filter((mark) => mark.views[view] != null);
 }
 
-/** Mark for a panel id. Numbers match board callouts (1 hood … 11 rear bumper). */
 export function panelBoardMarkFor(panelId: string): PanelBoardMark {
   const mark = PANEL_BOARD_MARKS.find((row) => row.panelId === panelId);
   if (!mark) {
@@ -217,31 +189,21 @@ export function panelFaceStyle(panelId: string): {
   };
 }
 
-/**
- * Display caps only. PANELS.name stays the Stripe charge description.
- * "Front bumper" / "Rear bumper" render as "Front Bumper" / "Rear Bumper".
- */
 export function panelDisplayName(name: string): string {
   if (name === "Front bumper") return "Front Bumper";
   if (name === "Rear bumper") return "Rear Bumper";
   return name;
 }
 
-/** Slice 16.2 — seat page H1. Display name, not the Stripe panel string. */
 export function panelSeatH1(panel: Pick<Panel, "id" | "name">): string {
   const mark = panelBoardMarkFor(panel.id);
   return `${mark.n} · ${panelDisplayName(panel.name)}`;
 }
 
-/** Slice 16.3 — legend item: `1 Hood` (number + display name, no extra copy). */
 export function panelLegendLabel(mark: Pick<PanelBoardMark, "n" | "name">): string {
   return `${mark.n} ${panelDisplayName(mark.name)}`;
 }
 
-/**
- * SVG overlay seat names. Number + name only — no openings, wrap notes,
- * or process copy. Locked shape: `(1) Hood`.
- */
 export function panelOverlayName(panelId: string): string {
   const panel = PANELS.find((row) => row.id === panelId);
   if (!panel) {
@@ -250,7 +212,6 @@ export function panelOverlayName(panelId: string): string {
   return panelDisplayName(panel.name);
 }
 
-/** Locked overlay label: `(1) Hood`. */
 export function panelOverlayLabel(
   mark: Pick<PanelBoardMark, "n" | "panelId">,
 ): string {
@@ -262,7 +223,6 @@ const OVERLAY_LABEL_RE = /^\(\d+\) [A-Za-z][A-Za-z ]*$/;
 const OVERLAY_LABEL_BANNED =
   /\$|opening|wrap-only|wrap only|etch|intent|buyout|floor|cta|click|deposit|stainless compositor|dirty|clean pair|dimension|inch|mm\b/i;
 
-/** Every overlay label is `(N) Name` and nothing else. */
 export function overlayLabelsAreNameOnly(): boolean {
   return PANEL_BOARD_MARKS.every((mark) => {
     const label = panelOverlayLabel(mark);
@@ -299,7 +259,6 @@ const FACE_STILL_FOR_PANEL: Record<string, TruckStillId> = {
   "rear-bumper": "rear",
 };
 
-/** Each card crop is unique and points at the still for that steel. */
 export function panelFaceCropsAreDistinct(): boolean {
   const seen = new Set<string>();
   for (const mark of PANEL_BOARD_MARKS) {
@@ -314,7 +273,6 @@ export function panelFaceCropsAreDistinct(): boolean {
   return seen.size === 11;
 }
 
-/** object-position hints on the dedicated view stills (already framed). */
 export const BOARD_VIEW_OBJECT_POSITION: Record<TruckViewId, string> = {
   driver: "50% 50%",
   passenger: "50% 50%",

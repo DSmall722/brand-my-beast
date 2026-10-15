@@ -11,11 +11,6 @@ import { findPersonalIdentityHits } from "../src/lib/no-personal-identity";
 import { findStripePackagesInRootPackageJson } from "../src/lib/no-stripe-package";
 import { vercelJsonIsHoldOrMainOnlyRestore } from "../src/lib/vercel-git-deploy";
 
-/**
- * Slice 16.40 — same personal-identity grep as 14.44.
- * CLOSE_AT null. No Stripe. Does not flip SEATS_OPEN.
- */
-
 test.describe("slice 16.40: identity grep still clean", () => {
   test("campaign money fences stay locked — CLOSE_AT null", () => {
     expect(FLOOR_USD).toBe(35_000);

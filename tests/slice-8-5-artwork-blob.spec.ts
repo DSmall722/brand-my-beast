@@ -41,9 +41,6 @@ async function resetServerIntents(request: APIRequestContext) {
 const TINY_PNG =
   "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z8BQDwAEhQGAhKmMIQAAAABJRU5ErkJggg==";
 
-/**
- * Slice 8.5 — artwork in blob storage (or equivalent), not a data-URL column.
- */
 test.describe("slice 8.5: artwork blob storage", () => {
   test("campaign money fences stay locked", () => {
     expect(FLOOR_USD).toBe(35_000);
@@ -162,12 +159,10 @@ test.describe("slice 8.5: artwork blob storage", () => {
     await expect(page.getByTestId("intent-success")).toBeVisible({
       timeout: 10_000,
     });
-    // BMB-QA-457: only deposit-paid marks show on the public seat log.
     await markNewestAccountBidPaid(page, request, 2500);
 
     await page.goto("/panels/hood");
     await expect(page.getByTestId("intent-list")).toContainText("BlobUiCo");
-    // Pending upload stays off the public seat until the operator approves.
     await expect(page.getByTestId(/^intent-artwork-thumb-/)).toHaveCount(0);
 
     await signIn(page, "operator@example.com");

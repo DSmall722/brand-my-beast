@@ -9,9 +9,6 @@ import { GOAL_USD, formatUsd } from "@/lib/campaign";
 
 const initial: IntentActionState = { ok: false };
 
-/**
- * Slice 12.28 — approve may choose etch finish only when pledged >= buyout.
- */
 export function ApprovalButtons({
   bidId,
   etchable = false,

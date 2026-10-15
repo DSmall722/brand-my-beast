@@ -16,10 +16,6 @@ import {
 } from "../src/lib/failed-winner-offer";
 import { PUBLIC_COPY } from "../src/lib/public-copy";
 
-/**
- * Slice 13.5 — PUBLIC_COPY seat pack: withdraw, failed-winner, deposit preview.
- * Do not rewrite the homepage H1.
- */
 test.describe("slice 13.5: PUBLIC_COPY seat pack (no H1 rewrite)", () => {
   test("campaign money fences stay locked — CLOSE_AT null", () => {
     expect(FLOOR_USD).toBe(35_000);

@@ -1,8 +1,3 @@
-/**
- * Clemson Saturday lock (FEATURES P4 #40).
- * Empty display scaffold — no invented lock fee, no reserved VIN, no close clock.
- */
-
 import { FLOOR_USD, GOAL_USD, formatUsd } from "./campaign";
 
 export const CLEMSON_SATURDAY_LOCK_LEAD = `Clemson Saturday lock. Empty until the truck exists. Miss ${formatUsd(FLOOR_USD)} and there is no Saturday to lock. Buyout ${formatUsd(GOAL_USD)} buys the truck; the lock still waits on delivery. No invented lock fee. No reserved VIN until an order exists. Still no card charge.`;

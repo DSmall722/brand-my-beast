@@ -6,11 +6,6 @@ import { SiteChromeFooter } from "@/components/SiteChromeFooter";
 import { BRAND } from "@/lib/campaign";
 import { PUBLIC_COPY } from "@/lib/public-copy";
 
-/**
- * Slice 12.34 — branded 500 / error boundary.
- * Same stainless chrome as 404. Not a panel. No personal identity.
- * Slice 14.24 — footer strings shared with not-found via SiteChromeFooter.
- */
 export default function Error({
   error,
   retry,

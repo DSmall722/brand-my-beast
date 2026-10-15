@@ -10,10 +10,6 @@ import {
 } from "../src/lib/campaign";
 import { PUBLIC_COPY } from "../src/lib/public-copy";
 
-/**
- * Slice 6.12 — ObsidianUI arrow-fill on hero primary CTA only.
- * Does not rewrite PUBLIC_COPY. Waitlist submit stays Notify me.
- */
 test.describe("slice 6.12: obsidianui signal button", () => {
   test("campaign money fences stay locked", () => {
     expect(FLOOR_USD).toBe(35_000);
@@ -57,7 +53,6 @@ test.describe("slice 6.12: obsidianui signal button", () => {
 
     const cta = page.getByTestId("hero-primary-cta");
     await expect(cta).toBeVisible();
-    // Fill layer duplicates the label for the animation; assert the visible span.
     await expect(cta.locator(".obsidian-arrow-fill-btn__text")).toHaveText(
       "Bid on a Panel",
     );

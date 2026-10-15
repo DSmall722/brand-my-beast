@@ -4,10 +4,6 @@ import { expect, test } from "@playwright/test";
 import { CLOSE_AT, FLOOR_USD, GOAL_USD, formatUsd } from "../src/lib/campaign";
 import { slicesIdsForMajors } from "./helpers/slices-ids";
 
-/**
- * Slice 12.47 — verify-brandmybeast feature map matches Wave 12.
- * Docs/skill index + merge-gate; not new product UI. CLOSE_AT null. No Stripe.
- */
 const FEATURES_DIR = join(
   process.cwd(),
   ".cursor/skills/verify-brandmybeast/features",

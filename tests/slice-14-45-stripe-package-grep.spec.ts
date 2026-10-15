@@ -17,12 +17,6 @@ import {
   readRootPackageJson,
 } from "../src/lib/no-stripe-package";
 
-/**
- * Slice 14.45 — CI grep: fail on stripe in package.json.
- * Pins grep:stripe. Reuses 13.42 dependency-name scan.
- * CLOSE_AT null. Hold-mode untouched. No Wave 15 wiring.
- */
-
 const ROOT = process.cwd();
 
 test.describe("slice 14.45: CI grep fail on stripe in package.json", () => {

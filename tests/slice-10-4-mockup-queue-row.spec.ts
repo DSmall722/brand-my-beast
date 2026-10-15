@@ -19,10 +19,6 @@ async function signIn(page: Page, email: string) {
   await expect(page.getByTestId("account-page")).toBeVisible();
 }
 
-/**
- * Slice 10.4 — mockup queue row on /operator. No billable Imagine call.
- * CLOSE_AT null. No Stripe.
- */
 test.describe("slice 10.4: mockup queue row", () => {
   test.describe.configure({ mode: "serial" });
 

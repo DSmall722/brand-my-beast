@@ -10,10 +10,6 @@ import { toPartnerShopSeats } from "@/lib/partner-shop-seat";
 import { PUBLIC_COPY } from "@/lib/public-copy";
 import { listShopArtStatusesForBids } from "@/lib/shop-art-status-store";
 
-/**
- * Slice 14.13 — wrap shop partners get seat art only. No weekly mileage
- * ledger or city time-in-market heatmap cards on `/partner`.
- */
 export default async function PartnerShopPage() {
   const session = await auth();
   if (!session?.user) {

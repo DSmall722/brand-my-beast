@@ -45,11 +45,6 @@ async function expectUnclippedInViewport(page: Page, locator: Locator) {
   });
 }
 
-/**
- * Slice 6.9 — residual mobile clip check after 0.7 hero preview.
- * Wordmark + truck still + H1 must stay fully on-screen at phone width.
- * Does not rewrite PUBLIC_COPY. Does not claim 6.10 OG/favicon work.
- */
 test.describe("slice 6.9: hero wordmark and truck not clipped on mobile", () => {
   test.use({ viewport: { width: 390, height: 844 } });
 
@@ -109,7 +104,6 @@ test.describe("slice 6.9: hero wordmark and truck not clipped on mobile", () => 
     fullyInside(titleBox, heroBox);
     fullyInside(truckBox, heroBox);
 
-    // H1 glyphs must not overflow the hero horizontally (extends campaign gate).
     const glyph = await title.evaluate((el) => {
       const host = el.closest(".hero");
       if (!(host instanceof HTMLElement)) throw new Error("hero missing");

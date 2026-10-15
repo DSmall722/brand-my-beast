@@ -1,7 +1,6 @@
 import Link from "next/link";
 import { BRAND } from "@/lib/campaign";
 
-/** Slice 7.1 — extracted from `src/app/page.tsx`. Visible line matches PUBLIC_COPY.footer.line. */
 export function HomeFooter() {
   return (
     <footer className="shell site-footer" data-testid="site-footer">

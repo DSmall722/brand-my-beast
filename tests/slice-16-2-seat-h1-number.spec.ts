@@ -17,11 +17,6 @@ import {
 } from "../src/lib/panel-board";
 import { vercelJsonIsHoldOrMainOnlyRestore } from "../src/lib/vercel-git-deploy";
 
-/**
- * Slice 16.2 — seat page H1 includes the board number (`4 · Driver Side Doors`).
- * CLOSE_AT null. No Stripe. No SEATS_OPEN flip.
- */
-
 test.describe("slice 16.2: seat page H1 includes board number", () => {
   test("campaign money fences stay locked — CLOSE_AT null", () => {
     expect(FLOOR_USD).toBe(35_000);

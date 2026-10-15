@@ -33,10 +33,6 @@ async function resetServerIntents(request: APIRequestContext) {
   expect(res.ok()).toBeTruthy();
 }
 
-/**
- * Slice 12.15 — account export JSON. Auth-gated.
- * CLOSE_AT null. No Stripe.
- */
 test.describe("slice 12.15: account export JSON", () => {
   test("campaign money fences stay locked — CLOSE_AT null", () => {
     expect(FLOOR_USD).toBe(35_000);

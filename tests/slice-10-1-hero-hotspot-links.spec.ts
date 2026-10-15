@@ -11,10 +11,6 @@ import {
 } from "../src/lib/campaign";
 import { hotspotPanelIds, hotspotsForView, TRUCK_VIEWS } from "../src/lib/truck-views";
 
-/**
- * Slice 10.1 — hero photo does not navigate; “See the eleven panels” lands on `#panels`.
- * Homepage board stills are static. Cards / legend open seats. CLOSE_AT null. No Stripe.
- */
 test.describe("slice 10.1: hero and hotspot links open seats", () => {
   test("campaign money fences stay locked — CLOSE_AT null", () => {
     expect(FLOOR_USD).toBe(35_000);
