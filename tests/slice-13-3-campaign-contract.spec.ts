@@ -11,18 +11,18 @@ import {
 
 /**
  * Slice 13.3 — CAMPAIGN.md links CONTRACT.md for wreck text.
- * Money table stays $58,000 / $120,000. CLOSE_AT null. No Stripe.
+ * Money table stays $35,000 / $120,000. CLOSE_AT null. No Stripe.
  */
 const CAMPAIGN = join(process.cwd(), "CAMPAIGN.md");
 const CONTRACT = join(process.cwd(), "CONTRACT.md");
 
 test.describe("slice 13.3: CAMPAIGN.md links CONTRACT.md for wreck", () => {
   test("campaign money fences stay locked — CLOSE_AT null", () => {
-    expect(FLOOR_USD).toBe(58_000);
+    expect(FLOOR_USD).toBe(35_000);
     expect(GOAL_USD).toBe(120_000);
     expect(CLOSE_AT).toBe("2026-11-02T17:00:00.000Z");
     expect(BRAND.name).toBe("BrandMyBeast");
-    expect(formatUsd(FLOOR_USD)).toBe("$58,000");
+    expect(formatUsd(FLOOR_USD)).toBe("$35,000");
     expect(formatUsd(GOAL_USD)).toBe("$120,000");
   });
 
@@ -48,14 +48,14 @@ test.describe("slice 13.3: CAMPAIGN.md links CONTRACT.md for wreck", () => {
     const campaign = readFileSync(CAMPAIGN, "utf8");
     const contract = readFileSync(CONTRACT, "utf8");
 
-    expect(campaign).toContain("$58,000");
+    expect(campaign).toContain("$35,000");
     expect(campaign).toContain("$120,000");
     expect(campaign).toMatch(/CONTRACT\.md/);
     expect(campaign).toMatch(/13\.3|Wreck and refund/i);
     expect(campaign.toLowerCase()).not.toContain("gmail.com");
 
     expect(contract).toMatch(/## Wreck and refund/i);
-    expect(contract).toContain("$58,000");
+    expect(contract).toContain("$35,000");
     expect(contract).toContain("$120,000");
   });
 });

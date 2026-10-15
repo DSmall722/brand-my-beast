@@ -61,7 +61,7 @@ export type IntentBid = {
   proxyMaxUsd: number | null;
   /**
    * Slice 9.4 — floor-save raise-to mark. When set, this row means:
-   * if campaign pledged is short of $58,000, raise this seat to this amount.
+   * if campaign pledged is short of $35,000, raise this seat to this amount.
    * Stored, not charged. Does not displace standing holders until fired.
    */
   floorSaveUsd: number | null;
@@ -192,13 +192,13 @@ export function pledgedUsdForPanel(
   return Math.max(...standing.map((bid) => bid.standingUsd));
 }
 
-/** Slice 9.4 — campaign is short of the $58,000 floor. */
+/** Slice 9.4 — campaign is short of the $35,000 floor. */
 export function isCampaignShortOfFloor(pledgedUsd: number): boolean {
   return Number.isFinite(pledgedUsd) && pledgedUsd < FLOOR_USD;
 }
 
 /**
- * Slice 13.13 — floor-save may fire only while pledged is still under $58,000.
+ * Slice 13.13 — floor-save may fire only while pledged is still under $35,000.
  * Same predicate as isCampaignShortOfFloor; named for the fire gate.
  */
 export function canFireFloorSave(pledgedUsd: number): boolean {

@@ -15,8 +15,8 @@ echo "$HTML" | grep -q "BrandMyBeast" || {
   echo "doctor fail: missing BrandMyBeast" >&2
   exit 1
 }
-echo "$HTML" | grep -q '\$58,000' || {
-  echo "doctor fail: missing \$58,000" >&2
+echo "$HTML" | grep -q '\$35,000' || {
+  echo "doctor fail: missing \$35,000" >&2
   exit 1
 }
 echo "$HTML" | grep -q '\$120,000' || {

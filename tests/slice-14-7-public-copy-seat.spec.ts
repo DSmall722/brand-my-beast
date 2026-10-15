@@ -24,12 +24,12 @@ const LOCKED_H1 =
 
 test.describe("slice 14.7: PUBLIC_COPY seat rationale; no H1 rewrite", () => {
   test("campaign money fences stay locked — CLOSE_AT null", () => {
-    expect(FLOOR_USD).toBe(58_000);
+    expect(FLOOR_USD).toBe(35_000);
     expect(GOAL_USD).toBe(120_000);
     expect(CLOSE_AT).toBe("2026-11-02T17:00:00.000Z");
     expect(findCloseAtViolations()).toEqual([]);
     expect(BRAND.name).toBe("BrandMyBeast");
-    expect(formatUsd(FLOOR_USD)).toBe("$58,000");
+    expect(formatUsd(FLOOR_USD)).toBe("$35,000");
   });
 
   test("package.json has no stripe", () => {
@@ -46,7 +46,7 @@ test.describe("slice 14.7: PUBLIC_COPY seat rationale; no H1 rewrite", () => {
     expect(PUBLIC_COPY.seat.openingRationale).toContain(
       "The floor is not the sum of openings",
     );
-    expect(PUBLIC_COPY.seat.openingRationale).toContain("$58,000");
+    expect(PUBLIC_COPY.seat.openingRationale).toContain("$35,000");
     expect(PUBLIC_COPY.seat.openingRationale.toLowerCase()).not.toMatch(
       /\blease\b/,
     );

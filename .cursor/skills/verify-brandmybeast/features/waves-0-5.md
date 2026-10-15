@@ -6,7 +6,7 @@ per-wave feature files it points to).
 
 Money fences (do not invent a third number):
 
-- `FLOOR_USD=58000` → `$58,000`
+- `FLOOR_USD=35000` → `$35,000`
 - `GOAL_USD=120000` → `$120,000`
 - `CLOSE_AT=null`
 

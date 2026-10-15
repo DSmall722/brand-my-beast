@@ -17,7 +17,7 @@ test.describe("BMB-QA-2-FIX3 legal copy, leaderboard button, contact error, FAQ 
   }) => {
     const openAt = Date.parse(OPEN_AT);
     expect(leaderboardEmptyCopy(openAt)).toBe(OPEN_EMPTY);
-    expect(formatUsd(FLOOR_USD)).toBe("$58,000");
+    expect(formatUsd(FLOOR_USD)).toBe("$35,000");
     const reset = await request.post("/api/test/reset-intents");
     expect(reset.ok()).toBeTruthy();
     await page.goto("/leaderboard");

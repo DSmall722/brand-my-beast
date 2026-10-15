@@ -5,7 +5,7 @@ import {
   PRE_P3_CHECKLIST,
   assertPreP3ChecklistDoesNotSetCloseAt,
 } from "@/lib/pre-p3-checklist";
-import { CLOSE_AT } from "@/lib/campaign";
+import { CLOSE_AT, FLOOR_USD, GOAL_USD, formatUsd } from "@/lib/campaign";
 import { publishedCloseLabelEt } from "@/lib/campaign-window";
 
 /**
@@ -60,7 +60,7 @@ export function PreP3Checklist() {
         })}
       </ul>
       <p className="auth-hint" data-testid="pre-p3-close-at-fence">
-        Closes {publishedCloseLabelEt()}. Floor $58,000. Buyout $120,000. No
+        Closes {publishedCloseLabelEt()}. Floor {formatUsd(FLOOR_USD)}. Buyout {formatUsd(GOAL_USD)}. No
         Stripe capture.
       </p>
     </aside>

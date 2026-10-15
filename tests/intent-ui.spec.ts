@@ -735,7 +735,7 @@ test.describe("P2 panel intent + approvals", () => {
       operator.getByTestId("operator-campaign-locks"),
     ).toHaveAttribute("data-editable", "false");
     await expect(operator.getByTestId("operator-lock-floor")).toHaveText(
-      "$58,000",
+      "$35,000",
     );
     await expect(operator.getByTestId("operator-lock-goal")).toHaveText(
       "$120,000",
@@ -867,7 +867,7 @@ test.describe("P2 panel intent + approvals", () => {
       await expect(shop.getByTestId(board)).toHaveCount(0);
     }
     await expect(shop.getByTestId("partner-shop-lead")).toContainText(
-      "$58,000",
+      "$35,000",
     );
     await expect(shop.getByTestId("partner-shop-lead")).toContainText(
       "$120,000",
@@ -932,7 +932,7 @@ test.describe("P2 panel intent + approvals", () => {
     await winner.goto("/account/wins");
     await expect(winner.getByTestId("winner-portal")).toBeVisible();
     await expect(winner.getByTestId("winner-portal-lead")).toContainText(
-      "$58,000",
+      "$35,000",
     );
     await expect(winner.getByTestId("winner-portal-lead")).toContainText(
       "$120,000",
@@ -986,7 +986,7 @@ test.describe("P2 panel intent + approvals", () => {
     await page.goto("/account/wins");
     await expect(page.getByTestId("content-rights")).toBeVisible();
     await expect(page.getByTestId("content-rights-lead")).toContainText(
-      "$58,000",
+      "$35,000",
     );
     await expect(page.getByTestId("content-rights-lead")).toContainText(
       "$120,000",
@@ -1120,7 +1120,7 @@ test.describe("P2 panel intent + approvals", () => {
     await expect(bob.getByTestId("account-intents-list")).not.toContainText(
       "Alice Only Brand",
     );
-    await expect(bob.getByTestId("account-page")).toContainText("$58,000");
+    await expect(bob.getByTestId("account-page")).toContainText("$35,000");
     await expect(bob.getByTestId("account-page")).toContainText("$120,000");
     const bobHtml = await bob.content();
     expect(bobHtml.toLowerCase()).not.toMatch(/\blease\b/);
@@ -1154,7 +1154,7 @@ test.describe("P2 panel intent + approvals", () => {
       "true",
     );
     await expect(page.getByTestId("truck-view-lead")).toHaveCount(0);
-    await expect(page.getByTestId("floor-amount")).toContainText("$58,000");
+    await expect(page.getByTestId("floor-amount")).toContainText("$35,000");
     await expect(page.getByTestId("truck-view-front")).toHaveAttribute(
       "aria-pressed",
       "true",

@@ -40,6 +40,6 @@ export function cityPingWinnerCopyIsSafe(): boolean {
     !/\bbounty\b/.test(lower) &&
     !/\blivestream\b/.test(lower) &&
     !/\b\d+\s*(impressions|cpm)\b/i.test(blob) &&
-    !/\$\d/.test(blob.replace(/\$58,000/g, "").replace(/\$120,000/g, ""))
+    !/\$\d/.test(blob.replaceAll(formatUsd(FLOOR_USD), "").replaceAll(formatUsd(GOAL_USD), ""))
   );
 }

@@ -41,11 +41,11 @@ async function resetServerIntents(request: APIRequestContext) {
  */
 test.describe("slice 12.22: winner packet markdown", () => {
   test("campaign money fences stay locked — CLOSE_AT null", () => {
-    expect(FLOOR_USD).toBe(58_000);
+    expect(FLOOR_USD).toBe(35_000);
     expect(GOAL_USD).toBe(120_000);
     expect(CLOSE_AT).toBe("2026-11-02T17:00:00.000Z");
     expect(BRAND.name).toBe("BrandMyBeast");
-    expect(formatUsd(FLOOR_USD)).toBe("$58,000");
+    expect(formatUsd(FLOOR_USD)).toBe("$35,000");
     expect(formatUsd(GOAL_USD)).toBe("$120,000");
   });
 
@@ -108,7 +108,7 @@ test.describe("slice 12.22: winner packet markdown", () => {
     expect(md).toContain("## Term");
     expect(md).toContain("12 months from install day");
     expect(md).toContain("not from close");
-    expect(md).toContain("$58,000");
+    expect(md).toContain("$35,000");
     expect(md).toContain("$120,000");
     expect(md.toLowerCase()).not.toMatch(/\blease\b/);
     expect(md).not.toContain("CLOSE_AT=");
@@ -171,7 +171,7 @@ test.describe("slice 12.22: winner packet markdown", () => {
     expect(body).toContain("Hood");
     expect(body).toContain("## Wrap vs etch");
     expect(body).toContain("12 months from install day");
-    expect(body).toContain("$58,000");
+    expect(body).toContain("$35,000");
     expect(body).toContain("$120,000");
     expect(body.toLowerCase()).not.toMatch(/\blease\b/);
 

@@ -17,7 +17,7 @@ import { vercelJsonIsHoldOrMainOnlyRestore } from "../src/lib/vercel-git-deploy"
 /**
  * Slice 19.12 — Wave 19 Playwright pack.
  * H1 locked. Notify me. No hometown / sign-in-to-list on hood.
- * No lease. $58,000 / $120,000 stay. CLOSE_AT null. No Stripe.
+ * No lease. $35,000 / $120,000 stay. CLOSE_AT null. No Stripe.
  */
 
 const ROOT = process.cwd();
@@ -28,12 +28,12 @@ test.describe("slice 19.12: Wave 19 Playwright pack", () => {
   test.describe.configure({ mode: "serial" });
 
   test("campaign money fences stay locked — CLOSE_AT null", () => {
-    expect(FLOOR_USD).toBe(58_000);
+    expect(FLOOR_USD).toBe(35_000);
     expect(GOAL_USD).toBe(120_000);
     expect(CLOSE_AT).toBe("2026-11-02T17:00:00.000Z");
     expect(findCloseAtViolations()).toEqual([]);
     expect(BRAND.name).toBe("BrandMyBeast");
-    expect(formatUsd(FLOOR_USD)).toBe("$58,000");
+    expect(formatUsd(FLOOR_USD)).toBe("$35,000");
     expect(formatUsd(GOAL_USD)).toBe("$120,000");
   });
 
@@ -59,7 +59,7 @@ test.describe("slice 19.12: Wave 19 Playwright pack", () => {
     await expect(page.locator("#hero-title")).toHaveText(PUBLIC_COPY.hero.h1);
     await expect(page.getByTestId("waitlist-submit")).toHaveText("Contact BMB");
     const html = await page.content();
-    expect(html).toContain("$58,000");
+    expect(html).toContain("$35,000");
     expect(html).not.toContain("FEATURES.md");
     expect(html.toLowerCase()).not.toMatch(/\blease\b/);
     expect(html).not.toMatch(/@gmail\.com/);
@@ -91,7 +91,7 @@ test.describe("slice 19.12: Wave 19 Playwright pack", () => {
       }
 
       const html = await page.content();
-      expect(html).toContain("$58,000");
+      expect(html).toContain("$35,000");
       expect(html).not.toContain("FEATURES.md");
       expect(html.toLowerCase()).not.toMatch(/\blease\b/);
       expect(html).not.toMatch(/@gmail\.com/);

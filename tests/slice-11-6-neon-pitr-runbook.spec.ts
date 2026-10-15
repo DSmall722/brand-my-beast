@@ -10,7 +10,7 @@ const RUNBOOK = join(process.cwd(), "docs/NEON-PITR.md");
 
 test.describe("slice 11.6: Neon PITR runbook", () => {
   test("campaign constants stay locked", () => {
-    expect(FLOOR_USD).toBe(58_000);
+    expect(FLOOR_USD).toBe(35_000);
     expect(GOAL_USD).toBe(120_000);
     expect(CLOSE_AT).toBe("2026-11-02T17:00:00.000Z");
   });
@@ -35,7 +35,7 @@ test.describe("slice 11.6: Neon PITR runbook", () => {
     expect(existsSync(RUNBOOK)).toBe(true);
     const text = readFileSync(RUNBOOK, "utf8");
     expect(text).toContain("11.6");
-    expect(text).toMatch(/\$58,000|FLOOR_USD=58000/);
+    expect(text).toMatch(/\$35,000|FLOOR_USD=35000/);
     expect(text).toMatch(/\$120,000|GOAL_USD=120000/);
     expect(text).toMatch(/CLOSE_AT/);
     expect(text).toMatch(/No dashboard clicks/i);

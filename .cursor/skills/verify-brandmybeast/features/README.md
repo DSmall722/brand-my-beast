@@ -12,7 +12,7 @@ Wave 12 surface (`12.1`…`12.50`). Slice **13.47** extends it to every Wave 9�
 surface (`9.1`…`13.50`). Slice **14.46** extends it to every Wave 14 surface
 (`14.0`…`14.50`). Slice **16.41** extends it to every Wave 16 surface
 (`16.0a`…`16.0g` and `16.1`…`16.50`). Money fences stay
-`FLOOR_USD=58000`, `GOAL_USD=120000`, `CLOSE_AT=null`.
+`FLOOR_USD=35000`, `GOAL_USD=120000`, `CLOSE_AT=null`.
 
 ## Baseline preconditions
 

@@ -1,7 +1,7 @@
 # Wave 0 — public page is a waitlist
 
 Maps SLICES **0.1–0.9**. Harness: `.cursor/skills/verify-brandmybeast/scripts/prove-wave0.sh`
-(also first step of `prove-all.sh`). Money fences: floor `$58,000`, buyout `$120,000`,
+(also first step of `prove-all.sh`). Money fences: floor `$35,000`, buyout `$120,000`,
 `CLOSE_AT` null.
 
 ## Preconditions

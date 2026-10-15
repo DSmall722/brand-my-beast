@@ -73,7 +73,7 @@ test.describe("panel detail cleanup", () => {
     );
 
     const html = await page.content();
-    expect(html).toContain("$58,000");
+    expect(html).toContain("$35,000");
     expect(html.toLowerCase()).not.toMatch(/\blease\b/);
     expect(html).not.toContain("FEATURES.md");
   });

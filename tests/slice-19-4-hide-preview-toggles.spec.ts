@@ -25,12 +25,12 @@ const LOCKED_H1 = "Advertise your brand on the truck that people already photogr
 
 test.describe("slice 19.4: hide preview toggles while truck does not exist", () => {
   test("campaign money fences stay locked — CLOSE_AT null", () => {
-    expect(FLOOR_USD).toBe(58_000);
+    expect(FLOOR_USD).toBe(35_000);
     expect(GOAL_USD).toBe(120_000);
     expect(CLOSE_AT).toBe("2026-11-02T17:00:00.000Z");
     expect(findCloseAtViolations()).toEqual([]);
     expect(BRAND.name).toBe("BrandMyBeast");
-    expect(formatUsd(FLOOR_USD)).toBe("$58,000");
+    expect(formatUsd(FLOOR_USD)).toBe("$35,000");
     expect(formatUsd(GOAL_USD)).toBe("$120,000");
   });
 
@@ -78,7 +78,7 @@ test.describe("slice 19.4: hide preview toggles while truck does not exist", () 
     await expect(page.getByTestId("dirty-clean-pair-toggle")).toHaveCount(0);
 
     const html = await page.content();
-    expect(html).toContain("$58,000");
+    expect(html).toContain("$35,000");
     expect(html).not.toContain("FEATURES.md");
     expect(html.toLowerCase()).not.toMatch(/\blease\b/);
     expect(html).not.toMatch(/@gmail\.com/);
@@ -92,6 +92,6 @@ test.describe("slice 19.4: hide preview toggles while truck does not exist", () 
     const html = (await page.content()).toLowerCase();
     expect(html).not.toMatch(/\blease\b/);
     expect(html).not.toContain("features.md");
-    expect(html).toContain("$58,000");
+    expect(html).toContain("$35,000");
   });
 });

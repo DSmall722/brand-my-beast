@@ -15,8 +15,8 @@ import { PUBLIC_COPY } from "../src/lib/public-copy";
 import { vercelJsonIsHoldOrMainOnlyRestore } from "../src/lib/vercel-git-deploy";
 
 /**
- * Slice 20.4 — at pledged $0 do not print both Floor $58,000 and
- * Short of floor $58,000. CLOSE_AT null. No Stripe. H1 unchanged.
+ * Slice 20.4 — at pledged $0 do not print both Floor $35,000 and
+ * Short of floor $35,000. CLOSE_AT null. No Stripe. H1 unchanged.
  */
 
 const ROOT = process.cwd();
@@ -24,12 +24,12 @@ const LOCKED_H1 = "Advertise your brand on the truck that people already photogr
 
 test.describe("slice 20.4: hide short of floor at pledged $0", () => {
   test("campaign money fences stay locked — CLOSE_AT null", () => {
-    expect(FLOOR_USD).toBe(58_000);
+    expect(FLOOR_USD).toBe(35_000);
     expect(GOAL_USD).toBe(120_000);
     expect(CLOSE_AT).toBe("2026-11-02T17:00:00.000Z");
     expect(findCloseAtViolations()).toEqual([]);
     expect(BRAND.name).toBe("BrandMyBeast");
-    expect(formatUsd(FLOOR_USD)).toBe("$58,000");
+    expect(formatUsd(FLOOR_USD)).toBe("$35,000");
     expect(formatUsd(GOAL_USD)).toBe("$120,000");
   });
 
@@ -54,14 +54,14 @@ test.describe("slice 20.4: hide short of floor at pledged $0", () => {
   }) => {
     await page.goto("/");
     await expect(page.getByTestId("raised-amount")).toHaveText(formatUsd(0));
-    await expect(page.getByTestId("floor-amount")).toHaveText("$58,000");
+    await expect(page.getByTestId("floor-amount")).toHaveText("$35,000");
     const money = await page.getByTestId("shortfall-ticker").innerText();
     expect(money).not.toMatch(/Short of floor/);
     await expect(page.getByTestId("shortfall-floor")).toHaveCount(0);
     await expect(page.locator("#hero-title")).toHaveText(LOCKED_H1);
     await expect(page.locator("#hero-title")).toHaveText(PUBLIC_COPY.hero.h1);
     const html = await page.content();
-    expect(html).toContain("$58,000");
+    expect(html).toContain("$35,000");
     expect(html).toContain("$120,000");
     expect(html).not.toContain("FEATURES.md");
     expect(html.toLowerCase()).not.toMatch(/\blease\b/);

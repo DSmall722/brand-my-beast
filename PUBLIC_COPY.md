@@ -30,7 +30,7 @@ Locked: 2026-09-23 — 16 buyer FAQ, no “Who is this for,” $120k is the etch
 - Heading: `Track the Auction`
 - Raised label: `Pledged so far`
 - Floor label: `Floor`
-- Floor hint: `Miss the $58,000 goal and every deposit is refunded.`
+- Floor hint: `Miss the $35,000 goal and every deposit is refunded.`
 - Clock line when CLOSE_AT is null: `Bidding is open. Closes Mon Nov 2, 2026, 12:00 PM ET. Nothing is charged on this page.`
 - Deposit line: `20% of the bid is charged when you place it. If you do not win, that deposit is refunded after close. A winner's deposit is credited to the invoice. Nothing is charged on this page.`
 - Shortfall floor label: `Short of floor`
@@ -99,7 +99,7 @@ Money facts from CAMPAIGN.md only. Plain English. Not a full contract. Contract 
 
 - Heading: `Wreck & refund`
 - Lead: `Here is what happens if the campaign misses or the wrap year ends early.`
-- Q: `What if the board misses $58,000?` A: `Full refund. No order. No wrap.`
+- Q: `What if the board misses $35,000?` A: `Full refund. No order. No wrap.`
 - Q: `What if the wrap year is cut short?` A: `Wrap lasts twelve months from install. If the truck is totaled or sold before month 12, wrap seats get a pro-rata refund for the months left.`
 
 ## Questions
@@ -112,13 +112,13 @@ Buyer questions. No “Who is this for.” No wreck / totaled / last-second on `
 - Q: `What am I actually buying?` A: `A seat on the truck for your brand. There are eleven panels. Vinyl wrap is available on all of them. You’re buying the panel, the finish, and a year of miles. Not a follower count. Not a guaranteed number of views.`
 - Q: `How long is my brand on the truck?` A: `Wraps run twelve months from install.`
 - Q: `What if two of us are in the same business?` A: `One trade, one brand on the truck. Name your business when you bid. If that trade is already standing on a panel, that’s the seat you bid.`
-- Q: `How does payment work?` A: `Twenty percent of your bid is charged when you place it. That deposit is what makes a bid standing. Bid again on the same seat and deposits you already paid count toward the new one. Outbid deposits are refunded after the board closes. Miss $58,000 and every deposit is refunded. A winner's deposit is credited to the invoice. If the winner does not pay the rest within 7 days, the deposit is forfeited and the seat goes to the next bidder.`
+- Q: `How does payment work?` A: `Twenty percent of your bid is charged when you place it. That deposit is what makes a bid standing. Bid again on the same seat and deposits you already paid count toward the new one. Outbid deposits are refunded after the board closes. Miss $35,000 and every deposit is refunded. A winner's deposit is credited to the invoice. If the winner does not pay the rest within 7 days, the deposit is forfeited and the seat goes to the next bidder.`
 - Q: `What if someone outbids me?` A: `You’re off that panel. The deposit you paid is refunded after the board closes. You can bid again on another seat, or come back at the new number on this one. A new bid on the same seat counts deposits you already paid.`
 - Q: `Can I take more than one panel?` A: `Yes. Pick whatever panels your business needs to maximize this advertising opportunity.`
 - Q: `What if I want every panel?` A: `Check the box on the contact form. That starts a whole-truck conversation. It does not buy the board from this page.`
 - Q: `Bonus: Immortal Etch` A: `It only applies if total bids pass $120,000. Then winners on the nine stainless steel panels can choose to have their mark permanently etched for 3x their final bid for that panel. Bumpers stay wrap. Etch artwork must be bold and simple and is reviewed before approval. Once installed there is no cash refund of that finish.`
 - Q: `Do I need finished artwork to bid?` A: `A name and a logo is enough to stand. Final files come after you win. Use a vector for wrap. Nothing gets cut until you’ve approved it.`
-- Q: `What if the $58,000 floor is missed?` A: `Every deposit is refunded. No order. No wrap.`
+- Q: `What if the $35,000 floor is missed?` A: `Every deposit is refunded. No order. No wrap.`
 - Q: `When does this close?` A: `Bidding closes Monday, November 2, 2026 at 12:00 PM ET. A bid in the last 10 minutes pushes the close back 10 minutes.`
 - Q: `Where does the truck actually run?` A: `Work miles in the Southeast. South Carolina most weeks (Charleston, Columbia, Greenville, Florence, Beaufort, Clemson and the roads between them), plus Atlanta, Charlotte, and the Florida panhandle when the job goes there.`
 - Q: `Will something I don’t want sitting next to my brand end up on this truck?` A: `No. We don’t take porn, hate, scams, or anything that can’t sit in a school line or a grocery lot. If you’re unsure about a category, email hello@brandmybeast.com before you bid.`
@@ -168,7 +168,7 @@ Slice **13.5** / **14.7**. Panel / account strings only. Do **not** rewrite the 
 Seat rationale only (slice **14.7**) — opening-bid one-liner from RULES.md Inventory.
 Not a homepage hero rewrite:
 
-- Opening rationale: `Opening marks start the seat. The floor is not the sum of openings — bidding has to carry the board to $58,000.`
+- Opening rationale: `Opening marks start the seat. The floor is not the sum of openings. Bidding has to carry the board to $35,000.`
 
 - Withdraw success: `Intent withdrawn. Still not charged.`
 - Withdraw button: `Withdraw pending intent`

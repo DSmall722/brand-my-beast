@@ -3,7 +3,7 @@
 Slice **13.8**. Fill this before the floor clears. Template only — no shop is
 booked from an agent click.
 
-Money fences: floor **$58,000** (order + wrap reserve). Buyout **$120,000**
+Money fences: floor **$35,000** (order + wrap reserve). Buyout **$120,000**
 (etch unlock). `CLOSE_AT` unset until a human starts P3. No Stripe capture on
 this path. No lease. Contact: **hello@brandmybeast.com**.
 
@@ -25,7 +25,7 @@ this path. No lease. Contact: **hello@brandmybeast.com**.
 
 ## Budget reminder
 
-At the **$58,000** floor, about **$10,000** is reserved for wrap / install /
+At the **$35,000** floor, about **$10,000** is reserved for wrap / install /
 removal (see CAMPAIGN.md). Do not invent a third money number. Do not fall back
 to a cheaper trim if the floor misses.
 

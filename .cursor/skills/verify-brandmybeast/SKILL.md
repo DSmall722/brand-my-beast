@@ -48,7 +48,7 @@ Ready when doctor passes. Launch writes the PID under `.cursor/skills/verify-bra
 Pass criteria:
 
 - `GET $BMB_VERIFY_URL` is 200
-- Body contains `BrandMyBeast`, `$58,000`, `$120,000`
+- Body contains `BrandMyBeast`, `$35,000`, `$120,000`
 - Body does not match word-boundary `lease`
 - Body does not contain `gmail.com`
 
@@ -61,7 +61,7 @@ Stable handles:
 | Handle | Role |
 |---|---|
 | `brand-wordmark` | Public brand |
-| `floor-amount` | `$58,000` order+wrap floor |
+| `floor-amount` | `$35,000` order+wrap floor |
 | `goal-amount` | `$120,000` buy+etch buyout |
 | `raised-amount` | Raised total (P1 is `$0`) |
 | `close-copy` | Unset clock: `Auction clock starts when bidding opens.` |

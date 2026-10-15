@@ -21,7 +21,7 @@ Out of scope for this file (human-only elsewhere): Stripe keys, setting
 
 ## Money fences (unchanged)
 
-- Floor **$58,000** — order + wrap reserve. Miss = refund.
+- Floor **$35,000** — order + wrap reserve. Miss = refund.
 - Buyout **$120,000** — etch unlock.
 - `CLOSE_AT` stays null until a human starts P3.
 - No Stripe capture in this repo until a separate human message opens Wave 15.

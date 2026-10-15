@@ -157,7 +157,7 @@ export const PUBLIC_COPY = {
     items: [
       {
         id: "campaign-miss",
-        q: "What if the board misses $58,000?",
+        q: `What if the board misses ${formatUsd(FLOOR_USD)}?`,
         a: "Full refund. No order. No wrap.",
       },
       {
@@ -193,7 +193,7 @@ export const PUBLIC_COPY = {
       },
       {
         q: "How does payment work?",
-        a: "Twenty percent of your bid is charged when you place it. That deposit is what makes a bid standing. Bid again on the same seat and deposits you already paid count toward the new one. Outbid deposits are refunded after the board closes. Miss $58,000 and every deposit is refunded. A winner's deposit is credited to the invoice. If the winner does not pay the rest within 7 days, the deposit is forfeited and the seat goes to the next bidder.",
+        a: `Twenty percent of your bid is charged when you place it. That deposit is what makes a bid standing. Bid again on the same seat and deposits you already paid count toward the new one. Outbid deposits are refunded after the board closes. Miss ${formatUsd(FLOOR_USD)} and every deposit is refunded. A winner's deposit is credited to the invoice. If the winner does not pay the rest within 7 days, the deposit is forfeited and the seat goes to the next bidder.`,
       },
       {
         id: "outbid",
@@ -218,7 +218,7 @@ export const PUBLIC_COPY = {
       },
       {
         id: "campaign-miss",
-        q: "What if the $58,000 floor is missed?",
+        q: `What if the ${formatUsd(FLOOR_USD)} floor is missed?`,
         a: "Every deposit is refunded. No order. No wrap.",
       },
       {
@@ -300,7 +300,7 @@ export const PUBLIC_COPY = {
      * Slice 14.7 — seat rationale only (RULES.md Inventory). Not homepage H1.
      */
     openingRationale:
-      "Opening marks start the seat. The floor is not the sum of openings — bidding has to carry the board to $58,000.",
+      `Opening marks start the seat. The floor is not the sum of openings. Bidding has to carry the board to ${formatUsd(FLOOR_USD)}.`,
     /** QA 1047PM — stainless seat chrome above Immortal Etch Locked. */
     wrapTwelveMonths: "Vinyl wrap for 12 months after installation.",
     /** QA 1047PM — bumper seats are wrap-only. */

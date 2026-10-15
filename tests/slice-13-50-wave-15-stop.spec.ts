@@ -23,12 +23,12 @@ const SLICES = join(process.cwd(), "SLICES.md");
 
 test.describe("slice 13.50: Wave 15 stop line (human only)", () => {
   test("campaign money fences stay locked — CLOSE_AT null", () => {
-    expect(FLOOR_USD).toBe(58_000);
+    expect(FLOOR_USD).toBe(35_000);
     expect(GOAL_USD).toBe(120_000);
     expect(CLOSE_AT).toBe("2026-11-02T17:00:00.000Z");
     expect(findCloseAtViolations()).toEqual([]);
     expect(BRAND.name).toBe("BrandMyBeast");
-    expect(formatUsd(FLOOR_USD)).toBe("$58,000");
+    expect(formatUsd(FLOOR_USD)).toBe("$35,000");
   });
 
   test("package.json has no stripe", () => {
@@ -47,7 +47,7 @@ test.describe("slice 13.50: Wave 15 stop line (human only)", () => {
     expect(doc).toMatch(/Do not start Wave 15/i);
     expect(doc).toMatch(/Do not wire Stripe/i);
     expect(doc).toMatch(/Do not set `CLOSE_AT`|Do not set CLOSE_AT/i);
-    expect(doc).toMatch(/\$58,000/);
+    expect(doc).toMatch(/\$35,000/);
     expect(doc).toMatch(/\$120,000/);
     expect(doc).toMatch(/CLOSE_AT.*=.*\*\*null\*\*|CLOSE_AT.*null/i);
     expect(doc).toMatch(/No lease|no lease/i);

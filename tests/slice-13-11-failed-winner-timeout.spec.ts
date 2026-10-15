@@ -53,11 +53,11 @@ test.describe("slice 13.11: failed-winner timeout", () => {
   });
 
   test("campaign money fences stay locked — CLOSE_AT null", () => {
-    expect(FLOOR_USD).toBe(58_000);
+    expect(FLOOR_USD).toBe(35_000);
     expect(GOAL_USD).toBe(120_000);
     expect(CLOSE_AT).toBe("2026-11-02T17:00:00.000Z");
     expect(BRAND.name).toBe("BrandMyBeast");
-    expect(formatUsd(FLOOR_USD)).toBe("$58,000");
+    expect(formatUsd(FLOOR_USD)).toBe("$35,000");
   });
 
   test("package.json has no stripe", () => {
@@ -188,7 +188,7 @@ test.describe("slice 13.11: failed-winner timeout", () => {
     expect(rules).toMatch(/13\.11/);
     expect(rules).toMatch(/24 hours/);
     expect(rules).toMatch(/No silent reopen|no silent reopen/);
-    expect(rules).toContain("$58,000");
+    expect(rules).toContain("$35,000");
     expect(rules).toContain("$120,000");
   });
 

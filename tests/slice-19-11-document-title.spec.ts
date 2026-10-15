@@ -25,12 +25,12 @@ const LOCKED_TITLE = `BrandMyBeast — ${LOCKED_H1}`;
 
 test.describe("slice 19.11: chrome title is BrandMyBeast + locked idea", () => {
   test("campaign money fences stay locked — CLOSE_AT null", () => {
-    expect(FLOOR_USD).toBe(58_000);
+    expect(FLOOR_USD).toBe(35_000);
     expect(GOAL_USD).toBe(120_000);
     expect(CLOSE_AT).toBe("2026-11-02T17:00:00.000Z");
     expect(findCloseAtViolations()).toEqual([]);
     expect(BRAND.name).toBe("BrandMyBeast");
-    expect(formatUsd(FLOOR_USD)).toBe("$58,000");
+    expect(formatUsd(FLOOR_USD)).toBe("$35,000");
     expect(formatUsd(GOAL_USD)).toBe("$120,000");
   });
 
@@ -68,7 +68,7 @@ test.describe("slice 19.11: chrome title is BrandMyBeast + locked idea", () => {
     await expect(page.locator("#hero-title")).toHaveText(LOCKED_H1);
     expect(await page.title()).not.toMatch(/advertise on a Cybertruck/i);
     const home = await page.content();
-    expect(home).toContain("$58,000");
+    expect(home).toContain("$35,000");
     expect(home).toContain("$120,000");
     expect(home).not.toContain("FEATURES.md");
     expect(home.toLowerCase()).not.toMatch(/\blease\b/);

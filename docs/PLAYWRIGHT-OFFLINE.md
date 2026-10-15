@@ -6,7 +6,7 @@ while the Vercel usage hold is on (`docs/VERCEL-HOLD.md`).
 
 Money fences (do not invent a third number):
 
-- Floor **$58,000** — order + wrap reserve. Miss = refund.
+- Floor **$35,000** — order + wrap reserve. Miss = refund.
 - Buyout **$120,000** — etch unlock. `CLOSE_AT` stays null until P3.
 - No Stripe. No card capture. No lease. No personal operator Gmail.
 

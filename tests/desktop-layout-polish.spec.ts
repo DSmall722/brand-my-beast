@@ -3,12 +3,12 @@ import { CLOSE_AT, FLOOR_USD, GOAL_USD } from "../src/lib/campaign";
 
 /**
  * Desktop layout polish after the full-width shell.
- * Floor $58,000 / buyout $120,000. CLOSE_AT stays null.
+ * Floor $35,000 / buyout $120,000. CLOSE_AT stays null.
  */
 
 test.describe("desktop layout polish", () => {
   test("campaign money fences stay locked", () => {
-    expect(FLOOR_USD).toBe(58_000);
+    expect(FLOOR_USD).toBe(35_000);
     expect(GOAL_USD).toBe(120_000);
     expect(CLOSE_AT).toBe("2026-11-02T17:00:00.000Z");
   });
@@ -252,7 +252,7 @@ test.describe("desktop layout polish", () => {
       "Lock your bid to the board with a 20% down payment, processed securely through Stripe.",
       "When the campaign ends, winning brands will have their approved ad printed on high quality vinyl wrap and proudly displayed on the truck for 12 full months.",
     ]);
-    await expect(page.locator("#story")).not.toContainText("$58,000");
+    await expect(page.locator("#story")).not.toContainText("$35,000");
     await expect(page.locator("#story")).not.toContainText("$120,000");
 
     expect(placed.questionsTitle).not.toBeNull();

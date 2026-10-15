@@ -22,7 +22,7 @@ Eleven panels. Opening bids (minimum first mark). Board order is 1–11 next to 
 | 10 | `tailgate` | Tailgate | $2,500 | wrap | wrap or etch |
 | 11 | `rear-bumper` | Rear Bumper | $500 | wrap | wrap only |
 
-Opening sum = $23,000. The floor is not the sum of openings. Bidding has to carry the board to $58,000.
+Opening sum = $23,000. The floor is not the sum of openings. Bidding has to carry the board to $35,000.
 
 Nine steel faces can take Immortal etch, and **only after $120,000**: hood, front fascia, both door packages, both sails, both beds, tailgate. Not the bumpers.
 
@@ -40,8 +40,8 @@ Next bid is current standing plus **$250 or 10%**, whichever is larger.
 - If you do not win, that deposit is refunded after close.
 - A winner's deposit is credited to the invoice.
 - The winner pays the remainder within 7 days. If they do not, the deposit is forfeited and the seat goes to the next bidder.
-- Remainder is due only if that bidder wins the panel **and** the campaign hits $58,000 **and** the brand is approved.
-- Miss $58,000 → every deposit is refunded.
+- Remainder is due only if that bidder wins the panel **and** the campaign hits $35,000 **and** the brand is approved.
+- Miss $35,000 → every deposit is refunded.
 - Fail brand check → that bid is void, next compliant standing bid is offered the panel at their last mark plus one increment. No silent reopen of the seat.
 
 ### Failed-winner offer (slice 13.4 / 13.11)
@@ -70,7 +70,7 @@ Do not take live money on `localStorage`. The static prototype is a brochure.
 | **outbid** | A higher compliant mark took the seat, or a new approve demoted prior standing. |
 | **withdrawn** | Bidder pulled a pending mark. Soft-delete only — no ghost standing. |
 
-A listed mark counts on the public board only after the deposit is paid. Floor **$58,000**. Buyout **$120,000**. Close is Mon Nov 2, 2026, 12:00 PM ET.
+A listed mark counts on the public board only after the deposit is paid. Floor **$35,000**. Buyout **$120,000**. Close is Mon Nov 2, 2026, 12:00 PM ET.
 
 ## Soft close
 
@@ -95,8 +95,8 @@ One brand per trade. If two bidders sell the same thing, they fight for one seat
 
 ## What winners do not get
 
-- A reserved VIN before $58,000 clears.
+- A reserved VIN before $35,000 clears.
 - Invented impressions.
 - A 48-state tour.
 - A cheaper Cybertruck if the floor misses.
-- Etch on a $58k–$119,999 campaign.
+- Etch on a $35k–$119,999 campaign.

@@ -60,7 +60,7 @@ P3. No Stripe. No `CLOSE_AT`. No personal identity strings.
 
 ## Money fences
 
-- `FLOOR_USD=58000`, `GOAL_USD=120000`, `CLOSE_AT=null`
+- `FLOOR_USD=35000`, `GOAL_USD=120000`, `CLOSE_AT=null`
 - No lease copy. No personal gmail / personal handle.
 - Deposit **20%** is display math only until Stripe exists.
 

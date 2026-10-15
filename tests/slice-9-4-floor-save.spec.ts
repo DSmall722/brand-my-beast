@@ -30,7 +30,7 @@ async function signIn(page: import("@playwright/test").Page, email: string) {
 }
 
 /**
- * Slice 9.4 — floor-save intent row: if short of $58,000, raise this seat to Y.
+ * Slice 9.4 — floor-save intent row: if short of $35,000, raise this seat to Y.
  * Stored, not charged. CLOSE_AT stays null.
  */
 test.describe("slice 9.4: floor-save intent", () => {
@@ -44,14 +44,14 @@ test.describe("slice 9.4: floor-save intent", () => {
   });
 
   test("campaign money fences stay locked — CLOSE_AT null", () => {
-    expect(FLOOR_USD).toBe(58_000);
+    expect(FLOOR_USD).toBe(35_000);
     expect(GOAL_USD).toBe(120_000);
     expect(CLOSE_AT).toBe("2026-11-02T17:00:00.000Z");
     expect(BRAND.name).toBe("BrandMyBeast");
-    expect(formatUsd(FLOOR_USD)).toBe("$58,000");
+    expect(formatUsd(FLOOR_USD)).toBe("$35,000");
     expect(isCampaignShortOfFloor(0)).toBe(true);
-    expect(isCampaignShortOfFloor(57_999)).toBe(true);
-    expect(isCampaignShortOfFloor(58_000)).toBe(false);
+    expect(isCampaignShortOfFloor(34_999)).toBe(true);
+    expect(isCampaignShortOfFloor(35_000)).toBe(false);
   });
 
   test("package.json has no stripe", () => {
@@ -169,7 +169,7 @@ test.describe("slice 9.4: floor-save intent", () => {
       "not charged",
     );
     await expect(page.getByTestId("intent-success")).toContainText(
-      "if short of $58,000",
+      "if short of $35,000",
     );
     await expect(page.getByTestId("public-seat-log")).toHaveCount(0);
     await expect(page.getByTestId("panel-minimum")).toHaveText("$2,500");
@@ -182,7 +182,7 @@ test.describe("slice 9.4: floor-save intent", () => {
     const html = await page.content();
     expect(html.toLowerCase()).not.toMatch(/\blease\b/);
     expect(html).not.toContain("CLOSE_AT");
-    expect(html).toContain("$58,000");
+    expect(html).toContain("$35,000");
     expect(CLOSE_AT).toBe("2026-11-02T17:00:00.000Z");
   });
 });

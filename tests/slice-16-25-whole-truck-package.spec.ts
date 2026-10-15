@@ -21,12 +21,12 @@ import { vercelJsonIsHoldOrMainOnlyRestore } from "../src/lib/vercel-git-deploy"
 
 test.describe("slice 16.25: whole-truck package is seats 1-11", () => {
   test("campaign money fences stay locked — CLOSE_AT null", () => {
-    expect(FLOOR_USD).toBe(58_000);
+    expect(FLOOR_USD).toBe(35_000);
     expect(GOAL_USD).toBe(120_000);
     expect(CLOSE_AT).toBe("2026-11-02T17:00:00.000Z");
     expect(findCloseAtViolations()).toEqual([]);
     expect(BRAND.name).toBe("BrandMyBeast");
-    expect(formatUsd(FLOOR_USD)).toBe("$58,000");
+    expect(formatUsd(FLOOR_USD)).toBe("$35,000");
     expect(formatUsd(GOAL_USD)).toBe("$120,000");
   });
 
@@ -82,7 +82,7 @@ test.describe("slice 16.25: whole-truck package is seats 1-11", () => {
     await expect(page.getByTestId("want-all-panels")).toHaveCount(0);
     await expect(page.getByTestId("whole-truck-lead")).toHaveCount(0);
     await expect(page.getByTestId("whole-truck-intent-form")).toHaveCount(0);
-    await expect(page.getByTestId("floor-amount")).toHaveText("$58,000");
+    await expect(page.getByTestId("floor-amount")).toHaveText("$35,000");
   });
 
   test("homepage still does not render FEATURES.md", async ({ request }) => {
@@ -90,7 +90,7 @@ test.describe("slice 16.25: whole-truck package is seats 1-11", () => {
     expect(res.ok()).toBeTruthy();
     const html = await res.text();
     expect(html).not.toContain("FEATURES.md");
-    expect(html).toContain("$58,000");
+    expect(html).toContain("$35,000");
     expect(html).not.toContain("The package is 1 Hood");
     expect(html).not.toContain(PUBLIC_COPY.board.wantAllPanels);
     expect(html.toLowerCase()).not.toMatch(/\blease\b/);

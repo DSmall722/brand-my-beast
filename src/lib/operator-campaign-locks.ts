@@ -28,7 +28,7 @@ export function operatorCampaignLocks(): OperatorCampaignLocks {
 export function assertOperatorCampaignLocks(): boolean {
   const locks = operatorCampaignLocks();
   return (
-    locks.floorUsd === 58_000 &&
+    locks.floorUsd === 35_000 &&
     locks.goalUsd === 120_000 &&
     locks.closeAt === "2026-11-02T17:00:00.000Z" &&
     locks.editable === false

@@ -18,11 +18,11 @@ const PROCESS = join(process.cwd(), "PROCESS.md");
 
 test.describe("slice 13.1: PROCESS.md SLICES + live site not a gate", () => {
   test("campaign money fences stay locked — CLOSE_AT null", () => {
-    expect(FLOOR_USD).toBe(58_000);
+    expect(FLOOR_USD).toBe(35_000);
     expect(GOAL_USD).toBe(120_000);
     expect(CLOSE_AT).toBe("2026-11-02T17:00:00.000Z");
     expect(BRAND.name).toBe("BrandMyBeast");
-    expect(formatUsd(FLOOR_USD)).toBe("$58,000");
+    expect(formatUsd(FLOOR_USD)).toBe("$35,000");
   });
 
   test("package.json has no stripe", () => {
@@ -49,7 +49,7 @@ test.describe("slice 13.1: PROCESS.md SLICES + live site not a gate", () => {
     expect(text).toMatch(/Waves 7[–-]14/);
     expect(text).toMatch(/live site is not a gate/i);
     expect(text).toMatch(/Vercel usage hold|VERCEL-HOLD/i);
-    expect(text).toMatch(/\$58,000|FLOOR_USD/);
+    expect(text).toMatch(/\$35,000|FLOOR_USD/);
     expect(text).toMatch(/\$120,000|GOAL_USD/);
     expect(text).toMatch(/CLOSE_AT/);
     expect(text.toLowerCase()).not.toContain("gmail.com");

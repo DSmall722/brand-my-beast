@@ -4,7 +4,7 @@ Slice **13.9**. Human DNS checklist for outbound mail from
 **hello@brandmybeast.com** (Resend). Checkboxes only. Does not send mail.
 Does not set `CLOSE_AT`. No Stripe. No lease.
 
-Money fences stay **$58,000** / **$120,000**. Public From stays
+Money fences stay **$35,000** / **$120,000**. Public From stays
 `BrandMyBeast <hello@brandmybeast.com>` (see `src/lib/mail-envelope.ts`).
 
 ## Before touching DNS (human)

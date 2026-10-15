@@ -24,12 +24,12 @@ const ROOT = process.cwd();
 
 test.describe("slice 16.0a: hide public whole-truck sign-in", () => {
   test("campaign money fences stay locked — CLOSE_AT null", () => {
-    expect(FLOOR_USD).toBe(58_000);
+    expect(FLOOR_USD).toBe(35_000);
     expect(GOAL_USD).toBe(120_000);
     expect(CLOSE_AT).toBe("2026-11-02T17:00:00.000Z");
     expect(findCloseAtViolations()).toEqual([]);
     expect(BRAND.name).toBe("BrandMyBeast");
-    expect(formatUsd(FLOOR_USD)).toBe("$58,000");
+    expect(formatUsd(FLOOR_USD)).toBe("$35,000");
     expect(formatUsd(GOAL_USD)).toBe("$120,000");
   });
 
@@ -79,7 +79,7 @@ test.describe("slice 16.0a: hide public whole-truck sign-in", () => {
     await expect(page.getByTestId("whole-truck-intent-form")).toHaveCount(0);
     await expect(page.getByTestId("want-all-panels")).toHaveCount(0);
     await expect(page.getByTestId("whole-truck-heading")).toHaveCount(0);
-    await expect(page.getByTestId("floor-amount")).toHaveText("$58,000");
+    await expect(page.getByTestId("floor-amount")).toHaveText("$35,000");
     await expect(page.getByTestId("visual-vault")).toBeVisible();
     const html = await page.content();
     expect(html.toLowerCase()).not.toMatch(/\blease\b/);

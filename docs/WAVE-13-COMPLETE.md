@@ -27,7 +27,7 @@ Do **not** treat this tag as starting the 30-day clock.
 
 - Wave 13 docs freeze + auction correctness is complete through **13.50**.
 - This tag (`wave-13-complete`) is the Wave 14 bookmark that Wave 13 is done.
-- Floor **$58,000** and buyout **$120,000** stay locked in `src/lib/campaign.ts`.
+- Floor **$35,000** and buyout **$120,000** stay locked in `src/lib/campaign.ts`.
 - `CLOSE_AT` remains **null**. This tag does **not** start the 30-day clock.
 - No Stripe dependency or SetupIntent. Charging is Wave 15 and needs a human message.
 - No lease product. No cheaper trim.

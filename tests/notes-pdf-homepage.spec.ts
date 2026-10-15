@@ -57,15 +57,15 @@ test.describe("notes PDF homepage sheet", () => {
 
     await expect(page.locator("#money-title")).toHaveText("Track the Auction");
     await expect(page.getByTestId("floor-hint")).toHaveText(
-      "Miss the $58,000 goal and every deposit is refunded.",
+      "Miss the $35,000 goal and every deposit is refunded.",
     );
     await expect(page.locator("#money .money-cell").nth(1).locator(".label")).toHaveText(
       "Floor",
     );
     await expect(page.locator("#money .money-cell").nth(1).locator(".label")).not.toContainText(
-      "$58,000",
+      "$35,000",
     );
-    await expect(page.getByTestId("floor-amount")).toHaveText("$58,000");
+    await expect(page.getByTestId("floor-amount")).toHaveText("$35,000");
     await expect(page.getByTestId("goal-amount")).toHaveCount(0);
     await expect(page.locator("#money")).not.toContainText("Buyout");
     await expect(page.locator("#money")).not.toContainText("Immortal Etch");
@@ -93,7 +93,7 @@ test.describe("notes PDF homepage sheet", () => {
     expect(Math.abs(labelRight - (track.x + track.width))).toBeLessThan(2);
     expect(Math.abs(labelRight - markerCenter)).toBeLessThan(2);
     expect(floorLabel.x).toBeGreaterThanOrEqual(track.x);
-    await expect(page.getByTestId("vault-floor-label")).toContainText("$58,000");
+    await expect(page.getByTestId("vault-floor-label")).toContainText("$35,000");
     await expect(page.getByTestId("panels-lead")).toHaveText(
       "Pick a panel to place a bid.",
     );
@@ -190,7 +190,7 @@ test.describe("notes PDF homepage sheet", () => {
     await expect(page.getByTestId("how-it-works")).toBeVisible();
     await expect(page.locator("#story .immortal-etch")).toHaveCount(0);
     await expect(page.locator("#story")).not.toContainText(
-      "$58,000 or the money comes back",
+      "$35,000 or the money comes back",
     );
     await expect(page.locator("#story")).not.toContainText(
       "$120,000 unlocks Immortal Etch",
@@ -248,7 +248,7 @@ test.describe("notes PDF homepage sheet", () => {
     await expect(page.getByTestId("waitlist-want-whole-truck")).not.toBeChecked();
 
     const html = await page.content();
-    expect(html).toContain("$58,000");
+    expect(html).toContain("$35,000");
     expect(html).toContain("$120,000");
     expect(html.toLowerCase()).not.toMatch(/\blease\b/);
     expect(html).not.toContain("FEATURES.md");

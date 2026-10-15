@@ -20,7 +20,7 @@ Maps SLICES **11.1–11.10**. Docs / rate limits / hold notes only — do not se
 
 ## Money fences
 
-- `FLOOR_USD=58000`, `GOAL_USD=120000`, `CLOSE_AT=null`
+- `FLOOR_USD=35000`, `GOAL_USD=120000`, `CLOSE_AT=null`
 - No lease. No personal Gmail / personal handle.
 
 ## Live lever

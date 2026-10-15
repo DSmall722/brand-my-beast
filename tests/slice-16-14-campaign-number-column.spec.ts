@@ -31,12 +31,12 @@ const BUYOUT_LINES = [
 
 test.describe("slice 16.14: CAMPAIGN inventory number column", () => {
   test("campaign money fences stay locked — CLOSE_AT null", () => {
-    expect(FLOOR_USD).toBe(58_000);
+    expect(FLOOR_USD).toBe(35_000);
     expect(GOAL_USD).toBe(120_000);
     expect(CLOSE_AT).toBe("2026-11-02T17:00:00.000Z");
     expect(findCloseAtViolations()).toEqual([]);
     expect(BRAND.name).toBe("BrandMyBeast");
-    expect(formatUsd(FLOOR_USD)).toBe("$58,000");
+    expect(formatUsd(FLOOR_USD)).toBe("$35,000");
     expect(formatUsd(GOAL_USD)).toBe("$120,000");
   });
 
@@ -52,7 +52,7 @@ test.describe("slice 16.14: CAMPAIGN inventory number column", () => {
     const campaign = readFileSync(CAMPAIGN, "utf8");
     expect(campaign).toContain("## Inventory");
     expect(campaign).toContain("| n | Panel | Opening |");
-    expect(campaign).toContain("$58,000");
+    expect(campaign).toContain("$35,000");
     expect(campaign).toContain("$120,000");
     expect(campaign).toMatch(/## Money \(locked 2026-09-13\)/);
     for (const line of BUYOUT_LINES) {

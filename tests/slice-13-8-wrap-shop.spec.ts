@@ -17,11 +17,11 @@ const DOC = join(process.cwd(), "docs/WRAP-SHOP.md");
 
 test.describe("slice 13.8: WRAP-SHOP shortlist template", () => {
   test("campaign money fences stay locked — CLOSE_AT null", () => {
-    expect(FLOOR_USD).toBe(58_000);
+    expect(FLOOR_USD).toBe(35_000);
     expect(GOAL_USD).toBe(120_000);
     expect(CLOSE_AT).toBe("2026-11-02T17:00:00.000Z");
     expect(BRAND.name).toBe("BrandMyBeast");
-    expect(formatUsd(FLOOR_USD)).toBe("$58,000");
+    expect(formatUsd(FLOOR_USD)).toBe("$35,000");
   });
 
   test("package.json has no stripe", () => {
@@ -46,7 +46,7 @@ test.describe("slice 13.8: WRAP-SHOP shortlist template", () => {
     expect(text).toContain("13.8");
     expect(text).toMatch(/shortlist/i);
     expect(text).toMatch(/- \[ \]/);
-    expect(text).toContain("$58,000");
+    expect(text).toContain("$35,000");
     expect(text).toContain("$120,000");
     expect(text).toMatch(/CLOSE_AT/);
     expect(text).toContain("hello@brandmybeast.com");

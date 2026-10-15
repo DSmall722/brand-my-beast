@@ -100,7 +100,7 @@ test.describe("BMB-QA-2 legal, leaderboard, hotspots, contact", () => {
     );
     expect(PANELS).toHaveLength(11);
     expect(DEPOSIT_PERCENT).toBe(20);
-    expect(formatUsd(FLOOR_USD)).toBe("$58,000");
+    expect(formatUsd(FLOOR_USD)).toBe("$35,000");
     expect(SOFT_CLOSE_MS).toBe(10 * 60 * 1000);
     expect(WINNER_PAY_MS).toBe(7 * 24 * 60 * 60 * 1000);
     expect(publishedCloseLabelEt()).toContain("Nov 2");

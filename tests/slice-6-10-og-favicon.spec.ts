@@ -16,14 +16,14 @@ import { PUBLIC_COPY } from "../src/lib/public-copy";
  */
 test.describe("slice 6.10: OG image and favicon, public brand only", () => {
   test("campaign money fences stay locked", () => {
-    expect(FLOOR_USD).toBe(58_000);
+    expect(FLOOR_USD).toBe(35_000);
     expect(GOAL_USD).toBe(120_000);
     expect(CLOSE_AT).toBe("2026-11-02T17:00:00.000Z");
     expect(BRAND.name).toBe("BrandMyBeast");
     expect(BRAND.handle).toBe("@BrandMyBeast");
     expect(BRAND.email).toBe("hello@brandmybeast.com");
     expect(BRAND.domain).toBe("brandmybeast.com");
-    expect(formatUsd(FLOOR_USD)).toBe("$58,000");
+    expect(formatUsd(FLOOR_USD)).toBe("$35,000");
     expect(formatUsd(GOAL_USD)).toBe("$120,000");
   });
 

@@ -31,7 +31,7 @@ Per **SLICES.md** exception order:
 
 ## Money fences (unchanged)
 
-- Floor **$58,000**
+- Floor **$35,000**
 - Buyout **$120,000**
 - `CLOSE_AT` = **null**
 - No lease. No cheaper trim.
@@ -50,17 +50,17 @@ No Stripe. No `CLOSE_AT`. Leave `vercel.json` hold-mode alone.
 
 After Wave 16, idle on this wave. Wave 15 is still Stripe and needs a human message.
 Do not start Wave 15. Do not wire Stripe. Do not set `CLOSE_AT`. Do not flip `SEATS_OPEN`.
-Next build order is Wave 17 in `SLICES.md`. Floor **$58,000**. Buyout **$120,000**. `CLOSE_AT` remains **null**.
+Next build order is Wave 17 in `SLICES.md`. Floor **$35,000**. Buyout **$120,000**. `CLOSE_AT` remains **null**.
 
 ## After 17.10 (17.11)
 
 After 17.10 continue 17.12. Wave 15 is still Stripe and needs a human message.
 Do not start Wave 15. Do not wire Stripe. Do not set `CLOSE_AT`. Do not flip `SEATS_OPEN`.
-Floor **$58,000**. Buyout **$120,000**. `CLOSE_AT` remains **null**.
+Floor **$35,000**. Buyout **$120,000**. `CLOSE_AT` remains **null**.
 
 ## After 17.18 (17.19)
 
 After 17.18, idle on this wave. Wave 15 is still Stripe and needs a human message.
 Do not start Wave 15. Do not wire Stripe. Do not set `CLOSE_AT`. Do not flip `SEATS_OPEN`.
-Floor **$58,000**. Buyout **$120,000**. `CLOSE_AT` remains **null**.
+Floor **$35,000**. Buyout **$120,000**. `CLOSE_AT` remains **null**.
 

@@ -23,15 +23,15 @@ If two files conflict, **CAMPAIGN.md wins**. Then stop and flag the conflict. Do
 - Impression counts or CPMs
 - A close date unless `CLOSE_AT` is set in code
 - The word **lease** in user-facing copy
-- Dual Motor / Premium as a fallback if $58,000 misses
+- Dual Motor / Premium as a fallback if $35,000 misses
 
 Allowed public strings: BrandMyBeast, @BrandMyBeast, hello@brandmybeast.com, brandmybeast.com, “the operator.”
 
 ## Money that must match in every file and UI
 
-- Floor **$58,000** — order the Cyberbeast + wrap reserve. Miss = refund.
+- Floor **$35,000** — order the Cyberbeast + wrap reserve. Miss = refund.
 - Goal / buyout **$120,000** — whole-truck + Immortal Etch package. Campaign buys the truck. Etch is in the package, not a side effect.
-- $58,000–$119,999 — ordered + wrapped. No Immortal Etch.
+- $35,000–$119,999 — ordered + wrapped. No Immortal Etch.
 - Deposit **20%** to list.
 - Eleven panels. Nine etchable **only at $120,000**.
 

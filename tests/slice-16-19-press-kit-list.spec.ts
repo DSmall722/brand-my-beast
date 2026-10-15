@@ -22,12 +22,12 @@ const FACT = join(process.cwd(), "press-kit/FACT-SHEET.md");
 
 test.describe("slice 16.19: press-kit fact sheet lists 1-11", () => {
   test("campaign money fences stay locked — CLOSE_AT null", () => {
-    expect(FLOOR_USD).toBe(58_000);
+    expect(FLOOR_USD).toBe(35_000);
     expect(GOAL_USD).toBe(120_000);
     expect(CLOSE_AT).toBe("2026-11-02T17:00:00.000Z");
     expect(findCloseAtViolations()).toEqual([]);
     expect(BRAND.name).toBe("BrandMyBeast");
-    expect(formatUsd(FLOOR_USD)).toBe("$58,000");
+    expect(formatUsd(FLOOR_USD)).toBe("$35,000");
     expect(formatUsd(GOAL_USD)).toBe("$120,000");
   });
 
@@ -46,7 +46,7 @@ test.describe("slice 16.19: press-kit fact sheet lists 1-11", () => {
     for (const mark of PANEL_BOARD_MARKS) {
       expect(text).toContain(`${mark.n}. ${mark.name}`);
     }
-    expect(text).toContain("$58,000");
+    expect(text).toContain("$35,000");
     expect(text).toContain("$120,000");
     expect(text.toLowerCase()).not.toMatch(/wrap-as-delivered/);
     expect(text.toLowerCase()).not.toMatch(/\blease\b/);
@@ -60,7 +60,7 @@ test.describe("slice 16.19: press-kit fact sheet lists 1-11", () => {
     const html = await res.text();
     expect(html).not.toContain("FEATURES.md");
     expect(html).not.toContain("## Board order");
-    expect(html).toContain("$58,000");
+    expect(html).toContain("$35,000");
     expect(html).toContain("$120,000");
     expect(html.toLowerCase()).not.toMatch(/\blease\b/);
   });

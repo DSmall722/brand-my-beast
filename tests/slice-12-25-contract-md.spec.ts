@@ -21,11 +21,11 @@ import {
  */
 test.describe("slice 12.25: contract markdown template", () => {
   test("campaign money fences stay locked — CLOSE_AT null", () => {
-    expect(FLOOR_USD).toBe(58_000);
+    expect(FLOOR_USD).toBe(35_000);
     expect(GOAL_USD).toBe(120_000);
     expect(CLOSE_AT).toBe("2026-11-02T17:00:00.000Z");
     expect(BRAND.name).toBe("BrandMyBeast");
-    expect(formatUsd(FLOOR_USD)).toBe("$58,000");
+    expect(formatUsd(FLOOR_USD)).toBe("$35,000");
     expect(formatUsd(GOAL_USD)).toBe("$120,000");
   });
 
@@ -62,7 +62,7 @@ test.describe("slice 12.25: contract markdown template", () => {
     expect(md).toContain("Immortal etch already installed");
     expect(md).toContain("pro-rata");
     expect(md).toContain("vault certificate");
-    expect(md).toContain("$58,000");
+    expect(md).toContain("$35,000");
     expect(md).toContain("$120,000");
     expect(md).toContain("$119,999");
     expect(md).toContain("12 months from install day");
@@ -75,7 +75,7 @@ test.describe("slice 12.25: contract markdown template", () => {
   test("CONTRACT.md on disk matches wreck fences and not-signature line", () => {
     const disk = readFileSync(join(process.cwd(), "CONTRACT.md"), "utf8");
     expect(disk).toContain("Not a signature product");
-    expect(disk).toContain("$58,000");
+    expect(disk).toContain("$35,000");
     expect(disk).toContain("$120,000");
     expect(disk).toContain("$119,999");
     expect(disk).toContain("Campaign miss");
@@ -100,7 +100,7 @@ test.describe("slice 12.25: contract markdown template", () => {
     expect(html).not.toContain("DocuSign");
     expect(html).not.toContain("signature product");
     expect(html.toLowerCase()).not.toMatch(/\blease\b/);
-    expect(html).toContain("$58,000");
+    expect(html).toContain("$35,000");
     expect(html).toContain("$120,000");
   });
 });

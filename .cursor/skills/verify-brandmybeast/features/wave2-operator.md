@@ -14,7 +14,7 @@ Maps SLICES **2.1–2.5**. Operator email allow-list. Still no capture.
 
 ## Money fences
 
-- Floor `$58,000`, buyout `$120,000`, `CLOSE_AT` null on operator HTML.
+- Floor `$35,000`, buyout `$120,000`, `CLOSE_AT` null on operator HTML.
 - No lease. No Stripe capture controls on `/operator`.
 
 ## Live lever

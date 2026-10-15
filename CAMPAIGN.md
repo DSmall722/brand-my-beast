@@ -25,19 +25,19 @@ Detail lives in `ARCHITECTURE.md`; this sentence is the campaign-side pointer on
 
 | Threshold | What happens |
 |---|---|
-| Under **$58,000** | Full refund. No order. No wrap. No Immortal Etch. |
-| **$58,000–$119,999** | Place the Cyberbeast **order**. Fund wrap / install / removal. Wrap only. Immortal Etch not included. Operator finances the unpaid truck balance at delivery. |
+| Under **$35,000** | Full refund. No order. No wrap. No Immortal Etch. |
+| **$35,000–$119,999** | Place the Cyberbeast **order**. Fund wrap / install / removal. Wrap only. Immortal Etch not included. Operator finances the unpaid truck balance at delivery. |
 | **$120,000 — whole-truck + Immortal Etch package** | Campaign buys the truck. Home charger + install. Buffer. **Immortal Etch** on the nine steel faces. One brand may take every panel (whole-truck buyout). |
 
 There is no Dual Motor. There is no Premium. There is no lease tier. The $40,000 lease product is dead. The word lease does not appear in public copy.
 
 ### Wreck and refund text (slice 13.3)
 
-Long-form wreck / refund clauses live in **[`CONTRACT.md`](./CONTRACT.md)** (Campaign miss, wrap year cut short, Immortal etch already installed). This money table stays authoritative for thresholds: **$58,000** / **$120,000**. Do not invent a third number.
+Long-form wreck / refund clauses live in **[`CONTRACT.md`](./CONTRACT.md)** (Campaign miss, wrap year cut short, Immortal etch already installed). This money table stays authoritative for thresholds: **$35,000** / **$120,000**. Do not invent a third number.
 
 Whole-truck buyout button: **$120,000** — one brand on every panel **and Immortal Etch** on the nine steel faces. Standing panel winners are released. Buyout is a package (truck ownership path + Immortal Etch), not panels-only. There is no third price.
 
-### Why $58,000 is the floor
+### Why $35,000 is the floor
 
 The floor is **order-path cash + wrap reserve**, not half the sticker.
 
@@ -54,11 +54,11 @@ Budget at the $120,000 buyout (current working numbers — replace with live Tes
 | Buffer (insurance, extra miles, shop overrun) | $4,960 |
 | **Buyout total** | **$120,000** |
 
-At the $58,000 floor: $10,000 is reserved for wrap / install / removal. The rest is order-path cash (Tesla order deposit / down). The operator covers remaining principal. FSD is operator cost ($99/mo), never on the board.
+At the $35,000 floor: $10,000 is reserved for wrap / install / removal. The rest is order-path cash (Tesla order deposit / down). The operator covers remaining principal. FSD is operator cost ($99/mo), never on the board.
 
 ### Deposit
 
-20% to list a bid. Remainder if that bid wins. Lose the panel, fail brand check, or miss $58,000 → deposit released. Cards are not charged until the money path is live. The current static page only records intent.
+20% to list a bid. Remainder if that bid wins. Lose the panel, fail brand check, or miss $35,000 → deposit released. Cards are not charged until the money path is live. The current static page only records intent.
 
 ### Proxy max (slice 13.12)
 
@@ -90,7 +90,7 @@ Opening sum is $23,000 — the floor is not this sum.
 
 ## Vehicle
 
-- Trim: **Cyberbeast only**. Miss $58,000 and the idea does not fall back to a cheaper Cybertruck.
+- Trim: **Cyberbeast only**. Miss $35,000 and the idea does not fall back to a cheaper Cybertruck.
 - Not reserved. No VIN. Do not invent a reservation.
 - Wrap funded from campaign proceeds. Shop may take a mid-panel as in-kind **after** cash funds the wrap, not instead of the floor.
 

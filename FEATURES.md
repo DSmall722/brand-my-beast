@@ -2,9 +2,9 @@
 
 > **Not the build order.** This file is a catalog. **`SLICES.md` is the only build order.** Do not open Wave 15 from here. Do not paste this list onto the public homepage.
 
-Ranked by importance. Importance = does this help hit **$58,000 by close**, then prove the miles after the truck exists. Close is Mon Nov 2, 2026, 12:00 PM ET.
+Ranked by importance. Importance = does this help hit **$35,000 by close**, then prove the miles after the truck exists. Close is Mon Nov 2, 2026, 12:00 PM ET.
 
-Do not paste this list onto the public homepage. CAMPAIGN.md wins on money and identity. Floor **$58,000**. Buyout **$120,000**. `CLOSE_AT` stays null until a human starts P3. No Stripe without a separate human message.
+Do not paste this list onto the public homepage. CAMPAIGN.md wins on money and identity. Floor **$35,000**. Buyout **$120,000**. `CLOSE_AT` stays null until a human starts P3. No Stripe without a separate human message.
 
 ## Status key (slice 14.1)
 
@@ -32,10 +32,10 @@ These ideas **contradict `CAMPAIGN.md`**. They are **not** backlog rows. Do not 
 
 | Killed idea | Why |
 |---|---|
-| $40,000 lease + wrap floor | Floor is **$58,000** order + wrap. The word **lease** is banned in public copy. |
+| $40,000 lease + wrap floor | Floor is **$35,000** order + wrap. The word **lease** is banned in public copy. |
 | Dual Motor / Premium fallback if the floor misses | **Cyberbeast or refund.** No cheaper trim. |
 
-Floor **$58,000**. Buyout **$120,000**. `CLOSE_AT` null. No Stripe without a human message. No 30-day clock from this file.
+Floor **$35,000**. Buyout **$120,000**. `CLOSE_AT` null. No Stripe without a human message. No 30-day clock from this file.
 
 ## Ranked backlog (50)
 
@@ -44,12 +44,12 @@ Floor **$58,000**. Buyout **$120,000**. `CLOSE_AT` null. No Stripe without a hum
 3 P0 Stainless compositor (wrap vs etch on 30X). — **shipped (3.1)**
 4 P0 Honest shortfall ticker (dollars, days, open seats). — **shipped (4.2)**
 5 P0 Wreck clause + refund rules. — **shipped (4.4 / 12.25)**
-6 P0 Visual vault to $58k / payoff at $120k. — **shipped (4.3)**
+6 P0 Visual vault to $35k / payoff at $120k. — **shipped (4.3)**
 7 P0 Artwork approval thread. — **shipped (2.4)**
 8 P0 Failed-winner waitlist. — **shipped (1.6 / 9.6)**
 9 P1 Proxy max-bid agent ($250 or 10%). — **shipped (9.1 / 13.12)**
 10 P1 Soft-close. A bid in the last 10 minutes extends the campaign close by 10 minutes. Shipped.
-11 P1 Conditional make-the-floor bid (fires if short of $58k in last 24h). — **shipped (9.4)**
+11 P1 Conditional make-the-floor bid (fires if short of $35k in last 24h). — **shipped (9.4)**
 12 P1 Buyout freeze + syndicate counter at $120k. — **shipped (3.2 / 9.5 / 10.3)**
 13 P1 Close-night live on X. — **Catalog**
 14 P1 Neighbor-panel combo lots. — **shipped (10.10)**
@@ -64,7 +64,7 @@ Floor **$58,000**. Buyout **$120,000**. `CLOSE_AT` null. No Stripe without a hum
 23 P2 Winner portal. — **shipped (12.21 / 12.22)**
 24 P2 Public seat page. — **shipped (1.7 / 9.9)**
 25 P2 Cabin plaque micro-pledges. — **Catalog** (gated; truck does not exist — 13.30)
-26 P3 Truck-order tracker after $58k. — **Catalog**
+26 P3 Truck-order tracker after $35k. — **Catalog**
 27 P3 VIN reveal event. — **Catalog**
 28 P3 Live Beast tracker (home geofence on). — **Catalog**
 29 P3 Weekly mileage ledger. — **Catalog**

@@ -37,11 +37,11 @@ test.describe("slice 9.6: failed-winner offer", () => {
   });
 
   test("campaign money fences stay locked — CLOSE_AT null", () => {
-    expect(FLOOR_USD).toBe(58_000);
+    expect(FLOOR_USD).toBe(35_000);
     expect(GOAL_USD).toBe(120_000);
     expect(CLOSE_AT).toBe("2026-11-02T17:00:00.000Z");
     expect(BRAND.name).toBe("BrandMyBeast");
-    expect(formatUsd(FLOOR_USD)).toBe("$58,000");
+    expect(formatUsd(FLOOR_USD)).toBe("$35,000");
   });
 
   test("package.json has no stripe", () => {
@@ -171,7 +171,7 @@ test.describe("slice 9.6: failed-winner offer", () => {
     const html = await outbid.content();
     expect(html.toLowerCase()).not.toMatch(/\blease\b/);
     expect(html).not.toContain("CLOSE_AT");
-    expect(html).toContain("$58,000");
+    expect(html).toContain("$35,000");
     expect(CLOSE_AT).toBe("2026-11-02T17:00:00.000Z");
     await outbid.close();
   });

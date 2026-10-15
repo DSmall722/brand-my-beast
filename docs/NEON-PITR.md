@@ -7,7 +7,7 @@ recovery. Slice **12.44** adds the restore-drill checklist beside this file
 
 Money fences (do not invent a third number):
 
-- Floor **$58,000** — order + wrap reserve. Miss = refund.
+- Floor **$35,000** — order + wrap reserve. Miss = refund.
 - Buyout **$120,000** — etch unlock. `CLOSE_AT` stays null until P3.
 - Deposit **20%** of standing is display math only until Stripe exists.
 - No Stripe capture in this runbook. No lease. No personal operator Gmail.
@@ -40,7 +40,7 @@ These steps are documentation. They are not automation.
    timestamp. Do not overwrite Production until the branch is verified.
 4. **Verify on the restore branch** — `SELECT count(*)` on waitlist and
    approved intents; spot-check pledged dollars still equal approved standing
-   only; floor / buyout constants are app code (`FLOOR_USD=58000`,
+   only; floor / buyout constants are app code (`FLOOR_USD=35000`,
    `GOAL_USD=120000`) and must not be edited as part of restore.
 5. **Cut over** — point Production `DATABASE_URL` at the restored branch / role
    only after verification. Keep the pre-restore branch until the next

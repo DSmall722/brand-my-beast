@@ -20,7 +20,7 @@ card capture, no `CLOSE_AT`.
 
 ## Money fences
 
-- Operator / partner HTML keep `$58,000` / `$120,000` and no lease / no `CLOSE_AT`.
+- Operator / partner HTML keep `$35,000` / `$120,000` and no lease / no `CLOSE_AT`.
 - CSV / PDF / emails never emit personal operator Gmail or personal handle.
 
 ## Live lever

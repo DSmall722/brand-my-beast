@@ -8,7 +8,7 @@ import { CLOSE_AT, FLOOR_USD, GOAL_USD } from "../src/lib/campaign";
  */
 test.describe("slice 11.4: 50 unique waitlist inserts (memory)", () => {
   test("campaign constants stay locked", () => {
-    expect(FLOOR_USD).toBe(58_000);
+    expect(FLOOR_USD).toBe(35_000);
     expect(GOAL_USD).toBe(120_000);
     expect(CLOSE_AT).toBe("2026-11-02T17:00:00.000Z");
   });

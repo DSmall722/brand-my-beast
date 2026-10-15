@@ -10,7 +10,7 @@ import {
   resetArtworkBlobStoreForTests,
 } from "./artwork-blob";
 import { anonymizedUserId, isAnonymizedUserId } from "./account-delete";
-import { GOAL_USD, PANELS, type Panel } from "./campaign";
+import { FLOOR_USD, GOAL_USD, PANELS, formatUsd, type Panel } from "./campaign";
 import { resolveNowMs } from "./campaign-clock";
 import { getDb } from "./db";
 import {
@@ -918,7 +918,7 @@ export async function placeIntentBid(
         );
     }
 
-    // Slice 9.4 — floor-save: store raise-to Y if short of $58k. No outbid. No card.
+    // Slice 9.4 — floor-save: store raise-to Y if short of $35k. No outbid. No card.
     if (asFloorSave) {
       const board = await loadBoardIntentStats();
       // Slice 13.13 — cannot list/fire when pledged already at floor.
@@ -926,7 +926,7 @@ export async function placeIntentBid(
         return {
           ok: false,
           error:
-            "Floor-save cannot fire when pledged is already at or above $58,000.",
+            `Floor-save cannot fire when pledged is already at or above ${formatUsd(FLOOR_USD)}.`,
         };
       }
       const y = input.floorSaveUsd as number;
@@ -1528,7 +1528,7 @@ export async function countApprovedStandingForPanel(
 
 /**
  * Slice 13.13 — fire a listed floor-save into a normal standing mark at Y.
- * Refuses when public pledged is already >= $58,000. Still intent only — no card.
+ * Refuses when public pledged is already >= $35,000. Still intent only — no card.
  * Slice 14.28 — rejected floor-save marks cannot fire / be raised.
  */
 export const FLOOR_SAVE_REJECTED_ERROR =
@@ -1560,7 +1560,7 @@ export async function fireFloorSaveBid(input: {
     return {
       ok: false,
       error:
-        "Floor-save cannot fire when pledged is already at or above $58,000.",
+        `Floor-save cannot fire when pledged is already at or above ${formatUsd(FLOOR_USD)}.`,
     };
   }
 

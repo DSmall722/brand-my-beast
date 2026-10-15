@@ -781,15 +781,15 @@ test.describe("honest shortfall math (no clock)", () => {
     expect(floorMarkerPercentOnGoalTrack()).toBe(
       Math.round((FLOOR_USD / GOAL_USD) * 1000) / 10,
     );
-    expect(floorMarkerPercentOnGoalTrack()).toBe(48.3);
+    expect(floorMarkerPercentOnGoalTrack()).toBe(29.2);
     expect(floorMarkerPercentOnGoalTrack()).toBeGreaterThan(0);
     expect(floorMarkerPercentOnGoalTrack()).toBeLessThan(100);
   });
 
-  test("slice 4.3: vault marks pin $58,000 and $120,000 on the bar only", () => {
-    expect(FLOOR_USD).toBe(58_000);
+  test("slice 4.3: vault marks pin $35,000 and $120,000 on the bar only", () => {
+    expect(FLOOR_USD).toBe(35_000);
     expect(GOAL_USD).toBe(120_000);
-    expect(floorMarkerPercentOnGoalTrack()).toBe(48.3);
+    expect(floorMarkerPercentOnGoalTrack()).toBe(29.2);
     expect(PUBLIC_COPY.board.vaultFloorMarkLabel).toBe("Floor");
   });
 });
@@ -810,7 +810,7 @@ test.describe("wreck + refund FAQ (PUBLIC_COPY + CAMPAIGN only)", () => {
     const answers = PUBLIC_COPY.wreck.items.map((item) => item.a).join(" ");
     const questions = PUBLIC_COPY.wreck.items.map((item) => item.q).join(" ");
     expect(answers).toMatch(/full refund/i);
-    expect(questions).toMatch(/\$58,000/);
+    expect(questions).toMatch(/\$35,000/);
     expect(answers).toMatch(/pro-rata/i);
     expect(answers).toMatch(/twelve months/i);
     expect(questions).not.toMatch(/immortal etch/i);
@@ -820,7 +820,7 @@ test.describe("wreck + refund FAQ (PUBLIC_COPY + CAMPAIGN only)", () => {
       /force majeure|indemnif|arbitration|consequential damages|hereby|hereinafter|jurisdiction|statute/,
     );
 
-    expect(FLOOR_USD).toBe(58_000);
+    expect(FLOOR_USD).toBe(35_000);
     expect(GOAL_USD).toBe(120_000);
     expect(PUBLIC_COPY.wreck.lead.toLowerCase()).toMatch(
       /campaign misses|wrap year|etch/,
@@ -994,7 +994,7 @@ test.describe("finish condition shaders (no capture)", () => {
     expect(finishConditionsCopyIsSafe()).toBe(true);
     expect(FINISH_CONDITIONS_LEAD.toLowerCase()).toContain("not proof");
     expect(FINISH_CONDITIONS_LEAD.toLowerCase()).not.toContain("shader");
-    expect(FINISH_CONDITIONS_LEAD).toContain("$58,000");
+    expect(FINISH_CONDITIONS_LEAD).toContain("$35,000");
     expect(FINISH_CONDITIONS_LEAD).toContain("$120,000");
     expect(FINISH_CONDITIONS_LEAD.toLowerCase()).not.toMatch(/\blease\b/);
     expect(FINISH_CONDITIONS_LEAD).not.toContain("CLOSE_AT");
@@ -1184,7 +1184,7 @@ test.describe("hometown lane tags (no capture)", () => {
     const blob = hometownLaneLabels().join(" ");
     expect(blob).not.toContain("South Carolina home loop");
     expect(blob).not.toContain("Florida panhandle");
-    expect(FLOOR_USD).toBe(58_000);
+    expect(FLOOR_USD).toBe(35_000);
     expect(GOAL_USD).toBe(120_000);
     expect(TRUCK_EXISTS).toBe(false);
     expect(CLOSE_AT).toBe("2026-11-02T17:00:00.000Z");
@@ -1211,7 +1211,7 @@ test.describe("wrap-shop partner portal (no capture)", () => {
     const approved = await listApprovedBids();
     expect(approved.map((b) => b.id)).toContain(placed.bid.id);
     expect(approved.every((b) => b.status === "approved")).toBe(true);
-    expect(FLOOR_USD).toBe(58_000);
+    expect(FLOOR_USD).toBe(35_000);
     expect(GOAL_USD).toBe(120_000);
   });
 
@@ -1260,15 +1260,15 @@ test.describe("operator allow-list (no capture)", () => {
     expect(assertOperatorCampaignLocks()).toBe(true);
     const locks = operatorCampaignLocks();
     expect(locks.editable).toBe(false);
-    expect(locks.floorUsd).toBe(58_000);
+    expect(locks.floorUsd).toBe(35_000);
     expect(locks.goalUsd).toBe(120_000);
     expect(locks.closeAt).toBe("2026-11-02T17:00:00.000Z");
     expect(operatorCampaignLockLabels()).toEqual({
-      floor: "$58,000",
+      floor: "$35,000",
       goal: "$120,000",
       close: "2026-11-02T17:00:00.000Z",
     });
-    expect(FLOOR_USD).toBe(58_000);
+    expect(FLOOR_USD).toBe(35_000);
     expect(GOAL_USD).toBe(120_000);
     expect(CLOSE_AT).toBe("2026-11-02T17:00:00.000Z");
   });
@@ -1393,14 +1393,14 @@ test.describe("winner portal (no capture)", () => {
     expect(wins.map((b) => b.id)).toContain(placed.bid.id);
     expect(wins.every((b) => b.status === "approved")).toBe(true);
     expect((await listApprovedBidsForUser("user_other")).length).toBe(0);
-    expect(FLOOR_USD).toBe(58_000);
+    expect(FLOOR_USD).toBe(35_000);
     expect(GOAL_USD).toBe(120_000);
   });
 });
 
 test.describe("cabin plaque names (no capture)", () => {
   test("reserves a name without bid or stripe fields", async () => {
-    expect(CABIN_PLAQUE_LEAD).toContain("$58,000");
+    expect(CABIN_PLAQUE_LEAD).toContain("$35,000");
     expect(CABIN_PLAQUE_LEAD).toContain("$120,000");
     expect(CABIN_PLAQUE_LEAD.toLowerCase()).toContain("not a panel seat");
     expect(CABIN_PLAQUE_LEAD.toLowerCase()).not.toMatch(/\blease\b/);
@@ -1426,7 +1426,7 @@ test.describe("cabin plaque names (no capture)", () => {
       standingUsd: 2500,
     } as CabinPlaqueLine;
     expect(() => assertPlaqueIsNotABid(forged)).toThrow(/must not carry/);
-    expect(FLOOR_USD).toBe(58_000);
+    expect(FLOOR_USD).toBe(35_000);
     expect(GOAL_USD).toBe(120_000);
   });
 });
@@ -1457,7 +1457,7 @@ test.describe("content-rights picker (no tweet)", () => {
     expect(await getContentRightsForUser("user_rights_1")).toEqual([
       "proof-stills",
     ]);
-    expect(FLOOR_USD).toBe(58_000);
+    expect(FLOOR_USD).toBe(35_000);
     expect(GOAL_USD).toBe(120_000);
   });
 });
@@ -1474,7 +1474,7 @@ test.describe("circuit story request (no tweet)", () => {
       "i85",
       "i95",
     ]);
-    expect(CIRCUIT_STORY_LEAD).toContain("$58,000");
+    expect(CIRCUIT_STORY_LEAD).toContain("$35,000");
     expect(CIRCUIT_STORY_LEAD).toContain("$120,000");
     expect(CIRCUIT_STORY_LEAD.toLowerCase()).toContain("no auto-tweet");
     expect(circuitStoryCopyIsSafe()).toBe(true);
@@ -1503,14 +1503,14 @@ test.describe("circuit story request (no tweet)", () => {
       corridorId: "i85",
     });
     expect(bad.ok).toBe(false);
-    expect(FLOOR_USD).toBe(58_000);
+    expect(FLOOR_USD).toBe(35_000);
     expect(GOAL_USD).toBe(120_000);
   });
 });
 
 test.describe("public sighting board (no bounty)", () => {
   test("posts a corridor note without impressions or bounty", async () => {
-    expect(SIGHTING_LEAD).toContain("$58,000");
+    expect(SIGHTING_LEAD).toContain("$35,000");
     expect(SIGHTING_LEAD).toContain("$120,000");
     expect(SIGHTING_LEAD.toLowerCase()).toContain("no bounty");
     expect(sightingCopyIsSafe()).toBe(true);
@@ -1534,7 +1534,7 @@ test.describe("public sighting board (no bounty)", () => {
     expect(again.status).toBe("exists");
     const bad = await submitSighting({ corridorId: "i26", note: "no" });
     expect(bad.ok).toBe(false);
-    expect(FLOOR_USD).toBe(58_000);
+    expect(FLOOR_USD).toBe(35_000);
     expect(GOAL_USD).toBe(120_000);
   });
 });
@@ -1550,24 +1550,24 @@ test.describe("neighbor-panel combo lots (display only)", () => {
     expect(lot.neighbors.map((row) => row.openingUsd)).toEqual([
       2000, 4500, 4500,
     ]);
-    expect(COMBO_LOT_LEAD).toContain("$58,000");
+    expect(COMBO_LOT_LEAD).toContain("$35,000");
     expect(COMBO_LOT_LEAD).toContain("$120,000");
     expect(COMBO_LOT_LEAD.toLowerCase()).toContain("not a joint bid");
     expect(COMBO_LOT_LEAD.toLowerCase()).toContain("no combo price");
     expect(comboLotCopyIsSafe()).toBe(true);
-    expect(FLOOR_USD).toBe(58_000);
+    expect(FLOOR_USD).toBe(35_000);
     expect(GOAL_USD).toBe(120_000);
   });
 });
 
 test.describe("immortal vault certificate (no cash)", () => {
   test("publishes etch-record copy without cash, VIN, or impressions", () => {
-    expect(VAULT_CERTIFICATE_LEAD).toContain("$58,000");
+    expect(VAULT_CERTIFICATE_LEAD).toContain("$35,000");
     expect(VAULT_CERTIFICATE_LEAD).toContain("$120,000");
     expect(VAULT_CERTIFICATE_LEAD.toLowerCase()).toContain("not cash");
     expect(VAULT_CERTIFICATE_LEAD.toLowerCase()).toContain("no reserved vin");
     expect(vaultCertificateCopyIsSafe()).toBe(true);
-    expect(FLOOR_USD).toBe(58_000);
+    expect(FLOOR_USD).toBe(35_000);
     expect(GOAL_USD).toBe(120_000);
   });
 });
@@ -1580,7 +1580,7 @@ test.describe("event request calendar (no livestream)", () => {
       "hometown",
       "rest-stop",
     ]);
-    expect(EVENT_REQUEST_LEAD).toContain("$58,000");
+    expect(EVENT_REQUEST_LEAD).toContain("$35,000");
     expect(EVENT_REQUEST_LEAD).toContain("$120,000");
     expect(EVENT_REQUEST_LEAD.toLowerCase()).toContain("no livestream");
     expect(EVENT_REQUEST_LEAD.toLowerCase()).toContain("no reserved vin");
@@ -1619,79 +1619,79 @@ test.describe("event request calendar (no livestream)", () => {
       requestedDate: "11/07/2026",
     });
     expect(badDate.ok).toBe(false);
-    expect(FLOOR_USD).toBe(58_000);
+    expect(FLOOR_USD).toBe(35_000);
     expect(GOAL_USD).toBe(120_000);
   });
 });
 
 test.describe("retired-vinyl framed artifact (no cash)", () => {
   test("publishes wrap-term frame copy without cash, VIN, or livestream price", () => {
-    expect(RETIRED_VINYL_LEAD).toContain("$58,000");
+    expect(RETIRED_VINYL_LEAD).toContain("$35,000");
     expect(RETIRED_VINYL_LEAD).toContain("$120,000");
     expect(RETIRED_VINYL_LEAD.toLowerCase()).toContain("12 months from install");
     expect(RETIRED_VINYL_LEAD.toLowerCase()).toContain("not cash");
     expect(RETIRED_VINYL_LEAD.toLowerCase()).toContain("no reserved vin");
     expect(retiredVinylCopyIsSafe()).toBe(true);
-    expect(FLOOR_USD).toBe(58_000);
+    expect(FLOOR_USD).toBe(35_000);
     expect(GOAL_USD).toBe(120_000);
   });
 });
 
 test.describe("season 2 board (no first-refusal sale)", () => {
   test("publishes year-two new-buy copy without inventing a price", () => {
-    expect(SEASON_TWO_LEAD).toContain("$58,000");
+    expect(SEASON_TWO_LEAD).toContain("$35,000");
     expect(SEASON_TWO_LEAD).toContain("$120,000");
     expect(SEASON_TWO_LEAD.toLowerCase()).toContain("new buy");
     expect(SEASON_TWO_LEAD.toLowerCase()).toContain("not a gift");
     expect(SEASON_TWO_LEAD.toLowerCase()).toContain("not for sale in v1");
     expect(SEASON_TWO_LEAD.toLowerCase()).toContain("no reserved vin");
     expect(seasonTwoCopyIsSafe()).toBe(true);
-    expect(FLOOR_USD).toBe(58_000);
+    expect(FLOOR_USD).toBe(35_000);
     expect(GOAL_USD).toBe(120_000);
   });
 });
 
 test.describe("dirty-vs-clean pair (preview only)", () => {
   test("publishes pair lead without lease, clock, bounty, or impressions", () => {
-    expect(DIRTY_CLEAN_PAIR_LEAD).toContain("$58,000");
+    expect(DIRTY_CLEAN_PAIR_LEAD).toContain("$35,000");
     expect(DIRTY_CLEAN_PAIR_LEAD).toContain("$120,000");
     expect(DIRTY_CLEAN_PAIR_LEAD.toLowerCase()).toContain("preview only");
     expect(DIRTY_CLEAN_PAIR_LEAD.toLowerCase()).toContain("not a photo");
     expect(DIRTY_CLEAN_PAIR_LEAD.toLowerCase()).not.toMatch(/\bvin\b/);
     expect(dirtyCleanPairCopyIsSafe()).toBe(true);
-    expect(FLOOR_USD).toBe(58_000);
+    expect(FLOOR_USD).toBe(35_000);
     expect(GOAL_USD).toBe(120_000);
   });
 });
 
 test.describe("rain/night lighting after buyout (no livestream)", () => {
   test("publishes post-buyout lighting copy without clock or invented price", () => {
-    expect(RAIN_NIGHT_LIGHTING_LEAD).toContain("$58,000");
+    expect(RAIN_NIGHT_LIGHTING_LEAD).toContain("$35,000");
     expect(RAIN_NIGHT_LIGHTING_LEAD).toContain("$120,000");
     expect(RAIN_NIGHT_LIGHTING_LEAD.toLowerCase()).toContain("post-buyout");
     expect(RAIN_NIGHT_LIGHTING_LEAD.toLowerCase()).toContain("not a livestream");
     expect(RAIN_NIGHT_LIGHTING_LEAD.toLowerCase()).toContain("no reserved vin");
     expect(rainNightLightingCopyIsSafe()).toBe(true);
-    expect(FLOOR_USD).toBe(58_000);
+    expect(FLOOR_USD).toBe(35_000);
     expect(GOAL_USD).toBe(120_000);
   });
 });
 
 test.describe("truck-order tracker after floor (no reserved VIN)", () => {
   test("publishes order-path copy without clock, VIN, or invented fee", () => {
-    expect(TRUCK_ORDER_TRACKER_LEAD).toContain("$58,000");
+    expect(TRUCK_ORDER_TRACKER_LEAD).toContain("$35,000");
     expect(TRUCK_ORDER_TRACKER_LEAD).toContain("$120,000");
     expect(TRUCK_ORDER_TRACKER_LEAD.toLowerCase()).toContain("order path");
     expect(TRUCK_ORDER_TRACKER_LEAD.toLowerCase()).toContain("no reserved vin");
     expect(truckOrderTrackerCopyIsSafe()).toBe(true);
-    expect(FLOOR_USD).toBe(58_000);
+    expect(FLOOR_USD).toBe(35_000);
     expect(GOAL_USD).toBe(120_000);
   });
 });
 
 test.describe("weekly mileage ledger (empty until truck)", () => {
   test("publishes empty-ledger copy without invented miles or reserved VIN", () => {
-    expect(WEEKLY_MILEAGE_LEDGER_LEAD).toContain("$58,000");
+    expect(WEEKLY_MILEAGE_LEDGER_LEAD).toContain("$35,000");
     expect(WEEKLY_MILEAGE_LEDGER_LEAD).toContain("$120,000");
     expect(WEEKLY_MILEAGE_LEDGER_LEAD.toLowerCase()).toContain(
       "empty until the truck exists",
@@ -1703,14 +1703,14 @@ test.describe("weekly mileage ledger (empty until truck)", () => {
       "no reserved vin",
     );
     expect(weeklyMileageLedgerCopyIsSafe()).toBe(true);
-    expect(FLOOR_USD).toBe(58_000);
+    expect(FLOOR_USD).toBe(35_000);
     expect(GOAL_USD).toBe(120_000);
   });
 });
 
 test.describe("landmark proof log (empty until truck)", () => {
   test("publishes empty-log copy without invented visits or reserved VIN", () => {
-    expect(LANDMARK_PROOF_LOG_LEAD).toContain("$58,000");
+    expect(LANDMARK_PROOF_LOG_LEAD).toContain("$35,000");
     expect(LANDMARK_PROOF_LOG_LEAD).toContain("$120,000");
     expect(LANDMARK_PROOF_LOG_LEAD.toLowerCase()).toContain(
       "empty until the truck exists",
@@ -1720,14 +1720,14 @@ test.describe("landmark proof log (empty until truck)", () => {
     );
     expect(LANDMARK_PROOF_LOG_LEAD.toLowerCase()).toContain("no reserved vin");
     expect(landmarkProofLogCopyIsSafe()).toBe(true);
-    expect(FLOOR_USD).toBe(58_000);
+    expect(FLOOR_USD).toBe(35_000);
     expect(GOAL_USD).toBe(120_000);
   });
 });
 
 test.describe("city time-in-market heatmap (empty until truck)", () => {
   test("publishes empty-heatmap copy without invented dwell or reserved VIN", () => {
-    expect(CITY_TIME_HEATMAP_LEAD).toContain("$58,000");
+    expect(CITY_TIME_HEATMAP_LEAD).toContain("$35,000");
     expect(CITY_TIME_HEATMAP_LEAD).toContain("$120,000");
     expect(CITY_TIME_HEATMAP_LEAD.toLowerCase()).toContain(
       "empty until the truck exists",
@@ -1737,14 +1737,14 @@ test.describe("city time-in-market heatmap (empty until truck)", () => {
     );
     expect(CITY_TIME_HEATMAP_LEAD.toLowerCase()).toContain("no reserved vin");
     expect(cityTimeHeatmapCopyIsSafe()).toBe(true);
-    expect(FLOOR_USD).toBe(58_000);
+    expect(FLOOR_USD).toBe(35_000);
     expect(GOAL_USD).toBe(120_000);
   });
 });
 
 test.describe("qr-nfc scan counter (empty until truck)", () => {
   test("publishes empty-counter copy without invented scans or reserved VIN", () => {
-    expect(QR_NFC_SCAN_COUNTER_LEAD).toContain("$58,000");
+    expect(QR_NFC_SCAN_COUNTER_LEAD).toContain("$35,000");
     expect(QR_NFC_SCAN_COUNTER_LEAD).toContain("$120,000");
     expect(QR_NFC_SCAN_COUNTER_LEAD.toLowerCase()).toContain(
       "empty until the truck exists",
@@ -1754,14 +1754,14 @@ test.describe("qr-nfc scan counter (empty until truck)", () => {
     );
     expect(QR_NFC_SCAN_COUNTER_LEAD.toLowerCase()).toContain("no reserved vin");
     expect(qrNfcScanCounterCopyIsSafe()).toBe(true);
-    expect(FLOOR_USD).toBe(58_000);
+    expect(FLOOR_USD).toBe(35_000);
     expect(GOAL_USD).toBe(120_000);
   });
 });
 
 test.describe("city ping to panel winner (empty until truck)", () => {
   test("publishes empty-ping copy without invented pings or reserved VIN", () => {
-    expect(CITY_PING_WINNER_LEAD).toContain("$58,000");
+    expect(CITY_PING_WINNER_LEAD).toContain("$35,000");
     expect(CITY_PING_WINNER_LEAD).toContain("$120,000");
     expect(CITY_PING_WINNER_LEAD.toLowerCase()).toContain(
       "empty until the truck exists",
@@ -1771,14 +1771,14 @@ test.describe("city ping to panel winner (empty until truck)", () => {
     );
     expect(CITY_PING_WINNER_LEAD.toLowerCase()).toContain("no reserved vin");
     expect(cityPingWinnerCopyIsSafe()).toBe(true);
-    expect(FLOOR_USD).toBe(58_000);
+    expect(FLOOR_USD).toBe(35_000);
     expect(GOAL_USD).toBe(120_000);
   });
 });
 
 test.describe("charge-stop takeover slots (empty until truck)", () => {
   test("publishes empty-slot copy without invented prices or reserved VIN", () => {
-    expect(CHARGE_STOP_SLOTS_LEAD).toContain("$58,000");
+    expect(CHARGE_STOP_SLOTS_LEAD).toContain("$35,000");
     expect(CHARGE_STOP_SLOTS_LEAD).toContain("$120,000");
     expect(CHARGE_STOP_SLOTS_LEAD.toLowerCase()).toContain(
       "empty until the truck exists",
@@ -1788,14 +1788,14 @@ test.describe("charge-stop takeover slots (empty until truck)", () => {
     );
     expect(CHARGE_STOP_SLOTS_LEAD.toLowerCase()).toContain("no reserved vin");
     expect(chargeStopSlotsCopyIsSafe()).toBe(true);
-    expect(FLOOR_USD).toBe(58_000);
+    expect(FLOOR_USD).toBe(35_000);
     expect(GOAL_USD).toBe(120_000);
   });
 });
 
 test.describe("route-day detour buyout (empty until truck)", () => {
   test("publishes empty-detour copy without invented prices or reserved VIN", () => {
-    expect(ROUTE_DETOUR_BUYOUT_LEAD).toContain("$58,000");
+    expect(ROUTE_DETOUR_BUYOUT_LEAD).toContain("$35,000");
     expect(ROUTE_DETOUR_BUYOUT_LEAD).toContain("$120,000");
     expect(ROUTE_DETOUR_BUYOUT_LEAD.toLowerCase()).toContain(
       "empty until the truck exists",
@@ -1805,14 +1805,14 @@ test.describe("route-day detour buyout (empty until truck)", () => {
     );
     expect(ROUTE_DETOUR_BUYOUT_LEAD.toLowerCase()).toContain("no reserved vin");
     expect(routeDetourBuyoutCopyIsSafe()).toBe(true);
-    expect(FLOOR_USD).toBe(58_000);
+    expect(FLOOR_USD).toBe(35_000);
     expect(GOAL_USD).toBe(120_000);
   });
 });
 
 test.describe("clemson saturday lock (empty until truck)", () => {
   test("publishes empty-lock copy without invented fee or reserved VIN", () => {
-    expect(CLEMSON_SATURDAY_LOCK_LEAD).toContain("$58,000");
+    expect(CLEMSON_SATURDAY_LOCK_LEAD).toContain("$35,000");
     expect(CLEMSON_SATURDAY_LOCK_LEAD).toContain("$120,000");
     expect(CLEMSON_SATURDAY_LOCK_LEAD.toLowerCase()).toContain(
       "empty until the truck exists",
@@ -1822,14 +1822,14 @@ test.describe("clemson saturday lock (empty until truck)", () => {
     );
     expect(CLEMSON_SATURDAY_LOCK_LEAD.toLowerCase()).toContain("no reserved vin");
     expect(clemsonSaturdayLockCopyIsSafe()).toBe(true);
-    expect(FLOOR_USD).toBe(58_000);
+    expect(FLOOR_USD).toBe(35_000);
     expect(GOAL_USD).toBe(120_000);
   });
 });
 
 test.describe("sighting bounty cards (empty until truck)", () => {
   test("publishes empty-card copy without invented bounty or reserved VIN", () => {
-    expect(SIGHTING_BOUNTY_CARDS_LEAD).toContain("$58,000");
+    expect(SIGHTING_BOUNTY_CARDS_LEAD).toContain("$35,000");
     expect(SIGHTING_BOUNTY_CARDS_LEAD).toContain("$120,000");
     expect(SIGHTING_BOUNTY_CARDS_LEAD.toLowerCase()).toContain(
       "empty until the truck exists",
@@ -1842,7 +1842,7 @@ test.describe("sighting bounty cards (empty until truck)", () => {
     );
     expect(SIGHTING_BOUNTY_CARDS_LEAD.toLowerCase()).toContain("no reserved vin");
     expect(sightingBountyCardsCopyIsSafe()).toBe(true);
-    expect(FLOOR_USD).toBe(58_000);
+    expect(FLOOR_USD).toBe(35_000);
     expect(GOAL_USD).toBe(120_000);
   });
 });
@@ -1917,7 +1917,7 @@ test.describe("truck view hotspots (no capture)", () => {
     expect(TRUCK_VIEWS_LEAD.toLowerCase()).not.toContain("prototype");
     expect(TRUCK_VIEWS_LEAD.toLowerCase()).not.toContain("hotspot");
     expect(TRUCK_VIEWS_LEAD.toLowerCase()).not.toContain("30x");
-    expect(TRUCK_VIEWS_LEAD).toContain("$58,000");
+    expect(TRUCK_VIEWS_LEAD).toContain("$35,000");
     expect(TRUCK_VIEWS_LEAD).toContain("$120,000");
     expect(TRUCK_VIEWS_LEAD.toLowerCase()).not.toMatch(/\blease\b/);
     expect(TRUCK_VIEWS_LEAD).not.toContain("CLOSE_AT");
