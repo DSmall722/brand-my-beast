@@ -39,7 +39,7 @@ Whole-truck buyout button: **$120,000** — one brand on every panel **and Immor
 
 ### Why $35,000 is the floor
 
-The floor is **order-path cash + wrap reserve**, not half the sticker.
+The floor covers the real cost of year one, not half the sticker: about $23,500 for the first year of 36-month Cyberbeast financing plus about $5,500 for the wrap, with about $6,000 of cushion.
 
 Budget at the $120,000 buyout (current working numbers — replace with live Tesla quote + shop bid before close):
 
@@ -54,7 +54,7 @@ Budget at the $120,000 buyout (current working numbers — replace with live Tes
 | Buffer (insurance, extra miles, shop overrun) | $4,960 |
 | **Buyout total** | **$120,000** |
 
-At the $35,000 floor: $10,000 is reserved for wrap / install / removal. The rest is order-path cash (Tesla order deposit / down). The operator covers remaining principal. FSD is operator cost ($99/mo), never on the board.
+At the $35,000 floor: about $5,500 is reserved for wrap / install / removal. About $23,500 covers year one of the truck payments. About $6,000 is cushion (insurance, shop overrun). The operator covers the balance after year one. FSD is operator cost ($99/mo), never on the board.
 
 ### Deposit
 
