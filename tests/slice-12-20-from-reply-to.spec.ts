@@ -17,10 +17,6 @@ import {
   outboundMailEnvelope,
 } from "../src/lib/mail-envelope";
 
-/**
- * Slice 12.20 — From + Reply-To both hello@brandmybeast.com.
- * Unit assert. CLOSE_AT null. No Stripe. No personal inbox.
- */
 test.describe("slice 12.20: from/reply-to both hello@", () => {
   test("campaign money fences stay locked — CLOSE_AT null", () => {
     expect(FLOOR_USD).toBe(35_000);

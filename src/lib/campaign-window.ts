@@ -1,8 +1,3 @@
-/**
- * Campaign clock and deposit settlement. Pure. No Stripe client.
- * Open and close are America/New_York wall times stored as UTC instants.
- */
-
 import { CLOSE_AT, FLOOR_USD, OPEN_AT } from "./campaign";
 import { formatCampaignInstantEt, formatSeatLogTime } from "./seat-log";
 import {
@@ -36,15 +31,10 @@ export function lockedCloseAt(): string {
   return CLOSE_AT;
 }
 
-/** Published close as an Eastern wall time. Resolved through America/New_York. */
 export function publishedCloseLabelEt(): string {
   return formatCampaignInstantEt(lockedCloseAt());
 }
 
-/**
- * Each accepted bid in the last 10 minutes of the current close
- * pushes that close back by 10 minutes. Each bid extends at most once.
- */
 export function effectiveCloseMs(
   closeAtIso: string,
   bidTimesIso: readonly string[],
@@ -158,12 +148,6 @@ function panelIds(bids: readonly IntentBid[]): string[] {
   return [...new Set(bids.map((bid) => bid.panelId))];
 }
 
-/**
- * After the effective close, losers are refunded, the winner's deposit is
- * credited to the invoice, and a winner who misses the 7-day remainder
- * forfeits. The next paid bidder is held until that deadline passes.
- * Under the $35,000 floor, every paid deposit is refunded.
- */
 export function planSettlement(
   bids: readonly IntentBid[],
   nowMs: number,

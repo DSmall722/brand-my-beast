@@ -18,13 +18,6 @@ function mockAuthorized(request: Request): boolean {
   return expected.length > 0 && token === expected;
 }
 
-/**
- * Stripe webhook. Signature is required unless the Playwright mock header
- * matches CRON_SECRET. Event ids are stored so retries do not double-apply.
- *
- * Enable checkout.session.completed, checkout.session.async_payment_succeeded,
- * and checkout.session.expired.
- */
 export async function POST(request: Request) {
   const raw = await request.text();
   let event: StripeEventInput;

@@ -28,11 +28,9 @@ export function IntentBidForm({
   panelId: string;
   minimumUsd: number;
   adjacentNeighbors?: readonly AdjacentSeatHolder[];
-  /** Slice 9.6 — failed-winner offer prefill (explicit; not silent). */
   suggestedStandingUsd?: number;
   suggestedBrand?: string;
   suggestedTrade?: string;
-  /** Slice 14.17 — when false, form is waitlist-only (not CLOSE_AT). */
   seatsOpen?: boolean;
 }) {
   const [state, action, pending] = useActionState(submitIntentBid, initial);

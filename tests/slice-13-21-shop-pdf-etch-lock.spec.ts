@@ -22,9 +22,6 @@ import {
   shopPdfSeatFromApproved,
 } from "../src/lib/shop-pdf";
 
-/**
- * Slice 13.21 — shop PDF embeds etch-lock state from pledged vs $120,000.
- */
 test.describe("slice 13.21: shop PDF etch-lock from pledged", () => {
   test.describe.configure({ mode: "serial" });
 

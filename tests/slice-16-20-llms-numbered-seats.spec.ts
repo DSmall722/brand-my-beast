@@ -12,11 +12,6 @@ import { findStripePackagesInRootPackageJson } from "../src/lib/no-stripe-packag
 import { PANEL_BOARD_MARKS, panelLegendLabel } from "../src/lib/panel-board";
 import { vercelJsonIsHoldOrMainOnlyRestore } from "../src/lib/vercel-git-deploy";
 
-/**
- * Slice 16.20 — /llms.txt lists floor, buyout, eleven numbered seats,
- * and no close date. FEATURES.md stays off /.
- */
-
 test.describe("slice 16.20: /llms.txt numbered seats", () => {
   test("campaign money fences stay locked — CLOSE_AT null", () => {
     expect(FLOOR_USD).toBe(35_000);

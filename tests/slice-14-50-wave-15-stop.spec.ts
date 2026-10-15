@@ -13,11 +13,6 @@ import { findStripePackagesInRootPackageJson } from "../src/lib/no-stripe-packag
 import { vercelJsonIsHoldOrMainOnlyRestore } from "../src/lib/vercel-git-deploy";
 import { slicesCoversId, slicesNowMajor } from "./helpers/slices-ids";
 
-/**
- * Slice 14.50 — Stop line: Wave 15 is Stripe / CLOSE_AT / first tweet
- * and needs a human message. Does not start Wave 15. CLOSE_AT null.
- */
-
 const DOC = join(process.cwd(), "docs/WAVE-15-STOP.md");
 const SLICES = join(process.cwd(), "SLICES.md");
 const CAMPAIGN_TS = join(process.cwd(), "src/lib/campaign.ts");
@@ -72,10 +67,8 @@ test.describe("slice 14.50: Wave 15 stop line after Wave 14", () => {
     expect(slices).toMatch(/Do not start Wave 15|waits for an explicit human message/i);
     expect(slicesCoversId("14.50", slices)).toBe(true);
     expect(slices).toMatch(/docs\/WAVE-15-STOP\.md|Wave 15 is Stripe STOP/i);
-    // Condensed 0.1–18.7 (or older 0.1–14.50) covers 14.50. Do not remint.
     expect(slices).toMatch(/0\.1–\d+\.\d+ Complete|^- \[x\] 14\.50\b/m);
     expect(slices).not.toMatch(/^- \[[ xX]\] 15\.\d+/m);
-    // After 14.50, Now is Wave 16+ (including 19/20). Never Wave 15.
     const nowMajor = slicesNowMajor(slices);
     expect(nowMajor).not.toBeNull();
     expect(nowMajor).not.toBe(15);

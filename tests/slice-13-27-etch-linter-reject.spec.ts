@@ -33,9 +33,6 @@ async function resetServerIntents(request: APIRequestContext) {
   expect(res.ok()).toBeTruthy();
 }
 
-/**
- * Slice 13.27 — etch art rejected if linter fails; wrap art may still list.
- */
 test.describe("slice 13.27: etch linter reject; wrap still lists", () => {
   test.describe.configure({ mode: "serial" });
 
@@ -111,7 +108,6 @@ test.describe("slice 13.27: etch linter reject; wrap still lists", () => {
     if (!placed.ok) return;
     expect(placed.bid.status).toBe("listed");
 
-    // Same forbidden brief blocks etch finish, not wrap listing.
     expect(
       assertEtchArtPassesLinter({
         finish: "etch",
@@ -150,7 +146,6 @@ test.describe("slice 13.27: etch linter reject; wrap still lists", () => {
     await expect(page.getByTestId("approvals-list")).toContainText(
       "LintWrapCo",
     );
-    // Under buyout etch is locked — wrap approve still available.
     await expect(
       page.locator('[data-testid^="approval-finish-"]').first(),
     ).toHaveAttribute("data-etch-unlocked", "false");

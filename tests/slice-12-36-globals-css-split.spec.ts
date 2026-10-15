@@ -10,10 +10,6 @@ import {
 } from "../src/lib/campaign";
 import { PUBLIC_COPY } from "../src/lib/public-copy";
 
-/**
- * Slice 12.36 — globals.css split: tokens / hero / board. No copy change.
- * CLOSE_AT null. No Stripe.
- */
 test.describe("slice 12.36: globals.css split tokens/hero/board", () => {
   test("campaign money fences stay locked — CLOSE_AT null", () => {
     expect(FLOOR_USD).toBe(35_000);

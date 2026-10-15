@@ -13,11 +13,6 @@ import { findCloseAtViolations } from "../src/lib/close-at-null";
 import { findStripePackagesInRootPackageJson } from "../src/lib/no-stripe-package";
 import { vercelJsonIsHoldOrMainOnlyRestore } from "../src/lib/vercel-git-deploy";
 
-/**
- * Slice 16.37 — CI fails when a board number is gone, not on font kerning.
- * Does not pixel-compare the 16.36 fixtures.
- */
-
 test.describe("slice 16.37: numbers, not kerning", () => {
   test("campaign money fences stay locked — CLOSE_AT null", () => {
     expect(FLOOR_USD).toBe(35_000);

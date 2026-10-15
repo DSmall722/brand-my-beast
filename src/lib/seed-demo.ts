@@ -1,8 +1,3 @@
-/**
- * Slice 14.49 — local demo seed: 3 pending, 1 approved, 1 outbid. CI only.
- * Resets the intent ledger first. Never runs a capture path. Never sets CLOSE_AT.
- */
-
 import { PANELS } from "./campaign";
 import {
   listBidsWithStatus,
@@ -35,10 +30,6 @@ export function seedDemoAllowed(
   return true;
 }
 
-/**
- * Reset + seed a small mixed board for local / CI demos:
- * three listed (pending), one approved, one outbid.
- */
 export async function seedDemoMixedBoard(): Promise<
   SeedDemoResult | { ok: false; error: string }
 > {
@@ -51,7 +42,6 @@ export async function seedDemoMixedBoard(): Promise<
 
   await resetIntentStoreForTests();
 
-  // Three pending (listed) on distinct panels.
   const pendingSpecs = [
     {
       panelId: "hood",
@@ -83,7 +73,6 @@ export async function seedDemoMixedBoard(): Promise<
     }
   }
 
-  // One approved + one outbid on rear-bumper: loser then winner, approve winner.
   const prior = await placeIntentBid({
     panelId: "rear-bumper",
     userId: "demo_outbid_loser",

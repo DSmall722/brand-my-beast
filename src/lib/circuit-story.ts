@@ -1,7 +1,3 @@
-/**
- * Request-a-circuit-story. Preference only — no auto-tweet, no impressions.
- */
-
 import { FLOOR_USD, GOAL_USD, formatUsd } from "./campaign";
 
 export const CIRCUIT_STORY_CORRIDORS = [

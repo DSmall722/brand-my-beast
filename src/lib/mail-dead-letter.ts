@@ -1,8 +1,3 @@
-/**
- * Slice 12.12 — dead-letter queue for failed Resend sends.
- * Operator can retry. Intent / notify only — never a charge receipt.
- */
-
 import { and, desc, eq } from "drizzle-orm";
 import { Resend } from "resend";
 import { getDb } from "./db";
@@ -13,7 +8,6 @@ export type MailDeadLetterKind =
   | "intent-status"
   | "waitlist"
   | "operator-digest"
-  /** Slice 14.39 — Resend email.bounced webhook. */
   | "bounce";
 
 export type MailDeadLetterStatus = "pending" | "sent";
@@ -116,7 +110,6 @@ function parseStatus(raw: string): MailDeadLetterStatus {
 export async function appendMailDeadLetter(input: {
   kind: MailDeadLetterKind;
   from: string;
-  /** Slice 12.20 — accepted for call-site parity; retry always uses hello@. */
   replyTo?: string;
   to: string;
   subject: string;
@@ -219,9 +212,6 @@ export async function getMailDeadLetter(
   };
 }
 
-/**
- * Operator retry — re-send via Resend (or test double). Marks status=sent.
- */
 export async function retryMailDeadLetter(
   id: string,
 ): Promise<

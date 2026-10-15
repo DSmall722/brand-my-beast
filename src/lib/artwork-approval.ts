@@ -1,8 +1,3 @@
-/**
- * Artwork approval checklist (RULES.md / FEATURES P0 leftover).
- * Soft operator guidance + reject-note rule. No capture, no clock.
- */
-
 export type ArtworkChecklistItem = {
   id: string;
   label: string;
@@ -33,7 +28,6 @@ export function artworkChecklistForPanel(etchable: boolean): ArtworkChecklistIte
   return ARTWORK_CHECKLIST.filter((item) => !item.etchOnly || etchable);
 }
 
-/** Reject requires a non-empty operator note. Approve does not. */
 export function assertNoteRequiredForReject(input: {
   decision: "approved" | "rejected";
   note: string;

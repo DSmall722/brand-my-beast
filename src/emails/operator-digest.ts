@@ -1,9 +1,3 @@
-/**
- * Slice 12.11 — operator digest email template (files under src/emails/).
- * Slice 12.13 — CAN-SPAM footer on every mail.
- * Intent only. Does not post to X. CLOSE_AT stays null until set in code.
- */
-
 import { BRAND, formatUsd } from "@/lib/campaign";
 import { withCanSpamFooter } from "./can-spam";
 import type { EmailTemplate } from "./intent-status";

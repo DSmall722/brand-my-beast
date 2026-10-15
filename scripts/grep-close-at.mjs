@@ -1,8 +1,4 @@
 #!/usr/bin/env node
-/**
- * CI grep: CLOSE_AT must be the locked Nov 2 2026 12:00 PM ET instant.
- * Run via `npm run grep:close-at`.
- */
 
 import { readFileSync } from "node:fs";
 import { join } from "node:path";

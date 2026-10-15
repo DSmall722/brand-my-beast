@@ -11,12 +11,6 @@ import { findStripePackagesInRootPackageJson } from "../src/lib/no-stripe-packag
 import { panelBoardMarkFor } from "../src/lib/panel-board";
 import { vercelJsonIsHoldOrMainOnlyRestore } from "../src/lib/vercel-git-deploy";
 
-/**
- * Slice 16.28 — card #4 keeps the driver-door href and opens the bid desk.
- * Board number 4 still opens /panels/driver-door.
- * Hero has no painted seat numbers. FEATURES.md stays off /. CLOSE_AT null. No Stripe.
- */
-
 const PANEL_PATH = "/panels/driver-door";
 
 test.describe("slice 16.28: card 4 opens the bid desk; board number 4 opens driver door", () => {

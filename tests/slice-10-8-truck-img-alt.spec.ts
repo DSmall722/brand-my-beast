@@ -15,10 +15,6 @@ import {
   TRUCK_IMG_ALTS,
 } from "../src/lib/truck-img-alt";
 
-/**
- * Slice 10.8 — every truck `<img>` alt comes from PUBLIC_COPY.
- * CLOSE_AT null. No Stripe.
- */
 test.describe("slice 10.8: truck img alts from PUBLIC_COPY", () => {
   test("campaign money fences stay locked — CLOSE_AT null", () => {
     expect(FLOOR_USD).toBe(35_000);

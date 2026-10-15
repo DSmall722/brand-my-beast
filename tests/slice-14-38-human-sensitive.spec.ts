@@ -13,12 +13,6 @@ import { findStripePackagesInRootPackageJson } from "../src/lib/no-stripe-packag
 import { vercelJsonIsHoldOrMainOnlyRestore } from "../src/lib/vercel-git-deploy";
 import { slicesCoversId } from "./helpers/slices-ids";
 
-/**
- * Slice 14.38 — CODEOWNERS or a doc: CAMPAIGN.md, SLICES.md, campaign.ts
- * are human-sensitive. Doc path (not CODEOWNERS) so merges stay unblocked.
- * CLOSE_AT null. No Stripe. Hold-mode untouched. No 30-day clock.
- */
-
 const ROOT = process.cwd();
 const DOC = join(ROOT, "docs/HUMAN-SENSITIVE.md");
 

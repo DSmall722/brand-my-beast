@@ -1,9 +1,4 @@
 #!/usr/bin/env node
-/**
- * Slice 14.45 — CI grep: fail if package.json gains a stripe dependency.
- * Run via `npm run grep:stripe`. Exit 1 on any hit.
- * Prose mentions of Stripe in docs are out of scope; this gate is package.json only.
- */
 
 import { readFileSync } from "node:fs";
 import { join } from "node:path";

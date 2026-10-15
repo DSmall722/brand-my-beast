@@ -14,10 +14,6 @@ export const runtime = "nodejs";
 
 type RouteContext = { params: Promise<{ bidId: string }> };
 
-/**
- * Slice 12.22 — winner packet markdown for one approved seat.
- * Auth: seat owner only. Intent only — no card charge.
- */
 export async function GET(_request: Request, context: RouteContext) {
   const session = await auth();
   if (!session?.user) {

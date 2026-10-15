@@ -12,12 +12,6 @@ import { findCloseAtViolations } from "../src/lib/close-at-null";
 import { findStripePackagesInRootPackageJson } from "../src/lib/no-stripe-package";
 import { vercelJsonIsHoldOrMainOnlyRestore } from "../src/lib/vercel-git-deploy";
 
-/**
- * Slice 14.6 — RULES.md table of statuses:
- * pending / approved / rejected / outbid / withdrawn.
- * CLOSE_AT null. No Stripe. No clock. Hold-mode untouched.
- */
-
 const RULES = join(process.cwd(), "RULES.md");
 
 const STATUSES = [
@@ -54,7 +48,7 @@ test.describe("slice 14.6: RULES intent status table", () => {
     for (const status of STATUSES) {
       expect(text).toMatch(new RegExp(`\\*\\*${status}\\*\\*`));
     }
-    expect(text).toMatch(/listed/); // pending maps to ledger listed
+    expect(text).toMatch(/listed/);
     expect(text).toContain("$35,000");
     expect(text).toContain("$120,000");
     expect(text).toContain("Mon Nov 2, 2026, 12:00 PM ET");

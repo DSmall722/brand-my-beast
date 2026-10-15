@@ -1,9 +1,3 @@
-/**
- * Slice 9.9 — public seat log: amount + time. No bidder email / user id.
- * Slice 14.35 — display times are America/New_York, labeled ET.
- * Slice 16.21 — each row also shows the panel number (1–12).
- */
-
 import { formatUsd } from "./campaign";
 import {
   hasPaidDeposit,
@@ -13,28 +7,20 @@ import {
 } from "./intent";
 import { panelBoardMarkFor, panelLegendLabel } from "./panel-board";
 
-/** Public seat log display timezone (Eastern). */
 export const SEAT_LOG_TIME_ZONE = "America/New_York" as const;
 
 export type PublicSeatLogEntry = {
   bidId: string;
   amountUsd: number;
   amountLabel: string;
-  /** ISO-8601 UTC from the ledger (machine-readable dateTime). */
   createdAt: string;
-  /** America/New_York display labeled ET (no email). */
   timeLabel: string;
-  /** Board index 1–12. Same number as the hero callout. */
   panelNumber: number;
   panelNumberLabel: string;
   brandLabel: string;
   status: IntentBid["status"];
 };
 
-/**
- * Format ledger time for the public seat log.
- * Slice 14.35 — America/New_York, labeled ET. No bidder identity.
- */
 export function formatSeatLogTime(iso: string): string {
   const d = new Date(iso);
   if (Number.isNaN(d.getTime())) return iso;
@@ -50,7 +36,6 @@ export function formatSeatLogTime(iso: string): string {
   return `${formatted} ET`;
 }
 
-/** Weekday label in America/New_York. `Mon Nov 2, 2026, 12:00 PM ET`. */
 export function formatCampaignInstantEt(iso: string): string {
   const date = new Date(iso);
   if (Number.isNaN(date.getTime())) return iso;
@@ -69,10 +54,6 @@ export function formatCampaignInstantEt(iso: string): string {
   return `${pick("weekday")} ${pick("month")} ${pick("day")}, ${pick("year")}, ${pick("hour")}:${pick("minute")} ${pick("dayPeriod")} ET`;
 }
 
-/**
- * Build public seat log rows from panel bids.
- * Newest first. Never includes email or userId.
- */
 const PUBLIC_LOG_STATUSES = new Set<IntentBid["status"]>([
   "listed",
   "approved",

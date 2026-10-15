@@ -18,10 +18,6 @@ async function signIn(page: import("@playwright/test").Page, email: string) {
   await expect(page.getByTestId("account-page")).toBeVisible();
 }
 
-/**
- * QA 1047PM — seat preview stays a clean photo (no Open seat stack).
- * Standing brand still shows in the bid activity tile when listed.
- */
 test.describe("slice 10.2: compositor standing brand", () => {
   test.describe.configure({ mode: "serial" });
 

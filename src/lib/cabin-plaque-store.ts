@@ -27,7 +27,6 @@ function plaqueMap(): Map<string, CabinPlaqueLine> {
   return globalForPlaque.__bmbCabinPlaques;
 }
 
-/** Exported for Playwright / unit gates (slice 7.4). */
 export function cabinPlaqueStoreUsesMemory(
   env?: Parameters<typeof leftoverStoreUsesMemory>[0],
 ): boolean {

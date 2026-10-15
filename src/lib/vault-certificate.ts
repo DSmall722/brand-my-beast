@@ -1,8 +1,3 @@
-/**
- * Immortal vault certificate copy (FEATURES P4 #45).
- * Record of etch — not cash, not a VIN, no invented impressions.
- */
-
 import { FLOOR_USD, GOAL_USD, formatUsd } from "./campaign";
 
 export const VAULT_CERTIFICATE_LEAD = `Immortal etch gets a vault certificate after install — only if the board hits ${formatUsd(GOAL_USD)}. Not cash. No reserved VIN. Miss ${formatUsd(FLOOR_USD)} and there is no certificate. Still no card charge.`;

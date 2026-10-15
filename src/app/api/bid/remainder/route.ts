@@ -11,7 +11,6 @@ function originOf(request: Request): string {
   return `${proto}://${host}`;
 }
 
-/** Winner pays the remainder. The deposit already captured is credited. */
 export async function POST(request: Request) {
   let body: unknown;
   try {

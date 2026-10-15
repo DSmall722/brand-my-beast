@@ -1,10 +1,5 @@
 import { CLOSE_AT } from "@/lib/campaign";
 
-/**
- * Slice 11.8 — Pre-P3 operator checklist items.
- * UI checkboxes are display / local prep only. They never set CLOSE_AT.
- */
-
 export type PreP3ChecklistItem = {
   id: "llc" | "terms" | "resend" | "stripe-not-wired";
   label: string;
@@ -29,7 +24,6 @@ export const PRE_P3_CHECKLIST: readonly PreP3ChecklistItem[] = [
   },
 ] as const;
 
-/** Checkboxes do not write OPEN_AT or CLOSE_AT. */
 export function assertPreP3ChecklistDoesNotSetCloseAt(
   checkedIds: readonly string[],
 ): boolean {

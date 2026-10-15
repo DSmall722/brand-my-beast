@@ -2,10 +2,6 @@ import Link from "next/link";
 import { PANELS } from "@/lib/campaign";
 import type { ImagineMockup } from "@/lib/mockup";
 
-/**
- * Slice 10.4 — same-day Imagine placeholder queue on /operator.
- * Memory rows only. No billable Imagine call. No Stripe.
- */
 export function MockupQueue({ mockups }: { mockups: ImagineMockup[] }) {
   return (
     <section

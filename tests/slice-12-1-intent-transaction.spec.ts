@@ -18,10 +18,6 @@ import {
   setIntentStatus,
 } from "../src/lib/intent-store";
 
-/**
- * Slice 12.1 — place + outbid (+ approve demotion) without double standing.
- * Neon HTTP uses db.batch (non-interactive txn). CLOSE_AT null. No Stripe.
- */
 test.describe("slice 12.1: intent place/outbid/approve transaction", () => {
   test.describe.configure({ mode: "serial" });
 

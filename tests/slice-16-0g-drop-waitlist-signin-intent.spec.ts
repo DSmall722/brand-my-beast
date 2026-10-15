@@ -11,11 +11,6 @@ import { findStripePackagesInRootPackageJson } from "../src/lib/no-stripe-packag
 import { PUBLIC_COPY } from "../src/lib/public-copy";
 import { vercelJsonIsHoldOrMainOnlyRestore } from "../src/lib/vercel-git-deploy";
 
-/**
- * Slice 16.0g — drop waitlist-signin-intent post-submit CTA.
- * Keep browse panels / stay on the list. CLOSE_AT null. No Stripe.
- */
-
 test.describe("slice 16.0g: drop waitlist-signin-intent CTA", () => {
   test("campaign money fences stay locked — CLOSE_AT null", () => {
     expect(FLOOR_USD).toBe(35_000);

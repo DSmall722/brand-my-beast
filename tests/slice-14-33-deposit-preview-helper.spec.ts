@@ -18,11 +18,6 @@ import { depositUsdForMark } from "../src/lib/intent";
 import { findStripePackagesInRootPackageJson } from "../src/lib/no-stripe-package";
 import { vercelJsonIsHoldOrMainOnlyRestore } from "../src/lib/vercel-git-deploy";
 
-/**
- * Slice 14.33 — Deposit preview uses the same helper as 12.5
- * (depositUsdForMark). CLOSE_AT null. No Stripe. Hold-mode untouched.
- */
-
 const ROOT = process.cwd();
 
 async function signIn(page: Page, email: string) {

@@ -7,7 +7,6 @@ function beforeSend(event: BeforeSendEvent): BeforeSendEvent {
   return { ...event, url: redactAnalyticsUrl(event.url) };
 }
 
-/** Vercel Web Analytics with query strings redacted (utm_* kept). */
 export function SiteAnalytics() {
   return <Analytics beforeSend={beforeSend} />;
 }

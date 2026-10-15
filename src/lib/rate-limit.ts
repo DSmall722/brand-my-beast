@@ -1,9 +1,3 @@
-/**
- * Process-local fixed-window limiter for waitlist + intent + magic-link +
- * operator decide POSTs.
- * Ephemeral throttle state only — not a durable ledger (6.7 gates Production memory).
- */
-
 export type RateLimitScope =
   | "waitlist"
   | "intent"
@@ -85,7 +79,6 @@ export type RateLimitResult =
   | { ok: true }
   | { ok: false; retryAfterSec: number };
 
-/** Consume one attempt. Returns ok:false when the window is already full. */
 export function checkRateLimit(
   scope: RateLimitScope,
   key: string,
@@ -116,7 +109,6 @@ export function resetRateLimitForTests(): void {
   globalStore.__bmbRateLimitTestConfig = null;
 }
 
-/** CI-only: lower ceilings so Playwright can trip 429 without flooding. */
 export function configureRateLimitForTests(
   config: {
     waitlistMax: number;
@@ -155,7 +147,6 @@ export function clientIpFromRequest(request: Request): string {
   return clientIpFromHeaders(request.headers);
 }
 
-/** Slice 11.2 — magic-link rate-limit copy. Never claims signed in. */
 export const MAGIC_LINK_RATE_LIMITED =
   "Too many sign-in link attempts. No email was sent. Wait a moment and try again.";
 
@@ -163,7 +154,6 @@ export function magicLinkRateKey(email: string, ip: string): string {
   return `email:${email.trim().toLowerCase()}|ip:${ip.trim() || "unknown"}`;
 }
 
-/** Shared gate for the magic-link action and CI harness. */
 export function checkMagicLinkRateLimit(
   email: string,
   ip: string,
@@ -171,10 +161,6 @@ export function checkMagicLinkRateLimit(
   return checkRateLimit("magic-link", magicLinkRateKey(email, ip));
 }
 
-/**
- * Slice 13.33 — operator approve/reject rate-limit copy.
- * Never claims a decision landed.
- */
 export const OPERATOR_DECIDE_RATE_LIMITED =
   "Too many operator decisions. No approve or reject was recorded. Wait a moment and try again.";
 

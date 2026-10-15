@@ -52,12 +52,6 @@ function CompositorStandingBrand({
   );
 }
 
-/**
- * PROCESS-safe stainless compositor: CSS preview of wrap vs etch on the steel
- * face, plus day/night/wet/dirty condition shaders and a dirty-vs-clean pair.
- * Etch controls stay off until board raised clears buyout — no capture, no clock.
- * Default (truck not yet ordered): clean panel photo, minimal chrome.
- */
 export function PanelMockup({
   panel,
   raisedUsd = 0,
@@ -65,11 +59,8 @@ export function PanelMockup({
   truckExists = TRUCK_EXISTS,
 }: {
   panel: Panel;
-  /** Board pledged intent total. Etch controls need buyout. */
   raisedUsd?: number;
-  /** Slice 10.2 — standing brand on the face, not only a typed preview. */
   standingBrand?: string | null;
-  /** Slice 19.4 — hide Day/Night/Wet/Dirty and etch preview while the truck does not exist. */
   truckExists?: boolean;
 }) {
   const etchable = isEtchable(panel);

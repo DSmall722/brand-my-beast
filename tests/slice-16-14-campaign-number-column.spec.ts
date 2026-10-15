@@ -14,12 +14,6 @@ import { findStripePackagesInRootPackageJson } from "../src/lib/no-stripe-packag
 import { panelBoardMarkFor } from "../src/lib/panel-board";
 import { vercelJsonIsHoldOrMainOnlyRestore } from "../src/lib/vercel-git-deploy";
 
-/**
- * Slice 16.14 — CAMPAIGN.md inventory table includes the number column.
- * Opening dollars match PANELS. Floor and buyout unchanged.
- * CLOSE_AT null. No Stripe. No SEATS_OPEN flip.
- */
-
 const CAMPAIGN = join(process.cwd(), "CAMPAIGN.md");
 
 const BUYOUT_LINES = [

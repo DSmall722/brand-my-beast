@@ -1,11 +1,6 @@
-/**
- * Winner portal copy + approved-seat filter. Intent only — no capture.
- */
-
 import { GOAL_USD, TRUCK_EXISTS, formatUsd } from "./campaign";
 import type { IntentBid } from "./intent";
 
-/** Empty P3–P5 board facts — hidden on /account while TRUCK_EXISTS is false. */
 export const EMPTY_UNTIL_TRUCK_FACT_IDS = [
   "vault-certificate",
   "retired-vinyl",
@@ -105,7 +100,6 @@ export const WINNER_PORTAL_FACTS = [
   },
 ] as const;
 
-
 export type WinnerPortalFact = (typeof WINNER_PORTAL_FACTS)[number];
 
 const EMPTY_UNTIL_TRUCK_FACT_ID_SET = new Set<string>(EMPTY_UNTIL_TRUCK_FACT_IDS);
@@ -114,7 +108,6 @@ export function isEmptyUntilTruckFact(id: string): boolean {
   return EMPTY_UNTIL_TRUCK_FACT_ID_SET.has(id);
 }
 
-/** Facts shown on /account/wins. Empty P3–P5 boards stay hidden until the truck exists. */
 export function winnerPortalFactsVisible(
   truckExists: boolean = TRUCK_EXISTS,
 ): WinnerPortalFact[] {

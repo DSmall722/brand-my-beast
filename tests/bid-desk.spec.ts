@@ -522,7 +522,6 @@ test.describe("bid desk: modal, hidden sign-in, unpaid, day by day", () => {
     await first.getByTestId("intent-submit").click();
     await expect(first.getByTestId("intent-success")).toBeVisible();
 
-    // BMB-QA-457: an unpaid mark stays off the public day-by-day.
     await page.goto("/");
     await expect(page.getByTestId("day-by-day")).toHaveCount(0);
     await expect(page.getByTestId("raised-amount")).toHaveText("$0");
@@ -670,7 +669,6 @@ test.describe("bid desk: modal, hidden sign-in, unpaid, day by day", () => {
     await expect(page.getByTestId("auction-top")).toContainText(
       "No standing bids yet.",
     );
-    // BMB-QA-457: approved but unpaid stays off the public leaderboard.
     await page.goto("/leaderboard");
     await expect(page.getByTestId("leaderboard-page")).not.toContainText("Logo Brand");
 

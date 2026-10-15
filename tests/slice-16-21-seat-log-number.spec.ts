@@ -17,11 +17,6 @@ import { buildPublicSeatLog, formatSeatLogTime } from "../src/lib/seat-log";
 import { markNewestAccountBidPaid } from "./helpers/mark-paid";
 import { vercelJsonIsHoldOrMainOnlyRestore } from "../src/lib/vercel-git-deploy";
 
-/**
- * Slice 16.21 — public seat log shows panel number, amount, and ET time.
- * No bidder email. FEATURES.md stays off /. CLOSE_AT null. No Stripe.
- */
-
 const PANEL_ID = "rear-bumper" as const;
 
 async function signIn(page: Page, email: string) {

@@ -14,10 +14,6 @@ import { findStripePackagesInRootPackageJson } from "../src/lib/no-stripe-packag
 import { PUBLIC_COPY } from "../src/lib/public-copy";
 import { vercelJsonIsHoldOrMainOnlyRestore } from "../src/lib/vercel-git-deploy";
 
-/**
- * Guest header hides Sign in. Manage bids from the email link. CLOSE_AT null.
- */
-
 const ROOT = process.cwd();
 const LOCKED_H1 = "Advertise your brand on the truck that people already photograph";
 

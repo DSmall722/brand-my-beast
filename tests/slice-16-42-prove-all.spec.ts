@@ -12,11 +12,6 @@ import { findCloseAtViolations } from "../src/lib/close-at-null";
 import { findStripePackagesInRootPackageJson } from "../src/lib/no-stripe-package";
 import { vercelJsonIsHoldOrMainOnlyRestore } from "../src/lib/vercel-git-deploy";
 
-/**
- * Slice 16.42 — prove-all.sh includes 16.4, 16.5, 16.28.
- * CLOSE_AT null. No Stripe. Does not flip SEATS_OPEN.
- */
-
 const PROVE_ALL = join(
   process.cwd(),
   ".cursor/skills/verify-brandmybeast/scripts/prove-all.sh",

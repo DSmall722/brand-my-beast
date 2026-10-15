@@ -16,9 +16,6 @@ import {
   parseIntentArtwork,
 } from "../src/lib/intent-artwork";
 
-/**
- * Slice 13.26 — art size cap documented (max bytes in RULES.md).
- */
 const RULES = join(process.cwd(), "RULES.md");
 
 test.describe("slice 13.26: RULES.md art size cap", () => {

@@ -15,10 +15,6 @@ import {
   formatUsd,
 } from "../src/lib/campaign";
 
-/**
- * Slice 12.19 — magic-link verification tokens are consumed once.
- * CLOSE_AT null. No Stripe.
- */
 test.describe("slice 12.19: magic-link consumed-once", () => {
   test.beforeEach(() => {
     resetMagicLinkVerificationTokensForTests();

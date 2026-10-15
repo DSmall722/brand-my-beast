@@ -13,11 +13,6 @@ import { findStripePackagesInRootPackageJson } from "../src/lib/no-stripe-packag
 import { vercelJsonIsHoldOrMainOnlyRestore } from "../src/lib/vercel-git-deploy";
 import { slicesCoversId } from "./helpers/slices-ids";
 
-/**
- * Slice 14.37 — Pinned `npm audit` script. No new runtime.
- * CLOSE_AT null. No Stripe. Hold-mode untouched. No 30-day clock.
- */
-
 const ROOT = process.cwd();
 
 type Pkg = {
@@ -53,7 +48,6 @@ test.describe("slice 14.37: pinned npm audit script", () => {
     expect(pkg.scripts?.audit).toContain("--audit-level=high");
     expect(pkg.scripts?.audit).not.toMatch(/audit-level=moderate|audit-level=low/);
 
-    // No new runtime deps from this slice.
     const deps = Object.keys(pkg.dependencies ?? {});
     expect(deps.some((name) => name !== "stripe" && name.toLowerCase().includes("stripe"))).toBe(
       false,

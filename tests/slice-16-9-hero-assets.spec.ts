@@ -19,11 +19,6 @@ import {
 import { findStripePackagesInRootPackageJson } from "../src/lib/no-stripe-package";
 import { vercelJsonIsHoldOrMainOnlyRestore } from "../src/lib/vercel-git-deploy";
 
-/**
- * Slice 16.9 — hero still ships a 1728-wide and a 640-wide local asset.
- * No Tesla CDN. CLOSE_AT null. No Stripe. No SEATS_OPEN flip.
- */
-
 function jpegSize(buf: Buffer): { width: number; height: number } {
   if (buf[0] !== 0xff || buf[1] !== 0xd8) {
     throw new Error("not a jpeg");

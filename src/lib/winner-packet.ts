@@ -1,10 +1,3 @@
-/**
- * Slice 12.22 — winner packet markdown for one approved seat.
- * Panel, brand, wrap vs etch, 12-month wrap term from install.
- * Slice 13.23 — wrap term start = install day, not close.
- * Pure builder. Intent only — no card charge.
- */
-
 import {
   BRAND,
   FLOOR_USD,
@@ -22,14 +15,9 @@ import {
 
 export const WINNER_PACKET_PATH_PREFIX = "/api/account/wins/packet/";
 
-/** Wrap term copy — CAMPAIGN.md: 12 months from install day, not close. */
 export const WINNER_PACKET_WRAP_TERM =
   "12 months from install day — not from close.";
 
-/**
- * Slice 13.23 — term clock starts on install day.
- * Never close / CLOSE_AT / auction end.
- */
 export const WINNER_PACKET_WRAP_TERM_START = "install day" as const;
 
 export type WinnerPacketWrapTermStart =
@@ -45,13 +33,11 @@ export type WinnerPacketSeat = {
   finish: ShopPdfFinish;
   finishLabel: string;
   wrapTerm: string;
-  /** Slice 13.23 — always install day; never close. */
   wrapTermStart: WinnerPacketWrapTermStart;
   floorUsd: number;
   goalUsd: number;
 };
 
-/** Machine-readable start for wrap term. Rejects any close-based value. */
 export function winnerPacketWrapTermStart(): WinnerPacketWrapTermStart {
   return WINNER_PACKET_WRAP_TERM_START;
 }
@@ -120,11 +106,6 @@ export function winnerPacketFilename(seat: WinnerPacketSeat): string {
   return `brandmybeast-winner-${slug || seat.bidId}.md`;
 }
 
-/**
- * Markdown packet: panel, brand, wrap vs etch, 12-month term.
- * Slice 13.23 embeds wrap term start = install day (not close).
- * Fences: $35k / $120k, no lease, published close in ET.
- */
 export function buildWinnerPacketMarkdown(seat: WinnerPacketSeat): string {
   if (!assertWinnerPacketWrapTermStartIsInstallDay(seat.wrapTermStart)) {
     throw new Error("Winner packet wrap term start must be install day");
@@ -166,7 +147,6 @@ export function buildWinnerPacketMarkdown(seat: WinnerPacketSeat): string {
   if (/\blease\b/i.test(body)) {
     throw new Error("Winner packet must not contain lease copy");
   }
-  // Slice 13.23 — start line must name install day and deny close as the clock.
   if (!/\*\*Wrap term start:\*\*\s*install day/i.test(body)) {
     throw new Error("Winner packet must state wrap term start = install day");
   }

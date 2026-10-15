@@ -12,11 +12,6 @@ import { findCloseAtViolations } from "../src/lib/close-at-null";
 import { findStripePackagesInRootPackageJson } from "../src/lib/no-stripe-package";
 import { vercelJsonIsHoldOrMainOnlyRestore } from "../src/lib/vercel-git-deploy";
 
-/**
- * Slice 16.44 — Tag `wave-16-complete` after 16.43. No clock.
- * Docs only. Does not set CLOSE_AT. Does not add Stripe. Does not flip SEATS_OPEN.
- */
-
 const DOC = join(process.cwd(), "docs/WAVE-16-COMPLETE.md");
 const PRIOR = join(process.cwd(), "docs/WAVE-14-COMPLETE.md");
 const CAMPAIGN_TS = join(process.cwd(), "src/lib/campaign.ts");

@@ -10,10 +10,6 @@ import {
 import { intentStoreUsesMemory } from "../src/lib/intent-store";
 import { waitlistStoreUsesMemory } from "../src/lib/waitlist";
 
-/**
- * Slice 6.7 — Production never uses in-memory waitlist or intent ledgers.
- * Memory remains CI/local only. FEATURES board scaffolds stay out of scope.
- */
 test.describe("slice 6.7: no in-memory stores in Production", () => {
   test("campaign money fences stay locked", () => {
     expect(FLOOR_USD).toBe(35_000);

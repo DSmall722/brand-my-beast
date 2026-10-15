@@ -1,9 +1,3 @@
-/**
- * Slice 14.39 — Resend bounce webhook → mail dead-letter.
- * No live Resend hook required to merge. Optional RESEND_WEBHOOK_SECRET.
- * CLOSE_AT null. Cards never charged. Not a charge path.
- */
-
 import { BRAND } from "./campaign";
 import { MAIL_FROM } from "./mail-envelope";
 import {
@@ -20,10 +14,6 @@ export type ResendBounceWebhookResult =
 
 type EnvBag = Record<string, string | undefined>;
 
-/**
- * When RESEND_WEBHOOK_SECRET is set, require Bearer match.
- * When unset, accept (slice: no live hook required to merge).
- */
 export function isAuthorizedResendWebhook(
   request: Request,
   env: EnvBag = process.env,
@@ -65,9 +55,6 @@ function bounceMessage(data: Record<string, unknown>): string {
   return "Resend email.bounced";
 }
 
-/**
- * Parse a Resend webhook JSON body. Only email.bounced writes a dead-letter.
- */
 export async function handleResendBounceWebhookBody(
   body: unknown,
 ): Promise<ResendBounceWebhookResult> {

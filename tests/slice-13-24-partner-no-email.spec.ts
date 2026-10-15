@@ -40,9 +40,6 @@ async function resetServerIntents(request: APIRequestContext) {
   expect(res.ok()).toBeTruthy();
 }
 
-/**
- * Slice 13.24 — partner cannot see bidder email; only brand + trade + art.
- */
 test.describe("slice 13.24: partner no bidder email", () => {
   test.describe.configure({ mode: "serial" });
 
@@ -181,13 +178,11 @@ test.describe("slice 13.24: partner no bidder email", () => {
     const html = await page.content();
     expect(partnerViewContainsBidderEmail(html, bidderEmail)).toBe(false);
     expect(html.toLowerCase()).not.toContain(`test:${bidderEmail}`);
-    // Partner's own session email may appear in chrome; bidder must not.
     expect(html).not.toContain("bidder-a@example.com");
     expect(html.toLowerCase()).not.toMatch(/\blease\b/);
     expect(html).toContain("$35,000");
     expect(html).toContain("$120,000");
 
-    // Projection for the approved list still has no userId.
     const seats = toPartnerShopSeats([]);
     expect(partnerSeatLeaksUserId(seats)).toBe(false);
   });

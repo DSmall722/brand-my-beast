@@ -1,8 +1,3 @@
-/**
- * Slice 13.31 — waitlist disposable-domain blocklist (operator editable).
- * Additive built-in disposables + operator-added domains. Exact domain match.
- */
-
 import { asc } from "drizzle-orm";
 import { getDb } from "./db";
 import { waitlistDomainBlocklist } from "./db/schema";
@@ -15,7 +10,6 @@ export type DomainBlockRule = {
   source: "default" | "operator";
 };
 
-/** Built-in disposable / throwaway domains. Always blocked. */
 export const DEFAULT_DISPOSABLE_DOMAINS = [
   "mailinator.com",
   "guerrillamail.com",

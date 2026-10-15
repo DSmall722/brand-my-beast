@@ -1,14 +1,7 @@
-/**
- * Slice 13.22 — `shop-ready` requires a vector URL or artwork blob key.
- * Screenshot-only raster links (png/jpg/…) cannot be marked shop-ready.
- */
-
 import { isArtworkBlobPath } from "./artwork-blob";
 
-/** Shop cut vectors — matches wrap-shop checklist (AI / SVG / PDF) + EPS. */
 const VECTOR_EXT = /\.(svg|ai|pdf|eps)(?:$|[?#])/i;
 
-/** Low-res / screenshot raster — not enough for shop-ready. */
 const RASTER_EXT = /\.(png|jpe?g|webp|gif|bmp|tiff?)(?:$|[?#])/i;
 
 export const SHOP_READY_ARTWORK_ERROR =
@@ -50,9 +43,6 @@ export function isScreenshotOnlyArtworkUrl(artworkUrl: string): boolean {
   }
 }
 
-/**
- * True when art may be marked `shop-ready`: blob path or vector http(s) URL.
- */
 export function artworkAllowsShopReady(
   artworkUrl: string | null | undefined,
 ): boolean {

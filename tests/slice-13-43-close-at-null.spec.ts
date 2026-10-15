@@ -13,11 +13,6 @@ import {
 import { findStripePackagesInRootPackageJson } from "../src/lib/no-stripe-package";
 import { vercelJsonIsHoldOrMainOnlyRestore } from "../src/lib/vercel-git-deploy";
 
-/**
- * Slice 13.43 — CI fails if CLOSE_AT is non-null.
- * No Stripe. Hold-mode untouched. No Wave 15 wiring.
- */
-
 test.describe("slice 13.43: CI fails if CLOSE_AT is non-null", () => {
   test("campaign money fences stay locked — CLOSE_AT null", () => {
     expect(FLOOR_USD).toBe(35_000);

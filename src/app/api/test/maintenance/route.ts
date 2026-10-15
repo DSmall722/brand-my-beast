@@ -6,10 +6,6 @@ import {
 } from "@/lib/maintenance-store";
 import { testApiBlockedResponse } from "@/lib/test-api-gate";
 
-/**
- * Slice 14.41 — Playwright helper to flip MAINTENANCE on the Next server.
- * Never sets CLOSE_AT or a date. Homepage stays up either way.
- */
 export async function POST(request: Request) {
   const blocked = testApiBlockedResponse();
   if (blocked) return blocked;

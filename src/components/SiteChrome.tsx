@@ -5,7 +5,6 @@ import { isOperatorEmail } from "@/lib/auth/operator";
 import { isShopPartnerEmail } from "@/lib/auth/shop-partner";
 import { BRAND } from "@/lib/campaign";
 
-/** Compact chrome for panel / account / approvals pages. */
 export async function SiteChrome() {
   const session = await auth();
   const showApprovals = isOperatorEmail(session?.user?.email);

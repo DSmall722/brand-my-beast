@@ -15,11 +15,6 @@ import { findStripePackagesInRootPackageJson } from "../src/lib/no-stripe-packag
 import { PUBLIC_COPY } from "../src/lib/public-copy";
 import { vercelJsonIsHoldOrMainOnlyRestore } from "../src/lib/vercel-git-deploy";
 
-/**
- * Slice 19.4 — hide Day/Night/Wet/Dirty and etch preview toggles on
- * public seats while TRUCK_EXISTS is false. Stainless still + numbers only.
- */
-
 const ROOT = process.cwd();
 const LOCKED_H1 = "Advertise your brand on the truck that people already photograph";
 

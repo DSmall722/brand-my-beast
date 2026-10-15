@@ -11,11 +11,6 @@ import {
 } from "../src/lib/campaign";
 import { ROBOTS_DISALLOW_PATHS } from "../src/app/robots";
 
-/**
- * Slice 13.37 — robots.txt still excludes /account, /signin, /operator.
- * Builds on 7.8. CLOSE_AT null. No Stripe. Hold-mode untouched.
- */
-
 test.describe("slice 13.37: robots.txt excludes account signin operator", () => {
   test("campaign money fences stay locked — CLOSE_AT null", () => {
     expect(FLOOR_USD).toBe(35_000);

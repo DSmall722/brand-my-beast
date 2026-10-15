@@ -27,11 +27,6 @@ type HomeMoneySectionProps = {
   auctionLive: AuctionLiveModel;
 };
 
-/**
- * Slice 7.1 — extracted from `src/app/page.tsx`.
- * Slice 16.0a — public `/` keeps whole-truck heading + lead only.
- * No intent form. No whole-truck sign-in link. Waitlist stays.
- */
 export function HomeMoneySection({
   raisedLabel,
   floorLabel,

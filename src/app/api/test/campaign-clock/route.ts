@@ -11,10 +11,6 @@ import { testApiBlockedResponse } from "@/lib/test-api-gate";
 
 export const runtime = "nodejs";
 
-/**
- * Playwright clock. Opens the deposit desk inside the published window
- * without flipping production LIVE_BIDDING.
- */
 export async function POST(request: Request) {
   const blocked = testApiBlockedResponse();
   if (blocked) return blocked;

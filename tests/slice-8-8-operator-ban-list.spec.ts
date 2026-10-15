@@ -34,9 +34,6 @@ async function resetServer(request: APIRequestContext) {
   expect(res.ok()).toBeTruthy();
 }
 
-/**
- * Slice 8.8 — operator ban-list table + hard-reject matching intents.
- */
 test.describe("slice 8.8: operator ban-list", () => {
   test("campaign money fences stay locked", () => {
     expect(FLOOR_USD).toBe(35_000);
@@ -174,7 +171,6 @@ test.describe("slice 8.8: operator ban-list", () => {
     expect(html).not.toMatch(/\blease\b/);
     expect(html).not.toContain("close_at");
 
-    // Unit-side: listed queue empty of the rejected brand after hard-reject.
     await resetIntentStoreForTests();
     resetOperatorBanListForTests();
     expect((await listBidsWithStatus("listed")).length).toBe(0);

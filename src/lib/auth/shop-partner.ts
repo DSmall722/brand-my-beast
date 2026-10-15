@@ -1,10 +1,5 @@
 import { resolveAuthMode, type AuthEnv } from "@/lib/auth/mode";
 
-/**
- * Wrap-shop partner gate for the read-only partner sheet.
- * Live: SHOP_PARTNER_EMAILS allow-list.
- * Test: only shop@example.com (operators stay on @example.com).
- */
 export function isShopPartnerEmail(
   email: string | null | undefined,
   env: AuthEnv = process.env,

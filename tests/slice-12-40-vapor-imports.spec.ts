@@ -10,11 +10,6 @@ import {
   formatUsd,
 } from "../src/lib/campaign";
 
-/**
- * Slice 12.40 — homepage does not statically import vapor P3–P5 boards while
- * TRUCK_EXISTS is false. CLOSE_AT null. No Stripe.
- */
-
 const PAGE_PATH = join(process.cwd(), "src/app/page.tsx");
 const SLOT_PATH = join(
   process.cwd(),

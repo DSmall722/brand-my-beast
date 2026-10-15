@@ -37,10 +37,6 @@ async function resetServerIntents(request: APIRequestContext) {
   expect(res.ok()).toBeTruthy();
 }
 
-/**
- * Slice 12.24 — partner marks art shop-ready / needs-fix.
- * CLOSE_AT null. No card capture. No Stripe token in partner HTML.
- */
 test.describe("slice 12.24: partner shop art status marks", () => {
   test("campaign money fences stay locked — CLOSE_AT null", () => {
     expect(FLOOR_USD).toBe(35_000);

@@ -15,11 +15,6 @@ import { panelBoardMarkFor, panelSeatH1 } from "../src/lib/panel-board";
 import { panelOpenGraphTitle } from "../src/lib/panel-open-graph";
 import { vercelJsonIsHoldOrMainOnlyRestore } from "../src/lib/vercel-git-deploy";
 
-/**
- * Slice 16.33 — OG image for `/panels/[id]` includes the number and name.
- * Title from 14.16 stays `{name} — BrandMyBeast`. CLOSE_AT null. No Stripe.
- */
-
 const OG_SRC = join(process.cwd(), "src/app/panels/[panelId]/opengraph-image.tsx");
 
 function pngSize(body: Buffer): { width: number; height: number } {

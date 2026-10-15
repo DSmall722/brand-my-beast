@@ -1,7 +1,6 @@
 import { TruckViewHotspots } from "@/components/TruckViewHotspots";
 import { PUBLIC_COPY } from "@/lib/public-copy";
 
-/** Slice 7.1 — extracted from `src/app/page.tsx`. Copy unchanged. */
 export function HomeTruckViewsSection({
   occupiedPanelIds,
 }: {

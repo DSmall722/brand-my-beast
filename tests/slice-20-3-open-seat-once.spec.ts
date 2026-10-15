@@ -14,11 +14,6 @@ import { findCloseAtViolations } from "../src/lib/close-at-null";
 import { findStripePackagesInRootPackageJson } from "../src/lib/no-stripe-package";
 import { vercelJsonIsHoldOrMainOnlyRestore } from "../src/lib/vercel-git-deploy";
 
-/**
- * Slice 20.3 — do not print eleven identical “Open.”
- * Open seat once. CLOSE_AT null. No Stripe. H1 unchanged.
- */
-
 const ROOT = process.cwd();
 const LOCKED_H1 = "Advertise your brand on the truck that people already photograph";
 

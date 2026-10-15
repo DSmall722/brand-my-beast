@@ -24,10 +24,6 @@ async function signIn(page: import("@playwright/test").Page, email: string) {
   await expect(page.getByTestId("account-page")).toBeVisible();
 }
 
-/**
- * Slice 9.6 — failed-winner offer at last mark + one increment.
- * No silent reopen. CLOSE_AT null. No Stripe.
- */
 test.describe("slice 9.6: failed-winner offer", () => {
   test.describe.configure({ mode: "serial" });
 
@@ -150,7 +146,6 @@ test.describe("slice 9.6: failed-winner offer", () => {
     await expect(outbid.getByTestId("intent-brand")).toHaveValue("FW Alpha");
     await expect(outbid.getByTestId("intent-trade")).toHaveValue("fw snacks");
 
-    // Still listed as outbid until they submit — no silent reopen.
     await expect(outbid.getByTestId("intent-list")).toContainText("Outbid");
     await expect(outbid.getByTestId("panel-opening")).toContainText("$2,500");
     await expect(outbid.getByTestId("panel-standing")).toHaveText("$2,750");

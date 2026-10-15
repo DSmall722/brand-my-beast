@@ -23,9 +23,6 @@ async function resetServerIntents(request: APIRequestContext) {
   expect(res.ok()).toBeTruthy();
 }
 
-/**
- * Slice 11.7 — reject-note required announced; waitlist errors linked to field.
- */
 test.describe("slice 11.7: a11y reject-note + waitlist field errors", () => {
   test.describe.configure({ mode: "serial" });
 

@@ -14,7 +14,6 @@ export function WinnerPortalSheet({
   wins: readonly IntentBid[];
 }) {
   const facts = winnerPortalFactsVisible();
-  /** Slice 12.21 — defense in depth: approved standing seats only. */
   const approvedOnly = winnerSeatsFor(wins);
 
   return (

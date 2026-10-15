@@ -17,12 +17,6 @@ import {
 import { PUBLIC_COPY } from "../src/lib/public-copy";
 import { vercelJsonIsHoldOrMainOnlyRestore } from "../src/lib/vercel-git-deploy";
 
-/**
- * Slice 16.3 — number map legend under the hero.
- * Labels are `1 Hood` … `11 Rear bumper` from PANELS only.
- * CLOSE_AT null. No Stripe. No SEATS_OPEN flip.
- */
-
 test.describe("slice 16.3: number map legend under the hero", () => {
   test("campaign money fences stay locked — CLOSE_AT null", () => {
     expect(FLOOR_USD).toBe(35_000);

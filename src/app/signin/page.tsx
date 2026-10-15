@@ -8,10 +8,6 @@ import { PUBLIC_COPY } from "@/lib/public-copy";
 
 type SearchParams = Promise<{ callbackUrl?: string }>;
 
-/**
- * Slice 12.17 — sign-in copy from PUBLIC_COPY.
- * Live mode HTML never shows the CI credentials hatch label.
- */
 export default async function SignInPage({
   searchParams,
 }: {

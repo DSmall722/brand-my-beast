@@ -1,13 +1,4 @@
 #!/usr/bin/env node
-/**
- * Decide whether a push needs the full Playwright suite.
- *
- * Docs-only diffs skip the browser suite. The dev server and Chromium are
- * the minutes. CONTRACT.md stays on the full suite because the counsel ZIP
- * reads it at runtime.
- *
- * Writes `mode=full` or `mode=docs` to GITHUB_OUTPUT when that env is set.
- */
 
 import { execFileSync } from "node:child_process";
 import { appendFileSync } from "node:fs";

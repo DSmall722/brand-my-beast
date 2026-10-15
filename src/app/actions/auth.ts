@@ -55,12 +55,10 @@ export async function signInWithMagicLink(
   const ip = clientIpFromHeaders(hdrs);
   const limited = checkMagicLinkRateLimit(email, ip);
   if (!limited.ok) {
-    // Slice 13.34 — hashed email only; never log the raw address.
     logMagicLinkRequest(email, "rate_limited");
     return { ok: false, error: MAGIC_LINK_RATE_LIMITED };
   }
 
-  // Slice 13.34 — hashed email only; never log the raw address.
   logMagicLinkRequest(email, "requested");
 
   try {
@@ -89,9 +87,6 @@ export type DeleteAccountState = {
   error?: string;
 };
 
-/**
- * Slice 12.16 — anonymize bid user ids, keep public standing amounts, sign out.
- */
 export async function deleteAccountAction(
   _prev: DeleteAccountState,
   _formData: FormData,

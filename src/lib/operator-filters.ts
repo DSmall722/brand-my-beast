@@ -1,8 +1,3 @@
-/**
- * Slice 8.3 — operator `/operator?status=` filters.
- * pending maps to listed intents awaiting approval.
- */
-
 export const OPERATOR_FILTERS = [
   "pending",
   "approved",

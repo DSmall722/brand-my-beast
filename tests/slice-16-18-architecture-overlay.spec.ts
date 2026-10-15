@@ -13,11 +13,6 @@ import { findStripePackagesInRootPackageJson } from "../src/lib/no-stripe-packag
 import { vercelJsonIsHoldOrMainOnlyRestore } from "../src/lib/vercel-git-deploy";
 import { PANEL_BOARD_MARKS, panelLegendLabel } from "../src/lib/panel-board";
 
-/**
- * Slice 16.18 — ARCHITECTURE.md board diagram names the numbered overlay,
- * not only the schematic SVG. FEATURES.md stays off /.
- */
-
 const ARCH = join(process.cwd(), "ARCHITECTURE.md");
 
 function boardDiagram(text: string): string {

@@ -19,11 +19,6 @@ import {
 import { PUBLIC_COPY } from "../src/lib/public-copy";
 import { vercelJsonIsHoldOrMainOnlyRestore } from "../src/lib/vercel-git-deploy";
 
-/**
- * Slice 20.11 — mobile board numbers 1–11 sit off the cab glass.
- * 19.8 is desktop H1 only. CLOSE_AT null. No Stripe.
- */
-
 const ROOT = process.cwd();
 const LOCKED_H1 = "Advertise your brand on the truck that people already photograph";
 

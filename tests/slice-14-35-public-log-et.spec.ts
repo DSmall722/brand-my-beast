@@ -22,11 +22,6 @@ import {
   formatSeatLogTime,
 } from "../src/lib/seat-log";
 
-/**
- * Slice 14.35 — Public log timestamps are America/New_York, labeled ET.
- * CLOSE_AT null. No Stripe. Hold-mode untouched. No 30-day clock.
- */
-
 const ROOT = process.cwd();
 
 async function signIn(page: Page, email: string) {
@@ -67,11 +62,9 @@ test.describe("slice 14.35: public seat log timestamps America/New_York ET", () 
 
   test("formatSeatLogTime uses America/New_York and labels ET", () => {
     expect(SEAT_LOG_TIME_ZONE).toBe("America/New_York");
-    // Midday UTC in September → morning Eastern (EDT).
     expect(formatSeatLogTime("2026-09-16T12:34:56.789Z")).toBe(
       "Sep 16, 2026, 8:34 AM ET",
     );
-    // January UTC → EST (UTC-5).
     expect(formatSeatLogTime("2026-01-15T17:00:00.000Z")).toBe(
       "Jan 15, 2026, 12:00 PM ET",
     );
@@ -87,7 +80,6 @@ test.describe("slice 14.35: public seat log timestamps America/New_York ET", () 
   });
 
   test("public seat log UI shows ET times", async ({ page, request }) => {
-    // Use roof (not hood) so parallel 9.9 hood marks do not collide.
     const placed = await placeIntentBid({
       panelId: "front-bumper",
       userId: "et1435-user",

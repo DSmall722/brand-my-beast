@@ -27,9 +27,6 @@ async function signIn(page: import("@playwright/test").Page, email: string) {
   await expect(page.getByTestId("account-page")).toBeVisible();
 }
 
-/**
- * Slice 9.1 — proxy max on an intent. Agent steps max($250, 10%). Still no card.
- */
 test.describe("slice 9.1: proxy max agent", () => {
   test.beforeEach(async ({ request }) => {
     process.env.INTENT_MODE = "memory";
@@ -136,7 +133,6 @@ test.describe("slice 9.1: proxy max agent", () => {
       brandLabel: "Low Proxy",
       tradeLabel: "low snacks",
       standingUsd: 2500,
-      // Challenge at 2750 → agent would need 3000; ceiling too low.
       proxyMaxUsd: 2800,
     });
     expect(holder.ok).toBeTruthy();
@@ -188,7 +184,6 @@ test.describe("slice 9.1: proxy max agent", () => {
     const listed = await listBidsForPanel("hood");
     const standingListed = listed.filter((row) => row.status === "listed");
     expect(standingListed).toHaveLength(1);
-    // A ceiling 3500 beats B ceiling 3200 after agent steps (3025).
     expect(standingListed[0]?.userId).toBe("proxy_a");
     expect(standingListed[0]?.standingUsd).toBe(3025);
     expect(standingListed[0]?.standingUsd).toBeLessThanOrEqual(3500);

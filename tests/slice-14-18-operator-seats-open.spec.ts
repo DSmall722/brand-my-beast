@@ -20,11 +20,6 @@ import {
   setSeatsOpenOverride,
 } from "../src/lib/seats-open-store";
 
-/**
- * Slice 14.18 — Operator toggle for SEATS_OPEN does not set a date.
- * CLOSE_AT null. No Stripe. No clock. Hold-mode untouched.
- */
-
 const ROOT = process.cwd();
 
 async function signIn(page: Page, email: string) {

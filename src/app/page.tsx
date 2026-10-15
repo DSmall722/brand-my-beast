@@ -38,7 +38,6 @@ import {
 } from "@/lib/intent-store";
 import { PUBLIC_COPY } from "@/lib/public-copy";
 
-/** Board stats read the intent ledger; keep dynamic so build does not SSG against DB. */
 export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {

@@ -9,10 +9,6 @@ import {
   formatUsd,
 } from "../src/lib/campaign";
 
-/**
- * Slice 13.8 — docs/WRAP-SHOP.md shortlist template.
- * CLOSE_AT null. No Stripe.
- */
 const DOC = join(process.cwd(), "docs/WRAP-SHOP.md");
 
 test.describe("slice 13.8: WRAP-SHOP shortlist template", () => {

@@ -1,9 +1,3 @@
-/**
- * Slice 3.1 / 10.5 — stainless compositor on the seat.
- * Preview only: wrap vs etch shaders on steel. No capture, no clock.
- * Labels come from PUBLIC_COPY only. Immortal = etch. Never “permanent vinyl.”
- */
-
 import { FLOOR_USD, GOAL_USD, formatUsd } from "./campaign";
 import { PUBLIC_COPY } from "./public-copy";
 
@@ -37,7 +31,6 @@ export function compositorEtchMarkLabel(): string {
   return PUBLIC_COPY.compositor.etchMark;
 }
 
-/** Guardrail: compositor copy never invents capture, a close clock, or permanent vinyl. */
 export function stainlessCompositorCopyIsSafe(
   blob: string = STAINLESS_COMPOSITOR_LEAD,
 ): boolean {

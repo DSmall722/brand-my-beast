@@ -1,9 +1,3 @@
-/**
- * Slice 8.6 / 16.24 — shop PDF for one approved seat.
- * Document title is `Seat 04 — Driver Side Doors`, not only the panel slug.
- * Pure builder. No Imagine API. No Stripe. Helvetica-only PDF 1.4.
- */
-
 import {
   FLOOR_USD,
   GOAL_USD,
@@ -33,9 +27,7 @@ export type ShopPdfSeat = {
   standingUsd: number;
   finish: ShopPdfFinish;
   finishLabel: string;
-  /** Slice 13.21 — board pledged used for etch-lock (vs GOAL_USD). */
   pledgedUsd: number;
-  /** Slice 13.21 — machine-readable etch lock from pledged vs buyout. */
   etchLock: "locked" | "unlocked" | "wrap_only";
   etchLockLabel: string;
   artworkUrl: string | null;
@@ -128,7 +120,6 @@ export function shopPdfPath(bidId: string): string {
   return `${SHOP_PDF_PATH_PREFIX}${encodeURIComponent(bidId)}`;
 }
 
-/** Slice 16.24 — `Seat 04 — Driver Side Doors`. Zero-padded board number, not the slug. */
 export function shopPdfTitle(
   seat: Pick<ShopPdfSeat, "panelId" | "panelName">,
 ): string {
@@ -161,7 +152,6 @@ function pdfLines(seat: ShopPdfSeat): string[] {
     `Standing mark: ${formatUsd(seat.standingUsd)}`,
     `Finish: ${seat.finishLabel}`,
     `Finish code: ${seat.finish}`,
-    // Slice 13.21 — etch-lock state from pledged vs $120,000.
     `Etch lock: ${seat.etchLock}`,
     seat.etchLockLabel,
     `Pledged standing: ${formatUsd(seat.pledgedUsd)}`,
@@ -173,9 +163,6 @@ function pdfLines(seat: ShopPdfSeat): string[] {
   ];
 }
 
-/**
- * Minimal single-page PDF. ASCII Helvetica. No external PDF package.
- */
 export function buildShopSeatPdf(seat: ShopPdfSeat): Uint8Array {
   const lines = pdfLines(seat);
   const contentParts = ["BT", "/F1 11 Tf", "50 740 Td", "14 TL"];
@@ -223,7 +210,6 @@ export function buildShopSeatPdf(seat: ShopPdfSeat): Uint8Array {
   body += `trailer\n<< /Size ${objects.length + 1} /Root 1 0 R /Info 6 0 R >>\n`;
   body += `startxref\n${xrefStart}\n%%EOF\n`;
 
-  // Guard fences in the payload itself.
   if (/\blease\b/i.test(body)) {
     throw new Error("Shop PDF must not contain lease copy");
   }

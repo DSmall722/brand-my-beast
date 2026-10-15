@@ -13,11 +13,6 @@ import { findStripePackagesInRootPackageJson } from "../src/lib/no-stripe-packag
 import { vercelJsonIsHoldOrMainOnlyRestore } from "../src/lib/vercel-git-deploy";
 import { PANEL_BOARD_MARKS } from "../src/lib/panel-board";
 
-/**
- * Slice 16.19 — press-kit fact sheet includes the 1–11 board list.
- * Money unchanged. FEATURES.md stays off /.
- */
-
 const FACT = join(process.cwd(), "press-kit/FACT-SHEET.md");
 
 test.describe("slice 16.19: press-kit fact sheet lists 1-11", () => {

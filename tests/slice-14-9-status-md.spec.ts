@@ -12,11 +12,6 @@ import { findCloseAtViolations } from "../src/lib/close-at-null";
 import { findStripePackagesInRootPackageJson } from "../src/lib/no-stripe-package";
 import { vercelJsonIsHoldOrMainOnlyRestore } from "../src/lib/vercel-git-deploy";
 
-/**
- * Slice 14.9 — docs/STATUS.md: floor, buyout, CLOSE_AT null,
- * Vercel hold, last slice id. No Stripe. No clock. Hold-mode untouched.
- */
-
 const DOC = join(process.cwd(), "docs/STATUS.md");
 
 test.describe("slice 14.9: docs/STATUS.md snapshot", () => {
@@ -53,7 +48,6 @@ test.describe("slice 14.9: docs/STATUS.md snapshot", () => {
     expect(text).toMatch(/SLICES\.md/);
     expect(text).toContain("hello@brandmybeast.com");
     expect(text.toLowerCase()).not.toContain("gmail.com");
-    // STATUS may name killed products only via STALE pointer; body avoids the word.
     expect(text.toLowerCase()).not.toMatch(/\blease\b/);
   });
 });

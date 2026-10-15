@@ -1,6 +1,5 @@
 import { artworkIsUpload } from "@/lib/intent-artwork";
 
-/** Compact preview of intent artwork for seat + operator queues. */
 export function IntentArtworkPreview({
   artworkUrl,
   bidId,

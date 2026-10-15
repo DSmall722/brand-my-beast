@@ -17,7 +17,6 @@ import { outboundMailEnvelope } from "@/lib/mail-envelope";
 import { recordOperatorDigestSentAt } from "@/lib/operator-status";
 import { listWaitlistSignups } from "@/lib/waitlist";
 
-/** Payload Resend (or a test double) receives for the operator digest. */
 export type OperatorDigestMailPayload = {
   from: string;
   replyTo: string;
@@ -48,10 +47,6 @@ const globalStore = globalThis as typeof globalThis & {
   __bmbOperatorDigestMailer?: OperatorDigestMailer | null;
 };
 
-/**
- * Slice 8.2 — inject a Resend double in Playwright. Pass null to clear.
- * Live mail is never sent from the agent / CI.
- */
 export function setOperatorDigestMailerForTests(
   mailer: OperatorDigestMailer | null,
 ): void {
@@ -75,7 +70,6 @@ function resolveMailer(
   };
 }
 
-/** Snapshot for the operator digest email / cron JSON. */
 export async function buildOperatorDigest(): Promise<OperatorDigest> {
   const [pending, waitlist, board] = await Promise.all([
     listBidsPendingApproval(),
@@ -113,10 +107,6 @@ export function operatorDigestRecipients(
   return [BRAND.email];
 }
 
-/**
- * Slice 8.2 — send digest to operator inbox(es). Missing key/mailer = skipped.
- * Throws only for the caller to decide; cron route catches.
- */
 export async function sendOperatorDigest(
   digest?: OperatorDigest,
 ): Promise<{ sent: number; skipped: boolean; digest: OperatorDigest }> {
@@ -124,7 +114,6 @@ export async function sendOperatorDigest(
   const key = process.env.RESEND_API_KEY;
   const mailer = resolveMailer(key);
   if (!mailer) {
-    // Still stamp the clock so /operator/health shows last digest attempt.
     recordOperatorDigestSentAt(snapshot.generatedAt);
     return { sent: 0, skipped: true, digest: snapshot };
   }
@@ -153,7 +142,6 @@ export async function sendOperatorDigest(
           error,
         });
       } catch {
-        // Dead-letter write is best-effort.
       }
     }
   }
@@ -161,7 +149,6 @@ export async function sendOperatorDigest(
   return { sent, skipped: false, digest: snapshot };
 }
 
-/** Vercel cron auth — Bearer CRON_SECRET. Unset secret = deny. */
 export function isAuthorizedCronRequest(
   request: Request,
   env: Record<string, string | undefined> = process.env,

@@ -15,11 +15,6 @@ import {
 } from "../src/lib/no-stripe-package";
 import { vercelJsonIsHoldOrMainOnlyRestore } from "../src/lib/vercel-git-deploy";
 
-/**
- * Slice 16.45 — CI still fails on `stripe` in package.json.
- * Pins the Playwright workflow step. Does not add Stripe. CLOSE_AT null.
- */
-
 const WORKFLOW = join(process.cwd(), ".github/workflows/playwright.yml");
 
 test.describe("slice 16.45: CI still fails on stripe in package.json", () => {

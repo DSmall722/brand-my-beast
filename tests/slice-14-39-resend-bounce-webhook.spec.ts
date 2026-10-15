@@ -21,11 +21,6 @@ import {
   isAuthorizedResendWebhook,
 } from "../src/lib/resend-bounce-webhook";
 
-/**
- * Slice 14.39 — Resend webhook route for bounces → dead-letter.
- * No live hook required to merge. CLOSE_AT null. No Stripe. No clock.
- */
-
 const ROOT = process.cwd();
 
 test.describe("slice 14.39: Resend bounce webhook → dead-letter", () => {

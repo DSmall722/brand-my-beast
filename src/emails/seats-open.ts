@@ -1,9 +1,3 @@
-/**
- * Slice 14.19 — “Seats open” email template.
- * Exists for later waitlist fan-out. Do not send from the agent or the
- * operator SEATS_OPEN toggle (14.18). Names the published close. No card charge.
- */
-
 import { BRAND, FLOOR_USD, GOAL_USD, formatUsd } from "@/lib/campaign";
 import { publishedCloseLabelEt } from "@/lib/campaign-window";
 import { withCanSpamFooter } from "./can-spam";

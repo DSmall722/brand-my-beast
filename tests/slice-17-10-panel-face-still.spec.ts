@@ -13,11 +13,6 @@ import { findCloseAtViolations } from "../src/lib/close-at-null";
 import { findStripePackagesInRootPackageJson } from "../src/lib/no-stripe-package";
 import { vercelJsonIsHoldOrMainOnlyRestore } from "../src/lib/vercel-git-deploy";
 
-/**
- * Slice 17.10 — homepage .panel-face is not an empty black rectangle.
- * Reuses the hero still. No invented wrap. CLOSE_AT null. No Stripe.
- */
-
 test.describe("slice 17.10: panel faces use the stainless still", () => {
   test("campaign money fences stay locked — CLOSE_AT null", () => {
     expect(FLOOR_USD).toBe(35_000);

@@ -13,9 +13,6 @@ import {
   OPENING_BID_RATIONALE_SOURCE,
 } from "../src/lib/opening-bid-rationale";
 
-/**
- * Slice 12.27 — opening-bid rationale one-liner on the seat from RULES.md only.
- */
 test.describe("slice 12.27: opening-bid rationale from RULES.md", () => {
   test("campaign money fences stay locked — CLOSE_AT null", () => {
     expect(FLOOR_USD).toBe(35_000);

@@ -9,11 +9,6 @@ import {
   formatUsd,
 } from "../src/lib/campaign";
 
-/**
- * Slice 13.1 — PROCESS.md: coordinator reads SLICES Waves 7–14;
- * live site is not a gate while the Vercel hold is on.
- * CLOSE_AT null. No Stripe.
- */
 const PROCESS = join(process.cwd(), "PROCESS.md");
 
 test.describe("slice 13.1: PROCESS.md SLICES + live site not a gate", () => {

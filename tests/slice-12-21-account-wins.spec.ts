@@ -30,10 +30,6 @@ async function resetServerIntents(request: APIRequestContext) {
   expect(res.ok()).toBeTruthy();
 }
 
-/**
- * Slice 12.21 — /account/wins lists only approved standing seats for that user.
- * CLOSE_AT null. No Stripe.
- */
 test.describe("slice 12.21: account wins approved seats only", () => {
   test("campaign money fences stay locked — CLOSE_AT null", () => {
     expect(FLOOR_USD).toBe(35_000);

@@ -17,10 +17,6 @@ import {
 } from "../src/lib/campaign-window";
 import { PUBLIC_COPY } from "../src/lib/public-copy";
 
-/**
- * QA 1047PM privacy rewrite, plus the approved Terms of Use from PR #434.
- * Footer links both. Back to the board is a button.
- */
 test.describe("slice 7.9: privacy policy and approved terms", () => {
   test("campaign money fences stay locked", () => {
     expect(FLOOR_USD).toBe(35_000);

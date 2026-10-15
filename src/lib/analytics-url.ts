@@ -1,8 +1,3 @@
-/**
- * BMB-ANALYTICS-1 — strip a pageview URL before it goes to Vercel Web Analytics.
- * Keeps only utm_* params so campaign links still attribute. Drops everything
- * else (waitlist confirm tokens, Stripe session_id, bid ids) and the hash.
- */
 export function redactAnalyticsUrl(raw: string): string {
   try {
     const url = new URL(raw);

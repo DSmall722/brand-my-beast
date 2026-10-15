@@ -23,9 +23,6 @@ async function resetServerIntents(request: APIRequestContext) {
   expect(res.ok()).toBeTruthy();
 }
 
-/**
- * Slice 8.7 — partner shop: approved seats + art only. No public header link.
- */
 test.describe("slice 8.7: partner shop approved seats + art", () => {
   test("campaign money fences stay locked", () => {
     expect(FLOOR_USD).toBe(35_000);

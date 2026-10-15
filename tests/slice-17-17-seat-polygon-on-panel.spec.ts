@@ -10,11 +10,6 @@ import { findCloseAtViolations } from "../src/lib/close-at-null";
 import { findStripePackagesInRootPackageJson } from "../src/lib/no-stripe-package";
 import { vercelJsonIsHoldOrMainOnlyRestore } from "../src/lib/vercel-git-deploy";
 
-/**
- * Slice 17.17 — seat 2 active polygon sits on the front bumper.
- * Same preview still. No new photos. CLOSE_AT null. No Stripe.
- */
-
 const FRONT = "/truck-view-front.jpg";
 
 function inside(

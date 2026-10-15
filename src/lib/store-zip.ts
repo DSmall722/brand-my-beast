@@ -1,8 +1,3 @@
-/**
- * Slice 14.42 — minimal ZIP (store-only, no compression).
- * No new runtime dependency. Enough for counsel export of text files.
- */
-
 import { crc32 } from "node:zlib";
 
 export type ZipEntry = {
@@ -22,9 +17,6 @@ function u32(n: number): Buffer {
   return b;
 }
 
-/**
- * Build an uncompressed ZIP archive from named text/binary entries.
- */
 export function buildStoreZip(entries: readonly ZipEntry[]): Buffer {
   const localParts: Buffer[] = [];
   const centralParts: Buffer[] = [];

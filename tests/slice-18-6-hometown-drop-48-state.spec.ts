@@ -4,11 +4,6 @@ import { findCloseAtViolations } from "../src/lib/close-at-null";
 import { findStripePackagesInRootPackageJson } from "../src/lib/no-stripe-package";
 import { vercelJsonIsHoldOrMainOnlyRestore } from "../src/lib/vercel-git-deploy";
 
-/**
- * Slice 18.6 — hometown lead drops 48-state. Etch stays locked under buyout.
- * Slice 19.2 takes the lane off public seats. CLOSE_AT null. No Stripe.
- */
-
 test.describe("slice 18.6: hometown lead drops 48-state", () => {
   test("campaign money fences stay locked — CLOSE_AT null", () => {
     expect(FLOOR_USD).toBe(35_000);

@@ -14,11 +14,6 @@ import { findStripePackagesInRootPackageJson } from "../src/lib/no-stripe-packag
 import { PUBLIC_COPY } from "../src/lib/public-copy";
 import { vercelJsonIsHoldOrMainOnlyRestore } from "../src/lib/vercel-git-deploy";
 
-/**
- * Slice 16.32 — OG image for `/` is the homepage hero still, photo only.
- * CLOSE_AT null. No Stripe.
- */
-
 const OG_SRC = join(process.cwd(), "src/app/opengraph-image.tsx");
 
 function pngSize(body: Buffer): { width: number; height: number } {

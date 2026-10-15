@@ -14,12 +14,6 @@ import { findStripePackagesInRootPackageJson } from "../src/lib/no-stripe-packag
 import { PUBLIC_COPY } from "../src/lib/public-copy";
 import { vercelJsonIsHoldOrMainOnlyRestore } from "../src/lib/vercel-git-deploy";
 
-/**
- * Slice 19.12 — Wave 19 Playwright pack.
- * H1 locked. Notify me. No hometown / sign-in-to-list on hood.
- * No lease. $35,000 / $120,000 stay. CLOSE_AT null. No Stripe.
- */
-
 const ROOT = process.cwd();
 const LOCKED_H1 = "Advertise your brand on the truck that people already photograph";
 const HOMETOWN_LABELS = ["Charlotte", "Atlanta", "Panhandle"] as const;

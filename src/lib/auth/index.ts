@@ -104,7 +104,6 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
   trustHost: true,
   session: {
     strategy: "jwt",
-    /** Slice 12.18 — documented max-age (see `./session`). */
     maxAge: SESSION_MAX_AGE_SECONDS,
   },
   pages: {

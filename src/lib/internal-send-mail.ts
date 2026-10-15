@@ -1,8 +1,3 @@
-/**
- * BMB-MAIL-1 — internal send via ImprovMX SMTP.
- * Auth is Bearer INTERNAL_MAIL_TOKEN. From is not caller-controllable.
- */
-
 import { timingSafeEqual } from "node:crypto";
 import nodemailer from "nodemailer";
 import { z } from "zod";

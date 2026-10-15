@@ -2,10 +2,6 @@ import { resolveAuthMode } from "@/lib/auth/mode";
 import { seedOpenPanelsZeroStanding } from "@/lib/seed-open-panels";
 import { testApiBlockedResponse } from "@/lib/test-api-gate";
 
-/**
- * Slice 12.10 — seed 12 open panels, zero standing. CI only.
- * 404 in production. Never sets CLOSE_AT. No Stripe.
- */
 export async function POST() {
   const blocked = testApiBlockedResponse();
   if (blocked) return blocked;

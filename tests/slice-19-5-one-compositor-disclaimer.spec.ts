@@ -16,11 +16,6 @@ import { PUBLIC_COPY } from "../src/lib/public-copy";
 import { STAINLESS_COMPOSITOR_LEAD } from "../src/lib/stainless-compositor";
 import { vercelJsonIsHoldOrMainOnlyRestore } from "../src/lib/vercel-git-deploy";
 
-/**
- * Slice 19.5 — one disclaimer on the seat compositor.
- * Floor / buyout are not stamped on every caption.
- */
-
 const ROOT = process.cwd();
 const LOCKED_H1 = "Advertise your brand on the truck that people already photograph";
 

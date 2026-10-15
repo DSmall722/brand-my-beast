@@ -25,10 +25,6 @@ async function signIn(page: import("@playwright/test").Page, email: string) {
   await expect(page.getByTestId("account-page")).toBeVisible();
 }
 
-/**
- * Slice 9.7 — withdraw intent while pending (listed) only.
- * Approved needs operator. Soft withdraw — no hard delete. No Stripe.
- */
 test.describe("slice 9.7: withdraw pending intent", () => {
   test.describe.configure({ mode: "serial" });
 
@@ -153,7 +149,6 @@ test.describe("slice 9.7: withdraw pending intent", () => {
     expect(html).toContain("$35,000");
     await page.close();
 
-    // Approved path: no withdraw control; operator note copy.
     const owner = await browser.newPage();
     await signIn(owner, "wd97-approved@example.com");
     await owner.goto("/panels/hood");

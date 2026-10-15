@@ -9,7 +9,6 @@ import { ARTWORK_MAX_DATA_URL_CHARS } from "@/lib/intent-artwork";
 
 const initial: IntentActionState = { ok: false };
 
-/** Slice 9.8 — edit brand / trade / art while pending (listed) only. */
 export function EditPendingIntentForm({
   bidId,
   brandLabel,
@@ -21,7 +20,6 @@ export function EditPendingIntentForm({
   brandLabel: string;
   tradeLabel: string;
   artworkUrl: string | null;
-  /** Slice 12.2 — optimistic lock token from the row the user loaded. */
   updatedAt: string;
 }) {
   const [state, action, pending] = useActionState(

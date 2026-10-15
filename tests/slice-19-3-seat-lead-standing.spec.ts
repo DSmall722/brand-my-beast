@@ -15,12 +15,6 @@ import { PUBLIC_COPY } from "../src/lib/public-copy";
 import { vercelJsonIsHoldOrMainOnlyRestore } from "../src/lib/vercel-git-deploy";
 import { markNewestAccountBidPaid } from "./helpers/mark-paid";
 
-/**
- * Slice 19.3 — seat lead: if no holder, opening price only.
- * Standing line only when a mark exists. Do not print
- * “Current standing $2,500” on an empty seat.
- */
-
 const ROOT = process.cwd();
 const LOCKED_H1 = "Advertise your brand on the truck that people already photograph";
 

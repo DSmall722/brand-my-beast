@@ -26,10 +26,6 @@ import {
   type TruckViewId,
 } from "@/lib/truck-views";
 
-/**
- * Extra geometry so the seat link's box is at least 44px on a 390px phone.
- * Percents of the still. Pads stay off the neighbor the QA check must not overlap.
- */
 const HOTSPOT_HIT_PAD: Record<
   string,
   { x: number; y: number; w: number; h: number }
@@ -39,7 +35,6 @@ const HOTSPOT_HIT_PAD: Record<
   tailgate: { x: 44.5, y: 41.3, w: 41.2, h: 19.2 },
 };
 
-/** Invisible pad so the name chip's box is >=44px on a 390px phone. */
 function chipHitBox(
   chip: { x: number; y: number; w: number; h: number },
   others: readonly { x: number; y: number; w: number; h: number }[],
@@ -80,24 +75,15 @@ function chipHitBox(
   return { x, y, w, h };
 }
 
-/**
- * Driver / passenger / front / rear toggles on TRACE AID lime flats.
- * Homepage keeps bakedMarks. The polygon is an invisible hit pad.
- * A small lime pill sits on the baked `(N) Name` ink. Seat pages
- * lock to the owning camera and do not paint chips.
- */
 export function TruckViewHotspots({
   occupiedPanelIds = [],
   activePanelId,
   compact = false,
   bakedMarks = false,
 }: {
-  /** Panel ids with a listed/approved standing mark. */
   occupiedPanelIds?: readonly string[];
-  /** Highlight the open seat when rendered on /panels/[id]. */
   activePanelId?: Panel["id"];
   compact?: boolean;
-  /** No numbered CSS discs. SVG overlays still render. */
   bakedMarks?: boolean;
 }) {
   const singleSeat = Boolean(activePanelId) && compact;
@@ -140,7 +126,6 @@ export function TruckViewHotspots({
   const chips = singleSeat ? [] : nameChipsForView(shownView);
   const stillSize = truckViewStillSize(shownView);
   const credit = TRUCK_VIEW_CREDITS[shownView];
-  /** Seat pages clear board overlays — sticky hover/active must not follow. */
   const polygonsMode = singleSeat ? "hidden" : "outline";
   const seatLinks = singleSeat
     ? []

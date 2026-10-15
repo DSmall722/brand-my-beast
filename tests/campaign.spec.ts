@@ -44,8 +44,6 @@ test.describe("P1 waitlist campaign locks", () => {
     page,
     request,
   }) => {
-    // CI is one memory ledger. The bid-desk spec can leave an approved
-    // hood mark at the $2,500 opening. Empty day-by-day is not pledged.
     const reset = await request.post("/api/test/reset-intents");
     expect(reset.ok()).toBeTruthy();
 

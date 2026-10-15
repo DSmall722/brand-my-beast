@@ -10,11 +10,6 @@ import { findCloseAtViolations } from "../src/lib/close-at-null";
 import { findStripePackagesInRootPackageJson } from "../src/lib/no-stripe-package";
 import { vercelJsonIsHoldOrMainOnlyRestore } from "../src/lib/vercel-git-deploy";
 
-/**
- * Slice 16.38 — prefers-reduced-motion: seat hit target stays still.
- * Labels are baked into the TRACE AID JPEG. CLOSE_AT null. No Stripe.
- */
-
 test.describe("slice 16.38: reduced motion keeps callouts still", () => {
   test("campaign money fences stay locked — CLOSE_AT null", () => {
     expect(FLOOR_USD).toBe(35_000);

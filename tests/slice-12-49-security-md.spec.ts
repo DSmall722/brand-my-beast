@@ -9,10 +9,6 @@ import {
   formatUsd,
 } from "../src/lib/campaign";
 
-/**
- * Slice 12.49 — SECURITY.md reports to hello@. No personal inbox.
- * CLOSE_AT null. No Stripe.
- */
 const SECURITY = join(process.cwd(), "SECURITY.md");
 
 test.describe("slice 12.49: SECURITY.md reports to hello@", () => {

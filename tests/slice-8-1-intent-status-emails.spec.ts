@@ -22,10 +22,6 @@ import {
   setIntentStatus,
 } from "../src/lib/intent-store";
 
-/**
- * Slice 8.1 — intent status emails: listed / outbid / approved / rejected+note.
- * Tests mock Resend. Do not send live mail.
- */
 test.describe("slice 8.1: intent status emails mock Resend", () => {
   test.beforeEach(async () => {
     await resetIntentStoreForTests();

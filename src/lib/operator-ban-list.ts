@@ -1,8 +1,3 @@
-/**
- * Slice 8.8 — operator ban-list table + hard-reject matching intents.
- * Additive to the static CAMPAIGN banned-trades rules (slice 2.3).
- */
-
 import { asc } from "drizzle-orm";
 import { getDb } from "./db";
 import { operatorBanList } from "./db/schema";
@@ -135,7 +130,6 @@ export function assertOperatorBanAllowed(input: {
   brandLabel: string;
   tradeLabel: string;
   rules: readonly BanListRule[];
-  /** Where the match was checked (place / edit / sweep). */
   context?: string;
 }): { ok: true } | { ok: false; error: string; rule: BanListRule } {
   for (const rule of input.rules) {
@@ -156,7 +150,6 @@ export function assertOperatorBanAllowed(input: {
   return { ok: true };
 }
 
-/** Slice 12.30 — structured ban-list match log keyed by rule id. */
 export type BanListMatchLog = {
   at: string;
   ruleId: string;
@@ -212,7 +205,6 @@ export function resetOperatorBanListForTests(): void {
   clearBanListLastRun();
 }
 
-/** Slice 16.27 — panel numbers blocked by the latest ban-list sweep. */
 export type BanListLastRun = {
   at: string;
   pattern: string;

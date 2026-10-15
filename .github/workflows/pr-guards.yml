@@ -76,6 +76,28 @@ jobs:
           PR_TITLE: ${{ github.event.pull_request.title }}
         run: sh scripts/ci/missing-tests.sh
 
+  new-comments:
+    name: new-comments
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          ref: ${{ github.event.pull_request.head.sha }}
+
+      - name: Fetch base
+        env:
+          BASE: ${{ github.base_ref }}
+        run: git fetch --no-tags origin "+refs/heads/${BASE}:refs/remotes/origin/${BASE}"
+
+      - name: Warn on added code comments
+        env:
+          BASE: ${{ github.base_ref }}
+          HEAD: ${{ github.event.pull_request.head.sha }}
+        run: sh scripts/ci/new-comments.sh
+
   guard-self-check:
     name: guard-self-check
     runs-on: ubuntu-latest

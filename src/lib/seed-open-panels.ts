@@ -1,8 +1,3 @@
-/**
- * Slice 12.10 — seed board: 11 open panels, zero standing. CI / test only.
- * Never runs a capture path. Never sets CLOSE_AT.
- */
-
 import { PANELS } from "./campaign";
 import {
   loadBoardIntentStats,
@@ -26,10 +21,6 @@ export function seedOpenPanelsAllowed(
   return true;
 }
 
-/**
- * Reset the intent ledger and return an empty board:
- * eleven panels open, pledged standing $0.
- */
 export async function seedOpenPanelsZeroStanding(): Promise<
   SeedOpenPanelsResult | { ok: false; error: string }
 > {

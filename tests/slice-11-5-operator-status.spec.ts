@@ -22,10 +22,6 @@ async function signIn(page: Page, email: string) {
   await expect(page.getByTestId("account-page")).toBeVisible();
 }
 
-/**
- * Slice 11.5 — operator status panel: DB ping + waitlist count.
- * Auth-gated on `/operator`. No public URL / homepage link.
- */
 test.describe("slice 11.5: operator status panel", () => {
   test("campaign money fences stay locked", () => {
     expect(FLOOR_USD).toBe(35_000);
@@ -86,7 +82,6 @@ test.describe("slice 11.5: operator status panel", () => {
     await expect(page.getByTestId("operator-status-db")).toHaveText(
       "Memory (CI)",
     );
-    // Count is cumulative in the shared memory process — at least our two.
     const countText = await page
       .getByTestId("operator-status-waitlist-count")
       .innerText();
@@ -94,7 +89,6 @@ test.describe("slice 11.5: operator status panel", () => {
     expect(countMatch).not.toBeNull();
     expect(Number(countMatch![1])).toBeGreaterThanOrEqual(2);
 
-    // No public URL / homepage surface for this panel.
     const publicPage = await browser.newPage();
     await publicPage.goto("/");
     await expect(

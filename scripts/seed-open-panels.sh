@@ -1,6 +1,4 @@
 #!/usr/bin/env bash
-# Slice 12.10 — seed 12 open panels, zero standing. CI / local test only.
-# Refuses production. Does not set CLOSE_AT. Intent only — no capture.
 set -euo pipefail
 
 if [[ "${VERCEL_ENV:-}" == "production" || "${NODE_ENV:-}" == "production" ]]; then

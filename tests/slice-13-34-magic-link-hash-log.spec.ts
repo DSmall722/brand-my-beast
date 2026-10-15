@@ -15,11 +15,6 @@ import {
   resetStructuredLogsForTests,
 } from "../src/lib/structured-log";
 
-/**
- * Slice 13.34 — magic-link request logs hashed email only (ties 12.41).
- * CLOSE_AT null. No Stripe. Hold-mode untouched.
- */
-
 test.describe("slice 13.34: magic-link request hashed email log", () => {
   test.describe.configure({ mode: "serial" });
 

@@ -19,12 +19,6 @@ import {
   waitlistStoreUsesMemory,
 } from "../src/lib/waitlist";
 
-/**
- * Slice 16.0c — waitlist_signups.want_whole_truck boolean default false.
- * Memory store carries the same field. No pledged math change.
- * API accept is 16.0d. CLOSE_AT null. No Stripe. SEATS_OPEN untouched.
- */
-
 const MIGRATION = join(
   process.cwd(),
   "drizzle/0020_waitlist_want_whole_truck.sql",

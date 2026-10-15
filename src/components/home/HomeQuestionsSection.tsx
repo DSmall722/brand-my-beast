@@ -1,6 +1,5 @@
 import { PUBLIC_COPY, faqCloseAnswer } from "@/lib/public-copy";
 
-/** Slice 7.1 — extracted from `src/app/page.tsx`. Copy unchanged. */
 export function HomeQuestionsSection() {
   return (
         <section

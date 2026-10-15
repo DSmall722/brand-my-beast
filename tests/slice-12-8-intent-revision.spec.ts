@@ -19,10 +19,6 @@ import {
   resetIntentStoreForTests,
 } from "../src/lib/intent-store";
 
-/**
- * Slice 12.8 — intent revision table: brand/trade/amount/art + timestamps.
- * CLOSE_AT null. No Stripe.
- */
 test.describe("slice 12.8: intent revision table", () => {
   test.describe.configure({ mode: "serial" });
 

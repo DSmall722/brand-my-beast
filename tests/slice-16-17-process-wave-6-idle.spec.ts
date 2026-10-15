@@ -12,11 +12,6 @@ import { findCloseAtViolations } from "../src/lib/close-at-null";
 import { findStripePackagesInRootPackageJson } from "../src/lib/no-stripe-package";
 import { vercelJsonIsHoldOrMainOnlyRestore } from "../src/lib/vercel-git-deploy";
 
-/**
- * Slice 16.17 — PROCESS.md has no leftover “Wave 6 idle” sentence.
- * FEATURES.md stays off /. CLOSE_AT null. No Stripe.
- */
-
 const PROCESS = join(process.cwd(), "PROCESS.md");
 
 test.describe("slice 16.17: PROCESS.md has no Wave 6 idle sentence", () => {

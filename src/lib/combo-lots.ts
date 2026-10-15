@@ -1,7 +1,3 @@
-/**
- * Neighbor-panel combo lots. Display only — not a joint bid, no combo price.
- */
-
 import { FLOOR_USD, GOAL_USD, PANELS, formatUsd, type Panel } from "./campaign";
 import { adjacentPanelIds, panelName } from "./panel-clash";
 
@@ -54,10 +50,6 @@ export function comboLotCopyIsSafe(): boolean {
   );
 }
 
-/**
- * Slice 10.10 — neighbor combo is display only.
- * Opening marks per neighbor are fine; a summed/package combo price is not.
- */
 export function comboLotInventedPrice(blob: string): boolean {
   const lower = blob.toLowerCase();
   if (/(?<!\bno\s)combo\s*(price|total|package|deal)/i.test(blob)) return true;

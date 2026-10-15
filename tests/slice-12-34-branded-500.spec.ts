@@ -10,10 +10,6 @@ import {
 } from "../src/lib/campaign";
 import { PUBLIC_COPY } from "../src/lib/public-copy";
 
-/**
- * Slice 12.34 — error boundary + branded 500 that is not a panel.
- * CLOSE_AT null. No Stripe.
- */
 test.describe("slice 12.34: branded error boundary", () => {
   test("campaign money fences stay locked — CLOSE_AT null", () => {
     expect(FLOOR_USD).toBe(35_000);

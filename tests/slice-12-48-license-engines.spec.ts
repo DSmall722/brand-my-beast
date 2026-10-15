@@ -9,11 +9,6 @@ import {
   formatUsd,
 } from "../src/lib/campaign";
 
-/**
- * Slice 12.48 — package.json license + engines. No new runtime.
- * CLOSE_AT null. No Stripe.
- */
-
 type Pkg = {
   license?: string;
   engines?: { node?: string };
@@ -44,7 +39,6 @@ test.describe("slice 12.48: package.json license + engines", () => {
     expect(names.some((name) => name !== "stripe" && name.toLowerCase().includes("stripe"))).toBe(
       false,
     );
-    // No new runtime deps beyond the existing stack (slice: no new runtime).
     expect(names.filter((name) => name.toLowerCase() !== "stripe" && name.toLowerCase().includes("stripe"))).toEqual([]);
   });
 });

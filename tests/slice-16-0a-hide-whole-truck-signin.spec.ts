@@ -14,12 +14,6 @@ import { findStripePackagesInRootPackageJson } from "../src/lib/no-stripe-packag
 import { PUBLIC_COPY } from "../src/lib/public-copy";
 import { vercelJsonIsHoldOrMainOnlyRestore } from "../src/lib/vercel-git-deploy";
 
-/**
- * Slice 16.0a — hide whole-truck sign-in and form from public `/`.
- * Keep buyout cell, vault marks, heading + lead. Waitlist stays.
- * Do not flip SEATS_OPEN. CLOSE_AT null. No Stripe.
- */
-
 const ROOT = process.cwd();
 
 test.describe("slice 16.0a: hide public whole-truck sign-in", () => {

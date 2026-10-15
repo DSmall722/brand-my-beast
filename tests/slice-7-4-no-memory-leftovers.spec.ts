@@ -14,10 +14,6 @@ import { contentRightsStoreUsesMemory } from "../src/lib/content-rights-store";
 import { leftoverStoreUsesMemory } from "../src/lib/leftover-store-mode";
 import { sightingStoreUsesMemory } from "../src/lib/sighting-store";
 
-/**
- * Slice 7.4 — leftover plaque / sighting / circuit / content-rights stores
- * never use in-memory Maps in Production (same rule as 6.7).
- */
 test.describe("slice 7.4: no leftover memory stores in Production", () => {
   test("campaign money fences stay locked", () => {
     expect(FLOOR_USD).toBe(35_000);

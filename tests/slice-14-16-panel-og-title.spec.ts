@@ -15,11 +15,6 @@ import { panelDisplayName } from "../src/lib/panel-board";
 import { panelOpenGraphTitle } from "../src/lib/panel-open-graph";
 import { vercelJsonIsHoldOrMainOnlyRestore } from "../src/lib/vercel-git-deploy";
 
-/**
- * Slice 14.16 — Per-panel Open Graph title `{Panel} | BrandMyBeast`.
- * CLOSE_AT null. No Stripe. No clock. Hold-mode untouched.
- */
-
 const ROOT = process.cwd();
 const PANEL_PAGE = join(ROOT, "src/app/panels/[panelId]/page.tsx");
 

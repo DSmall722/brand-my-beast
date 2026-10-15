@@ -1,11 +1,6 @@
 import { expect, test } from "@playwright/test";
 import { CLOSE_AT, FLOOR_USD, GOAL_USD } from "../src/lib/campaign";
 
-/**
- * Desktop layout polish after the full-width shell.
- * Floor $35,000 / buyout $120,000. CLOSE_AT stays null.
- */
-
 test.describe("desktop layout polish", () => {
   test("campaign money fences stay locked", () => {
     expect(FLOOR_USD).toBe(35_000);

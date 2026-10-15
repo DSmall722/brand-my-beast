@@ -13,11 +13,6 @@ import { findCloseAtViolations } from "../src/lib/close-at-null";
 import { findStripePackagesInRootPackageJson } from "../src/lib/no-stripe-package";
 import { vercelJsonIsHoldOrMainOnlyRestore } from "../src/lib/vercel-git-deploy";
 
-/**
- * Slice 16.29 — opening prices on cards stay formatUsd from campaign.ts.
- * No third money number. FEATURES.md stays off /. CLOSE_AT null. No Stripe.
- */
-
 test.describe("slice 16.29: card opening prices use formatUsd", () => {
   test("campaign money fences stay locked — CLOSE_AT null", () => {
     expect(FLOOR_USD).toBe(35_000);

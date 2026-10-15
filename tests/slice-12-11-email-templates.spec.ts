@@ -17,10 +17,6 @@ import { buildIntentStatusMail } from "../src/lib/intent-status-mail";
 import { formatOperatorDigestText } from "../src/lib/operator-digest";
 import type { IntentBid } from "../src/lib/intent";
 
-/**
- * Slice 12.11 — email templates as files under src/emails/.
- * CLOSE_AT null. No Stripe.
- */
 test.describe("slice 12.11: email templates under src/emails/", () => {
   test("campaign money fences stay locked — CLOSE_AT null", () => {
     expect(FLOOR_USD).toBe(35_000);

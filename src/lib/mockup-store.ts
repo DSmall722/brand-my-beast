@@ -33,7 +33,6 @@ export async function listMockupsForBids(
   return out;
 }
 
-/** Slice 10.4 — operator mockup queue rows, newest first. No Imagine API. */
 export async function listMockupQueue(): Promise<ImagineMockup[]> {
   return [...mockupMap().values()].sort((a, b) =>
     b.createdAt.localeCompare(a.createdAt),
@@ -44,10 +43,6 @@ export type QueueMockupResult =
   | { ok: true; mockup: ImagineMockup }
   | { ok: false; error: string };
 
-/**
- * Operator queues a same-day Imagine placeholder for a listed intent.
- * Memory store for P2 scaffold — durable table lands with real Imagine wiring.
- */
 export async function queueImagineMockup(input: {
   bidId: string;
   finish: "wrap" | "etch";

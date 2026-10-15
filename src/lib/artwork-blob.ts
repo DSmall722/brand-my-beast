@@ -1,8 +1,3 @@
-/**
- * Slice 8.5 — artwork blob store (or equivalent).
- * Intent ledger `artwork_url` holds http(s) or `/api/artwork/{id}` only — never data: URLs.
- */
-
 import { eq } from "drizzle-orm";
 import { getDb } from "./db";
 import { artworkBlobs } from "./db/schema";
@@ -16,7 +11,6 @@ export const ARTWORK_BLOB_PATH_PREFIX = "/api/artwork/";
 export type ArtworkBlobRecord = {
   id: string;
   contentType: string;
-  /** Raw base64 payload (no data: prefix). */
   bodyBase64: string;
 };
 
@@ -37,7 +31,6 @@ function memoryBlobs(): Map<string, ArtworkBlobRecord> {
   return globalStore.__bmbArtworkBlobs;
 }
 
-/** Same CI/local rule as intent ledger — no circular import. */
 export function artworkBlobUsesMemory(
   env: MemoryEnv = process.env as MemoryEnv,
 ): boolean {
@@ -57,7 +50,6 @@ export function artworkBlobIdFromPath(url: string): string | null {
   return id && /^[a-zA-Z0-9_-]+$/.test(id) ? id : null;
 }
 
-/** Ledger must never persist a data: URL in artwork_url. */
 export function assertLedgerArtworkUrl(
   artworkUrl: string | null | undefined,
 ): void {
@@ -88,9 +80,6 @@ export type PutArtworkResult =
   | { ok: true; url: string; id: string }
   | { ok: false; error: string };
 
-/**
- * Store a validated data:image upload. Returns a short ledger URL.
- */
 export async function putArtworkBlob(
   dataUrl: string,
 ): Promise<PutArtworkResult> {
@@ -160,10 +149,6 @@ export async function getArtworkBlob(
   };
 }
 
-/**
- * Turn a parseIntentArtwork result into a ledger-safe URL.
- * data: uploads → blob path; http(s) passes through; null stays null.
- */
 export async function persistArtworkForLedger(
   artworkUrl: string | null,
 ): Promise<PutArtworkResult | { ok: true; url: null }> {

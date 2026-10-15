@@ -10,10 +10,6 @@ import {
 } from "../src/lib/campaign";
 import { PUBLIC_COPY } from "../src/lib/public-copy";
 
-/**
- * Slice 7.10 — layout.tsx title + description match PUBLIC_COPY meta.
- * Assert rendered HTML from the app under test — not the live tab.
- */
 test.describe("slice 7.10: layout meta matches PUBLIC_COPY", () => {
   test("campaign money fences stay locked", () => {
     expect(FLOOR_USD).toBe(35_000);

@@ -1,14 +1,5 @@
-/**
- * Driver / passenger / front / rear truck views + SVG hotspot seats.
- * Front, rear, and driver stills are 2048×1360. Passenger is the
- * 1728×1152 plaza bake. SVG is hit / hover only —
- * `(N) Name` is baked into the JPEG. Preview only — no capture, no
- * clock, no invented truck photos.
- */
-
 import { FLOOR_USD, GOAL_USD, PANELS, formatUsd, type Panel } from "./campaign";
 
-/** QA 1047PM — Preview the Panels tab order: Front → Driver → Passenger → Rear. */
 export const TRUCK_VIEWS = [
   { id: "front", label: "Front" },
   { id: "driver", label: "Driver" },
@@ -18,20 +9,13 @@ export const TRUCK_VIEWS = [
 
 export type TruckViewId = (typeof TRUCK_VIEWS)[number]["id"];
 
-/** Percent box — overlays sit 1:1 on each camera’s JPEG. */
 export const TRUCK_VIEW_BOX = { w: 100, h: 100 } as const;
 
 export type TruckHotspot = {
   panelId: Panel["id"];
-  /** SVG polygon points in a 100×100 viewBox (percents of the JPEG). */
   points: string;
 };
 
-/**
- * Visible pill around baked `(N) Name` ink. Percent of the still,
- * already padded. The hotspot polygon stays the invisible hit pad.
- * Stills are 3:2, so a round cap uses rx = ry * 2/3 in this viewBox.
- */
 export type NameChip = {
   panelId: Panel["id"];
   x: number;
@@ -89,7 +73,6 @@ const OWNER_VIEW = {
   "rear-bumper": "rear",
 } as const satisfies Record<string, TruckViewId>;
 
-/** Camera that owns the seat on `/panels/[id]`. */
 export function viewOwningPanel(panelId: string): TruckViewId {
   if (!(panelId in OWNER_VIEW)) {
     throw new Error(`truck-views: no owning camera for ${panelId}`);
@@ -97,7 +80,6 @@ export function viewOwningPanel(panelId: string): TruckViewId {
   return OWNER_VIEW[panelId as keyof typeof OWNER_VIEW];
 }
 
-/** Door packages stay on cab steel leaves only — no front fender, no glass. */
 export const DRIVER_DOOR_BOUNDS_PCT = {
   x0: 28,
   x1: 58,
@@ -112,10 +94,6 @@ export const PASSENGER_DOOR_BOUNDS_PCT = {
   y1: 75,
 } as const;
 
-/**
- * One camera = only that face’s seats. Do not draw front/rear (or the
- * opposite side) on a flank still just because steel is visible in the photo.
- */
 export const VIEW_OWNED_PANEL_IDS = {
   front: ["hood", "front-fascia", "front-bumper"],
   driver: ["driver-door", "driver-rear-quarter", "driver-bed"],
@@ -123,12 +101,6 @@ export const VIEW_OWNED_PANEL_IDS = {
   rear: ["tailgate", "rear-bumper"],
 } as const satisfies Record<TruckViewId, readonly Panel["id"][]>;
 
-/**
- * Driver profile: nose left. Seats 4–6 only.
- * Pre-cropped garage bake at full-side framing (no extra zoom).
- * Doors = both cab leaves under the belt. Sail = wedge on the roof
- * slope. Bed = bedside under that seam, notched over the tire.
- */
 const DRIVER_HOTSPOTS: readonly TruckHotspot[] = [
   {
     panelId: "driver-door",
@@ -142,7 +114,6 @@ const DRIVER_HOTSPOTS: readonly TruckHotspot[] = [
   },
   {
     panelId: "driver-rear-quarter",
-    // Invisible pad. Stays above the bed with a gap, tall enough for 44px at 390.
     points: pctPoints([
       [56.5, 26],
       [86, 26],
@@ -152,7 +123,6 @@ const DRIVER_HOTSPOTS: readonly TruckHotspot[] = [
   },
   {
     panelId: "driver-bed",
-    // Below the sail. No shared edge. Tall enough for 44px at 390.
     points: pctPoints([
       [70, 51.2],
       [92, 51.2],
@@ -162,11 +132,6 @@ const DRIVER_HOTSPOTS: readonly TruckHotspot[] = [
   },
 ];
 
-/**
- * Passenger profile: nose right. Seats 7–9 only.
- * Plaza bake. Doors = both cab leaves under the belt. Sail = wedge on
- * the roof slope. Bed = bedside under that seam, notched over the tire.
- */
 const PASSENGER_HOTSPOTS: readonly TruckHotspot[] = [
   {
     panelId: "passenger-door",
@@ -179,7 +144,6 @@ const PASSENGER_HOTSPOTS: readonly TruckHotspot[] = [
   },
   {
     panelId: "passenger-rear-quarter",
-    // Seat 8. Separated from seat 9. Tall enough for 44px at 390.
     points: pctPoints([
       [1, 20],
       [21.5, 20],
@@ -189,7 +153,6 @@ const PASSENGER_HOTSPOTS: readonly TruckHotspot[] = [
   },
   {
     panelId: "passenger-bed",
-    // Seat 9. Gap above seat 8. Tall enough for 44px at 390.
     points: pctPoints([
       [1, 47],
       [21.5, 47],
@@ -199,15 +162,9 @@ const PASSENGER_HOTSPOTS: readonly TruckHotspot[] = [
   },
 ];
 
-/**
- * Front: head-on. Stainless face (2) sits above plastic bumper (3).
- * Thin TRACE AID bands (hood / sail / rear bumper) are padded to ≥19%
- * height so the invisible hit target stays ≥44px on a 390px seat well.
- */
 const FRONT_HOTSPOTS: readonly TruckHotspot[] = [
   {
     panelId: "hood",
-    // ≥19% tall for ≥44px hit on seat wells; shorter than pre-QA face wash.
     points: pctPoints([
       [12, 17],
       [88, 17],
@@ -226,7 +183,6 @@ const FRONT_HOTSPOTS: readonly TruckHotspot[] = [
   },
   {
     panelId: "front-bumper",
-    // Larger than main’s ~14.5% band — plastic bumper reads as the lower third.
     points: pctPoints([
       [8, 55],
       [91, 55],
@@ -236,7 +192,6 @@ const FRONT_HOTSPOTS: readonly TruckHotspot[] = [
   },
 ];
 
-/** Rear: TRACE AID forest-road still. Seats 10 + 11 only. */
 const REAR_HOTSPOTS: readonly TruckHotspot[] = [
   {
     panelId: "tailgate",
@@ -280,12 +235,6 @@ type ChipPad = {
   bottom: number;
 };
 
-/**
- * Pixel pad around baked `(N) Name` ink.
- * 72px on a 2048-wide still is about 12px when the board is 350px wide.
- * Passenger scales to 61px on its 1728-wide still so the visual pad matches.
- * Sail and bed names are 34px apart, so that shared edge stays at 14px.
- */
 const NAME_CHIP_PAD_PX = 72;
 const PASSENGER_CHIP_PAD_PX = 61;
 const PASSENGER_STACK_PAD_PX = 14;
@@ -401,7 +350,6 @@ export function nameChipsForView(view: TruckViewId): readonly NameChip[] {
   return NAME_CHIPS[view];
 }
 
-/** Every panel id that appears as a hotspot in any view. */
 export function hotspotPanelIds(): readonly Panel["id"][] {
   const ids = new Set<Panel["id"]>();
   for (const view of TRUCK_VIEWS) {
@@ -412,7 +360,6 @@ export function hotspotPanelIds(): readonly Panel["id"][] {
   return [...ids];
 }
 
-/** Slice 17.2 — floor + buyout, no lease, no CLOSE_AT. */
 export function truckViewsLeadIsSafe(lead: string): boolean {
   const lower = lead.toLowerCase();
   return (
@@ -450,7 +397,6 @@ function pointsInsideBounds(
   );
 }
 
-/** Door packages stay on cab leaves — no fender, no above-window glass. */
 export function doorPackagesAreCabLeaves(): boolean {
   const driver = DRIVER_HOTSPOTS.find((spot) => spot.panelId === "driver-door");
   const passenger = PASSENGER_HOTSPOTS.find(
@@ -463,7 +409,6 @@ export function doorPackagesAreCabLeaves(): boolean {
   );
 }
 
-/** Hotspots must point at real campaign panels only. */
 export function truckHotspotsAreValid(): boolean {
   const known = new Set(PANELS.map((panel) => panel.id));
   for (const view of TRUCK_VIEWS) {

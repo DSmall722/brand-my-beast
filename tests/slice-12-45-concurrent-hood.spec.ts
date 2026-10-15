@@ -16,10 +16,6 @@ import {
   setIntentStatus,
 } from "../src/lib/intent-store";
 
-/**
- * Slice 12.45 — concurrent two bidders on hood → only one approved standing.
- * CLOSE_AT null. No Stripe.
- */
 test.describe("slice 12.45: concurrent hood bidders → one approved", () => {
   test.describe.configure({ mode: "serial" });
 

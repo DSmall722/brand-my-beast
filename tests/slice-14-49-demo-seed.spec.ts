@@ -18,11 +18,6 @@ import {
 import { seedDemoAllowed, seedDemoMixedBoard } from "../src/lib/seed-demo";
 import { vercelJsonIsHoldOrMainOnlyRestore } from "../src/lib/vercel-git-deploy";
 
-/**
- * Slice 14.49 — local demo seed: 3 pending, 1 approved, 1 outbid. CI only.
- * CLOSE_AT null. No Stripe. Hold-mode untouched.
- */
-
 const ROOT = process.cwd();
 
 test.describe("slice 14.49: local demo seed 3 pending / 1 approved / 1 outbid", () => {
@@ -36,7 +31,6 @@ test.describe("slice 14.49: local demo seed 3 pending / 1 approved / 1 outbid", 
   });
 
   test.afterEach(async ({ request }) => {
-    // Do not leave approved standing on the shared CI memory board.
     await resetIntentStoreForTests();
     const res = await request.post("/api/test/reset-intents");
     expect(res.ok()).toBeTruthy();

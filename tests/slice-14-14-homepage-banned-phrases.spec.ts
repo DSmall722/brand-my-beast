@@ -11,12 +11,6 @@ import { findCloseAtViolations } from "../src/lib/close-at-null";
 import { findStripePackagesInRootPackageJson } from "../src/lib/no-stripe-package";
 import { vercelJsonIsHoldOrMainOnlyRestore } from "../src/lib/vercel-git-deploy";
 
-/**
- * Slice 14.14 — homepage HTML has no “Season 2”, “Clemson Saturday”, or
- * “48-state.” Vapor boards stay behind TRUCK_EXISTS. CLOSE_AT null. No Stripe.
- * No clock. Hold-mode untouched.
- */
-
 const ROOT = process.cwd();
 
 const BANNED_HOMEPAGE_PHRASES = [

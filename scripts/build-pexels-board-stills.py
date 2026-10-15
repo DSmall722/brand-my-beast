@@ -32,7 +32,6 @@ LOCAL = ROOT / "scripts" / "pexels-original"
 UPLOADS = Path("/home/ubuntu/.cursor/projects/workspace/uploads")
 WIDE = (1280, 720)
 
-# 16:9 crops in source pixels (left, top, right, bottom).
 SOURCES = {
     "driver": {
         "names": (

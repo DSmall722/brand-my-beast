@@ -9,10 +9,6 @@ import {
   formatUsd,
 } from "../src/lib/campaign";
 
-/**
- * Slice 13.3 — CAMPAIGN.md links CONTRACT.md for wreck text.
- * Money table stays $35,000 / $120,000. CLOSE_AT null. No Stripe.
- */
 const CAMPAIGN = join(process.cwd(), "CAMPAIGN.md");
 const CONTRACT = join(process.cwd(), "CONTRACT.md");
 

@@ -1,8 +1,3 @@
-/**
- * Slice 14.42 — counsel export: CONTRACT.md + standing table ZIP.
- * No emails / userIds in the ZIP. Operator-gated. Not a charge path.
- */
-
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import type { IntentBid } from "./intent";
@@ -25,7 +20,6 @@ export const COUNSEL_STANDING_HEADERS = [
   "bid_id",
 ] as const;
 
-/** Standing row with no email / userId columns. Seat number is the board index. */
 export function standingBidToCounselRow(bid: IntentBid): string[] {
   return [
     String(panelBoardMarkFor(bid.panelId).n),
@@ -50,12 +44,10 @@ export function buildCounselStandingCsv(
   return `${lines.join("\n")}\n`;
 }
 
-/** True when the CSV blob contains an email-like token or userId column. */
 export function counselStandingHasEmailLeak(csv: string): boolean {
   const lower = csv.toLowerCase();
   if (lower.includes("user_id") || lower.includes("userid")) return true;
   if (lower.includes("email")) return true;
-  // Angle / bare email shapes.
   if (/[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}/i.test(csv)) return true;
   return false;
 }

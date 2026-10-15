@@ -12,23 +12,15 @@ import { findCloseAtViolations } from "../src/lib/close-at-null";
 import { findStripePackagesInRootPackageJson } from "../src/lib/no-stripe-package";
 import { vercelJsonIsHoldOrMainOnlyRestore } from "../src/lib/vercel-git-deploy";
 
-/**
- * Slice 14.23 — Favicon 32/180 only if missing.
- * Both sizes already shipped in 6.10 (favicon.ico 32×32, apple-icon 180×180).
- * This slice proves they stay; do not invent duplicates. CLOSE_AT null.
- * No Stripe. Hold-mode untouched. No 30-day clock.
- */
-
 const ROOT = process.cwd();
 const FAVICON = join(ROOT, "src/app/favicon.ico");
 const ICON_SVG = join(ROOT, "src/app/icon.svg");
 const APPLE = join(ROOT, "src/app/apple-icon.tsx");
 
-/** ICO type-1 entry: width/height bytes at offset 6/7 (0 means 256). */
 function icoFirstSize(buf: Buffer): { width: number; height: number } {
-  expect(buf.readUInt16LE(0)).toBe(0); // reserved
-  expect(buf.readUInt16LE(2)).toBe(1); // type = icon
-  expect(buf.readUInt16LE(4)).toBeGreaterThanOrEqual(1); // count
+  expect(buf.readUInt16LE(0)).toBe(0);
+  expect(buf.readUInt16LE(2)).toBe(1);
+  expect(buf.readUInt16LE(4)).toBeGreaterThanOrEqual(1);
   const w = buf.readUInt8(6);
   const h = buf.readUInt8(7);
   return { width: w === 0 ? 256 : w, height: h === 0 ? 256 : h };
@@ -73,7 +65,6 @@ test.describe("slice 14.23: favicon 32/180 only if missing", () => {
     expect(appleSrc).toContain("BrandMyBeast");
     expect(appleSrc.toLowerCase()).not.toMatch(/\blease\b/);
 
-    // Do not invent a parallel icon.tsx when 32 is already covered.
     expect(existsSync(join(ROOT, "src/app/icon.tsx"))).toBe(false);
   });
 
@@ -93,7 +84,6 @@ test.describe("slice 14.23: favicon 32/180 only if missing", () => {
     expect(apple.headers()["content-type"] ?? "").toMatch(/image\/png/i);
     const png = Buffer.from(await apple.body());
     expect(png.byteLength).toBeGreaterThan(800);
-    // PNG IHDR width/height at bytes 16–23
     expect(png.subarray(0, 8)).toEqual(
       Buffer.from([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a]),
     );

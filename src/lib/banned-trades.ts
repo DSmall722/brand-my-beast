@@ -1,8 +1,3 @@
-/**
- * Hard-reject banned trades (CAMPAIGN brand rules / SLICES 2.3).
- * Porn, hate, scams, and school/grocery-lot fails never list.
- */
-
 export type BannedTradeReason = "porn" | "hate" | "scam" | "school_lot";
 
 const RULES: readonly {
@@ -34,7 +29,6 @@ const REASON_LABEL: Record<BannedTradeReason, string> = {
   school_lot: "school-lot fail",
 };
 
-/** Scan brand + trade for hard-ban tokens. */
 export function findBannedTradeReason(
   brandLabel: string,
   tradeLabel: string,

@@ -8,10 +8,6 @@ import {
   shopCutFileChecklistFenceCopy,
 } from "@/lib/shop-cut-file-checklist";
 
-/**
- * Slice 12.23 — shop cut-file checklist as a <form> on /partner/shop.
- * Not a card. Not on `/`. Checkboxes are local prep only.
- */
 export function ShopCutFileChecklist() {
   const [checked, setChecked] = useState<Record<string, boolean>>({});
 

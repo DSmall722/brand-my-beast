@@ -14,11 +14,6 @@ import { findStripePackagesInRootPackageJson } from "../src/lib/no-stripe-packag
 import { PUBLIC_COPY } from "../src/lib/public-copy";
 import { vercelJsonIsHoldOrMainOnlyRestore } from "../src/lib/vercel-git-deploy";
 
-/**
- * Slice 19.11 — document title and 404 title are BrandMyBeast + locked idea.
- * Drop leftover “advertise on a Cybertruck”. H1 unchanged. CLOSE_AT null.
- */
-
 const ROOT = process.cwd();
 const LOCKED_H1 = "Advertise your brand on the truck that people already photograph";
 const LOCKED_TITLE = `BrandMyBeast — ${LOCKED_H1}`;

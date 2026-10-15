@@ -1,8 +1,3 @@
-/**
- * Slice 10.6 — export one PNG per seat.
- * Auth-gated server route. Preview only. No Stripe. No permanent vinyl.
- */
-
 import { BRAND, FLOOR_USD, GOAL_USD, formatUsd, type Panel } from "./campaign";
 import { PUBLIC_COPY } from "./public-copy";
 

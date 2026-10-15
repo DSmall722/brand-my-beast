@@ -1,8 +1,3 @@
-/**
- * Span attribute allowlist for Vercel OpenTelemetry.
- * Anything else is deleted before the built-in exporter sees the span.
- * Kind and timing stay on the span object; they are not attributes.
- */
 export const ATTRIBUTE_ALLOWLIST = [
   "http.method",
   "http.request.method",
@@ -19,7 +14,6 @@ export const ATTRIBUTE_ALLOWLIST = [
 
 const ALLOW = new Set<string>(ATTRIBUTE_ALLOWLIST);
 
-/** Payment, bid, and Stripe webhook spans keep method, route template, and status only. */
 const SENSITIVE_ALLOW = new Set<string>([
   "http.method",
   "http.request.method",
@@ -108,7 +102,6 @@ function stripQueryAndHash(value: string): string {
   return value.replace(/\?[^ \t]*/g, "").replace(/#[^ \t]*/g, "");
 }
 
-/** Path or URL → route template. Query strings are removed. Ids become [id]. */
 export function templateRoute(raw: string): string {
   let path = stripQueryAndHash(raw).trim();
   const methodPrefix = path.match(
@@ -281,7 +274,6 @@ export function scrubSpan(span: ScrubbableSpan): void {
   span.updateName?.(span.name);
 }
 
-/** onStart/onEnd wrapper. Deletes non-allowlisted attributes in place. */
 export function createScrubSpanProcessor() {
   return {
     onStart(span: ScrubbableSpan) {

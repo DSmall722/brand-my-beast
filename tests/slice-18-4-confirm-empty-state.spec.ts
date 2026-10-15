@@ -4,11 +4,6 @@ import { findCloseAtViolations } from "../src/lib/close-at-null";
 import { findStripePackagesInRootPackageJson } from "../src/lib/no-stripe-package";
 import { vercelJsonIsHoldOrMainOnlyRestore } from "../src/lib/vercel-git-deploy";
 
-/**
- * Slice 18.4 — /waitlist/confirm with no token is a buyer empty state.
- * Not “Missing confirm token.” Back to the board. No env keys. No lease.
- */
-
 const ENV_KEYS = [
   "AUTH_SECRET",
   "RESEND_API_KEY",

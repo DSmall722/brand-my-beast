@@ -6,11 +6,6 @@ import {
 
 export const runtime = "nodejs";
 
-/**
- * Slice 14.39 — Resend webhook for email.bounced → mail dead-letter.
- * No live Resend hook required to merge. Optional RESEND_WEBHOOK_SECRET.
- * CLOSE_AT null. Cards never charged. Not a charge path.
- */
 export async function POST(request: Request) {
   if (!isAuthorizedResendWebhook(request)) {
     return NextResponse.json(

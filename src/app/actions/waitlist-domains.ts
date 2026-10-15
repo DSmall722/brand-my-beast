@@ -11,9 +11,6 @@ export type DomainBlockActionState = {
   message?: string;
 };
 
-/**
- * Slice 13.31 — operator adds a waitlist email domain to the blocklist.
- */
 export async function submitDomainBlock(
   _prev: DomainBlockActionState,
   formData: FormData,

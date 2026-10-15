@@ -12,9 +12,6 @@ import {
 import { parseProxyMaxUsd } from "../src/lib/intent";
 import { placeIntentBid, resetIntentStoreForTests } from "../src/lib/intent-store";
 
-/**
- * Slice 13.12 — proxy max hard cap = buyout $120,000 (published in CAMPAIGN.md).
- */
 test.describe("slice 13.12: proxy max hard cap", () => {
   test.describe.configure({ mode: "serial" });
 

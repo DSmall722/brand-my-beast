@@ -18,10 +18,6 @@ async function signIn(page: Page, email: string) {
   await expect(page.getByTestId("account-page")).toBeVisible();
 }
 
-/**
- * Slice 7.5 — `/operator/waitlist` lists waitlist_signups.
- * Auth + OPERATOR_EMAILS. No public header link. No export to X.
- */
 test.describe("slice 7.5: operator waitlist roster", () => {
   test("campaign money fences stay locked", () => {
     expect(FLOOR_USD).toBe(35_000);

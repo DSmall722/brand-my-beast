@@ -11,10 +11,6 @@ import {
 } from "../src/lib/campaign";
 import { panelSeatH1 } from "../src/lib/panel-board";
 
-/**
- * Slice 12.33 — print stylesheet for `/panels/[id]`.
- * CLOSE_AT null. No Stripe.
- */
 test.describe("slice 12.33: panel print stylesheet", () => {
   test("campaign money fences stay locked — CLOSE_AT null", () => {
     expect(FLOOR_USD).toBe(35_000);

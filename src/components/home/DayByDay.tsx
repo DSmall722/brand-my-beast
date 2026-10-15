@@ -9,9 +9,7 @@ export function DayByDay({
   headingLevel = "h3",
 }: {
   model: DayByDayModel;
-  /** Homepage rows name the panel. A seat page already is that panel. */
   showPanel?: boolean;
-  /** Home hides the block when there are no bids. */
   hideWhenEmpty?: boolean;
   headingLevel?: "h2" | "h3";
 }) {

@@ -12,11 +12,6 @@ import { findCloseAtViolations } from "../src/lib/close-at-null";
 import { findStripePackagesInRootPackageJson } from "../src/lib/no-stripe-package";
 import { vercelJsonIsHoldOrMainOnlyRestore } from "../src/lib/vercel-git-deploy";
 
-/**
- * Slice 13.46 — Document how to run Playwright offline (memory mode).
- * CLOSE_AT null. No Stripe. Hold-mode untouched.
- */
-
 const DOC = join(process.cwd(), "docs/PLAYWRIGHT-OFFLINE.md");
 const CONFIG = join(process.cwd(), "playwright.config.ts");
 

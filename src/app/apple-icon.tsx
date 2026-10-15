@@ -3,7 +3,6 @@ import { ImageResponse } from "next/og";
 export const size = { width: 180, height: 180 };
 export const contentType = "image/png";
 
-/** Slice 6.10 — apple touch icon, public BrandMyBeast mark only. */
 export default function AppleIcon() {
   return new ImageResponse(
     (

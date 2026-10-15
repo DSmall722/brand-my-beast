@@ -12,11 +12,6 @@ import { findCloseAtViolations } from "../src/lib/close-at-null";
 import { findStripePackagesInRootPackageJson } from "../src/lib/no-stripe-package";
 import { vercelJsonIsHoldOrMainOnlyRestore } from "../src/lib/vercel-git-deploy";
 
-/**
- * Slice 17.19 — after 17.18, idle on this wave.
- * Wave 15 is still Stripe and needs a human message. Do not start it.
- */
-
 const DOC = join(process.cwd(), "docs/WAVE-15-STOP.md");
 
 test.describe("slice 17.19: idle after 17.18; Wave 15 still human", () => {

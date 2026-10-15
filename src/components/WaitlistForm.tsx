@@ -31,7 +31,6 @@ export function WaitlistForm() {
   const [emailError, setEmailError] = useState("");
   const statusRef = useRef<HTMLParagraphElement>(null);
 
-  // Slice 12.38 — restore focus to the status line after submit settles.
   useEffect(() => {
     if (status !== "created" && status !== "exists") return;
     statusRef.current?.focus();
@@ -73,7 +72,6 @@ export function WaitlistForm() {
         error?: string;
       };
 
-      // Slice 6.5 — never paint success / "on the list" / "joined" unless ok.
       if (!response.ok || !data.ok) {
         setEmailError(contactSendError(data.error));
         next = "error";
@@ -146,7 +144,6 @@ export function WaitlistForm() {
           </p>
         ) : null}
       </div>
-      {/* Slice 16.0e — whole-truck interest checkbox. Not pledged. */}
       <label className="waitlist-whole-truck" htmlFor="waitlist-want-whole-truck">
         <input
           id="waitlist-want-whole-truck"

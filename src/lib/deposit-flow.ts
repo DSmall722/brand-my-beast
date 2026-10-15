@@ -1,8 +1,3 @@
-/**
- * Place a deposit bid, apply a verified Stripe event, and settle after close.
- * Stripe stays behind stripe-deposit.ts. This module owns the ledger writes.
- */
-
 import { PANELS } from "./campaign";
 import {
   depositDeskOpen,
@@ -433,7 +428,6 @@ export async function bidForCheckoutSession(sessionId: string) {
   return findBidByCheckoutSession(sessionId);
 }
 
-/** After the effective close, apply refunds and invoice credits. No-op before close. */
 export async function settleIfCampaignClosed(): Promise<void> {
   const bids = await listAllIntentBids();
   const closeMs = effectiveCloseMs(

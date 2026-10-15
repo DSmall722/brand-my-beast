@@ -1,10 +1,3 @@
-/**
- * Slice 3.4 — etch constraint linter (FEATURES P2 #18 / RULES.md).
- * RULES.md: 1-color, minimum stroke, no gradients, no 8-pt type.
- * Slice 13.27 — etch finish is rejected when lint severity is fail;
- * wrap art may still list / approve.
- */
-
 export type EtchLintSeverity = "pass" | "warn" | "fail";
 
 export type EtchLintIssue = {
@@ -18,7 +11,6 @@ export type EtchLintReport = {
   issues: EtchLintIssue[];
 };
 
-/** Public checklist shown beside etch preview (RULES.md artwork). */
 export const ETCH_CONSTRAINTS = [
   {
     id: "one-color",
@@ -54,10 +46,6 @@ function worst(issues: EtchLintIssue[]): EtchLintSeverity {
   return "pass";
 }
 
-/**
- * Lint free-text art notes against etch constraints.
- * Empty notes = pass (checklist still shown in UI).
- */
 export function lintEtchArtNotes(artNotes: string): EtchLintReport {
   const notes = artNotes.trim();
   const issues: EtchLintIssue[] = [];
@@ -91,10 +79,6 @@ export function lintEtchArtNotes(artNotes: string): EtchLintReport {
   return { severity: worst(issues), issues };
 }
 
-/**
- * Slice 13.27 — hard gate for etch finish only.
- * Wrap finish always passes so wrap art may still list / approve.
- */
 export function assertEtchArtPassesLinter(input: {
   finish: "wrap" | "etch";
   artNotes: string;

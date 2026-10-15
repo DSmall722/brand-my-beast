@@ -4,12 +4,6 @@ import { SiteChromeFooter } from "@/components/SiteChromeFooter";
 import { BRAND } from "@/lib/campaign";
 import { PUBLIC_COPY } from "@/lib/public-copy";
 
-/**
- * Slice 6.13 — branded 404. Dark stainless chrome only.
- * Layout cue from 404s.design; not a gallery clone or type theft.
- * Slice 14.24 — footer strings shared with error.tsx via SiteChromeFooter.
- * Slice 19.11 — chrome title is BrandMyBeast + locked idea.
- */
 export const metadata: Metadata = {
   title: { absolute: `Page not found | ${BRAND.name}` },
 };

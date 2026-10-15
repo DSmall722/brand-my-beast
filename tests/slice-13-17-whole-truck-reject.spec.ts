@@ -24,9 +24,6 @@ import {
   setIntentStatus,
 } from "../src/lib/intent-store";
 
-/**
- * Slice 13.17 — whole-truck reject rolls back all eleven rows in one transaction.
- */
 test.describe("slice 13.17: whole-truck reject rolls back eleven", () => {
   test.describe.configure({ mode: "serial" });
 
@@ -145,7 +142,6 @@ test.describe("slice 13.17: whole-truck reject rolls back eleven", () => {
     expect(anchor && victim).toBeTruthy();
     if (!anchor || !victim) return;
 
-    // Break the set: one panel no longer listed → reject must refuse.
     const corrupted = await setIntentStatus(victim.id, "withdrawn");
     expect(corrupted.ok).toBe(true);
 

@@ -16,10 +16,6 @@ import {
   setIntentStatus,
 } from "../src/lib/intent-store";
 
-/**
- * Slice 12.3 — unique partial index: one approved row per panelId.
- * App demotion (12.1) + DB index. CLOSE_AT null. No Stripe.
- */
 test.describe("slice 12.3: one approved per panel unique index", () => {
   test.describe.configure({ mode: "serial" });
 

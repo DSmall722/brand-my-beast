@@ -14,12 +14,6 @@ import { findStripePackagesInRootPackageJson } from "../src/lib/no-stripe-packag
 import { PUBLIC_COPY } from "../src/lib/public-copy";
 import { vercelJsonIsHoldOrMainOnlyRestore } from "../src/lib/vercel-git-deploy";
 
-/**
- * Slice 19.1 — public seats are waitlist-only while SEATS_OPEN is false.
- * Hide IntentBidForm and intent-signin-needed. Only the waitlist CTA.
- * Do not flip campaign.ts SEATS_OPEN. CLOSE_AT null. No Stripe.
- */
-
 const ROOT = process.cwd();
 const LOCKED_H1 = "Advertise your brand on the truck that people already photograph";
 

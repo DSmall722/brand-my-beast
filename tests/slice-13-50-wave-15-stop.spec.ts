@@ -13,11 +13,6 @@ import { findStripePackagesInRootPackageJson } from "../src/lib/no-stripe-packag
 import { vercelJsonIsHoldOrMainOnlyRestore } from "../src/lib/vercel-git-deploy";
 import { slicesCoversId } from "./helpers/slices-ids";
 
-/**
- * Slice 13.50 — Stop line in SLICES: Wave 15 is Stripe and needs a human message.
- * Docs + merge-gate. Does not start Wave 15. CLOSE_AT null. No Stripe.
- */
-
 const DOC = join(process.cwd(), "docs/WAVE-15-STOP.md");
 const SLICES = join(process.cwd(), "SLICES.md");
 
@@ -60,7 +55,6 @@ test.describe("slice 13.50: Wave 15 stop line (human only)", () => {
     expect(slices).toMatch(/Do not start Wave 15/i);
     expect(slicesCoversId("13.50", slices)).toBe(true);
     expect(slices).toMatch(/docs\/WAVE-15-STOP\.md/);
-    // No agent-startable Wave 15 checkboxes
     expect(slices).not.toMatch(/^- \[[ xX]\] 15\.\d+/m);
   });
 });

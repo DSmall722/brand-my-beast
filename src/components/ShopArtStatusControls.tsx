@@ -10,9 +10,6 @@ import { SHOP_ART_STATUS_LABELS } from "@/lib/shop-art-status";
 
 const initial: ShopArtStatusActionState = { ok: false };
 
-/**
- * Slice 12.24 — partner marks approved art shop-ready / needs-fix.
- */
 export function ShopArtStatusControls({
   bidId,
   status,

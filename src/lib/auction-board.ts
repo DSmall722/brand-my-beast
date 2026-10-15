@@ -26,7 +26,6 @@ export type StandingMark = {
 
 export type TodayMark = StandingMark & {
   timeLabel: string;
-  /** Brief verb for today's list. Never a payment chip. */
   actionLabel: "Bid" | "Outbid";
 };
 
@@ -92,7 +91,6 @@ function etDayLabel(iso: string): string {
   }).format(date);
 }
 
-/** Current holder per panel: paid deposit only. */
 function standingBids(bids: readonly IntentBid[]): IntentBid[] {
   const byPanel = new Map<string, IntentBid>();
   for (const bid of publicBids(bids)) {
@@ -132,7 +130,6 @@ function todayActionLabel(
   }
 }
 
-/** Top standing marks and the bids entered today (Eastern). */
 export function buildAuctionLive(
   bids: readonly IntentBid[],
   now: Date = new Date(),
@@ -158,7 +155,6 @@ export function buildAuctionLive(
   return { top, today };
 }
 
-/** Every public bid, highest first. Outbid rows stay. */
 export function buildLeaderboard(bids: readonly IntentBid[]): Leaderboard {
   const rows = publicBids(bids)
     .slice()
@@ -181,5 +177,4 @@ export function buildLeaderboard(bids: readonly IntentBid[]): Leaderboard {
     rows,
   };
 }
-
 

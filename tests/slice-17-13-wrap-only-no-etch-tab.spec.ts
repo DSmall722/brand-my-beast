@@ -11,12 +11,6 @@ import { findStripePackagesInRootPackageJson } from "../src/lib/no-stripe-packag
 import { PUBLIC_COPY } from "../src/lib/public-copy";
 import { vercelJsonIsHoldOrMainOnlyRestore } from "../src/lib/vercel-git-deploy";
 
-/**
- * Slice 17.13 — wrap-only seats do not render the Etch tab.
- * Etchable seats keep the locked tab under $120,000.
- * CLOSE_AT null. No Stripe.
- */
-
 const WRAP_ONLY = ["front-bumper", "rear-bumper"] as const;
 
 test.describe("slice 17.13: wrap-only seats hide the etch tab", () => {

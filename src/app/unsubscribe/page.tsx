@@ -6,9 +6,6 @@ import {
   CAN_SPAM_UNSUBSCRIBE_PATH,
 } from "@/emails/can-spam";
 
-/**
- * Slice 12.13 — CAN-SPAM unsubscribe stub. Preference center later.
- */
 export default function UnsubscribePage() {
   return (
     <>

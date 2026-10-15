@@ -43,10 +43,6 @@ async function resetServerIntents(request: APIRequestContext) {
   expect(res.ok()).toBeTruthy();
 }
 
-/**
- * Slice 12.16 — account delete anonymizes user id on bids.
- * Public standing amounts stay. CLOSE_AT null. No Stripe.
- */
 test.describe("slice 12.16: account delete anonymize user id", () => {
   test.describe.configure({ mode: "serial" });
 

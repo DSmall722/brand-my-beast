@@ -8,10 +8,6 @@ import {
 } from "@/lib/intent-store";
 import { testApiBlockedResponse } from "@/lib/test-api-gate";
 
-/**
- * Slice 9.5 test seed — approve whole-truck buyout so pledged >= $120,000.
- * 404 in production. Never sets CLOSE_AT.
- */
 export async function POST() {
   const blocked = testApiBlockedResponse();
   if (blocked) return blocked;

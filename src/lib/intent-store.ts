@@ -1,8 +1,3 @@
-/**
- * Intent bid ledger — memory (CI/local) or Postgres (DATABASE_URL).
- * Intent only — never stores Stripe/capture fields. See P2.md.
- */
-
 import { and, asc, desc, eq, inArray, isNotNull, isNull, ne } from "drizzle-orm";
 import {
   assertLedgerArtworkUrl,
@@ -61,7 +56,6 @@ import {
 } from "./public-mark";
 import { winnerSeatsFor } from "./winner-portal";
 
-/** Slice 9.1 — cap mutual proxy wars (still no card). */
 const MAX_PROXY_DEPTH = 48;
 
 const STATUSES: readonly IntentBidStatus[] = [
@@ -72,18 +66,15 @@ const STATUSES: readonly IntentBidStatus[] = [
   "rejected",
 ] as const;
 
-/** Slice 8.1 — mail failure must not undo a successful intent write. */
 async function notifyIntentStatusSafe(
   input: Parameters<typeof notifyIntentStatus>[0],
 ): Promise<void> {
   try {
     await notifyIntentStatus(input);
   } catch {
-    // Status / list already committed.
   }
 }
 
-/** Slice 12.8 — revision failure must not undo a successful intent write. */
 async function recordIntentRevisionSafe(bid: IntentBid): Promise<void> {
   try {
     await appendIntentRevision({
@@ -94,13 +85,11 @@ async function recordIntentRevisionSafe(bid: IntentBid): Promise<void> {
       artworkUrl: bid.artworkUrl,
     });
   } catch {
-    // Bid already listed / edited.
   }
 }
 
 const globalForIntent = globalThis as typeof globalThis & {
   __bmbIntentBids?: IntentBid[];
-  /** Slice 13.19 — serialize memory-mode approves per panel. */
   __bmbPanelApproveLocks?: Map<string, Promise<unknown>>;
 };
 
@@ -118,11 +107,6 @@ function panelApproveLocks(): Map<string, Promise<unknown>> {
   return globalForIntent.__bmbPanelApproveLocks;
 }
 
-/**
- * Slice 13.19 — operator cannot approve two brands on one panel even if they
- * race. Memory mode serializes approves per panelId; Postgres relies on the
- * unique partial index + demote batch (12.1 / 12.3).
- */
 async function withPanelApproveLock<T>(
   panelId: string,
   fn: () => Promise<T>,
@@ -152,11 +136,6 @@ type IntentStoreEnv = {
   DATABASE_URL?: string;
 };
 
-/**
- * Memory is CI/local only. Vercel Production never uses memory (SLICES 1.1 / 6.7),
- * even if INTENT_MODE=memory is mis-set. Local `next build` without
- * DATABASE_URL still uses memory when VERCEL_ENV is unset.
- */
 export function intentStoreUsesMemory(
   env: IntentStoreEnv = process.env as IntentStoreEnv,
 ): boolean {
@@ -232,27 +211,14 @@ export type PlaceIntentInput = {
   brandLabel: string;
   tradeLabel: string;
   standingUsd?: number;
-  /** Parsed at the action boundary — https or data:image, or null. */
   artworkUrl?: string | null;
-  /** Optional proxy ceiling — agent steps max($250, 10%) up to this. */
   proxyMaxUsd?: number | null;
-  /**
-   * Slice 9.4 — when set, list as floor-save raise-to Y.
-   * Stored, not charged. Does not displace standing holders.
-   */
   floorSaveUsd?: number | null;
-  /**
-   * Slice 12.4 — client idempotency key. Replay returns the first bid.
-   */
   idempotencyKey?: string | null;
 };
 
 type PlaceIntentOptions = {
-  /** Internal — proxy agent recursion depth. */
   proxyDepth?: number;
-  /**
-   * Slice 13.32 — allow listing the 12th panel only on the whole-truck path.
-   */
   wholeTruckPath?: boolean;
 };
 
@@ -276,7 +242,6 @@ function nextUpdatedAt(previousIso?: string | null): Date {
   if (previousIso == null || previousIso === "") return now;
   const prevMs = Date.parse(previousIso);
   if (!Number.isFinite(prevMs) || now.getTime() > prevMs) return now;
-  // Same-ms writes must still advance the optimistic-lock token (slice 12.2).
   return new Date(prevMs + 1);
 }
 
@@ -313,7 +278,6 @@ export async function listBidsForPanel(panelId: string): Promise<IntentBid[]> {
   return rows.map(rowToBid);
 }
 
-/** Lookup one intent by id — shop PDF and operator tools. */
 export async function getIntentBidById(
   bidId: string,
 ): Promise<IntentBid | null> {
@@ -354,7 +318,6 @@ export async function listBidsPendingApproval(): Promise<IntentBid[]> {
   return rows.map(rowToBid);
 }
 
-/** Slice 8.3 — operator filter lists by exact status (newest first except pending). */
 export async function listBidsWithStatus(
   status: Extract<
     IntentBidStatus,
@@ -384,10 +347,6 @@ export async function listBidsWithStatus(
   return rows.map(rowToBid);
 }
 
-/**
- * Slice 13.16 — ban-list change re-runs pending (listed) intents.
- * Matching listed → rejected. Approved seats are never touched.
- */
 export async function rejectListedMatchingBanRule(
   rule: BanListRule,
 ): Promise<{
@@ -421,7 +380,6 @@ export async function rejectListedMatchingBanRule(
     }
   }
 
-  // Approved matching rows must still be approved after the sweep.
   for (const bid of approved) {
     const fresh = await getIntentBidById(bid.id);
     if (fresh?.status !== "approved") {
@@ -434,7 +392,6 @@ export async function rejectListedMatchingBanRule(
   return { rejectedIds, blockedPanelIds, approvedLeftAlone };
 }
 
-/** Approved + rejected intents, newest first — operator decided log. */
 export async function listDecidedBids(): Promise<IntentBid[]> {
   if (useMemoryStore()) {
     return memoryBids()
@@ -463,10 +420,6 @@ export async function listDecidedBids(): Promise<IntentBid[]> {
     .filter((bid) => bid.status === "approved" || bid.status === "rejected");
 }
 
-/**
- * Slice 8.4 — standing intents for operator CSV: listed + approved only.
- * Newest first.
- */
 export async function listStandingIntents(): Promise<IntentBid[]> {
   if (useMemoryStore()) {
     return memoryBids()
@@ -487,7 +440,6 @@ export async function listStandingIntents(): Promise<IntentBid[]> {
   return rows.map(rowToBid);
 }
 
-/** Approved intents only — wrap-shop partner sheet. */
 export async function listApprovedBids(): Promise<IntentBid[]> {
   if (useMemoryStore()) {
     return memoryBids()
@@ -528,7 +480,6 @@ export async function listBidsForUser(userId: UserId): Promise<IntentBid[]> {
   return rows.map(rowToBid);
 }
 
-/** Slice 12.21 — approved seats for one bidder only (winner portal). */
 export async function listApprovedBidsForUser(
   userId: UserId,
 ): Promise<IntentBid[]> {
@@ -539,7 +490,6 @@ export async function listApprovedBidsForUser(
 export async function standingForPanel(panelId: string): Promise<number> {
   const panel = panelById(panelId);
   if (!panel) throw new Error(`Unknown panel: ${panelId}`);
-  // Slice 13.14 — withdrawn / outbid / floor-save never ghost a standing mark.
   return activeStandingUsd(await listBidsForPanel(panelId), panel.openingUsd);
 }
 
@@ -556,7 +506,6 @@ export async function minimumIntentUsd(panelId: string): Promise<number> {
   return nextStandingUsd(await standingForPanel(panelId));
 }
 
-/** Paid deposit only. Unpaid listed/approved rows do not raise the public next bid. */
 export async function publicMinimumUsd(panelId: string): Promise<number> {
   const panel = panelById(panelId);
   if (!panel) throw new Error(`Unknown panel: ${panelId}`);
@@ -565,21 +514,14 @@ export async function publicMinimumUsd(panelId: string): Promise<number> {
   return nextStandingUsd(activeStandingUsd(paid, panel.openingUsd));
 }
 
-
 const HOLDING_STATUSES: readonly IntentBidStatus[] = ["listed", "approved"] as const;
 
-/** Slice 13.32 — single-panel path cannot cover every seat. */
 export const ALL_PANELS_STANDING_ERROR =
   "Same user cannot hold standing on all 11 panels unless the whole-truck path.";
 
-/**
- * Slice 14.29 — pending whole-truck listed set covers the seat.
- * Single-panel place is blocked until the set is decided.
- */
 export const WHOLE_TRUCK_PENDING_ERROR =
   "A whole-truck intent is pending on this seat. Wait until it is decided.";
 
-/** Distinct panels where this user holds listed/approved (non floor-save) marks. */
 export function distinctHoldingPanelIdsForUser(
   bids: readonly IntentBid[],
   userId: string,
@@ -595,10 +537,6 @@ export function distinctHoldingPanelIdsForUser(
   return panels;
 }
 
-/**
- * Slice 13.32 — whole-truck path = integer-split marks on every panel
- * for same user/brand/trade (listed or approved). 11 seats sum to $120,000.
- */
 export function isWholeTruckPathCoverage(
   bids: readonly IntentBid[],
   bid: Pick<
@@ -623,10 +561,6 @@ export function isWholeTruckPathCoverage(
   return true;
 }
 
-/**
- * Slice 14.29 — pending whole-truck = integer-split listed on every panel
- * for same user/brand/trade. Approved counts as decided, so it does not block.
- */
 export function isPendingWholeTruckCoverage(
   bids: readonly IntentBid[],
   bid: Pick<
@@ -651,7 +585,6 @@ export function isPendingWholeTruckCoverage(
   return true;
 }
 
-/** Slice 14.29 — true when a pending whole-truck set covers this panel. */
 export function panelBlockedByPendingWholeTruck(
   holders: readonly IntentBid[],
   panelId: string,
@@ -758,7 +691,6 @@ export async function placeIntentBid(
   }
   const idempotencyKey = keyParsed.idempotencyKey;
 
-  // Slice 12.4 — replay with the same key returns the original bid.
   if (idempotencyKey) {
     try {
       const prior = await findBidByIdempotencyKey(idempotencyKey);
@@ -810,7 +742,6 @@ export async function placeIntentBid(
     return { ok: false, error: INTENT_WRITE_FAILED };
   }
 
-  // Slice 8.5 — data: uploads land in blob store; ledger keeps path only.
   let artworkUrl: string | null = input.artworkUrl ?? null;
   try {
     const persisted = await persistArtworkForLedger(artworkUrl);
@@ -841,7 +772,6 @@ export async function placeIntentBid(
     };
   }
 
-  // Slice 14.29 — pending whole-truck blocks new single-panel intents.
   if (
     !opts?.wholeTruckPath &&
     panelBlockedByPendingWholeTruck(holders, input.panelId)
@@ -849,7 +779,6 @@ export async function placeIntentBid(
     return { ok: false, error: WHOLE_TRUCK_PENDING_ERROR };
   }
 
-  // Slice 13.32 — single-panel path cannot cover all eleven seats.
   const allPanelsGate = assertMayAddHoldingPanel({
     holders,
     userId: input.userId,
@@ -860,8 +789,6 @@ export async function placeIntentBid(
     return { ok: false, error: allPanelsGate.error };
   }
 
-  // Slice 13.11 — vacant seat with live exclusive offer: only next compliant may list.
-  // Slice 14.26 — exclusive target skips banned trades.
   try {
     const panelBids = await listBidsForPanel(input.panelId);
     const panelMin = await minimumIntentUsd(input.panelId);
@@ -883,8 +810,6 @@ export async function placeIntentBid(
     const asFloorSave =
       input.floorSaveUsd != null && input.floorSaveUsd !== undefined;
 
-    // Slice 1.2: one active listed intent per user per panel — withdraw
-    // the caller's prior listed row before min/outbid so replaces don't stack.
     if (useMemoryStore()) {
       for (const existing of memoryBids()) {
         if (
@@ -918,10 +843,8 @@ export async function placeIntentBid(
         );
     }
 
-    // Slice 9.4 — floor-save: store raise-to Y if short of $35k. No outbid. No card.
     if (asFloorSave) {
       const board = await loadBoardIntentStats();
-      // Slice 13.13 — cannot list/fire when pledged already at floor.
       if (!canFireFloorSave(board.pledgedUsd)) {
         return {
           ok: false,
@@ -1047,7 +970,6 @@ export async function placeIntentBid(
           !isFloorSaveBid(existing)
         ) {
           const snapshot: IntentBid = { ...existing };
-          // Slice 13.20 — outbid is soft-status only; never hard-delete.
           existing.status = "outbid";
           existing.updatedAt = nextUpdatedAtIso(existing.updatedAt);
           outbidTargets.push({ ...snapshot, status: "outbid" });
@@ -1079,7 +1001,6 @@ export async function placeIntentBid(
         await notifyIntentStatusSafe({
           kind: "outbid",
           bid: outbid,
-          // Slice 13.18 / 9.2 — next min from the new listed standing.
           nextMinimumUsd: nextStandingUsd(standingUsd),
         });
       }
@@ -1112,9 +1033,6 @@ export async function placeIntentBid(
         ),
       );
 
-    // Slice 12.1 — Neon HTTP has no interactive txn; db.batch runs a
-    // non-interactive Postgres transaction (outbid + insert together).
-    // Floor-save rows stay listed — they do not hold the seat yet.
     const outbidOthers = db
       .update(intentBids)
       .set({ status: "outbid", updatedAt: nextUpdatedAt() })
@@ -1158,7 +1076,6 @@ export async function placeIntentBid(
       await notifyIntentStatusSafe({
         kind: "outbid",
         bid: outbid,
-        // Slice 13.18 / 9.2 — next min from the new listed standing.
         nextMinimumUsd: nextStandingUsd(standingUsd),
       });
     }
@@ -1172,16 +1089,10 @@ export async function placeIntentBid(
     await recordIntentRevisionSafe(fresh);
     return { ok: true, bid: fresh };
   } catch {
-    // Slice 6.5 — structured failure only; never claim the intent listed.
     return { ok: false, error: INTENT_WRITE_FAILED };
   }
 }
 
-/**
- * Slice 9.1 — when a listed mark outbids holders with a proxy ceiling,
- * the agent steps standing + max($250, 10%) up to proxyMax. Still no card.
- * Slice 14.27 — withdrawn bids never feed the proxy agent (ceiling cleared).
- */
 async function runProxyMaxAgent(input: {
   panelId: string;
   listed: IntentBid;
@@ -1196,7 +1107,6 @@ async function runProxyMaxAgent(input: {
   for (const target of input.outbidTargets) {
     if (target.userId === input.listed.userId) continue;
     if (target.status === "withdrawn" || target.deletedAt) continue;
-    // Live row may have been withdrawn (and proxy cleared) since the snapshot.
     const live = await getIntentBidById(target.id);
     if (
       live &&
@@ -1239,7 +1149,6 @@ export async function setIntentStatus(
   status: Extract<IntentBidStatus, "approved" | "rejected" | "withdrawn">,
   opts?: { note?: string; expectedUpdatedAt?: string },
 ): Promise<PlaceIntentResult> {
-  // Slice 13.17 — whole-truck reject rolls back all eleven rows together.
   if (status === "rejected") {
     const siblings = await listWholeTruckSiblingBids(bidId);
     if (siblings) {
@@ -1261,7 +1170,6 @@ export async function setIntentStatus(
     const stale = assertFreshUpdatedAt(bid, opts?.expectedUpdatedAt);
     if (stale) return stale;
 
-    // Slice 14.30 — forcing withdraw of an approved seat requires a note.
     if (status === "withdrawn" && bid.status === "approved") {
       const note = (opts?.note ?? "").trim();
       if (note.length < 3) {
@@ -1270,7 +1178,6 @@ export async function setIntentStatus(
     }
 
     if (status === "approved") {
-      // Slice 13.19 — serialize concurrent brand approves on one panel.
       return withPanelApproveLock(bid.panelId, async () => {
         const live = memoryBids().find((row) => row.id === bidId);
         if (!live) return { ok: false, error: "Bid not found." };
@@ -1286,7 +1193,6 @@ export async function setIntentStatus(
         });
         if (!ban.ok) return { ok: false, error: ban.error };
 
-        // Slice 13.32 — twelfth approved seat only via whole-truck path.
         const twelfth = assertMayApproveTwelfthPanel({
           holders: memoryBids(),
           bid: live,
@@ -1294,7 +1200,6 @@ export async function setIntentStatus(
         if (!twelfth.ok) return { ok: false, error: twelfth.error };
 
         const demoted: IntentBid[] = [];
-        // Slice 12.1 — at most one approved standing per panel.
         for (const existing of memoryBids()) {
           if (
             existing.id !== bidId &&
@@ -1343,7 +1248,6 @@ export async function setIntentStatus(
 
     bid.status = status;
     if (status === "withdrawn") {
-      // Slice 14.27 — clear proxy ceiling so it cannot fire after withdraw.
       bid.deletedAt = new Date().toISOString();
       bid.proxyMaxUsd = null;
     }
@@ -1381,7 +1285,6 @@ export async function setIntentStatus(
   const stale = assertFreshUpdatedAt(currentBid, opts?.expectedUpdatedAt);
   if (stale) return stale;
 
-  // Slice 14.30 — forcing withdraw of an approved seat requires a note.
   if (status === "withdrawn" && currentBid.status === "approved") {
     const note = (opts?.note ?? "").trim();
     if (note.length < 3) {
@@ -1405,7 +1308,6 @@ export async function setIntentStatus(
     });
     if (!ban.ok) return { ok: false, error: ban.error };
 
-    // Slice 13.32 — twelfth approved seat only via whole-truck path.
     let holdersForGate: IntentBid[];
     try {
       holdersForGate = await listHoldingBids();
@@ -1429,7 +1331,6 @@ export async function setIntentStatus(
         ),
       );
 
-    // Slice 12.1 — demote prior approved + approve in one Neon HTTP batch txn.
     const demotePrior = db
       .update(intentBids)
       .set({ status: "outbid", updatedAt: touchAt })
@@ -1474,7 +1375,6 @@ export async function setIntentStatus(
       await notifyIntentStatusSafe({
         kind: "outbid",
         bid: priorBid,
-        // Slice 13.18 — demoted by approve; next min from new approved standing.
         nextMinimumUsd: nextStandingUsd(bid.standingUsd),
       });
     }
@@ -1489,7 +1389,6 @@ export async function setIntentStatus(
             status,
             updatedAt: touchAt,
             deletedAt: touchAt,
-            // Slice 14.27 — clear proxy ceiling on withdraw.
             proxyMaxUsd: null,
           }
         : { status, updatedAt: touchAt },
@@ -1518,7 +1417,6 @@ export async function setIntentStatus(
   return { ok: true, bid };
 }
 
-/** Slice 12.1 — approved standing count for one panel (must be 0 or 1). */
 export async function countApprovedStandingForPanel(
   panelId: string,
 ): Promise<number> {
@@ -1526,11 +1424,6 @@ export async function countApprovedStandingForPanel(
   return bids.filter((bid) => bid.status === "approved").length;
 }
 
-/**
- * Slice 13.13 — fire a listed floor-save into a normal standing mark at Y.
- * Refuses when public pledged is already >= $35,000. Still intent only — no card.
- * Slice 14.28 — rejected floor-save marks cannot fire / be raised.
- */
 export const FLOOR_SAVE_REJECTED_ERROR =
   "Floor-save cannot raise a rejected mark.";
 
@@ -1542,7 +1435,6 @@ export async function fireFloorSaveBid(input: {
   if (!isFloorSaveBid(bid) || bid.floorSaveUsd == null) {
     return { ok: false, error: "Not a floor-save intent." };
   }
-  // Slice 14.28 — rejected marks stay rejected; never fire into standing.
   if (bid.status === "rejected") {
     return { ok: false, error: FLOOR_SAVE_REJECTED_ERROR };
   }
@@ -1574,10 +1466,6 @@ export async function fireFloorSaveBid(input: {
   });
 }
 
-/**
- * Slice 9.7 — owner may withdraw while status is listed (pending) only.
- * Approved needs operator. Soft-status to withdrawn — never hard-delete.
- */
 export async function withdrawPendingIntent(input: {
   bidId: string;
   userId: UserId;
@@ -1605,10 +1493,6 @@ export async function withdrawPendingIntent(input: {
   });
 }
 
-/**
- * Slice 14.30 — operator force-withdraw of an approved seat.
- * Requires a short note. Soft-status to withdrawn — never hard-delete.
- */
 export const FORCE_WITHDRAW_APPROVED_NOTE_ERROR =
   "Forcing withdraw of an approved seat requires an operator note.";
 
@@ -1635,10 +1519,6 @@ export async function forceWithdrawApprovedSeat(input: {
   });
 }
 
-/**
- * Slice 12.9 — hard-delete guard. Soft-deleted (withdrawn) rows may be
- * purged; approved standing seats must never be hard-deleted.
- */
 export async function hardDeleteIntentBid(
   bidId: string,
 ): Promise<{ ok: true } | { ok: false; error: string }> {
@@ -1685,12 +1565,6 @@ export async function hardDeleteIntentBid(
   return { ok: true };
 }
 
-/**
- * Slice 9.8 / 13.15 — owner may edit brand / trade / art while listed (pending)
- * only. Standing amount unchanged. Each successful edit appends an intent
- * revision row (12.8).
- * Slice 14.31 — standing brand change after approve is forbidden.
- */
 export const STANDING_BRAND_LOCKED_ERROR =
   "Standing brand change after approve is forbidden.";
 
@@ -1700,7 +1574,6 @@ export async function editPendingIntent(input: {
   brandLabel: string;
   tradeLabel: string;
   artworkUrl?: string | null;
-  /** Slice 12.2 — must match the row the caller read. */
   expectedUpdatedAt?: string;
 }): Promise<PlaceIntentResult> {
   const bid = await getIntentBidById(input.bidId);
@@ -1709,7 +1582,6 @@ export async function editPendingIntent(input: {
     return { ok: false, error: "You can only edit your own intent." };
   }
   if (bid.status === "approved") {
-    // Slice 14.31 — approved standing brand is immutable.
     return { ok: false, error: STANDING_BRAND_LOCKED_ERROR };
   }
   if (bid.status !== "listed") {
@@ -1788,7 +1660,6 @@ export async function editPendingIntent(input: {
   }
 
   if (useMemoryStore()) {
-    // Re-check after validation — another writer may have bumped updatedAt.
     const live = memoryBids().find((row) => row.id === bid.id);
     if (!live || live.status !== "listed") {
       if (live?.status === "approved") {
@@ -1862,10 +1733,6 @@ export async function resetIntentStoreForTests(): Promise<void> {
   await db.delete(intentBids);
 }
 
-/**
- * Per-panel standing so eleven seats sum to GOAL_USD.
- * 10 × $10,909 + 1 × $10,910 = $120,000. Last seat (rear bumper) takes the remainder.
- */
 export const WHOLE_TRUCK_PANEL_USD = 10_909;
 export const WHOLE_TRUCK_LAST_PANEL_USD = 10_910;
 
@@ -1903,18 +1770,10 @@ export type PlaceWholeTruckResult =
   | { ok: true; bids: IntentBid[] }
   | { ok: false; error: string };
 
-/** Slice 9.5 — hide whole-truck control when pledged >= $120,000. */
 export function isWholeTruckIntentOpen(pledgedUsd: number): boolean {
   return Number.isFinite(pledgedUsd) && pledgedUsd < GOAL_USD;
 }
 
-/**
- * Slice 4.5 / 12.29 — whole-truck $120,000 intent.
- * Lists the same brand on all eleven seats at the integer split (intent only —
- * not charged). Releases listed (pending) marks so the field can clear.
- * Rejects when any panel already has approved standing (12.29 — no stack).
- * Rejects when public pledged standing is already at buyout (9.5).
- */
 export async function placeWholeTruckIntent(
   input: PlaceWholeTruckInput,
 ): Promise<PlaceWholeTruckResult> {
@@ -1946,7 +1805,6 @@ export async function placeWholeTruckIntent(
     return { ok: false, error: ban.error };
   }
 
-  // Slice 12.29 — cannot stack whole-truck on approved standing seats.
   for (const panel of PANELS) {
     const approvedCount = await countApprovedStandingForPanel(panel.id);
     if (approvedCount > 0) {
@@ -1958,7 +1816,6 @@ export async function placeWholeTruckIntent(
     }
   }
 
-  // Release listed (not approved) marks so one brand can take every panel.
   for (const panel of PANELS) {
     const bids = await listBidsForPanel(panel.id);
     for (const bid of bids) {
@@ -1993,10 +1850,6 @@ export async function placeWholeTruckIntent(
   return { ok: true, bids: placed };
 }
 
-/**
- * Slice 13.17 — detect a whole-truck set: same user/brand/trade at the
- * integer-split standing on all eleven panels (listed).
- */
 export async function listWholeTruckSiblingBids(
   bidId: string,
 ): Promise<IntentBid[] | null> {
@@ -2023,10 +1876,6 @@ export async function listWholeTruckSiblingBids(
   return siblings.length === PANELS.length ? siblings : null;
 }
 
-/**
- * Slice 13.17 — reject whole-truck rolls back all eleven rows in one
- * transaction. Still intent only — no card. Campaign clock stays unset.
- */
 export async function rejectWholeTruckIntent(input: {
   bidId: string;
   note: string;
@@ -2096,7 +1945,6 @@ export async function rejectWholeTruckIntent(input: {
   }
 
   const touchAt = nextUpdatedAt();
-  // Neon batch requires a non-empty tuple; map() alone is `T[]`.
   const [firstSibling, ...restSiblings] = siblings;
   if (!firstSibling) {
     return { ok: false, error: "Not a whole-truck listed set." };
@@ -2148,12 +1996,6 @@ export type BoardIntentStats = {
   openSeats: number;
 };
 
-/**
- * Operator / gate pledged = sum of approved intents (slice 4.1).
- * The public Raised figure is separate: only a paid 20% deposit counts.
- * Listed does not count. Empty panels do not count opening marks.
- * Soft-fails to an empty board if the ledger is unreachable.
- */
 export async function loadBoardIntentStats(): Promise<BoardIntentStats> {
   const empty: BoardIntentStats = {
     pledgedUsd: 0,
@@ -2185,14 +2027,11 @@ export async function loadBoardIntentStats(): Promise<BoardIntentStats> {
   }
 }
 
-/** Paid standing holder per panel, if any. Unpaid marks are not holders. */
 export type StandingHolder = {
   brandLabel: string;
   tradeLabel: string;
   standingUsd: number;
-  /** Slice 13.36 — seat owner userId for download gates. */
   userId: string;
-  /** Public logo. Null until the operator approves artwork. */
   publicLogoUrl: string | null;
 };
 
@@ -2216,7 +2055,6 @@ async function holdersMatching(
   return map;
 }
 
-/** Listed or approved mark. Clash and seat PNG use this. Not public Held by. */
 export async function loadActiveMarkHoldersByPanel(): Promise<
   Map<string, StandingHolder>
 > {
@@ -2236,10 +2074,6 @@ export async function loadStandingHoldersByPanel(): Promise<
   return holdersMatching((bids) => bids.filter(countsAsPublicStanding));
 }
 
-/**
- * Slice 12.16 — account delete. Replace owner userId with an opaque token.
- * Standing amounts / brand / status stay so the public board does not shrink.
- */
 export async function anonymizeIntentBidsForUser(
   userId: UserId,
 ): Promise<{ ok: true; anonymizedUserId: string; count: number }> {
@@ -2510,7 +2344,6 @@ export async function stripeEventSeen(eventId: string): Promise<boolean> {
   return rows.length > 0;
 }
 
-/** True when this event id was newly recorded. False when it was already stored. */
 export async function claimStripeEvent(
   eventId: string,
   eventType: string,

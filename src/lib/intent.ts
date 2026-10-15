@@ -1,11 +1,5 @@
-/**
- * P2 soft-auction domain: standing bids as intent only.
- * No Stripe fields. Capture is P3. See P2.md and RULES.md.
- */
-
 import { DEPOSIT_PERCENT, FLOOR_USD, PROXY_MAX_CAP_USD, type Panel } from "./campaign";
 
-/** Auth.js user id once wired. Opaque string until then. */
 export type UserId = string;
 
 export type IntentBidStatus =
@@ -15,72 +9,29 @@ export type IntentBidStatus =
   | "approved"
   | "rejected";
 
-/** Deposit money state. Standing requires paid and none. */
 export type DepositRefundStatus = "none" | "refunded" | "forfeited";
 
-/**
- * A standing mark on one panel. Money fields are dollars, not cents.
- * `depositUsd` is informational on P2 — never charged here.
- */
 export type IntentBid = {
   id: string;
   panelId: Panel["id"];
   userId: UserId;
   brandLabel: string;
-  /** Free-text trade / category. One brand holds a normalized trade at a time. */
   tradeLabel: string;
   standingUsd: number;
   depositUsd: number;
   status: IntentBidStatus;
   createdAt: string;
-  /**
-   * Slice 12.2 — optimistic lock token. Writers pass the value they read;
-   * a mismatch returns `stale_write`.
-   */
   updatedAt: string;
-  /**
-   * Slice 12.4 — client idempotency key. Replay with the same key returns
-   * the original listed bid instead of double-listing.
-   */
   idempotencyKey: string | null;
-  /**
-   * Optional art on the mark: https URL or data:image upload.
-   * Intent only — never a charge receipt.
-   */
   artworkUrl: string | null;
-  /**
-   * Public logo gate. `pending` keeps the upload off the board.
-   * `approved` is set when the operator clears the mark, and stays
-   * approved if that mark is later outbid. Null means no logo file.
-   */
   artworkApproval?: "pending" | "approved" | null;
-  /**
-   * Optional proxy ceiling (slice 9.1). When outbid, the agent steps
-   * standing + max($250, 10%) up to this max. Still intent only — no card.
-   */
   proxyMaxUsd: number | null;
-  /**
-   * Slice 9.4 — floor-save raise-to mark. When set, this row means:
-   * if campaign pledged is short of $35,000, raise this seat to this amount.
-   * Stored, not charged. Does not displace standing holders until fired.
-   */
   floorSaveUsd: number | null;
-  /**
-   * Slice 12.9 — soft-delete timestamp. Set when status becomes withdrawn.
-   * Approved rows are never hard-deleted.
-   */
   deletedAt: string | null;
-  /**
-   * Set only by the Stripe webhook, or by the server when prior paid
-   * deposits on this seat already cover the new 20%. Never from the client.
-   */
   depositPaidAt?: string | null;
-  /** Stripe PaymentIntent id for this bid's captured deposit. */
   paymentId?: string | null;
   refundStatus?: DepositRefundStatus;
-  /** Dollars captured on this bid's own charge. Prior credits are separate. */
   capturedUsd?: number;
-  /** Prior paid deposits on this seat by the same bidder, applied here. */
   creditUsd?: number;
   checkoutSessionId?: string | null;
   remainderDueAt?: string | null;
@@ -88,16 +39,10 @@ export type IntentBid = {
   invoiceCreditedAt?: string | null;
 };
 
-/** Soft-deleted rows stay in the ledger. They do not stand on the public board. */
 export function isLiveIntentBid(bid: { deletedAt?: string | null }): boolean {
   return bid.deletedAt == null || bid.deletedAt === "";
 }
 
-/**
- * Slice 13.14 — standing from live listed/approved only (not floor-save,
- * not withdrawn, not outbid, not deleted). Empty → panel opening. Prevents
- * ghost standing after the sole pending mark withdraws.
- */
 export function activeStandingUsd(
   bids: readonly (Pick<IntentBid, "status" | "standingUsd" | "floorSaveUsd"> & {
     deletedAt?: string | null;
@@ -114,15 +59,10 @@ export function activeStandingUsd(
   return Math.max(...active.map((bid) => bid.standingUsd));
 }
 
-/** True when the row is a floor-save conditional (slice 9.4). */
 export function isFloorSaveBid(bid: Pick<IntentBid, "floorSaveUsd">): boolean {
   return bid.floorSaveUsd != null;
 }
 
-/**
- * Public standing requires a captured 20% deposit.
- * Listed or approved, paid, and not refunded or forfeited.
- */
 export function hasPaidDeposit(bid: { depositPaidAt?: string | null }): boolean {
   const paidAt = bid.depositPaidAt;
   return typeof paidAt === "string" && paidAt.length > 0;
@@ -137,7 +77,6 @@ export function depositRefundStatus(bid: {
   return "none";
 }
 
-/** Paid listed or approved mark. Floor-save, refunded, forfeited, and deleted do not stand. */
 export function countsAsPublicStanding(
   bid: Pick<IntentBid, "status" | "floorSaveUsd"> & {
     depositPaidAt?: string | null;
@@ -151,10 +90,6 @@ export function countsAsPublicStanding(
   return bid.status === "listed" || bid.status === "approved";
 }
 
-/**
- * Listed or approved marks that have not paid the deposit.
- * Outbid, withdrawn, rejected, and floor-save rows are not pending standing.
- */
 export function isPendingPublicBid(
   bid: Pick<IntentBid, "status" | "floorSaveUsd"> & {
     depositPaidAt?: string | null;
@@ -180,7 +115,6 @@ export function isPendingPublicBid(
   }
 }
 
-/** Dollars one panel adds to Raised. Unpaid marks add 0. */
 export function pledgedUsdForPanel(
   bids: readonly (Pick<IntentBid, "status" | "standingUsd" | "floorSaveUsd"> & {
     depositPaidAt?: string | null;
@@ -192,28 +126,18 @@ export function pledgedUsdForPanel(
   return Math.max(...standing.map((bid) => bid.standingUsd));
 }
 
-/** Slice 9.4 — campaign is short of the $35,000 floor. */
 export function isCampaignShortOfFloor(pledgedUsd: number): boolean {
   return Number.isFinite(pledgedUsd) && pledgedUsd < FLOOR_USD;
 }
 
-/**
- * Slice 13.13 — floor-save may fire only while pledged is still under $35,000.
- * Same predicate as isCampaignShortOfFloor; named for the fire gate.
- */
 export function canFireFloorSave(pledgedUsd: number): boolean {
   return isCampaignShortOfFloor(pledgedUsd);
 }
 
-/**
- * Slice 12.7 — normalize bidder-named trade before exclusivity.
- * Trim, lowercase, collapse whitespace. No public taxonomy.
- */
 export function normalizeTradeLabel(raw: string): string {
   return raw.trim().toLowerCase().replace(/\s+/g, " ");
 }
 
-/** Next bid = standing + max($250, 10% of standing). Whole dollars only. */
 export function minIncrementUsd(standingUsd: number): number {
   if (
     !Number.isFinite(standingUsd) ||
@@ -225,10 +149,6 @@ export function minIncrementUsd(standingUsd: number): number {
   return Math.max(250, Math.ceil(standingUsd * 0.1));
 }
 
-/**
- * Slice 9.2 / 14.34 — next minimum is standing + increment.
- * Always a whole dollar amount for display and listing floors.
- */
 export function nextStandingUsd(currentStandingUsd: number): number {
   const next = currentStandingUsd + minIncrementUsd(currentStandingUsd);
   if (!Number.isInteger(next)) {
@@ -237,11 +157,6 @@ export function nextStandingUsd(currentStandingUsd: number): number {
   return next;
 }
 
-/**
- * Slice 9.1 / 13.12 — optional proxy ceiling. Empty → null. Must be a whole
- * dollar amount at or above the listed mark and at most PROXY_MAX_CAP_USD
- * ($120,000 buyout). Never a payment method.
- */
 export function parseProxyMaxUsd(
   raw: unknown,
   standingUsd: number,
@@ -274,10 +189,6 @@ export function parseProxyMaxUsd(
   return { ok: true, proxyMaxUsd: value };
 }
 
-/**
- * Slice 9.4 — floor-save raise-to amount Y. Whole dollars only.
- * Never a payment method.
- */
 export function parseFloorSaveUsd(
   raw: unknown,
 ): { ok: true; floorSaveUsd: number } | { ok: false; error: string } {
@@ -294,10 +205,6 @@ export function parseFloorSaveUsd(
   return { ok: true, floorSaveUsd: value };
 }
 
-/**
- * Slice 12.6 — standing mark must be a whole dollar (integer). Empty → omit.
- * Never a payment method.
- */
 export function parseStandingUsd(
   raw: unknown,
 ): { ok: true; standingUsd: number | undefined } | { ok: false; error: string } {
@@ -314,10 +221,6 @@ export function parseStandingUsd(
   return { ok: true, standingUsd: value };
 }
 
-/**
- * Slice 12.5 — deposit is always round(standing * 0.20) via this helper.
- * Intent only on P2 — do not charge.
- */
 export function depositUsdForMark(markUsd: number): number {
   if (!Number.isFinite(markUsd) || markUsd <= 0) {
     throw new Error("markUsd must be a positive finite number");
@@ -340,7 +243,6 @@ export function assertIntentOnly(bid: IntentBid): void {
   }
 }
 
-/** Slice 12.2 — typed optimistic-lock failure. */
 export const INTENT_STALE_WRITE = "stale_write" as const;
 export type IntentWriteErrorCode = typeof INTENT_STALE_WRITE;
 
@@ -352,10 +254,6 @@ export function isStaleWriteError(result: {
   return result.ok === false && result.code === INTENT_STALE_WRITE;
 }
 
-/**
- * Slice 12.4 — idempotency key from the intent form. Empty → null (new list).
- * Opaque client token; never a payment method.
- */
 export function parseIdempotencyKey(
   raw: unknown,
 ): { ok: true; idempotencyKey: string | null } | { ok: false; error: string } {

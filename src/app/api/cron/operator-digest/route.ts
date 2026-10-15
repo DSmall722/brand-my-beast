@@ -7,11 +7,6 @@ import {
 
 export const runtime = "nodejs";
 
-/**
- * Slice 8.2 — operator digest cron *route* in repo.
- * Do not register a Vercel cron until the usage hold lifts.
- * Auth: Authorization: Bearer $CRON_SECRET
- */
 async function handle(request: Request) {
   if (!isAuthorizedCronRequest(request)) {
     return NextResponse.json(

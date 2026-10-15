@@ -19,10 +19,6 @@ import {
   seedOpenPanelsZeroStanding,
 } from "../src/lib/seed-open-panels";
 
-/**
- * Slice 12.10 — seed script: 12 open panels, zero standing. CI only.
- * CLOSE_AT null. No Stripe.
- */
 test.describe("slice 12.10: seed open panels zero standing", () => {
   test.describe.configure({ mode: "serial" });
 

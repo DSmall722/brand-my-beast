@@ -11,11 +11,6 @@ import {
 import { PUBLIC_COPY } from "../src/lib/public-copy";
 import { vercelJsonIsHoldOrMainOnlyRestore } from "../src/lib/vercel-git-deploy";
 
-/**
- * QA 1047PM — privacy retention lives in the short policy body.
- * CLOSE_AT null. No Stripe. Hold-mode untouched.
- */
-
 test.describe("slice 13.39: privacy waitlist retention", () => {
   test("campaign money fences stay locked — CLOSE_AT null", () => {
     expect(FLOOR_USD).toBe(35_000);

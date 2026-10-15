@@ -1,8 +1,3 @@
-/**
- * Pexels photographer credits for Preview the Panels stills.
- * URLs match scripts/credit-board-stills.py. Edited-with line is PUBLIC_COPY.
- */
-
 import type { TruckViewId } from "./truck-views";
 
 export type TruckViewCredit = {

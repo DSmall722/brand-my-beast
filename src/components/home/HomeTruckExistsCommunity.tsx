@@ -13,7 +13,6 @@ import { SIGHTING_CORRIDORS, SIGHTING_LEAD } from "@/lib/sighting";
 
 type Row = { id: string; corridorId?: string; kindId?: string; note?: string; requestedDate?: string | null };
 
-/** Slice 7.1 — extracted from `src/app/page.tsx`. Copy unchanged. */
 export function HomeTruckExistsCommunity({
   truckExists,
   circuitStories,

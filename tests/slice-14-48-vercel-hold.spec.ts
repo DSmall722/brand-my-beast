@@ -12,11 +12,6 @@ import { findCloseAtViolations } from "../src/lib/close-at-null";
 import { findStripePackagesInRootPackageJson } from "../src/lib/no-stripe-package";
 import { vercelJsonIsHoldOrMainOnlyRestore } from "../src/lib/vercel-git-deploy";
 
-/**
- * Slice 14.48 — Refresh docs/VERCEL-HOLD.md date only. Do not buy credits.
- * Leave vercel.json hold-mode alone. CLOSE_AT null. No Stripe.
- */
-
 const NOTE = join(process.cwd(), "docs/VERCEL-HOLD.md");
 
 test.describe("slice 14.48: VERCEL-HOLD.md date refresh only", () => {

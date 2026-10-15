@@ -21,11 +21,6 @@ import {
 import { findStripePackagesInRootPackageJson } from "../src/lib/no-stripe-package";
 import { vercelJsonIsHoldOrMainOnlyRestore } from "../src/lib/vercel-git-deploy";
 
-/**
- * Slice 14.28 — Floor-save does not raise a rejected mark.
- * CLOSE_AT null. No Stripe. Hold-mode untouched. No 30-day clock.
- */
-
 test.describe("slice 14.28: floor-save does not raise a rejected mark", () => {
   test.beforeEach(async ({ request }) => {
     process.env.INTENT_MODE = "memory";

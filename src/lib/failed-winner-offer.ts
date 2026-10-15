@@ -1,10 +1,3 @@
-/**
- * Slice 9.6 / 13.11 — failed-winner offer: last mark + one increment.
- * Explicit offer only — expires after TTL, then next compliant mark.
- * No silent reopen. Still intent only — no card.
- * Slice 14.26 — offer cannot target a banned trade (static + operator list).
- */
-
 import { formatUsd } from "./campaign";
 import {
   isLiveIntentBid,
@@ -15,7 +8,6 @@ import { findBannedTradeReason } from "./banned-trades";
 import { matchesBanPattern } from "./operator-ban-list";
 import { PUBLIC_COPY } from "./public-copy";
 
-/** Exclusive offer window after outbid / seat-open handoff (slice 13.11). */
 export const FAILED_WINNER_OFFER_TTL_MS = 24 * 60 * 60 * 1000;
 
 export type FailedWinnerBanRule = {
@@ -24,12 +16,9 @@ export type FailedWinnerBanRule = {
 
 export type FailedWinnerOffer = {
   lastMarkUsd: number;
-  /** last mark + max($250, 10%), floored up to current panel minimum. */
   offerUsd: number;
   fromLastIncrementOnly: boolean;
-  /** ISO expiry. Slice 13.11. */
   expiresAt: string;
-  /** True when `now` is at or past expiresAt. */
   expired: boolean;
 };
 
@@ -39,10 +28,6 @@ export type FailedWinnerCandidate = {
   offeredAt: string;
 };
 
-/**
- * Slice 14.26 — static CAMPAIGN bans + optional operator ban-list patterns.
- * Failed-winner offers must not target these marks.
- */
 export function isFailedWinnerTradeBanned(
   brandLabel: string,
   tradeLabel: string,
@@ -76,10 +61,6 @@ export function isFailedWinnerOfferExpired(
   return now.getTime() >= start + FAILED_WINNER_OFFER_TTL_MS;
 }
 
-/**
- * Vacant seat after reject: window starts at latest reject.
- * Occupied seat outbid re-list: window starts when that mark was outbid.
- */
 export function failedWinnerOfferedAt(input: {
   bidUpdatedAt: string;
   seatOpen: boolean;
@@ -91,10 +72,6 @@ export function failedWinnerOfferedAt(input: {
   return input.bidUpdatedAt;
 }
 
-/**
- * Build the explicit re-list offer for an outbid viewer.
- * Offer is never below the live panel minimum (cannot silently ignore standing).
- */
 export function buildFailedWinnerOffer(input: {
   lastMarkUsd: number;
   panelMinimumUsd: number;
@@ -127,7 +104,6 @@ function isHolding(bid: Pick<IntentBid, "status" | "deletedAt">): boolean {
   );
 }
 
-/** Latest reject timestamp on the panel — seat-open handoff anchor. */
 export function latestRejectedAt(
   bids: readonly Pick<IntentBid, "status" | "updatedAt">[],
 ): string | null {
@@ -141,13 +117,6 @@ export function latestRejectedAt(
   return latest;
 }
 
-/**
- * Next compliant outbid mark with a live offer window.
- * Highest standing first; ties → oldest createdAt.
- * Skips banned trades (slice 14.26 — static + operator ban-list).
- * On a vacant seat, expired windows cascade: the next mark’s 24h starts
- * when the prior mark’s window ended. Exhausted → null (no silent reopen).
- */
 export function nextCompliantFailedWinnerMark(
   bids: readonly IntentBid[],
   input: {
@@ -203,13 +172,6 @@ export function nextCompliantFailedWinnerMark(
   return null;
 }
 
-/**
- * Resolve what the signed-in viewer should see.
- * Live offer only for the exclusive next-compliant target (vacant seat) or
- * their own non-expired outbid window (occupied seat). Expired → no preferential
- * prefill; copy says offer expired / next compliant. No silent reopen.
- * Slice 14.26 — banned trades never receive an offer.
- */
 export function resolveFailedWinnerOfferForViewer(input: {
   bids: readonly IntentBid[];
   viewerId: string | null | undefined;
@@ -266,7 +228,6 @@ export function resolveFailedWinnerOfferForViewer(input: {
     };
   }
 
-  // Slice 14.26 — banned trade marks get no preferential failed-winner offer.
   if (
     isFailedWinnerTradeBanned(
       viewerOutbid.brandLabel,
@@ -331,10 +292,6 @@ export function resolveFailedWinnerOfferForViewer(input: {
   };
 }
 
-/**
- * Vacant seat with a live exclusive offer: only that user may list.
- * Cascade exhausted (null exclusive) → normal listing. No silent preferential reopen.
- */
 export function assertFailedWinnerExclusiveLister(input: {
   bids: readonly IntentBid[];
   userId: string;

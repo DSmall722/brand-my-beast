@@ -18,10 +18,6 @@ import {
   type WaitlistNotifyPayload,
 } from "../src/lib/waitlist";
 
-/**
- * Slice 12.14 — waitlist double-opt-in token.
- * CLOSE_AT null. No Stripe.
- */
 test.describe("slice 12.14: waitlist double-opt-in token", () => {
   test.describe.configure({ mode: "serial" });
 

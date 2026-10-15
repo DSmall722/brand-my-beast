@@ -30,11 +30,6 @@ async function signIn(page: Page, email: string) {
   await expect(page.getByTestId("account-page")).toBeVisible();
 }
 
-/**
- * Slice 13.45 — operator health: waitlist + pending + last digest.
- * CLOSE_AT null. No Stripe. Hold-mode untouched.
- */
-
 test.describe("slice 13.45: operator health waitlist pending digest", () => {
   test.describe.configure({ mode: "serial" });
 

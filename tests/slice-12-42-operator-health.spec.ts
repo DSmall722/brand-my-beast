@@ -23,10 +23,6 @@ async function signIn(page: Page, email: string) {
   await expect(page.getByTestId("account-page")).toBeVisible();
 }
 
-/**
- * Slice 12.42 — /operator/health last-migration name from Drizzle.
- * CLOSE_AT null. No Stripe.
- */
 test.describe("slice 12.42: operator health last Drizzle migration", () => {
   test("campaign money fences stay locked — CLOSE_AT null", () => {
     expect(FLOOR_USD).toBe(35_000);

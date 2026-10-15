@@ -15,11 +15,6 @@ import {
 import { findStripePackagesInRootPackageJson } from "../src/lib/no-stripe-package";
 import { vercelJsonIsHoldOrMainOnlyRestore } from "../src/lib/vercel-git-deploy";
 
-/**
- * Slice 16.46 — CI still fails if CLOSE_AT is non-null.
- * Pins the Playwright workflow step. Does not set CLOSE_AT. No Stripe.
- */
-
 const WORKFLOW = join(process.cwd(), ".github/workflows/playwright.yml");
 
 test.describe("slice 16.46: CI still fails if CLOSE_AT is non-null", () => {

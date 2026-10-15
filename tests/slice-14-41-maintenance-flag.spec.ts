@@ -16,11 +16,6 @@ import { findStripePackagesInRootPackageJson } from "../src/lib/no-stripe-packag
 import { PUBLIC_COPY } from "../src/lib/public-copy";
 import { vercelJsonIsHoldOrMainOnlyRestore } from "../src/lib/vercel-git-deploy";
 
-/**
- * Slice 14.41 — Maintenance flag: `/` stays up, intent POST returns
- * “not taking marks.” CLOSE_AT null. No Stripe. Hold-mode untouched.
- */
-
 test.describe("slice 14.41: maintenance flag — / up, intent not taking marks", () => {
   test.describe.configure({ mode: "serial" });
 

@@ -1,11 +1,5 @@
-/**
- * Adjacent-panel clash detector (FEATURES P2 #20).
- * Soft visual-adjacency guidance — no capture, no clock.
- */
-
 import { PANELS, type Panel } from "./campaign";
 
-/** Undirected truck-face neighbors (shared edges / visual adjacency). */
 export const PANEL_ADJACENCY: Readonly<
   Record<Panel["id"], readonly Panel["id"][]>
 > = {
@@ -102,7 +96,6 @@ export function findAdjacentClashes(input: {
   return clashes;
 }
 
-/** Resolve adjacency seats that currently hold listed/approved intents. */
 export function holdersOnAdjacentPanels(
   panelId: string,
   holdersByPanel: ReadonlyMap<string, AdjacentSeatHolder | null>,

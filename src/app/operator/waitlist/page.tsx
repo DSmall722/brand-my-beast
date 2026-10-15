@@ -17,10 +17,6 @@ function wholeTruckFilter(
   return "all";
 }
 
-/**
- * Slice 7.5 — operator-only waitlist roster.
- * Slice 16.0f — Whole-truck column + optional filter. No public header link.
- */
 export default async function OperatorWaitlistPage({
   searchParams,
 }: {

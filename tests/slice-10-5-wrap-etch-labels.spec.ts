@@ -17,10 +17,6 @@ import {
   stainlessCompositorCopyIsSafe,
 } from "../src/lib/stainless-compositor";
 
-/**
- * Slice 10.5 — wrap vs etch labels from PUBLIC_COPY only.
- * No “permanent vinyl.” CLOSE_AT null. No Stripe.
- */
 test.describe("slice 10.5: wrap vs etch labels from PUBLIC_COPY", () => {
   test("campaign money fences stay locked — CLOSE_AT null", () => {
     expect(FLOOR_USD).toBe(35_000);

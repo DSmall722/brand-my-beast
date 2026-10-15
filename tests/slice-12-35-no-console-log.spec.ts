@@ -9,14 +9,8 @@ import {
   formatUsd,
 } from "../src/lib/campaign";
 
-/**
- * Slice 12.35 — strip `console.log` from `src/` except test helpers.
- * CLOSE_AT null. No Stripe.
- */
-
 const SRC_ROOT = join(process.cwd(), "src");
 
-/** Paths under src/ that may keep console.log (CI / local test helpers only). */
 function isTestHelperPath(relPath: string): boolean {
   const norm = relPath.replace(/\\/g, "/").toLowerCase();
   if (norm.includes("/__tests__/")) return true;

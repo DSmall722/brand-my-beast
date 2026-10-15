@@ -14,11 +14,6 @@ import { findStripePackagesInRootPackageJson } from "../src/lib/no-stripe-packag
 import { PUBLIC_COPY } from "../src/lib/public-copy";
 import { vercelJsonIsHoldOrMainOnlyRestore } from "../src/lib/vercel-git-deploy";
 
-/**
- * Slice 19.9 — mobile header stays one row: wordmark + Contact BMB.
- * Safe-area already 17.7. CLOSE_AT null. No Stripe.
- */
-
 const ROOT = process.cwd();
 const LOCKED_H1 = "Advertise your brand on the truck that people already photograph";
 
@@ -78,7 +73,6 @@ test.describe("slice 19.9: mobile header stays one row", () => {
 
     expect(wordBox.x + wordBox.width).toBeLessThanOrEqual(joinBox.x + 1);
 
-    // One text row. Phone links keep a 44px tap target, so the box is taller than the glyphs.
     expect(wordBox.height).toBeLessThan(56);
     expect(joinBox.height).toBeGreaterThanOrEqual(44);
     expect(joinBox.height).toBeLessThan(56);

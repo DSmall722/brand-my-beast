@@ -20,10 +20,6 @@ import {
   setIntentStatus,
 } from "../src/lib/intent-store";
 
-/**
- * Slice 12.2 — optimistic lock on intent_bids.updatedAt.
- * Second writer with a stale token gets typed `stale_write`. No Stripe.
- */
 test.describe("slice 12.2: optimistic lock on updatedAt", () => {
   test.describe.configure({ mode: "serial" });
 

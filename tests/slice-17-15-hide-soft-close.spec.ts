@@ -10,11 +10,6 @@ import { findCloseAtViolations } from "../src/lib/close-at-null";
 import { findStripePackagesInRootPackageJson } from "../src/lib/no-stripe-package";
 import { vercelJsonIsHoldOrMainOnlyRestore } from "../src/lib/vercel-git-deploy";
 
-/**
- * Slice 17.15 — hide the soft-close block while CLOSE_AT is null
- * and bidding is not open. Do not set a clock.
- */
-
 test.describe("slice 17.15: hide soft-close while bidding is closed", () => {
   test("campaign money fences stay locked — CLOSE_AT null", () => {
     expect(FLOOR_USD).toBe(35_000);

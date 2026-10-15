@@ -36,9 +36,6 @@ async function resetServerIntents(request: APIRequestContext) {
   expect(res.ok()).toBeTruthy();
 }
 
-/**
- * Slice 8.6 — shop PDF for an approved seat. No Imagine API.
- */
 test.describe("slice 8.6: shop PDF builder", () => {
   test("campaign money fences stay locked", () => {
     expect(FLOOR_USD).toBe(35_000);

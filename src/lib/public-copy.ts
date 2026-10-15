@@ -1,25 +1,16 @@
-/**
- * Verbatim homepage strings from PUBLIC_COPY.md (slice 0.9).
- * Do not invent warmer / closer / snarkier variants. CAMPAIGN.md wins money.
- */
-
 import { BRAND, CLOSE_AT, FLOOR_USD, OPEN_AT, PANELS, formatUsd } from "./campaign";
 import { SOFT_CLOSE_MS, publishedCloseLabelEt } from "./campaign-window";
 import { PANEL_BOARD_MARKS, panelLegendLabel } from "./panel-board";
 import { formatCampaignInstantEt } from "./seat-log";
 
-
-/** Card gloss is off. Panel names carry the seat; bumper rules stay in RULES.md. */
 const PANEL_GLOSS: Readonly<Record<string, string>> = {};
 
-/** Shared by the FAQ and How it works so the two lines cannot drift. */
 const TRUCK_OWNERSHIP_LINE =
   "The operator does not own the truck yet. This auction buys it.";
 
 const BID_OPENS_AT = formatCampaignInstantEt(OPEN_AT);
 const CLOSED_ASK = `Questions? Use the Contact us form or email ${BRAND.email}.`;
 
-/** Long Eastern label. `Monday, November 2, 2026 at 12:00 PM ET`. */
 function longCloseLabelEt(iso: string): string {
   const parts = new Intl.DateTimeFormat("en-US", {
     timeZone: "America/New_York",
@@ -39,7 +30,6 @@ function longCloseLabelEt(iso: string): string {
 const SOFT_CLOSE_MINUTES = SOFT_CLOSE_MS / 60_000;
 const FAQ_CLOSE_ANSWER = `Bidding is open and closes ${longCloseLabelEt(CLOSE_AT ?? "")}. A bid in the last ${SOFT_CLOSE_MINUTES} minutes pushes the close back ${SOFT_CLOSE_MINUTES} minutes.`;
 
-/** Slice 16.25 — whole-truck package is the numbered board, 1 Hood through 11 Rear bumper. */
 export function wholeTruckPackageCopy(): string {
   const labels = PANEL_BOARD_MARKS.map((mark) => panelLegendLabel(mark));
   return `The package is ${labels.join(", ")}.`;
@@ -80,20 +70,16 @@ export const PUBLIC_COPY = {
     shortfallFloorLabel: "Short of floor",
     openSeatsLabel: "Open seats",
     vaultFloorMarkLabel: "Floor",
-    /** Slice 19.10 — vault copy while pledged is $0. Not an empty auction. */
     vaultEmpty: "No marks yet",
-    /** Slice 20.6 — board legend. Buyer sentence, not Open seat · Held =. */
     seatLegend: "Open seat = empty. Held seat = standing intent.",
     truckImageAlt: `Cybertruck with the ${PANELS.length} ad panels outlined`,
     wantAllPanels: "Buy the Whole Truck",
     wholeTruckHeading: "Whole truck — $120,000",
-    /** Slice 20.7 — one sentence on `/`. 11-name dump stays on the form. */
     wholeTruckLead:
       "One brand on every panel. Standing panel winners released. Nothing is charged on this page.",
     wholeTruckAmountLabel: "Fully funded mark",
     wholeTruckCta: "List a whole-truck intent",
     wholeTruckSignIn: "Sign in to list a whole-truck intent",
-    /** Slice 9.5 — control hidden when pledged >= $120,000. */
     wholeTruckMet:
       "The campaign is fully funded at $120,000. The field is closed. Still nothing charged on this page.",
   },
@@ -109,8 +95,6 @@ export const PUBLIC_COPY = {
     lead: "Pick a panel to place a bid.",
     badgeEtch: "Immortal Etch Locked",
     badgeWrap: "Wrap only",
-    /** Slice 10.9 — panel card standing line when no mark holds. */
-    /** Slice 20.3 — print once, not on every open card. */
     standingOpen: "Open seat",
     gloss: PANEL_GLOSS,
   },
@@ -140,7 +124,6 @@ export const PUBLIC_COPY = {
     ],
     unlock:
       "Once total active bids cross $120,000, buyers will unlock the option to have their advertisement permanently etched on the stainless surface for 3x the final bid for that panel. Immortal Etch is only available on stainless steel panels.",
-    /** Seat-page art rules, restated once on the homepage Immortal Etch section. */
     requirements:
       "Immortal Etch artwork must use bold, simple shapes that can be permanently etched into stainless steel. Gradients, fine details, and very small text cannot be etched reliably. Final artwork will be reviewed before approval.",
     body: "Wrap is a year of film. Immortal Etch is a shallow frost of your mark in the stainless. It does not peel with the wrap. Nine steel faces. Unlocks once standing crosses $120,000.",
@@ -152,7 +135,6 @@ export const PUBLIC_COPY = {
   },
   wreck: {
     heading: "Wreck & refund",
-    /** Slice 20.8 — complete sentence, not a fragment. */
     lead: "Here is what happens if the campaign misses or the wrap year ends early.",
     items: [
       {
@@ -251,26 +233,17 @@ export const PUBLIC_COPY = {
     button: "Contact BMB",
     idleNote: `Bidding is open. Closes ${publishedCloseLabelEt()}.`,
     idleNoteBefore: "We only email when seats open.",
-    /** Slice 13.39 — privacy stub waitlist retention. */
     retention: "Waitlist retention: until seats open or user deletes.",
     success: "Thanks. We will be in touch.",
     already: "That email is already on the list.",
-    /** Slice 6.5 — never imply join when the write did not land. */
     unavailable: `Could not send that. Try again or email ${BRAND.email}.`,
     failed: `That didn't send. Try again, or email ${BRAND.email}.`,
-    /** Slice 6.6 — never claim joined on 429. */
     rateLimited: `Could not send that. Try again or email ${BRAND.email}.`,
-    /** Slice 13.31 — disposable / blocked domain. */
     domainBlocked: `Could not send that. Try again or email ${BRAND.email}.`,
-    /** Slice 16.0b — interest checkbox copy. Not pledged. Not on the vault bar. */
     wholeTruckCheckboxLabel: "I want the whole truck",
     wholeTruckCheckboxHint:
       "Check this box when contacting BMB for information about becoming the exclusive brand advertised on the entire vehicle.",
   },
-  /**
-   * Slice 12.17 — /signin copy. Not a homepage section.
-   * Live mode HTML must never contain the string “test login”.
-   */
   signIn: {
     heading: "Sign in",
     lead: "This page does not charge cards.",
@@ -280,64 +253,38 @@ export const PUBLIC_COPY = {
     credentialsButton: "Sign in",
     missingProvidersLead:
       "Live sign-in is on, but no providers are configured yet. The operator needs AUTH_SECRET, AUTH_URL, RESEND_API_KEY, and DATABASE_URL.",
-    /** Slice 17.5 — live empty state. No env key names. */
     notOpenYet: "Sign-in is not open yet. Contact us. Nothing is charged.",
-    /** AUTH_MODE=test only — never render under live. */
     testHint: "Use any @example.com email and the test password.",
-    /** Slice 12.39 — /signin/check-email success line. */
     checkEmailHeading: "Check your email",
     checkEmailSuccess:
       "If that address is valid, a sign-in link is on the way. The link expires soon. No card is charged on this path.",
-    /** Slice 14.25 — /account sign-out button. Not homepage. */
     signOut: "Sign out",
   },
-  /**
-   * Slice 13.5 — seat pack (withdraw / failed-winner / deposit preview).
-   * Not homepage. Do not rewrite hero H1.
-   */
   seat: {
-    /**
-     * Slice 14.7 — seat rationale only (RULES.md Inventory). Not homepage H1.
-     */
     openingRationale:
       `Opening marks start the seat. The floor is not the sum of openings. Bidding has to carry the board to ${formatUsd(FLOOR_USD)}.`,
-    /** QA 1047PM — stainless seat chrome above Immortal Etch Locked. */
     wrapTwelveMonths: "Vinyl wrap for 12 months after installation.",
-    /** QA 1047PM — bumper seats are wrap-only. */
     bumperWrapOnly: "Vinyl wrap for 12 months after installation.",
     withdrawSuccess: "Intent withdrawn. Still not charged.",
     withdrawButton: "Withdraw pending intent",
     failedWinnerWaitlist:
       "Stay on the waitlist. This page does not charge cards.",
-    /** `{percent}` `{amount}` filled by deposit-preview helper. */
     depositPreviewTemplate: "{percent}% of this mark is {amount}. Not charged.",
-    /**
-     * `{amount}` `{last}` filled by failed-winner-offer helper.
-     */
     failedWinnerLeadTemplate:
       "Failed-winner offer: re-list at {amount} — your last mark {last} + one increment (max($250, 10%)). Still not charged. No silent reopen.",
-    /** Slice 13.11 — offer window elapsed; cascade to next compliant. */
     failedWinnerExpired:
       "Failed-winner offer expired. Next compliant mark is up. No silent reopen.",
-    /** Slice 13.28 — /account/wins empty state. */
     winsEmpty:
       "No approved seats yet. Operator approval on a listed intent opens this sheet. Still no card charge.",
   },
-  /** Intent failure strings (not homepage PUBLIC_COPY.md sections). */
   intent: {
     rateLimited:
       "Too many intent attempts. No new intent was listed. Wait a moment and try again.",
-    /** Slice 14.17 — SEATS_OPEN=false. Not a close date. */
     seatsClosedWaitlistOnly:
       "Seats are not open for intent marks. Join the waitlist only. This page does not charge cards.",
-    /** Slice 14.41 — MAINTENANCE=true. Homepage stays up. Not a close date. */
     maintenanceNotTakingMarks:
       "Not taking marks. The board is up; intent listing is paused for maintenance. Still no card charge.",
   },
-  /**
-   * Slice 9.3 — per-seat soft-close extension. Never a campaign CLOSE_AT.
-   * Not a homepage PUBLIC_COPY.md section.
-   */
   panelExtension: {
     heading: "Soft-close extension",
     unset:
@@ -348,10 +295,6 @@ export const PUBLIC_COPY = {
     setTail:
       "That is a seat extension only — not a campaign close date. This page does not charge cards.",
   },
-  /**
-   * Slice 10.5 — wrap vs etch labels on the seat compositor.
-   * Immortal = etch. Never “permanent vinyl.” Not a homepage PUBLIC_COPY.md section.
-   */
   compositor: {
     modeWrap: "Wrap",
     modeEtch: "Etch",
@@ -361,22 +304,14 @@ export const PUBLIC_COPY = {
     wrapFilm: "Vinyl film layer",
     etchMark: "Chemical frost on stainless",
   },
-  /**
-   * Slice 20.10 — 404 / partner / error chrome. Not a shop tease.
-   */
   chrome: {
     backToBoard: "Back to the board",
   },
   footer: {
     line: "BrandMyBeast · @BrandMyBeast · hello@brandmybeast.com",
     independent: "Independent. Not Tesla.",
-    /** Slice 13.38 — terms stub. Intent listing is not a card charge. */
     intentNotACharge: "Intent is not a charge.",
   },
-  /**
-   * Homepage bid desk. Informational until the money path is live.
-   * Not a PUBLIC_COPY.md section. Never a card charge.
-   */
   bidDesk: {
     dayHeading: "Day by day",
     dayEmpty: "No bids yet.",
@@ -420,7 +355,6 @@ export const PUBLIC_COPY = {
     yourBid: "Your bid",
     brandName: "Brand name",
     website: "Website (optional)",
-    /** Server placeDepositBid does not require a file. Label stays optional. */
     logo: "Logo (optional, you can send it later)",
     logoSend: `Winning brands send their logo to ${BRAND.email}.`,
     panel: "Panel",
@@ -441,7 +375,6 @@ function calendarCopyKind(nowMs: number = Date.now()): CalendarCopyKind {
   return "open";
 }
 
-/** Empty leaderboard line. Before OPEN_AT vs after. Not the live-charge flag. */
 export function leaderboardEmptyCopy(nowMs: number = Date.now()): string {
   if (nowMs >= Date.parse(OPEN_AT)) {
     return PUBLIC_COPY.bidDesk.leaderboardEmptyAfter;

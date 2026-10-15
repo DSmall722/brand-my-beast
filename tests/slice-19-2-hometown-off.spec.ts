@@ -14,12 +14,6 @@ import { findStripePackagesInRootPackageJson } from "../src/lib/no-stripe-packag
 import { PUBLIC_COPY } from "../src/lib/public-copy";
 import { vercelJsonIsHoldOrMainOnlyRestore } from "../src/lib/vercel-git-deploy";
 
-/**
- * Slice 19.2 — hometown off. Remove HometownLaneTags from public seats.
- * No SC / Charlotte / Atlanta / Panhandle on /panels/*. CLOSE_AT null.
- * No Stripe. Do not flip SEATS_OPEN. Homepage H1 unchanged.
- */
-
 const ROOT = process.cwd();
 const LOCKED_H1 = "Advertise your brand on the truck that people already photograph";
 const HOMETOWN_LABELS = ["SC", "Charlotte", "Atlanta", "Panhandle"] as const;

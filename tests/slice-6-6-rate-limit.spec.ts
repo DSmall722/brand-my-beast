@@ -37,13 +37,7 @@ async function signIn(page: Page, email: string) {
   await expect(page.getByTestId("account-page")).toBeVisible();
 }
 
-/**
- * Slice 6.6 — rate-limit waitlist + intent POSTs.
- * Clear 429 / error copy that never claims joined or listed.
- */
 test.describe("slice 6.6: rate-limit waitlist + intent POSTs", () => {
-  // Shared process-local limiter on the Next server — keep this file serial
-  // so parallel workers cannot reset buckets mid-burst.
   test.describe.configure({ mode: "serial" });
 
   test.afterEach(async ({ request }) => {

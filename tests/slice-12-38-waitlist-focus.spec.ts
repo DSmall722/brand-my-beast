@@ -10,10 +10,6 @@ import {
 } from "../src/lib/campaign";
 import { PUBLIC_COPY } from "../src/lib/public-copy";
 
-/**
- * Slice 12.38 — focus restore after waitlist submit.
- * CLOSE_AT null. No Stripe.
- */
 test.describe("slice 12.38: waitlist focus restore after submit", () => {
   test("campaign money fences stay locked — CLOSE_AT null", () => {
     expect(FLOOR_USD).toBe(35_000);

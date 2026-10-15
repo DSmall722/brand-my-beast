@@ -12,12 +12,6 @@ import { depositUsdForMark } from "../src/lib/intent";
 import { findStripePackagesInRootPackageJson } from "../src/lib/no-stripe-package";
 import { vercelJsonIsHoldOrMainOnlyRestore } from "../src/lib/vercel-git-deploy";
 
-/**
- * Slice 17.18 — /panels/front-fascia HTML drops prototype jargon.
- * Opening stays $2,000. Deposit stays 20% of opening, not charged.
- * CLOSE_AT null. No Stripe package.
- */
-
 const BANNED = [
   "prototype",
   "30X",

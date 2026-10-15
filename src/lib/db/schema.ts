@@ -21,13 +21,9 @@ export const waitlistSignups = pgTable(
       .defaultNow()
       .notNull(),
     source: text("source").notNull().default("p1-waitlist"),
-    /** Set when the waitlist email signs in — row is never deleted (slice 5.3). */
     userId: text("user_id"),
-    /** Slice 12.14 — double-opt-in token until confirmed. */
     confirmToken: text("confirm_token"),
-    /** Slice 12.14 — set when the confirm link is opened. */
     confirmedAt: timestamp("confirmed_at", { withTimezone: true }),
-    /** Slice 16.0c — whole-truck interest. Not pledged. Default false. */
     wantWholeTruck: boolean("want_whole_truck").notNull().default(false),
   },
   (table) => [
@@ -37,10 +33,6 @@ export const waitlistSignups = pgTable(
   ],
 );
 
-/**
- * Intent ledger plus deposit capture columns (drizzle/0021).
- * deposit_paid_at is written by the webhook, never by the browser.
- */
 export const intentBids = pgTable(
   "intent_bids",
   {
@@ -55,26 +47,13 @@ export const intentBids = pgTable(
     createdAt: timestamp("created_at", { withTimezone: true })
       .defaultNow()
       .notNull(),
-    /** Slice 12.2 — optimistic lock token; bump on every write. */
     updatedAt: timestamp("updated_at", { withTimezone: true })
       .defaultNow()
       .notNull(),
-    /** http(s) or /api/artwork/{id}. Never a data: URL (slice 8.5). */
     artworkUrl: text("artwork_url"),
-    /** Optional proxy ceiling (slice 9.1). Intent only — never a card. */
     proxyMaxUsd: integer("proxy_max_usd"),
-    /**
-     * Slice 9.4 — floor-save raise-to Y. Stored, not charged.
-     * Null = normal standing intent.
-     */
     floorSaveUsd: integer("floor_save_usd"),
-    /**
-     * Slice 12.4 — client idempotency key. Replay returns the same bid.
-     */
     idempotencyKey: text("idempotency_key"),
-    /**
-     * Slice 12.9 — soft-delete when withdrawn. Approved is never hard-deleted.
-     */
     deletedAt: timestamp("deleted_at", { withTimezone: true }),
     depositPaidAt: timestamp("deposit_paid_at", { withTimezone: true }),
     stripePaymentId: text("stripe_payment_id"),
@@ -91,18 +70,15 @@ export const intentBids = pgTable(
     index("intent_bids_status_idx").on(table.status),
     index("intent_bids_trade_label_idx").on(table.tradeLabel),
     index("intent_bids_deleted_at_idx").on(table.deletedAt),
-    /** Slice 12.3 — at most one approved standing seat per panel. */
     uniqueIndex("intent_bids_one_approved_per_panel_idx")
       .on(table.panelId)
       .where(sql`${table.status} = 'approved'`),
-    /** Slice 12.4 — one bid per non-null idempotency key. */
     uniqueIndex("intent_bids_idempotency_key_uidx")
       .on(table.idempotencyKey)
       .where(sql`${table.idempotencyKey} IS NOT NULL`),
   ],
 );
 
-/** Webhook idempotency. The Stripe event id is the primary key. */
 export const stripeEvents = pgTable("stripe_events", {
   id: text("id").primaryKey(),
   type: text("type").notNull(),
@@ -111,10 +87,6 @@ export const stripeEvents = pgTable("stripe_events", {
     .notNull(),
 });
 
-/**
- * Slice 8.5 — binary artwork payloads. Intent ledger stores only the path.
- * body_base64 is the raw payload without a data: prefix.
- */
 export const artworkBlobs = pgTable("artwork_blobs", {
   id: text("id").primaryKey(),
   contentType: text("content_type").notNull(),
@@ -124,9 +96,6 @@ export const artworkBlobs = pgTable("artwork_blobs", {
     .notNull(),
 });
 
-/**
- * Slice 8.8 — operator-managed ban patterns (additive to static banned-trades).
- */
 export const operatorBanList = pgTable("operator_ban_list", {
   id: text("id").primaryKey(),
   pattern: text("pattern").notNull().unique(),
@@ -136,10 +105,6 @@ export const operatorBanList = pgTable("operator_ban_list", {
     .notNull(),
 });
 
-/**
- * Slice 13.31 — operator-editable waitlist disposable-domain blocklist.
- * Built-in defaults live in code; this table holds operator additions.
- */
 export const waitlistDomainBlocklist = pgTable("waitlist_domain_blocklist", {
   id: text("id").primaryKey(),
   domain: text("domain").notNull().unique(),
@@ -149,9 +114,6 @@ export const waitlistDomainBlocklist = pgTable("waitlist_domain_blocklist", {
     .notNull(),
 });
 
-/**
- * Slice 8.9 — audit log on approve / reject (who, when, note id).
- */
 export const operatorAuditLog = pgTable(
   "operator_audit_log",
   {
@@ -168,10 +130,6 @@ export const operatorAuditLog = pgTable(
   (table) => [index("operator_audit_log_created_at_idx").on(table.createdAt)],
 );
 
-/**
- * Slice 12.8 — brand / trade / amount / art snapshots with timestamps.
- * Intent only — never a charge receipt.
- */
 export const intentRevisions = pgTable(
   "intent_revisions",
   {
@@ -191,10 +149,6 @@ export const intentRevisions = pgTable(
   ],
 );
 
-/**
- * Slice 12.12 — failed Resend payloads for operator retry.
- * Intent / notify only — never a charge receipt.
- */
 export const mailDeadLetters = pgTable(
   "mail_dead_letters",
   {
@@ -216,18 +170,11 @@ export const mailDeadLetters = pgTable(
     index("mail_dead_letters_created_at_idx").on(table.createdAt),
   ],
 );
-/**
- * Slice 9.3 — per-panel soft-close extension. Not a campaign CLOSE_AT.
- */
 export const panelExtensions = pgTable("panel_extensions", {
   panelId: text("panel_id").primaryKey(),
   extendedUntil: timestamp("extended_until", { withTimezone: true }),
 });
 
-/**
- * Auth.js / Drizzle adapter tables (Resend magic link in live mode).
- * JWT sessions stay on; these rows hold users + email verification tokens.
- */
 export const authUsers = pgTable("user", {
   id: text("id")
     .primaryKey()

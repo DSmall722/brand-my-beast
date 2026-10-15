@@ -1,9 +1,3 @@
-/**
- * Slice 12.42 — last Drizzle SQL migration name from the repo `drizzle/` folder.
- * Slice 13.44 — checked-in `drizzle/meta/_journal.json` must list every SQL tag.
- * CI and memory mode still report the on-disk migration; no Stripe / CLOSE_AT.
- */
-
 import { existsSync, readdirSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 
@@ -35,7 +29,6 @@ export function listDrizzleMigrationFiles(
     .sort();
 }
 
-/** Filename of the highest-numbered SQL migration under `drizzle/`. */
 export function lastDrizzleMigrationName(
   rootDir: string = process.cwd(),
 ): string | null {
@@ -43,7 +36,6 @@ export function lastDrizzleMigrationName(
   return files.at(-1) ?? null;
 }
 
-/** Tag without `.sql` — what operators usually quote in runbooks. */
 export function lastDrizzleMigrationTag(
   rootDir: string = process.cwd(),
 ): string | null {
@@ -63,10 +55,6 @@ export function readDrizzleJournal(
   return JSON.parse(raw) as DrizzleJournal;
 }
 
-/**
- * Empty array = journal matches on-disk SQL tags.
- * Non-empty = CI must fail (missing journal, drift, or laptop-only path).
- */
 export function findDrizzleJournalViolations(
   rootDir: string = process.cwd(),
 ): string[] {

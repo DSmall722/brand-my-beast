@@ -30,9 +30,6 @@ async function resetServer(request: APIRequestContext) {
   expect(res.ok()).toBeTruthy();
 }
 
-/**
- * Slice 8.9 — audit log rows on approve / reject (who, when, note id).
- */
 test.describe("slice 8.9: operator audit log", () => {
   test("campaign money fences stay locked", () => {
     expect(FLOOR_USD).toBe(35_000);

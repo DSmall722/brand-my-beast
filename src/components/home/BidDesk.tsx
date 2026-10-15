@@ -26,12 +26,10 @@ import {
   closedDeskResult,
 } from "@/lib/public-copy";
 
-/** Public panel id only. Swallow errors so analytics cannot break a bid. */
 function trackPanel(name: "bid_start" | "deposit_checkout", panelId: string) {
   try {
     track(name, { panelId });
   } catch {
-    // ponytail: library throw must not reach submit or checkout
   }
 }
 
@@ -326,7 +324,6 @@ function liveDepositLine(markUsd: number): string | null {
     .replace("{amount}", formatUsd(depositUsdForMark(markUsd)));
 }
 
-/** Whole dollars only. Zero, negatives, and fractions are not a bid. */
 function wholeDollarBid(raw: string): number | null {
   const text = raw.trim();
   if (!/^\d+$/.test(text)) return null;
@@ -335,7 +332,6 @@ function wholeDollarBid(raw: string): number | null {
   return amount;
 }
 
-/** Max bid confirmed by Dennard. Client-side only; server unchanged. */
 export const MAX_CLIENT_BID_USD = 100_000;
 
 function bidFieldMessage(raw: string, minimumBidUsd: number): string | null {

@@ -39,9 +39,6 @@ function bid(partial: Partial<IntentBid> & Pick<IntentBid, "id" | "userId" | "st
   };
 }
 
-/**
- * Slice 13.11 — failed-winner offer TTL; next compliant; no silent reopen.
- */
 test.describe("slice 13.11: failed-winner timeout", () => {
   test.describe.configure({ mode: "serial" });
 

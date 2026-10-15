@@ -1,7 +1,3 @@
-/**
- * Slice 16.39 — WCAG contrast of the number badge against the stainless still.
- */
-
 function channel(c: number): number {
   const s = c / 255;
   return s <= 0.03928 ? s / 12.92 : ((s + 0.055) / 1.055) ** 2.4;

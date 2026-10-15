@@ -1,8 +1,3 @@
-/**
- * Same-day Imagine mockup pipeline (FEATURES P0 #2).
- * PROCESS-safe: placeholder composite only — no Stripe, no external billable API.
- */
-
 export type MockupStatus = "queued" | "ready";
 
 export type ImagineMockup = {
@@ -13,7 +8,6 @@ export type ImagineMockup = {
   tradeLabel: string;
   finish: "wrap" | "etch";
   status: MockupStatus;
-  /** Deterministic placeholder art key for CSS/SVG preview. */
   previewKey: string;
   createdAt: string;
   readyAt: string | null;
@@ -31,7 +25,6 @@ export function previewKeyFor(input: {
   return `imagine-${hash.toString(16)}`;
 }
 
-/** Same-day scaffold: queue then mark ready in one operator action. */
 export function completeSameDayMockup(
   draft: Omit<ImagineMockup, "status" | "readyAt"> & {
     status?: MockupStatus;

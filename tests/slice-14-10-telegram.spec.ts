@@ -12,11 +12,6 @@ import { findCloseAtViolations } from "../src/lib/close-at-null";
 import { findStripePackagesInRootPackageJson } from "../src/lib/no-stripe-package";
 import { vercelJsonIsHoldOrMainOnlyRestore } from "../src/lib/vercel-git-deploy";
 
-/**
- * Slice 14.10 — Kill leftover telegram lines in `.md` except a history note.
- * CLOSE_AT null. No Stripe. No clock. Hold-mode untouched.
- */
-
 const ROOT = process.cwd();
 const STALE = join(ROOT, "STALE.md");
 const SLICES = join(ROOT, "SLICES.md");
@@ -79,7 +74,6 @@ test.describe("slice 14.10: no telegram in .md except history", () => {
       if (!/telegram/i.test(text)) continue;
 
       if (file === STALE) {
-        // History note only — already asserted above.
         continue;
       }
       if (file === SLICES) {

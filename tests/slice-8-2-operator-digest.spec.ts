@@ -28,10 +28,6 @@ import {
   resetWaitlistStoreForTests,
 } from "../src/lib/waitlist";
 
-/**
- * Slice 8.2 — operator digest function + cron route in repo.
- * Do not register a Vercel cron until the hold lifts.
- */
 test.describe("slice 8.2: operator digest + cron route", () => {
   test.beforeEach(async () => {
     await resetIntentStoreForTests();
@@ -174,7 +170,6 @@ test.describe("slice 8.2: operator digest + cron route", () => {
     });
     process.env.RESEND_API_KEY = "re_test_slice82";
 
-    // CRON_SECRET is set on the Playwright webServer (playwright.config.ts).
     const ok = await request.get("/api/cron/operator-digest", {
       headers: { authorization: "Bearer playwright-cron-secret" },
     });

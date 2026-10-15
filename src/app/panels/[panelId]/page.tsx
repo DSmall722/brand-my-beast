@@ -58,9 +58,6 @@ import { resolveSeatsOpen } from "@/lib/seats-open";
 type Params = Promise<{ panelId: string }>;
 type SearchParams = Promise<{ checkout?: string }>;
 
-/**
- * Slice 14.16. Per-panel Open Graph title `{Panel} | BrandMyBeast`.
- */
 export async function generateMetadata({
   params,
 }: {
@@ -129,8 +126,6 @@ export default async function PanelIntentPage({
   const occupiedPanelIds = [...paidHolders.keys()];
   const etchable = isEtchable(panel);
   const viewerId = session?.user?.id;
-  // Slice 9.6 / 13.11 — live offer only inside TTL; else next compliant / expired.
-  // Slice 14.26 — banned trades (static + operator list) never get the offer.
   const operatorBanRules = await listBanRules();
   const failedWinner = resolveFailedWinnerOfferForViewer({
     bids,

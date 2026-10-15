@@ -8,19 +8,12 @@ import {
 import { CLOSE_AT, FLOOR_USD, GOAL_USD, formatUsd } from "@/lib/campaign";
 import { publishedCloseLabelEt } from "@/lib/campaign-window";
 
-/**
- * Slice 11.8 — Pre-P3 checklist on `/operator`.
- * Checkboxes are local prep only. They do not set CLOSE_AT.
- * Visible copy says “auction clock” so operator HTML stays free of the
- * CLOSE_AT token (slice 6.3 / 8.3 merge-gates).
- */
 export function PreP3Checklist() {
   const [checked, setChecked] = useState<Record<string, boolean>>({});
 
   function toggle(id: string) {
     setChecked((prev) => {
       const next = { ...prev, [id]: !prev[id] };
-      // Hard fence — checklist UI must never mutate campaign close.
       if (!assertPreP3ChecklistDoesNotSetCloseAt(Object.keys(next))) {
         return prev;
       }

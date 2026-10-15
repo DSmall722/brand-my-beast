@@ -9,10 +9,6 @@ import {
   formatUsd,
 } from "../src/lib/campaign";
 
-/**
- * Slice 13.9 — docs/EMAIL-DNS.md SPF/DKIM/DMARC checklist for hello@.
- * CLOSE_AT null. No Stripe. No live send from agents.
- */
 const DOC = join(process.cwd(), "docs/EMAIL-DNS.md");
 
 test.describe("slice 13.9: EMAIL-DNS checklist", () => {
@@ -57,7 +53,6 @@ test.describe("slice 13.9: EMAIL-DNS checklist", () => {
     expect(text).toMatch(/No lease|no lease/i);
     expect(text).toMatch(/Resend/);
     expect(text.toLowerCase()).not.toContain("stripe setupintent");
-    // Personal inbox as From is banned; checklist may say "not a personal Gmail"
     expect(text).not.toMatch(/@[a-z0-9.-]*gmail\.com/i);
   });
 });

@@ -14,10 +14,6 @@ import {
   resetIntentStoreForTests,
 } from "../src/lib/intent-store";
 
-/**
- * Slice 12.7 — normalize trade strings before exclusivity check.
- * CLOSE_AT null. No Stripe.
- */
 test.describe("slice 12.7: normalize trade before exclusivity", () => {
   test.describe.configure({ mode: "serial" });
 

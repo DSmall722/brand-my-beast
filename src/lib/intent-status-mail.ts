@@ -10,7 +10,6 @@ import type { IntentBid } from "@/lib/intent";
 import { appendMailDeadLetter } from "@/lib/mail-dead-letter";
 import { outboundMailEnvelope } from "@/lib/mail-envelope";
 
-/** Payload Resend (or a test double) receives for intent status mail. */
 export type IntentStatusMailPayload = {
   from: string;
   replyTo: string;
@@ -29,10 +28,6 @@ const globalStore = globalThis as typeof globalThis & {
   __bmbIntentStatusMailer?: IntentStatusMailer | null;
 };
 
-/**
- * Slice 8.1 — inject a Resend double in Playwright. Pass null to clear.
- * Live mail is never sent from the agent / CI.
- */
 export function setIntentStatusMailerForTests(
   mailer: IntentStatusMailer | null,
 ): void {
@@ -54,14 +49,12 @@ function resolveMailer(apiKey: string | undefined): IntentStatusMailer | null {
   };
 }
 
-/** Test-mode user ids are `test:<email>`. */
 export function emailFromTestUserId(userId: string): string | null {
   if (!userId.startsWith("test:")) return null;
   const email = userId.slice("test:".length).trim().toLowerCase();
   return email.includes("@") ? email : null;
 }
 
-/** Resolve bidder inbox for status mail. Missing = skip send. */
 export async function resolveIntentBidderEmail(
   userId: string,
 ): Promise<string | null> {
@@ -88,11 +81,6 @@ export function buildIntentStatusMail(input: {
   return intentStatusEmailTemplate(input);
 }
 
-/**
- * Slice 8.1 — notify the bidder on listed / outbid / approved / rejected.
- * Missing key/mailer/email = no-op. Throws are swallowed by callers.
- * Slice 13.18 — outbid includes next minimum (9.2) when provided.
- */
 export async function notifyIntentStatus(input: {
   kind: IntentStatusKind;
   bid: IntentBid;
@@ -125,7 +113,6 @@ export async function notifyIntentStatus(input: {
         error,
       });
     } catch {
-      // Dead-letter write must not mask the original send failure path.
     }
   }
 }

@@ -1,8 +1,3 @@
-/**
- * Slice 12.25 — contract markdown template from CAMPAIGN wreck rules.
- * Template only. Not a signature product. No card capture.
- */
-
 import {
   BRAND,
   CLOSE_AT,
@@ -21,7 +16,6 @@ export type ContractWreckClause = {
   body: string;
 };
 
-/** CAMPAIGN.md / RULES.md wreck outcomes — money locked to floor + buyout. */
 export const CONTRACT_WRECK_CLAUSES: readonly ContractWreckClause[] = [
   {
     id: "campaign-miss",
@@ -40,9 +34,6 @@ export const CONTRACT_WRECK_CLAUSES: readonly ContractWreckClause[] = [
   },
 ] as const;
 
-/**
- * Markdown contract template. Pure builder. Intent / draft only.
- */
 export function buildContractMarkdown(): string {
   const wreckLines = CONTRACT_WRECK_CLAUSES.flatMap((clause) => [
     `### ${clause.title}`,

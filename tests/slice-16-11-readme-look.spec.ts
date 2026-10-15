@@ -12,12 +12,6 @@ import { findCloseAtViolations } from "../src/lib/close-at-null";
 import { findStripePackagesInRootPackageJson } from "../src/lib/no-stripe-package";
 import { vercelJsonIsHoldOrMainOnlyRestore } from "../src/lib/vercel-git-deploy";
 
-/**
- * Slice 16.11 — README “How to look at this” points at 16.8.
- * Not brandmybeast.com as the demo.
- * CLOSE_AT null. No Stripe. No SEATS_OPEN flip.
- */
-
 const README = join(process.cwd(), "README.md");
 const LOCKED =
   "`npm i && npm run dev` is how friends see the real page while Vercel is on hold.";

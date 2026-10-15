@@ -1,9 +1,5 @@
 import { expect, test } from "@playwright/test";
 
-/**
- * BMB-ETCH-DEMOTE-1 — Immortal Etch is one FAQ bonus, not a public pitch.
- */
-
 const BONUS_Q = "Bonus: Immortal Etch";
 
 test.describe("BMB-ETCH-DEMOTE-1", () => {

@@ -3,9 +3,6 @@ import { join } from "node:path";
 import { expect, test } from "@playwright/test";
 import { CLOSE_AT, FLOOR_USD, GOAL_USD } from "../src/lib/campaign";
 
-/**
- * Slice 11.4 — 50 unique waitlist inserts in memory mode, no 500s.
- */
 test.describe("slice 11.4: 50 unique waitlist inserts (memory)", () => {
   test("campaign constants stay locked", () => {
     expect(FLOOR_USD).toBe(35_000);
@@ -49,7 +46,6 @@ test.describe("slice 11.4: 50 unique waitlist inserts (memory)", () => {
       true,
     );
 
-    // Replay one address: exists path must stay non-500 too.
     const again = await request.post("/api/waitlist", {
       data: { email: `burst-${stamp}-0@example.com` },
     });

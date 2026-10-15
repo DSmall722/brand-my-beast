@@ -8,9 +8,6 @@ import { FLOOR_USD, GOAL_USD, formatUsd } from "@/lib/campaign";
 import { publishedCloseLabelEt } from "@/lib/campaign-window";
 import { listMailDeadLetters } from "@/lib/mail-dead-letter";
 
-/**
- * Slice 12.12 — failed Resend dead-letters; operator can retry.
- */
 export default async function OperatorMailDeadLetterPage() {
   const session = await auth();
   if (!session?.user) {

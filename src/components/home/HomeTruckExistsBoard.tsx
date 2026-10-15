@@ -13,7 +13,6 @@ import { RouteDetourBuyoutCard } from "@/components/RouteDetourBuyoutCard";
 import { ClemsonSaturdayLockCard } from "@/components/ClemsonSaturdayLockCard";
 import { SightingBountyCardsCard } from "@/components/SightingBountyCardsCard";
 
-/** Slice 7.1 — extracted from `src/app/page.tsx`. Copy unchanged. */
 export function HomeTruckExistsBoard({ truckExists }: { truckExists: boolean }) {
   if (!truckExists) return null;
   return (

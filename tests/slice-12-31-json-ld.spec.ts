@@ -14,10 +14,6 @@ import {
 } from "../src/lib/home-json-ld";
 import { PUBLIC_COPY } from "../src/lib/public-copy";
 
-/**
- * Slice 12.31 — JSON-LD Organization + Offer on `/` from PUBLIC_COPY.
- * No impression claims. CLOSE_AT null. No Stripe.
- */
 test.describe("slice 12.31: homepage JSON-LD Organization + Offer", () => {
   test("campaign money fences stay locked — CLOSE_AT null", () => {
     expect(FLOOR_USD).toBe(35_000);

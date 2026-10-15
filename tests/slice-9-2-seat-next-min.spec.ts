@@ -19,9 +19,6 @@ async function signIn(page: import("@playwright/test").Page, email: string) {
   await expect(page.getByTestId("account-page")).toBeVisible();
 }
 
-/**
- * Slice 9.2 — seat shows next minimum from standing + increment.
- */
 test.describe("slice 9.2: seat next minimum", () => {
   test.beforeEach(async ({ request }) => {
     const res = await request.post("/api/test/reset-intents");

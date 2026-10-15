@@ -106,7 +106,6 @@
   opacity: 0.5;
 }
 
-/* Slice 6.12 — reduced motion: no fill animation; stay a real focusable link. */
 @media (prefers-reduced-motion: reduce) {
   .obsidian-arrow-fill-btn__circle,
   .obsidian-arrow-fill-btn__path {

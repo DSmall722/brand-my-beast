@@ -1,8 +1,3 @@
-/**
- * Event request calendar (FEATURES P4 #37).
- * Preference only — no livestream, no close clock, no reserved VIN.
- */
-
 import { FLOOR_USD, GOAL_USD, formatUsd } from "./campaign";
 
 export const EVENT_REQUEST_KINDS = [

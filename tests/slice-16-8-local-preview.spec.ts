@@ -12,11 +12,6 @@ import { findCloseAtViolations } from "../src/lib/close-at-null";
 import { findStripePackagesInRootPackageJson } from "../src/lib/no-stripe-package";
 import { vercelJsonIsHoldOrMainOnlyRestore } from "../src/lib/vercel-git-deploy";
 
-/**
- * Slice 16.8 — docs/LOCAL-PREVIEW.md: npm i && npm run dev while Vercel is on hold.
- * CLOSE_AT null. No Stripe. No SEATS_OPEN flip.
- */
-
 const DOC = join(process.cwd(), "docs/LOCAL-PREVIEW.md");
 
 test.describe("slice 16.8: local preview doc", () => {

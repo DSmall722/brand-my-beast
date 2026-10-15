@@ -1,8 +1,3 @@
-/**
- * Slice 9.3 — panelExtendedUntil ledger (memory CI / Postgres Production).
- * Seat soft-close extension only. Never writes CLOSE_AT.
- */
-
 import { eq } from "drizzle-orm";
 import { getDb } from "./db";
 import { panelExtensions } from "./db/schema";

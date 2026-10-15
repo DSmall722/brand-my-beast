@@ -15,10 +15,6 @@ import {
   resetIntentStoreForTests,
 } from "../src/lib/intent-store";
 
-/**
- * Slice 12.5 — depositUsd always round(standing * 0.20) in one helper.
- * Playwright lock. CLOSE_AT null. No Stripe.
- */
 test.describe("slice 12.5: depositUsd round helper", () => {
   test.describe.configure({ mode: "serial" });
 

@@ -15,10 +15,6 @@ import {
 
 type RouteContext = { params: Promise<{ bidId: string }> };
 
-/**
- * Slice 13.25 — operator print view for one approved seat (13.23 + 8.6).
- * Printable HTML. Operator auth only. No Stripe / CLOSE_AT.
- */
 export default async function OperatorPrintSeatPage({
   params,
 }: RouteContext) {

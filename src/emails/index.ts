@@ -1,9 +1,3 @@
-/**
- * Slice 12.11 — email templates live under src/emails/.
- * Slice 12.13 — CAN-SPAM stub footer on every template.
- * Slice 14.19 — seats-open template (do not send from the agent).
- */
-
 export {
   intentStatusEmailTemplate,
   type EmailTemplate,

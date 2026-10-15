@@ -20,9 +20,6 @@ import {
   resetOperatorBanListForTests,
 } from "../src/lib/operator-ban-list";
 
-/**
- * Slice 13.16 — ban-list change re-runs pending intents; approved seats stay.
- */
 test.describe("slice 13.16: ban-list re-runs pending", () => {
   test.describe.configure({ mode: "serial" });
 

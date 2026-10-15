@@ -32,7 +32,6 @@ function renderTokens(line: string) {
   );
 }
 
-/** Syne lockup on the product name only. Body copy stays IBM Plex. A newline is its own line. */
 export function ImmortalEtchLockup({ text }: { readonly text: string }) {
   const lines = text.split("\n");
   if (lines.length === 1) {

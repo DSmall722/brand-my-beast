@@ -17,7 +17,6 @@ export function ImagineMockupControls({
 }: {
   bidId: string;
   etchable: boolean;
-  /** Slice 12.28 — etch queue locked while pledged < buyout. */
   etchUnlocked?: boolean;
   mockup: ImagineMockup | null;
 }) {

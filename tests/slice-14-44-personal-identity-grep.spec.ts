@@ -19,11 +19,6 @@ import {
 import { findStripePackagesInRootPackageJson } from "../src/lib/no-stripe-package";
 import { vercelJsonIsHoldOrMainOnlyRestore } from "../src/lib/vercel-git-deploy";
 
-/**
- * Slice 14.44 — CI grep: fail on personal Gmail and personal handle.
- * CLOSE_AT null. No Stripe. Hold-mode untouched. No 30-day clock.
- */
-
 const ROOT = process.cwd();
 
 test.describe("slice 14.44: CI grep personal Gmail + personal handle", () => {

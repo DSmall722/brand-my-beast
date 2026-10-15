@@ -1,8 +1,3 @@
-/**
- * Charge-stop takeover slots (FEATURES P4 #38).
- * Empty display scaffold — no invented slot prices, no reserved VIN, no clock.
- */
-
 import { FLOOR_USD, GOAL_USD, formatUsd } from "./campaign";
 
 export const CHARGE_STOP_SLOTS_LEAD = `Charge-stop takeover slots. Empty until the truck exists. Miss ${formatUsd(FLOOR_USD)} and there is no stop to take over. Buyout ${formatUsd(GOAL_USD)} buys the truck; slots still wait on delivery. No invented slot prices. No reserved VIN until an order exists. Still no card charge.`;

@@ -12,11 +12,6 @@ import { findCloseAtViolations } from "../src/lib/close-at-null";
 import { findStripePackagesInRootPackageJson } from "../src/lib/no-stripe-package";
 import { vercelJsonIsHoldOrMainOnlyRestore } from "../src/lib/vercel-git-deploy";
 
-/**
- * Slice 14.8 — Delete FEATURES rows that contradict CAMPAIGN
- * (lease, $40k, cheaper trim). CLOSE_AT null. No Stripe. No clock.
- */
-
 const FEATURES = join(process.cwd(), "FEATURES.md");
 const STALE = join(process.cwd(), "STALE.md");
 
@@ -48,7 +43,6 @@ test.describe("slice 14.8: FEATURES drops CAMPAIGN contradictions", () => {
     expect(text).toContain("$35,000");
     expect(text).toContain("$120,000");
 
-    // Backlog lines must not sell killed products.
     const backlog = text.split("## Ranked backlog")[1] ?? "";
     expect(backlog.toLowerCase()).not.toMatch(/\blease\b/);
     expect(backlog).not.toMatch(/\$40,?000/);
@@ -56,7 +50,6 @@ test.describe("slice 14.8: FEATURES drops CAMPAIGN contradictions", () => {
     expect(backlog).not.toMatch(/\bPremium\b/);
     expect(backlog.toLowerCase()).not.toMatch(/cheaper trim|cheaper cybertruck/);
 
-    // Deleted section names the kills without offering them as build items.
     const deleted = text.split("## Deleted contradictions")[1]?.split(
       "## Ranked backlog",
     )[0] ?? "";

@@ -23,10 +23,6 @@ async function signIn(page: import("@playwright/test").Page, email: string) {
   await expect(page.getByTestId("account-page")).toBeVisible();
 }
 
-/**
- * Slice 9.10 — Playwright: pledged dollars = sum of approved standing only.
- * Listed does not count. CLOSE_AT null. No Stripe.
- */
 test.describe("slice 9.10: pledged = approved standing only", () => {
   test.describe.configure({ mode: "serial" });
 
@@ -93,7 +89,6 @@ test.describe("slice 9.10: pledged = approved standing only", () => {
     expect(secondListed.ok).toBeTruthy();
     if (!secondListed.ok) return;
 
-    // Second panel listed but not approved — pledged stays 3000.
     expect((await loadBoardIntentStats()).pledgedUsd).toBe(3000);
 
     const secondApproved = await setIntentStatus(

@@ -7,9 +7,6 @@ import { isOperatorEmail } from "@/lib/auth/operator";
 import { FLOOR_USD, GOAL_USD, formatUsd } from "@/lib/campaign";
 import { listBanRules, readBanListLastRun } from "@/lib/operator-ban-list";
 
-/**
- * Slice 8.8 — operator ban-list table. Auth + OPERATOR_EMAILS.
- */
 export default async function OperatorBanListPage() {
   const session = await auth();
   if (!session?.user) {

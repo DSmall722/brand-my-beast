@@ -40,9 +40,6 @@ async function resetServerIntents(request: APIRequestContext) {
   expect(res.ok()).toBeTruthy();
 }
 
-/**
- * Slice 13.25 — operator print view for one seat (13.23 + 8.6).
- */
 test.describe("slice 13.25: operator print seat view", () => {
   test.describe.configure({ mode: "serial" });
 
@@ -220,12 +217,9 @@ test.describe("slice 13.25: operator print seat view", () => {
     const printUrl = page.url();
     expect(printUrl).toContain("/operator/print/");
 
-    // Test-mode Auth.js treats every @example.com as operator — so deny path
-    // is proven with anon (no session) rather than a bidder session.
     await page.context().clearCookies();
     const anonNav = await page.goto(printUrl);
     expect(anonNav).toBeTruthy();
-    // Unauthenticated users land on sign-in (or never see print facts).
     const anonHtml = await page.content();
     expect(anonHtml).not.toContain('data-testid="operator-print"');
     expect(anonHtml).not.toContain("OpPrintCo");

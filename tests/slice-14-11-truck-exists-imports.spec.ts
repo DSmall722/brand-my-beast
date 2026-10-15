@@ -13,12 +13,6 @@ import { findCloseAtViolations } from "../src/lib/close-at-null";
 import { findStripePackagesInRootPackageJson } from "../src/lib/no-stripe-package";
 import { vercelJsonIsHoldOrMainOnlyRestore } from "../src/lib/vercel-git-deploy";
 
-/**
- * Slice 14.11 — while TRUCK_EXISTS is false, app routes must not statically
- * import plaque / sighting / circuit / Season 2 modules. Extends 12.40.
- * CLOSE_AT null. No Stripe. No clock. Hold-mode untouched.
- */
-
 const ROOT = process.cwd();
 const APP_DIR = join(ROOT, "src/app");
 const SLOT_PATH = join(
@@ -28,7 +22,6 @@ const SLOT_PATH = join(
 
 const SKIP_DIR = new Set(["node_modules", ".git", ".next"]);
 
-/** Static import targets that pull vapor boards into the truck-missing graph. */
 const VAPOR_STATIC_FROM = [
   "@/lib/cabin-plaque",
   "@/lib/cabin-plaque-store",
@@ -64,7 +57,6 @@ function staticImportOffenders(src: string): string[] {
   const hits: string[] = [];
   for (const mod of VAPOR_STATIC_FROM) {
     const escaped = mod.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-    // Exact module path: allow `@/lib/sighting-store` vs `@/lib/sighting`.
     const re = new RegExp(
       String.raw`^import\s+[\s\S]*?from\s+["']${escaped}["']`,
       "m",
@@ -116,7 +108,6 @@ test.describe("slice 14.11: no vapor imports while truck missing", () => {
     expect(src).toMatch(/import\("\.\/HomeTruckExistsCommunity"\)/);
     expect(src).toMatch(/import\("@\/lib\/circuit-story-store"\)/);
     expect(src).toMatch(/import\("@\/lib\/sighting-store"\)/);
-    // No static top-level import of vapor stores in the slot file.
     expect(staticImportOffenders(src)).toEqual([]);
   });
 

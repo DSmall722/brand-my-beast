@@ -1,4 +1,3 @@
-/* Slice 12.36 — board / panels / forms / remainder */
 .btn {
   appearance: none;
   border: 0;
@@ -1032,7 +1031,6 @@
 }
 
 @media (max-width: 720px) {
-  /* Match the 44px phone link so wordmark and Contact BMB share one centered row. */
   .site-header .wordmark {
     display: inline-flex;
     align-items: center;
@@ -1650,7 +1648,6 @@
   text-align: center;
   padding: 1.5rem;
   min-height: 8rem;
-  /* Slice 17.16 — panel still crop, not a striped empty well. No invented wrap. */
   background-image: var(--panel-face-image, url("/hero-truck-preview.jpg"));
   background-position: var(--panel-face-pos, 55% 38%);
   background-size: var(--panel-face-size, cover);
@@ -1879,7 +1876,6 @@
   min-height: 8.5rem;
 }
 
-/* Slice 10.7 — mobile compositor: one view at a time; no clipped wordmark. */
 @media (max-width: 480px) {
   .dirty-clean-pair {
     display: flex;
@@ -2499,7 +2495,6 @@
   margin: -0.15rem 0 0.75rem;
   border-radius: 0.45rem;
   border: 1px solid var(--hairline);
-  /* Per-panel crop of the board still. Side seats zoom; front stays cover. */
   background-image:
     linear-gradient(
       120deg,
@@ -2680,7 +2675,6 @@
 }
 
 
-/* Slice 3.5 — artwork URL / upload on intent */
 .intent-artwork-fields {
   margin: 1rem 0;
   padding: 0.75rem 0 0;
@@ -2705,7 +2699,6 @@
 }
 
 
-/* Slice 3.7 — side/front/rear SVG seats */
 .truck-view-seats {
   margin-top: 0.75rem;
 }
@@ -2813,8 +2806,6 @@
   stroke-width: 0;
 }
 .truck-seat {
-  /* Rest paint is none on every camera — Driver / Passenger included.
-     `pointer-events: all` keeps the interior a hit target when fill is none. */
   fill: none;
   fill-opacity: 0;
   stroke: none;
@@ -2825,7 +2816,6 @@
   transition: fill 140ms ease, fill-opacity 140ms ease, stroke 140ms ease,
     stroke-opacity 140ms ease, stroke-width 140ms ease;
 }
-/* Hit pad stays invisible. The visible mark is the name chip, not the seat shape. */
 .truck-view-seats[data-polygons="outline"] .truck-seat,
 .truck-view-seats[data-polygons="outline"] .truck-seat.is-raw,
 .truck-view-seats[data-polygons="outline"] .truck-seat.is-held,
@@ -2960,7 +2950,6 @@
 }
 
 
-/* Slice 6.13 — branded 404 */
 .not-found-page {
   min-height: 100svh;
   display: flex;
@@ -3004,7 +2993,6 @@
 }
 
 
-/* Slice 12.33 — print stylesheet for /panels/[id] */
 @media print {
   .site-header,
   .site-chrome,
@@ -3051,7 +3039,6 @@
   }
 }
 
-/* Slice 13.25 — operator seat print view */
 .operator-print-page .operator-print-dl {
   display: grid;
   gap: 0.75rem;
@@ -3471,9 +3458,6 @@ body:has(.bid-modal-root) {
   margin-top: 0.75rem;
 }
 
-/* Desktop layout polish: the shell stays full width. Inner blocks center
-   in a shared measure so copy is not stuck on the left of a wide viewport.
-   How it works stays three action steps in one row. No card chrome. */
 @media (min-width: 960px) {
   main .shell.section > * {
     width: min(100%, var(--desk-measure));
@@ -3523,8 +3507,6 @@ body:has(.bid-modal-root) {
   }
 }
 
-/* Eleven seats: 4-4-3 on a wide desktop, 3-3-3-2 when four columns get tight.
-   Last row uses the same card width and sits centered. */
 @media (min-width: 720px) and (max-width: 959px) {
   .panel-grid {
     grid-template-columns: repeat(12, minmax(0, 1fr));
@@ -3579,7 +3561,6 @@ body:has(.bid-modal-root) {
   max-width: none;
 }
 
-/* Phone tap targets. Visual labels stay put; the row is the hit area. */
 @media (max-width: 480px) {
   .header-nav > .nav-link,
   .seat-masthead .eyebrow a,

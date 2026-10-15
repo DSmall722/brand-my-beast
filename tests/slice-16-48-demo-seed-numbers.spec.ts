@@ -15,11 +15,6 @@ import { panelBoardMarkFor } from "../src/lib/panel-board";
 import { seedDemoMixedBoard } from "../src/lib/seed-demo";
 import { vercelJsonIsHoldOrMainOnlyRestore } from "../src/lib/vercel-git-deploy";
 
-/**
- * Slice 16.48 — local seed includes numbered standing on seat 1 and 10.
- * Counts stay 3 pending / 1 approved / 1 outbid. CLOSE_AT null. No Stripe.
- */
-
 test.describe("slice 16.48: demo seed numbered standing on seats 1 and 10", () => {
   test.beforeEach(async () => {
     process.env.INTENT_MODE = "memory";

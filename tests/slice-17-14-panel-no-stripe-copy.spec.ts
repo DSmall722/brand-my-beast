@@ -10,11 +10,6 @@ import { findCloseAtViolations } from "../src/lib/close-at-null";
 import { findStripePackagesInRootPackageJson } from "../src/lib/no-stripe-package";
 import { vercelJsonIsHoldOrMainOnlyRestore } from "../src/lib/vercel-git-deploy";
 
-/**
- * Slice 17.14 — public /panels/[id] HTML has no Stripe vendor name.
- * Intent-only line stays. CLOSE_AT null. No Stripe package.
- */
-
 test.describe("slice 17.14: panel HTML drops the Stripe vendor name", () => {
   test("campaign money fences stay locked — CLOSE_AT null", () => {
     expect(FLOOR_USD).toBe(35_000);

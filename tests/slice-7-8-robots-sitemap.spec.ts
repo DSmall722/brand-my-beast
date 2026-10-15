@@ -10,10 +10,6 @@ import {
   formatUsd,
 } from "../src/lib/campaign";
 
-/**
- * Slice 7.8 — `/robots.txt` + `/sitemap` include `/` and `/panels/*` only.
- * `/operator` is not listed.
- */
 test.describe("slice 7.8: robots + sitemap public surface only", () => {
   test("campaign money fences stay locked", () => {
     expect(FLOOR_USD).toBe(35_000);
@@ -50,7 +46,6 @@ test.describe("slice 7.8: robots + sitemap public surface only", () => {
     const body = await res.text();
     expect(body).toMatch(/Allow:\s*\/\b/);
     expect(body).toMatch(/Allow:\s*\/panels\//);
-    // Slice 13.37 — account + signin join operator on the disallow list.
     expect(body).toMatch(/Disallow:\s*\/account/);
     expect(body).toMatch(/Disallow:\s*\/signin/);
     expect(body).toMatch(/Disallow:\s*\/operator/);

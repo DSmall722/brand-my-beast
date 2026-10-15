@@ -8,9 +8,6 @@ import {
 
 const initial: SeatsOpenActionState = { ok: false };
 
-/**
- * Slice 14.18 — operator SEATS_OPEN toggle. No date field. Never sets CLOSE_AT.
- */
 export function OperatorSeatsOpenToggle({
   seatsOpen,
 }: {

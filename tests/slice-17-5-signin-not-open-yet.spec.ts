@@ -13,11 +13,6 @@ import { findStripePackagesInRootPackageJson } from "../src/lib/no-stripe-packag
 import { PUBLIC_COPY } from "../src/lib/public-copy";
 import { vercelJsonIsHoldOrMainOnlyRestore } from "../src/lib/vercel-git-deploy";
 
-/**
- * Slice 17.5 — PUBLIC_COPY.signIn.notOpenYet + matching PUBLIC_COPY.md line.
- * CLOSE_AT null. No Stripe. No env key names in the buyer line.
- */
-
 const LINE = "Sign-in is not open yet. Contact us. Nothing is charged.";
 const PAGE = join(process.cwd(), "src/app/signin/page.tsx");
 const MD = join(process.cwd(), "PUBLIC_COPY.md");

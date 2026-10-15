@@ -10,10 +10,6 @@ import {
 } from "../src/lib/campaign";
 import { PUBLIC_COPY } from "../src/lib/public-copy";
 
-/**
- * Slice 7.1 — split src/app/page.tsx into section components.
- * Visible strings stay in PUBLIC_COPY. Do not change H1, lead, money, or add sections.
- */
 test.describe("slice 7.1: page section components", () => {
   test("campaign money fences stay locked", () => {
     expect(FLOOR_USD).toBe(35_000);
@@ -55,7 +51,6 @@ test.describe("slice 7.1: page section components", () => {
     expect(pageSrc).toContain('from "@/components/home/HomeWaitlistSection"');
     expect(pageSrc).toContain("<HomeHeroSection");
     expect(pageSrc).toContain("<HomeWaitlistSection");
-    // Mechanical split — page must not inline the hero H1 markup.
     expect(pageSrc).not.toMatch(/<h1 id="hero-title"/);
   });
 

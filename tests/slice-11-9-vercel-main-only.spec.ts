@@ -9,14 +9,6 @@ import {
   formatUsd,
 } from "../src/lib/campaign";
 
-/**
- * Slice 11.9 — vercel.json git deploy policy; no preview / cron / nested projects.
- * Dual-accept (Hobby hold vs restore):
- *   - hold-mode: `deploymentEnabled === false` (all auto Git deploys off)
- *   - restore:   `{ "*": false, "main": true }` (main-only)
- * Accepting both shapes keeps this lock green after restore without a
- * follow-up test rewrite. See docs/VERCEL-HOLD.md restore checklist.
- */
 test.describe("slice 11.9: vercel.json stays main-only", () => {
   test("campaign money fences stay locked", () => {
     expect(FLOOR_USD).toBe(35_000);
@@ -53,7 +45,6 @@ test.describe("slice 11.9: vercel.json stays main-only", () => {
       crons?: unknown;
     };
     const enabled = config.git?.deploymentEnabled;
-    // Dual-accept: full pause (hold) OR main-only (post-restore).
     if (enabled === false) {
       expect(enabled).toBe(false);
     } else {
@@ -64,7 +55,6 @@ test.describe("slice 11.9: vercel.json stays main-only", () => {
     }
     expect(config.crons).toBeUndefined();
 
-    // One vercel.json at repo root — no nested project configs.
     const nested = readdirSync(root, { withFileTypes: true })
       .filter((entry) => entry.isDirectory() && !entry.name.startsWith("."))
       .flatMap((entry) => {

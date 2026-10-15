@@ -6,11 +6,6 @@ import { formatCampaignInstantEt } from "../src/lib/seat-log";
 import { buildHomeJsonLd } from "../src/lib/home-json-ld";
 import { PUBLIC_COPY } from "../src/lib/public-copy";
 
-/**
- * BMB-QA-PRENOON — pre-noon copy and metadata.
- * No new money, clock, or payment behavior.
- */
-
 const META_DESCRIPTION = `${PANELS.length} ad panels on one Cybertruck, wrapped for a year and driven across the Southeast. Bidding is open. Closes Mon Nov 2, 2026, 12:00 PM ET.`;
 
 const CLOSED_NOTE = `Bidding opens ${formatCampaignInstantEt(OPEN_AT)}. No deposit is taken on this form. Questions? Use the Contact us form or email ${BRAND.email}.`;

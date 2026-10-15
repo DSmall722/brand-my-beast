@@ -12,11 +12,6 @@ import { findCloseAtViolations } from "../src/lib/close-at-null";
 import { findStripePackagesInRootPackageJson } from "../src/lib/no-stripe-package";
 import { vercelJsonIsHoldOrMainOnlyRestore } from "../src/lib/vercel-git-deploy";
 
-/**
- * Slice 17.16 — compositor .panel-mockup-face uses the hero still.
- * Not a striped empty well. No invented wrap or etch photo.
- */
-
 test.describe("slice 17.16: mockup face uses the stainless still", () => {
   test("campaign money fences stay locked — CLOSE_AT null", () => {
     expect(FLOOR_USD).toBe(35_000);
@@ -48,7 +43,6 @@ test.describe("slice 17.16: mockup face uses the stainless still", () => {
 
   test("seat mockup face renders the still", async ({ page }) => {
     await page.goto("/panels/hood");
-    // QA follow-up — seat pages no longer mount the duplicate compositor pane.
     await expect(page.getByTestId("panel-mockup")).toHaveCount(0);
     await expect(page.locator(".panel-mockup-face")).toHaveCount(0);
     await expect(page.getByTestId("seat-photo-stage")).toBeVisible();
