@@ -39,7 +39,7 @@ export function sightingBountyCardsCopyIsSafe(): boolean {
     !blob.includes("Florida panhandle") &&
     !/\blivestream\b/.test(lower) &&
     !/\b\d+\s*(impressions|cpm)\b/i.test(blob) &&
-    !/\$\d/.test(blob.replace(/\$58,000/g, "").replace(/\$120,000/g, "")) &&
+    !/\$\d/.test(blob.replaceAll(formatUsd(FLOOR_USD), "").replaceAll(formatUsd(GOAL_USD), "")) &&
     lower.includes("no invented bounty") &&
     lower.includes("no invented impressions")
   );

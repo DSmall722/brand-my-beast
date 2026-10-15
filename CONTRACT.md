@@ -4,9 +4,9 @@ Not a signature product. This markdown is a draft template only — no e-sign, n
 
 ## Money fences
 
-- Floor $58,000 — order the Cyberbeast + wrap reserve. Miss = full refund.
+- Floor $35,000: order the Cyberbeast + wrap reserve. Miss = full refund.
 - Buyout $120,000 — campaign buys the truck; Immortal etch unlocks on nine steel faces.
-- $58,000–$119,999 — ordered + wrapped. No etch.
+- $35,000–$119,999: ordered + wrapped. No etch.
 - Deposit 20% to list. Remainder if that bid wins. Still no card capture on this path.
 
 ## Term
@@ -20,7 +20,7 @@ Write these into the live contract before capture (CAMPAIGN.md / RULES.md).
 
 ### Campaign miss
 
-If the board misses $58,000: full refund, including deposits. No order. No wrap. No etch.
+If the board misses $35,000: full refund, including deposits. No order. No wrap. No etch.
 
 ### Wrap year cut short
 

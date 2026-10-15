@@ -18,12 +18,12 @@ const DOC = join(process.cwd(), "docs/VAULT-CERTIFICATE.md");
 
 test.describe("slice 13.29: vault certificate markdown template", () => {
   test("campaign money fences stay locked — CLOSE_AT null", () => {
-    expect(FLOOR_USD).toBe(58_000);
+    expect(FLOOR_USD).toBe(35_000);
     expect(GOAL_USD).toBe(120_000);
     expect(CLOSE_AT).toBe("2026-11-02T17:00:00.000Z");
     expect(BRAND.name).toBe("BrandMyBeast");
     expect(BRAND.email).toBe("hello@brandmybeast.com");
-    expect(formatUsd(FLOOR_USD)).toBe("$58,000");
+    expect(formatUsd(FLOOR_USD)).toBe("$35,000");
     expect(formatUsd(GOAL_USD)).toBe("$120,000");
   });
 
@@ -63,9 +63,9 @@ test.describe("slice 13.29: vault certificate markdown template", () => {
     expect(text).not.toMatch(
       /Issued date:\s*(January|February|March|April|May|June|July|August|September|October|November|December)\b/i,
     );
-    expect(text).toContain("$58,000");
+    expect(text).toContain("$35,000");
     expect(text).toContain("$120,000");
-    expect(text).toMatch(/\$58,001|\$119,999/);
+    expect(text).toMatch(/\$35,001|\$119,999/);
     expect(text).toMatch(/CLOSE_AT/);
     expect(text).toMatch(/Do not set `CLOSE_AT`|do not set/i);
     expect(text).toContain("hello@brandmybeast.com");
@@ -85,7 +85,7 @@ test.describe("slice 13.29: vault certificate markdown template", () => {
     const html = await page.content();
     expect(html).not.toMatch(/Issued date:\s*\d{4}-\d{2}-\d{2}/i);
     expect(html.toLowerCase()).not.toMatch(/\blease\b/);
-    expect(html).toContain("$58,000");
+    expect(html).toContain("$35,000");
     expect(html).toContain("$120,000");
     expect(html).not.toContain("FEATURES.md");
   });

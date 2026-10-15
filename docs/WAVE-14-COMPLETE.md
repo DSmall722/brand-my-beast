@@ -28,7 +28,7 @@ Do **not** tag from a stacked draft branch.
 
 - Wave 14 launch readiness is complete through **14.50**.
 - This tag (`wave-14-complete`) is the bookmark that Wave 14 is done.
-- Floor **$58,000** and buyout **$120,000** stay locked in `src/lib/campaign.ts`.
+- Floor **$35,000** and buyout **$120,000** stay locked in `src/lib/campaign.ts`.
 - `CLOSE_AT` remains **null**. This tag does **not** start the 30-day clock.
 - No Stripe dependency or SetupIntent. Charging is Wave 15 and needs a human message.
 - No lease product. No cheaper trim.

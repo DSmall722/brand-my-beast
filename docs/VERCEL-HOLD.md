@@ -15,7 +15,7 @@ Human authorized the restore checklist below. `vercel.json` is main-only:
 
 The hold-lift merge does not auto-deploy while the old config is still
 `deploymentEnabled: false`. Production is redeployed once after that merge.
-Do not buy credits. No Stripe. Close is Mon Nov 2, 2026, 12:00 PM ET. Floor **$58,000** /
+Do not buy credits. No Stripe. Close is Mon Nov 2, 2026, 12:00 PM ET. Floor **$35,000** /
 buyout **$120,000**.
 
 The one-line runbook below is the 11.10 / 13.49 / 14.48 historical note.
@@ -38,7 +38,7 @@ Until then:
   6.15 / 11.9 accept either full pause or main-only restore shape.
   Leave hold-mode alone from agent PRs (slice 13.49 / 14.48).
 - Do not wire Stripe. Do not set a close clock. Do not tweet.
-- Money fences stay floor **$58,000** / buyout **$120,000**.
+- Money fences stay floor **$35,000** / buyout **$120,000**.
 - Do not staff husk + jadebear + brand-my-beast agent swarms in the
   same 24h if a Production redeploy still has to ship.
 

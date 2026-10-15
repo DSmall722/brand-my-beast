@@ -68,8 +68,8 @@ docs freeze only — do not set `CLOSE_AT`, do not wire Stripe, do not flip
 
 ## Money fences
 
-- `FLOOR_USD=58000`, `GOAL_USD=120000`, `CLOSE_AT=null`
-- Floor **$58,000**. Buyout **$120,000**. No third number.
+- `FLOOR_USD=35000`, `GOAL_USD=120000`, `CLOSE_AT=null`
+- Floor **$35,000**. Buyout **$120,000**. No third number.
 - No lease. No personal Gmail / personal handle.
 
 ## Live lever

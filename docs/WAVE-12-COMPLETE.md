@@ -27,7 +27,7 @@ Do **not** treat this tag as starting the 30-day clock.
 
 - Wave 12 money-ready work is complete through **12.50** (`intent-complete`).
 - This tag (`wave-12-complete`) is the Wave 13 bookmark that Wave 12 is done.
-- Floor **$58,000** and buyout **$120,000** stay locked in `src/lib/campaign.ts`.
+- Floor **$35,000** and buyout **$120,000** stay locked in `src/lib/campaign.ts`.
 - `CLOSE_AT` remains **null**. This tag does **not** start the 30-day clock.
 - No Stripe dependency or SetupIntent. Charging is Wave 15 and needs a human message.
 - No lease product. No cheaper trim.

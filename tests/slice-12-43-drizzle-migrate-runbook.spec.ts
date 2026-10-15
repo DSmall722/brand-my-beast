@@ -11,10 +11,10 @@ const RUNBOOK = join(process.cwd(), "docs/DRIZZLE-MIGRATE.md");
 
 test.describe("slice 12.43: Drizzle migrate runbook", () => {
   test("campaign money fences stay locked — CLOSE_AT null", () => {
-    expect(FLOOR_USD).toBe(58_000);
+    expect(FLOOR_USD).toBe(35_000);
     expect(GOAL_USD).toBe(120_000);
     expect(CLOSE_AT).toBe("2026-11-02T17:00:00.000Z");
-    expect(formatUsd(FLOOR_USD)).toBe("$58,000");
+    expect(formatUsd(FLOOR_USD)).toBe("$35,000");
   });
 
   test("package.json has no stripe", () => {
@@ -37,7 +37,7 @@ test.describe("slice 12.43: Drizzle migrate runbook", () => {
     expect(existsSync(RUNBOOK)).toBe(true);
     const text = readFileSync(RUNBOOK, "utf8");
     expect(text).toContain("12.43");
-    expect(text).toMatch(/\$58,000|FLOOR_USD=58000/);
+    expect(text).toMatch(/\$35,000|FLOOR_USD=35000/);
     expect(text).toMatch(/\$120,000|GOAL_USD=120000/);
     expect(text).toMatch(/CLOSE_AT/);
     expect(text).toMatch(/drizzle\//i);

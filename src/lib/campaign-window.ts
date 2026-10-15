@@ -162,7 +162,7 @@ function panelIds(bids: readonly IntentBid[]): string[] {
  * After the effective close, losers are refunded, the winner's deposit is
  * credited to the invoice, and a winner who misses the 7-day remainder
  * forfeits. The next paid bidder is held until that deadline passes.
- * Under the $58,000 floor, every paid deposit is refunded.
+ * Under the $35,000 floor, every paid deposit is refunded.
  */
 export function planSettlement(
   bids: readonly IntentBid[],

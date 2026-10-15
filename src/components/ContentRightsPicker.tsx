@@ -5,6 +5,7 @@ import {
   saveContentRightsPrefs,
   type ContentRightsActionState,
 } from "@/app/actions/content-rights";
+import { FLOOR_USD, GOAL_USD, formatUsd } from "@/lib/campaign";
 import {
   CONTENT_RIGHTS_LOCKS,
   CONTENT_RIGHT_OPTIONS,
@@ -34,8 +35,8 @@ export function ContentRightsPicker({
         Content rights
       </h2>
       <p className="auth-hint" data-testid="content-rights-lead">
-        Preference only. Proof stills wait until the truck exists. Floor
-        $58,000. Buyout $120,000.
+        Preference only. Proof stills wait until the truck exists. Floor{" "}
+        {formatUsd(FLOOR_USD)}. Buyout {formatUsd(GOAL_USD)}.
       </p>
       <ul className="content-rights-locks" data-testid="content-rights-locks">
         {CONTENT_RIGHTS_LOCKS.map((lock) => (

@@ -1,7 +1,7 @@
 # Changelog — last 20 merged slices
 
 Slice **13.10**. Snapshot of the twenty most recently merged slice ids on
-`main` at authoring time. Money fences unchanged: floor **$58,000**, buyout
+`main` at authoring time. Money fences: floor **$35,000**, buyout
 **$120,000**. `CLOSE_AT` null. No Stripe. No lease. Public mail:
 **hello@brandmybeast.com**.
 

@@ -54,7 +54,7 @@ Agents may write into a Project-only `notes.md` and `internal/`. Humans do not t
 - **Live URL is not a gate.** While the Vercel usage hold is on (`docs/VERCEL-HOLD.md`), do not use `brandmybeast.com` (or any live deploy) to judge merge readiness. Judge from git + `npm test` / Playwright + `npm run build`.
 - **Live site is not a gate** — same rule, restated for slice 13.1 compatibility.
 - Ignore Vercel preview / usage-limit status contexts when Playwright is green.
-- Floor **$58,000**. Buyout **$120,000**. `CLOSE_AT` stays null until a human starts P3. No Stripe without a separate human message. Do not start the 30-day clock.
+- Floor **$35,000**. Buyout **$120,000**. `CLOSE_AT` stays null until a human starts P3. No Stripe without a separate human message. Do not start the 30-day clock.
 
 ## How a unit of work runs
 
@@ -73,7 +73,7 @@ Agents may write into a Project-only `notes.md` and `internal/`. Humans do not t
 
 1. **Vendor pstack** into `.cursor/skills/` — **done** (PR #1).
 2. **Push `FEATURES.md`** — **done**.
-3. **Scaffold P1** — **done** (PR #2). Story, 12 panels, $58,000 / $120,000, email capture. No Stripe. `CLOSE_AT = null`.
+3. **Scaffold P1** — **done** (PR #2). Story, 12 panels, $35,000 / $120,000, email capture. No Stripe. `CLOSE_AT = null`.
 4. **Deploy P1** over the Vercel 404 — **done** (`www.brandmybeast.com` live).
 5. **`/create-verification-skill`** — **done** (PR #3 → `.cursor/skills/verify-brandmybeast/`).
 6. Schedule `/maintain-verification-skill` as a Project subscription (daily) — **arm this**. Live lever: `prove-all.sh`.

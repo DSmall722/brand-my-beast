@@ -16,7 +16,7 @@ See [docs/LOCAL-PREVIEW.md](./docs/LOCAL-PREVIEW.md) (slice 16.8). `npm i && npm
 - **`SLICES.md`** is the only build order. **Now** = the first unchecked box.
 - Product lock: **`CAMPAIGN.md`**. Stack lock: **`ARCHITECTURE.md`**. Stop rules: **`AGENTS.md`**.
 - Intent-only soft auction today: waitlist, Auth.js magic link, panel intents, operator approvals. Playwright is the merge gate.
-- Money fences: floor **$58,000**, buyout **$120,000**. `CLOSE_AT` is **null**. Stripe is **not wired**.
+- Money fences: floor **$35,000**, buyout **$120,000**. `CLOSE_AT` is **null**. Stripe is **not wired**.
 
 ## What this repo is not
 
@@ -45,8 +45,8 @@ If any file disagrees with `CAMPAIGN.md` on money or identity, `CAMPAIGN.md` win
 
 ## Money
 
-- Under **$58,000**: full refund. No order.
-- **$58,000–$119,999**: order the Cyberbeast + wrap. Operator finances the rest. No etch.
+- Under **$35,000**: full refund. No order.
+- **$35,000–$119,999**: order the Cyberbeast + wrap. Operator finances the rest. No etch.
 - **$120,000**: campaign buys the truck. Charger. Etch unlocks on nine steel faces.
 
 There is no cheaper trim. Cyberbeast or refund.

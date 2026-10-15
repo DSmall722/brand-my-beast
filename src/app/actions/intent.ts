@@ -21,7 +21,7 @@ import {
   setIntentStatus,
   withdrawPendingIntent,
 } from "@/lib/intent-store";
-import { GOAL_USD, PANELS, formatUsd } from "@/lib/campaign";
+import { FLOOR_USD, GOAL_USD, PANELS, formatUsd } from "@/lib/campaign";
 import { PUBLIC_COPY, wholeTruckPackageCopy } from "@/lib/public-copy";
 import {
   assertEtchFinishAllowed,
@@ -118,7 +118,7 @@ export async function submitIntentBid(
   if (result.bid.floorSaveUsd != null) {
     return {
       ok: true,
-      message: `Floor-save listed at $${result.bid.floorSaveUsd} if short of $58,000. Deposit shown: $${result.bid.depositUsd} (not charged).`,
+      message: `Floor-save listed at $${result.bid.floorSaveUsd} if short of ${formatUsd(FLOOR_USD)}. Deposit shown: $${result.bid.depositUsd} (not charged).`,
     };
   }
   return {

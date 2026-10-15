@@ -22,12 +22,12 @@ const CAMPAIGN_TS = join(process.cwd(), "src/lib/campaign.ts");
 
 test.describe("slice 16.50: Wave 16 stop — Wave 15 still human", () => {
   test("campaign money fences stay locked — CLOSE_AT null", () => {
-    expect(FLOOR_USD).toBe(58_000);
+    expect(FLOOR_USD).toBe(35_000);
     expect(GOAL_USD).toBe(120_000);
     expect(CLOSE_AT).toBe("2026-11-02T17:00:00.000Z");
     expect(findCloseAtViolations()).toEqual([]);
     expect(BRAND.name).toBe("BrandMyBeast");
-    expect(formatUsd(FLOOR_USD)).toBe("$58,000");
+    expect(formatUsd(FLOOR_USD)).toBe("$35,000");
     expect(formatUsd(GOAL_USD)).toBe("$120,000");
   });
 
@@ -47,7 +47,7 @@ test.describe("slice 16.50: Wave 16 stop — Wave 15 still human", () => {
     expect(doc).toMatch(/Wave 15 is still Stripe and needs a human message/i);
     expect(doc).toMatch(/Do not start Wave 15/i);
     expect(doc).toMatch(/Do not wire Stripe/i);
-    expect(doc).toMatch(/\$58,000/);
+    expect(doc).toMatch(/\$35,000/);
     expect(doc).toMatch(/\$120,000/);
     expect(doc).toMatch(/CLOSE_AT.*null/i);
     expect(doc.toLowerCase()).not.toContain("gmail.com");
@@ -62,7 +62,7 @@ test.describe("slice 16.50: Wave 16 stop — Wave 15 still human", () => {
     expect(res.ok()).toBeTruthy();
     const html = await res.text();
     expect(html).not.toContain("FEATURES.md");
-    expect(html).toContain("$58,000");
+    expect(html).toContain("$35,000");
     expect(html).toContain("$120,000");
     expect(html.toLowerCase()).not.toMatch(/\blease\b/);
   });

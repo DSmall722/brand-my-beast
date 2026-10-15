@@ -7,6 +7,7 @@ Agents read this so they do not resurrect killed product. CAMPAIGN.md wins. Upda
 | Idea | Why it is dead |
 |---|---|
 | $40,000 lease + wrap floor | Replaced 2026-09-13. Floor is $58,000 order + wrap. The word lease is banned in public copy. |
+| $58,000 floor | Superseded 2026-10-14 by $35,000. |
 | Dual Motor / Premium fallback if the floor misses | Cyberbeast or refund. Brand name does not survive a cheaper trim. |
 | Close date of October 1, 2026 | Clock is 30 days, set the morning P3 ships. Field stays unset until then. |
 | 21-day clock | Locked at 30 days. |

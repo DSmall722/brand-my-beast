@@ -24,12 +24,12 @@ const DOC = join(ROOT, "docs/HUMAN-SENSITIVE.md");
 
 test.describe("slice 14.38: human-sensitive files doc", () => {
   test("campaign money fences stay locked — CLOSE_AT null", () => {
-    expect(FLOOR_USD).toBe(58_000);
+    expect(FLOOR_USD).toBe(35_000);
     expect(GOAL_USD).toBe(120_000);
     expect(CLOSE_AT).toBe("2026-11-02T17:00:00.000Z");
     expect(findCloseAtViolations()).toEqual([]);
     expect(BRAND.name).toBe("BrandMyBeast");
-    expect(formatUsd(FLOOR_USD)).toBe("$58,000");
+    expect(formatUsd(FLOOR_USD)).toBe("$35,000");
     expect(formatUsd(GOAL_USD)).toBe("$120,000");
   });
 
@@ -51,7 +51,7 @@ test.describe("slice 14.38: human-sensitive files doc", () => {
     expect(body).toContain("CAMPAIGN.md");
     expect(body).toContain("SLICES.md");
     expect(body).toContain("src/lib/campaign.ts");
-    expect(body).toContain("$58,000");
+    expect(body).toContain("$35,000");
     expect(body).toContain("$120,000");
     expect(body).toMatch(/CLOSE_AT/);
     expect(body).toMatch(/human-sensitive/i);

@@ -20,7 +20,7 @@ no `CLOSE_AT`, no personal identity strings.
 
 ## Money fences
 
-- `FLOOR_USD=58000`, `GOAL_USD=120000`, `CLOSE_AT=null`
+- `FLOOR_USD=35000`, `GOAL_USD=120000`, `CLOSE_AT=null`
 - No lease copy. No personal gmail / personal handle.
 
 ## Live lever

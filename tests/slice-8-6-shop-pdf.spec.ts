@@ -41,11 +41,11 @@ async function resetServerIntents(request: APIRequestContext) {
  */
 test.describe("slice 8.6: shop PDF builder", () => {
   test("campaign money fences stay locked", () => {
-    expect(FLOOR_USD).toBe(58_000);
+    expect(FLOOR_USD).toBe(35_000);
     expect(GOAL_USD).toBe(120_000);
     expect(CLOSE_AT).toBe("2026-11-02T17:00:00.000Z");
     expect(BRAND.name).toBe("BrandMyBeast");
-    expect(formatUsd(FLOOR_USD)).toBe("$58,000");
+    expect(formatUsd(FLOOR_USD)).toBe("$35,000");
     expect(formatUsd(GOAL_USD)).toBe("$120,000");
   });
 
@@ -111,7 +111,7 @@ test.describe("slice 8.6: shop PDF builder", () => {
     expect(text).toContain("ShopPdfCo");
     expect(text).toContain("hood");
     expect(text).toContain("https://cdn.example.com/shop86.svg");
-    expect(text).toContain("$58,000");
+    expect(text).toContain("$35,000");
     expect(text).toContain("$120,000");
     expect(text).toContain("No Imagine API call");
     expect(text.toLowerCase()).not.toMatch(/\blease\b/);
@@ -166,7 +166,7 @@ test.describe("slice 8.6: shop PDF builder", () => {
     const text = body.toString("utf8");
     expect(text.startsWith("%PDF-1.4")).toBe(true);
     expect(text).toContain("PdfSeatCo");
-    expect(text).toContain("$58,000");
+    expect(text).toContain("$35,000");
     expect(text).toContain("$120,000");
     expect(text.toLowerCase()).not.toMatch(/\blease\b/);
 

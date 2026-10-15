@@ -3,7 +3,7 @@
 Slice **13.29**. Markdown template for the etch record. **Not issued.**
 No PDF, no wet-ink, no e-sign on this path.
 
-Money fences: floor **$58,000** (order + wrap reserve). Buyout **$120,000**
+Money fences: floor **$35,000** (order + wrap reserve). Buyout **$120,000**
 (etch unlock on nine steel faces). `CLOSE_AT` unset. No Stripe. No lease.
 Public mail: **hello@brandmybeast.com**.
 
@@ -31,8 +31,8 @@ this stays a blank template.
   record, not a second wrap term.
 - Not a cash refund of the etch premium. Not a reserved VIN. No invented
   impressions.
-- Under **$58,000**: full refund. No order. No certificate.
-- $58,001–$119,999: ordered + wrapped. No etch. No issued certificate.
+- Under **$35,000**: full refund. No order. No certificate.
+- $35,001–$119,999: ordered + wrapped. No etch. No issued certificate.
 
 ## Stop rules
 

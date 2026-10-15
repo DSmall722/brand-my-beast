@@ -7,7 +7,7 @@ against Production when a new numbered `.sql` file lands on `main`.
 
 Money fences (do not invent a third number):
 
-- Floor **$58,000** — order + wrap reserve. Miss = refund.
+- Floor **$35,000** — order + wrap reserve. Miss = refund.
 - Buyout **$120,000** — etch unlock. `CLOSE_AT` stays null until P3.
 - Deposit **20%** of standing is display math only until Stripe exists.
 - No Stripe capture in this runbook. No lease. No personal operator Gmail.
@@ -54,7 +54,7 @@ These steps are documentation. They are not automation.
    without `.sql`) in the deploy notes.
 4. **Verify** — reload `/operator/health` as an operator; last migration must
    match the file you applied. Spot-check pledged dollars still equal approved
-   standing only. App constants stay `FLOOR_USD=58000` / `GOAL_USD=120000`.
+   standing only. App constants stay `FLOOR_USD=35000` / `GOAL_USD=120000`.
 5. **Redeploy** — when the Vercel usage hold is lifted, redeploy `main` so
    runtime matches the schema. Do not invent a close date. Do not wire Stripe.
 

@@ -97,7 +97,7 @@ test.describe("P2 Auth.js wiring", () => {
     );
     const createdAt = await row.getAttribute("data-waitlist-created-at");
     expect(createdAt).toBeTruthy();
-    await expect(page.getByTestId("account-page")).toContainText("$58,000");
+    await expect(page.getByTestId("account-page")).toContainText("$35,000");
     await expect(page.getByTestId("account-page")).toContainText("$120,000");
 
     const exists = await request.post("/api/waitlist", {

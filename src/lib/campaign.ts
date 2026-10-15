@@ -18,7 +18,7 @@ export const BRAND = {
 export const PUBLIC_SITE_ORIGIN = "https://www.brandmybeast.com" as const;
 
 /** Order + wrap floor. Miss = full refund. Dollars, not cents. */
-export const FLOOR_USD = 58_000;
+export const FLOOR_USD = 35_000;
 
 /** Buyout. Whole-truck + Immortal Etch package. */
 export const GOAL_USD = 120_000;
@@ -239,7 +239,10 @@ export function floorProgressPercent(pledgedUsd: number): number {
   if (!Number.isFinite(pledgedUsd) || pledgedUsd < 0) {
     throw new Error("pledgedUsd must be a non-negative finite number");
   }
-  return Math.min(100, Math.round((pledgedUsd / FLOOR_USD) * 100));
+  const rounded = Math.round((pledgedUsd / FLOOR_USD) * 100);
+  // A dollar short of the floor must not round up to a full bar.
+  if (pledgedUsd < FLOOR_USD) return Math.min(99, Math.max(0, rounded));
+  return Math.min(100, rounded);
 }
 
 /** Progress toward the buyout on the visual vault track, capped at 100. */

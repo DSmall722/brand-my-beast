@@ -19,13 +19,13 @@ test.describe("BMB-QA-1008", () => {
     await page.goto("/");
     const money = page.locator("#money");
     await expect(money).toContainText("Floor");
-    await expect(money.getByTestId("floor-amount")).toHaveText("$58,000");
+    await expect(money.getByTestId("floor-amount")).toHaveText("$35,000");
     await expect(money).not.toContainText(/buyout/i);
     await expect(money).not.toContainText(/fully funded/i);
     const json = await page.getByTestId("home-json-ld").textContent();
     expect(json?.toLowerCase()).not.toContain("fully funded");
     expect(json?.toLowerCase()).not.toContain("buyout");
-    expect(json).toContain("58000");
+    expect(json).toContain("35000");
   });
 
   test("bid_start fires from modal open, not submit", () => {
@@ -261,7 +261,7 @@ test.describe("BMB-QA-1008", () => {
     }));
     expect(overflow.scrollWidth).toBeLessThanOrEqual(391);
     const label = page.getByTestId("vault-floor-label");
-    await expect(label).toContainText("$58,000");
+    await expect(label).toContainText("$35,000");
     const labelBox = await box(label);
     const well = await box(page.getByTestId("vault-legend"));
     expect(labelBox.x).toBeGreaterThanOrEqual(well.x - 1);

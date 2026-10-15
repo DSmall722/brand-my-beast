@@ -45,11 +45,11 @@ async function signIn(page: Page, email: string) {
 
 test.describe("slice 13.30: cabin plaque off auth nav while truck missing", () => {
   test("campaign money fences stay locked — CLOSE_AT null", () => {
-    expect(FLOOR_USD).toBe(58_000);
+    expect(FLOOR_USD).toBe(35_000);
     expect(GOAL_USD).toBe(120_000);
     expect(CLOSE_AT).toBe("2026-11-02T17:00:00.000Z");
     expect(BRAND.name).toBe("BrandMyBeast");
-    expect(formatUsd(FLOOR_USD)).toBe("$58,000");
+    expect(formatUsd(FLOOR_USD)).toBe("$35,000");
   });
 
   test("package.json has no stripe", () => {
@@ -110,7 +110,7 @@ test.describe("slice 13.30: cabin plaque off auth nav while truck missing", () =
     );
     const accountHtml = (await page.content()).toLowerCase();
     expect(accountHtml).not.toMatch(/\blease\b/);
-    expect(accountHtml).toContain("$58,000");
+    expect(accountHtml).toContain("$35,000");
     expect(accountHtml).toContain("$120,000");
 
     await page.goto("/");

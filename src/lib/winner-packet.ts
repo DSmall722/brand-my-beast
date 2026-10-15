@@ -123,7 +123,7 @@ export function winnerPacketFilename(seat: WinnerPacketSeat): string {
 /**
  * Markdown packet: panel, brand, wrap vs etch, 12-month term.
  * Slice 13.23 embeds wrap term start = install day (not close).
- * Fences: $58k / $120k, no lease, published close in ET.
+ * Fences: $35k / $120k, no lease, published close in ET.
  */
 export function buildWinnerPacketMarkdown(seat: WinnerPacketSeat): string {
   if (!assertWinnerPacketWrapTermStartIsInstallDay(seat.wrapTermStart)) {

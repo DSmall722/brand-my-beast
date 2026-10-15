@@ -13,7 +13,7 @@ Maps SLICES **5.1–5.4**. Public brand strings only.
 
 ## Money fences
 
-- Account / partner HTML keep `$58,000` / `$120,000` and no lease / no `CLOSE_AT`.
+- Account / partner HTML keep `$35,000` / `$120,000` and no lease / no `CLOSE_AT`.
 - Partner sheet has no approve/reject/payment controls.
 
 ## Live lever

@@ -21,12 +21,12 @@ import { vercelJsonIsHoldOrMainOnlyRestore } from "../src/lib/vercel-git-deploy"
 
 test.describe("slice 14.21: /llms.txt PUBLIC_COPY facts only", () => {
   test("campaign money fences stay locked — CLOSE_AT null", () => {
-    expect(FLOOR_USD).toBe(58_000);
+    expect(FLOOR_USD).toBe(35_000);
     expect(GOAL_USD).toBe(120_000);
     expect(CLOSE_AT).toBe("2026-11-02T17:00:00.000Z");
     expect(findCloseAtViolations()).toEqual([]);
     expect(BRAND.name).toBe("BrandMyBeast");
-    expect(formatUsd(FLOOR_USD)).toBe("$58,000");
+    expect(formatUsd(FLOOR_USD)).toBe("$35,000");
   });
 
   test("package.json has no stripe", () => {
@@ -57,7 +57,7 @@ test.describe("slice 14.21: /llms.txt PUBLIC_COPY facts only", () => {
     expect(body).toContain(PUBLIC_COPY.panels.lead);
     expect(body).toContain(PUBLIC_COPY.waitlist.lead);
     expect(body).toContain(PUBLIC_COPY.footer.line);
-    expect(body).toContain("$58,000");
+    expect(body).toContain("$35,000");
     expect(body).toContain("$120,000");
     expect(body).not.toContain("CLOSE_AT");
     expect(body).not.toContain("null");
@@ -85,7 +85,7 @@ test.describe("slice 14.21: /llms.txt PUBLIC_COPY facts only", () => {
     const body = await res.text();
     expect(body).toBe(buildLlmsTxt());
     expect(body).toContain(PUBLIC_COPY.meta.description);
-    expect(body).toContain("$58,000");
+    expect(body).toContain("$35,000");
     expect(body).toContain("$120,000");
     expect(body.toLowerCase()).not.toMatch(/\blease\b/);
   });
@@ -95,7 +95,7 @@ test.describe("slice 14.21: /llms.txt PUBLIC_COPY facts only", () => {
     const html = (await page.content()).toLowerCase();
     expect(html).not.toMatch(/\blease\b/);
     expect(html).not.toMatch(/@gmail\.com/);
-    expect(html).toContain("$58,000");
+    expect(html).toContain("$35,000");
     expect(html).toContain("$120,000");
   });
 });

@@ -11,4 +11,4 @@ Assets for press and social. Not a delivered wrap. No wrap-as-delivered claim.
 
 Public: BrandMyBeast · @BrandMyBeast · hello@brandmybeast.com · brandmybeast.com
 
-Floor **$58,000**. Buyout **$120,000**. `CLOSE_AT` unset. No Stripe on the live path yet.
+Floor **$35,000**. Buyout **$120,000**. `CLOSE_AT` unset. No Stripe on the live path yet.

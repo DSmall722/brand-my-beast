@@ -6,7 +6,7 @@ and `16.1`…`16.50` must appear in this file (and in
 
 Money fences (do not invent a third number):
 
-- `FLOOR_USD=58000` → `$58,000`
+- `FLOOR_USD=35000` → `$35,000`
 - `GOAL_USD=120000` → `$120,000`
 - `CLOSE_AT=null`
 

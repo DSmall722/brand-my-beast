@@ -17,19 +17,19 @@ import { vercelJsonIsHoldOrMainOnlyRestore } from "../src/lib/vercel-git-deploy"
 
 /**
  * Slice 16.30 — etch badge stays PUBLIC_COPY (`Immortal Etch Locked`).
- * No $120,000 / $58,000 in the badge. FEATURES.md stays off /. CLOSE_AT null. No Stripe.
+ * No $120,000 / $35,000 in the badge. FEATURES.md stays off /. CLOSE_AT null. No Stripe.
  */
 
 const BADGE = "Immortal Etch Locked";
 
 test.describe("slice 16.30: etch badge stays PUBLIC_COPY", () => {
   test("campaign money fences stay locked — CLOSE_AT null", () => {
-    expect(FLOOR_USD).toBe(58_000);
+    expect(FLOOR_USD).toBe(35_000);
     expect(GOAL_USD).toBe(120_000);
     expect(CLOSE_AT).toBe("2026-11-02T17:00:00.000Z");
     expect(findCloseAtViolations()).toEqual([]);
     expect(BRAND.name).toBe("BrandMyBeast");
-    expect(formatUsd(FLOOR_USD)).toBe("$58,000");
+    expect(formatUsd(FLOOR_USD)).toBe("$35,000");
     expect(formatUsd(GOAL_USD)).toBe("$120,000");
   });
 
@@ -44,7 +44,7 @@ test.describe("slice 16.30: etch badge stays PUBLIC_COPY", () => {
   test("badge string is PUBLIC_COPY, not a new money number", () => {
     expect(PUBLIC_COPY.panels.badgeEtch).toBe(BADGE);
     expect(PUBLIC_COPY.panels.badgeEtch).not.toBe(formatUsd(GOAL_USD));
-    expect(PUBLIC_COPY.panels.badgeEtch).not.toContain("$58,000");
+    expect(PUBLIC_COPY.panels.badgeEtch).not.toContain("$35,000");
     expect(PUBLIC_COPY.panels.badgeEtch).not.toContain("$120,000");
 
     const md = readFileSync(join(process.cwd(), "PUBLIC_COPY.md"), "utf8");
@@ -72,7 +72,7 @@ test.describe("slice 16.30: etch badge stays PUBLIC_COPY", () => {
       await expect(card).not.toContainText(BADGE);
       await expect(card).not.toContainText(PUBLIC_COPY.panels.badgeWrap);
     }
-    await expect(page.getByTestId("floor-amount")).toHaveText("$58,000");
+    await expect(page.getByTestId("floor-amount")).toHaveText("$35,000");
   });
 
   test("homepage still does not render FEATURES.md", async ({ request }) => {
@@ -80,7 +80,7 @@ test.describe("slice 16.30: etch badge stays PUBLIC_COPY", () => {
     expect(res.ok()).toBeTruthy();
     const html = await res.text();
     expect(html).not.toContain("FEATURES.md");
-    expect(html).toContain("$58,000");
+    expect(html).toContain("$35,000");
     expect(html.toLowerCase()).not.toMatch(/\blease\b/);
   });
 });

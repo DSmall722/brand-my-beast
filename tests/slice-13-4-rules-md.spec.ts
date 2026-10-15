@@ -17,11 +17,11 @@ const RULES = join(process.cwd(), "RULES.md");
 
 test.describe("slice 13.4: RULES.md failed-winner + one approved", () => {
   test("campaign money fences stay locked — CLOSE_AT null", () => {
-    expect(FLOOR_USD).toBe(58_000);
+    expect(FLOOR_USD).toBe(35_000);
     expect(GOAL_USD).toBe(120_000);
     expect(CLOSE_AT).toBe("2026-11-02T17:00:00.000Z");
     expect(BRAND.name).toBe("BrandMyBeast");
-    expect(formatUsd(FLOOR_USD)).toBe("$58,000");
+    expect(formatUsd(FLOOR_USD)).toBe("$35,000");
   });
 
   test("package.json has no stripe", () => {
@@ -46,7 +46,7 @@ test.describe("slice 13.4: RULES.md failed-winner + one approved", () => {
     expect(text).toContain("13.4");
     expect(text).toMatch(/Failed-winner/i);
     expect(text).toMatch(/one approved standing per panel/i);
-    expect(text).toContain("$58,000");
+    expect(text).toContain("$35,000");
     expect(text).toContain("$120,000");
     expect(text.toLowerCase()).not.toContain("gmail.com");
     expect(text.toLowerCase()).not.toContain("stripe setupintent");

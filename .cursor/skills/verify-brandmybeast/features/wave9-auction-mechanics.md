@@ -20,7 +20,7 @@ Stripe charge, do not set `CLOSE_AT`.
 
 ## Money fences
 
-- `FLOOR_USD=58000`, `GOAL_USD=120000`, `CLOSE_AT=null`
+- `FLOOR_USD=35000`, `GOAL_USD=120000`, `CLOSE_AT=null`
 - Buyout hide / etch unlock still keyed to `$120,000` only.
 - No lease. No silent reopen after a failed winner.
 

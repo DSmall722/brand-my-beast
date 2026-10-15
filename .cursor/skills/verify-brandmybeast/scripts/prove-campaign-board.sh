@@ -41,7 +41,7 @@ const lines = [
 ];
 fs.writeFileSync(`${out}/campaign-board-assert.txt`, lines.join("\n") + "\n");
 if (brand !== "BrandMyBeast") throw new Error(`bad brand: ${brand}`);
-if (floor !== "$58,000") throw new Error(`bad floor: ${floor}`);
+if (floor !== "$35,000") throw new Error(`bad floor: ${floor}`);
 if (goal !== "$120,000") throw new Error(`bad goal: ${goal}`);
 if (raised !== "$0") throw new Error(`bad raised: ${raised}`);
 if (close.trim() !== "Bidding is not open yet.") {

@@ -8,7 +8,7 @@ import {
 } from "@/app/actions/intent";
 import { AdjacentClashHint } from "@/components/AdjacentClashHint";
 import { HighwayLegibilityHint } from "@/components/HighwayLegibilityHint";
-import { formatIntegerUsd, formatUsd } from "@/lib/campaign";
+import { FLOOR_USD, formatIntegerUsd, formatUsd } from "@/lib/campaign";
 import { tryDepositPreviewCopy } from "@/lib/deposit-preview";
 import { ARTWORK_MAX_DATA_URL_CHARS } from "@/lib/intent-artwork";
 import type { AdjacentSeatHolder } from "@/lib/panel-clash";
@@ -230,7 +230,7 @@ export function IntentBidForm({
           value="1"
           data-testid="intent-floor-save"
         />{" "}
-        Floor-save — if short of $58,000, raise this seat to the mark above
+        Floor-save: if short of {formatUsd(FLOOR_USD)}, raise this seat to the mark above
       </label>
       <p className="auth-hint" data-testid="intent-floor-save-note">
         Stored, not charged. Floor-save does not displace a standing holder

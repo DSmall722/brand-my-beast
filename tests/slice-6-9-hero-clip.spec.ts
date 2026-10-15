@@ -54,13 +54,13 @@ test.describe("slice 6.9: hero wordmark and truck not clipped on mobile", () => 
   test.use({ viewport: { width: 390, height: 844 } });
 
   test("campaign money fences stay locked", () => {
-    expect(FLOOR_USD).toBe(58_000);
+    expect(FLOOR_USD).toBe(35_000);
     expect(GOAL_USD).toBe(120_000);
     expect(CLOSE_AT).toBe("2026-11-02T17:00:00.000Z");
     expect(BRAND.name).toBe("BrandMyBeast");
     expect(BRAND.handle).toBe("@BrandMyBeast");
     expect(BRAND.email).toBe("hello@brandmybeast.com");
-    expect(formatUsd(FLOOR_USD)).toBe("$58,000");
+    expect(formatUsd(FLOOR_USD)).toBe("$35,000");
     expect(formatUsd(GOAL_USD)).toBe("$120,000");
   });
 

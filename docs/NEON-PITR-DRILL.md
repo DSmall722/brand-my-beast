@@ -7,7 +7,7 @@ is fine until a human runs the drill.
 
 Money fences (do not invent a third number):
 
-- Floor **$58,000** — order + wrap reserve. Miss = refund.
+- Floor **$35,000** — order + wrap reserve. Miss = refund.
 - Buyout **$120,000** — etch unlock. `CLOSE_AT` stays null until P3.
 - Deposit **20%** of standing is display math only until Stripe exists.
 - No Stripe capture in this drill. No lease. No personal operator Gmail.
@@ -24,8 +24,8 @@ an agent touching dashboards or inventing money numbers.
 - [ ] Confirm Production `DATABASE_URL` project id (paste into the incident note).
 - [ ] Confirm PITR retention covers the drill timestamp.
 - [ ] Confirm `CLOSE_AT` is still null unless a human already started P3.
-- [ ] Confirm floor / buyout still read `$58,000` / `$120,000` in app code
-      (`FLOOR_USD=58000`, `GOAL_USD=120000`) — do not edit them for the drill.
+- [ ] Confirm floor / buyout still read `$35,000` / `$120,000` in app code
+      (`FLOOR_USD=35000`, `GOAL_USD=120000`) — do not edit them for the drill.
 
 ## Execute (human only)
 

@@ -29,7 +29,7 @@ Do **not** start Wave 15.
 ## What this tag means
 
 - This tag (`wave-16-complete`) follows **16.43** / `wave-14-complete`.
-- Floor **$58,000** and buyout **$120,000** stay locked in `src/lib/campaign.ts`.
+- Floor **$35,000** and buyout **$120,000** stay locked in `src/lib/campaign.ts`.
 - `CLOSE_AT` remains **null**. This tag does **not** start the 30-day clock.
 - No Stripe dependency or SetupIntent. Charging is Wave 15 and needs a human message.
 - No lease product. No cheaper trim.

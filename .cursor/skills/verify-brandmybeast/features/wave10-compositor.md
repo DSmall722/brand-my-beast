@@ -21,7 +21,7 @@ from PUBLIC_COPY, etch locked under buyout, no invented combo price.
 ## Money fences
 
 - Etch stays locked when raised is under `$120,000`.
-- `FLOOR_USD=58000`, `GOAL_USD=120000`, `CLOSE_AT=null`
+- `FLOOR_USD=35000`, `GOAL_USD=120000`, `CLOSE_AT=null`
 - No “permanent vinyl.” No lease. No personal handle.
 
 ## Live lever

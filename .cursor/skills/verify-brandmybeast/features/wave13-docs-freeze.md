@@ -60,8 +60,8 @@ set `CLOSE_AT`, do not wire Stripe, leave `vercel.json` hold-mode alone.
 
 ## Money fences
 
-- `FLOOR_USD=58000`, `GOAL_USD=120000`, `CLOSE_AT=null`
-- Floor **$58,000**. Buyout **$120,000**. No third number.
+- `FLOOR_USD=35000`, `GOAL_USD=120000`, `CLOSE_AT=null`
+- Floor **$35,000**. Buyout **$120,000**. No third number.
 - No lease. No personal Gmail / personal handle.
 
 ## Live lever

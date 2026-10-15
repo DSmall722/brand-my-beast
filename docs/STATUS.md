@@ -4,7 +4,7 @@ Slice **14.9**. One-page status for agents and humans. Not a build order — **`
 
 | Field | Value |
 |---|---|
-| Floor | **$58,000** |
+| Floor | **$35,000** |
 | Buyout / goal | **$120,000** |
 | `CLOSE_AT` | **null** (do not start the 30-day clock) |
 | Stripe | **not wired** (Wave 15 needs a human message) |

@@ -34,8 +34,8 @@ describe("otel attribute allowlist", () => {
         "user.email": "person@example.com",
         email: "person@example.com",
         "stripe.checkout_session_id": "cs_test_abc123",
-        amount: 58000,
-        "bid.amount": 58000,
+        amount: 35000,
+        "bid.amount": 35000,
         price: 120000,
         "http.request.body": "{\"secret\":true}",
         "db.statement": "select email from users",
@@ -90,7 +90,7 @@ describe("otel attribute allowlist", () => {
         "next.rsc": false,
         "service.name": "brandmybeast",
         "stripe.event_id": "evt_123",
-        amount: 58000,
+        amount: 35000,
       },
     });
 

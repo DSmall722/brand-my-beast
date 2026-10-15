@@ -16,7 +16,7 @@ Updated: 2026-09-20
 
 ## Standing orders
 
-- Floor $58,000. Buyout $120,000. CLOSE_AT = null. SEATS_OPEN stays false on production.
+- Floor $35,000. Buyout $120,000. CLOSE_AT = null. SEATS_OPEN stays false on production.
 - No Stripe. No card capture. No 30-day clock. No tweet.
 - Public `/` is a waitlist. Do not rewrite the homepage H1.
 - Hero truck is a house-wrap concept preview. No wrap or etch as delivered.
@@ -30,7 +30,7 @@ Updated: 2026-09-20
 ## Merge gate
 
 - `npm test` and `npm run build` pass
-- campaign.ts still FLOOR_USD=58000 GOAL_USD=120000 CLOSE_AT=null
+- campaign.ts still FLOOR_USD=35000 GOAL_USD=120000 CLOSE_AT=null
 - package.json has no stripe
 - rendered HTML has no lease and no personal handle
 - This file checks the finished box in the same PR
@@ -58,7 +58,7 @@ Fix what is wrong on the live waitlist site. Do not flip SEATS_OPEN. Do not rewr
 - [x] 19.9 Mobile header: wordmark and Join/Sign in do not wrap into two ragged rows. Safe-area already 17.7. (#402)
 - [x] 19.10 Homepage vault while pledged is $0: “No marks yet” (or PUBLIC_COPY equivalent). Do not read like an empty auction. (#403)
 - [x] 19.11 Document title / 404 title use BrandMyBeast + locked idea. Drop leftover “advertise on a Cybertruck” if it is the chrome title. (#404)
-- [x] 19.12 Playwright pack: homepage H1 unchanged, `Notify me` present, no hometown cities on `/panels/hood`, no sign-in-to-list on `/panels/hood`, no lease, $58,000 / $120,000 stay. (#405)
+- [x] 19.12 Playwright pack: homepage H1 unchanged, `Notify me` present, no hometown cities on `/panels/hood`, no sign-in-to-list on `/panels/hood`, no lease, $35,000 / $120,000 stay. (#405)
 
 ## Wave 20 — leftover polish from the same pass (human 2026-09-20)
 
@@ -67,7 +67,7 @@ Do not start until 19.12 is checked. No Stripe. No CLOSE_AT. No SEATS_OPEN flip.
 - [x] 20.1 Homepage header: hide **Sign in** while sign-in is closed. **Join the list** only. (#406)
 - [x] 20.2 Public seat: hide **Sign in to download a seat PNG** while `SEATS_OPEN` is false. (#407)
 - [x] 20.3 Panel cards: do not print twelve identical **Open.** Use **Open seat** once, or drop the chorus. (#408)
-- [x] 20.4 Money block at pledged $0: do not print both **Floor $58,000** and **Short of floor $58,000**. (#409)
+- [x] 20.4 Money block at pledged $0: do not print both **Floor $35,000** and **Short of floor $35,000**. (#409)
 - [x] 20.5 Same for **Short of buyout $120,000** when pledged is $0. (#410)
 - [x] 20.6 Replace **Open seat · Held = standing intent** with a buyer sentence from PUBLIC_COPY. (#411)
 - [x] 20.7 Homepage whole-truck block: one explanation sentence, not the 12-name package dump. (#412)
@@ -75,7 +75,7 @@ Do not start until 19.12 is checked. No Stripe. No CLOSE_AT. No SEATS_OPEN flip.
 - [x] 20.9 Meta description waitlist-era. No **Bid on a panel** while seats are closed. No H1 change. (#414)
 - [x] 20.10 Partner / 404 uses branded back-to-board, not a shop tease. (#415)
 - [x] 20.11 Mobile board: numbers 1–12 do not stack on the cab glass. 19.8 is desktop H1 only. (#416)
-- [x] 20.12 Playwright: 20.1–20.11 + locked H1 + `Notify me` + $58,000 / $120,000 + no lease. (#417)
+- [x] 20.12 Playwright: 20.1–20.11 + locked H1 + `Notify me` + $35,000 / $120,000 + no lease. (#417)
 
 ## After Wave 20
 
@@ -100,3 +100,7 @@ Idle. Wave 15 is Stripe and needs a human message.
 ## BMB-QA-1008
 
 - [x] BMB-QA-1008 public QA: floor tracker, alts, canonical, open copy, contact, tap targets, focus return. Bid logo and website left unchanged.
+
+## BMB-FLOOR-35
+
+- [x] BMB-FLOOR-35 Campaign floor is $35,000. Buyout $120,000 unchanged. Miss at $34,999 refunds. Met at $35,000 orders the truck and funds wrap.

@@ -42,7 +42,7 @@ function featureMapCorpus(): string {
 
 test.describe("slice 6.4: verify-brandmybeast feature map Waves 0–5", () => {
   test("campaign constants stay locked", () => {
-    expect(FLOOR_USD).toBe(58_000);
+    expect(FLOOR_USD).toBe(35_000);
     expect(GOAL_USD).toBe(120_000);
     expect(CLOSE_AT).toBe("2026-11-02T17:00:00.000Z");
   });
@@ -72,7 +72,7 @@ test.describe("slice 6.4: verify-brandmybeast feature map Waves 0–5", () => {
   test("README indexes Waves 0–5 and money fences", () => {
     const readme = readFileSync(join(FEATURES_DIR, "README.md"), "utf8");
     expect(readme).toContain("Waves 0–5");
-    expect(readme).toContain("FLOOR_USD=58000");
+    expect(readme).toContain("FLOOR_USD=35000");
     expect(readme).toContain("GOAL_USD=120000");
     expect(readme).toContain("CLOSE_AT=null");
     expect(readme).toContain("wave1-durable-intent.md");
@@ -92,7 +92,7 @@ test.describe("slice 6.4: verify-brandmybeast feature map Waves 0–5", () => {
 
     const map = featureMapCorpus();
     const index = readFileSync(join(FEATURES_DIR, "waves-0-5.md"), "utf8");
-    expect(index).toContain("FLOOR_USD=58000");
+    expect(index).toContain("FLOOR_USD=35000");
     expect(index).toContain("GOAL_USD=120000");
     expect(index).toContain("CLOSE_AT=null");
 

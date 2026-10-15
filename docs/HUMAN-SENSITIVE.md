@@ -6,13 +6,13 @@ These three paths lock money, identity, and build order. Agents may edit them on
 
 | Path | Why sensitive |
 |---|---|
-| `CAMPAIGN.md` | Floor **$58,000**, buyout **$120,000**, product lock, public identity strings. Wins conflicts. |
+| `CAMPAIGN.md` | Floor **$35,000**, buyout **$120,000**, product lock, public identity strings. Wins conflicts. |
 | `SLICES.md` | Only build order. **Now** / **Last merged** / checkboxes. |
 | `src/lib/campaign.ts` | Runtime floor / goal / `CLOSE_AT=null`. Merge gate reads this file. |
 
 ## Still locked
 
-- Floor **$58,000**. Buyout **$120,000**. `CLOSE_AT` = null.
+- Floor **$35,000**. Buyout **$120,000**. `CLOSE_AT` = null.
 - No Stripe. No 30-day clock. Cyberbeast only — no cheaper trim.
 - Public strings only: BrandMyBeast, @BrandMyBeast, hello@brandmybeast.com, brandmybeast.com, “the operator.”
 

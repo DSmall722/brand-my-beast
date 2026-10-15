@@ -17,7 +17,7 @@ Maps SLICES **3.1–3.7**. Preview only — not proof of a truck that exists.
 ## Money fences
 
 - Etch stays locked under buyout `$120,000`.
-- No lease. No `CLOSE_AT`. Floor `$58,000` may appear in finish copy.
+- No lease. No `CLOSE_AT`. Floor `$35,000` may appear in finish copy.
 
 ## Live lever
 

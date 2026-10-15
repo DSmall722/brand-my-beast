@@ -129,7 +129,7 @@ const floor = await page.getByTestId("floor-amount").innerText();
 const goal = await page.getByTestId("goal-amount").innerText();
 const close = await page.getByTestId("close-copy").innerText();
 if (brand !== "BrandMyBeast") throw new Error(`bad brand: ${brand}`);
-if (floor !== "$58,000") throw new Error(`bad floor: ${floor}`);
+if (floor !== "$35,000") throw new Error(`bad floor: ${floor}`);
 if (goal !== "$120,000") throw new Error(`bad goal: ${goal}`);
 if (close.trim() !== "Bidding is not open yet.") {
   throw new Error(`bad close copy: ${close}`);
