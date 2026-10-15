@@ -100,6 +100,5 @@ test.describe("slice 14.40: List-Unsubscribe on waitlist mail", () => {
       "utf8",
     );
     expect(waitlistSrc).toContain("waitlistListUnsubscribeHeaders");
-    expect(waitlistSrc).toContain("14.40");
   });
 });

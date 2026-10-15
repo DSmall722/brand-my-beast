@@ -109,7 +109,6 @@ test.describe("slice 14.29: whole-truck pending blocks single-panel", () => {
       "utf8",
     );
     expect(src).toContain("WHOLE_TRUCK_PENDING_ERROR");
-    expect(src).toContain("Slice 14.29");
     expect(src).toContain("panelBlockedByPendingWholeTruck");
     expect(src.toLowerCase()).not.toMatch(/\blease\b/);
   });

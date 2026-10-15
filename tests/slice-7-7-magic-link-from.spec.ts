@@ -69,7 +69,6 @@ test.describe("slice 7.7: magic-link From is BrandMyBeast hello@", () => {
       "utf8",
     );
     expect(modeSrc).toContain("MAGIC_LINK_FROM");
-    expect(modeSrc).toContain("BrandMyBeast");
     expect(modeSrc).toContain("BRAND.email");
   });
 

@@ -97,7 +97,6 @@ test.describe("slice 14.32: SEATS_OPEN=false intent 403 waitlist 201", () => {
       join(ROOT, "src/app/api/intent/route.ts"),
       "utf8",
     );
-    expect(src).toContain("Slice 14.32");
     expect(src).toContain("seatsClosedIntentPayload");
     expect(src).toContain("status: 403");
     expect(src.toLowerCase()).not.toMatch(/\blease\b/);

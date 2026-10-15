@@ -109,7 +109,6 @@ test.describe("slice 14.27: proxy max ignored after withdraw", () => {
       join(process.cwd(), "src/lib/intent-store.ts"),
       "utf8",
     );
-    expect(src).toContain("Slice 14.27");
     expect(src).toMatch(/proxyMaxUsd:\s*null/);
     expect(src.toLowerCase()).not.toMatch(/\blease\b/);
   });

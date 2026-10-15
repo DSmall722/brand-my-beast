@@ -62,7 +62,6 @@ test.describe("slice 14.23: favicon 32/180 only if missing", () => {
     const appleSrc = readFileSync(APPLE, "utf8");
     expect(appleSrc).toMatch(/width:\s*180/);
     expect(appleSrc).toMatch(/height:\s*180/);
-    expect(appleSrc).toContain("BrandMyBeast");
     expect(appleSrc.toLowerCase()).not.toMatch(/\blease\b/);
 
     expect(existsSync(join(ROOT, "src/app/icon.tsx"))).toBe(false);

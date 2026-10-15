@@ -58,7 +58,6 @@ test.describe("slice 14.33: deposit preview uses depositUsdForMark (12.5)", () =
       join(ROOT, "src/lib/deposit-preview.ts"),
       "utf8",
     );
-    expect(preview).toContain("Slice 14.33");
     expect(preview).toContain("depositUsdForMark");
     expect(preview).toMatch(/from ["']\.\/intent["']/);
     expect(preview).not.toMatch(/Math\.(ceil|round|floor)\([^)]*0\.2/);

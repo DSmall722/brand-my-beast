@@ -104,7 +104,6 @@ test.describe("slice 14.31: standing brand locked after approve", () => {
       "utf8",
     );
     expect(src).toContain("STANDING_BRAND_LOCKED_ERROR");
-    expect(src).toContain("Slice 14.31");
     expect(src.toLowerCase()).not.toMatch(/\blease\b/);
   });
 

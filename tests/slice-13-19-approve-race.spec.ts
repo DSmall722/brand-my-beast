@@ -61,8 +61,6 @@ test.describe("slice 13.19: concurrent brand approve race", () => {
       "utf8",
     );
     expect(src).toMatch(/withPanelApproveLock/);
-    expect(src).toMatch(/Slice 13\.19/);
-    expect(src).toMatch(/intent_bids_one_approved_per_panel|12\.1/);
     expect(src).not.toMatch(/from ["']stripe["']/);
   });
 

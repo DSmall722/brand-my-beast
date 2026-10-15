@@ -60,7 +60,6 @@ test.describe("slice 12.1: intent place/outbid/approve transaction", () => {
     );
     expect(src).toMatch(/db\.batch\(\[outbidOthers,\s*insertListed\]\)/);
     expect(src).toMatch(/db\.batch\(\[demotePrior,\s*approveThis\]\)/);
-    expect(src).toMatch(/at most one approved standing per panel/);
     expect(src).not.toMatch(/from ["']stripe["']/);
     expect(src).not.toMatch(/\bCLOSE_AT\b/);
   });

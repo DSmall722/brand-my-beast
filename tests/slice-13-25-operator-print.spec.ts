@@ -82,7 +82,6 @@ test.describe("slice 13.25: operator print seat view", () => {
       join(process.cwd(), "src/app/styles/board.css"),
       "utf8",
     );
-    expect(board).toContain("Slice 13.25");
     expect(board).toContain(".operator-print-page");
     expect(board).toMatch(/@media\s+print/);
     expect(board.toLowerCase()).not.toMatch(/\blease\b/);

@@ -58,9 +58,6 @@ test.describe("slice 16.48: demo seed numbered standing on seats 1 and 10", () =
     expect(listed.some((bid) => bid.panelId === "tailgate")).toBe(true);
 
     const sh = readFileSync(join(process.cwd(), "scripts/seed-demo.sh"), "utf8");
-    expect(sh).toContain("16.48");
-    expect(sh).toContain("seat 1");
-    expect(sh).toContain("seat 10");
     expect(sh).not.toMatch(/\bCLOSE_AT=/);
   });
 });

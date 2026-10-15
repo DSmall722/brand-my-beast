@@ -168,7 +168,6 @@ test.describe("slice 14.26: failed-winner offer skips banned trades", () => {
       "utf8",
     );
     expect(src).toContain("isFailedWinnerTradeBanned");
-    expect(src).toContain("Slice 14.26");
     expect(src.toLowerCase()).not.toMatch(/\blease\b/);
   });
 

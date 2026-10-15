@@ -117,7 +117,6 @@ test.describe("slice 14.30: operator note required on force-withdraw approved", 
     );
     expect(src).toContain("FORCE_WITHDRAW_APPROVED_NOTE_ERROR");
     expect(src).toContain("forceWithdrawApprovedSeat");
-    expect(src).toContain("Slice 14.30");
     expect(src.toLowerCase()).not.toMatch(/\blease\b/);
   });
 

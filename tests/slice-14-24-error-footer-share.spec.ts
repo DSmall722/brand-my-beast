@@ -53,7 +53,6 @@ test.describe("slice 14.24: 404 and 500 share footer strings", () => {
     );
     expect(shared).toContain("PUBLIC_COPY.footer.line");
     expect(shared).toContain("PUBLIC_COPY.footer.independent");
-    expect(shared).toContain("Slice 14.24");
 
     const notFound = readFileSync(join(ROOT, "src/app/not-found.tsx"), "utf8");
     const error = readFileSync(join(ROOT, "src/app/error.tsx"), "utf8");

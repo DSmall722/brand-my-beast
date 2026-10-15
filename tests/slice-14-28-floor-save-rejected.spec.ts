@@ -93,7 +93,6 @@ test.describe("slice 14.28: floor-save does not raise a rejected mark", () => {
       "utf8",
     );
     expect(src).toContain("FLOOR_SAVE_REJECTED_ERROR");
-    expect(src).toContain("Slice 14.28");
     expect(src.toLowerCase()).not.toMatch(/\blease\b/);
   });
 

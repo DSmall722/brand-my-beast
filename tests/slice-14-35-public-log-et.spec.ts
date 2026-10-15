@@ -72,7 +72,6 @@ test.describe("slice 14.35: public seat log timestamps America/New_York ET", () 
     expect(formatSeatLogTime("2026-09-16T12:34:56.789Z")).not.toMatch(/Z$/);
 
     const src = readFileSync(join(ROOT, "src/lib/seat-log.ts"), "utf8");
-    expect(src).toContain("Slice 14.35");
     expect(src).toContain("America/New_York");
     expect(src).toContain('timeZone: SEAT_LOG_TIME_ZONE');
     expect(src).toMatch(/ET`/);

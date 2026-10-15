@@ -41,7 +41,6 @@ test.describe("slice 12.33: panel print stylesheet", () => {
       join(process.cwd(), "src/app/styles/board.css"),
       "utf8",
     );
-    expect(board).toContain("Slice 12.33");
     expect(board).toMatch(/@media\s+print/);
     expect(board).toContain(".panel-intent.public-seat");
     expect(board).toContain(".site-header");

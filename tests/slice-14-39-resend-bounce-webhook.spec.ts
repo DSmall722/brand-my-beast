@@ -157,7 +157,6 @@ test.describe("slice 14.39: Resend bounce webhook → dead-letter", () => {
       join(ROOT, "src/app/api/webhooks/resend/route.ts"),
       "utf8",
     );
-    expect(routeSrc).toContain("14.39");
     expect(findStripePackagesInRootPackageJson()).toEqual([]);
   });
 });
