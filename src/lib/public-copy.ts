@@ -7,7 +7,7 @@ import { formatCampaignInstantEt } from "./seat-log";
 const PANEL_GLOSS: Readonly<Record<string, string>> = {};
 
 const TRUCK_OWNERSHIP_LINE =
-  "The operator does not own the truck yet. This auction buys it.";
+  "Not yet. The campaign funds the purchase, so the truck is bought once the goal is met.";
 
 const BID_OPENS_AT = formatCampaignInstantEt(OPEN_AT);
 const CLOSED_ASK = `Questions? Use the Contact us form or email ${BRAND.email}.`;
@@ -105,7 +105,7 @@ export const PUBLIC_COPY = {
     steps: [
       {
         title: "Pick a Panel",
-        body: "Choose from 11 different available high visibility advertising spaces.",
+        body: "Choose from 11 high-visibility panels.",
       },
       {
         title: "Place a Bid",

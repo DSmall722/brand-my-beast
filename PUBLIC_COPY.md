@@ -61,6 +61,7 @@ The **Buy the Whole Truck** board button is not rendered on `/`. Whole-truck int
 - Heading: `Bid on a Panel`
 - Lead: `Pick a panel to place a bid.`
 - Claim funds line: `Claiming all 11 panels funds the full truck purchase.`
+- Claim skips line: `A claim skips the bidding and locks your panel at a set price.`
 - Badge etch: `Immortal Etch Locked` — not shown on public panel cards
 - Badge wrap: `Wrap only` — not shown on public panel cards
 - Standing open: `Open seat`
@@ -72,7 +73,7 @@ Panel card names match the board. No gloss line on the card. Eleven seats. Nine 
 - Heading: `How it works`
 - Lead: (omitted; the ownership line is the one FAQ entry below)
 - 01 title: `Pick a Panel`
-- 01 body: `Choose from 11 different available high visibility advertising spaces.`
+- 01 body: `Choose from 11 high-visibility panels.`
 - 02 title: `Place a Bid`
 - 02 body: `Lock your bid to the board with a 20% down payment, processed securely through Stripe.`
 - 03 title: `Get on the Truck`
@@ -133,7 +134,7 @@ Buyer questions. No “Who is this for.” No wreck / totaled / last-second on `
 - Q: `What if I claim and the campaign falls short?` A: `If the $35,000 goal isn't met by noon ET on December 31, 2026, your deposit is refunded in full and nothing else is charged.`
 - Q: `Can someone outbid me after I claim?` A: `No. Claiming ends bidding on that panel. A whole-truck buyout before the $120,000 mark releases your claim and refunds the deposit in full.`
 - Q: `What happens if claims and bids reach $120,000?` A: `Once claims plus bids reach $120,000, the purchase goes ahead and panels stay theirs. A whole-truck buyout before that mark releases claims, with deposits fully refunded.`
-- Q: `Does the operator own the truck yet?` A: `The operator does not own the truck yet. This auction buys it.`
+- Q: `Does the operator own the truck yet?` A: `Not yet. The campaign funds the purchase, so the truck is bought once the goal is met.`
 - Q: `Is this Tesla?` A: `BrandMyBeast is independent and not affiliated with Tesla.`
 - Q: `What am I actually buying?` A: `A panel on the truck for your brand. There are 11 panels. Vinyl wrap is available on all of them. You are buying the panel and 12 months across the Southeast. Not a follower count. Not a guaranteed number of views.`
 - Q: `How long is my brand on the truck?` A: `Wraps run 12 months from install.`

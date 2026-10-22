@@ -38,6 +38,34 @@ const BANNED = [
   "total bids pass $120,000",
 ];
 
+const OLD_PANELS_LINE =
+  "Choose from 11 different available high visibility advertising spaces.";
+const TRUCK_ANSWER =
+  "Not yet. The campaign funds the purchase, so the truck is bought once the goal is met.";
+const CLAIM_SKIPS =
+  "A claim skips the bidding and locks your panel at a set price.";
+
+function termsPublicText(src: string): string {
+  const start = src.indexOf("export function TermsStubBody");
+  const fn = src.slice(start);
+  const parts: string[] = [];
+  for (const match of fn.matchAll(/`([^`]*)`/g)) {
+    parts.push(match[1].replace(/\$\{[^}]*\}/g, " "));
+  }
+  const withoutTemplates = fn.replace(/`[^`]*`/g, "");
+  for (const match of withoutTemplates.matchAll(/>([^<]*)</g)) {
+    parts.push(match[1].replace(/\{[^}]*\}/g, " "));
+  }
+  return parts.join("\n");
+}
+
+function claimsTruckOwnership(text: string): boolean {
+  return (
+    /\bown(?:s|ed)?\s+the\s+truck\b/i.test(text) ||
+    /\b(?:dennard|the operator|we|i)\s+(?:still\s+|do not\s+|does not\s+)?own\b/i.test(text)
+  );
+}
+
 describe("bmb-qa-polish-468 public copy", () => {
   const publicText = [
     ...texts(PUBLIC_COPY),
@@ -91,8 +119,53 @@ describe("bmb-qa-polish-468 public copy", () => {
     const owned = PUBLIC_COPY.questions.items.find(
       (item) => "id" in item && item.id === "truck-ownership",
     );
-    expect(owned?.a).toBe(
-      "The operator does not own the truck yet. This auction buys it.",
+    expect(owned?.a).toBe(TRUCK_ANSWER);
+    expect(claimsTruckOwnership(owned?.a ?? "")).toBe(false);
+  });
+
+  it("rejects floor and seat words in /terms public text, not identifiers", () => {
+    const terms = termsPublicText(read("src/components/LegalStub.tsx"));
+    expect(terms).not.toMatch(/\bfloor\b/i);
+    expect(terms).not.toMatch(/\bseats?\b/i);
+    expect(terms).toContain(
+      "Immortal Etch happens when claims plus bids pass $120,000.",
+    );
+    expect(read("src/components/LegalStub.tsx")).toContain("FLOOR_USD");
+  });
+
+  it("rejects the old panels line and any truck-ownership claim", () => {
+    const blob = [
+      publicText,
+      read("PUBLIC_COPY.md"),
+      termsPublicText(read("src/components/LegalStub.tsx")),
+    ].join("\n");
+    expect(blob).not.toContain(OLD_PANELS_LINE);
+    expect(PUBLIC_COPY.howItWorks.steps[0].body).toBe(
+      "Choose from 11 high-visibility panels.",
+    );
+    expect(read("PUBLIC_COPY.md")).toContain(
+      "Choose from 11 high-visibility panels.",
+    );
+    const answers = PUBLIC_COPY.questions.items.map((item) => item.a).join("\n");
+    const prose = [
+      answers,
+      ...texts(CLAIM_COPY),
+      PUBLIC_COPY.howItWorks.steps.map((step) => step.body).join("\n"),
+      termsPublicText(read("src/components/LegalStub.tsx")),
+    ].join("\n");
+    expect(claimsTruckOwnership(prose)).toBe(false);
+    expect(prose).not.toMatch(/\bdennard\b/i);
+    expect(blob).not.toContain("The operator does not own the truck yet");
+    expect(blob).not.toContain("This auction buys it");
+  });
+
+  it("places the claim-skips line next to claim prices", () => {
+    expect(CLAIM_COPY.claimSkips).toBe(CLAIM_SKIPS);
+    expect(read("src/components/home/HomePanelsSection.tsx")).toContain(
+      "CLAIM_COPY.claimSkips",
+    );
+    expect(read("src/components/PanelClaimBlock.tsx")).toContain(
+      "CLAIM_COPY.claimSkips",
     );
   });
 

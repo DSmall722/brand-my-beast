@@ -6,8 +6,8 @@ import { PUBLIC_COPY, leaderboardEmptyCopy } from "../src/lib/public-copy";
 const OPEN_EMPTY = "No bids yet. Be the first to put your brand on the Beast.";
 const BIDS_TEXT =
   "When you bid, we collect your email, brand name, trade (your type of business), website if you add one, the logo you upload, and your bid amounts. Stripe collects your payment details.";
-const REFUND_TEXT = `If you are outbid, your deposit is refunded after bidding closes. If total standing bids are below ${formatUsd(FLOOR_USD)} when bidding closes, every deposit is refunded and no seats are sold. A new bid on the same seat counts deposits you already paid.`;
-const WIN_TEXT = `If you win, pay the rest of your winning bid within ${WINNER_PAY_MS / (24 * 60 * 60 * 1000)} days. Your deposit counts toward it. If you don't pay in time, the deposit is forfeited and the seat goes to the next-highest bidder, whose deposit is held until then.`;
+const REFUND_TEXT = `If you are outbid, your deposit is refunded after bidding closes. If total standing bids are below ${formatUsd(FLOOR_USD)} when bidding closes, every deposit is refunded and no panels are sold. A new bid on the same panel counts deposits you already paid.`;
+const WIN_TEXT = `If you win, pay the rest of your winning bid within ${WINNER_PAY_MS / (24 * 60 * 60 * 1000)} days. Your deposit counts toward it. If you don't pay in time, the deposit is forfeited and the panel goes to the next-highest bidder, whose deposit is held until then.`;
 const BANNED = [/waitlist/i, /sign in/i, /sign-in/i, /account/i];
 
 test.describe("BMB-QA-2-FIX3 legal copy, leaderboard button, contact error, FAQ dashes", () => {

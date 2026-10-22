@@ -55,6 +55,9 @@ export function HomePanelsSection({
           <p className="section-lead" data-testid="claim-funds-line">
             {CLAIM_COPY.allClaimFunds}
           </p>
+          <p className="section-lead" data-testid="claim-skips-line">
+            {CLAIM_COPY.claimSkips}
+          </p>
           <div className="panel-grid" data-testid="panel-grid">
             {PANELS.map((panel, index) => {
               const mark = PANEL_BOARD_MARKS[index];

@@ -97,7 +97,8 @@ describe("bmb-qa-mobile-claim-fixes", () => {
   });
 
   it("says the operator does not own the truck in one FAQ entry", () => {
-    const line = "The operator does not own the truck yet. This auction buys it.";
+    const line =
+      "Not yet. The campaign funds the purchase, so the truck is bought once the goal is met.";
     const blob = JSON.stringify(PUBLIC_COPY);
     expect(blob.split(line).length - 1).toBe(1);
     expect(PUBLIC_COPY.howItWorks.lead).toBe("");

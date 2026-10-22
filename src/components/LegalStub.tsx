@@ -124,8 +124,8 @@ export function TermsStubBody() {
         Cybertruck, Cyberbeast trim (the &quot;Beast&quot;). {BRAND.name} is
         not affiliated with or endorsed by Tesla, Inc. Inventory may be vinyl
         wrap,
-        Immortal Etch, or both, as shown for each seat. Buying a seat buys
-        display space on the vehicle under the rules for that seat. It does
+        Immortal Etch, or both, as shown for each panel. Buying a panel buys
+        display space on the vehicle under the rules for that panel. It does
         not buy the truck, a share of the truck, or a guarantee of views,
         clicks, sales, or media coverage.
       </p>
@@ -137,7 +137,7 @@ export function TermsStubBody() {
       </p>
       <h2>Bids and payment</h2>
       <p data-testid="terms-bids">
-        {`${BRAND.name} auctions ${PANELS.length} panels. Opening prices are shown on each seat. Each seat shows its opening price until someone bids. After that it shows the current high bid. The ${formatUsd(FLOOR_USD)} floor is the campaign total across seats, not a minimum on one bid. A bid is an offer to buy that seat at that price. A ${DEPOSIT_PERCENT}% deposit via Stripe holds the seat. If you are outbid, your deposit is refunded after bidding closes. If total standing bids are below ${formatUsd(FLOOR_USD)} when bidding closes, every deposit is refunded and no seats are sold. A new bid on the same seat counts deposits you already paid. Bidding closes ${publishedCloseLabelEt()}. A bid in the last ${minutes} minutes extends that close by ${minutes} minutes. If you win, pay the rest of your winning bid within ${days} days. Your deposit counts toward it. If you don't pay in time, the deposit is forfeited and the seat goes to the next-highest bidder, whose deposit is held until then. We may also reject or cancel a win for prohibited content or fraud.`}
+        {`${BRAND.name} auctions ${PANELS.length} panels. Opening prices are shown on each panel. Each panel shows its opening price until someone bids. After that it shows the current high bid. The ${formatUsd(FLOOR_USD)} goal is the campaign total across panels, not a minimum on one bid. A bid is an offer to buy that panel at that price. A ${DEPOSIT_PERCENT}% deposit via Stripe holds the panel. If you are outbid, your deposit is refunded after bidding closes. If total standing bids are below ${formatUsd(FLOOR_USD)} when bidding closes, every deposit is refunded and no panels are sold. A new bid on the same panel counts deposits you already paid. Bidding closes ${publishedCloseLabelEt()}. A bid in the last ${minutes} minutes extends that close by ${minutes} minutes. If you win, pay the rest of your winning bid within ${days} days. Your deposit counts toward it. If you don't pay in time, the deposit is forfeited and the panel goes to the next-highest bidder, whose deposit is held until then. We may also reject or cancel a win for prohibited content or fraud.`}
       </p>
       <h2>Artwork</h2>
       <p data-testid="terms-artwork">
@@ -145,10 +145,9 @@ export function TermsStubBody() {
         approve, reject, or require changes for fit, safety, legality, or
         brand standards. Banned or restricted categories (including illegal
         products, hate, and content we reasonably refuse) will not run.
-        Approved artwork may be installed as wrap and/or etch per the seat.
-        Vinyl wrap duration after installation is as stated on the seat or
-        campaign materials. Immortal Etch unlocks only under the published
-        etch rules and price thresholds.
+        Approved artwork may be installed as wrap and/or etch per the panel.
+        Vinyl wrap duration after installation is as stated on the panel or
+        campaign materials. Immortal Etch happens when claims plus bids pass $120,000.
       </p>
       <h2>Our role</h2>
       <p data-testid="terms-role">
