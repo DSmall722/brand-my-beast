@@ -31,6 +31,14 @@ import {
   stripeEventSeen,
 } from "./intent-store";
 import {
+  bidTimesForSoftClose,
+  claimPaymentMayCommit,
+  isBoardClosed,
+  loadCampaignClaimState,
+  loadPanelClaimState,
+  onPaidIntent,
+} from "./panel-claim-flow";
+import {
   createCheckoutSession,
   refundDepositPayment,
   stripeConfigured,
@@ -89,13 +97,22 @@ export async function placeDepositBid(
   input: DepositBidInput,
 ): Promise<DepositBidResult> {
   const bids = await listAllIntentBids();
-  const times = bids.map((bid) => bid.createdAt);
+  const times = bidTimesForSoftClose(bids);
   if (!depositDeskOpen(times)) {
     return {
       ok: false,
       status: 403,
       code: "bidding_closed",
       error: "Bidding is not open.",
+    };
+  }
+  const campaign = await loadCampaignClaimState();
+  if (isBoardClosed(campaign)) {
+    return {
+      ok: false,
+      status: 403,
+      code: "board_closed",
+      error: "The board is closed.",
     };
   }
   if (!stripeConfigured()) {
@@ -113,6 +130,15 @@ export async function placeDepositBid(
       status: 400,
       code: "bad_panel",
       error: "Unknown panel.",
+    };
+  }
+  const claimState = await loadPanelClaimState(panel.id);
+  if (claimState.claimStatus === "claimed") {
+    return {
+      ok: false,
+      status: 409,
+      code: "claimed",
+      error: "This panel is claimed. Bidding on it has ended.",
     };
   }
   const email = input.email.trim().toLowerCase();
@@ -182,6 +208,7 @@ export async function placeDepositBid(
       paymentId: null,
     });
     await demoteLowerPaidBids(bid);
+    await onPaidIntent(bid);
     return {
       ok: true,
       bidId: bid.id,
@@ -282,7 +309,11 @@ async function applyCheckoutSession(
   const bid = await getIntentBidById(bidId);
   if (!bid) return { ok: false, error: "Bid was not found." };
   const kind: CheckoutKind =
-    session.metadata?.kind === "remainder" ? "remainder" : "deposit";
+    session.metadata?.kind === "remainder"
+      ? "remainder"
+      : session.metadata?.kind === "claim"
+        ? "claim"
+        : "deposit";
   if (session.payment_status && session.payment_status !== "paid") {
     return { ok: true };
   }
@@ -303,13 +334,37 @@ async function applyCheckoutSession(
     return { ok: true };
   }
   if (hasPaidDeposit(bid)) return { ok: true };
+  const isClaim = kind === "claim" || bid.kind === "claim";
+  if (isClaim && !(await claimPaymentMayCommit(bid.panelId))) {
+    const lost = await patchDepositBid(bid.id, {
+      depositPaidAt: paidAt,
+      paymentId,
+      capturedUsd: Math.max(0, capturedUsd),
+      checkoutSessionId: session.id ?? bid.checkoutSessionId ?? null,
+      refundStatus: "refunded",
+      status: "outbid",
+    });
+    if (lost?.paymentId) {
+      await refundDepositPayment(lost.paymentId, lost.id);
+    }
+    return { ok: true };
+  }
+  const campaign = await loadCampaignClaimState();
   const updated = await patchDepositBid(bid.id, {
     depositPaidAt: paidAt,
     paymentId,
     capturedUsd: Math.max(0, capturedUsd),
     checkoutSessionId: session.id ?? bid.checkoutSessionId ?? null,
   });
-  if (updated) await demoteLowerPaidBids(updated);
+  if (!updated) return { ok: true };
+  if (isBoardClosed(campaign) && !isClaim) {
+    await onPaidIntent(updated);
+    return { ok: true };
+  }
+  if (!isClaim) {
+    await demoteLowerPaidBids(updated);
+  }
+  await onPaidIntent(updated);
   return { ok: true };
 }
 
@@ -317,11 +372,13 @@ export async function settleClosedCampaign(
   nowMs: number = resolveNowMs(),
 ): Promise<{ actions: SettleAction[] }> {
   const bids = await listAllIntentBids();
+  const campaign = await loadCampaignClaimState();
   const closeMs = effectiveCloseMs(
     lockedCloseAt(),
-    bids.map((bid) => bid.createdAt),
+    bidTimesForSoftClose(bids),
   );
-  const actions = planSettlement(bids, nowMs, closeMs);
+  const settledNow = isBoardClosed(campaign) ? Math.max(nowMs, closeMs) : nowMs;
+  const actions = planSettlement(bids, settledNow, closeMs);
   for (const action of actions) {
     if (action.kind === "refund") {
       if (action.paymentId) {
@@ -430,10 +487,11 @@ export async function bidForCheckoutSession(sessionId: string) {
 
 export async function settleIfCampaignClosed(): Promise<void> {
   const bids = await listAllIntentBids();
+  const campaign = await loadCampaignClaimState();
   const closeMs = effectiveCloseMs(
     lockedCloseAt(),
-    bids.map((bid) => bid.createdAt),
+    bidTimesForSoftClose(bids),
   );
-  if (resolveNowMs() < closeMs) return;
+  if (resolveNowMs() < closeMs && !isBoardClosed(campaign)) return;
   await settleClosedCampaign();
 }

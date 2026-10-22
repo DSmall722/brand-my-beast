@@ -1,4 +1,5 @@
 import { BRAND, CLOSE_AT, FLOOR_USD, OPEN_AT, PANELS, formatUsd } from "./campaign";
+import { CLAIM_COPY } from "./panel-claim";
 import { SOFT_CLOSE_MS, publishedCloseLabelEt } from "./campaign-window";
 import { PANEL_BOARD_MARKS, panelLegendLabel } from "./panel-board";
 import { formatCampaignInstantEt } from "./seat-log";
@@ -152,6 +153,36 @@ export const PUBLIC_COPY = {
   questions: {
     heading: "FAQ",
     items: [
+      {
+        id: "claim-panel",
+        q: CLAIM_COPY.faqClaim.q,
+        a: CLAIM_COPY.faqClaim.a,
+      },
+      {
+        id: "claim-when",
+        q: CLAIM_COPY.faqWhen.q,
+        a: CLAIM_COPY.faqWhen.a,
+      },
+      {
+        id: "claim-short",
+        q: CLAIM_COPY.faqShort.q,
+        a: CLAIM_COPY.faqShort.a,
+      },
+      {
+        id: "claim-outbid",
+        q: CLAIM_COPY.faqOutbid.q,
+        a: CLAIM_COPY.faqOutbid.a,
+      },
+      {
+        id: "claim-owned",
+        q: CLAIM_COPY.faqOwned.q,
+        a: CLAIM_COPY.faqOwned.a,
+      },
+      {
+        id: "claim-trigger",
+        q: CLAIM_COPY.faqTrigger.q,
+        a: CLAIM_COPY.faqTrigger.a,
+      },
       {
         id: "truck-ownership",
         q: "Does the operator own the truck yet?",

@@ -108,3 +108,7 @@ Idle. Wave 15 is Stripe and needs a human message.
 ## bmb-close-date-dec31
 
 - [x] bmb-close-date-dec31 Campaign close is Thu Dec 31, 2026, 12:00 PM ET (`2026-12-31T17:00:00.000Z`).
+
+## bmb-panel-claim-price
+
+- [x] bmb-panel-claim-price Claim this panel (Tier C, $120,000). Claim prices on the 11-panel table. Paid bid at or above the claim price withdraws claim. All 11 claimed or committed total at $120,000 locks the purchase path.

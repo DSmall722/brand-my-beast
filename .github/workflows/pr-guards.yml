@@ -98,6 +98,20 @@ jobs:
           HEAD: ${{ github.event.pull_request.head.sha }}
         run: sh scripts/ci/new-comments.sh
 
+  panel-claim-guards:
+    name: panel-claim-guards
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          ref: ${{ github.event.pull_request.head.sha }}
+
+      - name: Claim column matches constants; copy lint
+        run: sh scripts/ci/panel-claim-guards.sh
+
   guard-self-check:
     name: guard-self-check
     runs-on: ubuntu-latest

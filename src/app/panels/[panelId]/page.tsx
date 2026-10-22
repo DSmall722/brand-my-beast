@@ -54,6 +54,8 @@ import {
 import { publicLogoUrl } from "@/lib/public-mark";
 import { buildPublicSeatLog } from "@/lib/seat-log";
 import { resolveSeatsOpen } from "@/lib/seats-open";
+import { PanelClaimBlock } from "@/components/PanelClaimBlock";
+import { panelClaimView } from "@/lib/panel-claim-flow";
 
 type Params = Promise<{ panelId: string }>;
 type SearchParams = Promise<{ checkout?: string }>;
@@ -162,6 +164,8 @@ export default async function PanelIntentPage({
     panel.openingUsd === minimum
       ? PUBLIC_COPY.bidDesk.openingPrice
       : PUBLIC_COPY.bidDesk.openingFloor;
+  const claimView = await panelClaimView(panel.id);
+  const hideBids = claimView.claimStatus === "claimed";
 
   return (
     <>
@@ -290,7 +294,17 @@ export default async function PanelIntentPage({
           </aside>
         ) : null}
 
-        {seatsOpen && session?.user ? (
+        <PanelClaimBlock
+          panelId={panel.id}
+          panelName={panel.name}
+          claimUsd={panel.claimPriceUsd}
+          status={claimView.claimStatus}
+          claimable={claimView.claimable}
+          claimedBrand={claimView.claimedBrand}
+          buyoutOpen={claimView.buyoutOpen}
+        />
+
+        {hideBids ? null : seatsOpen && session?.user ? (
           <section
             className="intent-compose seat-primary"
             aria-labelledby="intent-compose-title"
@@ -310,7 +324,7 @@ export default async function PanelIntentPage({
               seatsOpen={seatsOpen}
             />
           </section>
-        ) : seatsOpen ? (
+        ) : hideBids ? null : seatsOpen ? (
           <SeatBidDesk
             quotes={quotes}
             mode={bidDeskMode(CLOSE_AT, ledger.map((bid) => bid.createdAt))}

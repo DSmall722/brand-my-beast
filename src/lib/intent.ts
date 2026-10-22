@@ -11,6 +11,8 @@ export type IntentBidStatus =
 
 export type DepositRefundStatus = "none" | "refunded" | "forfeited";
 
+export type IntentKind = "bid" | "claim";
+
 export type IntentBid = {
   id: string;
   panelId: Panel["id"];
@@ -37,6 +39,7 @@ export type IntentBid = {
   remainderDueAt?: string | null;
   remainderPaidAt?: string | null;
   invoiceCreditedAt?: string | null;
+  kind?: IntentKind;
 };
 
 export function isLiveIntentBid(bid: { deletedAt?: string | null }): boolean {

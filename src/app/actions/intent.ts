@@ -34,6 +34,10 @@ import {
   checkRateLimit,
 } from "@/lib/rate-limit";
 import { resolveSeatsOpen } from "@/lib/seats-open";
+import {
+  loadPanelClaimState,
+  rejectClaimBrandCheck,
+} from "@/lib/panel-claim-flow";
 
 export type IntentActionState = {
   ok: boolean;
@@ -60,6 +64,10 @@ export async function submitIntentBid(
   }
 
   const panelId = String(formData.get("panelId") ?? "");
+  const claimState = await loadPanelClaimState(panelId);
+  if (claimState.claimStatus === "claimed") {
+    return { ok: false, error: "This panel is claimed. Bidding on it has ended." };
+  }
   const brandLabel = String(formData.get("brandLabel") ?? "");
   const tradeLabel = String(formData.get("tradeLabel") ?? "");
   const standingRaw = String(formData.get("standingUsd") ?? "").trim();
@@ -182,6 +190,9 @@ export async function decideIntentBid(
 
   const result = await setIntentStatus(bidId, decision, { note });
   if (!result.ok) return { ok: false, error: result.error };
+  if (decision === "rejected" && result.bid.kind === "claim") {
+    await rejectClaimBrandCheck(result.bid.id);
+  }
 
   const noteTargets = wholeTruckSiblings ?? [result.bid];
   let noteId: string | null = null;

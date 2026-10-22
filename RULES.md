@@ -72,6 +72,14 @@ Do not take live money on `localStorage`. The static prototype is a brochure.
 
 A listed mark counts on the public board only after the deposit is paid. Floor **$35,000**. Buyout **$120,000**. Close is Thu Dec 31, 2026, 12:00 PM ET.
 
+## Claim this panel
+
+Each panel has a fixed Claim price in CAMPAIGN.md. Pay a 20% deposit and the panel is claimed: bidding on it ends. A paid bid at or above the claim price withdraws claim for the rest of the campaign. Claims do not extend the 10-minute soft close.
+
+Committed total is paid claims plus the highest paid standing bid on each unclaimed panel. All 11 claimed (exactly $120,000) closes the board at once and locks the purchase path. If claims plus standing bids reach $120,000 with panels still open, the purchase path locks, the buyout is removed, and bidding continues to close. A release that drops the total below $120,000 before close lifts the lock. Buyout stays available until that $120,000 trigger, including after the $35,000 floor is met.
+
+At close: purchase if the total is at least $120,000; wrap only from $35,000 to $119,999; full refunds under $35,000.
+
 ## Soft close
 
 A bid in the last 10 minutes extends the campaign close by 10 minutes. The extension is the whole board, not one panel.

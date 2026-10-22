@@ -36,6 +36,7 @@ export type Panel = {
   id: string;
   name: string;
   openingUsd: number;
+  claimPriceUsd: number;
   finishAtFloor: FinishAtFloor;
   finishAtGoal: FinishAtGoal;
 };
@@ -45,6 +46,7 @@ export const PANELS: readonly Panel[] = [
     id: "hood",
     name: "Hood",
     openingUsd: 2500,
+    claimPriceUsd: 13_000,
     finishAtFloor: "wrap",
     finishAtGoal: "wrap_or_etch",
   },
@@ -52,6 +54,7 @@ export const PANELS: readonly Panel[] = [
     id: "front-fascia",
     name: "Front Fascia",
     openingUsd: 2000,
+    claimPriceUsd: 10_000,
     finishAtFloor: "wrap",
     finishAtGoal: "wrap_or_etch",
   },
@@ -59,6 +62,7 @@ export const PANELS: readonly Panel[] = [
     id: "front-bumper",
     name: "Front Bumper",
     openingUsd: 500,
+    claimPriceUsd: 4_000,
     finishAtFloor: "wrap",
     finishAtGoal: "wrap",
   },
@@ -66,6 +70,7 @@ export const PANELS: readonly Panel[] = [
     id: "driver-door",
     name: "Driver Side Doors",
     openingUsd: 4500,
+    claimPriceUsd: 22_000,
     finishAtFloor: "wrap",
     finishAtGoal: "wrap_or_etch",
   },
@@ -73,6 +78,7 @@ export const PANELS: readonly Panel[] = [
     id: "driver-rear-quarter",
     name: "Driver Rear Sail",
     openingUsd: 1000,
+    claimPriceUsd: 6_000,
     finishAtFloor: "wrap",
     finishAtGoal: "wrap_or_etch",
   },
@@ -80,6 +86,7 @@ export const PANELS: readonly Panel[] = [
     id: "driver-bed",
     name: "Driver Side Bed",
     openingUsd: 2000,
+    claimPriceUsd: 10_000,
     finishAtFloor: "wrap",
     finishAtGoal: "wrap_or_etch",
   },
@@ -87,6 +94,7 @@ export const PANELS: readonly Panel[] = [
     id: "passenger-door",
     name: "Passenger Side Doors",
     openingUsd: 4500,
+    claimPriceUsd: 22_000,
     finishAtFloor: "wrap",
     finishAtGoal: "wrap_or_etch",
   },
@@ -94,6 +102,7 @@ export const PANELS: readonly Panel[] = [
     id: "passenger-rear-quarter",
     name: "Passenger Rear Sail",
     openingUsd: 1000,
+    claimPriceUsd: 6_000,
     finishAtFloor: "wrap",
     finishAtGoal: "wrap_or_etch",
   },
@@ -101,6 +110,7 @@ export const PANELS: readonly Panel[] = [
     id: "passenger-bed",
     name: "Passenger Side Bed",
     openingUsd: 2000,
+    claimPriceUsd: 10_000,
     finishAtFloor: "wrap",
     finishAtGoal: "wrap_or_etch",
   },
@@ -108,6 +118,7 @@ export const PANELS: readonly Panel[] = [
     id: "tailgate",
     name: "Tailgate",
     openingUsd: 2500,
+    claimPriceUsd: 13_000,
     finishAtFloor: "wrap",
     finishAtGoal: "wrap_or_etch",
   },
@@ -115,6 +126,7 @@ export const PANELS: readonly Panel[] = [
     id: "rear-bumper",
     name: "Rear Bumper",
     openingUsd: 500,
+    claimPriceUsd: 4_000,
     finishAtFloor: "wrap",
     finishAtGoal: "wrap",
   },
