@@ -164,6 +164,7 @@ export const CLAIM_COPY = {
   availableLock:
     "The claim price locks your panel at a guaranteed price, so you can't be outbid.",
   allClaimFunds: `Claiming all ${PANELS.length} panels funds the full truck purchase.`,
+  claimSkips: "A claim skips the bidding and locks your panel at a set price.",
   tradeHint: "Your business type (e.g. plumbing)",
   availableFoot:
     "We review every brand before the wrap is printed. If one brand buys the whole truck before claims and bids reach $120,000, your claim is released and your deposit is refunded in full.",

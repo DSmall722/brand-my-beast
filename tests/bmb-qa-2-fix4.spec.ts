@@ -98,10 +98,10 @@ test.describe("BMB-QA-2-FIX4 Site QA items", () => {
     await page.goto("/terms");
     const bids = page.getByTestId("terms-bids");
     await expect(bids).toContainText(
-      "Each seat shows its opening price until someone bids. After that it shows the current high bid.",
+      "Each panel shows its opening price until someone bids. After that it shows the current high bid.",
     );
     await expect(bids).toContainText(
-      `If you win, pay the rest of your winning bid within ${DAYS} days. Your deposit counts toward it. If you don't pay in time, the deposit is forfeited and the seat goes to the next-highest bidder, whose deposit is held until then.`,
+      `If you win, pay the rest of your winning bid within ${DAYS} days. Your deposit counts toward it. If you don't pay in time, the deposit is forfeited and the panel goes to the next-highest bidder, whose deposit is held until then.`,
     );
     await expect(bids).not.toContainText(
       "If you win, you owe the winning amount.",

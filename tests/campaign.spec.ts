@@ -150,7 +150,7 @@ test.describe("P1 waitlist campaign locks", () => {
     await expect(page.getByTestId("how-it-works-lead")).toHaveCount(0);
     expect(PUBLIC_COPY.howItWorks.lead).toBe("");
     await expect(page.getByTestId("faq-truck-ownership")).toContainText(
-      "The operator does not own the truck yet. This auction buys it.",
+      "Not yet. The campaign funds the purchase, so the truck is bought once the goal is met.",
     );
     await expect(page.getByTestId("wreck-refund-faq")).toHaveCount(0);
     for (const item of PUBLIC_COPY.questions.items) {
