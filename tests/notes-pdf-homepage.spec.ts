@@ -51,7 +51,7 @@ test.describe("notes PDF homepage sheet", () => {
       "rear",
     ]);
     await expect(page.getByTestId("truck-view-credit-edit")).toHaveText(
-      "Edited with Higgsfield.ai and Grok Image",
+      "Truck images are illustrations.",
     );
     await expect(page.getByTestId("truck-view-credit-link")).toBeVisible();
 

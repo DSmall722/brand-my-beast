@@ -134,7 +134,7 @@ Buyer questions. No “Who is this for.” No wreck / totaled / last-second on `
 - Q: `Is the truck already bought?` A: `No. The campaign funds the order. That's why deposits are refunded if the goal isn't met.`
 - Q: `What happens if claims and bids reach $120,000?` A: `Once claims plus bids reach $120,000, the purchase goes ahead and panels stay theirs. A whole-truck buyout before that mark releases claims, with deposits fully refunded.`
 - Q: `Does the operator own the truck yet?` A: `The operator does not own the truck yet. This auction buys it.`
-- Q: `Is this Tesla?` A: `No. BrandMyBeast is independent. Cyberbeast is the trim this campaign funds. Tesla doesn’t run this, endorse it, or get a cut.`
+- Q: `Is this Tesla?` A: `BrandMyBeast is independent and not affiliated with Tesla.`
 - Q: `What am I actually buying?` A: `A panel on the truck for your brand. There are 11 panels. Vinyl wrap is available on all of them. You are buying the panel and 12 months on the road. Not a follower count. Not a guaranteed number of views.`
 - Q: `How long is my brand on the truck?` A: `Wraps run 12 months from install.`
 - Q: `What if two of us are in the same business?` A: `One trade, one brand on the truck. Name your business when you bid. If another business in your trade already has a bid on a panel, you can only bid on that panel.`
@@ -154,7 +154,7 @@ Buyer questions. No “Who is this for.” No wreck / totaled / last-second on `
 
 - Heading: `Preview the Panels`
 - Tab order: Front, Driver, Passenger, Rear
-- Under each still: Pexels photographer credit (linked to original) + `Edited with Higgsfield.ai and Grok Image`
+- Under each still: Pexels photographer credit (linked to original) + `Truck images are illustrations.`
 
 ## Waitlist
 

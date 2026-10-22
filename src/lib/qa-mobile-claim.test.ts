@@ -123,4 +123,22 @@ describe("bmb-qa-mobile-claim-fixes", () => {
     expect(answers).not.toMatch(/twelve months|Twenty percent|a year of miles|enough to stand|the board closes/);
     expect(answers).not.toMatch(/\u2014|\u2013/);
   });
+
+  it("keeps the Tesla FAQ and states the illustration note without tool names", () => {
+    const tesla = PUBLIC_COPY.questions.items.find((item) => item.q === "Is this Tesla?");
+    expect(tesla?.a).toBe(
+      "BrandMyBeast is independent and not affiliated with Tesla.",
+    );
+    expect(PUBLIC_COPY.truckViews.editedWith).toBe("Truck images are illustrations.");
+    const changed = `${tesla?.a}\n${PUBLIC_COPY.truckViews.editedWith}`;
+    expect(changed).not.toMatch(/Higgsfield|Grok Image|Cyberbeast/);
+    expect(changed).not.toMatch(/\u2014|\u2013/);
+    expect(changed.toLowerCase()).not.toMatch(/\blease\b|\bfinancing\b/);
+    const md = read("PUBLIC_COPY.md");
+    expect(md).toContain(tesla?.a);
+    expect(md).toContain(PUBLIC_COPY.truckViews.editedWith);
+    expect(md).not.toContain("Higgsfield");
+    expect(md).not.toContain("Grok Image");
+    expect(read("src/lib/truck-view-credits.ts")).toContain('artist: "Mylo Kaye"');
+  });
 });

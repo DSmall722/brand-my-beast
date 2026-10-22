@@ -190,7 +190,7 @@ export const PUBLIC_COPY = {
       },
       {
         q: "Is this Tesla?",
-        a: "No. BrandMyBeast is independent. Cyberbeast is the trim this campaign funds. Tesla doesn’t run this, endorse it, or get a cut.",
+        a: "BrandMyBeast is independent and not affiliated with Tesla.",
       },
       {
         q: "What am I actually buying?",
@@ -255,7 +255,7 @@ export const PUBLIC_COPY = {
   },
   truckViews: {
     heading: "Preview the Panels",
-    editedWith: "Edited with Higgsfield.ai and Grok Image",
+    editedWith: "Truck images are illustrations.",
   },
   waitlist: {
     heading: "Contact Us",
