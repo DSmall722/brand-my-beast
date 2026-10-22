@@ -18,7 +18,7 @@ test.describe("slice 13.49: 11.10 remains human redeploy runbook", () => {
   test("campaign money fences stay locked — CLOSE_AT null", () => {
     expect(FLOOR_USD).toBe(35_000);
     expect(GOAL_USD).toBe(120_000);
-    expect(CLOSE_AT).toBe("2026-11-02T17:00:00.000Z");
+    expect(CLOSE_AT).toBe("2026-12-31T17:00:00.000Z");
     expect(findCloseAtViolations()).toEqual([]);
     expect(BRAND.name).toBe("BrandMyBeast");
     expect(formatUsd(FLOOR_USD)).toBe("$35,000");
@@ -47,7 +47,7 @@ test.describe("slice 13.49: 11.10 remains human redeploy runbook", () => {
     expect(text).toMatch(/Leave hold-mode alone/i);
     expect(text).toMatch(/No app change/i);
     expect(text).toMatch(/No Stripe/i);
-    expect(text).toContain("Mon Nov 2, 2026, 12:00 PM ET");
+    expect(text).toContain("Thu Dec 31, 2026, 12:00 PM ET");
     expect(text).toMatch(/\$35,000/);
     expect(text).toMatch(/\$120,000/);
     expect(text.toLowerCase()).not.toContain("gmail.com");

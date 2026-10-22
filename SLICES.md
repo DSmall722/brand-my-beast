@@ -104,3 +104,7 @@ Idle. Wave 15 is Stripe and needs a human message.
 ## BMB-FLOOR-35
 
 - [x] BMB-FLOOR-35 Campaign floor is $35,000. Buyout $120,000 unchanged. Miss at $34,999 refunds. Met at $35,000 orders the truck and funds wrap.
+
+## bmb-close-date-dec31
+
+- [x] bmb-close-date-dec31 Campaign close is Thu Dec 31, 2026, 12:00 PM ET (`2026-12-31T17:00:00.000Z`).

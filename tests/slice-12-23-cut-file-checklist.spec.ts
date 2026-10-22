@@ -26,7 +26,7 @@ test.describe("slice 12.23: shop cut-file checklist form", () => {
   test("campaign money fences stay locked — CLOSE_AT null", () => {
     expect(FLOOR_USD).toBe(35_000);
     expect(GOAL_USD).toBe(120_000);
-    expect(CLOSE_AT).toBe("2026-11-02T17:00:00.000Z");
+    expect(CLOSE_AT).toBe("2026-12-31T17:00:00.000Z");
     expect(BRAND.name).toBe("BrandMyBeast");
     expect(formatUsd(FLOOR_USD)).toBe("$35,000");
     expect(formatUsd(GOAL_USD)).toBe("$120,000");
@@ -58,7 +58,7 @@ test.describe("slice 12.23: shop cut-file checklist form", () => {
       "etch-gate",
     ]);
     expect(assertShopCutFileChecklistDoesNotSetCloseAt(ids)).toBe(true);
-    expect(CLOSE_AT).toBe("2026-11-02T17:00:00.000Z");
+    expect(CLOSE_AT).toBe("2026-12-31T17:00:00.000Z");
     const etch = SHOP_CUT_FILE_CHECKLIST.find((item) => item.id === "etch-gate");
     expect(etch?.label).toContain("$120,000");
   });
@@ -92,7 +92,7 @@ test.describe("slice 12.23: shop cut-file checklist form", () => {
       "$120,000",
     );
     await expect(page.getByTestId("shop-cut-file-fence")).toContainText(
-      "Closes Mon Nov 2, 2026, 12:00 PM ET",
+      "Closes Thu Dec 31, 2026, 12:00 PM ET",
     );
     await expect(page.getByTestId("shop-cut-file-fence")).toContainText(
       "No card capture",
@@ -109,7 +109,7 @@ test.describe("slice 12.23: shop cut-file checklist form", () => {
     }
 
     await expect(form).toHaveAttribute("data-auction-clock", "set");
-    expect(CLOSE_AT).toBe("2026-11-02T17:00:00.000Z");
+    expect(CLOSE_AT).toBe("2026-12-31T17:00:00.000Z");
 
     const html = await page.content();
     expect(html.toLowerCase()).not.toMatch(/\blease\b/);

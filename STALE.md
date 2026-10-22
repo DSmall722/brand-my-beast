@@ -10,6 +10,7 @@ Agents read this so they do not resurrect killed product. CAMPAIGN.md wins. Upda
 | $58,000 floor | Superseded 2026-10-14 by $35,000. |
 | Dual Motor / Premium fallback if the floor misses | Cyberbeast or refund. Brand name does not survive a cheaper trim. |
 | Close date of October 1, 2026 | Clock is 30 days, set the morning P3 ships. Field stays unset until then. |
+| Nov 2, 2026 close | Superseded 2026-10-21 by Dec 31, 2026 12:00 PM ET. |
 | 21-day clock | Locked at 30 days. |
 | $51,000 / $110,000 pair | Superseded by $58,000 / $120,000. |
 | Immortal etch on tailgate + driver bed only | Live board is nine steel faces, and only after $120,000. |

@@ -21,7 +21,7 @@ export function assertOperatorCampaignLocks(): boolean {
   return (
     locks.floorUsd === 35_000 &&
     locks.goalUsd === 120_000 &&
-    locks.closeAt === "2026-11-02T17:00:00.000Z" &&
+    locks.closeAt === "2026-12-31T17:00:00.000Z" &&
     locks.editable === false
   );
 }

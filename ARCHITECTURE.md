@@ -27,7 +27,7 @@ GitHub `DSmall722/brand-my-beast` is the harness source of truth. Seed it with t
 
 Do not build a second framework. Do not put the auction ledger in `localStorage` or a client JSON file.
 
-Wave 14 recorded the Stripe box as not wired. That sentence is history. Wave 15 is the human flip of `LIVE_BIDDING`. `CLOSE_AT` is the locked Nov 2 2026 close. Do not start the 30-day clock from this file.
+Wave 14 recorded the Stripe box as not wired. That sentence is history. Wave 15 is the human flip of `LIVE_BIDDING`. `CLOSE_AT` is the locked Dec 31 2026 close. Do not start the 30-day clock from this file.
 
 Money fences: floor **$35,000**, buyout **$120,000**. No lease. No cheaper trim.
 

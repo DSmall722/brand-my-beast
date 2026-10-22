@@ -2,7 +2,7 @@
 
 > **Not the build order.** This file is a catalog. **`SLICES.md` is the only build order.** Do not open Wave 15 from here. Do not paste this list onto the public homepage.
 
-Ranked by importance. Importance = does this help hit **$35,000 by close**, then prove the miles after the truck exists. Close is Mon Nov 2, 2026, 12:00 PM ET.
+Ranked by importance. Importance = does this help hit **$35,000 by close**, then prove the miles after the truck exists. Close is Thu Dec 31, 2026, 12:00 PM ET.
 
 Do not paste this list onto the public homepage. CAMPAIGN.md wins on money and identity. Floor **$35,000**. Buyout **$120,000**. `CLOSE_AT` stays null until a human starts P3. No Stripe without a separate human message.
 

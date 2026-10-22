@@ -47,7 +47,7 @@ test.describe("slice 8.2: operator digest + cron route", () => {
   test("campaign money fences stay locked", () => {
     expect(FLOOR_USD).toBe(35_000);
     expect(GOAL_USD).toBe(120_000);
-    expect(CLOSE_AT).toBe("2026-11-02T17:00:00.000Z");
+    expect(CLOSE_AT).toBe("2026-12-31T17:00:00.000Z");
     expect(BRAND.name).toBe("BrandMyBeast");
     expect(formatUsd(FLOOR_USD)).toBe("$35,000");
     expect(formatUsd(GOAL_USD)).toBe("$120,000");
@@ -104,11 +104,11 @@ test.describe("slice 8.2: operator digest + cron route", () => {
     expect(digest.shortfallGoalUsd).toBe(GOAL_USD - 3_000);
     expect(digest.floorUsd).toBe(35_000);
     expect(digest.goalUsd).toBe(120_000);
-    expect(digest.closeAt).toBe("2026-11-02T17:00:00.000Z");
+    expect(digest.closeAt).toBe("2026-12-31T17:00:00.000Z");
 
     const text = formatOperatorDigestText(digest);
     expect(text).toContain("Pending intents:");
-    expect(text).toContain("CLOSE_AT: 2026-11-02T17:00:00.000Z");
+    expect(text).toContain("CLOSE_AT: 2026-12-31T17:00:00.000Z");
     expect(text).toContain("Does not post to X.");
     expect(text.toLowerCase()).not.toMatch(/\blease\b/);
   });
@@ -181,6 +181,6 @@ test.describe("slice 8.2: operator digest + cron route", () => {
     expect(body.ok).toBe(true);
     expect(body.digest.floorUsd).toBe(35_000);
     expect(body.digest.goalUsd).toBe(120_000);
-    expect(body.digest.closeAt).toBe("2026-11-02T17:00:00.000Z");
+    expect(body.digest.closeAt).toBe("2026-12-31T17:00:00.000Z");
   });
 });

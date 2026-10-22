@@ -64,7 +64,7 @@ test.describe("panel detail cleanup", () => {
       "Every deposit is refunded",
     );
     await expect(page.getByTestId("faq-close-date")).toContainText(
-      "Bidding is open and closes Monday, November 2, 2026 at 12:00 PM ET. A bid in the last 10 minutes pushes the close back 10 minutes.",
+      "Bidding is open and closes Thursday, December 31, 2026 at 12:00 PM ET. A bid in the last 10 minutes pushes the close back 10 minutes.",
     );
 
     const html = await page.content();

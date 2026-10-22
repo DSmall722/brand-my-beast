@@ -2,7 +2,7 @@ import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import { CLOSE_AT } from "./campaign";
 
-export const LOCKED_CLOSE_AT = "2026-11-02T17:00:00.000Z";
+export const LOCKED_CLOSE_AT = "2026-12-31T17:00:00.000Z";
 
 export const CLOSE_AT_ASSIGNMENT_RE =
   /export\s+const\s+CLOSE_AT\s*:\s*[^=]+=\s*([^;]+);/;

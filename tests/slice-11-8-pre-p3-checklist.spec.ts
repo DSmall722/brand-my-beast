@@ -25,7 +25,7 @@ test.describe("slice 11.8: Pre-P3 checklist on /operator", () => {
   test("campaign money fences stay locked", () => {
     expect(FLOOR_USD).toBe(35_000);
     expect(GOAL_USD).toBe(120_000);
-    expect(CLOSE_AT).toBe("2026-11-02T17:00:00.000Z");
+    expect(CLOSE_AT).toBe("2026-12-31T17:00:00.000Z");
     expect(BRAND.name).toBe("BrandMyBeast");
     expect(formatUsd(FLOOR_USD)).toBe("$35,000");
     expect(formatUsd(GOAL_USD)).toBe("$120,000");
@@ -53,7 +53,7 @@ test.describe("slice 11.8: Pre-P3 checklist on /operator", () => {
     expect(
       assertPreP3ChecklistDoesNotSetCloseAt(ids),
     ).toBe(true);
-    expect(CLOSE_AT).toBe("2026-11-02T17:00:00.000Z");
+    expect(CLOSE_AT).toBe("2026-12-31T17:00:00.000Z");
   });
 
   test("operator can toggle every box without setting CLOSE_AT", async ({
@@ -66,7 +66,7 @@ test.describe("slice 11.8: Pre-P3 checklist on /operator", () => {
     await expect(panel).toBeVisible();
     await expect(panel).toHaveAttribute("data-auction-clock", "set");
     await expect(page.getByTestId("pre-p3-close-at-fence")).toContainText(
-      "Closes Mon Nov 2, 2026, 12:00 PM ET",
+      "Closes Thu Dec 31, 2026, 12:00 PM ET",
     );
     await expect(page.getByTestId("pre-p3-close-at-fence")).toContainText(
       "$35,000",
@@ -83,7 +83,7 @@ test.describe("slice 11.8: Pre-P3 checklist on /operator", () => {
     }
 
     await expect(panel).toHaveAttribute("data-auction-clock", "set");
-    expect(CLOSE_AT).toBe("2026-11-02T17:00:00.000Z");
+    expect(CLOSE_AT).toBe("2026-12-31T17:00:00.000Z");
 
     const html = await page.content();
     expect(html.toLowerCase()).not.toMatch(/\blease\b/);

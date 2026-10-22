@@ -17,7 +17,7 @@ if (!match?.[1]) {
 }
 
 const rhs = match[1].trim();
-const expected = '"2026-11-02T17:00:00.000Z"';
+const expected = '"2026-12-31T17:00:00.000Z"';
 if (rhs !== expected) {
   console.error(`grep:close-at failed. CLOSE_AT is ${rhs}, expected ${expected}.`);
   process.exit(1);

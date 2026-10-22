@@ -10,7 +10,7 @@ test.describe("slice 18.5: llms.txt drops CLOSE_AT", () => {
   test("campaign money fences stay locked — CLOSE_AT null", () => {
     expect(FLOOR_USD).toBe(35_000);
     expect(GOAL_USD).toBe(120_000);
-    expect(CLOSE_AT).toBe("2026-11-02T17:00:00.000Z");
+    expect(CLOSE_AT).toBe("2026-12-31T17:00:00.000Z");
     expect(findCloseAtViolations()).toEqual([]);
     expect(BRAND.name).toBe("BrandMyBeast");
     expect(formatUsd(FLOOR_USD)).toBe("$35,000");
@@ -37,7 +37,7 @@ test.describe("slice 18.5: llms.txt drops CLOSE_AT", () => {
       "If total bids pass $120,000, see the FAQ for the etch bonus.",
     );
     expect(body).not.toMatch(/\bBuyout\b/);
-    expect(body).toContain("Bidding is open. Closes Mon Nov 2, 2026, 12:00 PM ET.");
+    expect(body).toContain("Bidding is open. Closes Thu Dec 31, 2026, 12:00 PM ET.");
     expect(body).not.toContain("CLOSE_AT");
     expect(body).not.toContain("null");
     expect(body.toLowerCase()).not.toMatch(/\blease\b/);

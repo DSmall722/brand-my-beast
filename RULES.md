@@ -70,7 +70,7 @@ Do not take live money on `localStorage`. The static prototype is a brochure.
 | **outbid** | A higher compliant mark took the seat, or a new approve demoted prior standing. |
 | **withdrawn** | Bidder pulled a pending mark. Soft-delete only — no ghost standing. |
 
-A listed mark counts on the public board only after the deposit is paid. Floor **$35,000**. Buyout **$120,000**. Close is Mon Nov 2, 2026, 12:00 PM ET.
+A listed mark counts on the public board only after the deposit is paid. Floor **$35,000**. Buyout **$120,000**. Close is Thu Dec 31, 2026, 12:00 PM ET.
 
 ## Soft close
 

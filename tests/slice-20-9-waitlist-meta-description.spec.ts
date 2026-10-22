@@ -17,13 +17,13 @@ import { vercelJsonIsHoldOrMainOnlyRestore } from "../src/lib/vercel-git-deploy"
 const ROOT = process.cwd();
 const LOCKED_H1 = "Advertise your brand on the truck that people already photograph";
 const WAITLIST_DESCRIPTION =
-  "11 ad panels on one Cybertruck, wrapped for a year and driven across the Southeast. Bidding is open. Closes Mon Nov 2, 2026, 12:00 PM ET.";
+  "11 ad panels on one Cybertruck, wrapped for a year and driven across the Southeast. Bidding is open. Closes Thu Dec 31, 2026, 12:00 PM ET.";
 
 test.describe("slice 20.9: waitlist-era meta description", () => {
   test("campaign money fences stay locked — CLOSE_AT null", () => {
     expect(FLOOR_USD).toBe(35_000);
     expect(GOAL_USD).toBe(120_000);
-    expect(CLOSE_AT).toBe("2026-11-02T17:00:00.000Z");
+    expect(CLOSE_AT).toBe("2026-12-31T17:00:00.000Z");
     expect(findCloseAtViolations()).toEqual([]);
     expect(BRAND.name).toBe("BrandMyBeast");
     expect(formatUsd(FLOOR_USD)).toBe("$35,000");
@@ -41,7 +41,7 @@ test.describe("slice 20.9: waitlist-era meta description", () => {
   test("SEATS_OPEN is not flipped in campaign.ts", () => {
     const src = readFileSync(join(ROOT, "src/lib/campaign.ts"), "utf8");
     expect(src).toMatch(/export const SEATS_OPEN/);
-    expect(src).toMatch(/export const CLOSE_AT:\s*string\s*\|\s*null\s*=\s*"2026-11-02T17:00:00.000Z"/);
+    expect(src).toMatch(/export const CLOSE_AT:\s*string\s*\|\s*null\s*=\s*"2026-12-31T17:00:00.000Z"/);
     expect(process.env.SEATS_OPEN ?? "").not.toMatch(/^(false|0)$/i);
     expect(SEATS_OPEN).toBe(true);
   });

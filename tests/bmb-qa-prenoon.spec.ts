@@ -6,7 +6,7 @@ import { formatCampaignInstantEt } from "../src/lib/seat-log";
 import { buildHomeJsonLd } from "../src/lib/home-json-ld";
 import { PUBLIC_COPY } from "../src/lib/public-copy";
 
-const META_DESCRIPTION = `${PANELS.length} ad panels on one Cybertruck, wrapped for a year and driven across the Southeast. Bidding is open. Closes Mon Nov 2, 2026, 12:00 PM ET.`;
+const META_DESCRIPTION = `${PANELS.length} ad panels on one Cybertruck, wrapped for a year and driven across the Southeast. Bidding is open. Closes Thu Dec 31, 2026, 12:00 PM ET.`;
 
 const CLOSED_NOTE = `Bidding opens ${formatCampaignInstantEt(OPEN_AT)}. No deposit is taken on this form. Questions? Use the Contact us form or email ${BRAND.email}.`;
 
@@ -33,7 +33,7 @@ test.describe("BMB-QA-PRENOON copy and metadata", () => {
   test("closed bid modal names the open time and drops Join the list", async ({
     page,
   }) => {
-    expect(CLOSE_AT).toBe("2026-11-02T17:00:00.000Z");
+    expect(CLOSE_AT).toBe("2026-12-31T17:00:00.000Z");
     expect(PUBLIC_COPY.bidDesk.closedLead).toBe(CLOSED_NOTE);
     expect(PUBLIC_COPY.bidDesk.closedLead).toContain("12:00 PM ET");
     expect(PUBLIC_COPY.bidDesk.closedLead).not.toContain("Join the list");

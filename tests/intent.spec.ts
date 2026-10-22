@@ -1187,7 +1187,7 @@ test.describe("hometown lane tags (no capture)", () => {
     expect(FLOOR_USD).toBe(35_000);
     expect(GOAL_USD).toBe(120_000);
     expect(TRUCK_EXISTS).toBe(false);
-    expect(CLOSE_AT).toBe("2026-11-02T17:00:00.000Z");
+    expect(CLOSE_AT).toBe("2026-12-31T17:00:00.000Z");
   });
 });
 
@@ -1262,15 +1262,15 @@ test.describe("operator allow-list (no capture)", () => {
     expect(locks.editable).toBe(false);
     expect(locks.floorUsd).toBe(35_000);
     expect(locks.goalUsd).toBe(120_000);
-    expect(locks.closeAt).toBe("2026-11-02T17:00:00.000Z");
+    expect(locks.closeAt).toBe("2026-12-31T17:00:00.000Z");
     expect(operatorCampaignLockLabels()).toEqual({
       floor: "$35,000",
       goal: "$120,000",
-      close: "2026-11-02T17:00:00.000Z",
+      close: "2026-12-31T17:00:00.000Z",
     });
     expect(FLOOR_USD).toBe(35_000);
     expect(GOAL_USD).toBe(120_000);
-    expect(CLOSE_AT).toBe("2026-11-02T17:00:00.000Z");
+    expect(CLOSE_AT).toBe("2026-12-31T17:00:00.000Z");
   });
 
   test("slice 2.1: OPERATOR_EMAILS allow-list gates /operator in live mode", () => {

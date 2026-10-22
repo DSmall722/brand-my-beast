@@ -38,7 +38,7 @@ test.describe("slice 14.33: deposit preview uses depositUsdForMark (12.5)", () =
   test("campaign money fences stay locked — CLOSE_AT null", () => {
     expect(FLOOR_USD).toBe(35_000);
     expect(GOAL_USD).toBe(120_000);
-    expect(CLOSE_AT).toBe("2026-11-02T17:00:00.000Z");
+    expect(CLOSE_AT).toBe("2026-12-31T17:00:00.000Z");
     expect(findCloseAtViolations()).toEqual([]);
     expect(DEPOSIT_PERCENT).toBe(20);
     expect(BRAND.name).toBe("BrandMyBeast");

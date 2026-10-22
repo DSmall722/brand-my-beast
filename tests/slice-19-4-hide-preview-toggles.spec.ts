@@ -22,7 +22,7 @@ test.describe("slice 19.4: hide preview toggles while truck does not exist", () 
   test("campaign money fences stay locked — CLOSE_AT null", () => {
     expect(FLOOR_USD).toBe(35_000);
     expect(GOAL_USD).toBe(120_000);
-    expect(CLOSE_AT).toBe("2026-11-02T17:00:00.000Z");
+    expect(CLOSE_AT).toBe("2026-12-31T17:00:00.000Z");
     expect(findCloseAtViolations()).toEqual([]);
     expect(BRAND.name).toBe("BrandMyBeast");
     expect(formatUsd(FLOOR_USD)).toBe("$35,000");
@@ -40,7 +40,7 @@ test.describe("slice 19.4: hide preview toggles while truck does not exist", () 
   test("SEATS_OPEN and TRUCK_EXISTS are not flipped", () => {
     const src = readFileSync(join(ROOT, "src/lib/campaign.ts"), "utf8");
     expect(src).toMatch(/export const SEATS_OPEN/);
-    expect(src).toMatch(/export const CLOSE_AT:\s*string\s*\|\s*null\s*=\s*"2026-11-02T17:00:00.000Z"/);
+    expect(src).toMatch(/export const CLOSE_AT:\s*string\s*\|\s*null\s*=\s*"2026-12-31T17:00:00.000Z"/);
     expect(src).toMatch(/process\.env\.TRUCK_EXISTS === "true"/);
     expect(process.env.SEATS_OPEN ?? "").not.toMatch(/^(false|0)$/i);
     expect(process.env.TRUCK_EXISTS ?? "").not.toMatch(/^(true|1)$/i);

@@ -21,7 +21,7 @@ test.describe("slice 9.5: hide whole-truck at buyout", () => {
   test("campaign money fences stay locked — CLOSE_AT null", () => {
     expect(FLOOR_USD).toBe(35_000);
     expect(GOAL_USD).toBe(120_000);
-    expect(CLOSE_AT).toBe("2026-11-02T17:00:00.000Z");
+    expect(CLOSE_AT).toBe("2026-12-31T17:00:00.000Z");
     expect(BRAND.name).toBe("BrandMyBeast");
     expect(formatUsd(GOAL_USD)).toBe("$120,000");
   });
@@ -48,7 +48,7 @@ test.describe("slice 9.5: hide whole-truck at buyout", () => {
     expect(isWholeTruckIntentOpen(GOAL_USD)).toBe(false);
     expect(isWholeTruckIntentOpen(GOAL_USD + 1)).toBe(false);
     expect(isWholeTruckIntentOpen(Number.NaN)).toBe(false);
-    expect(CLOSE_AT).toBe("2026-11-02T17:00:00.000Z");
+    expect(CLOSE_AT).toBe("2026-12-31T17:00:00.000Z");
   });
 
   test("homepage shows whole-truck explanation while pledged is under buyout", async ({
@@ -83,8 +83,8 @@ test.describe("slice 9.5: hide whole-truck at buyout", () => {
     expect(body.ok).toBe(true);
     expect(body.pledgedUsd).toBe(GOAL_USD);
     expect(body.wholeTruckOpen).toBe(false);
-    expect(body.closeAt).toBe("2026-11-02T17:00:00.000Z");
-    expect(CLOSE_AT).toBe("2026-11-02T17:00:00.000Z");
+    expect(body.closeAt).toBe("2026-12-31T17:00:00.000Z");
+    expect(CLOSE_AT).toBe("2026-12-31T17:00:00.000Z");
 
     await page.goto("/#money");
     await expect(page.getByTestId("whole-truck-intent")).toHaveCount(0);
