@@ -7,6 +7,7 @@ import { PublicMark } from "@/components/PublicMark";
 import { useOpenBid } from "@/components/home/BidDesk";
 import { PANELS, currentBidUsd, formatUsd } from "@/lib/campaign";
 import { PANEL_BOARD_MARKS, panelDisplayName, panelFaceStyle } from "@/lib/panel-board";
+import { CLAIM_COPY } from "@/lib/panel-claim";
 import { PUBLIC_COPY } from "@/lib/public-copy";
 
 export type PanelCardStanding = {
@@ -51,6 +52,9 @@ export function HomePanelsSection({
               </p>
             ))}
           </div>
+          <p className="section-lead" data-testid="claim-funds-line">
+            {CLAIM_COPY.allClaimFunds}
+          </p>
           <div className="panel-grid" data-testid="panel-grid">
             {PANELS.map((panel, index) => {
               const mark = PANEL_BOARD_MARKS[index];

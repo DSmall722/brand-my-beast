@@ -163,6 +163,7 @@ export const CLAIM_COPY = {
   availableCta: "Claim this panel",
   availableLock:
     "The claim price locks your panel at a guaranteed price, so you can't be outbid.",
+  allClaimFunds: `Claiming all ${PANELS.length} panels funds the full truck purchase.`,
   tradeHint: "Your business type (e.g. plumbing)",
   availableFoot:
     "We review every brand before the wrap is printed. If one brand buys the whole truck before claims and bids reach $120,000, your claim is released and your deposit is refunded in full.",
@@ -187,10 +188,6 @@ export const CLAIM_COPY = {
   faqOutbid: {
     q: "Can someone outbid me after I claim?",
     a: "No. Claiming ends bidding on that panel. A whole-truck buyout before the $120,000 mark releases your claim and refunds the deposit in full.",
-  },
-  faqOwned: {
-    q: "Is the truck already bought?",
-    a: "No. The campaign funds the order. That's why deposits are refunded if the goal isn't met.",
   },
   faqTrigger: {
     q: "What happens if claims and bids reach $120,000?",

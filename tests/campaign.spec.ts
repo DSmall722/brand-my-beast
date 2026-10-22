@@ -112,7 +112,7 @@ test.describe("P1 waitlist campaign locks", () => {
     );
     const shortfallText = (await shortfallTicker.innerText()).toLowerCase();
     expect(shortfallText).not.toMatch(/impression|cpm|reach/i);
-    await expect(page.getByTestId("floor-progress-copy")).toHaveText("0% of floor");
+    await expect(page.getByTestId("floor-progress-copy")).toHaveText("0% of goal");
     await expect(page.getByTestId("goal-progress-copy")).toHaveCount(0);
     await expect(page.getByTestId("visual-vault")).toBeVisible();
     await expect(page.getByTestId("vault-marker-floor")).toBeVisible();

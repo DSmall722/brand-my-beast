@@ -9,7 +9,7 @@ test.describe("BMB-QA-2-FIX4d vault title and JSON-LD", () => {
       (await page.getByTestId("vault-marker-floor").getAttribute("title")) ?? "";
     expect(title).not.toMatch(/Buyout/i);
     expect(title).not.toContain("Fully funded");
-    expect(title).toBe(`Floor ${formatUsd(FLOOR_USD)}`);
+    expect(title).toBe(`Goal ${formatUsd(FLOOR_USD)}`);
 
     const raw =
       (await page.locator('script[type="application/ld+json"]').textContent()) ??

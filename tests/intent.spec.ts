@@ -790,7 +790,7 @@ test.describe("honest shortfall math (no clock)", () => {
     expect(FLOOR_USD).toBe(35_000);
     expect(GOAL_USD).toBe(120_000);
     expect(floorMarkerPercentOnGoalTrack()).toBe(29.2);
-    expect(PUBLIC_COPY.board.vaultFloorMarkLabel).toBe("Floor");
+    expect(PUBLIC_COPY.board.vaultFloorMarkLabel).toBe("Goal");
   });
 });
 

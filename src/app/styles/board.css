@@ -2971,6 +2971,10 @@
 
 .truck-view-credit a {
   color: var(--steel-200);
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 0 0.35rem;
   text-decoration: underline;
   text-underline-offset: 2px;
 }

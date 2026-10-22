@@ -75,7 +75,7 @@ export function buildHomeJsonLd(): HomeJsonLdGraph {
         additionalProperty: [
           {
             "@type": "PropertyValue",
-            name: "Floor",
+            name: PUBLIC_COPY.board.floorLabel,
             value: formatUsd(FLOOR_USD),
           },
         ],

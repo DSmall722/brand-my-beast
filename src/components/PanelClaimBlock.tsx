@@ -89,6 +89,7 @@ export function PanelClaimBlock({
       <h2 className="claim-heading" data-testid="panel-claim-heading">
         {CLAIM_COPY.availableHeading(panelName, claimUsd)}
       </h2>
+      <p data-testid="claim-funds-line">{CLAIM_COPY.allClaimFunds}</p>
       <p data-testid="panel-claim-lead">{CLAIM_COPY.availableDeposit(depositUsd)}</p>
       <p data-testid="panel-claim-lock">{CLAIM_COPY.availableLock}</p>
       <p>{CLAIM_COPY.availableRefund}</p>

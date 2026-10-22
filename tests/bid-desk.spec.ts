@@ -352,7 +352,7 @@ test.describe("bid desk: modal, hidden sign-in, unpaid, day by day", () => {
     await page.goto("/");
     await expect(page.locator("#main-content")).not.toContainText("unpaid");
     await expect(page.getByTestId("auction-top")).toContainText(
-      "No standing bids yet.",
+      "No bids yet.",
     );
     await expect(page.getByTestId("auction-today")).toContainText(
       "No bids today yet. Be the first.",
@@ -652,7 +652,7 @@ test.describe("bid desk: modal, hidden sign-in, unpaid, day by day", () => {
     );
     await expect(page.locator("#panels")).not.toContainText("unpaid");
     await expect(page.getByTestId("auction-top")).toContainText(
-      "No standing bids yet.",
+      "No bids yet.",
     );
     await expect(page.getByTestId("auction-today")).not.toContainText("unpaid");
 
@@ -667,7 +667,7 @@ test.describe("bid desk: modal, hidden sign-in, unpaid, day by day", () => {
     await expect(page.getByTestId("raised-amount")).toHaveText("$0");
     await expect(page.getByTestId("panel-standing-hood")).toHaveText("");
     await expect(page.getByTestId("auction-top")).toContainText(
-      "No standing bids yet.",
+      "No bids yet.",
     );
     await page.goto("/leaderboard");
     await expect(page.getByTestId("leaderboard-page")).not.toContainText("Logo Brand");

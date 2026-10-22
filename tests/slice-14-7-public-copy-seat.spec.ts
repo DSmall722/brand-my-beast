@@ -39,7 +39,7 @@ test.describe("slice 14.7: PUBLIC_COPY seat rationale; no H1 rewrite", () => {
     expect(PUBLIC_COPY.hero.h1).toBe(LOCKED_H1);
     expect(PUBLIC_COPY.seat.openingRationale).toBe(OPENING_BID_RATIONALE);
     expect(PUBLIC_COPY.seat.openingRationale).toContain(
-      "The floor is not the sum of openings",
+      "The goal is not the sum of openings",
     );
     expect(PUBLIC_COPY.seat.openingRationale).toContain("$35,000");
     expect(PUBLIC_COPY.seat.openingRationale.toLowerCase()).not.toMatch(
