@@ -66,21 +66,21 @@ Optional proxy ceiling on a panel intent may not exceed **$120,000** (the buyout
 
 ## Inventory
 
-Board index 1–11. Opening marks are the same dollars as `RULES.md`. Floor and buyout are not this table.
+Board index 1–11. Opening marks are the same dollars as `RULES.md`. Floor and buyout are not this table. Claim is a fixed per-panel price; it vanishes once a paid bid on that panel reaches it. Paid claims plus standing paid bids are the committed total. At $120,000 the purchase path locks (all 11 claimed closes the board at once; otherwise bidding continues on open panels). One constants module mirrors this Claim column.
 
-| n | Panel | Opening |
-|---:|---|---:|
-| 1 | Hood | $2,500 |
-| 2 | Front Fascia | $2,000 |
-| 3 | Front Bumper | $500 |
-| 4 | Driver Side Doors | $4,500 |
-| 5 | Driver Rear Sail | $1,000 |
-| 6 | Driver Side Bed | $2,000 |
-| 7 | Passenger Side Doors | $4,500 |
-| 8 | Passenger Rear Sail | $1,000 |
-| 9 | Passenger Side Bed | $2,000 |
-| 10 | Tailgate | $2,500 |
-| 11 | Rear Bumper | $500 |
+| n | Panel | Opening | Claim |
+|---:|---|---:|---:|
+| 1 | Hood | $2,500 | $13,000 |
+| 2 | Front Fascia | $2,000 | $10,000 |
+| 3 | Front Bumper | $500 | $4,000 |
+| 4 | Driver Side Doors | $4,500 | $22,000 |
+| 5 | Driver Rear Sail | $1,000 | $6,000 |
+| 6 | Driver Side Bed | $2,000 | $10,000 |
+| 7 | Passenger Side Doors | $4,500 | $22,000 |
+| 8 | Passenger Rear Sail | $1,000 | $6,000 |
+| 9 | Passenger Side Bed | $2,000 | $10,000 |
+| 10 | Tailgate | $2,500 | $13,000 |
+| 11 | Rear Bumper | $500 | $4,000 |
 
 Board order is front-to-back. Seats 4 and 7 are door packages: front + rear cab leaf on that side, one seat per side. Public names stay **Driver Side Doors** / **Passenger Side Doors**. Front Fascia is Immortal Etch. Sail names stay **Driver Rear Sail** / **Passenger Rear Sail**. Front bumper (3) and Rear bumper (11) are wrap-only, **simple-mark only: website and/or phone number**. Front bumper leaves the camera lens/washer clear.
 
