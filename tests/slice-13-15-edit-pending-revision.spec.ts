@@ -33,7 +33,7 @@ test.describe("slice 13.15: edit-pending increments revisions", () => {
   test("campaign money fences stay locked — CLOSE_AT null", () => {
     expect(FLOOR_USD).toBe(35_000);
     expect(GOAL_USD).toBe(120_000);
-    expect(CLOSE_AT).toBe("2026-11-02T17:00:00.000Z");
+    expect(CLOSE_AT).toBe("2026-12-31T17:00:00.000Z");
     expect(BRAND.name).toBe("BrandMyBeast");
     expect(formatUsd(FLOOR_USD)).toBe("$35,000");
   });
@@ -106,6 +106,6 @@ test.describe("slice 13.15: edit-pending increments revisions", () => {
     expect(after2[2]?.standingUsd).toBe(3000);
     expect(after2[2]!.createdAt >= after2[1]!.createdAt).toBe(true);
     expect(edit2.bid.standingUsd).toBe(3000);
-    expect(CLOSE_AT).toBe("2026-11-02T17:00:00.000Z");
+    expect(CLOSE_AT).toBe("2026-12-31T17:00:00.000Z");
   });
 });

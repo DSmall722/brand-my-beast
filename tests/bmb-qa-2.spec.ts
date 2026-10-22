@@ -88,7 +88,7 @@ test.describe("BMB-QA-2 legal, leaderboard, hotspots, contact", () => {
       "No bids yet. Bidding opens Oct 6 at noon ET.",
     );
     expect(PUBLIC_COPY.meta.description).toBe(
-      `${PANELS.length} ad panels on one Cybertruck, wrapped for a year and driven across the Southeast. Bidding is open. Closes Mon Nov 2, 2026, 12:00 PM ET.`,
+      `${PANELS.length} ad panels on one Cybertruck, wrapped for a year and driven across the Southeast. Bidding is open. Closes Thu Dec 31, 2026, 12:00 PM ET.`,
     );
     expect(PUBLIC_COPY.meta.description).not.toContain("opens Oct");
     expect(PUBLIC_COPY.meta.description).not.toMatch(/[—–]/);
@@ -103,7 +103,7 @@ test.describe("BMB-QA-2 legal, leaderboard, hotspots, contact", () => {
     expect(formatUsd(FLOOR_USD)).toBe("$35,000");
     expect(SOFT_CLOSE_MS).toBe(10 * 60 * 1000);
     expect(WINNER_PAY_MS).toBe(7 * 24 * 60 * 60 * 1000);
-    expect(publishedCloseLabelEt()).toContain("Nov 2");
+    expect(publishedCloseLabelEt()).toContain("Dec 31");
     expect(publishedCloseLabelEt()).toContain("12:00 PM ET");
   });
 

@@ -22,7 +22,7 @@ import {
 
 const OPEN_NOW = "2026-10-06T16:00:00.000Z";
 const BEFORE_OPEN = "2026-10-06T15:00:00.000Z";
-const AFTER_CLOSE = "2026-11-03T18:00:00.000Z";
+const AFTER_CLOSE = "2027-01-01T18:00:00.000Z";
 
 function easternOffsetMinutes(iso: string): number {
   const date = new Date(iso);
@@ -95,16 +95,16 @@ test.describe("stripe deposit and campaign window", () => {
 
   test("locked instants and soft close", () => {
     expect(OPEN_AT).toBe("2026-10-06T16:00:00.000Z");
-    expect(CLOSE_AT).toBe("2026-11-02T17:00:00.000Z");
+    expect(CLOSE_AT).toBe("2026-12-31T17:00:00.000Z");
     expect(easternOffsetMinutes(OPEN_AT)).toBe(-240);
     expect(easternOffsetMinutes(CLOSE_AT ?? "")).toBe(-300);
     expect(formatSeatLogTime(OPEN_AT)).toBe("Oct 6, 2026, 12:00 PM ET");
-    expect(formatSeatLogTime(CLOSE_AT ?? "")).toBe("Nov 2, 2026, 12:00 PM ET");
+    expect(formatSeatLogTime(CLOSE_AT ?? "")).toBe("Dec 31, 2026, 12:00 PM ET");
     expect(formatCampaignInstantEt(OPEN_AT)).toBe("Tue Oct 6, 2026, 12:00 PM ET");
     expect(formatCampaignInstantEt(CLOSE_AT ?? "")).toBe(
-      "Mon Nov 2, 2026, 12:00 PM ET",
+      "Thu Dec 31, 2026, 12:00 PM ET",
     );
-    expect(publishedCloseLabelEt()).toBe("Mon Nov 2, 2026, 12:00 PM ET");
+    expect(publishedCloseLabelEt()).toBe("Thu Dec 31, 2026, 12:00 PM ET");
     const close = CLOSE_AT ?? "";
     const closeMs = Date.parse(close);
     const sniper = new Date(closeMs - 5 * 60 * 1000).toISOString();
@@ -183,9 +183,9 @@ test.describe("stripe deposit and campaign window", () => {
     await page.goto("/");
     const window = page.getByTestId("campaign-window");
     await expect(window).toContainText("Oct 6, 2026, 12:00 PM ET");
-    await expect(window).toContainText("Nov 2, 2026, 12:00 PM ET");
+    await expect(window).toContainText("Dec 31, 2026, 12:00 PM ET");
     await expect(page.getByTestId("faq-close-date")).toContainText(
-      "Bidding is open and closes Monday, November 2, 2026 at 12:00 PM ET. A bid in the last 10 minutes pushes the close back 10 minutes.",
+      "Bidding is open and closes Thursday, December 31, 2026 at 12:00 PM ET. A bid in the last 10 minutes pushes the close back 10 minutes.",
     );
     await expect(page.getByTestId("close-copy")).toHaveCount(0);
     expect(campaignWindowSentence({
@@ -369,7 +369,7 @@ test.describe("stripe deposit and campaign window", () => {
 
     await page.goto("/");
     await expect(page.getByTestId("campaign-window")).toContainText(
-      "Nov 2, 2026, 12:10 PM ET",
+      "Dec 31, 2026, 12:10 PM ET",
     );
     await expect(page.getByTestId("campaign-window")).toContainText(
       "last 10 minutes",

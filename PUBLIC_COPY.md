@@ -8,7 +8,7 @@ Locked: 2026-09-23 — 16 buyer FAQ, no “Who is this for,” $120k is the etch
 ## Meta
 
 - Title: `BrandMyBeast — Advertise your brand on the truck that people already photograph`
-- Description: `11 ad panels on one Cybertruck, wrapped for a year and driven across the Southeast. Bidding is open. Closes Mon Nov 2, 2026, 12:00 PM ET.`
+- Description: `11 ad panels on one Cybertruck, wrapped for a year and driven across the Southeast. Bidding is open. Closes Thu Dec 31, 2026, 12:00 PM ET.`
 
 ## Header
 
@@ -31,7 +31,7 @@ Locked: 2026-09-23 — 16 buyer FAQ, no “Who is this for,” $120k is the etch
 - Raised label: `Pledged so far`
 - Floor label: `Floor`
 - Floor hint: `Miss the $35,000 goal and every deposit is refunded.`
-- Clock line when CLOSE_AT is null: `Bidding is open. Closes Mon Nov 2, 2026, 12:00 PM ET. Nothing is charged on this page.`
+- Clock line when CLOSE_AT is null: `Bidding is open. Closes Thu Dec 31, 2026, 12:00 PM ET. Nothing is charged on this page.`
 - Deposit line: `20% of the bid is charged when you place it. If you do not win, that deposit is refunded after close. A winner's deposit is credited to the invoice. Nothing is charged on this page.`
 - Shortfall floor label: `Short of floor`
 - Open seats label: `Open seats`
@@ -119,7 +119,7 @@ Buyer questions. No “Who is this for.” No wreck / totaled / last-second on `
 - Q: `Bonus: Immortal Etch` A: `It only applies if total bids pass $120,000. Then winners on the nine stainless steel panels can choose to have their mark permanently etched for 3x their final bid for that panel. Bumpers stay wrap. Etch artwork must be bold and simple and is reviewed before approval. Once installed there is no cash refund of that finish.`
 - Q: `Do I need finished artwork to bid?` A: `A name and a logo is enough to stand. Final files come after you win. Use a vector for wrap. Nothing gets cut until you’ve approved it.`
 - Q: `What if the $35,000 floor is missed?` A: `Every deposit is refunded. No order. No wrap.`
-- Q: `When does this close?` A: `Bidding closes Monday, November 2, 2026 at 12:00 PM ET. A bid in the last 10 minutes pushes the close back 10 minutes.`
+- Q: `When does this close?` A: `Bidding closes Thursday, December 31, 2026 at 12:00 PM ET. A bid in the last 10 minutes pushes the close back 10 minutes.`
 - Q: `Where does the truck actually run?` A: `Work miles in the Southeast. South Carolina most weeks (Charleston, Columbia, Greenville, Florence, Beaufort, Clemson and the roads between them), plus Atlanta, Charlotte, and the Florida panhandle when the job goes there.`
 - Q: `Will something I don’t want sitting next to my brand end up on this truck?` A: `No. We don’t take porn, hate, scams, or anything that can’t sit in a school line or a grocery lot. If you’re unsure about a category, email hello@brandmybeast.com before you bid.`
 - Q: `How do I start?` A: `Pick a panel. Twenty percent of the bid is charged when you place it. If you do not win, that deposit is refunded after close. A winner's deposit is credited to the invoice. Questions before that: hello@brandmybeast.com.`
@@ -135,7 +135,7 @@ Buyer questions. No “Who is this for.” No wreck / totaled / last-second on `
 - Heading: `Contact Us`
 - Placeholder: `you@company.com`
 - Button: `Contact BMB`
-- Idle note: `Bidding is open. Closes Mon Nov 2, 2026, 12:00 PM ET.`
+- Idle note: `Bidding is open. Closes Thu Dec 31, 2026, 12:00 PM ET.`
 - Retention: `Waitlist retention: until seats open or user deletes.`
 - Success: `Thanks. We will be in touch.`
 - Already: `That email is already on the list.`

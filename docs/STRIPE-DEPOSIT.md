@@ -5,7 +5,7 @@ The 20% deposit is charged when a bid is placed. A bid is standing only after `d
 ## Window
 
 - Open: Tuesday, October 6, 2026, 12:00 PM America/New_York (`OPEN_AT` = `2026-10-06T16:00:00.000Z`).
-- Close: Monday, November 2, 2026, 12:00 PM America/New_York (`CLOSE_AT` = `2026-11-02T17:00:00.000Z`).
+- Close: Thursday, December 31, 2026, 12:00 PM America/New_York (`CLOSE_AT` = `2026-12-31T17:00:00.000Z`).
 - A bid in the last 10 minutes pushes the campaign close back 10 minutes. Each bid extends the close at most once.
 
 `LIVE_BIDDING` must be `true` or `1` before `POST /api/bid` accepts a bid inside that window. Leave it unset on production until a human flips it.

@@ -17,7 +17,7 @@ test.describe("slice 7.7: magic-link From is BrandMyBeast hello@", () => {
   test("campaign money fences stay locked", () => {
     expect(FLOOR_USD).toBe(35_000);
     expect(GOAL_USD).toBe(120_000);
-    expect(CLOSE_AT).toBe("2026-11-02T17:00:00.000Z");
+    expect(CLOSE_AT).toBe("2026-12-31T17:00:00.000Z");
     expect(BRAND.name).toBe("BrandMyBeast");
     expect(BRAND.email).toBe("hello@brandmybeast.com");
     expect(formatUsd(FLOOR_USD)).toBe("$35,000");

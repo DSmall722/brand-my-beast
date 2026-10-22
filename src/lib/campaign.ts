@@ -16,7 +16,7 @@ export const PROXY_MAX_CAP_USD = GOAL_USD;
 
 export const OPEN_AT = "2026-10-06T16:00:00.000Z";
 
-export const CLOSE_AT: string | null = "2026-11-02T17:00:00.000Z";
+export const CLOSE_AT: string | null = "2026-12-31T17:00:00.000Z";
 
 export const SEATS_OPEN =
   process.env.SEATS_OPEN !== "false" && process.env.SEATS_OPEN !== "0";

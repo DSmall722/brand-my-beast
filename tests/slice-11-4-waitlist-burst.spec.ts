@@ -7,7 +7,7 @@ test.describe("slice 11.4: 50 unique waitlist inserts (memory)", () => {
   test("campaign constants stay locked", () => {
     expect(FLOOR_USD).toBe(35_000);
     expect(GOAL_USD).toBe(120_000);
-    expect(CLOSE_AT).toBe("2026-11-02T17:00:00.000Z");
+    expect(CLOSE_AT).toBe("2026-12-31T17:00:00.000Z");
   });
 
   test("package.json has no stripe", () => {

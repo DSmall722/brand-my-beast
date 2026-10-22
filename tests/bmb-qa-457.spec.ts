@@ -3,7 +3,7 @@ import { markBidPaid } from "./helpers/mark-paid";
 
 const OPEN_NOW = "2026-10-06T16:00:00.000Z";
 const WINDOW_START_MS = Date.parse("2026-10-06T17:00:00.000Z");
-const WINDOW_END_MS = Date.parse("2026-11-02T15:00:00.000Z");
+const WINDOW_END_MS = Date.parse("2026-12-31T15:00:00.000Z");
 
 function etDay(ms: number): string {
   return new Intl.DateTimeFormat("en-CA", {

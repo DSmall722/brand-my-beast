@@ -14,7 +14,7 @@ test.describe("slice 7.10: layout meta matches PUBLIC_COPY", () => {
   test("campaign money fences stay locked", () => {
     expect(FLOOR_USD).toBe(35_000);
     expect(GOAL_USD).toBe(120_000);
-    expect(CLOSE_AT).toBe("2026-11-02T17:00:00.000Z");
+    expect(CLOSE_AT).toBe("2026-12-31T17:00:00.000Z");
     expect(BRAND.name).toBe("BrandMyBeast");
     expect(formatUsd(FLOOR_USD)).toBe("$35,000");
     expect(formatUsd(GOAL_USD)).toBe("$120,000");
@@ -42,7 +42,7 @@ test.describe("slice 7.10: layout meta matches PUBLIC_COPY", () => {
     );
     expect(PUBLIC_COPY.meta.title).not.toMatch(/advertise on a Cybertruck/i);
     expect(PUBLIC_COPY.meta.description).toBe(
-      "11 ad panels on one Cybertruck, wrapped for a year and driven across the Southeast. Bidding is open. Closes Mon Nov 2, 2026, 12:00 PM ET.",
+      "11 ad panels on one Cybertruck, wrapped for a year and driven across the Southeast. Bidding is open. Closes Thu Dec 31, 2026, 12:00 PM ET.",
     );
     expect(PUBLIC_COPY.meta.description).not.toContain("opens Oct");
     expect(PUBLIC_COPY.meta.description).not.toMatch(/[—–]/);

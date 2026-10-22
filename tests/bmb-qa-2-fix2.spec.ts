@@ -5,7 +5,7 @@ import { PUBLIC_COPY } from "../src/lib/public-copy";
 
 const OPEN_NOW = "2026-10-06T16:00:00.000Z";
 const FAQ_CLOSE =
-  "Bidding is open and closes Monday, November 2, 2026 at 12:00 PM ET. A bid in the last 10 minutes pushes the close back 10 minutes.";
+  "Bidding is open and closes Thursday, December 31, 2026 at 12:00 PM ET. A bid in the last 10 minutes pushes the close back 10 minutes.";
 const TRUCK_ALT = `Cybertruck with the ${PANELS.length} ad panels outlined`;
 const HERO_ALT =
   "Example wrap on the BrandMyBeast truck. Seats are open for bids.";
