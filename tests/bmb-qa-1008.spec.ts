@@ -18,7 +18,7 @@ test.describe("BMB-QA-1008", () => {
   }) => {
     await page.goto("/");
     const money = page.locator("#money");
-    await expect(money).toContainText("Floor");
+    await expect(money).toContainText("Goal");
     await expect(money.getByTestId("floor-amount")).toHaveText("$35,000");
     await expect(money).not.toContainText(/buyout/i);
     await expect(money).not.toContainText(/fully funded/i);

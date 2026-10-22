@@ -358,7 +358,7 @@ export function TruckViewHotspots({
                 {credit.artist}
               </a>{" "}
               on Pexels
-              <span className="sr-only"> — {truckViewCreditLine(credit)}</span>
+              <span className="sr-only"> {truckViewCreditLine(credit)}</span>
             </p>
             <p data-testid="truck-view-credit-edit">
               {PUBLIC_COPY.truckViews.editedWith}

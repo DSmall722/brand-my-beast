@@ -32,9 +32,9 @@ test.describe("slice 18.5: llms.txt drops CLOSE_AT", () => {
     expect(res.ok()).toBeTruthy();
     const body = await res.text();
     expect(body).toBe(buildLlmsTxt());
-    expect(body).toContain("Floor $35,000.");
+    expect(body).toContain("Goal $35,000.");
     expect(body).toContain(
-      "If total bids pass $120,000, see the FAQ for the etch bonus.",
+      "If claims plus bids pass $120,000, see the FAQ for the etch bonus.",
     );
     expect(body).not.toMatch(/\bBuyout\b/);
     expect(body).toContain("Bidding is open. Closes Thu Dec 31, 2026, 12:00 PM ET.");

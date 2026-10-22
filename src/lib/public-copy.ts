@@ -62,15 +62,15 @@ export const PUBLIC_COPY = {
     lead: "",
     raisedLabel: "Pledged so far",
     raisedHint: "",
-    floorLabel: "Floor",
+    floorLabel: "Goal",
     floorHint: `Miss the ${formatUsd(FLOOR_USD)} goal and every deposit is refunded.`,
     clockWhenCloseNull:
       "Bidding is not open. Nothing is charged on this page.",
     depositLine:
       "20% of the bid is charged when you place it. If you do not win, that deposit is refunded after close. A winner's deposit is credited to the invoice. Nothing is charged on this page.",
-    shortfallFloorLabel: "Short of floor",
-    openSeatsLabel: "Open seats",
-    vaultFloorMarkLabel: "Floor",
+    shortfallFloorLabel: "Short of goal",
+    openSeatsLabel: "Open panels",
+    vaultFloorMarkLabel: "Goal",
     vaultEmpty: "No marks yet",
     seatLegend: "Open seat = empty. Held seat = standing intent.",
     truckImageAlt: `Cybertruck with the ${PANELS.length} ad panels outlined`,
@@ -174,11 +174,6 @@ export const PUBLIC_COPY = {
         a: CLAIM_COPY.faqOutbid.a,
       },
       {
-        id: "claim-owned",
-        q: CLAIM_COPY.faqOwned.q,
-        a: CLAIM_COPY.faqOwned.a,
-      },
-      {
         id: "claim-trigger",
         q: CLAIM_COPY.faqTrigger.q,
         a: CLAIM_COPY.faqTrigger.a,
@@ -223,7 +218,7 @@ export const PUBLIC_COPY = {
       },
       {
         q: "Bonus: Immortal Etch",
-        a: "It only applies if total bids pass $120,000. Then winners on the nine stainless steel panels can choose to have their mark permanently etched for 3x their final bid for that panel. Bumpers stay wrap. Etch artwork must be bold and simple and is reviewed before approval. Once installed there is no cash refund of that finish.",
+        a: "It only applies if claims plus bids pass $120,000. Then winners on the nine stainless steel panels can choose to have their mark permanently etched for three times their final bid for that panel. Bumpers stay wrap. Etch artwork must be bold and simple and is reviewed before approval. Once installed there is no cash refund.",
       },
       {
         q: "Do I need finished artwork to bid?",
@@ -231,7 +226,7 @@ export const PUBLIC_COPY = {
       },
       {
         id: "campaign-miss",
-        q: `What if the ${formatUsd(FLOOR_USD)} floor is missed?`,
+        q: `What if the ${formatUsd(FLOOR_USD)} goal is missed?`,
         a: "Every deposit is refunded. No order. No wrap.",
       },
       {
@@ -293,7 +288,7 @@ export const PUBLIC_COPY = {
   },
   seat: {
     openingRationale:
-      `Opening marks start the seat. The floor is not the sum of openings. Bidding has to carry the board to ${formatUsd(FLOOR_USD)}.`,
+      `Opening marks start the seat. The goal is not the sum of openings. Bidding has to carry the board to ${formatUsd(FLOOR_USD)}.`,
     wrapTwelveMonths: "Vinyl wrap for 12 months after installation.",
     bumperWrapOnly: "Vinyl wrap for 12 months after installation.",
     withdrawSuccess: "Intent withdrawn. Still not charged.",
@@ -352,7 +347,7 @@ export const PUBLIC_COPY = {
       "Every public mark, grouped by day (ET). The standing figure is what nobody has beaten. Nothing is charged.",
     heldBy: "Held by",
     topHeading: "Top brands",
-    topEmpty: "No standing bids yet.",
+    topEmpty: "No bids yet.",
     todayHeading: "Today's action",
     todayEmpty: "No bids today yet. Be the first.",
     openingFloor: "Opening price",
@@ -395,6 +390,16 @@ export const PUBLIC_COPY = {
     contact: "Contact BMB",
   },
 } as const;
+
+export function moneyProgressCopy(pct: number): string {
+  return `${pct}% of ${PUBLIC_COPY.board.floorLabel.toLowerCase()}`;
+}
+
+export function moneyVaultAria(empty: boolean, raised: string, goalAmount: string): string {
+  const label = PUBLIC_COPY.board.vaultFloorMarkLabel;
+  if (empty) return `${label} ${goalAmount}.`;
+  return `${raised} toward the ${goalAmount} ${label.toLowerCase()}.`;
+}
 
 type CalendarCopyKind = "before_open" | "open" | "closed";
 

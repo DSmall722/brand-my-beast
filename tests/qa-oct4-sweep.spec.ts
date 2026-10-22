@@ -67,7 +67,7 @@ test.describe("Oct 4 QA sweep", () => {
       "Opening price $2,500",
     );
     await expect(page.getByTestId("auction-top")).toContainText(
-      "No standing bids yet.",
+      "No bids yet.",
     );
 
     await page.goto("/leaderboard");
@@ -179,7 +179,7 @@ test.describe("Oct 4 QA sweep", () => {
       "open",
     );
     await expect(page.getByTestId("auction-top")).toContainText(
-      "No standing bids yet.",
+      "No bids yet.",
     );
     await expect(page.getByTestId("day-by-day")).toHaveCount(0);
 

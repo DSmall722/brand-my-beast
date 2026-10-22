@@ -60,7 +60,7 @@ test.describe("notes PDF homepage sheet", () => {
       "Miss the $35,000 goal and every deposit is refunded.",
     );
     await expect(page.locator("#money .money-cell").nth(1).locator(".label")).toHaveText(
-      "Floor",
+      "Goal",
     );
     await expect(page.locator("#money .money-cell").nth(1).locator(".label")).not.toContainText(
       "$35,000",
@@ -81,7 +81,7 @@ test.describe("notes PDF homepage sheet", () => {
     await expect(page.getByTestId("want-all-panels")).toHaveCount(0);
     await expect(page.getByTestId("vault-goal-label")).toHaveCount(0);
     await expect(page.getByTestId("goal-progress-copy")).toHaveCount(0);
-    await expect(page.getByTestId("floor-progress-copy")).toHaveText("0% of floor");
+    await expect(page.getByTestId("floor-progress-copy")).toHaveText("0% of goal");
     const floorMarker = await page.getByTestId("vault-marker-floor").boundingBox();
     const floorLabel = await page.getByTestId("vault-floor-label").boundingBox();
     const track = await page.locator(".progress-track").boundingBox();

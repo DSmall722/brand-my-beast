@@ -29,13 +29,13 @@ Locked: 2026-09-23 — 16 buyer FAQ, no “Who is this for,” $120k is the etch
 
 - Heading: `Track the Auction`
 - Raised label: `Pledged so far`
-- Floor label: `Floor`
+- Floor label: `Goal`
 - Floor hint: `Miss the $35,000 goal and every deposit is refunded.`
 - Clock line when CLOSE_AT is null: `Bidding is open. Closes Thu Dec 31, 2026, 12:00 PM ET. Nothing is charged on this page.`
 - Deposit line: `20% of the bid is charged when you place it. If you do not win, that deposit is refunded after close. A winner's deposit is credited to the invoice. Nothing is charged on this page.`
-- Shortfall floor label: `Short of floor`
-- Open seats label: `Open seats`
-- Vault floor mark label: `Floor`
+- Shortfall floor label: `Short of goal`
+- Open seats label: `Open panels`
+- Vault floor mark label: `Goal`
 - Vault empty (pledged $0): `No marks yet`
 - Day by day summary: `{n} bid · {amount}` or `{n} bids · {amount}`, then `{standing} standing`
 - Seat legend: `Open seat = empty. Held seat = standing intent.`
@@ -60,6 +60,7 @@ The **Buy the Whole Truck** board button is not rendered on `/`. Whole-truck int
 
 - Heading: `Bid on a Panel`
 - Lead: `Pick a panel to place a bid.`
+- Claim funds line: `Claiming all 11 panels funds the full truck purchase.`
 - Badge etch: `Immortal Etch Locked` — not shown on public panel cards
 - Badge wrap: `Wrap only` — not shown on public panel cards
 - Standing open: `Open seat`
@@ -131,7 +132,6 @@ Buyer questions. No “Who is this for.” No wreck / totaled / last-second on `
 - Q: `When can I claim?` A: `Until a bid on that panel reaches the claim price, or until the campaign closes at noon ET on December 31, 2026.`
 - Q: `What if I claim and the campaign falls short?` A: `If the $35,000 goal isn't met by noon ET on December 31, 2026, your deposit is refunded in full and nothing else is charged.`
 - Q: `Can someone outbid me after I claim?` A: `No. Claiming ends bidding on that panel. A whole-truck buyout before the $120,000 mark releases your claim and refunds the deposit in full.`
-- Q: `Is the truck already bought?` A: `No. The campaign funds the order. That's why deposits are refunded if the goal isn't met.`
 - Q: `What happens if claims and bids reach $120,000?` A: `Once claims plus bids reach $120,000, the purchase goes ahead and panels stay theirs. A whole-truck buyout before that mark releases claims, with deposits fully refunded.`
 - Q: `Does the operator own the truck yet?` A: `The operator does not own the truck yet. This auction buys it.`
 - Q: `Is this Tesla?` A: `BrandMyBeast is independent and not affiliated with Tesla.`
@@ -142,9 +142,9 @@ Buyer questions. No “Who is this for.” No wreck / totaled / last-second on `
 - Q: `What if someone outbids me?` A: `You’re off that panel. The deposit you paid is refunded after bidding ends. You can bid again on another panel, or come back at the new number on this one. A new bid on the same panel counts deposits you already paid.`
 - Q: `Can I take more than one panel?` A: `Yes. Pick whatever panels your business needs to maximize this advertising opportunity.`
 - Q: `What if I want every panel?` A: `Check the box on the contact form and we'll reach out about the whole truck.`
-- Q: `Bonus: Immortal Etch` A: `It only applies if total bids pass $120,000. Then winners on the nine stainless steel panels can choose to have their mark permanently etched for 3x their final bid for that panel. Bumpers stay wrap. Etch artwork must be bold and simple and is reviewed before approval. Once installed there is no cash refund of that finish.`
+- Q: `Bonus: Immortal Etch` A: `It only applies if claims plus bids pass $120,000. Then winners on the nine stainless steel panels can choose to have their mark permanently etched for three times their final bid for that panel. Bumpers stay wrap. Etch artwork must be bold and simple and is reviewed before approval. Once installed there is no cash refund.`
 - Q: `Do I need finished artwork to bid?` A: `A name and logo are enough to bid. Final files come after you win. Use a vector for wrap. Nothing gets cut until you’ve approved it.`
-- Q: `What if the $35,000 floor is missed?` A: `Every deposit is refunded. No order. No wrap.`
+- Q: `What if the $35,000 goal is missed?` A: `Every deposit is refunded. No order. No wrap.`
 - Q: `When does this close?` A: `Bidding closes Thursday, December 31, 2026 at 12:00 PM ET. A bid in the last 10 minutes pushes the close back 10 minutes.`
 - Q: `Where does the truck actually run?` A: `Work miles in the Southeast. South Carolina most weeks (Charleston, Columbia, Greenville, Florence, Beaufort, Clemson and the roads between them), plus Atlanta, Charlotte, and the Florida panhandle when the job goes there.`
 - Q: `Will something I don’t want sitting next to my brand end up on this truck?` A: `No. We don’t take porn, hate, scams, or anything that can’t sit in a school line or a grocery lot. If you’re unsure about a category, email hello@brandmybeast.com before you bid.`
@@ -194,7 +194,7 @@ Slice **13.5** / **14.7**. Panel / account strings only. Do **not** rewrite the 
 Seat rationale only (slice **14.7**) — opening-bid one-liner from RULES.md Inventory.
 Not a homepage hero rewrite:
 
-- Opening rationale: `Opening marks start the seat. The floor is not the sum of openings. Bidding has to carry the board to $35,000.`
+- Opening rationale: `Opening marks start the seat. The goal is not the sum of openings. Bidding has to carry the board to $35,000.`
 
 - Withdraw success: `Intent withdrawn. Still not charged.`
 - Withdraw button: `Withdraw pending intent`

@@ -5,7 +5,7 @@ import type { DayByDay as DayByDayModel } from "@/lib/bid-desk";
 import { FLOOR_USD, PANELS, formatUsd } from "@/lib/campaign";
 import { isWholeTruckIntentOpen } from "@/lib/intent-store";
 import { CLAIM_COPY } from "@/lib/panel-claim";
-import { PUBLIC_COPY } from "@/lib/public-copy";
+import { PUBLIC_COPY, moneyProgressCopy, moneyVaultAria } from "@/lib/public-copy";
 
 function shortfallTickerLabel(shortfallFloor: number, openSeats: number): string {
   const seats = openSeats === 1 ? "1 seat open" : `${openSeats} seats open`;
@@ -84,11 +84,7 @@ export function HomeMoneySection({
             data-testid="visual-vault"
             data-vault-empty={pledgedUsd === 0 ? "true" : "false"}
             role="img"
-            aria-label={
-              pledgedUsd === 0
-                ? `Floor ${floorLabel}.`
-                : `${raisedLabel} toward the ${floorLabel} floor.`
-            }
+            aria-label={moneyVaultAria(pledgedUsd === 0, raisedLabel, floorLabel)}
           >
             <div className="progress-track" aria-hidden="true">
               <div
@@ -114,7 +110,7 @@ export function HomeMoneySection({
               </span>
             </div>
             <div className="progress-meta">
-              <span data-testid="floor-progress-copy">{floorPct}% of floor</span>
+              <span data-testid="floor-progress-copy">{moneyProgressCopy(floorPct)}</span>
               {closeCopy === PUBLIC_COPY.board.clockWhenCloseNull ? null : (
                 <span data-testid="close-copy">{closeCopy}</span>
               )}

@@ -41,7 +41,7 @@ test.describe("slice 14.21: /llms.txt PUBLIC_COPY facts only", () => {
     expect(body).toContain(PUBLIC_COPY.board.floorLabel);
     expect(body).not.toMatch(/\bBuyout\b/);
     expect(body).toContain(
-      "If total bids pass $120,000, see the FAQ for the etch bonus.",
+      "If claims plus bids pass $120,000, see the FAQ for the etch bonus.",
     );
     expect(body).toContain("Bidding is open.");
     expect(body).not.toContain(PUBLIC_COPY.board.clockWhenCloseNull);

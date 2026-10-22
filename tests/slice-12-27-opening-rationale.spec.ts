@@ -42,7 +42,7 @@ test.describe("slice 12.27: opening-bid rationale from RULES.md", () => {
   test("rationale is RULES.md only — floor is not the sum of openings", () => {
     expect(OPENING_BID_RATIONALE_SOURCE).toBe("RULES.md");
     expect(OPENING_BID_RATIONALE).toContain(
-      "The floor is not the sum of openings",
+      "The goal is not the sum of openings",
     );
     expect(OPENING_BID_RATIONALE).toContain("$35,000");
     expect(OPENING_BID_RATIONALE.toLowerCase()).not.toMatch(/\blease\b/);
