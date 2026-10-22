@@ -102,11 +102,35 @@ Money facts from CAMPAIGN.md only. Plain English. Not a full contract. Contract 
 - Q: `What if the board misses $35,000?` A: `Full refund. No order. No wrap.`
 - Q: `What if the wrap year is cut short?` A: `Wrap lasts twelve months from install. If the truck is totaled or sold before month 12, wrap seats get a pro-rata refund for the months left.`
 
+## Claim this panel
+
+Panel page, when claim is available:
+
+- Heading: `Claim this panel for $22,000.`
+- Lead: `Skip the bidding. Pay a 20% deposit today ($4,400) and this panel is yours. Bidding on it stops right away.`
+- Refund: `If the campaign doesn't reach its $35,000 goal by noon ET on December 31, 2026, your deposit is refunded in full. If it does, the rest is due then.`
+- CTA: `Claim this panel`
+- Foot: `Brand check applies. If one brand buys the whole truck, your claim is released and your deposit is refunded in full.`
+
+When bids have passed the claim price: `Bids on this panel have passed the claim price, so it's open to bidding only.`
+
+When claimed: `Claimed by [Brand]. This panel is no longer taking bids.`
+
+Board banner after the $120,000 trigger: `The board has reached $120,000. If it holds at close, the campaign buys the truck and adds Immortal Etch. Open panels are still taking bids.`
+
+Do not use an em dash, the word lease, or the word financing in these strings.
+
 ## Questions
 
 Buyer questions. No “Who is this for.” No wreck / totaled / last-second on `/`.
 
 - Heading: `FAQ`
+- Q: `What does "Claim this panel" mean?` A: `Each panel has a fixed price. Pay it and the panel is yours, no auction. You put down 20% now.`
+- Q: `When can I claim?` A: `Until a bid on that panel reaches the claim price, or until the campaign closes at noon ET on December 31, 2026.`
+- Q: `What if I claim and the campaign falls short?` A: `If the $35,000 goal isn't met by noon ET on December 31, 2026, your deposit is refunded in full and nothing else is charged.`
+- Q: `Can someone outbid me after I claim?` A: `No. Claiming ends bidding on that panel. The one exception is a whole-truck buyout, which releases every panel and refunds your deposit in full.`
+- Q: `Is the truck already bought?` A: `No. The campaign funds the order. That's why deposits are refunded if the goal isn't met.`
+- Q: `What happens if claims and bids reach $120,000?` A: `The campaign buys the truck and adds Immortal Etch on the nine steel faces, the same as a whole-truck buyout. Your panel stays yours.`
 - Q: `Does the operator own the truck yet?` A: `The operator does not own the truck yet. This auction buys it.`
 - Q: `Is this Tesla?` A: `No. BrandMyBeast is independent. Cyberbeast is the trim this campaign funds. Tesla doesn’t run this, endorse it, or get a cut.`
 - Q: `What am I actually buying?` A: `A seat on the truck for your brand. There are eleven panels. Vinyl wrap is available on all of them. You’re buying the panel, the finish, and a year of miles. Not a follower count. Not a guaranteed number of views.`

@@ -1,5 +1,5 @@
 import { eq } from "drizzle-orm";
-import { PANELS } from "./campaign";
+import { GOAL_USD, PANELS } from "./campaign";
 import {
   depositDeskOpen,
   resolveLiveBidding,
@@ -28,7 +28,6 @@ import {
   buyoutAvailable,
   claimDepositUsd,
   claimable,
-  closeTier,
   committedTotalUsd,
   purchaseTrigger,
   type BoardClosedReason,
@@ -157,6 +156,39 @@ export function resetPanelClaimStoreForTests(): void {
     campaign: emptyCampaign(),
     events: [],
   };
+}
+
+export async function seedPanelClaimForTests(input: {
+  panelId?: string;
+  claimStatus?: ClaimStatus;
+  claimedBrand?: string;
+  tierLocked?: TierLocked;
+}): Promise<void> {
+  if (input.panelId && input.claimStatus) {
+    const state = await loadPanelClaimState(input.panelId);
+    await writePanel({
+      ...state,
+      claimStatus: input.claimStatus,
+      claimedIntentId: input.claimStatus === "claimed" ? "seed-claim" : null,
+      claimedAt:
+        input.claimStatus === "claimed"
+          ? new Date(resolveNowMs()).toISOString()
+          : null,
+    });
+  }
+  if (input.tierLocked) {
+    const campaign = await loadCampaignClaimState();
+    await writeCampaign({
+      ...campaign,
+      tierLocked: input.tierLocked,
+      purchaseTriggeredAt:
+        input.tierLocked === "purchase"
+          ? new Date(resolveNowMs()).toISOString()
+          : null,
+      committedTotalUsd:
+        input.tierLocked === "purchase" ? GOAL_USD : campaign.committedTotalUsd,
+    });
+  }
 }
 
 export async function loadPanelClaimState(panelId: string): Promise<PanelClaimRow> {
@@ -754,10 +786,6 @@ export async function applyBuyoutRelease(): Promise<{ ok: true } | { ok: false; 
   return { ok: true };
 }
 
-export function closeOutcomeForTotal(totalUsd: number) {
-  return closeTier(totalUsd);
-}
-
 export async function panelClaimView(panelId: string) {
   const bids = await listAllIntentBids();
   const campaign = await loadCampaignClaimState();
@@ -765,9 +793,13 @@ export async function panelClaimView(panelId: string) {
   const panel = PANELS.find((row) => row.id === panelId);
   const highest = highestPaidBidUsd(bids, panelId);
   const open = depositDeskOpen(bidTimesForSoftClose(bids));
+  const claimed = state.claimedIntentId
+    ? await getIntentBidById(state.claimedIntentId)
+    : null;
   return {
     ...state,
     highestPaidBidUsd: highest,
+    claimedBrand: claimed?.brandLabel ?? null,
     claimable: panel
       ? claimable({
           claimStatus: state.claimStatus,
@@ -777,6 +809,10 @@ export async function panelClaimView(panelId: string) {
           claimPriceUsd: panel.claimPriceUsd,
         })
       : false,
+    buyoutOpen: buyoutAvailable({
+      tierLocked: campaign.tierLocked,
+      boardClosed: isBoardClosed(campaign),
+    }),
     campaign,
   };
 }

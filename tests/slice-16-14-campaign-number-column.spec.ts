@@ -45,7 +45,7 @@ test.describe("slice 16.14: CAMPAIGN inventory number column", () => {
   test("inventory n column matches PANELS; budget dollars stay", () => {
     const campaign = readFileSync(CAMPAIGN, "utf8");
     expect(campaign).toContain("## Inventory");
-    expect(campaign).toContain("| n | Panel | Opening |");
+    expect(campaign).toContain("| n | Panel | Opening | Claim |");
     expect(campaign).toContain("$35,000");
     expect(campaign).toContain("$120,000");
     expect(campaign).toMatch(/## Money \(locked 2026-09-13\)/);
@@ -58,10 +58,10 @@ test.describe("slice 16.14: CAMPAIGN inventory number column", () => {
     for (const panel of PANELS) {
       const mark = panelBoardMarkFor(panel.id);
       expect(campaign).toContain(
-        `| ${mark.n} | ${panel.name} | ${formatUsd(panel.openingUsd)} |`,
+        `| ${mark.n} | ${panel.name} | ${formatUsd(panel.openingUsd)} | ${formatUsd(panel.claimPriceUsd)} |`,
       );
     }
-    expect(campaign).toContain("| 1 | Hood | $2,500 |");
-    expect(campaign).toContain("| 11 | Rear Bumper | $500 |");
+    expect(campaign).toContain("| 1 | Hood | $2,500 | $13,000 |");
+    expect(campaign).toContain("| 11 | Rear Bumper | $500 | $4,000 |");
   });
 });

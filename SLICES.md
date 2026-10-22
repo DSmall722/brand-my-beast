@@ -111,4 +111,4 @@ Idle. Wave 15 is Stripe and needs a human message.
 
 ## bmb-panel-claim-price
 
-- [ ] bmb-panel-claim-price Claim this panel (Tier C, $120,000). Claim prices on the 11-panel table. Paid bid at or above the claim price withdraws claim. All 11 claimed or committed total at $120,000 locks the purchase path.
+- [x] bmb-panel-claim-price Claim this panel (Tier C, $120,000). Claim prices on the 11-panel table. Paid bid at or above the claim price withdraws claim. All 11 claimed or committed total at $120,000 locks the purchase path.

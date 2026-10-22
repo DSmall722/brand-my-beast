@@ -36,6 +36,7 @@ import {
   listBidsForPanel,
   loadStandingHoldersByPanel,
 } from "@/lib/intent-store";
+import { loadCampaignClaimState } from "@/lib/panel-claim-flow";
 import { PUBLIC_COPY } from "@/lib/public-copy";
 
 export const dynamic = "force-dynamic";
@@ -84,6 +85,7 @@ export default async function HomePage() {
   const bidTimes = activity.map((bid) => bid.createdAt);
   const closeCopy = PUBLIC_COPY.board.clockWhenCloseNull;
   const windowSentence = resolveCampaignWindowSentence(bidTimes);
+  const claimCampaign = await loadCampaignClaimState();
 
   return (
     <>
@@ -110,6 +112,7 @@ export default async function HomePage() {
           pledgedUsd={pledgedUsd}
           dayByDay={dayByDay}
           auctionLive={auctionLive}
+          purchaseLocked={claimCampaign.tierLocked === "purchase"}
         />
         <HomePanelsSection
           standingByPanel={Object.fromEntries(standingHolders)}

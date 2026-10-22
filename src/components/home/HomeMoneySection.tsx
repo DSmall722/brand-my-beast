@@ -4,6 +4,7 @@ import type { AuctionLive as AuctionLiveModel } from "@/lib/auction-board";
 import type { DayByDay as DayByDayModel } from "@/lib/bid-desk";
 import { FLOOR_USD, PANELS, formatUsd } from "@/lib/campaign";
 import { isWholeTruckIntentOpen } from "@/lib/intent-store";
+import { CLAIM_COPY } from "@/lib/panel-claim";
 import { PUBLIC_COPY } from "@/lib/public-copy";
 
 function shortfallTickerLabel(shortfallFloor: number, openSeats: number): string {
@@ -25,6 +26,7 @@ type HomeMoneySectionProps = {
   pledgedUsd: number;
   dayByDay: DayByDayModel;
   auctionLive: AuctionLiveModel;
+  purchaseLocked?: boolean;
 };
 
 export function HomeMoneySection({
@@ -38,6 +40,7 @@ export function HomeMoneySection({
   pledgedUsd,
   dayByDay,
   auctionLive,
+  purchaseLocked = false,
 }: HomeMoneySectionProps) {
   return (
         <section
@@ -49,6 +52,14 @@ export function HomeMoneySection({
           <p className="hint" data-testid="campaign-window">
             {windowSentence}
           </p>
+          {purchaseLocked ? (
+            <p
+              className="section-lead"
+              data-testid="purchase-lock-banner"
+            >
+              {CLAIM_COPY.purchaseBanner}
+            </p>
+          ) : null}
           <div className="money-grid">
             <div className="money-cell">
               <div className="label" data-testid="raised-label">

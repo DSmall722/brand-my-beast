@@ -58,6 +58,10 @@ jobs:
         if: steps.suite.outputs.mode == 'full'
         run: npx tsc --noEmit
 
+      - name: Claim unit tests
+        if: steps.suite.outputs.mode == 'full'
+        run: npx vitest run src/lib/panel-claim.test.ts src/lib/panel-claim-flow.test.ts --pool=forks --maxWorkers=2 --reporter=dot
+
       - name: Run Playwright
         if: steps.suite.outputs.mode == 'full'
         run: node scripts/ci-playwright-shards.mjs
