@@ -5,7 +5,7 @@ import { MAX_CLIENT_BID_USD } from "../src/components/home/BidDesk";
 const OPEN_NOW = "2026-10-06T16:00:00.000Z";
 const MAX_LINE = `Bids above ${formatUsd(MAX_CLIENT_BID_USD)} need a call. Email ${BRAND.email}.`;
 const WIN_LINE =
-  "If you win, pay the rest of your winning bid within 7 days. Your deposit counts toward it. If you don't pay in time, the deposit is forfeited and the seat goes to the next-highest bidder, whose deposit is held until then.";
+  "If you win, pay the rest of your winning bid within 7 days. Your deposit counts toward it. If you don't pay in time, the deposit is forfeited and the panel goes to the next-highest bidder, whose deposit is held until then.";
 const HOLD_LINE = "your deposit is held until the winner pays";
 
 async function expectDescribed(
