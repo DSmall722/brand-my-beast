@@ -107,7 +107,7 @@ test.describe("slice 19.3: seat lead standing only when a mark exists", () => {
     await expect(lead).toHaveAttribute("data-has-standing", "true");
     await expect(lead).not.toContainText("Current Bid");
     await expect(lead).not.toContainText("Current standing");
-    await expect(page.getByTestId("panel-opening")).toContainText("Opening floor");
+    await expect(page.getByTestId("panel-opening")).toContainText("Opening price");
     await expect(page.getByTestId("panel-standing")).toHaveText("$2,500");
     await expect(page.getByTestId("panel-pending")).toHaveCount(0);
   });
@@ -116,7 +116,7 @@ test.describe("slice 19.3: seat lead standing only when a mark exists", () => {
     await page.goto("/");
     await expect(page.locator("#hero-title")).toHaveText(LOCKED_H1);
     await expect(page.locator("#hero-title")).toHaveText(PUBLIC_COPY.hero.h1);
-    await expect(page.getByTestId("waitlist-submit")).toHaveText("Contact BMB");
+    await expect(page.getByTestId("waitlist-submit")).toHaveText("Send");
     const html = (await page.content()).toLowerCase();
     expect(html).not.toMatch(/\blease\b/);
     expect(html).not.toContain("features.md");

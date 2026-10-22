@@ -58,7 +58,7 @@ test.describe("panel detail cleanup", () => {
       "What if someone outbids me?",
     );
     await expect(faq.locator("dd")).toContainText(
-      "The deposit you paid is refunded after the board closes",
+      "The deposit you paid is refunded after bidding ends",
     );
     await expect(page.getByTestId("faq-campaign-miss")).toContainText(
       "Every deposit is refunded",
@@ -110,7 +110,7 @@ test.describe("panel detail cleanup", () => {
       const cta = page.getByTestId("seat-primary-cta");
       await expect(cta).toBeVisible();
       await expect(cta).toHaveAttribute("data-cta", "bid");
-      await expect(cta).toHaveText("Bid");
+      await expect(cta).toHaveText("Place a bid");
       await expect(cta).toHaveRole("button");
       const href = await cta.getAttribute("href");
       expect(href ?? "").not.toContain("/signin");

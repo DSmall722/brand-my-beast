@@ -101,7 +101,7 @@ export const PUBLIC_COPY = {
   },
   howItWorks: {
     heading: "How it works",
-    lead: TRUCK_OWNERSHIP_LINE,
+    lead: "",
     steps: [
       {
         title: "Pick a Panel",
@@ -146,7 +146,7 @@ export const PUBLIC_COPY = {
       {
         id: "wrap-pro-rata",
         q: "What if the wrap year is cut short?",
-        a: "Wrap lasts twelve months from install. If the truck is totaled or sold before month 12, wrap seats get a pro-rata refund for the months left.",
+        a: "Wrap lasts 12 months from install. If the truck is totaled or sold before month 12, wrap panels get a pro-rata refund for the months left.",
       },
     ],
   },
@@ -194,24 +194,24 @@ export const PUBLIC_COPY = {
       },
       {
         q: "What am I actually buying?",
-        a: "A seat on the truck for your brand. There are eleven panels. Vinyl wrap is available on all of them. You’re buying the panel, the finish, and a year of miles. Not a follower count. Not a guaranteed number of views.",
+        a: "A panel on the truck for your brand. There are 11 panels. Vinyl wrap is available on all of them. You are buying the panel and 12 months on the road. Not a follower count. Not a guaranteed number of views.",
       },
       {
         q: "How long is my brand on the truck?",
-        a: "Wraps run twelve months from install.",
+        a: "Wraps run 12 months from install.",
       },
       {
         q: "What if two of us are in the same business?",
-        a: "One trade, one brand on the truck. Name your business when you bid. If that trade is already standing on a panel, that’s the seat you bid.",
+        a: "One trade, one brand on the truck. Name your business when you bid. If another business in your trade already has a bid on a panel, you can only bid on that panel.",
       },
       {
         q: "How does payment work?",
-        a: `Twenty percent of your bid is charged when you place it. That deposit is what makes a bid standing. Bid again on the same seat and deposits you already paid count toward the new one. Outbid deposits are refunded after the board closes. Miss ${formatUsd(FLOOR_USD)} and every deposit is refunded. A winner's deposit is credited to the invoice. If the winner does not pay the rest within 7 days, the deposit is forfeited and the seat goes to the next bidder.`,
+        a: `20% of your bid is charged when you place it. That deposit is what makes a bid count. Bid again on the same panel and deposits you already paid count toward the new one. Outbid deposits are refunded after bidding ends. Miss ${formatUsd(FLOOR_USD)} and every deposit is refunded. A winner's deposit is credited to the invoice. If the winner does not pay the rest within 7 days, the deposit is forfeited and the panel goes to the next bidder.`,
       },
       {
         id: "outbid",
         q: "What if someone outbids me?",
-        a: "You’re off that panel. The deposit you paid is refunded after the board closes. You can bid again on another seat, or come back at the new number on this one. A new bid on the same seat counts deposits you already paid.",
+        a: "You’re off that panel. The deposit you paid is refunded after bidding ends. You can bid again on another panel, or come back at the new number on this one. A new bid on the same panel counts deposits you already paid.",
       },
       {
         q: "Can I take more than one panel?",
@@ -219,7 +219,7 @@ export const PUBLIC_COPY = {
       },
       {
         q: "What if I want every panel?",
-        a: "Check the box on the contact form. That starts a whole-truck conversation. It does not buy the board from this page.",
+        a: "Check the box on the contact form and we'll reach out about the whole truck.",
       },
       {
         q: "Bonus: Immortal Etch",
@@ -227,7 +227,7 @@ export const PUBLIC_COPY = {
       },
       {
         q: "Do I need finished artwork to bid?",
-        a: "A name and a logo is enough to stand. Final files come after you win. Use a vector for wrap. Nothing gets cut until you’ve approved it.",
+        a: "A name and logo are enough to bid. Final files come after you win. Use a vector for wrap. Nothing gets cut until you’ve approved it.",
       },
       {
         id: "campaign-miss",
@@ -249,7 +249,7 @@ export const PUBLIC_COPY = {
       },
       {
         q: "How do I start?",
-        a: "Pick a panel. Twenty percent of the bid is charged when you place it. If you do not win, that deposit is refunded after close. A winner's deposit is credited to the invoice. Questions before that: hello@brandmybeast.com.",
+        a: "Pick a panel. 20% of the bid is charged when you place it. If you do not win, that deposit is refunded after close. A winner's deposit is credited to the invoice. Questions before that: hello@brandmybeast.com.",
       },
     ],
   },
@@ -261,7 +261,7 @@ export const PUBLIC_COPY = {
     heading: "Contact Us",
     lead: "",
     placeholder: "you@company.com",
-    button: "Contact BMB",
+    button: "Send",
     idleNote: `Bidding is open. Closes ${publishedCloseLabelEt()}.`,
     idleNoteBefore: "We only email when seats open.",
     retention: "Waitlist retention: until seats open or user deletes.",
@@ -355,7 +355,7 @@ export const PUBLIC_COPY = {
     topEmpty: "No standing bids yet.",
     todayHeading: "Today's action",
     todayEmpty: "No bids today yet. Be the first.",
-    openingFloor: "Opening floor",
+    openingFloor: "Opening price",
     openingPrice: "Opening price",
     leaderboardLink: "Leaderboard",
     leaderboardHeading: "Leaderboard",

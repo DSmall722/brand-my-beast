@@ -161,8 +161,11 @@ export const CLAIM_COPY = {
     `Skip the bidding. Pay a 20% deposit today (${formatUsd(depositUsd)}) and this panel is yours. Bidding on it stops right away.`,
   availableRefund: `If the campaign doesn't reach its ${formatUsd(FLOOR_USD)} goal by noon ET on December 31, 2026, your deposit is refunded in full. If it does, the rest is due then.`,
   availableCta: "Claim this panel",
+  availableLock:
+    "The claim price locks your panel at a guaranteed price, so you can't be outbid.",
+  tradeHint: "Your business type (e.g. plumbing)",
   availableFoot:
-    "Brand check applies. If one brand buys the whole truck, your claim is released and your deposit is refunded in full.",
+    "We review every brand before the wrap is printed. If one brand buys the whole truck before claims and bids reach $120,000, your claim is released and your deposit is refunded in full.",
   withdrawn:
     "Bids on this panel have passed the claim price, so it's open to bidding only.",
   claimed: (brand: string) =>
@@ -183,7 +186,7 @@ export const CLAIM_COPY = {
   },
   faqOutbid: {
     q: "Can someone outbid me after I claim?",
-    a: "No. Claiming ends bidding on that panel. The one exception is a whole-truck buyout, which releases every panel and refunds your deposit in full.",
+    a: "No. Claiming ends bidding on that panel. A whole-truck buyout before the $120,000 mark releases your claim and refunds the deposit in full.",
   },
   faqOwned: {
     q: "Is the truck already bought?",
@@ -191,6 +194,6 @@ export const CLAIM_COPY = {
   },
   faqTrigger: {
     q: "What happens if claims and bids reach $120,000?",
-    a: "The campaign buys the truck and adds Immortal Etch on the nine steel faces, the same as a whole-truck buyout. Your panel stays yours.",
+    a: "Once claims plus bids reach $120,000, the purchase goes ahead and panels stay theirs. A whole-truck buyout before that mark releases claims, with deposits fully refunded.",
   },
 } as const;

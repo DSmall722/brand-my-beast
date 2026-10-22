@@ -812,7 +812,7 @@ test.describe("wreck + refund FAQ (PUBLIC_COPY + CAMPAIGN only)", () => {
     expect(answers).toMatch(/full refund/i);
     expect(questions).toMatch(/\$35,000/);
     expect(answers).toMatch(/pro-rata/i);
-    expect(answers).toMatch(/twelve months/i);
+    expect(answers).toMatch(/12 months/i);
     expect(questions).not.toMatch(/immortal etch/i);
     expect(answers).not.toMatch(/stripe/i);
     expect(answers).not.toMatch(/\blease\b/i);

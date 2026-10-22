@@ -31,8 +31,9 @@ const HOTSPOT_HIT_PAD: Record<
   { x: number; y: number; w: number; h: number }
 > = {
   hood: { x: 12, y: 14, w: 76, h: 22 },
-  "front-fascia": { x: 10, y: 36, w: 80, h: 19 },
-  tailgate: { x: 44.5, y: 41.3, w: 41.2, h: 19.2 },
+  "front-fascia": { x: 10, y: 35, w: 80, h: 20 },
+  "tailgate": { x: 44.5, y: 41.3, w: 41.2, h: 20 },
+  "rear-bumper": { x: 42.2, y: 62, w: 43.8, h: 20 },
 };
 
 function chipHitBox(

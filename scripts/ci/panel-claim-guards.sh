@@ -63,6 +63,30 @@ if grep -Ei '(^|[^a-z])financing([^a-z]|$)' "$copy" >/dev/null; then
   fail=1
 fi
 
+base="origin/main"
+if [ -n "${BASE:-}" ]; then
+  base="origin/${BASE}"
+fi
+if git rev-parse --verify "$base" >/dev/null 2>&1; then
+  added=$(git diff --unified=0 "$base"...HEAD -- \
+    src PUBLIC_COPY.md CAMPAIGN.md RULES.md \
+    ':(exclude)src/**/*.test.ts' ':(exclude)tests' \
+    | grep '^+' | grep -v '^+++' || true)
+  if printf '%s\n' "$added" | grep -E $'\u2014|\u2013' >/dev/null; then
+    printf 'panel-claim-guards: em dash or en dash in new or changed copy\n' >&2
+    printf '%s\n' "$added" | grep -E $'\u2014|\u2013' >&2 || true
+    fail=1
+  fi
+  if printf '%s\n' "$added" | grep -Ei '(^|[^A-Za-z])lease([^A-Za-z]|$)' >/dev/null; then
+    printf 'panel-claim-guards: banned word lease in new or changed copy\n' >&2
+    fail=1
+  fi
+  if printf '%s\n' "$added" | grep -Ei '(^|[^A-Za-z])financing([^A-Za-z]|$)' >/dev/null; then
+    printf 'panel-claim-guards: banned word financing in new or changed copy\n' >&2
+    fail=1
+  fi
+fi
+
 if [ "$fail" -ne 0 ]; then
   exit 1
 fi

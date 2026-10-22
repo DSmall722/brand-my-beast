@@ -771,7 +771,9 @@
 }
 
 .waitlist-whole-truck input {
-  margin-top: 0.2rem;
+  width: 44px;
+  height: 44px;
+  margin-top: 0;
   flex: 0 0 auto;
 }
 
@@ -956,6 +958,11 @@
 }
 
 .site-footer a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  min-width: 44px;
   color: var(--steel-100);
   text-decoration: underline;
   text-decoration-color: color-mix(in oklab, var(--signal) 45%, transparent);
@@ -997,6 +1004,10 @@
 }
 
 .legal-stub-body a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  min-width: 44px;
   color: var(--signal);
   text-decoration: underline;
   text-underline-offset: 0.15em;
@@ -1110,8 +1121,57 @@
 
 .seat-claim {
   display: grid;
-  gap: 0.55rem;
+  gap: 0.85rem;
   margin: 1.25rem 0 1.75rem;
+  padding: 1rem;
+  border: 1px solid var(--hairline);
+  border-radius: 0.75rem;
+}
+
+.claim-heading {
+  margin: 0;
+  padding: 0.75rem 0.9rem;
+  border: 1px solid var(--hairline);
+  border-radius: 0.65rem;
+  font-family: var(--font-display), Syne, system-ui, sans-serif;
+  font-size: 1.25rem;
+  letter-spacing: -0.03em;
+  line-height: 1.3;
+}
+
+.claim-form {
+  display: grid;
+  gap: 0.85rem;
+}
+
+.seat-claim .auth-label {
+  display: grid;
+  gap: 0.35rem;
+  font-size: 1rem;
+}
+
+.seat-claim .auth-input,
+.claim-input {
+  width: 100%;
+  box-sizing: border-box;
+  min-height: 44px;
+  font-size: 16px;
+}
+
+.claim-field-hint {
+  color: var(--steel-400);
+  font-size: 0.95rem;
+  line-height: 1.4;
+}
+
+.claim-submit {
+  margin: 0;
+}
+
+.seat-bid {
+  margin: 0 0 1.5rem;
+  padding: 0.25rem 0 0.5rem;
+  border-top: 1px solid var(--hairline);
 }
 
 .auth-label {
@@ -1461,7 +1521,7 @@
 
 .public-seat .seat-finish {
   display: inline-block;
-  margin-left: 0.15rem;
+  margin-left: 0;
 }
 
 .public-seat .seat-context {
@@ -2029,7 +2089,7 @@
 
 .panel-stats dt {
   margin: 0;
-  font-size: 0.72rem;
+  font-size: 13px;
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--steel-500);

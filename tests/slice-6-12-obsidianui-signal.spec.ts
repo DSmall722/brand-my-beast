@@ -49,7 +49,7 @@ test.describe("slice 6.12: obsidianui signal button", () => {
     await expect(page.getByTestId("waitlist-submit")).toHaveText(
       PUBLIC_COPY.waitlist.button,
     );
-    await expect(page.getByTestId("waitlist-submit")).toHaveText("Contact BMB");
+    await expect(page.getByTestId("waitlist-submit")).toHaveText("Send");
 
     const cta = page.getByTestId("hero-primary-cta");
     await expect(cta).toBeVisible();

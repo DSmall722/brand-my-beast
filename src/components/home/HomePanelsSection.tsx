@@ -126,7 +126,13 @@ export function HomePanelsSection({
                     >
                       {standing
                         ? `Current Bid ${formatUsd(bidUsd)}`
-                        : `${PUBLIC_COPY.bidDesk.openingFloor} ${formatUsd(panel.openingUsd)}`}
+                        : `${PUBLIC_COPY.bidDesk.openingPrice} ${formatUsd(panel.openingUsd)}`}
+                    </div>
+                    <div
+                      className="panel-meta"
+                      data-testid={`panel-claim-price-${panel.id}`}
+                    >
+                      {`Claim price ${formatUsd(panel.claimPriceUsd)}`}
                     </div>
                   </Link>
                 </article>

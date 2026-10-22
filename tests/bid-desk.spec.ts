@@ -484,7 +484,7 @@ test.describe("bid desk: modal, hidden sign-in, unpaid, day by day", () => {
     await page.goto("/panels/tailgate");
     const cta = page.getByTestId("seat-primary-cta");
     await expect(cta).toHaveRole("button");
-    await expect(cta).toHaveText("Bid");
+    await expect(cta).toHaveText("Place a bid");
     await expect(cta).toHaveAttribute("data-cta", "bid");
     await cta.click();
 
@@ -648,7 +648,7 @@ test.describe("bid desk: modal, hidden sign-in, unpaid, day by day", () => {
     );
     await expect(page.getByTestId("panel-pending-hood")).toHaveCount(0);
     await expect(page.getByTestId("panel-current-bid-hood")).toHaveText(
-      "Opening floor $2,500",
+      "Opening price $2,500",
     );
     await expect(page.locator("#panels")).not.toContainText("unpaid");
     await expect(page.getByTestId("auction-top")).toContainText(

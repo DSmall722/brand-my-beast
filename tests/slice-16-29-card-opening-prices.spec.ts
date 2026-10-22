@@ -39,7 +39,8 @@ test.describe("slice 16.29: card opening prices use formatUsd", () => {
     );
     expect(src).toMatch(/formatUsd\s*\} from ["']@\/lib\/campaign["']/);
     expect(src).toContain("currentBidUsd");
-    expect(src).toContain("PUBLIC_COPY.bidDesk.openingFloor");
+    expect(src).toContain("PUBLIC_COPY.bidDesk.openingPrice");
+    expect(src).toContain("panel.claimPriceUsd");
     expect(src).toContain("Current Bid ${formatUsd(bidUsd)}");
     expect(src).not.toMatch(/\$\d/);
 
@@ -55,12 +56,14 @@ test.describe("slice 16.29: card opening prices use formatUsd", () => {
     await page.goto("/");
     for (const panel of PANELS) {
       const card = page.getByTestId(`panel-${panel.id}`);
-      await expect(card).toContainText(`Opening floor ${formatUsd(panel.openingUsd)}`);
+      await expect(card).toContainText(`Opening price ${formatUsd(panel.openingUsd)}`);
+      await expect(card).toContainText(`Claim price ${formatUsd(panel.claimPriceUsd)}`);
     }
     await expect(page.getByTestId("panel-driver-door")).toContainText(
-      "Opening floor $4,500",
+      "Opening price $4,500",
     );
-    await expect(page.getByTestId("panel-hood")).toContainText("Opening floor $2,500");
+    await expect(page.getByTestId("panel-hood")).toContainText("Opening price $2,500");
+    await expect(page.getByTestId("panel-hood")).toContainText("Claim price $13,000");
     await expect(page.getByTestId("floor-amount")).toHaveText("$35,000");
   });
 

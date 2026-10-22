@@ -64,7 +64,7 @@ test.describe("Oct 4 QA sweep", () => {
     ).toHaveCount(1);
     await expect(page.getByTestId("panel-hood")).not.toContainText("Sample Mark");
     await expect(page.getByTestId("panel-current-bid-hood")).toHaveText(
-      "Opening floor $2,500",
+      "Opening price $2,500",
     );
     await expect(page.getByTestId("auction-top")).toContainText(
       "No standing bids yet.",
@@ -172,7 +172,7 @@ test.describe("Oct 4 QA sweep", () => {
     await expect(page.getByTestId("panel-pending-hood")).toHaveCount(0);
     await expect(page.getByTestId("panel-hood")).not.toContainText("Pending Hood");
     await expect(page.getByTestId("panel-current-bid-hood")).toHaveText(
-      "Opening floor $2,500",
+      "Opening price $2,500",
     );
     await expect(page.getByTestId("panel-hood")).toHaveAttribute(
       "data-standing",

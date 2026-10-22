@@ -69,7 +69,7 @@ test.describe("slice 6.15: vercel main-only deploys", () => {
     await expect(page.getByTestId("waitlist-submit")).toHaveText(
       PUBLIC_COPY.waitlist.button,
     );
-    await expect(page.getByTestId("waitlist-submit")).toHaveText("Contact BMB");
+    await expect(page.getByTestId("waitlist-submit")).toHaveText("Send");
 
     const html = (await page.content()).toLowerCase();
     expect(html).not.toMatch(/\blease\b/);

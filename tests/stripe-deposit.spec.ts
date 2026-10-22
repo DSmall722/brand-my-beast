@@ -267,10 +267,10 @@ test.describe("stripe deposit and campaign window", () => {
       "Current Bid $2,500",
     );
     await expect(page.getByTestId("panel-current-bid-front-bumper")).toHaveText(
-      "Opening floor $500",
+      "Opening price $500",
     );
     await page.goto("/panels/hood");
-    await expect(page.getByTestId("panel-opening")).toContainText("Opening floor");
+    await expect(page.getByTestId("panel-opening")).toContainText("Opening price");
     await expect(page.getByTestId("panel-opening")).toContainText("$2,500");
     await expect(page.getByTestId("panel-standing")).toHaveText("$2,500");
     await expect(page.getByTestId("panel-stats")).toHaveAttribute(
@@ -419,11 +419,11 @@ test.describe("stripe deposit and campaign window", () => {
     await page.goto("/");
     const rearBid = page.getByTestId("panel-current-bid-rear-bumper");
     await expect(rearBid).toBeVisible();
-    await expect(rearBid).toHaveText("Opening floor $500");
+    await expect(rearBid).toHaveText("Opening price $500");
     const box = await rearBid.boundingBox();
     expect(box?.height ?? 0).toBeGreaterThan(8);
     await expect(page.getByTestId("panel-current-bid-front-bumper")).toHaveText(
-      "Opening floor $500",
+      "Opening price $500",
     );
 
     await page.getByTestId("panel-link-rear-bumper").click();
