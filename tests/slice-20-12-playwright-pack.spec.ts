@@ -52,7 +52,7 @@ test.describe("slice 20.12: Wave 20 Playwright pack", () => {
     await page.goto("/");
     await expect(page.locator("#hero-title")).toHaveText(LOCKED_H1);
     await expect(page.locator("#hero-title")).toHaveText(PUBLIC_COPY.hero.h1);
-    await expect(page.getByTestId("waitlist-submit")).toHaveText("Contact BMB");
+    await expect(page.getByTestId("waitlist-submit")).toHaveText("Send");
     await expect(
       page.locator(".site-header").getByRole("link", { name: PUBLIC_COPY.header.nav }),
     ).toHaveText("Contact BMB");

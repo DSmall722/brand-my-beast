@@ -160,10 +160,7 @@ export default async function PanelIntentPage({
 
   const seatOpen = !paidHolder;
   const incrementUsd = paidHolder ? minIncrementUsd(paidHolder.standingUsd) : null;
-  const openingLabel =
-    panel.openingUsd === minimum
-      ? PUBLIC_COPY.bidDesk.openingPrice
-      : PUBLIC_COPY.bidDesk.openingFloor;
+  const openingLabel = PUBLIC_COPY.bidDesk.openingPrice;
   const claimView = await panelClaimView(panel.id);
   const hideBids = claimView.claimStatus === "claimed";
 
@@ -312,7 +309,7 @@ export default async function PanelIntentPage({
             data-cta="bid"
           >
             <h2 id="intent-compose-title" className="auth-subhead">
-              Bid
+              Place a bid
             </h2>
             <IntentBidForm
               panelId={panel.id}

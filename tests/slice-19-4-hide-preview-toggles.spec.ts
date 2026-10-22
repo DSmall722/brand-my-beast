@@ -83,7 +83,7 @@ test.describe("slice 19.4: hide preview toggles while truck does not exist", () 
     await page.goto("/");
     await expect(page.locator("#hero-title")).toHaveText(LOCKED_H1);
     await expect(page.locator("#hero-title")).toHaveText(PUBLIC_COPY.hero.h1);
-    await expect(page.getByTestId("waitlist-submit")).toHaveText("Contact BMB");
+    await expect(page.getByTestId("waitlist-submit")).toHaveText("Send");
     const html = (await page.content()).toLowerCase();
     expect(html).not.toMatch(/\blease\b/);
     expect(html).not.toContain("features.md");

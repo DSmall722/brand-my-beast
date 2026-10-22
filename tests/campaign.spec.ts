@@ -147,10 +147,9 @@ test.describe("P1 waitlist campaign locks", () => {
       page.getByRole("heading", { name: PUBLIC_COPY.waitlist.heading }),
     ).toBeVisible();
 
-    await expect(page.getByTestId("how-it-works-lead")).toHaveText(
-      "The operator does not own the truck yet. This auction buys it.",
-    );
-    expect(PUBLIC_COPY.howItWorks.lead).toBe(
+    await expect(page.getByTestId("how-it-works-lead")).toHaveCount(0);
+    expect(PUBLIC_COPY.howItWorks.lead).toBe("");
+    await expect(page.getByTestId("faq-truck-ownership")).toContainText(
       "The operator does not own the truck yet. This auction buys it.",
     );
     await expect(page.getByTestId("wreck-refund-faq")).toHaveCount(0);

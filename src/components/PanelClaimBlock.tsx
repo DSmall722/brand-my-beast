@@ -86,18 +86,19 @@ export function PanelClaimBlock({
 
   return (
     <section className="seat-claim" data-testid="panel-claim" data-claim-state="available">
-      <h2 data-testid="panel-claim-heading">
+      <h2 className="claim-heading" data-testid="panel-claim-heading">
         {CLAIM_COPY.availableHeading(panelName, claimUsd)}
       </h2>
       <p data-testid="panel-claim-lead">{CLAIM_COPY.availableDeposit(depositUsd)}</p>
+      <p data-testid="panel-claim-lock">{CLAIM_COPY.availableLock}</p>
       <p>{CLAIM_COPY.availableRefund}</p>
-      <form onSubmit={onSubmit} data-testid="panel-claim-form">
+      <form className="claim-form" onSubmit={onSubmit} data-testid="panel-claim-form">
         <label className="auth-label" htmlFor="claim-brand">
           Brand
           <input
             id="claim-brand"
             name="brandLabel"
-            className="auth-input"
+            className="auth-input claim-input"
             required
             minLength={2}
             value={brandLabel}
@@ -110,13 +111,17 @@ export function PanelClaimBlock({
           <input
             id="claim-trade"
             name="tradeLabel"
-            className="auth-input"
+            className="auth-input claim-input"
             required
             minLength={2}
+            aria-describedby="claim-trade-hint"
             value={tradeLabel}
             onChange={(event) => setTradeLabel(event.target.value)}
             data-testid="claim-trade"
           />
+          <span id="claim-trade-hint" className="claim-field-hint">
+            {CLAIM_COPY.tradeHint}
+          </span>
         </label>
         <label className="auth-label" htmlFor="claim-email">
           Email
@@ -124,14 +129,14 @@ export function PanelClaimBlock({
             id="claim-email"
             name="email"
             type="email"
-            className="auth-input"
+            className="auth-input claim-input"
             required
             value={email}
             onChange={(event) => setEmail(event.target.value)}
             data-testid="claim-email"
           />
         </label>
-        <p>
+        <p className="claim-submit">
           <button
             type="submit"
             className="btn btn-signal"

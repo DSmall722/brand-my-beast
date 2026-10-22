@@ -62,7 +62,7 @@ test.describe("BMB-QA-457 paid-only public board", () => {
     await page.goto("/");
     await expect(page.getByTestId("panel-hood")).not.toContainText(BRAND);
     await expect(page.getByTestId("panel-current-bid-hood")).toHaveText(
-      "Opening floor $2,500",
+      "Opening price $2,500",
     );
     await expect(page.getByTestId("auction-today")).not.toContainText(BRAND);
     await expect(page.getByTestId("auction-top")).not.toContainText(BRAND);

@@ -51,7 +51,7 @@ test.describe("slice 19.12: Wave 19 Playwright pack", () => {
     await page.goto("/");
     await expect(page.locator("#hero-title")).toHaveText(LOCKED_H1);
     await expect(page.locator("#hero-title")).toHaveText(PUBLIC_COPY.hero.h1);
-    await expect(page.getByTestId("waitlist-submit")).toHaveText("Contact BMB");
+    await expect(page.getByTestId("waitlist-submit")).toHaveText("Send");
     const html = await page.content();
     expect(html).toContain("$35,000");
     expect(html).not.toContain("FEATURES.md");

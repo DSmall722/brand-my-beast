@@ -109,7 +109,14 @@ jobs:
           fetch-depth: 0
           ref: ${{ github.event.pull_request.head.sha }}
 
+      - name: Fetch base
+        env:
+          BASE: ${{ github.base_ref }}
+        run: git fetch --no-tags origin "+refs/heads/${BASE}:refs/remotes/origin/${BASE}"
+
       - name: Claim column matches constants; copy lint
+        env:
+          BASE: ${{ github.base_ref }}
         run: sh scripts/ci/panel-claim-guards.sh
 
   guard-self-check:

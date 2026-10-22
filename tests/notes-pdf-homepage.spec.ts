@@ -51,7 +51,7 @@ test.describe("notes PDF homepage sheet", () => {
       "rear",
     ]);
     await expect(page.getByTestId("truck-view-credit-edit")).toHaveText(
-      "Edited with Higgsfield.ai and Grok Image",
+      "Truck images are illustrations.",
     );
     await expect(page.getByTestId("truck-view-credit-link")).toBeVisible();
 
@@ -135,7 +135,7 @@ test.describe("notes PDF homepage sheet", () => {
       "simple-mark",
     );
     await expect(page.getByTestId("panel-current-bid-hood")).toHaveText(
-      "Opening floor $2,500",
+      "Opening price $2,500",
     );
 
     const doorSize = await page
@@ -230,7 +230,7 @@ test.describe("notes PDF homepage sheet", () => {
     await expect(page.locator("#contactus")).not.toContainText(
       "Seats are not for sale yet",
     );
-    await expect(page.getByTestId("waitlist-submit")).toHaveText("Contact BMB");
+    await expect(page.getByTestId("waitlist-submit")).toHaveText("Send");
     await expect(page.locator("#contactus")).not.toContainText(
       "We only email when seats open.",
     );
@@ -275,7 +275,7 @@ test.describe("notes PDF homepage sheet", () => {
     await markNewestAccountBidPaid(page, request, 2750);
     await page.goto("/panels/hood");
     await expect(page.getByTestId("seat-lead")).not.toContainText("Current Bid");
-    await expect(page.getByTestId("panel-opening")).toContainText("Opening floor");
+    await expect(page.getByTestId("panel-opening")).toContainText("Opening price");
     await expect(page.getByTestId("panel-standing")).toHaveText("$2,750");
     await expect(page.getByTestId("panel-pending")).toHaveCount(0);
 
@@ -286,7 +286,7 @@ test.describe("notes PDF homepage sheet", () => {
     await expect(page.getByTestId("panel-hood")).toContainText("Notes Pdf Co");
     await expect(page.getByTestId("panel-pending-hood")).toHaveCount(0);
     await expect(page.getByTestId("panel-current-bid-front-bumper")).toHaveText(
-      "Opening floor $500",
+      "Opening price $500",
     );
   });
 

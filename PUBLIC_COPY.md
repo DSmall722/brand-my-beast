@@ -69,7 +69,7 @@ Panel card names match the board. No gloss line on the card. Eleven seats. Nine 
 ## How it works
 
 - Heading: `How it works`
-- Lead: `The operator does not own the truck yet. This auction buys it.`
+- Lead: (omitted; the ownership line is the one FAQ entry below)
 - 01 title: `Pick a Panel`
 - 01 body: `Choose from 11 different available high visibility advertising spaces.`
 - 02 title: `Place a Bid`
@@ -100,7 +100,7 @@ Money facts from CAMPAIGN.md only. Plain English. Not a full contract. Contract 
 - Heading: `Wreck & refund`
 - Lead: `Here is what happens if the campaign misses or the wrap year ends early.`
 - Q: `What if the board misses $35,000?` A: `Full refund. No order. No wrap.`
-- Q: `What if the wrap year is cut short?` A: `Wrap lasts twelve months from install. If the truck is totaled or sold before month 12, wrap seats get a pro-rata refund for the months left.`
+- Q: `What if the wrap year is cut short?` A: `Wrap lasts 12 months from install. If the truck is totaled or sold before month 12, wrap panels get a pro-rata refund for the months left.`
 
 ## Claim this panel
 
@@ -108,9 +108,11 @@ Panel page, when claim is available:
 
 - Heading: `Claim this panel for $22,000.`
 - Lead: `Skip the bidding. Pay a 20% deposit today ($4,400) and this panel is yours. Bidding on it stops right away.`
+- Lock: `The claim price locks your panel at a guaranteed price, so you can't be outbid.`
 - Refund: `If the campaign doesn't reach its $35,000 goal by noon ET on December 31, 2026, your deposit is refunded in full. If it does, the rest is due then.`
+- Trade hint: `Your business type (e.g. plumbing)`
 - CTA: `Claim this panel`
-- Foot: `Brand check applies. If one brand buys the whole truck, your claim is released and your deposit is refunded in full.`
+- Foot: `We review every brand before the wrap is printed. If one brand buys the whole truck before claims and bids reach $120,000, your claim is released and your deposit is refunded in full.`
 
 When bids have passed the claim price: `Bids on this panel have passed the claim price, so it's open to bidding only.`
 
@@ -128,37 +130,37 @@ Buyer questions. No “Who is this for.” No wreck / totaled / last-second on `
 - Q: `What does "Claim this panel" mean?` A: `Each panel has a fixed price. Pay it and the panel is yours, no auction. You put down 20% now.`
 - Q: `When can I claim?` A: `Until a bid on that panel reaches the claim price, or until the campaign closes at noon ET on December 31, 2026.`
 - Q: `What if I claim and the campaign falls short?` A: `If the $35,000 goal isn't met by noon ET on December 31, 2026, your deposit is refunded in full and nothing else is charged.`
-- Q: `Can someone outbid me after I claim?` A: `No. Claiming ends bidding on that panel. The one exception is a whole-truck buyout, which releases every panel and refunds your deposit in full.`
+- Q: `Can someone outbid me after I claim?` A: `No. Claiming ends bidding on that panel. A whole-truck buyout before the $120,000 mark releases your claim and refunds the deposit in full.`
 - Q: `Is the truck already bought?` A: `No. The campaign funds the order. That's why deposits are refunded if the goal isn't met.`
-- Q: `What happens if claims and bids reach $120,000?` A: `The campaign buys the truck and adds Immortal Etch on the nine steel faces, the same as a whole-truck buyout. Your panel stays yours.`
+- Q: `What happens if claims and bids reach $120,000?` A: `Once claims plus bids reach $120,000, the purchase goes ahead and panels stay theirs. A whole-truck buyout before that mark releases claims, with deposits fully refunded.`
 - Q: `Does the operator own the truck yet?` A: `The operator does not own the truck yet. This auction buys it.`
-- Q: `Is this Tesla?` A: `No. BrandMyBeast is independent. Cyberbeast is the trim this campaign funds. Tesla doesn’t run this, endorse it, or get a cut.`
-- Q: `What am I actually buying?` A: `A seat on the truck for your brand. There are eleven panels. Vinyl wrap is available on all of them. You’re buying the panel, the finish, and a year of miles. Not a follower count. Not a guaranteed number of views.`
-- Q: `How long is my brand on the truck?` A: `Wraps run twelve months from install.`
-- Q: `What if two of us are in the same business?` A: `One trade, one brand on the truck. Name your business when you bid. If that trade is already standing on a panel, that’s the seat you bid.`
-- Q: `How does payment work?` A: `Twenty percent of your bid is charged when you place it. That deposit is what makes a bid standing. Bid again on the same seat and deposits you already paid count toward the new one. Outbid deposits are refunded after the board closes. Miss $35,000 and every deposit is refunded. A winner's deposit is credited to the invoice. If the winner does not pay the rest within 7 days, the deposit is forfeited and the seat goes to the next bidder.`
-- Q: `What if someone outbids me?` A: `You’re off that panel. The deposit you paid is refunded after the board closes. You can bid again on another seat, or come back at the new number on this one. A new bid on the same seat counts deposits you already paid.`
+- Q: `Is this Tesla?` A: `BrandMyBeast is independent and not affiliated with Tesla.`
+- Q: `What am I actually buying?` A: `A panel on the truck for your brand. There are 11 panels. Vinyl wrap is available on all of them. You are buying the panel and 12 months across the Southeast. Not a follower count. Not a guaranteed number of views.`
+- Q: `How long is my brand on the truck?` A: `Wraps run 12 months from install.`
+- Q: `What if two of us are in the same business?` A: `One trade, one brand on the truck. Name your business when you bid. If another business in your trade already has a bid on a panel, you can only bid on that panel.`
+- Q: `How does payment work?` A: `20% of your bid is charged when you place it. That deposit is what makes a bid count. Bid again on the same panel and deposits you already paid count toward the new one. Outbid deposits are refunded after bidding ends. Miss $35,000 and every deposit is refunded. A winner's deposit is credited to the invoice. If the winner does not pay the rest within 7 days, the deposit is forfeited and the panel goes to the next bidder.`
+- Q: `What if someone outbids me?` A: `You’re off that panel. The deposit you paid is refunded after bidding ends. You can bid again on another panel, or come back at the new number on this one. A new bid on the same panel counts deposits you already paid.`
 - Q: `Can I take more than one panel?` A: `Yes. Pick whatever panels your business needs to maximize this advertising opportunity.`
-- Q: `What if I want every panel?` A: `Check the box on the contact form. That starts a whole-truck conversation. It does not buy the board from this page.`
+- Q: `What if I want every panel?` A: `Check the box on the contact form and we'll reach out about the whole truck.`
 - Q: `Bonus: Immortal Etch` A: `It only applies if total bids pass $120,000. Then winners on the nine stainless steel panels can choose to have their mark permanently etched for 3x their final bid for that panel. Bumpers stay wrap. Etch artwork must be bold and simple and is reviewed before approval. Once installed there is no cash refund of that finish.`
-- Q: `Do I need finished artwork to bid?` A: `A name and a logo is enough to stand. Final files come after you win. Use a vector for wrap. Nothing gets cut until you’ve approved it.`
+- Q: `Do I need finished artwork to bid?` A: `A name and logo are enough to bid. Final files come after you win. Use a vector for wrap. Nothing gets cut until you’ve approved it.`
 - Q: `What if the $35,000 floor is missed?` A: `Every deposit is refunded. No order. No wrap.`
 - Q: `When does this close?` A: `Bidding closes Thursday, December 31, 2026 at 12:00 PM ET. A bid in the last 10 minutes pushes the close back 10 minutes.`
 - Q: `Where does the truck actually run?` A: `Work miles in the Southeast. South Carolina most weeks (Charleston, Columbia, Greenville, Florence, Beaufort, Clemson and the roads between them), plus Atlanta, Charlotte, and the Florida panhandle when the job goes there.`
 - Q: `Will something I don’t want sitting next to my brand end up on this truck?` A: `No. We don’t take porn, hate, scams, or anything that can’t sit in a school line or a grocery lot. If you’re unsure about a category, email hello@brandmybeast.com before you bid.`
-- Q: `How do I start?` A: `Pick a panel. Twenty percent of the bid is charged when you place it. If you do not win, that deposit is refunded after close. A winner's deposit is credited to the invoice. Questions before that: hello@brandmybeast.com.`
+- Q: `How do I start?` A: `Pick a panel. 20% of the bid is charged when you place it. If you do not win, that deposit is refunded after close. A winner's deposit is credited to the invoice. Questions before that: hello@brandmybeast.com.`
 
 ## Preview the Panels
 
 - Heading: `Preview the Panels`
 - Tab order: Front, Driver, Passenger, Rear
-- Under each still: Pexels photographer credit (linked to original) + `Edited with Higgsfield.ai and Grok Image`
+- Under each still: Pexels photographer credit (linked to original) + `Truck images are illustrations.`
 
 ## Waitlist
 
 - Heading: `Contact Us`
 - Placeholder: `you@company.com`
-- Button: `Contact BMB`
+- Button: `Send`
 - Idle note: `Bidding is open. Closes Thu Dec 31, 2026, 12:00 PM ET.`
 - Retention: `Waitlist retention: until seats open or user deletes.`
 - Success: `Thanks. We will be in touch.`

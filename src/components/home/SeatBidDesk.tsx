@@ -22,16 +22,21 @@ export function SeatBidDesk({
 function SeatBidButton({ panelId }: { panelId: string }) {
   const openBid = useOpenBid();
   return (
-    <p className="seat-primary">
-      <button
-        type="button"
-        className="btn btn-signal"
-        data-testid="seat-primary-cta"
-        data-cta="bid"
-        onClick={(event) => openBid(panelId, event.currentTarget)}
-      >
-        Bid
-      </button>
-    </p>
+    <section className="seat-bid" aria-labelledby="seat-bid-title">
+      <h2 id="seat-bid-title" className="auth-subhead">
+        Place a bid
+      </h2>
+      <p className="seat-primary">
+        <button
+          type="button"
+          className="btn btn-signal"
+          data-testid="seat-primary-cta"
+          data-cta="bid"
+          onClick={(event) => openBid(panelId, event.currentTarget)}
+        >
+          Place a bid
+        </button>
+      </p>
+    </section>
   );
 }
