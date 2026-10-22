@@ -135,7 +135,7 @@ Buyer questions. No “Who is this for.” No wreck / totaled / last-second on `
 - Q: `What happens if claims and bids reach $120,000?` A: `Once claims plus bids reach $120,000, the purchase goes ahead and panels stay theirs. A whole-truck buyout before that mark releases claims, with deposits fully refunded.`
 - Q: `Does the operator own the truck yet?` A: `The operator does not own the truck yet. This auction buys it.`
 - Q: `Is this Tesla?` A: `BrandMyBeast is independent and not affiliated with Tesla.`
-- Q: `What am I actually buying?` A: `A panel on the truck for your brand. There are 11 panels. Vinyl wrap is available on all of them. You are buying the panel and 12 months on the road. Not a follower count. Not a guaranteed number of views.`
+- Q: `What am I actually buying?` A: `A panel on the truck for your brand. There are 11 panels. Vinyl wrap is available on all of them. You are buying the panel and 12 months across the Southeast. Not a follower count. Not a guaranteed number of views.`
 - Q: `How long is my brand on the truck?` A: `Wraps run 12 months from install.`
 - Q: `What if two of us are in the same business?` A: `One trade, one brand on the truck. Name your business when you bid. If another business in your trade already has a bid on a panel, you can only bid on that panel.`
 - Q: `How does payment work?` A: `20% of your bid is charged when you place it. That deposit is what makes a bid count. Bid again on the same panel and deposits you already paid count toward the new one. Outbid deposits are refunded after bidding ends. Miss $35,000 and every deposit is refunded. A winner's deposit is credited to the invoice. If the winner does not pay the rest within 7 days, the deposit is forfeited and the panel goes to the next bidder.`

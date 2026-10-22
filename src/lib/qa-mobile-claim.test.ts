@@ -141,4 +141,10 @@ describe("bmb-qa-mobile-claim-fixes", () => {
     expect(md).not.toContain("Grok Image");
     expect(read("src/lib/truck-view-credits.ts")).toContain('artist: "Mylo Kaye"');
   });
+
+  it("keeps avenue, street, boulevard, and road out of public copy", () => {
+    const banned = /\b(avenue|street|boulevard|road)\b/i;
+    expect(JSON.stringify(PUBLIC_COPY)).not.toMatch(banned);
+    expect(read("PUBLIC_COPY.md")).not.toMatch(banned);
+  });
 });

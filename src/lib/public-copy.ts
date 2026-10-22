@@ -194,7 +194,7 @@ export const PUBLIC_COPY = {
       },
       {
         q: "What am I actually buying?",
-        a: "A panel on the truck for your brand. There are 11 panels. Vinyl wrap is available on all of them. You are buying the panel and 12 months on the road. Not a follower count. Not a guaranteed number of views.",
+        a: "A panel on the truck for your brand. There are 11 panels. Vinyl wrap is available on all of them. You are buying the panel and 12 months across the Southeast. Not a follower count. Not a guaranteed number of views.",
       },
       {
         q: "How long is my brand on the truck?",
