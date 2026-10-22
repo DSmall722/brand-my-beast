@@ -64,6 +64,7 @@ export const intentBids = pgTable(
     remainderDueAt: timestamp("remainder_due_at", { withTimezone: true }),
     remainderPaidAt: timestamp("remainder_paid_at", { withTimezone: true }),
     invoiceCreditedAt: timestamp("invoice_credited_at", { withTimezone: true }),
+    kind: text("kind").notNull().default("bid"),
   },
   (table) => [
     index("intent_bids_panel_id_idx").on(table.panelId),
@@ -76,8 +77,41 @@ export const intentBids = pgTable(
     uniqueIndex("intent_bids_idempotency_key_uidx")
       .on(table.idempotencyKey)
       .where(sql`${table.idempotencyKey} IS NOT NULL`),
+    uniqueIndex("intent_bids_one_paid_claim_per_panel_idx")
+      .on(table.panelId)
+      .where(
+        sql`${table.kind} = 'claim' AND ${table.depositPaidAt} IS NOT NULL AND ${table.refundStatus} = 'none' AND ${table.deletedAt} IS NULL`,
+      ),
   ],
 );
+
+export const panelClaimState = pgTable("panel_claim_state", {
+  panelId: text("panel_id").primaryKey(),
+  claimPriceUsd: integer("claim_price_usd").notNull(),
+  claimStatus: text("claim_status").notNull().default("available"),
+  claimedIntentId: uuid("claimed_intent_id"),
+  claimedAt: timestamp("claimed_at", { withTimezone: true }),
+});
+
+export const campaignClaimState = pgTable("campaign_claim_state", {
+  id: text("id").primaryKey(),
+  committedTotalUsd: integer("committed_total_usd").notNull().default(0),
+  tierLocked: text("tier_locked").notNull().default("none"),
+  purchaseTriggeredAt: timestamp("purchase_triggered_at", {
+    withTimezone: true,
+  }),
+  boardClosedReason: text("board_closed_reason"),
+});
+
+export const campaignClaimEvents = pgTable("campaign_claim_events", {
+  id: text("id").primaryKey(),
+  event: text("event").notNull(),
+  panelId: text("panel_id"),
+  intentId: text("intent_id"),
+  createdAt: timestamp("created_at", { withTimezone: true })
+    .defaultNow()
+    .notNull(),
+});
 
 export const stripeEvents = pgTable("stripe_events", {
   id: text("id").primaryKey(),
@@ -247,3 +281,6 @@ export type MailDeadLetterRow = typeof mailDeadLetters.$inferSelect;
 export type NewMailDeadLetterRow = typeof mailDeadLetters.$inferInsert;
 export type PanelExtensionRow = typeof panelExtensions.$inferSelect;
 export type NewPanelExtensionRow = typeof panelExtensions.$inferInsert;
+export type PanelClaimStateRow = typeof panelClaimState.$inferSelect;
+export type CampaignClaimStateRow = typeof campaignClaimState.$inferSelect;
+export type CampaignClaimEventRow = typeof campaignClaimEvents.$inferSelect;

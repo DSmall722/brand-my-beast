@@ -200,6 +200,7 @@ function rowToBid(row: IntentBidRow): IntentBid {
     invoiceCreditedAt: row.invoiceCreditedAt
       ? row.invoiceCreditedAt.toISOString()
       : null,
+    kind: row.kind === "claim" ? "claim" : "bid",
   };
   assertIntentOnly(bid);
   return bid;
@@ -2138,6 +2139,7 @@ export type DepositBidDraft = {
   depositPaidAt: string | null;
   capturedUsd: number;
   paymentId: string | null;
+  kind?: "bid" | "claim";
 };
 
 export async function insertDepositBid(draft: DepositBidDraft): Promise<IntentBid> {
@@ -2175,6 +2177,7 @@ export async function insertDepositBid(draft: DepositBidDraft): Promise<IntentBi
       remainderDueAt: null,
       remainderPaidAt: null,
       invoiceCreditedAt: null,
+      kind: draft.kind === "claim" ? "claim" : "bid",
     };
     memoryBids().push(bid);
     return { ...bid };
@@ -2209,6 +2212,7 @@ export async function insertDepositBid(draft: DepositBidDraft): Promise<IntentBi
       depositCreditUsd: draft.creditUsd,
       stripeCheckoutSessionId: draft.checkoutSessionId,
       updatedAt: now,
+      kind: draft.kind === "claim" ? "claim" : "bid",
     })
     .returning();
   const row = inserted[0];

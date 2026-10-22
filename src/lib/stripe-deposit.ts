@@ -1,6 +1,6 @@
 import Stripe from "stripe";
 
-export type CheckoutKind = "deposit" | "remainder";
+export type CheckoutKind = "deposit" | "remainder" | "claim";
 
 export type CheckoutRequest = {
   bidId: string;
@@ -10,6 +10,7 @@ export type CheckoutRequest = {
   kind: CheckoutKind;
   successUrl: string;
   cancelUrl: string;
+  extraMetadata?: Record<string, string>;
 };
 
 export type CheckoutSession = {
@@ -72,6 +73,7 @@ export async function createCheckoutSession(
     metadata: {
       bidId: request.bidId,
       kind: request.kind,
+      ...(request.extraMetadata ?? {}),
     },
     line_items: [
       {
@@ -88,6 +90,20 @@ export async function createCheckoutSession(
     throw new Error("Stripe Checkout did not return a URL.");
   }
   return { id: session.id, url: session.url };
+}
+
+export async function expireCheckoutSession(sessionId: string): Promise<void> {
+  if (!sessionId || stripeMockEnabled()) return;
+  const stripe = stripeClient();
+  try {
+    await stripe.checkout.sessions.expire(sessionId);
+  } catch (err) {
+    const message = err instanceof Error ? err.message : "";
+    if (/already expired|resource_missing|checkout session.*expired/i.test(message)) {
+      return;
+    }
+    throw err;
+  }
 }
 
 export async function refundDepositPayment(
