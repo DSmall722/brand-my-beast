@@ -2,7 +2,7 @@
 
 Any Cursor agent, pstack skill, or Grok session working this repo starts here, then reads `CAMPAIGN.md`.
 
-Updated: 2026-09-13
+Updated: 2026-09-22
 
 ## Read order
 
@@ -46,6 +46,43 @@ Allowed public strings: BrandMyBeast, @BrandMyBeast, hello@brandmybeast.com, bra
 ## What “done” means for a feature
 
 A feature is not done because the page renders. It is done when a Playwright check (or pstack skill) proves the rule above still holds: floor math, etch lock under $120k, increment, no banned identity strings in the HTML.
+
+## UI / marketing anti-patterns (no-gos)
+
+Standing instruction 2026-09-22. Source: @suraj_sharma14, "30 reasons your site looks vibe-coded", https://x.com/suraj_sharma14/status/2102254059151565233.
+
+Apply this list when you add or review public UI and marketing. Do not restyle the live homepage because the list exists.
+
+- Harsh gradients
+- Lucide icons as the default icon set
+- Pure white background
+- Rainbow coloring
+- Drop shadows
+- Three feature cards in a row
+- Emojis
+- Liquid glass
+- Em dashes in public copy. When you touch public copy, write the new sentences without them. Leave locked strings in `PUBLIC_COPY.md` until a human asks to change them.
+- Inter, Geist, or Space Grotesk as the default type stack. Locked type stays Syne for display and IBM Plex Sans for body.
+- Colored left stripe
+- Fake testimonials
+- Bento grids
+- Terminal window chrome
+- "It's not X, it's Y" copy
+- Checkmark bullets
+- Three pricing tiers by default
+- A marketing surface with no real product demo. Show the real board and panels. Do not invent a truck, VIN, or reservation.
+- Soft corner radius everywhere
+- Purple and black
+- A loading state with no skeleton
+- Radial orbs
+- Dot grids
+- Sparkle icons
+- Animated arrows
+- Missing terms. Keep `/terms` as the live Terms of Use.
+- Missing privacy policy. Keep `/privacy` as a real policy.
+- Hover animations for their own sake
+- Neon colors used as decoration. The locked site lime stays. That token is `--signal`, the BrandMyBeast lime lockup.
+- Basic pastel colors
 
 <!-- BEGIN:nextjs-agent-rules -->
 
