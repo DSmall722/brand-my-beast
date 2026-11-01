@@ -2,6 +2,7 @@ import { defineConfig, devices } from "@playwright/test";
 
 const PORT = Number(process.env.PORT ?? 3000);
 const baseURL = process.env.PLAYWRIGHT_BASE_URL ?? `http://127.0.0.1:${PORT}`;
+const SCORE = process.env.SCORE === "1";
 
 export default defineConfig({
   testDir: "./tests",
@@ -10,14 +11,20 @@ export default defineConfig({
   workers: process.env.CI ? 1 : undefined,
   forbidOnly: !!process.env.CI,
   retries: process.env.CI ? 2 : 0,
-  reporter: "list",
+  reporter: SCORE
+    ? [
+        ["line"],
+        ["json", { outputFile: "score/playwright.json" }],
+      ]
+    : "list",
   use: {
     baseURL,
     trace: "on-first-retry",
   },
   webServer: {
-    command: `npm run dev -- --port ${PORT}`,
+    command: `npm run dev -- --port ${PORT}${SCORE ? " --webpack" : ""}`,
     url: baseURL,
+    timeout: 120 * 1000,
     reuseExistingServer: !process.env.CI,
     env: {
       ...process.env,
@@ -38,6 +45,15 @@ export default defineConfig({
   projects: [
     {
       name: "chromium",
+      testIgnore: ["score/**"],
+      use: { ...devices["Desktop Chrome"] },
+    },
+    {
+      name: "score",
+      testDir: "./tests/score",
+      fullyParallel: false,
+      workers: 1,
+      retries: 0,
       use: { ...devices["Desktop Chrome"] },
     },
   ],

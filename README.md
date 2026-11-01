@@ -10,6 +10,10 @@ Not affiliated with Tesla, Inc.
 
 See [docs/LOCAL-PREVIEW.md](./docs/LOCAL-PREVIEW.md) (slice 16.8). `npm i && npm run dev` is how friends see the real page while Vercel is on hold. Not brandmybeast.com as the demo.
 
+## Score
+
+`npm run score` writes gitignored `score/score.json` (flows + a11y, reweighted total; perf is BMB-HARNESS-2). Chromium only; STRIPE_* unset.
+
 ## What this repo is
 
 - The **harness + Next.js app** for an all-or-nothing auction of **11 panels** (9 etchable steel faces + 2 wrap-only bumpers) on a **Cyberbeast** that does not exist until the board clears the floor.
