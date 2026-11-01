@@ -9,8 +9,6 @@ const PAGES = [
 ] as const;
 
 test.describe("score a11y", () => {
-  test.describe.configure({ mode: "serial" });
-
   for (const row of PAGES) {
     test(`axe ${row.id} ${row.path}`, async ({ page }, testInfo) => {
       await page.goto(row.path);

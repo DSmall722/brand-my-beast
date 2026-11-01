@@ -12,8 +12,6 @@ const FAQ_CLOSE =
 const OPEN_NOW = "2026-10-07T16:00:00.000Z";
 
 test.describe("score flows", () => {
-  test.describe.configure({ mode: "serial" });
-
   test.afterEach(async ({ request }) => {
     await request.post("/api/test/campaign-clock", { data: { reset: true } });
     await request.post("/api/test/panel-claim", { data: { reset: true } });

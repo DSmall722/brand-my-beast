@@ -6,7 +6,6 @@ const SCORE = process.env.SCORE === "1";
 
 export default defineConfig({
   testDir: "./tests",
-  testIgnore: ["score/**"],
   outputDir: process.env.PLAYWRIGHT_OUTPUT_DIR ?? "test-results",
   fullyParallel: !process.env.CI,
   workers: process.env.CI ? 1 : undefined,
@@ -23,8 +22,9 @@ export default defineConfig({
     trace: "on-first-retry",
   },
   webServer: {
-    command: `npm run dev -- --port ${PORT}`,
+    command: `npm run dev -- --port ${PORT}${SCORE ? " --webpack" : ""}`,
     url: baseURL,
+    timeout: 120 * 1000,
     reuseExistingServer: !process.env.CI,
     env: {
       ...process.env,
@@ -45,6 +45,7 @@ export default defineConfig({
   projects: [
     {
       name: "chromium",
+      testIgnore: ["score/**"],
       use: { ...devices["Desktop Chrome"] },
     },
     {

@@ -55,7 +55,8 @@ function specFile(spec) {
 }
 
 function isFlowSpec(file) {
-  return file.endsWith("tests/score/flows.spec.ts") || file.endsWith("/score/flows.spec.ts");
+  const normalized = file.replaceAll("\\", "/");
+  return normalized.endsWith("flows.spec.ts");
 }
 
 function collectFlows(specs) {
@@ -73,6 +74,8 @@ function collectFlows(specs) {
 function collectA11y(specs) {
   let critical = 0;
   let serious = 0;
+  let moderate = 0;
+  let minor = 0;
   const seen = new Set();
   for (const spec of specs) {
     for (const test of spec.tests ?? []) {
@@ -86,7 +89,9 @@ function collectA11y(specs) {
           seen.add(key);
           for (const violation of payload.violations) {
             if (violation.impact === "critical") critical += 1;
-            if (violation.impact === "serious") serious += 1;
+            else if (violation.impact === "serious") serious += 1;
+            else if (violation.impact === "moderate") moderate += 1;
+            else if (violation.impact === "minor") minor += 1;
           }
         }
       }
@@ -97,6 +102,8 @@ function collectA11y(specs) {
     serious,
     critical,
     score: Math.max(0, 100 - 10 * critical - 4 * serious),
+    moderate,
+    minor,
   };
 }
 
@@ -121,7 +128,7 @@ function printSummary(score) {
     `| perf | ${WEIGHTS.perf} | n/a |`,
     `| **total** |  | **${score.total}** |`,
     "",
-    `flows ${score.flows.passed}/${score.flows.total}; a11y critical ${score.a11y.critical} serious ${score.a11y.serious}; sha ${score.sha}`,
+    `flows ${score.flows.passed}/${score.flows.total}; a11y critical ${score.a11y.critical} serious ${score.a11y.serious} moderate ${score.a11y.moderate ?? 0} minor ${score.a11y.minor ?? 0}; sha ${score.sha}`,
   ];
   const text = `${lines.join("\n")}\n`;
   process.stdout.write(text);
@@ -150,6 +157,7 @@ function main() {
   env.SCORE = "1";
   if (!env.PORT) env.PORT = "3456";
   delete env.PLAYWRIGHT_BASE_URL;
+  delete env.CI;
 
   const status = runPlaywright(env);
   let report;
@@ -165,7 +173,13 @@ function main() {
   const specs = [];
   for (const suite of report.suites ?? []) walkSpecs(suite, specs);
   const flows = collectFlows(specs);
-  const a11y = collectA11y(specs);
+  const a11yAll = collectA11y(specs);
+  const a11y = {
+    weight: a11yAll.weight,
+    serious: a11yAll.serious,
+    critical: a11yAll.critical,
+    score: a11yAll.score,
+  };
   const score = {
     version: 1,
     sha: gitSha(),
@@ -174,6 +188,8 @@ function main() {
     a11y,
     perf: null,
   };
+  score.a11y.moderate = a11yAll.moderate;
+  score.a11y.minor = a11yAll.minor;
   writeFileSync(OUT_PATH, `${JSON.stringify(score, null, 2)}\n`);
   printSummary(score);
   process.stdout.write(`wrote ${OUT_PATH}\n`);
