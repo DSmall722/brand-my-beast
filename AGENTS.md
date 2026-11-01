@@ -2,6 +2,8 @@
 
 Any Cursor agent, pstack skill, or Grok session working this repo starts here, then reads `CAMPAIGN.md`.
 
+files >400 lines may shrink, never grow; see CI warning
+
 Updated: 2026-09-13
 
 ## Read order
