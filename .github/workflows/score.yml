@@ -1,0 +1,66 @@
+name: Score
+
+on:
+  workflow_dispatch:
+  pull_request:
+    types:
+      - labeled
+      - synchronize
+
+permissions:
+  contents: read
+  actions: write
+
+concurrency:
+  group: score-${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  score:
+    name: score
+    if: ${{ github.event_name == 'workflow_dispatch' || contains(github.event.pull_request.labels.*.name, 'score') }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Fail if package.json lists stripe
+        run: npm run grep:stripe
+
+      - name: Cache Playwright browsers
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/ms-playwright
+          key: ${{ runner.os }}-playwright-${{ hashFiles('package-lock.json') }}
+
+      - name: Install Playwright Chromium
+        run: npx playwright install --with-deps chromium
+
+      - name: Score
+        env:
+          WAITLIST_MODE: memory
+          INTENT_MODE: memory
+          AUTH_MODE: test
+          AUTH_SECRET: score-ci-auth-secret-min-32-chars!!
+          AUTH_TEST_PASSWORD: test
+          NEXT_TELEMETRY_DISABLED: "1"
+        run: npm run score || echo "::warning::npm run score failed"
+
+      - name: Upload score.json
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: score
+          path: score/score.json
+          if-no-files-found: warn
+          retention-days: 14
