@@ -12,7 +12,7 @@ See [docs/LOCAL-PREVIEW.md](./docs/LOCAL-PREVIEW.md) (slice 16.8). `npm i && npm
 
 ## Score
 
-`npm run score` writes gitignored `score/score.json` (flows + a11y, reweighted total; perf is BMB-HARNESS-2). Chromium only; STRIPE_* unset.
+`npm run score` writes gitignored `score/score.json` (flows 50, a11y 25, Lighthouse perf 25). Perf hits `/`, `/panels/hood`, and `/#questions` on `next start -p 3100` with Playwright's Chromium. Chromium only; `STRIPE_*` unset. CI is `.github/workflows/score.yml` (`workflow_dispatch`, or a pull request labeled `score`). Warning-only.
 
 ## What this repo is
 
