@@ -98,6 +98,15 @@ jobs:
           HEAD: ${{ github.event.pull_request.head.sha }}
         run: sh scripts/ci/new-comments.sh
 
+      - name: Warn when a file over 400 lines grows
+        env:
+          BASE: ${{ github.base_ref }}
+          HEAD: ${{ github.event.pull_request.head.sha }}
+        run: sh scripts/ci/file-size-ratchet.sh
+
+      - name: File-size ratchet self-test
+        run: sh scripts/ci/test-file-size-ratchet.sh
+
   panel-claim-guards:
     name: panel-claim-guards
     runs-on: ubuntu-latest
