@@ -7,8 +7,8 @@ permissions:
   contents: read
 
 jobs:
-  commit-identity:
-    name: commit-identity
+  guards:
+    name: guards
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -30,43 +30,11 @@ jobs:
           HEAD: ${{ github.event.pull_request.head.sha }}
         run: sh scripts/ci/commit-identity.sh
 
-  debug-markers:
-    name: debug-markers
-    runs-on: ubuntu-latest
-    timeout-minutes: 10
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-          ref: ${{ github.event.pull_request.head.sha }}
-
-      - name: Fetch base
-        env:
-          BASE: ${{ github.base_ref }}
-        run: git fetch --no-tags origin "+refs/heads/${BASE}:refs/remotes/origin/${BASE}"
-
       - name: Check added lines for debug markers
         env:
           BASE: ${{ github.base_ref }}
           HEAD: ${{ github.event.pull_request.head.sha }}
         run: sh scripts/ci/debug-markers.sh
-
-  missing-tests:
-    name: missing-tests
-    runs-on: ubuntu-latest
-    timeout-minutes: 10
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-          ref: ${{ github.event.pull_request.head.sha }}
-
-      - name: Fetch base
-        env:
-          BASE: ${{ github.base_ref }}
-        run: git fetch --no-tags origin "+refs/heads/${BASE}:refs/remotes/origin/${BASE}"
 
       - name: Warn when a fix or bug PR has no tests
         env:
@@ -75,22 +43,6 @@ jobs:
           PR_HEAD_BRANCH: ${{ github.head_ref }}
           PR_TITLE: ${{ github.event.pull_request.title }}
         run: sh scripts/ci/missing-tests.sh
-
-  new-comments:
-    name: new-comments
-    runs-on: ubuntu-latest
-    timeout-minutes: 10
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-          ref: ${{ github.event.pull_request.head.sha }}
-
-      - name: Fetch base
-        env:
-          BASE: ${{ github.base_ref }}
-        run: git fetch --no-tags origin "+refs/heads/${BASE}:refs/remotes/origin/${BASE}"
 
       - name: Warn on added code comments
         env:
@@ -107,36 +59,10 @@ jobs:
       - name: File-size ratchet self-test
         run: sh scripts/ci/test-file-size-ratchet.sh
 
-  panel-claim-guards:
-    name: panel-claim-guards
-    runs-on: ubuntu-latest
-    timeout-minutes: 10
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-          ref: ${{ github.event.pull_request.head.sha }}
-
-      - name: Fetch base
-        env:
-          BASE: ${{ github.base_ref }}
-        run: git fetch --no-tags origin "+refs/heads/${BASE}:refs/remotes/origin/${BASE}"
-
       - name: Claim column matches constants; copy lint
         env:
           BASE: ${{ github.base_ref }}
         run: sh scripts/ci/panel-claim-guards.sh
-
-  guard-self-check:
-    name: guard-self-check
-    runs-on: ubuntu-latest
-    timeout-minutes: 10
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
 
       - name: Run guard self-checks
         run: sh scripts/ci/test-guards.sh
